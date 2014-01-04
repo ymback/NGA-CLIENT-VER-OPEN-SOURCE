@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/threadlist_menu_newthread" android:title="@string/new_thread"  android:icon="@drawable/content_edit" ></item>
+    <item android:id="@+id/threadlist_menu_item2" android:title="@string/refresh" android:icon="@drawable/ic_refresh" ></item>
+    <item android:id="@+id/search" android:title="@android:string/search_go" android:icon="@drawable/action_search"></item>
+    <item android:id="@+id/goto_bookmark_item" android:icon="@drawable/ic_bookmark" android:title="@string/goto_bookmark" ></item>
+    <item android:id="@+id/threadlist_menu_item3" android:icon="@drawable/ic_menu_back" android:title="@string/back"></item>
+    
+    
+</menu>
+
