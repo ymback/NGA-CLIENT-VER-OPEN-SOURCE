@@ -599,7 +599,12 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 		}
 
-		holder.viewBtn.setOnClickListener(myListener);
+
+		if(!PhoneConfiguration.getInstance().showReplyButton){
+			holder.viewBtn.setVisibility(View.GONE);
+		}else{
+			holder.viewBtn.setOnClickListener(myListener);
+		}
 		holder.position = position;
 		ThemeManager theme = ThemeManager.getInstance();
 		int colorId = theme.getBackgroundColor(position);
@@ -640,10 +645,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());
 		postTimeTV.setTextColor(fgColor);
-
-		if(!PhoneConfiguration.getInstance().showReplyButton){
-			holder.viewBtn.setVisibility(View.GONE);
-		}
 		return view;
 	}
 

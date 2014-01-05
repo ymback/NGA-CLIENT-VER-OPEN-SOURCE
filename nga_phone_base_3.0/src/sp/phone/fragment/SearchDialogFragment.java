@@ -46,6 +46,26 @@ public class SearchDialogFragment extends DialogFragment {
 		search_user_topic_button=(RadioButton) view.findViewById(R.id.search_user_topic);
 		search_user_apply_button=(RadioButton) view.findViewById(R.id.search_user_apply);
 		searchradio = (RadioGroup) view.findViewById(R.id.radioGroup);
+		searchradio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+			EditText input = (EditText) view.findViewById(R.id.search_data);
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				// TODO Auto-generated method stub
+				switch (checkedId) {
+					case R.id.search_topic://搜索发帖
+						input.setHint(R.string.search_dialog_hint);
+				break;
+					case R.id.search_user_topic://搜索主题
+						input.setHint(R.string.search_dialog_hint_topic_reply_byself);
+				break ;
+					case R.id.search_user_apply://搜索回复
+						input.setHint(R.string.search_dialog_hint_reply_byself);
+				break ;
+				}
+			}
+			
+		});
 		alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {  
             public void onClick(DialogInterface dialog, int whichButton) {  
                 dialog.dismiss();
@@ -69,6 +89,14 @@ public class SearchDialogFragment extends DialogFragment {
 		    		intent_search.putExtra("author", inputString);
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
 		    		startActivity(intent_search);
+		    	}else{
+		    		String userName = PhoneConfiguration.getInstance().userName;
+		    		if (userName != ""){
+			    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
+			    		intent_search.putExtra("author", userName);
+			    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+			    		startActivity(intent_search);
+		    		}
 		    	}
 	        	
 			} else if(searchradio.getCheckedRadioButtonId() == search_user_apply_button.getId()){//用户回复
@@ -78,6 +106,14 @@ public class SearchDialogFragment extends DialogFragment {
 		    		intent_search.putExtra("author", inputString+"&searchpost=1");
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
 		    		startActivity(intent_search);
+		    	}else{
+		    		String userName = PhoneConfiguration.getInstance().userName;
+		    		if (userName != ""){
+			    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
+			    		intent_search.putExtra("author", userName+"&searchpost=1");
+			    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+			    		startActivity(intent_search);
+		    		}
 		    	}
 		    } else {
 		    	if(!StringUtil.isEmpty(inputString))

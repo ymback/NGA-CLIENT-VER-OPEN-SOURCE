@@ -108,6 +108,8 @@
     <string name="unknow_error">客户端发生未知错误</string>
     <string name="copied_to_clipboard">已经复制到剪切板</string>
     <string name="search_dialog_hint">184.154.178.130</string>
+    <string name="search_dialog_hint_topic_reply_byself">直接按确定搜索自己的发帖</string>
+    <string name="search_dialog_hint_reply_byself">直接按确定搜索自己的回复</string>
     <string name="user_distance">该用户距离你</string>
     <string name="meter">米</string>
     <string name="kilo_meter">公里</string>
