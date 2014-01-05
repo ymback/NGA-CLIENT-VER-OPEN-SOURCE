@@ -20,7 +20,8 @@
     <string name="new_thread">发帖</string>
     <string name="reply_thread">回帖</string>
     <string name="bookmark">收藏本帖</string>
-    <string name="bookmark_title">已收藏的主题</string><string name="goto_bookmark">收藏夹</string>
+    <string name="bookmark_title">已收藏的主题</string>
+    <string name="goto_bookmark">收藏夹</string>
     <string name="text_size">帖子列表字体大小</string>
     <string name="lock_orientation">锁定</string>
     <string name="unlock_orientation">自动</string>
