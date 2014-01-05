@@ -71,7 +71,9 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 				"http://img.ngacn.cc/attachments/mon_201208/14/-7_502a289ca1256.jpg",
 				"http://pic3.178.com/1577/15776622/month_1307/ca0532c66e56a4265acdcf40b4959f09.jpg",
 				"http://pic3.178.com/1577/15776622/month_1309/51bb47f317c0dbeffee5bf79281eab67.jpg",
-				"http://pic3.178.com/1577/15776622/month_1309/a825c05f87c928dd708d7c996260403d.png",},
+				"http://pic3.178.com/1577/15776622/month_1309/a825c05f87c928dd708d7c996260403d.png",
+				"http://pic3.178.com/2017/20174851/month_1401/58ab87de48a1239b0917b93add4add66.jpg",
+				},
 		//xiongmao
 				{
 					"http://img.ngacn.cc/attachments/mon_201207/30/-7_501659f095f86.jpg",
@@ -126,7 +128,8 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 					"http://img.ngacn.cc/attachments/mon_201212/24/-1324875_50d8593397258.jpg",
 					"http://pic3.178.com/142/1424179/month_1209/a275c4400dc24c94c6b252495cfbf5d7.jpg",
 					"http://img6.ngacn.cc/attachments/mon_201302/11/-7_5118d1cacbf75.jpg",
-					"http://pic3.178.com/1577/15776622/month_1309/1b82eab2748c69a301d176be0ab1d6d7.jpg"
+					"http://pic3.178.com/1577/15776622/month_1309/1b82eab2748c69a301d176be0ab1d6d7.jpg",
+					"http://pic3.178.com/2017/20174851/month_1401/837b686eee1d1338fb9a1012e00cab80.jpg"
 				},
 		//taijun
 				{
@@ -781,7 +784,46 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 				"http://img6.ngacn.cc/attachments/mon_201303/04/-1324875_51339509ac4b4.png",
 				"http://img6.ngacn.cc/attachments/mon_201303/04/-1324875_5133950d008f9.png",
 				"http://img6.ngacn.cc/attachments/mon_201303/23/-1324875_514daeb78abaa.png",
-				"http://img6.ngacn.cc/attachments/mon_201303/25/-1324875_51505df66692d.png"
+				"http://img6.ngacn.cc/attachments/mon_201303/25/-1324875_51505df66692d.png",
+				"http://pic3.178.com/2017/20174851/month_1401/e7cbe91b6f1eb33c9573b65e660a11ed.png",
+				"http://pic3.178.com/2017/20174851/month_1401/c43e364354c25aa7bfb1514595cb3f6f.png",
+				"http://pic3.178.com/2017/20174851/month_1401/a430e1b233f764a3948e2ed9f9ec3e85.png",
+				"http://pic3.178.com/2017/20174851/month_1401/7bd47cb4a94402ec93fdf5399f5b059d.png",
+				"http://pic3.178.com/2017/20174851/month_1401/9637b6c30dc39eb1fc61edd449b3f0e8.png",
+
+				"http://pic3.178.com/2017/20174851/month_1401/8264ca9a59ef24968205041587d6b65f.png",
+				"http://pic3.178.com/2017/20174851/month_1401/7dd4662ce1f13b6f9c1ab5725cc91345.png",
+				"http://pic3.178.com/2017/20174851/month_1401/cfb1ef9f87e7cc8a212f0d0e13d40494.png",
+				"http://pic3.178.com/2017/20174851/month_1401/2dc6d5a7b2183db9daa8f9c5a9d141d2.png",
+				"http://pic3.178.com/2017/20174851/month_1401/b17f169d3d66be601e510ea401d647c1.png",
+
+				"http://pic3.178.com/2017/20174851/month_1401/ff7fa235da8c0ae968f11c7578a862e1.png",
+				"http://pic3.178.com/2017/20174851/month_1401/e832ad79a6832b19b54c3ce35581488f.png",
+				"http://pic3.178.com/2017/20174851/month_1401/c2c0012ae34286c93738562295a1506b.png",
+				"http://pic3.178.com/2017/20174851/month_1401/a9cd13d8e4aa596be8e026dd9e8cb9c8.png",
+				"http://pic3.178.com/2017/20174851/month_1401/53131ca521a198acda15eebf250d5625.png",
+
+				"http://pic3.178.com/2017/20174851/month_1401/3eaff7476307e5375411e69b4250bf6a.png",
+				"http://pic3.178.com/2017/20174851/month_1401/963a0caf275e1d43686743a49e64f0ad.png",
+				"http://pic3.178.com/2017/20174851/month_1401/959c3a5d0b333936de03f2648378cc70.png",
+				"http://pic3.178.com/2017/20174851/month_1401/90dcea390a89ef22354600f6cfd8b3dc.png",
+				"http://pic3.178.com/2017/20174851/month_1401/2a7e23a7686b25546bac561b58420fb4.png",
+
+				"http://pic3.178.com/2017/20174851/month_1401/82ae3e911ffabb108fe20a2bc03ccd9c.png",
+				"http://pic3.178.com/2017/20174851/month_1401/71c47a31eebb14be4291c15e41fbae78.png",
+				"http://pic3.178.com/2017/20174851/month_1401/d6fc87f52b1d26d6768bcc0d8a7ec608.png",
+				"http://pic3.178.com/2017/20174851/month_1401/729647a27267ac7853056f99f35ecac7.png",
+				"http://pic3.178.com/2017/20174851/month_1401/c498386a7a5242c710ead18c2bb3cc59.jpg",
+
+				"http://pic3.178.com/2017/20174851/month_1401/a6a581a8e4a61812ae123a837f4b0d88.png",
+				"http://pic3.178.com/2017/20174851/month_1401/a920ca541f5246a24bdaa85ee360477e.gif",
+				"http://pic3.178.com/2017/20174851/month_1401/c1ceadd1553e140c2bc0348720cbb2df.png",
+				"http://pic3.178.com/2017/20174851/month_1401/1c3a6e0290fe7c91cbf5ffb06dbe4e6d.png",
+				"http://pic3.178.com/2017/20174851/month_1401/9ed86272ed53b89726874565be464927.jpg",
+
+				"http://pic3.178.com/2017/20174851/month_1401/2aa114ca0804d12f2178e0dc69d4bc8a.png",
+				"http://pic3.178.com/2017/20174851/month_1401/167e42963246c38b3e570995b10ce9b5.jpg",
+				"http://pic3.178.com/2017/20174851/month_1401/b9719388cc6390ccaf62f432b7f8e3f6.gif",
 			},
 		// bierde
 		{
@@ -1051,6 +1093,9 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 			"http://pic3.178.com/1577/15776622/month_1309/00234eebd2a71513ba0cb67f65c903d6.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/ef3ad37e4d7fecbb6abd5a049b6203a2.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/a51f24103ed74ac6f8df7cdae2af246b.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/cf349d65edd5f6ef99d9dfacb6b2bea5.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/b098975b12e27647acbe981837dd998d.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/f0f715f04c7fca84ede1ab51e9630eaf.jpg",
 			
 			"http://pic3.178.com/1577/15776622/month_1309/0b541dd2eb459e6e7232529ac14b0cc3.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/de2b5d4c19fe54ef17ef3b1ff4882716.jpg",
@@ -1059,10 +1104,22 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 			"http://pic3.178.com/1577/15776622/month_1309/f9baec3eb07b721b9d2a55dbade47991.jpg",
 
 			"http://pic3.178.com/1577/15776622/month_1309/14622e5a23d20838e054c3a4eb11f4bd.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/0a0a6d97d0ad9cbacdc0a6da05a00c6c.jpg",
+			
+			"http://pic3.178.com/2017/20174851/month_1401/128d70b043b5e52f9a6a51a86aa1f019.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/def5d5eb422a14412c49767a3c0dfee1.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/278ae428f219e47afca1423f121370ab.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/2972ae4659987a53de6ebb87e10ceecb.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/3a09f6a373f13f8fdde0720ac5eb94e2.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/6912d33ddae84f7365068d0e7db42930.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/ea04a7f22bf846cfa099dabdce600d93.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/445ac099d4c152ef34167ad9a9c01182.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/138a19f1b33e2550676582b1e5245fdc.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/399baa07cf298bf58e3c67bc1eff1810.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/cfecaf2ca685a77115273097f3e94d08.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/17b108fe45e5a2c26ef2446156db6848.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/f74e48614818fe29f9be09f3f1126c34.GIF",
+			"http://pic3.178.com/2017/20174851/month_1401/b6fc13e73e2ec69f1eea0f5083229ed3.jpg",
 
 			"http://pic3.178.com/1577/15776622/month_1309/912c2b293694e522493525d1107b9c18.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/4845946247a3fca8c76184380ef499f5.jpg",
@@ -1095,6 +1152,22 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 			"http://pic3.178.com/1577/15776622/month_1309/3758cc4c255194c974f6f80c150cac6e.jpg",
 			"http://pic3.178.com/1577/15776622/month_1309/ad3c0842631fb31d39aee5c79418ddb3.jpeg",
 			"http://pic3.178.com/1577/15776622/month_1309/7773ff437bc6c2434dbd40582751130b.jpeg",
+
+			"http://pic3.178.com/2017/20174851/month_1401/15d5b91f77b683af6e4acdbf9dde6817.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/c30785ff5cf16c59fe341ecbd9f8f341.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/529ccf04c589870cf577e896230a2e6e.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/9e6425c7aee8b2a863e7a57a2f4f0d82.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/eccedaf40c49f1b3fb80ef1dc610ae14.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/319682aa96ade00a78c341d7f58628eb.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/c90908d4577b74e46902b17875e34317.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/660835efe7b821a4f7d4e78498f767c1.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/c2d5eecdd71df60c3643bf273b821c44.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/6be700e4b0b32cbc9e122c91698c2489.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/2a090590143f248a487544ff0155c388.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/5b3cd6af36de3e787b86f7e60187a587.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/047b781be4c8f7c25f11b683c48101b3.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/6c3523529136ecc744ad3f26105f290c.jpg",
+			"http://pic3.178.com/2017/20174851/month_1401/eb479bdb5e8e003fa915539fd7568c96.jpg",
 		},
 		};
 
