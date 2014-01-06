@@ -323,7 +323,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 	    final View view = layoutInflater.inflate(R.layout.supertext_dialog, null);  
 	    AlertDialog.Builder alert = new AlertDialog.Builder(this);   
 	    alert.setView(view);  
-		alert.setMessage(R.string.supertext_hint);
+		alert.setTitle(R.string.supertext_hint);
 		final Spinner fontcolorSpinner;
 		final Spinner fontsizeSpinner;
 		RadioGroup selectradio ;

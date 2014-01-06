@@ -126,7 +126,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 					"http://pic3.178.com/142/1424179/month_1209/f523d833d988bd687d9205c8462cd69a.jpg",
 					"http://pic3.178.com/1577/15776622/month_1309/1205c1a4d4d2b19cc145c129cc97e126.jpg",
 					"http://img.ngacn.cc/attachments/mon_201212/24/-1324875_50d8593397258.jpg",
-					"http://pic3.178.com/142/1424179/month_1209/a275c4400dc24c94c6b252495cfbf5d7.jpg",
+					"http://pic3.178.com/2017/20174851/month_1401/3eecc7a0783180ad493869564f7dbcff.jpg",
 					"http://img6.ngacn.cc/attachments/mon_201302/11/-7_5118d1cacbf75.jpg",
 					"http://pic3.178.com/1577/15776622/month_1309/1b82eab2748c69a301d176be0ab1d6d7.jpg",
 					"http://pic3.178.com/2017/20174851/month_1401/837b686eee1d1338fb9a1012e00cab80.jpg"

@@ -1,6 +1,9 @@
 package sp.phone.fragment;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
+import java.util.HashSet;
 
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
@@ -14,6 +17,9 @@ import sp.phone.interfaces.ResetableArticle;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ArticleListWebClient;
+import sp.phone.utils.ArticleUtil;
+import sp.phone.utils.Des;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -21,11 +27,15 @@ import sp.phone.utils.ThemeManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
@@ -39,6 +49,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -67,6 +80,7 @@ public class ArticleListFragment extends Fragment
 	private int authorid;
 	private boolean needLoad = true;
 	private Object mActionModeCallback = null;
+	private static Context activity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -376,6 +390,7 @@ public class ArticleListFragment extends Fragment
 			return true;
 		}
 		String content = row.getContent();
+		String signature = row.getSignature();
 		final String name = row.getAuthor();
 		String mention=null;
 		Intent intent = new Intent();
@@ -423,6 +438,10 @@ public class ArticleListFragment extends Fragment
 			if(PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,
 						R.anim.zoom_exit);
+			break;
+			
+		case R.id.signature_dialog:
+			Create_Signature_Dialog(row);
 			break;
 		case R.id.edit :
 			if(isComment(row)){
@@ -532,12 +551,89 @@ public class ArticleListFragment extends Fragment
 		}
 		return true;
 	}
+	private AlertDialog Create_Signature_Dialog(ThreadRowInfo row) {
+		// TODO Auto-generated method stub
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
+	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
+	    String name = row.getAuthor();
+	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
+	    alert.setView(view);  
+		alert.setTitle(name+"µÄÇ©Ãû");
+		//COLOR
+
+		ThemeManager theme = ThemeManager.getInstance();
+		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
+		int fgColor = getResources().getColor(theme.getForegroundColor());
+		bgColor = bgColor & 0xffffff;
+		final String bgcolorStr = String.format("%06x",bgColor);
+		
+		int htmlfgColor = fgColor & 0xffffff;
+		final String fgColorStr = String.format("%06x",htmlfgColor);
+		
+		
+	    WebViewClient client = new ArticleListWebClient(getActivity());
+		WebView contentTV = (WebView) view.findViewById(R.id.signature);
+		contentTV.setBackgroundColor(0);
+		contentTV.setFocusableInTouchMode(false);
+		contentTV.setFocusable(false);
+		if (ActivityUtil.isGreaterThan_2_2()) {
+			contentTV.setLongClickable(false);
+		}
+		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi() || ArticleUtil.isInWifi();
+		WebSettings setting = contentTV.getSettings();
+		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+				.getWebSize());
+		setting.setJavaScriptEnabled(false);
+		contentTV.setWebViewClient(client);
+		contentTV.loadDataWithBaseURL(null, signatureToHtmlText(row,showImage,ArticleUtil.showImageQuality(),fgColorStr,bgcolorStr),
+				"text/html", "utf-8", null);
+		alert.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+			
+		});
+		return alert.show();
+	}
+
+	public String signatureToHtmlText(final ThreadRowInfo row,
+			boolean showImage, int imageQuality, final String fgColorStr,
+			final String bgcolorStr) {
+		HashSet<String> imageURLSet = new HashSet<String>();
+		String ngaHtml = StringUtil.decodeForumTag(row.getSignature(), showImage,
+				imageQuality, imageURLSet);
+		if (imageURLSet.size() == 0) {
+			imageURLSet = null;
+		}
+		if (StringUtil.isEmpty(ngaHtml)) {
+			ngaHtml = row.getAlterinfo();
+		}
+		if (StringUtil.isEmpty(ngaHtml)) {
+			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide) + "]</font>";
+		}
+		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
+				+ "<body bgcolor= '#"
+				+ bgcolorStr
+				+ "'>"
+				+ "<font color='#"
+				+ fgColorStr
+				+ "' size='2'>"
+				+ ngaHtml
+				+ "</font></body>";
+
+		return ngaHtml;
+	}
+	
+	
 	private AlertDialog  CopyDialog(String content) {
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.copy_dialog, null);  
 	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
 	    alert.setView(view);  
-		alert.setMessage(R.string.copy_hint);
+		alert.setTitle(R.string.copy_hint);
 		final EditText commentdata = (EditText) view.findViewById(R.id.copy_data);
 		commentdata.setText(content);
 		commentdata.selectAll(); 

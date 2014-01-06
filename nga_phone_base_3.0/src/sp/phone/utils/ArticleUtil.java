@@ -216,7 +216,7 @@ public class ArticleUtil {
 		return null;
 	}
 
-	private Context context;
+	private static Context context;
 	
 	
 	
@@ -225,7 +225,7 @@ public class ArticleUtil {
 		this.context = context;
 	}
 
-	private boolean isInWifi(){
+	public static boolean isInWifi(){
 		ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
 		return wifi == State.CONNECTED;
@@ -379,7 +379,7 @@ public class ArticleUtil {
 		row.setFormated_html_data(formated_html_data);
 	}
 
-	private int showImageQuality() {
+	public static int showImageQuality() {
 		if (isInWifi())
 		{
 			return 0;

@@ -40,7 +40,7 @@ public class SearchDialogFragment extends DialogFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		view = inflater.inflate(R.layout.search_dialog, null);
         alert.setView(view);  
-		alert.setMessage(R.string.search_hint);
+		alert.setTitle(R.string.search_hint);
 		alert.setPositiveButton("ËÑË÷", new PositiveOnClickListener());
 		search_topic_button=(RadioButton) view.findViewById(R.id.search_topic);
 		search_user_topic_button=(RadioButton) view.findViewById(R.id.search_user_topic);
