@@ -4,8 +4,11 @@ import gov.anzong.androidnga.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.bean.Board;
@@ -23,6 +26,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -39,6 +43,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
@@ -196,6 +201,146 @@ public class MainActivity extends ActionBarActivity
 				overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
 	}
+	
+	private AlertDialog add_fid_dialog(){
+	    LayoutInflater layoutInflater = getLayoutInflater();  
+	    final View view = layoutInflater.inflate(R.layout.addfid_dialog, null);  
+	    AlertDialog.Builder alert = new AlertDialog.Builder(this);   
+	    alert.setView(view); 
+	    alert.setTitle(R.string.addfid_title_hint);
+		final EditText addfid_name = (EditText) view.findViewById(R.id.addfid_name);
+		final EditText addfid_id = (EditText) view.findViewById(R.id.addfid_id);
+		alert.setPositiveButton("添加", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				String name = addfid_name.getText().toString();
+				String fid = addfid_id.getText().toString();
+				if(name.equals("")){
+					Toast.makeText(MainActivity.this, "请输入版面名称", Toast.LENGTH_SHORT).show();
+					addfid_name.setFocusable(true);
+    				try  
+    		           {  
+    		               Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
+    		               field.setAccessible(true);  
+    		               field.set(dialog, false);  
+    		           }catch(Exception e) {  
+    		               e.printStackTrace();  
+    		           }  
+				}else{
+
+					Pattern pattern=Pattern.compile("-{0,1}[0-9]*");
+					Matcher match=pattern.matcher(fid);
+					 if(match.matches()==false){
+						 	addfid_id.setText("");
+							addfid_id.setFocusable(true);
+							Toast.makeText(MainActivity.this, "请输入正确的版面ID(个人版面要加负号)", Toast.LENGTH_SHORT).show();
+		    				try  
+		    		           {  
+		    		               Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
+		    		               field.setAccessible(true);  
+		    		               field.set(dialog, false);  
+		    		           }catch(Exception e) {  
+		    		               e.printStackTrace();  
+		    		           }  
+					 }else{//CHECK PASS, READY TO ADD FID
+						  boolean FidAllreadyExist = false;
+						  int i = 0;
+						  for (i = 0; i < boardInfo.getCategoryCount(); i++) {
+								BoardCategory curr = boardInfo.getCategory(i);
+								for (int j = 0; j < curr.size(); j++) {
+									String URL = curr.get(j).getUrl();
+									if(URL.equals(fid)){
+										FidAllreadyExist = true;
+										addfid_id.setText("");
+										addfid_id.setFocusable(true);
+										Toast.makeText(MainActivity.this, "该版面已经存在于列表"+boardInfo.getCategoryName(i)+"中", Toast.LENGTH_SHORT).show();
+					    				try  
+					    		           {  
+					    		               Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
+					    		               field.setAccessible(true);  
+					    		               field.set(dialog, false);  
+					    		           }catch(Exception e) {  
+					    		               e.printStackTrace();  
+					    		           }  
+										break;
+									}
+									}//for j
+								}//for i
+						  if(!FidAllreadyExist){
+							  addToaddFid(name,fid);
+							  Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+						 try  
+		    		        {  
+		    		            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
+		    		            field.setAccessible(true);  
+		    		            field.set(dialog, true);  
+		    		        } catch(Exception e) {  
+		    		            e.printStackTrace();  
+		    		        }  
+						 }
+					 }
+				}
+				
+			}});
+		alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				try  
+		        {  
+		            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
+		            field.setAccessible(true);  
+		            field.set(dialog, true);  
+		        } catch(Exception e) {  
+		            e.printStackTrace();  
+		        }  
+			}  });
+		
+		
+		return alert.show();
+	}
+	private void addToaddFid(String Name,String Fid) {
+		boolean addFidAlreadExist = false;
+		BoardCategory addFid = null;
+		int i = 0;
+		for (i = 0; i < boardInfo.getCategoryCount(); i++) {
+			if(boardInfo.getCategoryName(i).equals(getString(R.string.addfid))){
+				addFidAlreadExist=true;
+				addFid = boardInfo.getCategory(i);
+				break;
+			};
+		}
+
+
+		if(!addFidAlreadExist){//没有
+			List<Board> boardList = new ArrayList<Board>();
+			Board b =new Board(i+1, Fid, Name, R.drawable.pdefault);
+			boardList.add(b);
+			saveaddFid(boardList);
+			boardInfo = loadDefaultBoard();
+			return;
+		}else{// 有了
+			Board b =new Board(i, Fid, Name, R.drawable.pdefault);
+			addFid.add(b);
+			}
+		addFid = boardInfo.getCategory(i);
+		this.saveaddFid(addFid.getBoardList());
+		return;
+		
+	}
+	private void saveaddFid(List<Board> boardList) {
+		// TODO Auto-generated method stub
+
+		String addFidStr = JSON.toJSONString(boardList);
+		SharedPreferences share = getSharedPreferences(PERFERENCE,
+				MODE_PRIVATE);
+		Editor editor = share.edit();
+		editor.putString(ADD_FID, addFidStr);
+		editor.commit();
+	}
 
 
 	/*
@@ -216,6 +361,9 @@ public class MainActivity extends ActionBarActivity
 			//case android.R.id.home: //this is a system id
 			//this.finish();
 			jumpToNearby();
+			break;
+		case R.id.add_fid:
+			add_fid_dialog();
 			break;
 		default:
 			/*Intent MyIntent = new Intent(Intent.ACTION_MAIN);
@@ -441,7 +589,7 @@ public class MainActivity extends ActionBarActivity
 						Board b1 =new Board(0, b.getUrl(), b.getName(), b
 								.getIcon());
 
-						if(!recentAlreadExist){//删除后第一次会在这边出问题,因为滑动导致首页没写好
+						if(!recentAlreadExist){//删除后第一次会在这边出问题,因为滑动导致首页没写好__ALREADY FIXED
 							List<Board> boardList = new ArrayList<Board>();
 							boardList.add(b1);
 							saveRecent(boardList);
@@ -460,6 +608,10 @@ public class MainActivity extends ActionBarActivity
 			}//for i
 			
 		}
+		
+		
+		
+		
 	}
 
 

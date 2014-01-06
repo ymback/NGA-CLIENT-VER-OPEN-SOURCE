@@ -71,6 +71,7 @@
     <string name="page">页</string>
     <string name="search">搜索</string>
     <string name="menu_nearby_user">yooooo</string>
+    <string name="add_fid">添加版面</string>
     <string name="nearby_no_login">没登陆不能yoooo</string>
     <string name="fail_to_locate">无法定位</string>
     <string name="nearby_no_user">附近没有其他用户</string>
@@ -105,10 +106,14 @@
     <string name="move_avatar">移动头像到新位置</string>
     <string name="error">错误</string>
     <string name="recent">最近访问</string>
+    <string name="addfid">用户自定义</string>
+    <string name="addfid_title_hint">输入版面名称及ID添加版面</string>
     <string name="floor_error">无法确定楼层，选择0楼</string>
     <string name="unknow_error">客户端发生未知错误</string>
     <string name="copied_to_clipboard">已经复制到剪切板</string>
     <string name="search_dialog_hint">184.154.178.130</string>
+    <string name="addfid_dialog_hintA">输入版面名称</string>
+    <string name="addfid_dialog_hintB">输入版面ID(个人版面有负号)</string>
     <string name="search_dialog_hint_topic_reply_byself">直接按确定搜索自己的发帖</string>
     <string name="search_dialog_hint_reply_byself">直接按确定搜索自己的回复</string>
     <string name="user_distance">该用户距离你</string>

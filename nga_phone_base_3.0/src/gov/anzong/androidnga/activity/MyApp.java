@@ -28,10 +28,11 @@ import com.alibaba.fastjson.JSON;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 610;
+	public final static int version = 612;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "最近访问";
+	static final String ADDFID = "用户自定义";
 	
 	
 	@Override
@@ -245,7 +246,27 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.addCategoryName(i, "个人版面");
 		//i++;
 		
-		
+
+		SharedPreferences shareaddFid = getSharedPreferences(PERFERENCE,
+				MODE_PRIVATE);
+		String addFidStr = share.getString(ADD_FID, "");
+		List<Board> addFidList = null;
+		if(!StringUtil.isEmpty(addFidStr)){
+			addFidList = JSON.parseArray(addFidStr, Board.class);
+			if(addFidList != null){
+				i++;
+				for(int j = 0;j< addFidList.size();j++){
+					boards.add(new Board(i,addFidList.get(j).getUrl(),addFidList.get(j).getName(),addFidList.get(j).getIcon()));
+				}
+			}
+		}
+		if(addFidList != null)
+		{
+			boards.addCategoryName(i, ADDFID);
+//			i++;
+		}
+        
+        
 		return boards;
 	}
 	

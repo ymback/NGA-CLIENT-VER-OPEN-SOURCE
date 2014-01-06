@@ -5,4 +5,5 @@
     <item android:title="@string/menu_login" android:id="@+id/mainmenu_login" android:icon="@drawable/ic_login" androidnga:showAsAction="ifRoom" android:showAsAction="ifRoom"></item>
     <item android:title="@string/menu_setting" android:id="@+id/mainmenu_setting" android:icon="@drawable/action_settings" androidnga:showAsAction="ifRoom" android:showAsAction="ifRoom"></item>
     <item android:title="@string/menu_nearby_user" android:id="@+id/mainmenu_exit" android:icon="@drawable/ic_menu_mylocation" androidnga:showAsAction="ifRoom" android:showAsAction="ifRoom"></item>
+	<item android:title="@string/add_fid" android:id="@+id/add_fid" android:icon="@drawable/ic_action_add_to_queue" androidnga:showAsAction="ifRoom" android:showAsAction="ifRoom"></item>
 </menu>
