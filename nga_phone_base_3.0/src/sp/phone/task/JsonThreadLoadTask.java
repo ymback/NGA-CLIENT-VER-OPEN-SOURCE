@@ -65,7 +65,6 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
 			js=js.substring(0, js.indexOf("/*error fill content"));
 		js=js.replaceAll("/\\*\\$js\\$\\*/","");
 		ThreadData result = new ArticleUtil(context).parseJsonThreadPage(js);
-		
 		if(null == result){
 			errorStr = context.getResources().getString(R.string.thread_load_error);
 			do{

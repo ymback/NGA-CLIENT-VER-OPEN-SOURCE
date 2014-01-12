@@ -29,6 +29,7 @@ public class ThreadRowInfo {
 	private String alterinfo;// something like "edited by ..."
 	private String content;
 	private int lou;
+	private String from_client;
 	//private int postdatetimestamp;
 	//private int content_length;
 	private Map<String,Attachment>attachs;
@@ -127,6 +128,12 @@ public class ThreadRowInfo {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getFromClient() {
+		return from_client;
+	}
+	public void setFromClient(String from_client) {
+		this.from_client=from_client;
 	}
 	public List<ThreadRowInfo> getComments() {
 		return comments;

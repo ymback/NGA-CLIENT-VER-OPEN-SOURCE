@@ -32,6 +32,7 @@ import sp.phone.utils.ThemeManager;
 import android.R.integer;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -43,11 +44,15 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextPaint;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -144,6 +149,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		TextView postnumTV;
 		int position = -1;
 		ImageButton viewBtn;
+		ImageButton clientBtn;
 
 	}
 
@@ -391,14 +397,12 @@ public class ArticleListAdapter extends BaseAdapter implements
 		return holder;
 	}
 
-	private class MyListener implements OnClickListener {
+	private class MyListenerForReply implements OnClickListener {
 		int mPosition;
-		private boolean loading = false;
-		private Object commit_lock = new Object();
 		private View button;
 		private long lastTimestamp = 0;
 
-		public MyListener(int inPosition) {
+		public MyListenerForReply(int inPosition) {
 			mPosition = inPosition;
 		}
 
@@ -422,12 +426,11 @@ public class ArticleListAdapter extends BaseAdapter implements
 				@Override
 				protected void onPostExecute(Void result)
 				{
-					MyListener.this.button.setEnabled(true);
+					MyListenerForReply.this.button.setEnabled(true);
 				}
 				
 				@Override
 				protected Void doInBackground(Void... params) {
-					loading = true;
 					Intent intent = new Intent();
 					StringBuffer postPrefix = new StringBuffer();
 					String mention = null;
@@ -485,6 +488,70 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 	}
 
+	private class MyListenerForClient implements OnClickListener {
+		int mPosition;
+		private View button;
+		private long lastTimestamp = 0;
+
+		public MyListenerForClient(int inPosition) {
+			mPosition = inPosition;
+		}
+
+		@Override
+		public void onClick(View v) {
+			
+			ThreadRowInfo row = data.getRowList().get(mPosition);
+			String from_client = row.getFromClient();
+			String deviceinfo = null;
+			if(from_client.substring(0, 2).equals("1 ")){
+				if(from_client.length()==2){
+					deviceinfo="发送自Life Style苹果客户端 机型及系统:未知";
+				}else{
+					deviceinfo="发送自Life Style苹果客户端 机型及系统:"+from_client.substring(2);
+				}
+			}else if(from_client.substring(0, 4).equals("101 ")){
+				if(from_client.length()==4){
+					deviceinfo="发送自Life Style苹果客户端 机型及系统:未知";
+				}else{
+					deviceinfo="发送自Life Style苹果客户端 机型及系统:"+from_client.substring(4);
+				}
+			}else if(from_client.substring(0, 4).equals("103 ")){
+					if(from_client.length()==4){
+						deviceinfo="发送自WP候总客户端 机型及系统:未知";
+					}else{
+						deviceinfo="发送自WP候总客户端 机型及系统:"+from_client.substring(4);
+					}
+				}else if(from_client.substring(0, 2).equals("8 ")){
+					if(from_client.length()==2){
+						deviceinfo="发送自178版NGA客户端 机型及系统:未知";
+					}else{
+						deviceinfo="发送自178版NGA客户端 机型及系统:"+from_client.substring(2);
+					}
+				}else{
+					if(from_client.length()==(from_client.indexOf(" ")+1)){
+						deviceinfo="发送自未知客户端 机型及系统:未知";
+					}else{
+						deviceinfo="发送自未知客户端 机型及系统:"+from_client.substring(from_client.indexOf(" ")+1);
+					}
+				}
+			    Dialog dialog = new Dialog(activity, R.style.ClientDialog);  
+			    dialog.setContentView(R.layout.client_dialog);
+			    TextView textview=(TextView)  dialog.findViewById(R.id.client_device_dialog);
+			    textview.setText(deviceinfo);
+
+		        Window dialogWindow = dialog.getWindow();
+		        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+
+		        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+		        lp.width = (int)(wm.getDefaultDisplay().getWidth()); //设置宽度
+		        dialog.getWindow().setAttributes(lp); 
+			    dialog.show();  
+			    dialog.setCanceledOnTouchOutside(true);
+
+		}
+
+	}
+	
 	private String checkContent(String content) {
 		int i;
 		boolean mode = false;
@@ -546,7 +613,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 	}
 
 	public View getView(int position, View view, ViewGroup parent) {
-		MyListener myListener = null;
+		MyListenerForReply myListenerForReply = null;
+		MyListenerForClient myListenerForClient = null;
 		ThreadRowInfo row = data.getRowList().get(position);
 
 		int lou = -1;
@@ -568,11 +636,13 @@ public class ArticleListAdapter extends BaseAdapter implements
 			// Log.i(TAG, "cached view recycle by system:" + lou);
 			if (view == null || config.useViewCache) {
 				// Log.d(TAG, "inflater new view ,floor " + lou);
-				myListener = new MyListener(position);
+				myListenerForReply = new MyListenerForReply(position);
+				myListenerForClient = new MyListenerForClient(position);
 				view = LayoutInflater.from(activity).inflate(
 						R.layout.relative_aritclelist, parent, false);
 				holder = initHolder(view);
 				holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
+				holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
 				view.setTag(holder);
 				if (config.useViewCache)
 					viewCache.put(position, new SoftReference<View>(view));
@@ -603,7 +673,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		if(!PhoneConfiguration.getInstance().showReplyButton){
 			holder.viewBtn.setVisibility(View.GONE);
 		}else{
-			holder.viewBtn.setOnClickListener(myListener);
+			holder.viewBtn.setOnClickListener(myListenerForReply);
 		}
 		holder.position = position;
 		ThemeManager theme = ThemeManager.getInstance();
@@ -642,6 +712,19 @@ public class ArticleListAdapter extends BaseAdapter implements
 		floorTV.setText("[" + floor + " 楼]");
 		floorTV.setTextColor(fgColor);
 
+		if(row.getFromClient()!=null && !row.getFromClient().trim().equals("")){
+			String from_client = row.getFromClient();
+			if(from_client.indexOf(" ")>0){
+			if(from_client.substring(0, 2).equals("1 ") || from_client.substring(0, 4).equals("101 ")){
+				holder.clientBtn.setImageResource(R.drawable.ios);//IOS
+			}else if(from_client.substring(0, 4).equals("103 ")){
+				holder.clientBtn.setImageResource(R.drawable.wp);//候总
+			}else if(!from_client.substring(0, 2).equals("8 ")){
+				holder.clientBtn.setImageResource(R.drawable.unkonwn);//未知
+			}
+			holder.clientBtn.setVisibility(View.VISIBLE);
+			holder.clientBtn.setOnClickListener(myListenerForClient);}
+		}
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());
 		postTimeTV.setTextColor(fgColor);

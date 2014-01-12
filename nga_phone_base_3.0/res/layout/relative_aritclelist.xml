@@ -53,6 +53,19 @@
         android:layout_toRightOf="@+id/nickName"
         android:textIsSelectable="false" >
     </TextView>
+    
+    
+    <ImageButton
+        android:id="@+id/clientbutton"
+        android:background="#00000000"
+        android:layout_toRightOf="@+id/floor"
+        android:layout_alignTop="@id/floor"
+        android:layout_alignBottom="@id/floor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/android"
+        android:scaleType="fitXY"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/postTime"

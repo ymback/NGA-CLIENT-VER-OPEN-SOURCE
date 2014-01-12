@@ -24,5 +24,14 @@
 
     <style name="SwipeBackTheme" parent="SwipeBackBaseTheme">
     </style>
-
+ 
+    <style name="ClientDialog" parent="android:style/Theme.Dialog"> 
+    <item name="android:windowFrame">@null</item>  
+    <item name="android:windowIsFloating">true</item>  
+    <item name="android:windowIsTranslucent">false</item>  
+    <item name="android:windowNoTitle">true</item>  
+    <item name="android:background">@android:color/black</item>  
+    <item name="android:windowBackground">@null</item>  
+    <item name="android:backgroundDimEnabled">true</item>  
+    </style>  
 </resources>

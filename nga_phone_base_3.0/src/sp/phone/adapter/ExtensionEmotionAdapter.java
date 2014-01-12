@@ -818,7 +818,6 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 				"http://pic3.178.com/2017/20174851/month_1401/a6a581a8e4a61812ae123a837f4b0d88.png",
 				"http://pic3.178.com/2017/20174851/month_1401/a920ca541f5246a24bdaa85ee360477e.gif",
 				"http://pic3.178.com/2017/20174851/month_1401/c1ceadd1553e140c2bc0348720cbb2df.png",
-				"http://pic3.178.com/2017/20174851/month_1401/1c3a6e0290fe7c91cbf5ffb06dbe4e6d.png",
 				"http://pic3.178.com/2017/20174851/month_1401/9ed86272ed53b89726874565be464927.jpg",
 
 				"http://pic3.178.com/2017/20174851/month_1401/2aa114ca0804d12f2178e0dc69d4bc8a.png",

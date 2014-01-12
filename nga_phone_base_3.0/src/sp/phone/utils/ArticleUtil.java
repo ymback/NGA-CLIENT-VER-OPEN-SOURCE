@@ -321,6 +321,11 @@ public class ArticleUtil {
 					row.setComments(convertJSobjToList(commObj,userInfoMap));
 				}
 				
+				String from_client =  rowObj.getString("from_client");
+				if(from_client !=null){
+					row.setFromClient(from_client.toString());
+				}
+				
 				fillUserInfo(row,userInfoMap);
 				
 				fillFormated_html_data(row,i);
