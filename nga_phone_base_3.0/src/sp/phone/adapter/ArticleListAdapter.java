@@ -503,25 +503,27 @@ public class ArticleListAdapter extends BaseAdapter implements
 			ThreadRowInfo row = data.getRowList().get(mPosition);
 			String from_client = row.getFromClient();
 			String deviceinfo = null;
-			if(from_client.substring(0, 2).equals("1 ")){
-				if(from_client.length()==2){
-					deviceinfo="发送自Life Style苹果客户端 机型及系统:未知";
-				}else{
-					deviceinfo="发送自Life Style苹果客户端 机型及系统:"+from_client.substring(2);
-				}
-			}else if(from_client.substring(0, 4).equals("101 ")){
-				if(from_client.length()==4){
-					deviceinfo="发送自Life Style苹果客户端 机型及系统:未知";
-				}else{
-					deviceinfo="发送自Life Style苹果客户端 机型及系统:"+from_client.substring(4);
-				}
-			}else if(from_client.substring(0, 4).equals("103 ")){
+			if(from_client.indexOf(" ")>0){
+				String clientappcode=from_client.substring(0,from_client.indexOf(" "));
+				if(clientappcode.equals("1")){
+					if(from_client.length()==2){
+						deviceinfo="发送自Life Style苹果客户端 机型及系统:未知";
+					}else{
+						deviceinfo="发送自Life Style苹果客户端 机型及系统:"+from_client.substring(2);
+					}
+				}else if(clientappcode.equals("101")){
+					if(from_client.length()==4){
+						deviceinfo="发送自Life Style苹果客户端 机型及系统:未知";
+					}else{
+						deviceinfo="发送自Life Style苹果客户端 机型及系统:"+from_client.substring(4);
+					}
+				}else if(clientappcode.equals("103")){
 					if(from_client.length()==4){
 						deviceinfo="发送自WP候总客户端 机型及系统:未知";
 					}else{
 						deviceinfo="发送自WP候总客户端 机型及系统:"+from_client.substring(4);
 					}
-				}else if(from_client.substring(0, 2).equals("8 ")){
+				}else if(clientappcode.equals("8")){
 					if(from_client.length()==2){
 						deviceinfo="发送自178版NGA客户端 机型及系统:未知";
 					}else{
@@ -547,6 +549,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		        dialog.getWindow().setAttributes(lp); 
 			    dialog.show();  
 			    dialog.setCanceledOnTouchOutside(true);
+			}
 
 		}
 
@@ -715,11 +718,12 @@ public class ArticleListAdapter extends BaseAdapter implements
 		if(row.getFromClient()!=null && !row.getFromClient().trim().equals("")){
 			String from_client = row.getFromClient();
 			if(from_client.indexOf(" ")>0){
-			if(from_client.substring(0, 2).equals("1 ") || from_client.substring(0, 4).equals("101 ")){
+				String clientappcode=from_client.substring(0,from_client.indexOf(" "));
+			if(clientappcode.equals("1")|| clientappcode.equals("101")){
 				holder.clientBtn.setImageResource(R.drawable.ios);//IOS
-			}else if(from_client.substring(0, 4).equals("103 ")){
+			}else if(clientappcode.equals("103")){
 				holder.clientBtn.setImageResource(R.drawable.wp);//候总
-			}else if(!from_client.substring(0, 2).equals("8 ")){
+			}else if(!clientappcode.equals("8")){
 				holder.clientBtn.setImageResource(R.drawable.unkonwn);//未知
 			}
 			holder.clientBtn.setVisibility(View.VISIBLE);

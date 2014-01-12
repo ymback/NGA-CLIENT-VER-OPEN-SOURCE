@@ -166,7 +166,12 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 			JSONObject rowObj  = (JSONObject) o1.get(String.valueOf(i));
 			try{
 			ThreadPageInfo entry = JSONObject.toJavaObject(rowObj,ThreadPageInfo.class);
-			
+			JSONObject rowObj__P = (JSONObject) rowObj.get("__P");
+			if(null != rowObj__P){
+				if(rowObj__P.getInteger("pid")>0){
+					entry.setPid(rowObj__P.getInteger("pid"));
+				}
+			}
             if(PhoneConfiguration.getInstance().showStatic ||
                         (StringUtil.isEmpty(entry.getTop_level()) && StringUtil.isEmpty(entry.getStatic_topic())) )
 			    {
