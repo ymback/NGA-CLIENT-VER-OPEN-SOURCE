@@ -61,6 +61,7 @@ public class HttpUtil {
 	//软件名/版本 (硬件信息; 操作系统信息)
 	//AndroidNga/571 (Xiaomi MI 2S; Android 4.1.1)
 	public static final String USER_AGENT = new StringBuilder().append("AndroidNgaOfAnzong/").append(MyApp.version).append(" (").append(android.os.Build.MANUFACTURER).append(" ").append(android.os.Build.MODEL).append("; Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+//	public static final String USER_AGENT = new StringBuilder().append("Mozilla/5.0 (Linux; U; Android 2.3.3; zh-cn; SH12C Build/S4040) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1").toString();
 	public static void selectServer2() {
 		for (String host : host_arr) {
 			HttpURLConnection conn = null;

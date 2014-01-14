@@ -90,7 +90,7 @@ public class ThreadPostAction {
 			}else{
 				sb.append("&fid=");
 			}
-			
+			String from_device = android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL+"; Android"+android.os.Build.VERSION.RELEASE;
 			sb.append("&tid="); sb.append(tid_);
 			sb.append("&_ff="); sb.append(_ff_);
 			sb.append("&attachments="); sb.append(attachments_);
@@ -112,7 +112,10 @@ public class ThreadPostAction {
 			}
 		
 			sb.append("&checkkey="); sb.append(checkkey_);
-			
+//			sb.append("&step="); sb.append("2");
+//
+//			sb.append("&from_device="); sb.append("SH12C");
+//			sb.append("&from_client="); sb.append("100");
 			return sb.toString();
 			//&_ff=&attachments=&attachments_check=&force_topic_key=&filter_key=1&post_subject=12345&post_content=nga+%B0%B2%D7%BF%B0%E6%B7%A2%CC%F9%B2%E2%CA%D4&checkkey=1326813478553736"
 		}
