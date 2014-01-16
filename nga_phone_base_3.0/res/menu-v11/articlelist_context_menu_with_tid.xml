@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/quote_subject" android:title="@string/quote_subject" android:icon="@drawable/ic_menu_cc" android:showAsAction="ifRoom|withText"></item><item android:id="@+id/show_whole_thread" android:title="@string/show_whole_thread" android:icon="@drawable/ic_menu_moreoverflow" android:showAsAction="ifRoom|withText"></item>
+	
+    <item android:id="@+id/search_post" android:title="@string/search_post" android:showAsAction="never"></item>
+    <item android:id="@+id/search_subject" android:title="@string/search_subject" android:showAsAction="never"></item>
+    
+    
+
+</menu>

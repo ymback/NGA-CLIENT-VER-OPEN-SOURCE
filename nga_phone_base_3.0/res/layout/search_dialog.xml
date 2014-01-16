@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>   
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"   
+    android:layout_width="fill_parent"   
+    android:layout_height="fill_parent"   
+    android:orientation="vertical" >   
+
+    <LinearLayout   
+        android:layout_width="fill_parent"   
+        android:layout_height="wrap_content"   
+        android:gravity="center" >   
+
+        <EditText   
+            android:id="@+id/search_data"
+            android:layout_width="0dip"   
+            android:layout_height="wrap_content"   
+            android:layout_weight="1"
+            android:hint="@string/search_dialog_hint" />   
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+	<RadioGroup
+	    android:id="@+id/radioGroup"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_centerHorizontal="true"
+	    android:contentDescription="搜索目的"
+	    android:orientation="horizontal" >
+
+		<RadioButton
+		    android:id="@+id/search_topic"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:checked="true"
+		    android:text="@string/search_topic" />
+
+	    <RadioButton
+	        android:id="@+id/search_user_topic"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	        android:text="@string/search_user_topic" />
+
+	    <RadioButton
+	        android:id="@+id/search_user_apply"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dp"
+	        android:text="@string/search_user_apply" />
+	</RadioGroup>
+
+    </RelativeLayout>
+    <LinearLayout   
+        android:layout_width="fill_parent"   
+        android:layout_height="wrap_content"   
+        android:gravity="center" 
+  		android:orientation="vertical"> 
+    </LinearLayout>
+</LinearLayout>   

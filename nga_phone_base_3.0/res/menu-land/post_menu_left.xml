@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/emotion" android:title="@string/emotion" androidnga:showAsAction="ifRoom|withText" android:icon="@drawable/ic_action_new_emotion" android:showAsAction="ifRoom|withText">
+	</item><item android:id="@+id/supertext" android:title="@string/richtext" androidnga:showAsAction="ifRoom|withText" android:icon="@drawable/ic_action_supertext" android:showAsAction="ifRoom|withText"></item>
+    
+    <item android:id="@+id/upload" android:title="@string/upload" androidnga:showAsAction="ifRoom|withText" android:icon="@drawable/ic_menu_upload" android:showAsAction="ifRoom|withText"></item>
+    
+    <item android:id="@+id/send" androidnga:showAsAction="always|withText" android:title="@string/commit" android:icon="@drawable/ic_menu_send" android:showAsAction="always|withText"></item>
+    
+
+</menu>

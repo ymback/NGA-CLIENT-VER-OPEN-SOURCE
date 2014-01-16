@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>   
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/myScrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+<LinearLayout   
+    android:layout_width="fill_parent"   
+    android:layout_height="fill_parent"   
+    android:orientation="vertical" >   
+
+    <LinearLayout   
+        android:layout_width="fill_parent"   
+        android:layout_height="wrap_content"   
+        android:gravity="center" >   
+
+        <EditText   
+            android:id="@+id/inputsupertext_dataa"
+            android:layout_width="0dip"   
+            android:layout_height="wrap_content"   
+            android:layout_weight="1"
+            android:hint="@string/search_dialog_hint" />   
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+	<RadioGroup
+	    android:id="@+id/radioGroupA"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_centerHorizontal="true"
+	    android:contentDescription="富文本目的"
+	    android:orientation="horizontal" >
+
+		<RadioButton
+		    android:id="@+id/atsomeone"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/atsomeone" />
+ 
+	    <RadioButton
+	        android:id="@+id/urladd"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10dp"
+	        android:text="@string/urladd" />
+ 
+	    <RadioButton
+	        android:id="@+id/quoteadd"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="10dp"
+	        android:text="@string/quoteadd" />
+	</RadioGroup>
+
+    </RelativeLayout>
+    <LinearLayout   
+        android:layout_width="fill_parent"   
+        android:layout_height="wrap_content"   
+        android:gravity="center" 
+  		android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/wenzichuli"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/wenzichuli"
+            android:textSize="18dp" />
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+	    <CheckBox
+	        android:id="@+id/italic"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:text="@string/italic"
+       		android:textStyle="italic" />
+
+    <CheckBox
+        android:id="@+id/bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:text="@string/bold"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/underline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="12dp"
+        android:text="@string/underline" />
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+		<CheckBox
+        android:id="@+id/fontcolor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:text="@string/fontcolor"
+        android:textColor="#007FFF"  />
+
+
+	    <CheckBox
+	        android:id="@+id/fontsize"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:text="@string/fontsize" />
+
+    
+ 
+    <CheckBox
+        android:id="@+id/delline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="12dp"
+        android:text="@string/delline" />
+
+    </RelativeLayout>
+    </LinearLayout>
+	<TextView
+            android:id="@+id/font_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/fontsize" />
+
+  		<Spinner
+  		    android:id="@+id/fontsize_spinner"
+  		    android:layout_width="wrap_content"
+  		    android:layout_height="40dp" ></Spinner> 
+	<TextView
+            android:id="@+id/font_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/fontcolor" />
+
+  		<Spinner
+  		    android:id="@+id/font_color_spinner"
+  		    android:layout_width="wrap_content"
+  		    android:layout_height="40dp" >
+		</Spinner> 
+
+</LinearLayout>   
+</ScrollView>

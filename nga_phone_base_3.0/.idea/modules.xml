@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ActionBar-PullToRefresh-master/extras/actionbarcompat/actionbarcompat.iml" filepath="$PROJECT_DIR$/../ActionBar-PullToRefresh-master/extras/actionbarcompat/actionbarcompat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../appcompat/appcompat.iml" filepath="$PROJECT_DIR$/../appcompat/appcompat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ActionBar-PullToRefresh-master/library/library.iml" filepath="$PROJECT_DIR$/../ActionBar-PullToRefresh-master/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SwipeBackLayout-master/library/src/main/main.iml" filepath="$PROJECT_DIR$/../SwipeBackLayout-master/library/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nga_phone.iml" filepath="$PROJECT_DIR$/nga_phone.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/menu_login" android:id="@+id/mainmenu_login" android:icon="@drawable/ic_login" androidnga:showAsAction="ifRoom|withText" android:showAsAction="ifRoom|withText"></item>
+    <item android:title="@string/menu_setting" android:id="@+id/mainmenu_setting" android:icon="@drawable/action_settings" androidnga:showAsAction="ifRoom|withText" android:showAsAction="ifRoom|withText"></item>
+    <item android:title="@string/menu_nearby_user" android:id="@+id/mainmenu_exit" android:icon="@drawable/ic_menu_mylocation" androidnga:showAsAction="ifRoom|withText" android:showAsAction="ifRoom|withText"></item>
+	<item android:title="@string/add_fid" android:id="@+id/add_fid" android:icon="@drawable/ic_action_add_to_queue" androidnga:showAsAction="ifRoom|withText" android:showAsAction="ifRoom|withText"></item>
+</menu>

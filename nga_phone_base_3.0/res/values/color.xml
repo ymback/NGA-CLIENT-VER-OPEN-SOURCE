@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--  color name="topic_row1">#fff8e5</color>
+	<color name="topic_row2">#fef3d1</color>
+	
+	<color name="article_row1">#fff8e5</color>
+	<color name="article_row2">#fef3d1</color>
+
+
+	<color name="font_default">#1d2a63</color>
+	<color name="font_floor">#3399ee</color>
+	<color name="font_post_time">#888888</color>
+	<color name="font_nick_name">#1d2a63</color>
+	<color name="font_post_num">#555555</color>
+
+
+	<color name="font_page_now">#314396</color -->
+	<color name="page">#0000CD</color>
+	<color name="white">#FFFFFF</color>
+	<color name="black">#000000</color>
+	<color name="shit1">#FEF3D1</color>
+	<color name="shit2">#FFF8E5</color>
+	<color name="red">#FF0000</color>
+	<color name="actionbar_title_color">#ffffff</color>
+	<color name="night_fore_color">#424952</color>
+	<color name="night_bg_color">#080C10</color><color name="night_link_color">#294563</color><color name="green">#00ff00</color>
+	<color name="blue">#0000ff</color>
+	<color name="blue_hover">#00039E</color>
+	<color name="ics_blue">#33B5E5</color>
+	<color name="nga_text_color">#121C46</color>
+	<color name="nga_title_color">#e51400</color>
+	<color name="title_green">#3D9F0E</color>
+	<color name="title_red">#FF0000</color>
+	<color name="title_blue">#00039E</color>
+	<color name="title_orange">#A06700</color>
+	<color name="holo_blue_light">#ff33b5e5</color>
+	<color name="hint_foreground_holo_light">#808080</color>
+	<color name="topiclist_selected_color">#151c19</color>
+	<color name="md__transparent">#00000000</color>
+    <color name="md__defaultBackground">#FF555555</color>
+	
+</resources>

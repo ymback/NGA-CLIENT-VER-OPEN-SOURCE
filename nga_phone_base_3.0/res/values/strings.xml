@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NGA客户端</string>
+    <string name="menu_login">登录</string>
+    <string name="menu_setting">设置</string>
+    <string name="menu_exit">退出</string>
+    <string name="username">用户名</string>
+    <string name="login_user_hint">邮箱或者NGA昵称</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="login_successfully">登录成功</string>
+    <string name="login_failed">登录失败</string>
+    <string name="title">标题</string>
+    <string name="commit">提交</string>
+    <string name="cancel">取消</string>
+    <string name="nowifi_downimg">2G/3G时载入帖子图片</string>
+    <string name="nightmode">夜间模式</string>
+    <string name="refresh">刷新</string>
+    <string name="back">返回</string>
+    <string name="new_thread">发帖</string>
+    <string name="reply_thread">回帖</string>
+    <string name="bookmark">收藏本帖</string>
+    <string name="bookmark_title">已收藏的主题</string>
+    <string name="goto_bookmark">收藏夹</string>
+    <string name="text_size">帖子列表字体大小</string>
+    <string name="lock_orientation">锁定</string>
+    <string name="unlock_orientation">自动</string>
+    <string name="thread_load_error">可能遇到了一个广告或者帖子被删除</string>
+    <string name="notification_on">启用被喷提示</string>
+    <string name="notification_sound">提示声音</string>
+    <string name="download_avatar_nowifi">2G/3G时下载头像(慎用)</string>
+    <string name="upload">上传</string>
+    <string name="avoidWindfury">防止风怒机制</string>
+    <string name="avatar">头像</string>
+    <string name="network_error">网络错误</string>
+  	<string name="book_mark_successfully">收藏成功</string>
+    <string name="already_bookmarked">链接已经在收藏夹里了</string>
+    <string name="avatar_size">头像大小</string>
+    <string name="clear_recent_board">清除最近访问列表</string>
+    <string name="showAnimation">显示动画</string>
+    <string name="modify_thread">编辑帖子</string>
+    <string name="showSignature">显示签名</string>
+    <string name="goto_floor">跳页</string>
+    <string name="goto_floor_description">直接确定跳到最后一页</string>
+    <string name="use_view_cache">启用楼层缓存</string>
+    <string name="view_cache_tips">开启楼层缓存可以防止楼层滚动的时候遇到长帖子时跳动的问题，但是会占用更多的内存，如果体验不佳，请关闭这个选项</string>
+    <string name="myscheme">ngacn</string>
+    <string name="myhost">bbs.ngacn.cc</string>
+    <string name="post_comment">贴条</string>
+    <string name="quote_subject">喷之</string>
+    <string name="copy_to_clipboard">复制</string>
+    <string name="signature_dialog">查看签名</string>
+    <string name="show_this_person_only">只看此人</string>
+    <string name="edit">编辑</string>
+    <string name="show_whole_thread">显示全部</string>
+    <string name="search_post">搜索回复</string>
+    <string name="search_subject">搜索发帖</string>
+    <string name="avatar_description">头像</string>
+    <string name="search_hint">输入要搜索的内容/用户名</string>
+    <string name="supertext_hint">输入内容并选择论坛代码</string>
+    <string name="copy_hint">复制需要的内容</string>
+    <string name="click_to_delete">点击删除</string>
+    <string name="load_tudou_video">载入土豆视频中</string>
+    <string name="save">保存</string>
+    <string name="image_saved">图片已经保存在</string>
+    <string name="invalid_url">链接不合法</string>
+    <string name="mkdir_fail">无法创建目录，sd卡未挂载？</string>
+    <string name="select_category">点击选择类别</string>
+    <string name="group_search">搜索</string>
+    <string name="share">分享到…</string>
+    <string name="image_to_big">图片超过1M，自动缩小</string>
+    <string name="page">页</string>
+    <string name="search">搜索</string>
+    <string name="menu_nearby_user">yooooo</string>
+    <string name="add_fid">添加版面</string>
+    <string name="nearby_no_login">没登陆不能yoooo</string>
+    <string name="fail_to_locate">无法定位</string>
+    <string name="nearby_no_user">附近没有其他用户</string>
+    <string name="upload_location">发帖报告我的位置</string>
+    <string name="find_nearby_alert_string">你在查看附近的用户时也会泄露自己的位置，请确认是否继续</string>
+    <string name="warn">警告</string>
+    <string name="set_upload_location_alert">位置是非常重要的隐私信息，公布后你很可能被骚扰，人肉，抢劫，强奸,请确认是否打开</string>
+    <string name="location_service_disabled">好像没开定位服务</string>
+    <string name="get_location_success">获取位置成功</string>
+    <string name="locating">正在获取位置</string>
+    <string name="fuck_gfw_prefix">方滨兴造墙烂屁眼</string>
+    <string name="fail_to_cross_gfw">又被墙了,草</string>
+    <string name="close">关闭</string>
+    <string name="floor_one">1楼</string>
+    <string name="sample_post_date">11:11:11</string>
+    <string name="sample_nick_name">骷髅党</string>
+    <string name="sample_user_level">级别:骷髅党</string>
+    <string name="split">菜单按钮在下面(4.0以上)</string>
+    <string name="replysplit">发帖按钮在下面(4.0以上)</string>
+    <string name="ha">硬件加速(4.0以上)</string>
+    <string name="addreplybutton">发帖页面显示回复按钮</string>
+    <string name="report">举报</string>
+    <string name="reportdialog_description">不要仅仅因为意见不同而举报</string>
+    <string name="report_confirm">举报确认</string>
+    <string name="emotion">表情</string>
+    <string name="cannot_eidt_comment">不能编辑贴条</string>
+    <string name="websize_sample_text">帖子内字体大小</string>
+    <string name="prompt">提示</string>
+    <string name="i_know">知道了</string>
+    <string name="start_title">NGA客户端开源版</string>
+    <string name="create_cache_dir">创建缓存目录</string>
+    <string name="move_avatar">移动头像到新位置</string>
+    <string name="error">错误</string>
+    <string name="recent">最近访问</string>
+    <string name="addfid">用户自定义</string>
+    <string name="addfid_title_hint">输入版面名称及ID添加版面</string>
+    <string name="floor_error">无法确定楼层，选择0楼</string>
+    <string name="unknow_error">客户端发生未知错误</string>
+    <string name="copied_to_clipboard">已经复制到剪切板</string>
+    <string name="search_dialog_hint">184.154.178.130</string>
+    <string name="addfid_dialog_hintA">输入版面名称</string>
+    <string name="addfid_dialog_hintB">输入版面ID(个人版面有负号)</string>
+    <string name="search_dialog_hint_topic_reply_byself">直接按确定搜索自己的发帖</string>
+    <string name="search_dialog_hint_reply_byself">直接按确定搜索自己的回复</string>
+    <string name="user_distance">该用户距离你</string>
+    <string name="meter">米</string>
+    <string name="kilo_meter">公里</string>
+    <string name="hide">隐藏</string>
+    <string name="legend">传说</string>
+    <string name="attachment">附件</string>
+    <string name="comment">评论</string>
+    <string name="sig">签名</string>
+    <string name="delete">删除</string>
+    <string name="crash_notice">崩溃啦</string>
+    <string name="report_success">操作成功</string>
+    <string name="please_relogin">请重新登录</string>
+    <string name="show_static">显示版主固定的帖子</string>
+	<string name="color_txt">使用彩虹发帖模式</string>
+	<string name="new_weiba">发送可见尾巴信息</string>
+	<string name="show_lajibankuai">大漩涡中显示小版块主题</string>
+    <string name="multi_reply_format">已经挨了%d发黑枪了,态君不够用了!</string>
+    <string name="reply_to_you"> ←态君,这个家伙给你打黑枪!</string>
+    <string name="image_quality_info">2G/3G时图片中转压缩(Beta)</string>
+    <string name="lefthand_righthand">按键常用操作习惯(4.0以上 )</string>
+    <string name="righthand_option_original">右手</string>
+    <string name="lefthand_option_original">左手</string>
+    <string name="lefthand_righthand_chooser_prompt">选择常用手：</string>
+    <string name="image_quality_option_small">小图</string>
+    <string name="image_quality_option_medium">中图</string>
+    <string name="image_quality_option_large">大图</string>
+    <string name="image_quality_option_original">原始大小</string>
+    <string name="image_quality_chooser_prompt">选择图片质量：</string>
+    <string name="image_quality_claim">图片中转压缩是一个测试性的功能，访问压力过大时，中转服务器可能会不可用。</string>
+    <string name="search_topic">帖子</string>
+    <string name="search_user_topic">发帖</string>
+    <string name="search_user_apply">回复</string>
+    <string name="last_page_prompt">已加载到最后一页</string>
+    <string name="delete_favo_confirm_text">确定从收藏夹中删除这个帖子吗？</string>
+    <string name="confirm">确定</string>
+    <string name="cancle">取消</string>
+    <string name="showColortxtWarn">彩虹发帖模式易导致禁言,专供有自杀需求的用户!</string>
+    <string name="showNewweibaWarn">发送可见尾巴易导致禁言,专供有自杀需求的用户!</string>
+    
+    <string name="about_client">NGA客户端开源版开发团队\n代码:[@竹井詩織里]/[@cfan8]/[@force0119]\n美工:[@那个惩戒骑]\n查找更新请前往Play商店或酷安\n赞美片总!\nLicense:GNU GPL v2,软件版本:</string>
+    
+    <string name="richtext">富文本</string>
+    <string name="atsomeone">[@用户名]</string>
+    <string name="urladd">[url]</string>
+    <string name="quoteadd">[quote]</string>
+    <string name="wenzichuli">字体美化</string>
+    <string name="bold">加粗</string>
+    <string name="italic">斜体</string>
+    <string name="underline">下划线</string>
+    <string name="fontcolor">颜色</string>
+    <string name="fontsize">字号</string>
+    <string name="delline">删除线</string>
+    
+    <string-array name="colorchoose">
+		<item>默认 (纯黑色)</item>
+		<item>skyblue (天蓝色)</item>
+		<item>royalblue (品蓝色)</item>
+		<item>blue (纯蓝色)</item>
+		<item>darkblue (深蓝色)</item>
+		<item>orange (纯橙色)</item>
+		<item>orangered (橙红色)</item>
+		<item>crimson (深红色)</item>
+		<item>red (纯红色)</item>
+		<item>firebrick (砖红色)</item>
+		<item>darkred (暗红色)</item>
+		<item>green (纯绿色)</item>
+		<item>limegreen (石灰绿)</item>
+		<item>seagreen (海蓝色)</item>
+		<item>teal (蓝绿色)</item>
+		<item>deeppink (深粉色)</item>
+		<item>tomato (番茄红)</item>
+		<item>coral (珊瑚色)</item>
+		<item>purple (纯紫色)</item>
+		<item>indigo (靛蓝色)</item>
+		<item>burlywood (原木色)</item>
+		<item>sandybrown (黄褐色)</item>
+		<item>sienna (黄土色)</item>
+		<item>chocolate (咖啡色)</item>
+		<item>silver (银灰色)</item>
+	</string-array>
+	
+    <string-array name="fontsizechoose">
+		<item>100%</item>
+		<item>110%</item>
+		<item>120%</item>
+		<item>130%</item>
+		<item>150%</item>
+		<item>200%</item>
+		<item>250%</item>
+		<item>300%</item>
+		<item>400%</item>
+		<item>500%</item>
+		<item>段落标题</item>
+	</string-array>
+    
+</resources>

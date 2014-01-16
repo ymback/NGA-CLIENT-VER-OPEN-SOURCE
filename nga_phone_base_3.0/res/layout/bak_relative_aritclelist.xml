@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants" >
+
+    <TextView
+        android:id="@+id/nickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_toRightOf="@+id/floor"
+        android:text="@string/sample_nick_name"
+        android:textSize="14dp"
+        android:textStyle="bold" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/floor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/avatarImage"
+        android:text="@string/floor_one"
+        android:textSize="14dp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/postTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/sample_post_date"
+        android:textSize="14dp" >
+    </TextView>
+
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:clickable="false"
+        android:contentDescription="@string/avatar"
+        android:focusable="false"
+        android:longClickable="false"
+        android:scaleType="fitCenter"
+        android:src="@drawable/open" />
+
+    <TextView
+        android:id="@+id/level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/floor"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/avatarImage"
+        android:text="@string/sample_user_level"
+        android:textSize="14dp" />
+
+    <WebView
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/avatarImage"
+        android:layout_marginTop="3dp" />
+
+    <TextView
+        android:id="@+id/aurvrc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/aurvrc"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/postTime"
+        android:text="TextView"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/postnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/level"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/aurvrc"
+        android:text="TextView"
+        android:textSize="14dp" />
+
+</RelativeLayout>

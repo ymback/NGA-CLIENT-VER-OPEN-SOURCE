@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="invalid_img_selected">所选择的不是图片，或则返回结果非法，请尝试另一个应用来选择图片</string>
+    
+</resources>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Switch
+            android:id="@+id/checkBox_down_img_no_wifi"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/nowifi_downimg" />
+
+        <RelativeLayout
+            android:id="@+id/image_quality_chooser"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/touchable"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/image_quality_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+               	android:textSize="16dp" 
+               	android:layout_alignParentLeft="true"
+                android:text="@string/image_quality_info" >
+            </TextView>
+            <TextView
+                android:id="@+id/image_quality_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingRight="5dp"
+               	android:textSize="16dp" 
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+               	android:text="@string/image_quality_option_original"
+             >
+            </TextView>
+        </RelativeLayout>
+
+        <Switch
+            android:id="@+id/checkBox_download_avatar_no_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/download_avatar_nowifi" />
+
+        <Switch
+            android:id="@+id/checkBox_night_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/nightmode" />
+
+        <Switch
+            android:id="@+id/checkBox_show_animation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/showAnimation" />
+
+        <Switch
+            android:id="@+id/checkBox_show_signature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/showSignature" />
+
+        <Switch
+            android:id="@+id/checkBox_show_static"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/show_static" />
+
+        <Switch
+            android:id="@+id/checkBox_color_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/color_txt" />
+
+        <Switch
+            android:id="@+id/checkBox_new_weiba"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/new_weiba" 
+        	android:visibility="gone" /><!-- 隐藏尾巴，因为暂时可以伪装官方了 -->
+
+        <Switch
+            android:id="@+id/checkBox_show_lajibankuai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/show_lajibankuai" />
+        
+        <Switch
+            android:id="@+id/checkBox_addreplybutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/addreplybutton" />
+
+        <Switch
+            android:id="@+id/checkBox_split"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/split" />
+
+        <Switch
+            android:id="@+id/checkBox_replysplit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/replysplit" />
+
+        <RelativeLayout
+            android:id="@+id/lefthand_righthand_chooser"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/touchable"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lefthand_righthand_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+               	android:textSize="16dp" 
+               	android:layout_alignParentLeft="true"
+                android:text="@string/lefthand_righthand" >
+            </TextView>
+            <TextView
+                android:id="@+id/lefthand_righthand_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingRight="5dp"
+               	android:textSize="16dp" 
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+               	android:text="@string/righthand_option_original"
+             >
+            </TextView>
+        </RelativeLayout>
+        
+        <Switch
+            android:id="@+id/checkBox_ha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/ha" />
+
+        <Switch
+            android:id="@+id/checkBox_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/notification_on" />
+
+        <Switch
+            android:id="@+id/checkBox_notification_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/notification_sound" />
+
+        <TextView
+            android:id="@+id/textView_font_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/text_size" />
+
+        <SeekBar
+            android:id="@+id/fontsize_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp" />
+
+        <WebView
+            android:id="@+id/websize_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" />
+
+        <SeekBar
+            android:id="@+id/webszie_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp" />
+
+        <ImageView
+            android:id="@+id/avatarsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:contentDescription="@string/avatar_description"
+            android:src="@drawable/default_avatar" />
+
+        <TextView
+            android:id="@+id/textView_avatarsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/avatar_size" />
+
+        <SeekBar
+            android:id="@+id/avatarsize_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp" />
+
+        <Button
+            android:id="@+id/clear_recent_board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/clear_recent_board"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+</ScrollView>

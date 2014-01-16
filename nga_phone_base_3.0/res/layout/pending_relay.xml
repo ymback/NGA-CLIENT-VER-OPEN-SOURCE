@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+
+
+
+
+
+
+
+    <ImageView
+        android:id="@+id/avatar_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/avatar"
+        android:scaleType="fitCenter"
+        android:src="@drawable/default_avatar" />
+
+
+
+
+
+    <TextView
+        android:id="@+id/nick_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/avatar_image"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/avatar_image"
+        android:singleLine="true"
+        android:text="@string/sample_nick_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/avatar_image"
+        android:layout_alignLeft="@+id/nick_name"
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:text="@string/sample_user_level"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
