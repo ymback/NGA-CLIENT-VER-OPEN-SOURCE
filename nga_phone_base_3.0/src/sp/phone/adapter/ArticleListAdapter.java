@@ -61,7 +61,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+ 
 public class ArticleListAdapter extends BaseAdapter implements
 		OnLongClickListener, AvatarLoadCompleteCallBack {
 	private static final String TAG = ArticleListAdapter.class.getSimpleName();
