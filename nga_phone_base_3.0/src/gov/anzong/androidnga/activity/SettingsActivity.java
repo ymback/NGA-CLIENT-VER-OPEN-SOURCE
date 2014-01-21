@@ -177,8 +177,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		
 
 		showReplyButton = (CompoundButton) findViewById(R.id.checkBox_addreplybutton);
-		showReplyButton.setChecked(config.showReplyButton);
 		showReplyButton.setOnCheckedChangeListener(new ShowReplyButtonListener());
+		showReplyButton.setChecked(config.showReplyButton);
 		
 		showColortxt = (CompoundButton) findViewById(R.id.checkBox_color_txt);
 		showColortxt.setChecked(config.showColortxt);
@@ -545,7 +545,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 					MODE_PRIVATE);
 
 			Editor editor = share.edit();
-			editor.putBoolean(SHOW_STATIC, isChecked);
+			editor.putBoolean(SHOW_REPLYBUTTON, isChecked);
 			editor.commit();
 
 }

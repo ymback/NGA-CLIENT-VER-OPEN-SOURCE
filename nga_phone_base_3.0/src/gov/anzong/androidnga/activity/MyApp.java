@@ -28,7 +28,7 @@ import com.alibaba.fastjson.JSON;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 615;
+	public final static int version = 617;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "最近访问";
@@ -94,6 +94,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "-43", "军事历史", R.drawable.pdefault));
         boards.add(new Board(i, "414", "游戏综合讨论", R.drawable.p414));
         boards.add(new Board(i, "415", "主机游戏综合讨论", R.drawable.pdefault));
+        boards.add(new Board(i, "436", "消费电子 IT新闻", R.drawable.pdefault));
 		boards.addCategoryName(i, "大漩涡系列");
 		i++;
 		
@@ -394,7 +395,7 @@ public class MyApp extends Application implements PerferenceConstant {
 				share.getBoolean(REFRESH_AFTER_POST,false));
 		config.setRefreshAfterPost(false);
 		
-		config.showAnimation = share.getBoolean(SHOW_ANIMATION, true);
+		config.showAnimation = share.getBoolean(SHOW_ANIMATION, false);
 		config.useViewCache = share.getBoolean(USE_VIEW_CACHE, true);
 		config.showSignature = share.getBoolean(SHOW_SIGNATURE, false);
 		config.uploadLocation = share.getBoolean(UPLOAD_LOCATION, false);

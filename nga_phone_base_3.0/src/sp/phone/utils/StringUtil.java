@@ -135,6 +135,27 @@ public class StringUtil {
 		
 		final String styleLeft = "<div style='float:left' >";
 		final String styleRight = "<div style='float:right' >";
+		final String acniangofubbcode[]={
+				"blink","goodjob","上","中枪","偷笑",
+				"冷","凌乱","反对","吓","吻",
+				"呆","咦","哦","哭","哭1",
+				"哭笑","哼","喘","喷","嘲笑",
+				"嘲笑1","囧","委屈","心","忧伤",
+				"怒","怕","惊","愁","抓狂",
+				"抠鼻","擦汗","无语","晕","汗",
+				"瞎","羞","羡慕","花痴","茶",
+				"衰","计划通","赞同","闪光","黑枪"};//(0-44)
+		final String acniangappadd[]={
+				"-47218_5052bca81a77f.png","-47218_5052bd3b4b3bd.png","-1324875_50e597f5ce78d.png","-47218_5052bcba15fcf.png","-47218_5052bcb6e96d1.png",
+				"-47218_5052bd2a0d49a.png","-47218_5052c10aa0303.png","-47218_5052bcaaacb45.png","-1324875_50e597c090c58.png","-47218_5052c104b8e27.png",
+				"-47218_5052bc587c6f9.png","-47218_5052c1076f119.png","-47218_5052bd2497822.png","-47218_5052bd2fa0790.png","-47218_5052c0f6da079.png",
+				"-47218_5052bc4cc6331.png","-47218_5052bcf37c4c9.png","-1324875_513394fbc54e1.gif","-47218_5052bc4f51be7.png","-47218_5052c1101747c.png",
+				"-47218_5052c10d1f08c.png","-47218_5052bcdd279bc.png","-47218_5052bce27ab4d.png","-47218_5052bd35aec58.png","-47218_5052bcdfd9c69.png",
+				"-47218_5052bc835856c.png","-47218_5052bce4f2963.png","-47218_5052bd330dfad.png","-47218_5052bc7d91913.png","-47218_5052c112b3b1b.png",
+				"-47218_5052bcf0ba2db.png","-47218_5052bc8638067.png","-47218_5052bca55cb6e.png","-47218_5052bc521c04b.png","-47218_5052bca2a2f43.png",
+				"-47218_5052bcad49530.png","-47218_5052bceb823da.png","-47218_5052bc80140e3.png","-47218_5052bcb3b8944.png","-1324875_50d841a63a673.png",
+				"-47218_5052bcf68ddc2.png","-1324875_50e597e9d6319.png","-47218_5052bd27520ef.png","-47218_5052bcbe35760.png","-1324875_50e597f190a11.png"//0-44
+		};
 		
 		s = s.replaceAll(ignoreCaseTag +"\\[l\\]", styleLeft);
 		s = s.replaceAll(ignoreCaseTag +"\\[/l\\]", endDiv);
@@ -180,6 +201,9 @@ public class StringUtil {
 		s = s.replaceAll(ignoreCaseTag +"\\[/u\\]","</u>");
 		
 		s = s.replaceAll(ignoreCaseTag +"\\[s:(\\d+)\\]", "<img src='file:///android_asset/a$1.gif'>");
+		for(int i=0;i<45;i++){
+			s = s.replaceAll(ignoreCaseTag +"\\[s:ac:"+acniangofubbcode[i]+"\\]", "<img src='file:///android_asset/acniang/"+acniangappadd[i]+"'>");
+		}
 		s = s.replace(ignoreCaseTag +"<br/><br/>", "<br/>");
 		//[url][/url]
 		s = s.replaceAll(ignoreCaseTag +"\\[url\\](http[^\\[|\\]]+)\\[/url\\]",
@@ -489,7 +513,7 @@ public class StringUtil {
 			"所有汉字乱码的,把接入点从wap改成net!!!",
 			"178,准时发货,绝不坑爹!",
 			"178,准时坑爹,绝不发货!",
-			"随机色尾巴及彩虹体累计已招致禁言210天次以上,自重!",
+			"彩虹体累计已招致禁言210天次以上,自重!",
 			"寻找NGA客户端开源版更新请在Google Play商店或酷安搜索并安装",
 
 	};
@@ -514,7 +538,7 @@ public class StringUtil {
 	}
 	final static String tips = 	
 					"发现bug后请先更新到最新版本,如果还有问题[@竹井詩織里]/[@cfan8]/[@force0119]\n"
-					+"彩虹发帖模式及发送可见尾巴两个功能累计已招致禁言210天次以上,专供需要自杀的用户!\n"
+					+"彩虹发帖模式功能累计已招致禁言210天次以上,专供需要自杀的用户!\n"
 					+"安卓4.0以上现在可以设置将发帖按钮放置在输入法上方了,独立于菜单按钮\n"
 					+"设置中可选择2G/3G时图片中转压缩,使用新浪SAE处理\n"
 					+"NGA客户端开源版开发团队([@竹井詩織里]/[@cfan8]/[@force0119]/[@那个惩戒骑])再开发,赞美片总\n"

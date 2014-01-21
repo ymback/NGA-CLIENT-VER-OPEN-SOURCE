@@ -98,7 +98,6 @@ public class MainActivity extends BaseListSample
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
-		
 		mMenuDrawer.setOnInterceptMoveEventListener(new MenuDrawer.OnInterceptMoveEventListener() {
             @Override
             public boolean isViewDraggable(View v, int dx, int x, int y) {
@@ -218,13 +217,23 @@ public class MainActivity extends BaseListSample
 
 	@Override
 	 public boolean onKeyDown(int keyCode, KeyEvent event) {
+		int drawerState = mMenuDrawer.getDrawerState();
 			if (keyCode == KeyEvent.KEYCODE_MENU) {
-				   if(mMenuDrawer.getDrawerState()==0){
-					   mMenuDrawer.openMenu();
-				   }else{
-					   mMenuDrawer.closeMenu();
-				   }
+				 if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+					 mMenuDrawer.closeMenu();
+				 }
+				 if (drawerState == MenuDrawer.STATE_CLOSED || drawerState == MenuDrawer.STATE_CLOSING) {
+					 mMenuDrawer.openMenu();
+				 }
 					  return true;
+				  }else if(keyCode == KeyEvent.KEYCODE_BACK){
+					  if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+							 mMenuDrawer.closeMenu();
+							 return true;
+						 }else{
+							 finish();
+							 return true;
+						 }
 				  }  else{
 			      	  return super.onKeyDown(keyCode, event);
 				  }
@@ -278,26 +287,26 @@ public class MainActivity extends BaseListSample
 	 *
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-//		inflater.inflate(R.menu.main_menu, menu);//侧边栏，暂时不用这个了
-
-		final int flags = ThemeManager.ACTION_BAR_FLAG;
-		/*
-		int actionNum = ThemeManager.ACTION_IF_ROOM;//SHOW_AS_ACTION_IF_ROOM
-		int i = 0;
-		for(i = 0;i< menu.size();i++){
-			ReflectionUtil.setShowAsAction(
-					menu.getItem(i), actionNum);
-		}
-		*/
-		//this.getSupportActionBar().setDisplayOptions(flags);
-		ReflectionUtil.actionBar_setmDisplayOption(this, flags);
-		
-
-		return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		MenuInflater inflater = getMenuInflater();
+////		inflater.inflate(R.menu.main_menu, menu);//侧边栏，暂时不用这个了
+//
+//		final int flags = ThemeManager.ACTION_BAR_FLAG;
+//		/*
+//		int actionNum = ThemeManager.ACTION_IF_ROOM;//SHOW_AS_ACTION_IF_ROOM
+//		int i = 0;
+//		for(i = 0;i< menu.size();i++){
+//			ReflectionUtil.setShowAsAction(
+//					menu.getItem(i), actionNum);
+//		}
+//		*/
+//		//this.getSupportActionBar().setDisplayOptions(flags);
+//		ReflectionUtil.actionBar_setmDisplayOption(this, flags);
+//		
+//
+//		return super.onCreateOptionsMenu(menu);
+//	}
 
 
 	/* (non-Javadoc)
@@ -406,7 +415,7 @@ public class MainActivity extends BaseListSample
 
 					Pattern pattern=Pattern.compile("-{0,1}[0-9]*");
 					Matcher match=pattern.matcher(fid);
-					 if(match.matches()==false){
+					 if(match.matches()==false || fid.equals("")){
 						 	addfid_id.setText("");
 							addfid_id.setFocusable(true);
 							Toast.makeText(MainActivity.this, "请输入正确的版面ID(个人版面要加负号)", Toast.LENGTH_SHORT).show();
@@ -445,11 +454,15 @@ public class MainActivity extends BaseListSample
 						  if(!FidAllreadyExist){
 							  addToaddFid(name,fid);
 							  pager.getAdapter().notifyDataSetChanged();
-							  //add menu item
-							  if(boardInfo.getCategoryCount()==12){
-									setLocItem(15,"用户自定义");
-								}
-							  else{setLocItem(16,"用户自定义");}
+//							  //add menu item
+//							  if(!isBoardExist("用户自定义")){
+//								  if(boardInfo.getCategoryCount()==12){
+//										setLocItem(15,"用户自定义");
+//									}
+//								  else{
+//									  setLocItem(16,"用户自定义");
+//									  }
+//								  }
 							  Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
 						 try  
 		    		        {  
@@ -482,6 +495,15 @@ public class MainActivity extends BaseListSample
 		
 		return alert.show();
 	}
+//	private boolean isBoardExist(String boardname){
+//		 for(int i =0; i < boardInfo.getCategoryCount(); i++){
+//			 //System.out.println(boardname+boardInfo.getCategoryName(i));
+//			 if(boardname.equals(boardInfo.getCategoryName(i))){
+//				 return true;
+//			 }
+//		 }
+//			return false;
+//	}
 	private void addToaddFid(String Name,String Fid) {
 		boolean addFidAlreadExist = false;
 		BoardCategory addFid = null;
@@ -501,6 +523,13 @@ public class MainActivity extends BaseListSample
 			boardList.add(b);
 			saveaddFid(boardList);
 			boardInfo = loadDefaultBoard();
+			//add menu item
+			if(boardInfo.getCategoryCount()==12){
+				setLocItem(15,"用户自定义");
+			}
+			else{
+				setLocItem(16,"用户自定义");
+				}
 			return;
 		}else{// 有了
 			Board b =new Board(i, Fid, Name, R.drawable.pdefault);
@@ -531,25 +560,28 @@ public class MainActivity extends BaseListSample
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.mainmenu_login:
-			this.jumpToLogin();
-			break;
-		case R.id.mainmenu_setting:
-			this.jumpToSetting();
-			break;
-		case R.id.mainmenu_exit:
-			//case android.R.id.home: //this is a system id
-			//this.finish();
-			jumpToNearby();
-			break;
-		case R.id.add_fid:
-			add_fid_dialog();
-			break;
+//		case R.id.mainmenu_login:
+//			this.jumpToLogin();
+//			break;
+//		case R.id.mainmenu_setting:
+//			this.jumpToSetting();
+//			break;
+//		case R.id.mainmenu_exit:
+//			//case android.R.id.home: //this is a system id
+//			//this.finish();
+//			jumpToNearby();
+//			break;
+//		case R.id.add_fid:
+//			add_fid_dialog();
+//			break;
 		default:
-			/*Intent MyIntent = new Intent(Intent.ACTION_MAIN);
-			MyIntent.addCategory(Intent.CATEGORY_HOME);
-			startActivity(MyIntent);*/
-			finish();
+			 final int drawerState = mMenuDrawer.getDrawerState();
+			 if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+				 mMenuDrawer.closeMenu();
+			 }
+			 if (drawerState == MenuDrawer.STATE_CLOSED || drawerState == MenuDrawer.STATE_CLOSING) {
+				 mMenuDrawer.openMenu();
+			 }
 			break;
 
 		}
