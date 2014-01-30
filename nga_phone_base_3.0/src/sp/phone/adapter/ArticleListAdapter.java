@@ -654,6 +654,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 				view = LayoutInflater.from(activity).inflate(
 						R.layout.relative_aritclelist, parent, false);
+				WebView webView = (WebView) view.findViewById(R.id.content);
+				webView.setHorizontalScrollBarEnabled(false);
 				holder = initHolder(view);
 				holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
 				holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
@@ -674,6 +676,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 					view = LayoutInflater.from(activity).inflate(
 							R.layout.relative_aritclelist, parent, false);
+					WebView webView = (WebView) view.findViewById(R.id.content);
+					webView.setHorizontalScrollBarEnabled(false);
 					holder = initHolder(view);
 					view.setTag(holder);
 
