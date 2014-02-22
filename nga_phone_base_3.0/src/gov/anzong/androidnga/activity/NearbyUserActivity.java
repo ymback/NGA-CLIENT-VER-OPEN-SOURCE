@@ -79,12 +79,7 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 	    SharedPreferences share = getSharedPreferences(
 				PERFERENCE, MODE_PRIVATE);
 		String userName = share.getString(USER_NAME, "");
-		try {
-			userName = URLEncoder.encode(userName,"utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		userName =StringUtil.encodeUrl(userName,"utf-8");
 		if(location == null)
 		{
 			//Toast.makeText(this, R.string.fail_to_locate, Toast.LENGTH_SHORT).show();

@@ -162,7 +162,7 @@ public class ArticleListWebClient extends WebViewClient {
 		try{
 			
 			String imgUri = "https://" + ips[0]+"/?url="
-					+ URLEncoder.encode(url, "utf-8");
+					+StringUtil.encodeUrl(url, "utf-8");
 			URL imUrl = new URL(imgUri);
 			HttpURLConnection conn = (HttpURLConnection) imUrl.openConnection();
 			conn.setConnectTimeout(3000);

@@ -205,12 +205,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 			return "";
 		}
 		String encodedName = "";
-		try {
-			encodedName = URLEncoder.encode(row.getAuthor(), "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		encodedName =StringUtil.encodeUrl(row.getAuthor(),"utf-8");
 		long distance = ActivityUtil.distanceBetween(config.location, locs[0],
 				locs[1]);
 		StringBuilder sb = new StringBuilder();
@@ -654,6 +649,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 				view = LayoutInflater.from(activity).inflate(
 						R.layout.relative_aritclelist, parent, false);
+				WebView webView = (WebView) view.findViewById(R.id.content);
+				webView.setHorizontalScrollBarEnabled(false);
 				holder = initHolder(view);
 				holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
 				holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
@@ -674,6 +671,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 					view = LayoutInflater.from(activity).inflate(
 							R.layout.relative_aritclelist, parent, false);
+					WebView webView = (WebView) view.findViewById(R.id.content);
+					webView.setHorizontalScrollBarEnabled(false);
 					holder = initHolder(view);
 					view.setTag(holder);
 

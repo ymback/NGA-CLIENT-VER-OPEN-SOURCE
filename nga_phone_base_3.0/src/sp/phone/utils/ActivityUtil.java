@@ -1,6 +1,8 @@
 package sp.phone.utils;
 
-
+import sp.phone.proxy.DummyFullScreenProxy;
+import sp.phone.proxy.FullScreenProxy;
+import sp.phone.proxy.V19FullScreenProxy;
 import sp.phone.bean.BoardHolder;
 import gov.anzong.androidnga.R;
 import android.app.Dialog;
@@ -11,12 +13,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Build;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 public class ActivityUtil {
@@ -57,7 +61,9 @@ public class ActivityUtil {
 	public static boolean isMeizu(){
 		return "Meizu".equalsIgnoreCase(android.os.Build.MANUFACTURER);
 	}
-	
+	public static boolean isLessThan_4_4(){
+        return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
+    }
 	static ActivityUtil instance;
 	static final String TAG = ActivityUtil.class.getSimpleName();
 	public static final String dialogTag = "saying"; 
@@ -70,8 +76,17 @@ public class ActivityUtil {
 		
 	}
 	private ActivityUtil(){
-		
+		if(isLessThan_4_4())
+            fullScreenProxy  = new DummyFullScreenProxy();
+        else
+            fullScreenProxy = new V19FullScreenProxy();
 	}
+	private final FullScreenProxy fullScreenProxy;
+
+    public  void setFullScreen(View v)
+    {
+        fullScreenProxy.setFullScreen(v);
+    }
 	
 	public static void reflushLocation(Context context){
 		Criteria criteria = new Criteria(); 

@@ -58,12 +58,7 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 		StringBuilder sb = new StringBuilder();
 		sb.append("info=");
 
-		try {
-			sb.append( URLEncoder.encode(comment,"GBK"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sb.append(StringUtil.encodeUrl(comment,"GBK"));
 		
 		sb.append("&tid=");
 		sb.append(tid);

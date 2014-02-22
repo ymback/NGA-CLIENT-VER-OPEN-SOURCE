@@ -443,6 +443,9 @@ public class ArticleListFragment extends Fragment
 		case R.id.signature_dialog:
 			Create_Signature_Dialog(row);
 			break;
+		case R.id.avatar_dialog:
+			Create_Avatar_Dialog(row);
+			break;
 		case R.id.edit :
 			if(isComment(row)){
 				Toast.makeText(getActivity(), R.string.cannot_eidt_comment, Toast.LENGTH_SHORT).show();
@@ -599,6 +602,54 @@ public class ArticleListFragment extends Fragment
 		return alert.show();
 	}
 
+	
+	private AlertDialog Create_Avatar_Dialog(ThreadRowInfo row) {
+		// TODO Auto-generated method stub
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
+	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
+	    String name = row.getAuthor();
+	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
+	    alert.setView(view);  
+		alert.setTitle(name+"的头像");
+		//COLOR
+
+		ThemeManager theme = ThemeManager.getInstance();
+		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
+		int fgColor = getResources().getColor(theme.getForegroundColor());
+		bgColor = bgColor & 0xffffff;
+		final String bgcolorStr = String.format("%06x",bgColor);
+		
+		int htmlfgColor = fgColor & 0xffffff;
+		final String fgColorStr = String.format("%06x",htmlfgColor);
+		
+		
+	    WebViewClient client = new ArticleListWebClient(getActivity());
+		WebView contentTV = (WebView) view.findViewById(R.id.signature);
+		contentTV.setBackgroundColor(0);
+		contentTV.setFocusableInTouchMode(false);
+		contentTV.setFocusable(false);
+		if (ActivityUtil.isGreaterThan_2_2()) {
+			contentTV.setLongClickable(false);
+		}
+		WebSettings setting = contentTV.getSettings();
+		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+				.getWebSize());
+		setting.setJavaScriptEnabled(false);
+		contentTV.setWebViewClient(client);
+		contentTV.loadDataWithBaseURL(null, avatarToHtmlText(row,true,ArticleUtil.showImageQuality(),fgColorStr,bgcolorStr),
+				"text/html", "utf-8", null);
+		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+			
+		});
+		return alert.show();
+	}
+	
 	public String signatureToHtmlText(final ThreadRowInfo row,
 			boolean showImage, int imageQuality, final String fgColorStr,
 			final String bgcolorStr) {
@@ -627,6 +678,39 @@ public class ArticleListFragment extends Fragment
 		return ngaHtml;
 	}
 	
+	public String avatarToHtmlText(final ThreadRowInfo row,
+			boolean showImage, int imageQuality, final String fgColorStr,
+			final String bgcolorStr) {
+		HashSet<String> imageURLSet = new HashSet<String>();
+		String ngaHtml = null;
+		if(row.getJs_escap_avatar().equals("")){
+			 ngaHtml = StringUtil.decodeForumTag("这家伙是骷髅党,头像什么的没有啦~<br><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >", showImage,
+					imageQuality, imageURLSet);
+		}else{
+			 ngaHtml = StringUtil.decodeForumTag("[img]"+row.getJs_escap_avatar()+"[/img]", showImage,
+					imageQuality, imageURLSet);
+		}
+		if (imageURLSet.size() == 0) {
+			imageURLSet = null;
+		}
+		if (StringUtil.isEmpty(ngaHtml)) {
+			ngaHtml = row.getAlterinfo();
+		}
+		if (StringUtil.isEmpty(ngaHtml)) {
+			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide) + "]</font>";
+		}
+		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
+				+ "<body bgcolor= '#"
+				+ bgcolorStr
+				+ "'>"
+				+ "<font color='#"
+				+ fgColorStr
+				+ "' size='2'>"
+				+ ngaHtml
+				+ "</font></body>";
+
+		return ngaHtml;
+	}
 	
 	private AlertDialog  CopyDialog(String content) {
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  

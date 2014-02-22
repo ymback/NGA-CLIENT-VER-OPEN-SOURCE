@@ -50,6 +50,7 @@
     <string name="quote_subject">喷之</string>
     <string name="copy_to_clipboard">复制</string>
     <string name="signature_dialog">查看签名</string>
+    <string name="avatar_dialog">查看头像</string>
     <string name="show_this_person_only">只看此人</string>
     <string name="edit">编辑</string>
     <string name="show_whole_thread">显示全部</string>
@@ -93,6 +94,7 @@
     <string name="split">菜单按钮在下面(4.0以上)</string>
     <string name="replysplit">发帖按钮在下面(4.0以上)</string>
     <string name="ha">硬件加速(4.0以上)</string>
+    <string name="fullscreenmode">全屏模式(4.4以上)</string>
     <string name="addreplybutton">发帖页面显示回复按钮</string>
     <string name="report">举报</string>
     <string name="reportdialog_description">不要仅仅因为意见不同而举报</string>

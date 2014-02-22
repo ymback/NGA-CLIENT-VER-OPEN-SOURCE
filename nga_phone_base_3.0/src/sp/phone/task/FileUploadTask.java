@@ -124,11 +124,7 @@ AsyncTask<String, Integer, String> {
 			if(end == -1)
 				break;
 			String attachments = result.substring(start, end);
-			try {
-				attachments = URLEncoder.encode(attachments ,"utf-8");
-			} catch (UnsupportedEncodingException e1) {
-				Log.e(TAG, "invalid attachments string" + attachments);
-			}
+			attachments =StringUtil.encodeUrl(attachments ,"utf-8");
 			
 			start = result.indexOf(attachmentsCheckStartFlag,start);
 			if(start == -1)
@@ -138,12 +134,7 @@ AsyncTask<String, Integer, String> {
 			if(end == -1)
 				break;
 			String attachmentsCheck = result.substring(start, end);
-			try {
-				attachmentsCheck = URLEncoder.encode(attachmentsCheck,"utf-8");
-			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "invalid attachmentsCheck string" + attachmentsCheck);
-				break;
-			}
+			attachmentsCheck =StringUtil.encodeUrl(attachmentsCheck,"utf-8");
 			
 			start = result.indexOf(picUrlStartTag,start);
 			if(start == -1)

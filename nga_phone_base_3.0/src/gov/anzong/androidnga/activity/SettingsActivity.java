@@ -19,6 +19,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -56,7 +57,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton split = null;
 	private CompoundButton replysplit = null;
 	private CompoundButton ha = null;
-
+	private CompoundButton fullscreen = null;
+	
 	private RelativeLayout handsideQualityChooser;
 	
 	private Button button_clear_recent_board;
@@ -244,6 +246,10 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			ha.setOnCheckedChangeListener(new HaChangedListener());
 		}
 
+		fullscreen = (CompoundButton) findViewById(R.id.checkBox_fullscreen);
+		fullscreen.setChecked(config.fullscreen);
+		fullscreen.setOnCheckedChangeListener(new fullscreenListener());
+		
 		fontTextView = (TextView) findViewById(R.id.textView_font_size);
 		defaultFontSize = fontTextView.getTextSize();
 
@@ -282,6 +288,15 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		avatarSeekBar.setOnSeekBarChangeListener(new AvatarSizeListener());
 		if(!split.isChecked()&&!replysplit.isChecked()){
 			handsideQualityChooser.setVisibility(View.GONE);
+		}
+		if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){//less than 4.0
+			handsideQualityChooser.setVisibility(View.GONE);
+			split.setVisibility(View.GONE);
+			replysplit.setVisibility(View.GONE);
+			ha.setVisibility(View.GONE);
+		}
+		if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){//less than 4.4
+			fullscreen.setVisibility(View.GONE);
 		}
 		updateThemeUI();
 	}
@@ -324,6 +339,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		int fgColor = getResources().getColor(
 				ThemeManager.getInstance().getForegroundColor());
 		checkBoxDownimgNowifi.setTextColor(fgColor);
+		fullscreen.setTextColor(fgColor);
 		checkBoxDownAvatarNowifi.setTextColor(fgColor);
 		nightMode.setTextColor(fgColor);
 		showAnimation.setTextColor(fgColor);
@@ -606,6 +622,23 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		}
 	}
 
+	class fullscreenListener implements OnCheckedChangeListener,
+	PerferenceConstant {
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+		boolean isChecked) {
+			PhoneConfiguration.getInstance().fullscreen = isChecked;
+			SharedPreferences share = getSharedPreferences(PERFERENCE,
+			MODE_PRIVATE);
+
+			Editor editor = share.edit();
+			editor.putBoolean(FULLSCREENMODE, isChecked);
+			editor.commit();
+
+		}
+	}
+	
 	class DownImgNoWifiChangedListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 

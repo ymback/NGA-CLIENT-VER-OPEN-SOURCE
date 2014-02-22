@@ -2,6 +2,7 @@ package sp.phone.fragment;
 
 import java.util.List;
 
+import sp.phone.utils.ActivityUtil;
 import sp.phone.adapter.PendingReplyAdapter;
 import sp.phone.bean.NotificationObject;
 import sp.phone.bean.PerferenceConstant;
@@ -68,5 +69,12 @@ implements PerferenceConstant{
 			
 		});
 	}
-
+	
+	@Override
+    public void onResume() {
+		if(PhoneConfiguration.getInstance().fullscreen){
+        ActivityUtil.getInstance().setFullScreen(lv);
+        }
+		super.onResume();
+    }
 }

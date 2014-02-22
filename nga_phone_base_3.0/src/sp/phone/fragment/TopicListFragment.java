@@ -119,12 +119,7 @@ public class TopicListFragment extends Fragment
 			if(favor !=0)
 				jsonUri +="favor=" + favor + "&";
 			if(!StringUtil.isEmpty(key)){
-				try {
-					jsonUri += "key=" + URLEncoder.encode(key, "GBK") + "&";
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				jsonUri += "key=" +StringUtil.encodeUrl(key, "GBK") + "&";
 			}
 			
 			jsonUri += "page="+ page + "&lite=js&noprefix";

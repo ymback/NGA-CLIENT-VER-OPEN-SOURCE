@@ -231,6 +231,10 @@ OnChildFragmentRemovedListener,PullToRefreshAttacherOnwer, OnItemLongClickListen
 			asynTask = new CheckReplyNotificationTask(this);
 			asynTask.execute(config.getCookie());
 		}
+		View view = findViewById(R.id.item_list);
+		if(PhoneConfiguration.getInstance().fullscreen){
+	    ActivityUtil.getInstance().setFullScreen(view);
+	    }
 		super.onResume();
 	}
 	

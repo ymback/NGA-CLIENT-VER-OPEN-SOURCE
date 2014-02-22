@@ -841,6 +841,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				temp.execute();
 			}
 		}
+		bodyText.requestFocus();
 		super.onResume();
 	}
 
@@ -924,6 +925,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				act.setPost_content_(ColorTxtCheck() + buildSig());
 			else
 				act.setPost_content_(ColorTxtCheck());
+			Log.i("test",act.toString());
 			new ArticlePostTask(PostActivity.this).execute(url,act.toString());}
 
 			

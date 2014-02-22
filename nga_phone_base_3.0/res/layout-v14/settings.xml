@@ -166,6 +166,13 @@
             android:text="@string/ha" />
 
         <Switch
+            android:id="@+id/checkBox_fullscreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/fullscreenmode" />
+        
+        <Switch
             android:id="@+id/checkBox_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

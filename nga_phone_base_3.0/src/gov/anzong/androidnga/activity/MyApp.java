@@ -28,7 +28,7 @@ import com.alibaba.fastjson.JSON;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 617;
+	public final static int version = 620;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "×î½ü·ÃÎÊ";
@@ -406,6 +406,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		config.showLajibankuai = share.getBoolean(SHOW_LAJIBANKUAI,true);
 		config.imageQuality = share.getInt(DOWNLOAD_IMG_QUALITY_NO_WIFI, 0);
 		config.HandSide = share.getInt(HANDSIDE, 0);
+		config.fullscreen = share.getBoolean(FULLSCREENMODE, false);
 
 		//font
 		final float defTextSize = 21.0f;//new TextView(this).getTextSize();

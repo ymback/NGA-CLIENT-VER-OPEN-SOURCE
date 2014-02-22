@@ -49,6 +49,7 @@ public class PhoneConfiguration implements PerferenceConstant{
     public boolean showNewweiba  = false;
     public boolean showLajibankuai  = true;
 	private int uiFlag = 0;
+    public boolean fullscreen  = false;
 
 
 	public Class<?> topicActivityClass = FlexibleTopicListActivity.class;

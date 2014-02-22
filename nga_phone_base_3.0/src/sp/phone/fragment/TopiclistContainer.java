@@ -239,12 +239,7 @@ implements OnTopListLoadFinishedListener,NextJsonTopicListLoader {
 			if( 0 != fid)
 				jsonUri +="fid=" + fid + "&";
 			if(!StringUtil.isEmpty(key)){
-				try {
-					jsonUri += "key=" + URLEncoder.encode(key, "GBK") + "&";
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				jsonUri += "key=" +StringUtil.encodeUrl(key, "GBK") + "&";
 		}}
 		if(table!=null && !table.equals("")){
 			if(isend){
