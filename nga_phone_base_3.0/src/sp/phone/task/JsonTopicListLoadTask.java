@@ -224,11 +224,9 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 		{
 			ActivityUtil.getInstance().noticeError
 			(error, context);
-			return;
 		}
 		if(null != notifier)
 			notifier.jsonfinishLoad(result);
-		super.onPostExecute(result);
 	}
 	@Override
 	protected void onCancelled() {
