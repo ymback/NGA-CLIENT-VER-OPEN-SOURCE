@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class StringUtil {
 	public final static String key = "asdfasdf";
-	private final static String HOST = "http://bbs.ngacn.cc/";
+	private final static String HOST = "http://nga.178.com/";
 	private static final String lesserNukeStyle = "<div style='border:1px solid #B63F32;margin:10px 10px 10px 10px;padding:10px' > <span style='color:#EE8A9E'>用户因此贴被暂时禁言，此效果不会累加</span><br/>";
 	private static final String styleAlignRight = "<div style='text-align:right' >";
 	private static final String styleAlignLeft = "<div style='text-align:left' >";
@@ -271,16 +271,16 @@ public class StringUtil {
 				"<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
 			
 			//s = s.replaceAll(ignoreCaseTag +"\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]", 
-			//		"<a href='http://img.ngacn.cc/attachments$1'><img src='http://img.ngacn.cc/attachments$1' style= 'max-width:100%' ></a>");
+			//		"<a href='http://img.nga.178.com/attachments$1'><img src='http://img.nga.178.com/attachments$1' style= 'max-width:100%' ></a>");
 			//s = s.replaceAll(ignoreCaseTag +"\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]", 
 			//		"<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
 		/*}else{
 			s = s.replaceAll("\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]", 
-					"<a href='http://img.ngacn.cc/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
+					"<a href='http://img.nga.178.com/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
 			s = s.replaceAll("\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]", 
 					"<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
 			s = s.replaceAll("\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]", 
-					"<a href='http://img.ngacn.cc/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
+					"<a href='http://img.nga.178.com/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
 			s = s.replaceAll("\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]", 
 					"<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
 			
@@ -533,7 +533,7 @@ public class StringUtil {
 	};
 
 	public static int getNowPageNum(String link) {
-		// link: http://bbs.ngacn.cc/thread.php?fid=7&page=1&rss=1&OOXX=
+		// link: http://nga.178.com/thread.php?fid=7&page=1&rss=1&OOXX=
 		int ret = 1;
 		if (link.indexOf("\n") != -1) {
 			link = link.substring(0, link.length() - 1);

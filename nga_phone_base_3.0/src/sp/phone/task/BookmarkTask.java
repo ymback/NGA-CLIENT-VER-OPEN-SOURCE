@@ -20,7 +20,7 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
 	//String url = "http://bbs.ngacn.cc/nuke.php?func=topicfavor&action=del";
 	//post tidarray:3092111
 	private Context context;
-	private final String url = "http://bbs.ngacn.cc/nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=add&tid=";
+	private final String url = "http://nga.178.com/nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=add&tid=";
 	
 	
 	

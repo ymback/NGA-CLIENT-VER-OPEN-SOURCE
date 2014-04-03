@@ -427,7 +427,7 @@ PerferenceConstant{
 	public String getUrl(){
 		final String scheme = getResources().getString(R.string.myscheme);
 		final StringBuilder sb = new StringBuilder(scheme);
-		sb.append("://bbs.ngacn.cc/read.php?");
+		sb.append("://nga.178.com/read.php?");
 		if(tid!=0){
 			sb.append("tid=");
 			sb.append(tid);

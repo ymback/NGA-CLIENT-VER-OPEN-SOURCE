@@ -21,9 +21,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class ArticleListWebClient extends WebViewClient {
-	static private final String NGACN_BOARD_PREFIX ="http://bbs.ngacn.cc/thread.php?"; 
+	static private final String NGACN_BOARD_PREFIX ="http://nga.178.com/thread.php?"; 
 	static private final String NGA178_BOARD_PREFIX ="http://nga.178.com/thread.php?"; 
-	static private final String NGACN_THREAD_PREFIX ="http://bbs.ngacn.cc/read.php?"; 
+	static private final String NGACN_THREAD_PREFIX ="http://nga.178.com/read.php?"; 
 	static private final String NGA178_THREAD_PREFIX ="http://nga.178.com/read.php?"; 
 	static private final String YOUKU_END= "/v.swf";
 	static private final String YOUKU_START = "http://player.youku.com/player.php/sid/";

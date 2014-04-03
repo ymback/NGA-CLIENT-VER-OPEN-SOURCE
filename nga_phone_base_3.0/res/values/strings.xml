@@ -45,7 +45,7 @@
     <string name="use_view_cache">启用楼层缓存</string>
     <string name="view_cache_tips">开启楼层缓存可以防止楼层滚动的时候遇到长帖子时跳动的问题，但是会占用更多的内存，如果体验不佳，请关闭这个选项</string>
     <string name="myscheme">ngacn</string>
-    <string name="myhost">bbs.ngacn.cc</string>
+    <string name="myhost">nga.178.com</string>
     <string name="post_comment">贴条</string>
     <string name="quote_subject">喷之</string>
     <string name="copy_to_clipboard">复制</string>

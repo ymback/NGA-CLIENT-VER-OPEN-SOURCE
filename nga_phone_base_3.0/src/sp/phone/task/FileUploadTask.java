@@ -250,7 +250,7 @@ AsyncTask<String, Integer, String> {
                 "attachment_file1_img","origin_domain",
                 "lite"};
         final String values[] = {"1","","",filename,"-7","upload",
-                "1","bbs.ngacn.cc","js"
+                "1","nga.178.com","js"
         };
 
         for(int i=0; i< keys.length; ++i)

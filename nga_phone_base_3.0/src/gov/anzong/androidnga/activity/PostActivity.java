@@ -107,7 +107,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 	//private ImageButton button_emotion;
 	Object commit_lock = new Object();
 	private Spinner userList;
-	private String REPLY_URL="http://bbs.ngacn.cc/post.php?";
+	private String REPLY_URL="http://nga.178.com/post.php?";
 	final int REQUEST_CODE_SELECT_PIC = 1;
 
 	private boolean loading;

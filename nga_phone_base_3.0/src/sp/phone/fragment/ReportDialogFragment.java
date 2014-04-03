@@ -31,7 +31,7 @@ public class ReportDialogFragment extends DialogFragment {
 			public void onClick(DialogInterface arg0, int arg1) {
 				int tid = getArguments().getInt("tid", 0);
 				int pid = getArguments().getInt("pid", 0);
-				String url="http://bbs.ngacn.cc/nuke.php?func=logpost&tid="
+				String url="http://nga.178.com/nuke.php?func=logpost&tid="
 						+ tid + "&pid="+ pid
 						+"&log";
 				ReportTask task= new ReportTask(getActivity());

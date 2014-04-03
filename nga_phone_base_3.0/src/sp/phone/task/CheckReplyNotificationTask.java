@@ -32,7 +32,7 @@ import com.alibaba.fastjson.JSON;
 public class CheckReplyNotificationTask extends
 		AsyncTask<String, Integer, String> 
 implements PerferenceConstant{
-	final String url = "http://bbs.ngacn.cc/nuke.php?func=noti&__notpl&__nodb&__nolib";
+	final String url = "http://nga.178.com/nuke.php?func=noti&__notpl&__nodb&__nolib";
 	final Context context;
 	
 	public CheckReplyNotificationTask(Context context){

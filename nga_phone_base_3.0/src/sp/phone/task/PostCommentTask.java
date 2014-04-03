@@ -18,7 +18,7 @@ import android.widget.Toast;
 public class PostCommentTask extends AsyncTask<String, Integer, String> {
 	private final int pid;
 	private final int tid;
-	private static final String postCommentUri = "http://bbs.ngacn.cc/nuke.php?func=comment";
+	private static final String postCommentUri = "http://nga.178.com/nuke.php?func=comment";
 	final private FragmentActivity fragmentActivity;
 	public PostCommentTask(int pid, int tid, FragmentActivity fragmentActivity) {
 

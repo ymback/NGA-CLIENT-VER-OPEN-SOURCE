@@ -42,9 +42,9 @@ public class HttpUtil {
 
 	public static  final String PATH_ZIP = "";
 
-	public static String Server = "http://bbs.ngacn.cc";
-	public static final String NGA_ATTACHMENT_HOST = "img6.ngacn.cc";
-	private static final String servers[] = {"http://bbs.ngacn.cc","http://bbs.ngacn.cc"};
+	public static String Server = "http://nga.178.com";
+	public static final String NGA_ATTACHMENT_HOST = "img6.nga.178.com";
+	private static final String servers[] = {"http://nga.178.com","http://nga.178.com"};
 	private static final String TAG = HttpUtil.class.getSimpleName();
 	/*private static String[] host_arr = { "http://aa121077313.gicp.net:8099",
 			"http://aa121077313.gicp.net:8098", "http://10.0.2.2:8099",

@@ -392,6 +392,7 @@ public class ArticleListFragment extends Fragment
 		String content = row.getContent();
 		String signature = row.getSignature();
 		final String name = row.getAuthor();
+		boolean isanonymous=row.getISANONYMOUS();
 		String mention=null;
 		Intent intent = new Intent();
 		switch(item.getItemId())
@@ -441,10 +442,18 @@ public class ArticleListFragment extends Fragment
 			break;
 			
 		case R.id.signature_dialog:
-			Create_Signature_Dialog(row);
+			if(isanonymous){
+				errordialog();
+			}else{
+				Create_Signature_Dialog(row);
+			}
 			break;
 		case R.id.avatar_dialog:
-			Create_Avatar_Dialog(row);
+			if(isanonymous){
+				errordialog();
+			}else{
+				Create_Avatar_Dialog(row);
+			}
 			break;
 		case R.id.edit :
 			if(isComment(row)){
@@ -536,7 +545,7 @@ public class ArticleListFragment extends Fragment
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
-			String shareUrl = "http://bbs.ngacn.cc/read.php?";
+			String shareUrl = "http://nga.178.com/read.php?";
 			if(row.getPid() != 0){
 				shareUrl = shareUrl + "pid="+row.getPid();
 			}
@@ -553,6 +562,21 @@ public class ArticleListFragment extends Fragment
 			
 		}
 		return true;
+	}
+	private AlertDialog errordialog(){
+		 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setMessage("这白痴匿名了,神马都看不到");
+		builder.setTitle("看不到");
+		builder.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+			
+		});
+		return builder.show();
 	}
 	private AlertDialog Create_Signature_Dialog(ThreadRowInfo row) {
 		// TODO Auto-generated method stub

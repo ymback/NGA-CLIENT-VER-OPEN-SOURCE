@@ -77,7 +77,7 @@ public class ArticleUtil {
 					url = url.substring(url.indexOf("<a id='pid") + "<a id='pid".length());
 					url = url.substring(0,url.indexOf("Anchor'></a>"));
 					if(! "0".equals(url))
-						url = "bbs.ngacn.cc/read.php?pid="+url;
+						url = "nga.178.com/read.php?pid="+url;
 					
 					article.setUrl(url);
 					//String floor = td0.getChild(1).getChildren().toNodeArray()[0].getText();
@@ -345,7 +345,28 @@ public class ArticleUtil {
 		if(userInfo == null){
 			return;
 		}
-		row.setAuthor(userInfo.getString("username"));
+		String t1="¼×ÒÒ±û¶¡Îì¼º¸ıĞÁÈÉ¹ï×Ó³óÒúÃ®³½ËÈÎçÎ´ÉêÓÏĞçº¥";
+		String t2="ÍõÀîÕÅÁõ³ÂÑî»ÆÎâÕÔÖÜĞìËïÂíÖìºúÁÖ¹ùºÎ¸ßÂŞÖ£ÁºĞ»ËÎÌÆĞíµË·ëº«²ÜÔøÅíÏô²ÌÅËÌï¶­Ô¬ÓÚÓàÒ¶½¯¶ÅËÕÎº³ÌÂÀ¶¡ÉòÈÎÒ¦Â¬¸µÖÓ½ª´ŞÌ·ÁÎ·¶ÍôÂ½½ğÊ¯´÷¼ÖÎ¤ÏÄÇñ·½ºî×ŞĞÜÃÏÇØ°×½­ÑÖÑ¦Òü¶ÎÀ×ÀèÊ·ÁúÌÕºØ¹ËÃ«ºÂ¹¨ÉÛÍòÇ®ÑÏÀµñûºéÎäÄª¿×ÌÀÏò³£ÎÂ¿µÊ©ÎÄÅ£·®¸ğĞÏ°²ÆëÒ×ÇÇÎéÅÓÑÕÄß×¯ÄôÕÂÂ³ÔÀµÔÒóÕ²ÉêÅ·¹¢¹ØÀ¼½¹Óá×óÁø¸Ê×£°üÄşÉĞ·ûÊæÈî¿Â¼ÍÃ·Í¯Áè±Ïµ¥¼¾Åá»ôÍ¿³ÉÃç¹ÈÊ¢ÇúÎÌÈ½ÂæÀ¶Â·ÓÎĞÁ½ù¹Ü²ñÃÉ±«»ªÓ÷ÆîÆÑ·¿ëøÇüÈÄ½âÄ²°¬ÓÈÑôÊ±ÄÂÅ©Ë¾×¿¹Å¼ªçÑ¼ò³µÏîÁ¬Â«ÂóñÒÂ¦ñ¼Æİá¯¾°µ³¹¬·Ñ²·ÀäêÌÏ¯ÎÀÃ×°Ø×ÚöÄ¹ğÈ«Ù¡Ó¦ê°ãÉ¹¶Úù±ß±å¼§Ê¦ºÍ³ğèïËåÉÌµóÉ³ÈÙÎ×¿ÜÉ£ÀÉÕç´ÔÖÙÓİ°½¹®Ã÷ÙÜ³Ø²éÂéÔ·³ÙÚ÷ ";
+		if(userInfo.getString("username").length()==38 && userInfo.getString("username").startsWith("anony_")){
+				StringBuilder sb = new StringBuilder();
+				String aname=userInfo.getString("username");
+				int i=6;
+				for(int j=0;j<6;j++){
+					int pos = 0;
+					if(j==0||j==3){
+						pos=Integer.valueOf(aname.substring(i+1,i+2),16);
+						sb.append(t1.charAt(pos));
+					}else if(j<6)
+					{
+						pos=Integer.valueOf(aname.substring(i,i+2),16);
+						sb.append(t2.charAt(pos));
+					}i+=2;
+				}	
+				row.setAuthor(sb.toString());
+				row.setISANONYMOUS(true);
+		}else{
+			row.setAuthor(userInfo.getString("username"));
+		}
 		row.setJs_escap_avatar(userInfo.getString("avatar"));
 		row.setYz(userInfo.getString("yz"));
 		row.setMute_time(userInfo.getString("mute_time"));

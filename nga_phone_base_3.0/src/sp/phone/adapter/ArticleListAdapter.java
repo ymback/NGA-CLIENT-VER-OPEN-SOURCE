@@ -787,7 +787,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 					&& imageURLSet.contains(entry.getValue().getAttachurl())) {
 				continue;
 			}
-			// String url = "http://img.ngacn.cc/attachments/" +
+			// String url = "http://img.nga.178.com/attachments/" +
 			// entry.getValue().getAttachurl();
 			ret.append("<tr><td><a href='http://"
 					+ HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/");

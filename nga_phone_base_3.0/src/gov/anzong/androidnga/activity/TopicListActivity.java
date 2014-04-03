@@ -334,7 +334,7 @@ class TopicListActivity extends SwipeBackAppCompatActivity
 	public String getUrl() {
 		final String scheme = getResources().getString(R.string.myscheme);
 		final StringBuilder sb = new StringBuilder(scheme);
-		sb.append("://bbs.ngacn.cc/thread.php?");
+		sb.append("://nga.178.com/thread.php?");
 		if(fid!=0){
 			sb.append("fid=");
 			sb.append(fid);
