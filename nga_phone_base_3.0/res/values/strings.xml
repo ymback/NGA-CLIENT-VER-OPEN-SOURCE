@@ -62,6 +62,8 @@
     <string name="copy_hint">复制需要的内容</string>
     <string name="click_to_delete">点击删除</string>
     <string name="load_tudou_video">载入土豆视频中</string>
+    <string name="load_56_video">载入56视频中</string>
+    <string name="load_sohu_video">载入搜狐视频中</string>
     <string name="save">保存</string>
     <string name="image_saved">图片已经保存在</string>
     <string name="invalid_url">链接不合法</string>

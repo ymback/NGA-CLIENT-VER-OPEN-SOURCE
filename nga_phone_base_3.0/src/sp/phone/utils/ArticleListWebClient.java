@@ -1,6 +1,7 @@
 package sp.phone.utils;
 
 import gov.anzong.androidnga.activity.ImageViewerActivity;
+import gov.anzong.androidnga.activity.MediaPlayer;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -8,6 +9,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Locale;
 
+import sp.phone.task.FiveSixVideoLoadTask;
+import sp.phone.task.SohuVideoLoadTask;
 import sp.phone.task.TudouVideoLoadTask;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,23 +18,40 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class ArticleListWebClient extends WebViewClient {
-	static private final String NGACN_BOARD_PREFIX ="http://nga.178.com/thread.php?"; 
+	static private final String NGACN_BOARD_PREFIX ="http://bbs.ngacn.cc/thread.php?"; 
 	static private final String NGA178_BOARD_PREFIX ="http://nga.178.com/thread.php?"; 
-	static private final String NGACN_THREAD_PREFIX ="http://nga.178.com/read.php?"; 
+	static private final String NGACN_THREAD_PREFIX ="http://bbs.ngacn.cc/read.php?"; 
 	static private final String NGA178_THREAD_PREFIX ="http://nga.178.com/read.php?"; 
-	static private final String YOUKU_END= "/v.swf";
-	static private final String YOUKU_START = "http://player.youku.com/player.php/sid/";
+	static private final String YOUKUSWF_END= "/v.swf";
+	static private final String YOUKUSWF_START = "http://player.youku.com/player.php/sid/";
+	static private final String YOUKU_END= ".html";
+	static private final String YOUKU_START = "http://v.youku.com/v_show/id_";
 	static private final String TUDOU_END= "/";
-	static private final String TUDOU_START = "http://www.tudou.com/v/";
+	static private final String TUDOU_START = "http://www.tudou.com/programs/view/";
+	static private final String TUDOUSWF_END= "/";
+	static private final String TUDOUSWF_START = "http://www.tudou.com/v/";
+	static private final String MYSOHU_END= ".shtml";
+	static private final String MYSOHU_START = "http://my.tv.sohu.com/us/";
+	static private final String SOHU_END= ".shtml";
+	static private final String SOHU_START = "http://tv.sohu.com/";
+	static private final String SOHUSWF_END= "/v.swf";
+	static private final String SOHUSWF_START = "http://share.vrs.sohu.com/";
+	static private final String MYSOHUSWF_START = "http://share.vrs.sohu.com/my/v.swf";
+	static private final String A56_END= ".html";
+	static private final String A56_START = "http://www.56.com/u";
+	static private final String A56SWF_END= ".swf";
+	static private final String A56SWF_START = "http://player.56.com/v_";
 	//http://www.tudou.com/a/YRxj-HoTxT0/&resourceId=0_04_05_99&iid=146525460/v.swf
 	//http://www.tudou.com/v/Qw74nyAg1wU/&resourceId=0_04_05_99/v.swf
 	private final FragmentActivity fa ;
+	static final String dialogTag = "load_tudou";
 	
 	public ArticleListWebClient(FragmentActivity fa) {
 		super();
@@ -73,17 +93,91 @@ public class ArticleListWebClient extends WebViewClient {
 			String id = StringUtil.getStringBetween(origurl, 0, YOUKU_START, YOUKU_END).result;
 			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
 					+id +
-					"/type/mp4/video.m3u8";
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(htmlUrl));
-			//intent.setType("application/x-mpegURL");
+					"/type/mp4/v.m3u8";
+			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Bundle b = new Bundle();
+			b.putString("MEDIAPATH", htmlUrl);
+			intent.putExtras(b);
+			view.getContext().startActivity(intent);
+		}else if(url.startsWith(YOUKUSWF_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUKUSWF_START, YOUKUSWF_END).result;
+			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
+					+id +
+					"/type/mp4/v.m3u8";
+			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Bundle b = new Bundle();
+			b.putString("MEDIAPATH", htmlUrl);
+			intent.putExtras(b);
+			view.getContext().startActivity(intent);
+		}else if(url.startsWith(MYSOHU_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU_START, MYSOHU_END).result;
+			id=id.substring(id.lastIndexOf("/")+1);
+			String htmlUrl = "http://my.tv.sohu.com/ipad/"
+					+id +
+					".m3u8";
+			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Bundle b = new Bundle();
+			b.putString("MEDIAPATH", htmlUrl);
+			intent.putExtras(b);
+			view.getContext().startActivity(intent);
+		}else if(url.startsWith(MYSOHUSWF_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, "id=", "&").result;
+			String htmlUrl = "http://my.tv.sohu.com/ipad/"
+					+id +
+					".m3u8";
+			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Bundle b = new Bundle();
+			b.putString("MEDIAPATH", htmlUrl);
+			intent.putExtras(b);
+			view.getContext().startActivity(intent);
+		}else if(url.startsWith(SOHU_START)){
+			SohuVideoLoadTask loader = new SohuVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforSohu(loader,url);
+			}else{
+				loader.execute(url);
+			}
+		}else if(url.startsWith(SOHUSWF_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, SOHUSWF_START, SOHUSWF_END).result;
+			String htmlUrl = "http://hot.vrs.sohu.com/ipad"
+					+id +
+					".m3u8";
+			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Bundle b = new Bundle();
+			b.putString("MEDIAPATH", htmlUrl);
+			intent.putExtras(b);
 			view.getContext().startActivity(intent);
 		}else if(url.startsWith(TUDOU_START)){
 			String id = StringUtil.getStringBetween(origurl, 0, TUDOU_START, TUDOU_END).result;
-			
 			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
-				runOnExcutor(loader,id);
+				runOnExcutorforTudou(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}else if(url.startsWith(TUDOUSWF_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, TUDOUSWF_START, TUDOUSWF_END).result;
+			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforTudou(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(A56_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, "v_", A56_END).result;
+			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorfor56(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(A56SWF_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, A56SWF_START, A56SWF_END).result;
+			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorfor56(loader,id);
 			}else{
 				loader.execute(id);
 			}
@@ -99,10 +193,22 @@ public class ArticleListWebClient extends WebViewClient {
 		return true;
 	}
 	
+
+	@TargetApi(11)
+	private void runOnExcutorforTudou(TudouVideoLoadTask loader, String id){
+		loader.executeOnExecutor(TudouVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+		
+	}
 	
 	@TargetApi(11)
-	private void runOnExcutor(TudouVideoLoadTask loader, String id){
-		loader.executeOnExecutor(TudouVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+	private void runOnExcutorforSohu(SohuVideoLoadTask loader, String id){
+		loader.executeOnExecutor(SohuVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+		
+	}
+	
+	@TargetApi(11)
+	private void runOnExcutorfor56(FiveSixVideoLoadTask loader, String id){
+		loader.executeOnExecutor(FiveSixVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
 	}
 

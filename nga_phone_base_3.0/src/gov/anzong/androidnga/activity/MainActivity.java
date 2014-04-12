@@ -2,6 +2,8 @@ package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
 
+import io.vov.vitamio.LibsChecker;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -74,6 +76,8 @@ public class MainActivity extends BaseListSample
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		if (!LibsChecker.checkVitamioLibs(this))
+			return;
 		this.setTheme(R.style.AppTheme);
 		Intent intent = getIntent();
 		app = ((MyApp) getApplication());
@@ -746,7 +750,7 @@ public class MainActivity extends BaseListSample
 			if ( !StringUtil.isEmpty(config.getCookie())) {
 
 				url = url + "&" + config.getCookie().replace("; ", "&");
-			}else if(fid<0){
+			}else if(fid<0 && fid!=-7){
 				jumpToLogin();
 				return;
 			}
