@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="622"
-	android:versionName="1.6.22" android:installLocation="auto">
+	package="gov.anzong.androidnga" android:versionCode="623"
+	android:versionName="1.6.23" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -17,8 +17,8 @@
                  android:anyDensity="false" android:hardwareAccelerated="false"
                  android:theme="@android:style/Theme.Holo.Light">
 		<activity
-            android:name=".activity.MediaPlayer"
-            android:label="Media/MediaPlayer" >
+            android:name=".activity.Media_Player"
+            android:label="Media/MediaPlayer">
         </activity>
          <activity
             android:name="io.vov.vitamio.activity.InitActivity"

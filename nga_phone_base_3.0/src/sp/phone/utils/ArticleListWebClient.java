@@ -1,7 +1,7 @@
 package sp.phone.utils;
 
 import gov.anzong.androidnga.activity.ImageViewerActivity;
-import gov.anzong.androidnga.activity.MediaPlayer;
+import gov.anzong.androidnga.activity.Media_Player;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.Locale;
 
 import sp.phone.task.FiveSixVideoLoadTask;
+import sp.phone.task.Ku6VideoLoadTask;
 import sp.phone.task.SohuVideoLoadTask;
 import sp.phone.task.TudouVideoLoadTask;
 import android.annotation.TargetApi;
@@ -48,6 +49,11 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String A56_START = "http://www.56.com/u";
 	static private final String A56SWF_END= ".swf";
 	static private final String A56SWF_START = "http://player.56.com/v_";
+	static private final String KU6_END= "..";
+	static private final String KU6_START = "http://v.ku6.com/show/";
+	static private final String KU6SWF_END= "..";
+	static private final String KU6SWF_START = "http://player.ku6.com/refer/";
+	
 	//http://www.tudou.com/a/YRxj-HoTxT0/&resourceId=0_04_05_99&iid=146525460/v.swf
 	//http://www.tudou.com/v/Qw74nyAg1wU/&resourceId=0_04_05_99/v.swf
 	private final FragmentActivity fa ;
@@ -94,7 +100,7 @@ public class ArticleListWebClient extends WebViewClient {
 			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
 					+id +
 					"/type/mp4/v.m3u8";
-			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Intent intent = new Intent(view.getContext(),Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
@@ -104,7 +110,7 @@ public class ArticleListWebClient extends WebViewClient {
 			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
 					+id +
 					"/type/mp4/v.m3u8";
-			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Intent intent = new Intent(view.getContext(),Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
@@ -115,7 +121,7 @@ public class ArticleListWebClient extends WebViewClient {
 			String htmlUrl = "http://my.tv.sohu.com/ipad/"
 					+id +
 					".m3u8";
-			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Intent intent = new Intent(view.getContext(),Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
@@ -125,7 +131,7 @@ public class ArticleListWebClient extends WebViewClient {
 			String htmlUrl = "http://my.tv.sohu.com/ipad/"
 					+id +
 					".m3u8";
-			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Intent intent = new Intent(view.getContext(),Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
@@ -142,7 +148,7 @@ public class ArticleListWebClient extends WebViewClient {
 			String htmlUrl = "http://hot.vrs.sohu.com/ipad"
 					+id +
 					".m3u8";
-			Intent intent = new Intent(view.getContext(),MediaPlayer.class);
+			Intent intent = new Intent(view.getContext(),Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
@@ -182,6 +188,24 @@ public class ArticleListWebClient extends WebViewClient {
 				loader.execute(id);
 			}
 		}
+		else if(url.startsWith(KU6_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, KU6_START, KU6_END).result;
+			Ku6VideoLoadTask loader = new Ku6VideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforku6(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(KU6SWF_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, KU6SWF_START, KU6SWF_END).result;
+			Ku6VideoLoadTask loader = new Ku6VideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforku6(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
 		else{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(origurl));
@@ -209,6 +233,11 @@ public class ArticleListWebClient extends WebViewClient {
 	@TargetApi(11)
 	private void runOnExcutorfor56(FiveSixVideoLoadTask loader, String id){
 		loader.executeOnExecutor(FiveSixVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+		
+	}
+	@TargetApi(11)
+	private void runOnExcutorforku6(Ku6VideoLoadTask loader, String id){
+		loader.executeOnExecutor(Ku6VideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
 	}
 

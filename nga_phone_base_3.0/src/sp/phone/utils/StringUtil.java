@@ -226,7 +226,7 @@ public class StringUtil {
 				,"<a href=\"$1\">$2</a>");
 		
 		//优酷FLASH可内置播放
-				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.youku.com/v_show/id_[^\\[|\\]]+.html)\\[/flash\\]",
+				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.youku.com/v_show/id_[^\\[|\\]]+)\\[/flash\\]",
 						"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
 		//优酷FLASH2可内置播放
 				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://player.youku.com/player.php/sid/[^\\[|\\]]+/v.swf)\\[/flash\\]",
@@ -255,6 +255,12 @@ public class StringUtil {
 		//土豆2可内置播放
 				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://www.tudou.com/v/[^\\[|\\]]+v.swf)\\[/flash\\]",
 						"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
+		//ku61可内置播放
+				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://player.ku6.com/refer/[^\\[|\\]]+)\\[/flash\\]",
+						"<a href=\"$1\"><img src='file:///android_asset/ku6.png' style= 'max-width:100%;' ></a>");
+		//ku62可内置播放
+				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.ku6.com/show/[^\\[|\\]]+)\\[/flash\\]",
+						"<a href=\"$1\"><img src='file:///android_asset/ku6.png' style= 'max-width:100%;' ></a>");
 	
 		//flash
 		s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
@@ -433,7 +439,7 @@ public class StringUtil {
 			"传媒是我们主要的思想武器。;赫鲁晓夫",
 			"不管你喜不喜欢，历史都站在我们这边，而你们将被我们埋葬！;赫鲁晓夫",
 			"敌人在的射程内，彼此彼此。;步兵日记 ",
-			"枚战斧巡航导弹的造价：90万美元。 ",
+			"一枚战斧巡航导弹的造价：90万美元。 ",
 			"一架F-22猛禽战斗机的造价：1.35亿美元",
 			"一架F-117A“夜鹰”隐形战斗机的造价：1.22亿美元 ",
 			"一架B-2轰炸机的造价：22亿美元",
@@ -587,7 +593,7 @@ public class StringUtil {
 					+"彩虹发帖模式功能累计已招致禁言210天次以上,专供需要自杀的用户!\n"
 					+"安卓4.0以上现在可以设置将发帖按钮放置在输入法上方了,独立于菜单按钮\n"
 					+"设置中可选择2G/3G时图片中转压缩,使用新浪SAE处理\n"
-					+"第一次启动会安装解码器,现在客户端内置视频网站视频播放功能了,现在支持土豆/优酷/搜狐/56,更多网站开发中\n"
+					+"第一次启动会安装解码器,现在客户端内置视频网站视频播放功能了,现在支持土豆/优酷/搜狐/56/酷六,更多网站开发中\n"
 					+"NGA客户端开源版开发团队([@竹井詩織里]/[@cfan8]/[@force0119]/[@那个惩戒骑])再开发,赞美片总\n"
 					+"寻找更新请在Google Play商店或酷安搜索NGA客户端开源版安装\n"
 					+"178,准时坑爹,绝不发货";

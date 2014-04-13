@@ -1,7 +1,7 @@
 package sp.phone.task;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MediaPlayer;
+import gov.anzong.androidnga.activity.Media_Player;
 import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.StringUtil;
@@ -43,7 +43,7 @@ public class SohuVideoLoadTask extends AsyncTask<String, Integer, String> {
 			return;
 		
 		if(result != null){
-			Intent intent = new Intent(fa.getBaseContext(),MediaPlayer.class);
+			Intent intent = new Intent(fa.getBaseContext(),Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", result);
 			intent.putExtras(b);
