@@ -261,6 +261,20 @@ public class StringUtil {
 		//ku62可内置播放
 				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.ku6.com/show/[^\\[|\\]]+)\\[/flash\\]",
 						"<a href=\"$1\"><img src='file:///android_asset/ku6.png' style= 'max-width:100%;' ></a>");
+
+		//LETV1可内置播放
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://www.letv.com/ptv/vplay/[^\\[|\\]]+.html)\\[/flash\\]",
+								"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
+		//LETV2可内置播放
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://[^\\[|\\]]+letv.com/player/swfPlayer.swf\\?id=[^\\[|\\]]+)\\[/flash\\]",
+								"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
+
+		//QQ1可内置播放
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.qq.com/boke/page/[^\\[|\\]]+.html)\\[/flash\\]",
+							"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
+		//QQ2可内置播放
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://static.video.qq.com/TPout.swf[^\\[|\\]]+)\\[/flash\\]",
+							"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
 	
 		//flash
 		s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
@@ -593,7 +607,7 @@ public class StringUtil {
 					+"彩虹发帖模式功能累计已招致禁言210天次以上,专供需要自杀的用户!\n"
 					+"安卓4.0以上现在可以设置将发帖按钮放置在输入法上方了,独立于菜单按钮\n"
 					+"设置中可选择2G/3G时图片中转压缩,使用新浪SAE处理\n"
-					+"第一次启动会安装解码器,现在客户端内置视频网站视频播放功能了,现在支持土豆/优酷/搜狐/56/酷六,更多网站开发中\n"
+					+"第一次启动会安装解码器,现在客户端内置视频网站视频播放功能了,现在支持土豆/优酷/搜狐/56/酷六/乐视/腾讯,更多网站开发中\n"
 					+"NGA客户端开源版开发团队([@竹井詩織里]/[@cfan8]/[@force0119]/[@那个惩戒骑])再开发,赞美片总\n"
 					+"寻找更新请在Google Play商店或酷安搜索NGA客户端开源版安装\n"
 					+"178,准时坑爹,绝不发货";

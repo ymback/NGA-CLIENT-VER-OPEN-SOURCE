@@ -11,6 +11,8 @@ import java.util.Locale;
 
 import sp.phone.task.FiveSixVideoLoadTask;
 import sp.phone.task.Ku6VideoLoadTask;
+import sp.phone.task.LetvVideoLoadTask;
+import sp.phone.task.QQVideoLoadTask;
 import sp.phone.task.SohuVideoLoadTask;
 import sp.phone.task.TudouVideoLoadTask;
 import android.annotation.TargetApi;
@@ -53,6 +55,10 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String KU6_START = "http://v.ku6.com/show/";
 	static private final String KU6SWF_END= "..";
 	static private final String KU6SWF_START = "http://player.ku6.com/refer/";
+	static private final String LETV_START = "http://www.letv.com/ptv/vplay/";
+	static private final String LETVSWF_INCLUDE = "letv.com/player/swfplayer.swf";
+	static private final String QQ_START = "http://v.qq.com/boke/page/";
+	static private final String QQSWF_START = "http://static.video.qq.com/TPout.swf";
 	
 	//http://www.tudou.com/a/YRxj-HoTxT0/&resourceId=0_04_05_99&iid=146525460/v.swf
 	//http://www.tudou.com/v/Qw74nyAg1wU/&resourceId=0_04_05_99/v.swf
@@ -206,6 +212,33 @@ public class ArticleListWebClient extends WebViewClient {
 				loader.execute(id);
 			}
 		}
+		else if(url.startsWith(LETV_START)){
+			String id = url;
+			LetvVideoLoadTask loader = new LetvVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforletv(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.indexOf(LETVSWF_INCLUDE.toLowerCase(Locale.US))>0){
+			String id = url;
+			LetvVideoLoadTask loader = new LetvVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforletv(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(QQ_START) || url.indexOf(QQSWF_START.toLowerCase(Locale.US))==0){
+			String id = url;
+			QQVideoLoadTask loader = new QQVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforqq(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
 		else{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(origurl));
@@ -223,10 +256,15 @@ public class ArticleListWebClient extends WebViewClient {
 		loader.executeOnExecutor(TudouVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
 	}
-	
+
 	@TargetApi(11)
 	private void runOnExcutorforSohu(SohuVideoLoadTask loader, String id){
 		loader.executeOnExecutor(SohuVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+		
+	}
+	@TargetApi(11)
+	private void runOnExcutorforqq(QQVideoLoadTask loader, String id){
+		loader.executeOnExecutor(QQVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
 	}
 	
@@ -238,6 +276,12 @@ public class ArticleListWebClient extends WebViewClient {
 	@TargetApi(11)
 	private void runOnExcutorforku6(Ku6VideoLoadTask loader, String id){
 		loader.executeOnExecutor(Ku6VideoLoadTask.THREAD_POOL_EXECUTOR, id);
+		
+	}
+
+	@TargetApi(11)
+	private void runOnExcutorforletv(LetvVideoLoadTask loader, String id){
+		loader.executeOnExecutor(LetvVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
 	}
 

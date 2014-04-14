@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="623"
-	android:versionName="1.6.23" android:installLocation="auto">
+	package="gov.anzong.androidnga" android:versionCode="624"
+	android:versionName="1.6.24" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -86,6 +86,25 @@
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="@string/myscheme" android:host="bbs.ngacn.cc" android:path="/read.php"/>
+            </intent-filter>
+            <!-- 在系统中注册NGA地址 -->
+            
+			<intent-filter>
+		        <action android:name="android.intent.action.VIEW" /> 
+		        <category android:name="android.intent.category.DEFAULT" /> 
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="nga.178.com" android:path="/read.php"/>
+			</intent-filter>
+			<intent-filter>
+		        <action android:name="android.intent.action.VIEW" /> 
+		        <category android:name="android.intent.category.DEFAULT" /> 
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="bbs.ngacn.cc" android:path="/read.php"/>
+			</intent-filter>
+			<intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" android:host="bbs.ngacn.cc" android:path="/read.php"/>
             </intent-filter>
 		    
 		</activity>

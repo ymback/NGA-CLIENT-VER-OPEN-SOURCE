@@ -45,6 +45,7 @@ public class Media_Player extends Activity {
     private AudioManager mAudioManager;
     private Toast toast = null;
     private long toposition=-1l;
+    private long onpausevideopos=-1l;
     private int mSpeed =0;
     /** ×î´óÉùÒô */
     private int mMaxVolume;
@@ -435,20 +436,26 @@ public class Media_Player extends Activity {
     }
     @Override
 	protected void onPause() {
+    	Log.i("TAG","ONPAUSE+++++++");
+    	stopPlayer();
 		super.onPause();
-		if (mVideoView != null)
-			mVideoView.pause();
 	}
 
 	@Override
 	protected void onResume() {
+    	Log.i("TAG","ONRESUME+++++++");
+    	startPlayer();
 		super.onResume();
-		if (mVideoView != null)
-			mVideoView.resume();
 	}
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		if (mVideoView != null)
+			mVideoView.stopPlayback();
+	}
+	@Override
+	protected void onRestart() {
+		super.onRestart();
 		if (mVideoView != null)
 			mVideoView.stopPlayback();
 	}

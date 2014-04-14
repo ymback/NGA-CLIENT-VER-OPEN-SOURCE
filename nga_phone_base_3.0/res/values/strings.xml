@@ -13,7 +13,7 @@
     <string name="title">标题</string>
     <string name="commit">提交</string>
     <string name="cancel">取消</string>
-    <string name="nowifi_downimg">2G/3G时载入帖子图片</string>
+    <string name="nowifi_downimg">2G/3G/4G时载入帖子图片</string>
     <string name="video_layout_loading">正在缓冲...</string>
     <string name="nightmode">夜间模式</string>
     <string name="refresh">刷新</string>
@@ -29,7 +29,7 @@
     <string name="thread_load_error">可能遇到了一个广告或者帖子被删除</string>
     <string name="notification_on">启用被喷提示</string>
     <string name="notification_sound">提示声音</string>
-    <string name="download_avatar_nowifi">2G/3G时下载头像(慎用)</string>
+    <string name="download_avatar_nowifi">2G/3G/4G时下载头像(慎用)</string>
     <string name="upload">上传</string>
     <string name="avoidWindfury">防止风怒机制</string>
     <string name="avatar">头像</string>
@@ -66,6 +66,8 @@
     <string name="load_56_video">载入56视频中</string>
     <string name="load_sohu_video">载入搜狐视频中</string>
     <string name="load_ku6_video">载入酷6视频中</string>
+    <string name="load_letv_video">载入乐视视频中</string>
+    <string name="load_qq_video">载入腾讯视频中</string>
     <string name="save">保存</string>
     <string name="image_saved">图片已经保存在</string>
     <string name="invalid_url">链接不合法</string>
@@ -141,7 +143,7 @@
 	<string name="show_lajibankuai">大漩涡中显示小版块主题</string>
     <string name="multi_reply_format">已经挨了%d发黑枪了,态君不够用了!</string>
     <string name="reply_to_you"> ←态君,这个家伙给你打黑枪!</string>
-    <string name="image_quality_info">2G/3G时图片中转压缩(Beta)</string>
+    <string name="image_quality_info">2G/3G/4G时图片中转压缩(Beta)</string>
     <string name="lefthand_righthand">按键常用操作习惯(4.0以上 )</string>
     <string name="righthand_option_original">右手</string>
     <string name="lefthand_option_original">左手</string>
