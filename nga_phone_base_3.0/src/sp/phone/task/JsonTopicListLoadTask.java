@@ -51,7 +51,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
         }
         if(uri.indexOf("table=")>0){
         	table = StringUtil.getStringBetween(uri, 0, "table=", "&").result.trim();
-        	String pattern1 = "^[0-7]{1}$";
+        	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//ÅÐ¶ÏÊÇ·ñÊÇËÑË÷
     		Pattern pattern = Pattern.compile(pattern1);
     		Matcher mat = pattern.matcher(table);
         	if(!mat.find()){

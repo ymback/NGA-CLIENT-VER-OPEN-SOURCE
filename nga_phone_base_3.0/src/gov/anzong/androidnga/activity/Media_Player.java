@@ -35,6 +35,7 @@ import io.vov.vitamio.MediaPlayer.OnInfoListener;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
+
 public class Media_Player extends Activity {
 	private static final String TAG= "MediaPlayerActivity";
     private String path = "";
@@ -46,6 +47,7 @@ public class Media_Player extends Activity {
     private Toast toast = null;
     private long toposition=-1l;
     private long onpausevideopos=-1l;
+    private boolean onpausemode=false;
     private int mSpeed =0;
     /** 最大声音 */
     private int mMaxVolume;
@@ -129,13 +131,23 @@ public class Media_Player extends Activity {
     
     /*播放器控制*/
     private void stopPlayer() {
-		if (mVideoView != null)
+		if (mVideoView != null){
 			mVideoView.pause();
+			onpausevideopos = mVideoView.getCurrentPosition();
+		}
 	}
 
 	private void startPlayer() {
-		if (mVideoView != null)
+		if (mVideoView != null){
 			mVideoView.start();
+		if(onpausemode){
+			onpausemode=false;
+			if(onpausevideopos!=-1l){
+				mVideoView.seekTo(onpausevideopos);
+				onpausevideopos=-1l;
+			}
+		}
+		}
 	}
 
 	private boolean isPlaying() {
@@ -437,6 +449,7 @@ public class Media_Player extends Activity {
 	protected void onPause() {
     	Log.i("TAG","ONPAUSE+++++++");
     	stopPlayer();
+    	onpausemode=true;
 		super.onPause();
 	}
 
@@ -444,19 +457,25 @@ public class Media_Player extends Activity {
 	protected void onResume() {
     	Log.i("TAG","ONRESUME+++++++");
     	startPlayer();
+    	onpausemode=false;
 		super.onResume();
 	}
 	@Override
 	protected void onDestroy() {
+    	Log.i("TAG","onDestroy+++++++");
 		super.onDestroy();
 		if (mVideoView != null)
 			mVideoView.stopPlayback();
 	}
+
 	@Override
-	protected void onRestart() {
-		super.onRestart();
-		if (mVideoView != null)
-			mVideoView.stopPlayback();
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 	
 }

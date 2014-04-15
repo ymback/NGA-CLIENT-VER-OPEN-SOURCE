@@ -121,7 +121,6 @@ public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 		int i=0,si=-1;
 		while (i<sta.length) {  
 			if(sta[i].indexOf("video/mp4")>0 && sta[i].indexOf("medium")<0 ){
-				System.out.println( sta[i]+"\n");
 				si=i;
 				break;
 			}
@@ -133,6 +132,8 @@ public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 		}else{
 			return null;
 		}
+		m3u8Url = StringUtil.getStringBetween(
+				m3u8Url, 0, "url=", "\\").result;
 		return m3u8Url;
 	}
 
