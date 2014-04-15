@@ -18,7 +18,7 @@ public class TopicListInfo {
 	public void set__ROWS(int __ROWS) {
 		this.__ROWS = __ROWS;
 	}
-	public void set__SEARCHNORESULT(boolean __SEARCHNORESULT){
+	public void set__SEARCHNORESULT(boolean __SEARCHNORESULT){//是不是没有结果
 		this.__SEARCHNORESULT=__SEARCHNORESULT;
 	}
 	public void set__TABLE(int __TABLE) {

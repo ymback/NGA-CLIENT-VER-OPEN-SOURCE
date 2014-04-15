@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+		android:background="@android:color/transparent">
     <io.vov.vitamio.widget.VideoView
         android:id="@+id/surface_view" android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+		android:background="@android:color/transparent"  />
     <LinearLayout
         android:id="@+id/video_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerInParent="true" 
         android:gravity="center_vertical" >
 
         <ProgressBar
@@ -44,7 +46,7 @@
     <FrameLayout android:id="@+id/operation_volume_brightness"
         android:visibility="invisible" android:layout_centerInParent="true"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:background="#00000000" android:orientation="horizontal"
+        android:background="@android:color/transparent"  android:orientation="horizontal"
         android:padding="0dip">
         <ImageView android:id="@+id/operation_bg"
             android:layout_gravity="center" android:src="@drawable/video_volumn_bg"

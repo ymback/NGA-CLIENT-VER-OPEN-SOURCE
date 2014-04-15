@@ -97,8 +97,6 @@ public class LetvVideoLoadTask extends AsyncTask<String, Integer, String> {
 		String htmlString = HttpUtil.iosGetHtml(uri, null);
 		String iid = StringUtil.getStringBetween(
 				htmlString, 0, "clipurl = \"", "\"").result;
-
-		Log.i("TAG",iid);
 		if(StringUtil.isEmpty(iid))
 			return null;
 		String m3u8Url = iid;

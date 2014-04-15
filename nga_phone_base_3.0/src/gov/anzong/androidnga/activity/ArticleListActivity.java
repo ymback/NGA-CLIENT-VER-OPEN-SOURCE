@@ -65,7 +65,6 @@ PerferenceConstant{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(getViewId());
 		
 		if(PhoneConfiguration.getInstance().uploadLocation

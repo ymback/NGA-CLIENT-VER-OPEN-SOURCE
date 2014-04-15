@@ -99,6 +99,8 @@ public class Ku6VideoLoadTask extends AsyncTask<String, Integer, String> {
 		final String uri = "http://v.ku6.com/fetchwebm/"
 				+ params[0]+"...m3u8";
 		final String htmlString = HttpUtil.iosGetHtml(uri, null);
+		if(StringUtil.isEmpty(htmlString))
+			return null;
 		try {  
 			saveToTemp("ku6.m3u8", htmlString);   
         } catch (Exception e) {  

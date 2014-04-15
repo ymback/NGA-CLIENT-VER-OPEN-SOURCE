@@ -13,6 +13,7 @@
     <string name="title">标题</string>
     <string name="commit">提交</string>
     <string name="cancel">取消</string>
+    <string name="largesttablenum">7</string><!-- 数据库数量,现在有7个库 -->
     <string name="nowifi_downimg">2G/3G/4G时载入帖子图片</string>
     <string name="video_layout_loading">正在缓冲...</string>
     <string name="nightmode">夜间模式</string>
@@ -68,6 +69,8 @@
     <string name="load_ku6_video">载入酷6视频中</string>
     <string name="load_letv_video">载入乐视视频中</string>
     <string name="load_qq_video">载入腾讯视频中</string>
+    <string name="load_wasu_video">载入华数视频中</string>
+    <string name="load_youtube_video">载入YOUTUBE视频中</string>
     <string name="save">保存</string>
     <string name="image_saved">图片已经保存在</string>
     <string name="invalid_url">链接不合法</string>

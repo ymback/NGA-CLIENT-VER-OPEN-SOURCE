@@ -244,7 +244,7 @@ implements OnTopListLoadFinishedListener,NextJsonTopicListLoader {
 		if(table!=null && !table.equals("")){
 			if(isend){
 				if(restart){
-					table="6";
+					table=this.getActivity().getString(R.string.largesttablenum);
 				}else{
 					table=String.valueOf(Integer.parseInt(table)-1);
 				}

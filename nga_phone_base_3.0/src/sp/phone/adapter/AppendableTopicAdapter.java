@@ -1,6 +1,7 @@
 package sp.phone.adapter;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.Media_Player;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 public class AppendableTopicAdapter extends TopicListAdapter {
 	final private List<TopicListInfo> infoList;
     final private PullToRefreshAttacher attacher;
+    private Toast toast = null;
     private final NextJsonTopicListLoader loader;
     private boolean isEndOfList = false;
     private boolean isPrompted = false;
@@ -50,6 +53,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         isLoading = false;
         try{
             table=result.get__TABLE();
+            Log.i("TAG","--"+String.valueOf(table)+"--");
         }catch(Exception e){
         	table=TableNum-1;
         }
@@ -62,15 +66,30 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     			isLoadingTable=true;
     			TableListPage=infoList.size();
     			TableList__ROWS=count;
-        		Toast.makeText(this.context,
-					"库"+String.valueOf(table)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-1)+"中的结果",
-					Toast.LENGTH_SHORT).show();
+    			if (toast != null)
+            	{
+            		toast.setText("库"+String.valueOf(table)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-1)+"中的结果");
+            		toast.setDuration(Toast.LENGTH_SHORT);
+            		toast.show();
+            	} else
+            	{
+            		toast = Toast.makeText(this.context, "库"+String.valueOf(table)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-1)+"中的结果", Toast.LENGTH_SHORT);
+            		toast.show();
+            	}
         		isLoading = true;
         		loader.loadNextPage(this);
             }else{
-                	Toast.makeText(this.context,
-        					"所有数据库结果已搜索完毕",
-        					Toast.LENGTH_SHORT).show();
+
+    			if (toast != null)
+            	{
+            		toast.setText("所有数据库结果已搜索完毕");
+            		toast.setDuration(Toast.LENGTH_SHORT);
+            		toast.show();
+            	} else
+            	{
+            		toast = Toast.makeText(this.context, "所有数据库结果已搜索完毕", Toast.LENGTH_SHORT);
+            		toast.show();
+            	}
                 isLoading = false;
             }
             return;
@@ -121,7 +140,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 
 			this.notifyDataSetChanged();
 			
-			//Toast.makeText(context, "finish load page:" + infoList.size(), Toast.LENGTH_SHORT).show();
 		}
 		
 	}
@@ -151,20 +169,36 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         if( position +1 == this.getCount() && !isLoading){
         	if (isEndOfList == true)
         	{
-        		if(table<2||table>7){//数据库没有或者加载完了
+        		if(table<2||table>(Integer.parseInt(context.getString(R.string.largesttablenum))+1)){//数据库没有或者加载完了
+        			Log.i("TAG",String.valueOf(table));
         		if (isPrompted == false) {
-					Toast.makeText(this.context,
-							context.getString(R.string.last_page_prompt),
-							Toast.LENGTH_SHORT).show();
+					if (toast != null)
+	            	{
+	            		toast.setText(context.getString(R.string.last_page_prompt));
+	            		toast.setDuration(Toast.LENGTH_SHORT);
+	            		toast.show();
+	            	} else
+	            	{
+	            		toast = Toast.makeText(this.context, context.getString(R.string.last_page_prompt), Toast.LENGTH_SHORT);
+	            		toast.show();
+	            	}
 					isPrompted = true;
 				}
         		}else{
         			TableListPage=infoList.size();
         			isLoadingTable=true;
         			TableList__ROWS=count;
-        			Toast.makeText(this.context,
-							"库"+String.valueOf(table-1)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-2)+"中的结果",
-							Toast.LENGTH_SHORT).show();
+
+        			if (toast != null)
+                	{
+                		toast.setText("库"+String.valueOf(table-1)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-2)+"中的结果");
+                		toast.setDuration(Toast.LENGTH_SHORT);
+                		toast.show();
+                	} else
+                	{
+                		toast = Toast.makeText(this.context, "库"+String.valueOf(table-1)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-2)+"中的结果", Toast.LENGTH_SHORT);
+                		toast.show();
+                	}
                     isLoading = true;
                     loader.loadNextPage(this);
         		}

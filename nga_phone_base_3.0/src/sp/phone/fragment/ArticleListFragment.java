@@ -90,7 +90,7 @@ public class ArticleListFragment extends Fragment
 		authorid = getArguments().getInt("authorid", 0);
 		articleAdpater = new ArticleListAdapter(this.getActivity());
 		super.onCreate(savedInstanceState);
-	}
+	} 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

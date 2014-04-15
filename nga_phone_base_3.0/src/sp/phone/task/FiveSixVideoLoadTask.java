@@ -84,9 +84,10 @@ public class FiveSixVideoLoadTask extends AsyncTask<String, Integer, String> {
 		final String uri = "http://vxml.56.com/json/"
 				+ params[0]+"/?src=out";
 		final String htmlString = HttpUtil.iosGetHtml(uri, null);
+		if(StringUtil.isEmpty(htmlString))
+			return null;
 		final String flvurl = StringUtil.getStringBetween(
 				htmlString, 0, "\"url\":\"", "\"").result;
-		Log.i(dialogTag,flvurl);
 		return flvurl;
 	}
 

@@ -15,6 +15,8 @@ import sp.phone.task.LetvVideoLoadTask;
 import sp.phone.task.QQVideoLoadTask;
 import sp.phone.task.SohuVideoLoadTask;
 import sp.phone.task.TudouVideoLoadTask;
+import sp.phone.task.WASUVideoLoadTask;
+import sp.phone.task.YoutubeVideoLoadTask;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -33,13 +35,15 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String NGACN_THREAD_PREFIX ="http://bbs.ngacn.cc/read.php?"; 
 	static private final String NGA178_THREAD_PREFIX ="http://nga.178.com/read.php?"; 
 	static private final String YOUKUSWF_END= "/v.swf";
-	static private final String YOUKUSWF_START = "http://player.youku.com/player.php/sid/";
+	static private final String YOUKUSWF_START = "http://player.youku.com/player.php/";
 	static private final String YOUKU_END= ".html";
 	static private final String YOUKU_START = "http://v.youku.com/v_show/id_";
 	static private final String TUDOU_END= "/";
 	static private final String TUDOU_START = "http://www.tudou.com/programs/view/";
+	static private final String TUDOUWITHOUTWWW_START = "http://tudou.com/programs/view/";//没有www一样能用OK
 	static private final String TUDOUSWF_END= "/";
 	static private final String TUDOUSWF_START = "http://www.tudou.com/v/";
+	static private final String TUDOUSWFWITHOUTWWW_START = "http://tudou.com/v/";//没有www一样能用OK
 	static private final String MYSOHU_END= ".shtml";
 	static private final String MYSOHU_START = "http://my.tv.sohu.com/us/";
 	static private final String SOHU_END= ".shtml";
@@ -49,19 +53,32 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String MYSOHUSWF_START = "http://share.vrs.sohu.com/my/v.swf";
 	static private final String A56_END= ".html";
 	static private final String A56_START = "http://www.56.com/u";
+	static private final String A56WITHOUTWWW_START = "http://56.com/u";//没有www一样能用OK
 	static private final String A56SWF_END= ".swf";
 	static private final String A56SWF_START = "http://player.56.com/v_";
 	static private final String KU6_END= "..";
 	static private final String KU6_START = "http://v.ku6.com/show/";
 	static private final String KU6SWF_END= "..";
 	static private final String KU6SWF_START = "http://player.ku6.com/refer/";
-	static private final String LETV_START = "http://www.letv.com/ptv/vplay/";
+	static private final String LETV_START = "http://www.letv.com/ptv/vplay/";//确认没有www是不行的
 	static private final String LETVSWF_INCLUDE = "letv.com/player/swfplayer.swf";
 	static private final String QQ_START = "http://v.qq.com/boke/page/";
 	static private final String QQSWF_START = "http://static.video.qq.com/TPout.swf";
+	static private final String WASU_START = "http://www.wasu.cn/play/show/id/";//确认没有www是不行的
+	static private final String YOUTUBE_WITH = "http://www.youtube.com/watch?v=";
+	static private final String YOUTUBENOWWW_WITH = "http://youtube.com/watch?v=";
+	static private final String YOUTUBESHARE_START = "http://youtu.be/";
+	static private final String YOUTUBESHAREEMBED_START = "http://www.youtube.com/embed/";
+	static private final String YOUTUBESHAREEMBEDNOWWW_START = "http://youtube.com/embed/";
+	static private final String YOUTUBESHAREEMBEDNOCOOKIE_START = "http://www.youtube-nocookie.com/embed/";
+	static private final String YOUTUBESHAREEMBEDNOCOOKIENOWWW_START = "http://youtube-nocookie.com/embed/";
+	static private final String YOUTUBESHAREEMBEDOLD_START = "http://www.youtube.com/v/";
+	static private final String YOUTUBESHAREEMBEDNOWWWOLD_START = "http://youtube.com/v/";
+	static private final String YOUTUBESHAREEMBEDNOCOOKIEOLD_START = "http://www.youtube-nocookie.com/v/";
+	static private final String YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START = "http://youtube-nocookie.com/v/";
+	static private final String YOUTUBE_END = "?";
 	
-	//http://www.tudou.com/a/YRxj-HoTxT0/&resourceId=0_04_05_99&iid=146525460/v.swf
-	//http://www.tudou.com/v/Qw74nyAg1wU/&resourceId=0_04_05_99/v.swf
+	
 	private final FragmentActivity fa ;
 	static final String dialogTag = "load_tudou";
 	
@@ -112,7 +129,7 @@ public class ArticleListWebClient extends WebViewClient {
 			intent.putExtras(b);
 			view.getContext().startActivity(intent);
 		}else if(url.startsWith(YOUKUSWF_START)){
-			String id = StringUtil.getStringBetween(origurl, 0, YOUKUSWF_START, YOUKUSWF_END).result;
+			String id = StringUtil.getStringBetween(origurl, 0, "sid/", YOUKUSWF_END).result;
 			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
 					+id +
 					"/type/mp4/v.m3u8";
@@ -167,6 +184,14 @@ public class ArticleListWebClient extends WebViewClient {
 			}else{
 				loader.execute(id);
 			}
+		}else if(url.startsWith(TUDOUWITHOUTWWW_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, TUDOUWITHOUTWWW_START, TUDOU_END).result;
+			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforTudou(loader,id);
+			}else{
+				loader.execute(id);
+			}
 		}else if(url.startsWith(TUDOUSWF_START)){
 			String id = StringUtil.getStringBetween(origurl, 0, TUDOUSWF_START, TUDOUSWF_END).result;
 			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
@@ -175,8 +200,24 @@ public class ArticleListWebClient extends WebViewClient {
 			}else{
 				loader.execute(id);
 			}
+		}else if(url.startsWith(TUDOUSWFWITHOUTWWW_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, TUDOUSWFWITHOUTWWW_START, TUDOUSWF_END).result;
+			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforTudou(loader,id);
+			}else{
+				loader.execute(id);
+			}
 		}
 		else if(url.startsWith(A56_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, "v_", A56_END).result;
+			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorfor56(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}else if(url.startsWith(A56WITHOUTWWW_START)){
 			String id = StringUtil.getStringBetween(origurl, 0, "v_", A56_END).result;
 			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
@@ -239,6 +280,115 @@ public class ArticleListWebClient extends WebViewClient {
 				loader.execute(id);
 			}
 		}
+		else if(url.startsWith(WASU_START)){
+			String id = url;
+			WASUVideoLoadTask loader = new WASUVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforwasu(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		/*youtube太恶心了*/
+		else if(url.startsWith(YOUTUBE_WITH)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBE_WITH, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBENOWWW_WITH)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBENOWWW_WITH, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHARE_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHARE_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBED_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBED_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOWWW_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOWWW_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIE_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIE_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIENOWWW_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIENOWWW_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBEDOLD_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDOLD_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOWWWOLD_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOWWWOLD_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIEOLD_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIEOLD_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START, YOUTUBE_END).result;
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforyoutube(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
 		else{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(origurl));
@@ -265,6 +415,18 @@ public class ArticleListWebClient extends WebViewClient {
 	@TargetApi(11)
 	private void runOnExcutorforqq(QQVideoLoadTask loader, String id){
 		loader.executeOnExecutor(QQVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+		
+	}
+
+	@TargetApi(11)
+	private void runOnExcutorforwasu(WASUVideoLoadTask loader, String id){
+		loader.executeOnExecutor(WASUVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+		
+	}
+	
+	@TargetApi(11)
+	private void runOnExcutorforyoutube(YoutubeVideoLoadTask loader, String id){
+		loader.executeOnExecutor(YoutubeVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
 	}
 	
