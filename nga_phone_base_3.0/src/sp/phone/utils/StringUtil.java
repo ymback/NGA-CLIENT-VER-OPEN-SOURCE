@@ -283,8 +283,11 @@ public class StringUtil {
 		//QQ1可内置播放
 						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.qq.com/boke/page/[^\\[|\\]]+.html)\\[/flash\\]",
 							"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
-		//QQ2可内置播放
+		//QQSWF可内置播放
 						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://static.video.qq.com/TPout.swf[^\\[|\\]]+)\\[/flash\\]",
+							"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
+		//QQ3可内置播放
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.qq.com/cover/[^\\[|\\]]+)\\[/flash\\]",
 							"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
 		//WASU可内置播放
 						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://www.wasu.cn/play/show/id/[^\\[|\\]]+)\\[/flash\\]",
@@ -653,9 +656,11 @@ public class StringUtil {
 		return ret;
 	}
 	final static String tips = 	
-					"发现bug后请先更新到最新版本,如果还有问题[@竹井詩織里]/[@cfan8]/[@force0119]\n"
-					+"彩虹发帖模式功能累计已招致禁言210天次以上,专供需要自杀的用户!\n"
+					"发现bug后请先更新到最新版本,如果还有问题[@竹井詩織里]\n"
 					+"安卓4.0以上现在可以设置将发帖按钮放置在输入法上方了,独立于菜单按钮\n"
+					+"有个侧边栏的啊你们别忘记!\n"
+					+"可以删除收藏了\n"
+					+"签到功能可以试用了,但是因为178不发货,所以其他数据啥都拿不到,二哥连数据库都还没准备好\n"
 					+"设置中可选择2G/3G时图片中转压缩,使用新浪SAE处理\n"
 					+"第一次启动会安装解码器(如果每次启动都会安装请重启手机一次即可),现在客户端内置视频网站视频播放功能了,现在支持土豆/优酷/搜狐/56/酷六/乐视/腾讯/华数/YOUTUBE,更多网站开发中\n"
 					+"NGA客户端开源版开发团队([@竹井詩織里]/[@cfan8]/[@force0119]/[@那个惩戒骑])再开发,赞美片总\n"

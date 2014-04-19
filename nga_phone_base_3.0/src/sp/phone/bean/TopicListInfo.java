@@ -8,13 +8,11 @@ public class TopicListInfo {
 	int __SELECTED_FORUM;
 	int __TABLE;
 	boolean __SEARCHNORESULT=false;
-	
 	List<ThreadPageInfo> articleEntryList;
 
 	public int get__ROWS() {
 		return __ROWS;
 	}
-
 	public void set__ROWS(int __ROWS) {
 		this.__ROWS = __ROWS;
 	}

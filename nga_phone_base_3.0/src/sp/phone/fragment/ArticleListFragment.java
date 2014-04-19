@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
@@ -487,31 +488,58 @@ public class ArticleListFragment extends Fragment
 			CopyDialog(content);
 			break;
 		case R.id.show_this_person_only:
-			Intent intentThis = new Intent();
-			intentThis.putExtra("tab", "1");
-			intentThis.putExtra("tid",tid );
-			intentThis.putExtra("authorid",row.getAuthorid() );
 			
-			intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
-			startActivity(intentThis);
-			if(PhoneConfiguration.getInstance().showAnimation)
-				getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+			if(null == getActivity().findViewById(R.id.item_detail_container))
+			{			
+				Intent intentThis = new Intent();
+				intentThis.putExtra("tab", "1");
+				intentThis.putExtra("tid",tid );
+				intentThis.putExtra("authorid",row.getAuthorid() );
+				intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
+				startActivity(intentThis);
+				if(PhoneConfiguration.getInstance().showAnimation)
+					getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+			}else{
+				int tid1 = tid;
+				int authorid1=row.getAuthorid();
+				ArticleContainerFragment f = ArticleContainerFragment.createshowonly(tid1, authorid1);
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				f.setHasOptionsMenu(true);
+				ft.replace(R.id.item_detail_container, f);
+				ft.commit();
+
+			}
 		
 			//restNotifier.reset(0, row.getAuthorid());
 			//ActivityUtil.getInstance().noticeSaying(getActivity());
 
 			break;
 		case R.id.show_whole_thread:
-			ResetableArticle restNotifier = null;
-			try{
-				 restNotifier= (ResetableArticle)getActivity();
-			}catch(ClassCastException e){
-				Log.e(TAG,"father activity does not implements interface " 
-						+ ResetableArticle.class.getName());
-				return true;
+			if(null == getActivity().findViewById(R.id.item_detail_container))
+			{			
+				ResetableArticle restNotifier = null;
+				try{
+					 restNotifier= (ResetableArticle)getActivity();
+				}catch(ClassCastException e){
+					Log.e(TAG,"father activity does not implements interface " 
+							+ ResetableArticle.class.getName());
+					return true;
+				}
+				restNotifier.reset(0, 0,row.getLou());
+				ActivityUtil.getInstance().noticeSaying(getActivity());
+				Log.i("TAG","TEST");
+			}else{
+				int tid1 = tid;
+				ArticleContainerFragment f = ArticleContainerFragment.createshowall(tid1);
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				f.setHasOptionsMenu(true);
+				ft.replace(R.id.item_detail_container, f);
+				ft.commit();
 			}
-			restNotifier.reset(0, 0,row.getLou());
-			ActivityUtil.getInstance().noticeSaying(getActivity());
 			break;
 		case R.id.post_comment:
 			final String dialog_tag = "post comment";
@@ -532,7 +560,6 @@ public class ArticleListFragment extends Fragment
 			handleReport(row);
 			break;
 		case R.id.search_post:
-			
 			intent.putExtra("searchpost", 1);
 		case R.id.search_subject:
 			intent.putExtra("authorid", row.getAuthorid());

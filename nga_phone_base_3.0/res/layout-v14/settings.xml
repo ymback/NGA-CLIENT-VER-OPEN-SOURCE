@@ -241,15 +241,6 @@
             android:layout_marginTop="15dp"
             android:paddingLeft="30dp"
             android:paddingRight="20dp" />
-
-        <Button
-            android:id="@+id/clear_recent_board"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/clear_recent_board"
-            android:textSize="16dp" />
     </LinearLayout>
 
 </ScrollView>

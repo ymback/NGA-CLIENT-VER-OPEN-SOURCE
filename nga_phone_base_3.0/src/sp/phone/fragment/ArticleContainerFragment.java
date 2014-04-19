@@ -46,6 +46,24 @@ PagerOwnner{
 		f.setArguments(args);
 		return f;
 	}
+
+	public static ArticleContainerFragment createshowall(int tid){
+		ArticleContainerFragment f = new ArticleContainerFragment();
+		Bundle args = new Bundle ();
+		args.putInt("tid", tid);
+		f.setArguments(args);
+		return f;
+	}
+	
+	public static ArticleContainerFragment createshowonly(int tid, int authorid){
+		ArticleContainerFragment f = new ArticleContainerFragment();
+		Bundle args = new Bundle ();
+		args.putInt("tid", tid);
+		args.putInt("authorid", authorid);
+		args.putInt("tab", 1);
+		f.setArguments(args);
+		return f;
+	}
 	
 	public ArticleContainerFragment() {
 		super();

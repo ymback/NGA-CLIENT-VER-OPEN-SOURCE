@@ -61,8 +61,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	
 	private RelativeLayout handsideQualityChooser;
 	
-	private Button button_clear_recent_board;
-
 	private SeekBar fontSizeBar;
 	private float defaultFontSize;
 	private TextView fontTextView;
@@ -213,28 +211,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			replysplit.setChecked(checked);
 			replysplit.setOnCheckedChangeListener(new ReplySplitChangedListener());
 		}
-		button_clear_recent_board = (Button) findViewById(R.id.clear_recent_board);
-		button_clear_recent_board
-				.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method
-						//  BUG√ª¡À
-
-						SharedPreferences share = getSharedPreferences(
-								PERFERENCE, Activity.MODE_PRIVATE);
-						Editor editor = share.edit();
-						editor.putString(RECENT_BOARD, "");
-						editor.commit();
-						Intent iareboot = getBaseContext().getPackageManager()
-								.getLaunchIntentForPackage(
-										getBaseContext().getPackageName());
-						iareboot.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(iareboot);
-					}
-
-				});
 
 		ha = (CompoundButton) findViewById(R.id.checkBox_ha);
 		if (ha != null) {

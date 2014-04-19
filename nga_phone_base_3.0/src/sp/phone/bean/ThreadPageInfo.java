@@ -4,6 +4,7 @@ public class ThreadPageInfo {
 	
 	private int tid;
 	private int fid;
+	private String tidarray;
 	private int quote_from;
 	//private String quote_to;
 	//private String icon;
@@ -43,6 +44,13 @@ public class ThreadPageInfo {
 	}
 	public String getSubject() {
 		return subject;
+	}
+
+	public void setTidarray(String tidarray) {
+		this.tidarray = tidarray;
+	}
+	public String getTidarray() {
+		return tidarray;
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;

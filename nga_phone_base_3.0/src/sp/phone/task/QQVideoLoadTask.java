@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.Toast;
 
 public class QQVideoLoadTask extends AsyncTask<String, Integer, String> {
 
@@ -43,8 +44,10 @@ public class QQVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		if(!startIntent)
+		if(!startIntent){
+			Toast.makeText(fa.getBaseContext(), "创建视频窗口失败",	Toast.LENGTH_LONG).show();
 			return;
+		}
 		
 		if(result != null){
 			Intent intent = new Intent(fa.getBaseContext(),Media_Player.class);
@@ -52,6 +55,8 @@ public class QQVideoLoadTask extends AsyncTask<String, Integer, String> {
 			b.putString("MEDIAPATH", result);
 			intent.putExtras(b);
 			fa.startActivity(intent);
+		}else{
+			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析",	Toast.LENGTH_LONG).show();
 		}
 
 		this.onCancelled();
@@ -96,13 +101,11 @@ public class QQVideoLoadTask extends AsyncTask<String, Integer, String> {
 		uri = uri.replaceAll("tpout.swf", "TPout.swf");
 		uri="http://www.flvcd.com/parse.php?kw="+uri;
 		String htmlString = HttpUtil.iosGetHtml(uri, null);
-		Log.i("TAG",uri+"\n"+htmlString);
 		String iid = StringUtil.getStringBetween(
 				htmlString, 0, "clipurl = \"", "\"").result;
 		if(StringUtil.isEmpty(iid))
 			return null;
 		String m3u8Url = iid;
-		Log.i("TAG",iid);
 		return m3u8Url;
 	}
 

@@ -48,8 +48,10 @@ public class Ku6VideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		if(!startIntent)
+		if(!startIntent){
+			Toast.makeText(fa.getBaseContext(), "创建视频窗口失败",	Toast.LENGTH_LONG).show();
 			return;
+		}
 		
 		if(result != null){
 				Intent intent = new Intent(fa.getBaseContext(),Media_Player.class);
@@ -57,6 +59,8 @@ public class Ku6VideoLoadTask extends AsyncTask<String, Integer, String> {
 				b.putString("MEDIAPATH", result);
 				intent.putExtras(b);
 				fa.startActivity(intent);
+		}else{
+			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析",	Toast.LENGTH_LONG).show();
 		}
 
 		this.onCancelled();
@@ -106,7 +110,6 @@ public class Ku6VideoLoadTask extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {  
         }  
 		String URL = HttpUtil.PATH_AVATAR+"/ku6.m3u8";
-		Log.e("TAG",URL);
 		return URL;
 	}
 

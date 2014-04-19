@@ -2,7 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-		android:background="@android:color/transparent">
+    android:windowSoftInputMode="stateHidden|adjustResize"
+    android:id="@+id/video_view_for_media_player"
+	android:background="@android:color/transparent"
+	>
     <io.vov.vitamio.widget.VideoView
         android:id="@+id/surface_view" android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_centerHorizontal="true"

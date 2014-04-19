@@ -53,7 +53,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         isLoading = false;
         try{
             table=result.get__TABLE();
-            Log.i("TAG","--"+String.valueOf(table)+"--");
         }catch(Exception e){
         	table=TableNum-1;
         }
@@ -170,7 +169,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         	if (isEndOfList == true)
         	{
         		if(table<2||table>(Integer.parseInt(context.getString(R.string.largesttablenum))+1)){//数据库没有或者加载完了
-        			Log.i("TAG",String.valueOf(table));
         		if (isPrompted == false) {
 					if (toast != null)
 	            	{
@@ -215,4 +213,26 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     private boolean isLoadingTable = false;
     private int TableListPage=0;
     private int TableNum=6;
+    
+	public void remove(int position) {
+		// TODO Auto-generated method stub
+		for(int i=0; i< infoList.size(); i++){
+			if(position < infoList.get(i).get__T__ROWS()){
+				infoList.get(i).getArticleEntryList().remove(position);
+			}
+			position -= infoList.get(i).get__T__ROWS();
+		}
+	}
+	
+
+	public String gettidarray(int position) {
+		// TODO Auto-generated method stub
+		for(int i=0; i< infoList.size(); i++){
+			if(position < infoList.get(i).get__T__ROWS()){
+				return infoList.get(i).getArticleEntryList().get(position).getTidarray();
+			}
+			position -= infoList.get(i).get__T__ROWS();
+		}
+		return null;
+	}
 }

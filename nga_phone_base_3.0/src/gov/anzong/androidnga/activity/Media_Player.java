@@ -5,6 +5,7 @@ import gov.anzong.androidnga.R;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import sp.phone.utils.ActivityUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -27,6 +28,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,9 +73,11 @@ public class Media_Player extends Activity {
     	Bundle b = this.getIntent().getExtras();
     	path = b.getString("MEDIAPATH"); 
         super.onCreate(icicle);
-        Log.i(TAG,path);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (ActivityUtil.isNotLessThan_4_0()) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
         setContentView(R.layout.videoview);
         mLoadingView = findViewById(R.id.video_loading);
         mPositionView = findViewById(R.id.video_position_second);
@@ -189,6 +193,9 @@ public class Media_Player extends Activity {
         toposition = -1l;
     	istoanotherposition=false;
     	mode =0;
+    	if (ActivityUtil.isNotLessThan_4_0()) {
+    		getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    	}
     }
 
     private class MyGestureListener extends SimpleOnGestureListener {
@@ -447,7 +454,6 @@ public class Media_Player extends Activity {
     }
     @Override
 	protected void onPause() {
-    	Log.i("TAG","ONPAUSE+++++++");
     	stopPlayer();
     	onpausemode=true;
 		super.onPause();
@@ -455,14 +461,12 @@ public class Media_Player extends Activity {
 
 	@Override
 	protected void onResume() {
-    	Log.i("TAG","ONRESUME+++++++");
     	startPlayer();
     	onpausemode=false;
 		super.onResume();
 	}
 	@Override
 	protected void onDestroy() {
-    	Log.i("TAG","onDestroy+++++++");
 		super.onDestroy();
 		if (mVideoView != null)
 			mVideoView.stopPlayback();

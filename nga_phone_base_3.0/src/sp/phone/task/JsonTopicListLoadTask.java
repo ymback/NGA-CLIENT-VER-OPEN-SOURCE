@@ -49,6 +49,10 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
         if(greatSeaUri.equals(uri)){
             filter = true;
         }
+		String page = StringUtil.getStringBetween(uri, 0, "page=", "&").result;
+		if(StringUtil.isEmpty(page)){
+			page = "1";
+		}
         if(uri.indexOf("table=")>0){
         	table = StringUtil.getStringBetween(uri, 0, "table=", "&").result.trim();
         	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//判断是否是搜索
@@ -79,7 +83,6 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 		}
 		
 		TopicListInfo ret = new TopicListInfo();
-		
 
 		/**
 		 * 再见垃圾板开始
@@ -169,11 +172,24 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 			try{
 			ThreadPageInfo entry = JSONObject.toJavaObject(rowObj,ThreadPageInfo.class);
 			JSONObject rowObj__P = (JSONObject) rowObj.get("__P");
+			String tidarray = "";
 			if(null != rowObj__P){
 				if(rowObj__P.getInteger("pid")>0){
 					entry.setPid(rowObj__P.getInteger("pid"));
+					if(entry.getTid()>0){
+						tidarray = "tidarray="+String.valueOf(entry.getTid())+"_"+String.valueOf(entry.getPid())+"&page="+page;
+					}
+				}else{
+					if(entry.getTid()>0){
+						tidarray = "tidarray="+String.valueOf(entry.getTid())+"&page="+page;
+					}
+				}
+			}else{
+				if(entry.getTid()>0){
+					tidarray = "tidarray="+String.valueOf(entry.getTid())+"&page="+page;
 				}
 			}
+			entry.setTidarray(tidarray);
 			if(rowObj.get("author").toString().length()==38 && rowObj.get("author").toString().startsWith("anony_")){
 				StringBuilder sb = new StringBuilder();
 				String aname=rowObj.get("author").toString();

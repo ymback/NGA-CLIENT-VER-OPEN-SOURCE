@@ -239,15 +239,16 @@ public class PostActivity extends SwipeBackAppCompatActivity
 	private String getngaClientChecksum()
 	  {
 		String str = null;
+		String secret = PostActivity.this.getString(R.string.checksecret);
 	    try
 	    {
-	    	str = MD5Util.MD5(new StringBuilder(String.valueOf(PhoneConfiguration.getInstance().getUid())).append("3ebd769858c56bd345898154e4b44427").append(System.currentTimeMillis() / 1000L).toString()) + System.currentTimeMillis() / 1000L;
+	    	str = MD5Util.MD5(new StringBuilder(String.valueOf(PhoneConfiguration.getInstance().getUid())).append(secret).append(System.currentTimeMillis() / 1000L).toString()) + System.currentTimeMillis() / 1000L;
 	      return str;
 	    }
 	    catch (Exception localException)
 	    {
 	      while (true)
-	    	  str = MD5Util.MD5(new StringBuilder("3ebd769858c56bd345898154e4b44427").append(System.currentTimeMillis() / 1000L).toString()) + System.currentTimeMillis() / 1000L;
+	    	  str = MD5Util.MD5(new StringBuilder(secret).append(System.currentTimeMillis() / 1000L).toString()) + System.currentTimeMillis() / 1000L;
 	    }
 	  }
 	
@@ -925,7 +926,6 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				act.setPost_content_(ColorTxtCheck() + buildSig());
 			else
 				act.setPost_content_(ColorTxtCheck());
-			Log.i("test",act.toString());
 			new ArticlePostTask(PostActivity.this).execute(url,act.toString());}
 
 			

@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.Toast;
 
 public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 
@@ -43,8 +44,10 @@ public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		if(!startIntent)
+		if(!startIntent){
+			Toast.makeText(fa.getBaseContext(), "创建视频窗口失败",	Toast.LENGTH_LONG).show();
 			return;
+		}
 		
 		if(result != null){
 			Intent intent = new Intent(fa.getBaseContext(),Media_Player.class);
@@ -52,6 +55,8 @@ public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 			b.putString("MEDIAPATH", result);
 			intent.putExtras(b);
 			fa.startActivity(intent);
+		}else{
+			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析",	Toast.LENGTH_LONG).show();
 		}
 
 		this.onCancelled();
@@ -118,22 +123,43 @@ public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 			return null;
 		}
 		String[] sta = data.split("quality=");
-		int i=0,si=-1;
+		String stb1080p=null,stb720p=null,stbmedium=null,stbsmall=null,stbother=null;
+		int i=0;
 		while (i<sta.length) {  
 			if(sta[i].indexOf("video/mp4")>0 && sta[i].indexOf("medium")<0 ){
-				si=i;
+				if(sta[i].indexOf("hd1080")>=0){
+					stb1080p=sta[i];
+				}else if(sta[i].indexOf("hd720")>=0){
+					stb720p=sta[i];
+				}else if(sta[i].indexOf("medium")>=0){
+					stbmedium=sta[i];
+				}else if(sta[i].indexOf("small")>=0){
+					stbsmall=sta[i];
+				}else{
+					stbother=sta[i];
+				}
 				break;
 			}
 			i++;
         }  
 		String m3u8Url=null;
-		if(si>=0){
-			 m3u8Url = sta[si];
+		if(StringUtil.isEmpty(stb1080p)){
+			m3u8Url=stb1080p;
+		}else if(StringUtil.isEmpty(stb720p)){
+			m3u8Url=stb720p;
+		}else if(StringUtil.isEmpty(stbmedium)){
+			m3u8Url=stbmedium;
+		}else if(StringUtil.isEmpty(stbother)){
+			m3u8Url=stbother;
+		}else if(StringUtil.isEmpty(stbsmall)){
+			m3u8Url=stbsmall;
 		}else{
 			return null;
 		}
 		m3u8Url = StringUtil.getStringBetween(
-				m3u8Url, 0, "url=", "\\").result;
+				m3u8Url, 0, "url=", ";").result;
+		if(StringUtil.isEmpty(m3u8Url))
+			return null;
 		return m3u8Url;
 	}
 

@@ -41,6 +41,7 @@ public abstract class BaseListSample extends FragmentActivity implements MenuAda
         items.add(new Category("赞美片总"));
         items.add(new Item("登陆账号", R.drawable.ic_login));
         items.add(new Item("yoooo", R.drawable.ic_menu_mylocation));
+        items.add(new Item("签到任务", R.drawable.ic_action_go_to_today));
         //items.add(new Item("最近访问", R.drawable.ic_action_select_all_dark));
         items.add(new Category("分类论坛"));
         items.add(new Item("综合讨论", R.drawable.ic_action_select_all_dark));
@@ -57,7 +58,8 @@ public abstract class BaseListSample extends FragmentActivity implements MenuAda
         items.add(new Category("设置"));
         items.add(new Item("程序设置", R.drawable.action_settings));
         items.add(new Item("添加版面", R.drawable.ic_action_add_to_queue));
-        items.add(new Item("关于", R.drawable.ic_action_supertext));
+        items.add(new Item("清空最近访问", R.drawable.ic_action_warning));
+        items.add(new Item("关于", R.drawable.ic_action_about));
 
         mList = new ListView(this);
 

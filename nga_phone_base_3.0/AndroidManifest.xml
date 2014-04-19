@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="625"
-	android:versionName="1.6.25" android:installLocation="auto">
+	package="gov.anzong.androidnga" android:versionCode="626"
+	android:versionName="1.6.26" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -19,13 +19,14 @@
 		<activity
             android:name=".activity.Media_Player"
             android:label="Media/MediaPlayer"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden" 
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>
          <activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.MainActivity" android:label="@string/app_name"
                   android:theme="@style/AppTheme">
@@ -41,6 +42,8 @@
 
 		<activity android:name=".activity.SettingsActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:name=".activity.BookmarkActivity" android:theme="@style/SwipeBackTheme"/>
+		
+		<activity android:name=".activity.FlexibleSignActivity" android:theme="@style/SwipeBackTheme"/>
         
 		<activity android:name=".activity.FlexibleTopicListActivity" android:exported="true" android:theme="@style/SwipeBackTheme">
 		   
@@ -61,6 +64,30 @@
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="@string/myscheme" android:host="bbs.ngacn.cc" android:path="/thread.php"/>
+            </intent-filter>
+            
+		    <intent-filter>
+		        <action android:name="android.intent.action.VIEW" /> 
+		        <category android:name="android.intent.category.DEFAULT" /> 
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="bbs.ngacn.cc" android:path="/thread.php"/>
+			</intent-filter>
+			<intent-filter>
+		        <action android:name="android.intent.action.VIEW" /> 
+		        <category android:name="android.intent.category.DEFAULT" /> 
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="nga.178.com" android:path="/thread.php"/>
+			</intent-filter>
+			 
+			<intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" android:host="bbs.ngacn.cc" android:path="/thread.php"/>
+			</intent-filter>
+			<intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" android:host="nga.178.com" android:path="/thread.php"/>
             </intent-filter>
 		</activity>
 		<activity android:name=".activity.ArticleListActivity" android:exported="true" android:theme="@style/SwipeBackTheme">
@@ -88,6 +115,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="@string/myscheme" android:host="bbs.ngacn.cc" android:path="/read.php"/>
             </intent-filter>
+			<intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="@string/myscheme" android:host="nga.178.com" android:path="/read.php"/>
+            </intent-filter>
             <!-- 在系统中注册NGA地址 -->
             
 			<intent-filter>
@@ -107,6 +139,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="http" android:host="bbs.ngacn.cc" android:path="/read.php"/>
             </intent-filter>
+			<intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" android:host="nga.178.com" android:path="/read.php"/>
+            </intent-filter>
 		    
 		</activity>
 		<activity android:name=".activity.ImageViewerActivity" android:theme="@style/SwipeBackTheme"/>
@@ -114,8 +151,15 @@
 		<!--activity android:theme="@style/AppTheme" android:name=".activity.FragmentArticleListActivity"/-->
 		<activity android:name=".activity.ReplyListActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:name=".activity.SplitFlexibleTopicListActivity" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
+		
+		<activity android:name=".activity.SplitFlexibleSignActivity" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
+		
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaFlexibleTopicListActivity" android:theme="@style/SwipeBackTheme"/>
+		<activity android:hardwareAccelerated="true" android:name=".activity.HaFlexibleSignActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitFlexibleTopicListActivity"/>
+		
+		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitFlexibleSignActivity"/>
+		
 		<activity android:name=".activity.SplitPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme"/>
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:windowSoftInputMode="stateVisible|adjustResize" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitPostActivity"/>

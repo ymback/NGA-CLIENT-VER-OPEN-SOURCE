@@ -63,6 +63,7 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String LETV_START = "http://www.letv.com/ptv/vplay/";//确认没有www是不行的
 	static private final String LETVSWF_INCLUDE = "letv.com/player/swfplayer.swf";
 	static private final String QQ_START = "http://v.qq.com/boke/page/";
+	static private final String QQ2_START = "http://v.qq.com/cover/";
 	static private final String QQSWF_START = "http://static.video.qq.com/TPout.swf";
 	static private final String WASU_START = "http://www.wasu.cn/play/show/id/";//确认没有www是不行的
 	static private final String YOUTUBE_WITH = "http://www.youtube.com/watch?v=";
@@ -272,6 +273,15 @@ public class ArticleListWebClient extends WebViewClient {
 			}
 		}
 		else if(url.startsWith(QQ_START) || url.indexOf(QQSWF_START.toLowerCase(Locale.US))==0){
+			String id = url;
+			QQVideoLoadTask loader = new QQVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforqq(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(QQ2_START)){
 			String id = url;
 			QQVideoLoadTask loader = new QQVideoLoadTask(fa);
 			if(ActivityUtil.isGreaterThan_2_3_3()){

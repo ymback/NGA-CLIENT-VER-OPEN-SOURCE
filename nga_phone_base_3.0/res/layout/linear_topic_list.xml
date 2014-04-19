@@ -53,5 +53,4 @@
             android:textSize="10dp"
             android:textStyle="bold" />
     </LinearLayout>
-
 </LinearLayout>

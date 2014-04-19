@@ -86,16 +86,16 @@ public class MainActivity extends BaseListSample
 		initView();
 
 		if(boardInfo.getCategoryName(0).equals("最近访问")){
-			setLocItem(3,"最近访问");
-			if(boardInfo.getCategoryCount()>12){
-				if(boardInfo.getCategoryName(12).equals("用户自定义")){
-				setLocItem(16,"用户自定义");
+			setLocItem(4,"最近访问");
+			if(boardInfo.getCategoryCount()>13){
+				if(boardInfo.getCategoryName(13).equals("用户自定义")){
+				setLocItem(17,"用户自定义");
 				}
 			}
 		}
 		else{
-			if(boardInfo.getCategoryCount()==12){
-				setLocItem(15,"用户自定义");
+			if(boardInfo.getCategoryCount()==13){
+				setLocItem(16,"用户自定义");
 			}
 		}
 		
@@ -129,6 +129,9 @@ public class MainActivity extends BaseListSample
 		}
 		else if(item.mTitle.equals("最近访问")){
 			pager.setCurrentItem(0-ifRecentExist);
+		}
+		else if(item.mTitle.equals("签到任务")){
+			signmission();
 		}
 		else if(item.mTitle.equals("综合讨论")){
 			pager.setCurrentItem(1-ifRecentExist);
@@ -174,6 +177,11 @@ public class MainActivity extends BaseListSample
 			//abandon FC！！！！！！！！！！
 			add_fid_dialog();
 		}
+		else if(item.mTitle.equals("清空最近访问")){
+			//addFid
+			//abandon FC！！！！！！！！！！
+			clear_recent_board();
+		}
 		else if(item.mTitle.equals("关于")){
 			//about
 			about_ngaclient();
@@ -182,7 +190,19 @@ public class MainActivity extends BaseListSample
         mMenuDrawer.closeMenu();
     }
 
-    private AlertDialog about_ngaclient() {
+    private void signmission() {
+		// TODO Auto-generated method stub
+    	Intent intent = new Intent();
+		PhoneConfiguration config = PhoneConfiguration.getInstance();
+		intent.setClass(MainActivity.this, config.signActivityClass);
+		startActivity(intent);
+		if(PhoneConfiguration.getInstance().showAnimation)
+		{
+			overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		}
+	}
+
+	private AlertDialog about_ngaclient() {
 		// TODO Auto-generated method stub
     	LayoutInflater layoutInflater = getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.client_dialog, null);  
@@ -388,6 +408,18 @@ public class MainActivity extends BaseListSample
 				overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
 	}
+	private void clear_recent_board(){
+		SharedPreferences share = getSharedPreferences(
+				PERFERENCE, Activity.MODE_PRIVATE);
+		Editor editor = share.edit();
+		editor.putString(RECENT_BOARD, "");
+		editor.commit();
+		Intent iareboot = getBaseContext().getPackageManager()
+				.getLaunchIntentForPackage(
+						getBaseContext().getPackageName());
+		iareboot.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(iareboot);
+	}
 	
 	private AlertDialog add_fid_dialog(){
 	    LayoutInflater layoutInflater = getLayoutInflater();  
@@ -528,11 +560,11 @@ public class MainActivity extends BaseListSample
 			saveaddFid(boardList);
 			boardInfo = loadDefaultBoard();
 			//add menu item
-			if(boardInfo.getCategoryCount()==12){
-				setLocItem(15,"用户自定义");
+			if(boardInfo.getCategoryCount()==13){
+				setLocItem(16,"用户自定义");
 			}
 			else{
-				setLocItem(16,"用户自定义");
+				setLocItem(17,"用户自定义");
 				}
 			return;
 		}else{// 有了
@@ -810,12 +842,12 @@ public class MainActivity extends BaseListSample
 						Board b1 =new Board(0, b.getUrl(), b.getName(), b
 								.getIcon());
 
-						if(!recentAlreadExist){//删除后第一次会在这边出问题,因为滑动导致首页没写好__ALREADY FIXED
+						if(!recentAlreadExist){
 							List<Board> boardList = new ArrayList<Board>();
 							boardList.add(b1);
 							saveRecent(boardList);
 							//add recent menu item
-							setLocItem(3,"最近访问");
+							setLocItem(4,"最近访问");
 							//set menu click right
 							ifRecentExist=0;
 							boardInfo = loadDefaultBoard();

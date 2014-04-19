@@ -104,7 +104,7 @@
     <string name="replysplit">发帖按钮在下面(4.0以上)</string>
     <string name="ha">硬件加速(4.0以上)</string>
     <string name="fullscreenmode">全屏模式(4.4以上)</string>
-    <string name="addreplybutton">发帖页面显示回复按钮</string>
+    <string name="addreplybutton">主题页面显示回复按钮</string>
     <string name="report">举报</string>
     <string name="reportdialog_description">不要仅仅因为意见不同而举报</string>
     <string name="report_confirm">举报确认</string>
@@ -180,6 +180,8 @@
     <string name="fontcolor">颜色</string>
     <string name="fontsize">字号</string>
     <string name="delline">删除线</string>
+    
+    <string name="checksecret">3ebd769858c56bd345898154e4b44427</string>
     
     <string-array name="colorchoose">
 		<item>默认 (纯黑色)</item>
