@@ -48,6 +48,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 	public Location location = null;
 	public boolean uploadLocation = false;
     public boolean showStatic = false;
+    public boolean play_acfunbili = true;
     public boolean showReplyButton = true;
     public boolean showColortxt = false;
     public boolean showNewweiba  = false;

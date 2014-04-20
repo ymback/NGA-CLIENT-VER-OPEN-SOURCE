@@ -96,7 +96,7 @@ public class Media_Player extends Activity {
             mMediaController = new MediaController(this);
             mVideoView.setMediaController(mMediaController);
             mVideoView.requestFocus();
-            mVideoView.setBufferSize(128*1024);
+            mVideoView.setBufferSize(512*1024);
             mVideoView.setOnInfoListener(new OnInfoListener() {
             	 private boolean needResume;
 				@Override

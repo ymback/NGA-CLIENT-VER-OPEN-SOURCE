@@ -1,5 +1,5 @@
 package gov.anzong.androidnga.activity;
 
-public class HaFlexibleSignActivity extends FlexibleTopicListActivity {
+public class HaFlexibleSignActivity extends FlexibleSignActivity {
 
 }

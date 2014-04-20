@@ -91,7 +91,8 @@ public class SignContainer extends Fragment implements
 		listView.setDivider(null);
 		adapter = new SignPageAdapter(this.getActivity());
 		headview =  inflater.inflate(R.layout.signresult, null);
-		refreshheadviewdata(headview);
+		headview.setVisibility(View.GONE);
+//		refreshheadviewdata(headview);
 		listView.addHeaderView(headview, null, false);
 		listView.setAdapter(adapter);
 
@@ -278,6 +279,7 @@ public class SignContainer extends Fragment implements
 		adapter.clear();
 		adapter.jsonfinishLoad(result);
 		if(isrefresh==true){
+			headview.setVisibility(View.VISIBLE);
 			refreshheadviewdata(headview);
 			isrefresh=false;
 		}

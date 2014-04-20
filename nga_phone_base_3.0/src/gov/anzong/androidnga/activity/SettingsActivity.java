@@ -53,6 +53,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton showNewweiba;
 	private CompoundButton showLajibankuai;
 	private CompoundButton showReplyButton;
+	private CompoundButton play_acfunbili;
 
 	private CompoundButton split = null;
 	private CompoundButton replysplit = null;
@@ -174,7 +175,10 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		showStatic = (CompoundButton) findViewById(R.id.checkBox_show_static);
 		showStatic.setChecked(config.showStatic);
 		showStatic.setOnCheckedChangeListener(new ShowStaticListener());
-		
+
+		play_acfunbili = (CompoundButton) findViewById(R.id.checkBox_play_acfunbili);
+		play_acfunbili.setChecked(config.play_acfunbili);
+		play_acfunbili.setOnCheckedChangeListener(new PlayAcfunbiliListener());
 
 		showReplyButton = (CompoundButton) findViewById(R.id.checkBox_addreplybutton);
 		showReplyButton.setOnCheckedChangeListener(new ShowReplyButtonListener());
@@ -315,6 +319,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		int fgColor = getResources().getColor(
 				ThemeManager.getInstance().getForegroundColor());
 		checkBoxDownimgNowifi.setTextColor(fgColor);
+		play_acfunbili.setTextColor(fgColor);
 		fullscreen.setTextColor(fgColor);
 		checkBoxDownAvatarNowifi.setTextColor(fgColor);
 		nightMode.setTextColor(fgColor);
@@ -507,6 +512,26 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		}
 
 	}
+
+	class PlayAcfunbiliListener implements OnCheckedChangeListener,
+			PerferenceConstant {
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) { 
+			PhoneConfiguration.getInstance().play_acfunbili = isChecked;
+			SharedPreferences share = getSharedPreferences(PERFERENCE,
+					MODE_PRIVATE);
+
+			Editor editor = share.edit();
+			editor.putBoolean(PLAY_ACFUNBILI, isChecked);
+			editor.commit();
+
+		}
+
+	}
+	
+
 
 	class ShowStaticListener implements OnCheckedChangeListener,
 			PerferenceConstant {

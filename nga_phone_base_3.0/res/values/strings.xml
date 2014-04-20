@@ -66,9 +66,11 @@
     <string name="load_tudou_video">载入土豆视频中</string>
     <string name="load_56_video">载入56视频中</string>
     <string name="load_sohu_video">载入搜狐视频中</string>
+    <string name="load_bili_video">载入BILIBILI视频中\n(无弹幕,要弹幕关闭设置中播放AB站视频,然后去下他们的客户端)</string>
     <string name="load_ku6_video">载入酷6视频中</string>
     <string name="load_letv_video">载入乐视视频中</string>
     <string name="load_qq_video">载入腾讯视频中</string>
+    <string name="load_netease_video">载入网易视频中</string>
     <string name="load_wasu_video">载入华数视频中</string>
     <string name="load_youtube_video">载入YOUTUBE视频中</string>
     <string name="save">保存</string>
@@ -141,6 +143,7 @@
     <string name="report_success">操作成功</string>
     <string name="please_relogin">请重新登录</string>
     <string name="show_static">显示版主固定的帖子</string>
+    <string name="show_play_acfunbili">使用内置播放器播放BILIBILI视频(无弹幕)</string>
 	<string name="color_txt">使用彩虹发帖模式</string>
 	<string name="new_weiba">发送可见尾巴信息</string>
 	<string name="show_lajibankuai">大漩涡中显示小版块主题</string>

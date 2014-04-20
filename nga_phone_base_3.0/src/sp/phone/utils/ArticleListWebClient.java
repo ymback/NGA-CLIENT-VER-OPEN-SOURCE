@@ -9,9 +9,12 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Locale;
 
+import sp.phone.task.BilibiliCidVideoLoadTask;
+import sp.phone.task.BilibiliVideoLoadTask;
 import sp.phone.task.FiveSixVideoLoadTask;
 import sp.phone.task.Ku6VideoLoadTask;
 import sp.phone.task.LetvVideoLoadTask;
+import sp.phone.task.NeteaseVideoLoadTask;
 import sp.phone.task.QQVideoLoadTask;
 import sp.phone.task.SohuVideoLoadTask;
 import sp.phone.task.TudouVideoLoadTask;
@@ -46,6 +49,8 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String TUDOUSWFWITHOUTWWW_START = "http://tudou.com/v/";//没有www一样能用OK
 	static private final String MYSOHU_END= ".shtml";
 	static private final String MYSOHU_START = "http://my.tv.sohu.com/us/";
+	static private final String MYSOHU2_END= ".shtml";
+	static private final String MYSOHU2_START = "http://my.tv.sohu.com/us/";
 	static private final String SOHU_END= ".shtml";
 	static private final String SOHU_START = "http://tv.sohu.com/";
 	static private final String SOHUSWF_END= "/v.swf";
@@ -78,6 +83,16 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String YOUTUBESHAREEMBEDNOCOOKIEOLD_START = "http://www.youtube-nocookie.com/v/";
 	static private final String YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START = "http://youtube-nocookie.com/v/";
 	static private final String YOUTUBE_END = "?";
+
+	static private final String NETEASE_START = "http://v.163.com/";//确认没有www是不行的
+	static private final String NETEASE_END = ".html";//确认没有www是不行的
+
+	static private final String BILIBILI_START = "http://www.bilibili.tv/video/av";
+	static private final String BILIBILINOWWW_START = "http://bilibili.tv/video/av";
+	static private final String BILIBILI2_START = "http://bilibili.kankanews.com/video/av";
+	static private final String BILIBILI_END = "/";
+	static private final String BILIBILICID_START = "https://secure.bilibili.tv/secure,";
+	static private final String BILIBILICID_END = "&";
 	
 	
 	private final FragmentActivity fa ;
@@ -141,6 +156,17 @@ public class ArticleListWebClient extends WebViewClient {
 			view.getContext().startActivity(intent);
 		}else if(url.startsWith(MYSOHU_START)){
 			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU_START, MYSOHU_END).result;
+			id=id.substring(id.lastIndexOf("/")+1);
+			String htmlUrl = "http://my.tv.sohu.com/ipad/"
+					+id +
+					".m3u8";
+			Intent intent = new Intent(view.getContext(),Media_Player.class);
+			Bundle b = new Bundle();
+			b.putString("MEDIAPATH", htmlUrl);
+			intent.putExtras(b);
+			view.getContext().startActivity(intent);
+		}else if(url.startsWith(MYSOHU2_START)){
+			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU2_START, MYSOHU2_END).result;
 			id=id.substring(id.lastIndexOf("/")+1);
 			String htmlUrl = "http://my.tv.sohu.com/ipad/"
 					+id +
@@ -398,6 +424,84 @@ public class ArticleListWebClient extends WebViewClient {
 			}else{
 				loader.execute(id);
 			}
+		}else if(url.startsWith(NETEASE_START) && StrTotalCount(url,"/")>3){
+			String id = origurl;
+			NeteaseVideoLoadTask loader = new NeteaseVideoLoadTask(fa);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorfornetease(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}else if(url.startsWith(BILIBILI_START)){
+			if(PhoneConfiguration.getInstance().play_acfunbili){
+				String id = StringUtil.getStringBetween(origurl, 0, BILIBILI_START, BILIBILI_END).result;
+				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa);
+				if(ActivityUtil.isGreaterThan_2_3_3()){
+					runOnExcutorforbili(loader,id);
+				}else{
+					loader.execute(id);
+				}
+			}else{
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+	            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+	            if(isIntentSafe)
+				    view.getContext().startActivity(intent);
+				//return false;
+			}
+		}else if(url.startsWith(BILIBILINOWWW_START)){
+			if(PhoneConfiguration.getInstance().play_acfunbili){
+				String id = StringUtil.getStringBetween(origurl, 0, BILIBILINOWWW_START, BILIBILI_END).result;
+				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa);
+				if(ActivityUtil.isGreaterThan_2_3_3()){
+					runOnExcutorforbili(loader,id);
+				}else{
+					loader.execute(id);
+				}
+			}else{
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+	            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+	            if(isIntentSafe)
+				    view.getContext().startActivity(intent);
+				//return false;
+			}
+		}
+		else if(url.startsWith(BILIBILI2_START)){
+			if(PhoneConfiguration.getInstance().play_acfunbili){
+				String id = StringUtil.getStringBetween(origurl, 0, BILIBILI2_START, BILIBILI_END).result;
+				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa);
+				if(ActivityUtil.isGreaterThan_2_3_3()){
+					runOnExcutorforbili(loader,id);
+				}else{
+					loader.execute(id);
+				}
+			}else{
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+	            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+	            if(isIntentSafe)
+				    view.getContext().startActivity(intent);
+				//return false;
+			}
+		}
+		else if(url.startsWith(BILIBILICID_START)){
+			if(PhoneConfiguration.getInstance().play_acfunbili){
+				String id = StringUtil.getStringBetween(origurl, 0, "cid=", BILIBILICID_END).result;
+				BilibiliCidVideoLoadTask loader = new BilibiliCidVideoLoadTask(fa);
+				if(ActivityUtil.isGreaterThan_2_3_3()){
+					runOnExcutorforbilicid(loader,id);
+				}else{
+					loader.execute(id);
+				}
+			}else{
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+	            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+	            if(isIntentSafe)
+				    view.getContext().startActivity(intent);
+				//return false;
+			}
 		}
 		else{
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -410,7 +514,15 @@ public class ArticleListWebClient extends WebViewClient {
 		return true;
 	}
 	
-
+	private int StrTotalCount(String str,String key){
+        int count = 0;
+        int index = 0;
+        while((index=str.indexOf(key,index))!=-1){
+            index = index+key.length();
+            count++;
+        }
+        return count;
+	}
 	@TargetApi(11)
 	private void runOnExcutorforTudou(TudouVideoLoadTask loader, String id){
 		loader.executeOnExecutor(TudouVideoLoadTask.THREAD_POOL_EXECUTOR, id);
@@ -433,11 +545,26 @@ public class ArticleListWebClient extends WebViewClient {
 		loader.executeOnExecutor(WASUVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
 	}
-	
+
 	@TargetApi(11)
 	private void runOnExcutorforyoutube(YoutubeVideoLoadTask loader, String id){
 		loader.executeOnExecutor(YoutubeVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 		
+	}
+	
+	@TargetApi(11)
+	private void runOnExcutorfornetease(NeteaseVideoLoadTask loader, String id){
+		loader.executeOnExecutor(NeteaseVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+	}
+
+	@TargetApi(11)
+	private void runOnExcutorforbili(BilibiliVideoLoadTask loader, String id){
+		loader.executeOnExecutor(BilibiliVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+	}
+	
+	@TargetApi(11)
+	private void runOnExcutorforbilicid(BilibiliCidVideoLoadTask loader, String id){
+		loader.executeOnExecutor(BilibiliCidVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 	}
 	
 	@TargetApi(11)

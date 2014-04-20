@@ -234,6 +234,9 @@ public class StringUtil {
 		//SOHU可内置播放
 				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://my.tv.sohu.com/us/[^\\[|\\]]+)\\[/flash\\]",
 						"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
+		//SOHU可内置播放
+				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://my.tv.sohu.com/pl/[^\\[|\\]]+)\\[/flash\\]",
+						"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
 		//SOHU2可内置播放
 				s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://tv.sohu.com/[^\\[|\\]]+.shtml)\\[/flash\\]",
 						"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
@@ -279,6 +282,11 @@ public class StringUtil {
 		//LETV2可内置播放
 						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://[^\\[|\\]]+letv.com/player/swfPlayer.swf\\?id=[^\\[|\\]]+)\\[/flash\\]",
 								"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
+						
+
+		//NETEASE可内置播放
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.163.com/[^\\[|\\]]+/[^\\[|\\]]+/[^\\[|\\]]+.html[^\\[|\\]]+)\\[/flash\\]",
+								"<a href=\"$1\"><img src='file:///android_asset/netease.png' style= 'max-width:100%;' ></a>");
 
 		//QQ1可内置播放
 						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://v.qq.com/boke/page/[^\\[|\\]]+.html)\\[/flash\\]",
@@ -327,7 +335,17 @@ public class StringUtil {
 		//YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START可内置播放
 						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://youtube-nocookie.com/v/[^\\[|\\]]+)\\[/flash\\]",
 							"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");//蛋疼吧
-
+						
+						if(PhoneConfiguration.getInstance().play_acfunbili){
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://www.bilibili.tv/video/av[^\\[|\\]]+)\\[/flash\\]",
+								"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://bilibili.tv/video/av[^\\[|\\]]+)\\[/flash\\]",
+								"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http://bilibili.kankanews.com/video/av[^\\[|\\]]+)\\[/flash\\]",
+								"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+						s = s.replaceAll(ignoreCaseTag +"\\[flash\\](https://secure.bilibili.tv/secure,[^\\[|\\]]+)\\[/flash\\]",
+								"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+						}
 	
 		//flash
 		s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
@@ -656,12 +674,13 @@ public class StringUtil {
 		return ret;
 	}
 	final static String tips = 	
-					"发现bug后请先更新到最新版本,如果还有问题[@竹井詩織里]\n"
+					"更新后每次打开看到这个窗口的,请长按HOME关闭本APP再使用即可,还不行就重启手机\n"
+					+"更新后崩溃的请去系统设置-应用-NGA客户端开源版-清除数据即可\n"
+					+"发现bug后请先更新到最新版本,如果还有问题[@竹井詩織里]\n"
 					+"安卓4.0以上现在可以设置将发帖按钮放置在输入法上方了,独立于菜单按钮\n"
-					+"有个侧边栏的啊你们别忘记!\n可以删除收藏了\n"
-					+"签到功能可以试用了\n"
-					+"设置中可选择2G/3G时图片中转压缩,使用新浪SAE处理\n"
-					+"第一次启动会安装解码器(如果每次启动都会安装请重启手机一次即可),现在客户端内置视频网站视频播放功能了,现在支持土豆/优酷/搜狐/56/酷六/乐视/腾讯/华数/YOUTUBE,更多网站开发中\n"
+					+"可以删除收藏了,签到功能可以试用了,咱APP有个侧边栏的啊你们别忘记!\n"
+					+"设置中可选择2G/3G/4G时图片中转压缩,减少流量,使用新浪SAE处理\n"
+					+"第一次启动会安装解码器,现在客户端内置视频网站视频播放功能了,现在支持土豆/优酷/搜狐/网易/腾讯/56/酷六/乐视/华数/YOUTUBE/BILIBILI,更多网站开发中\n"
 					+"NGA客户端开源版开发团队([@竹井詩織里]/[@cfan8]/[@force0119]/[@那个惩戒骑])再开发,赞美片总\n"
 					+"寻找更新请在Google Play商店或酷安搜索NGA客户端开源版安装\n"
 					+"178,准时坑爹,绝不发货";

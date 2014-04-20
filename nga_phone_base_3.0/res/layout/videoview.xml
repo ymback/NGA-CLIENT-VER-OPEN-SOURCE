@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:windowSoftInputMode="stateHidden|adjustResize"
     android:id="@+id/video_view_for_media_player"
-	android:background="@android:color/transparent"
+	android:background="@android:color/black"
 	>
     <io.vov.vitamio.widget.VideoView
         android:id="@+id/surface_view" android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-		android:background="@android:color/transparent"  />
+		android:background="@android:color/black"  />
     <LinearLayout
         android:id="@+id/video_loading"
         android:layout_width="wrap_content"

@@ -24,6 +24,7 @@ public interface PerferenceConstant {
 	final String SHOW_ANIMATION = "showAnimation";
 	final String SHOW_SIGNATURE = "showSignature";
     final String SHOW_STATIC = "showStatic";
+    final String PLAY_ACFUNBILI = "playAcfunbili";
     final String SHOW_REPLYBUTTON = "showReplyButton";
     final String SHOW_COLORTXT = "showColortxt";
     final String SHOW_NEWWEIBA = "showNewweiba";

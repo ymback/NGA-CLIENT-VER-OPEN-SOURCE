@@ -643,7 +643,6 @@ public class MainActivity extends BaseListSample
 			new AlertDialog.Builder(this).setTitle(R.string.prompt)
 			.setMessage(StringUtil.getTips())
 			.setPositiveButton(R.string.i_know, null).show();
-
 			app.setNewVersion(false);
 
 		}
@@ -652,7 +651,13 @@ public class MainActivity extends BaseListSample
 	}
 
 
-
+	 private static void deleteFilesByDirectory(File directory) {      
+		 if (directory != null && directory.exists() && directory.isDirectory()) {       
+		 for (File item : directory.listFiles()) {             
+		 item.delete();             
+		 }         
+		 }     
+		 }  
 
 
 
