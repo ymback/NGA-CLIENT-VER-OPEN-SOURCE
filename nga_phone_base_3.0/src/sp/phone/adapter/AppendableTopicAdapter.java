@@ -219,6 +219,8 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 		for(int i=0; i< infoList.size(); i++){
 			if(position < infoList.get(i).get__T__ROWS()){
 				infoList.get(i).getArticleEntryList().remove(position);
+				infoList.get(i).set__T__ROWS(infoList.get(i).getArticleEntryList().size());
+				count--;
 			}
 			position -= infoList.get(i).get__T__ROWS();
 		}
