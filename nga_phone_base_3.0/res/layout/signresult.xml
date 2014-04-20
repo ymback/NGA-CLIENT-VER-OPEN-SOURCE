@@ -75,7 +75,6 @@
         android:text="连续/总计签到天数:"
         android:textColor="#FF545454"
         android:textIsSelectable="false"
-        android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
@@ -84,11 +83,9 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/signdatedata"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="1dp"
         android:layout_toRightOf="@+id/signdatedata"
         android:textColor="#FF545454"
-        android:textIsSelectable="false"
-        android:textSize="14dp" />
+        android:textIsSelectable="false"/>
 
     <TextView
         android:id="@+id/statetext"
@@ -101,33 +98,29 @@
         android:text="签到状态:"
         android:textColor="#FF545454"
         android:textIsSelectable="false"
-        android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/signstate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/statetext"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="1dp"
-        android:layout_toRightOf="@+id/statetext"
+        android:layout_below="@+id/statetext"
+        android:layout_alignLeft="@id/statetext" 
         android:textColor="#FF545454"
         android:textIsSelectable="false"
-        android:textSize="14dp" />
+        android:text="AA"/>
 
     <TextView
         android:id="@+id/success_mission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/statetext"
+        android:layout_below="@+id/signstate"
         android:layout_marginLeft="3dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/avatarImage"
         android:text="已完成任务:"
         android:textColor="#FF545454"
         android:textIsSelectable="false"
-        android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
@@ -135,25 +128,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/success_mission"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="3dp"
+        android:text="3"
         android:layout_toRightOf="@+id/success_mission"
         android:textColor="#FF545454"
-        android:textIsSelectable="false"
-        android:textSize="14dp" />
+        android:textIsSelectable="false" />
 
     <TextView
         android:id="@+id/available_mission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
-        android:layout_below="@+id/statetext"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/signstate"
         android:layout_toRightOf="@+id/successnum"
+        android:layout_alignTop="@id/success_mission"
         android:text="可完成任务:"
         android:textColor="#FF545454"
         android:textIsSelectable="false"
-        android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
@@ -161,12 +152,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/available_mission"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="3dp"
+        android:text="3"
         android:layout_toRightOf="@+id/available_mission"
         android:textColor="#FF545454"
-        android:textIsSelectable="false"
-        android:textSize="14dp" />
+        android:textIsSelectable="false" />
 		</RelativeLayout>
 
     <LinearLayout

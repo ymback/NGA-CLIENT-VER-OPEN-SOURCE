@@ -173,17 +173,12 @@ public class MainActivity extends BaseListSample
 			jumpToSetting();
 		}
 		else if(item.mTitle.equals("添加版面")){
-			//addFid
-			//abandon FC！！！！！！！！！！
 			add_fid_dialog();
 		}
 		else if(item.mTitle.equals("清空最近访问")){
-			//addFid
-			//abandon FC！！！！！！！！！！
 			clear_recent_board();
 		}
 		else if(item.mTitle.equals("关于")){
-			//about
 			about_ngaclient();
 		}
 		

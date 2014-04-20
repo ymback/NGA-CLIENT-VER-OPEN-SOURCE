@@ -76,7 +76,7 @@ public class SignPageAdapter extends BaseAdapter implements
 	
 	public Object getItem(int arg0) {
 
-		MissionDetialData entry = getEntry(arg0);
+//		MissionDetialData entry = getEntry(arg0);
 
 		return null;
 
@@ -97,19 +97,6 @@ public class SignPageAdapter extends BaseAdapter implements
 		public TextView missionstat;
 		public WebView content;
 		public TextView missionidtitle;
-
-		/* FORPOS0 */
-		public TextView nickName;
-		public TextView signtime;
-		public TextView signdate;
-		public TextView signstate;
-		public TextView lasttext;
-		public TextView signdatedata;
-		public TextView statetext;
-		public ImageView avatarImage;
-		public TextView successnum;
-		public TextView availablenum;
-		public View lineviewforshow;
 	}
 
 	class ViewHolderPos0 {
@@ -120,46 +107,6 @@ public class SignPageAdapter extends BaseAdapter implements
 		View convertView = view;// m.get(position);
 		ViewHolder holder = null;
 		if (convertView == null) {
-			if (position == 0) {
-				convertView = inflater.inflate(R.layout.signresult, null);
-				TextView nickName = (TextView) convertView
-						.findViewById(R.id.nickName);
-				TextView signtime = (TextView) convertView
-						.findViewById(R.id.signtime);
-				TextView signdate = (TextView) convertView
-						.findViewById(R.id.signdate);
-				TextView signstate = (TextView) convertView
-						.findViewById(R.id.signstate);
-				TextView lasttext = (TextView) convertView
-						.findViewById(R.id.lasttext);
-				TextView signdatedata = (TextView) convertView
-						.findViewById(R.id.signdatedata);
-				TextView statetext = (TextView) convertView
-						.findViewById(R.id.statetext);
-				ImageView avatarImage = (ImageView) convertView
-						.findViewById(R.id.avatarImage);
-				View lineviewforshow = (View) convertView
-						.findViewById(R.id.lineviewforshow);
-				TextView successnum = (TextView) convertView
-						.findViewById(R.id.successnum);
-				TextView availablenum = (TextView) convertView
-						.findViewById(R.id.availablenum);
-
-				holder = new ViewHolder();
-				holder.nickName = nickName;
-				holder.lineviewforshow = lineviewforshow;
-				holder.signtime = signtime;
-				holder.signdate = signdate;
-				holder.signstate = signstate;
-				holder.avatarImage = avatarImage;
-				holder.lasttext = lasttext;
-				holder.signdatedata = signdatedata;
-				holder.statetext = statetext;
-				holder.successnum = successnum;
-				holder.availablenum = availablenum;
-				convertView.setTag(holder);
-
-			} else {
 				convertView = inflater.inflate(R.layout.relative_signmissionstate_list,null);
 				TextView missionid = (TextView) convertView.findViewById(R.id.missionid);
 				TextView missionname = (TextView) convertView
@@ -181,11 +128,9 @@ public class SignPageAdapter extends BaseAdapter implements
 				holder.content = content;
 				holder.missionidtitle = missionidtitle;
 				convertView.setTag(holder);
-			}
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();
-
 		}
 
 		ThemeManager cfg = ThemeManager.getInstance();
@@ -217,96 +162,11 @@ public class SignPageAdapter extends BaseAdapter implements
 		}
 		Resources res = inflater.getContext().getResources();
 		ThemeManager theme = ThemeManager.getInstance();
-		boolean night = false;
-		int nightLinkColor = res.getColor(R.color.night_link_color);
-		if (theme.getMode() == ThemeManager.MODE_NIGHT) {
-			night = true;
-		}
-		if (position == 0) {
-			String userName;
-			String uid;
-			String signtime;
-			String signdate;
-			String signstate;
-			String availablenum;
-			String successnum;
-			if (night) {
-				holder.nickName.setTextColor(nightLinkColor);
-				holder.signtime.setTextColor(nightLinkColor);
-				holder.signdate.setTextColor(nightLinkColor);
-				holder.signstate.setTextColor(nightLinkColor);
-				holder.lasttext.setTextColor(nightLinkColor);
-				holder.signdatedata.setTextColor(nightLinkColor);
-				holder.statetext.setTextColor(nightLinkColor);
-				holder.availablenum.setTextColor(nightLinkColor);
-				holder.successnum.setTextColor(nightLinkColor);
-			}
-			if (StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {
-				userName = "未知";
-			} else {
-				userName = PhoneConfiguration.getInstance().userName;
-			}
-			String userId = "-9999";
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
-				userId =PhoneConfiguration.getInstance().uid;
-			}
-			if (StringUtil.isEmpty(signData.get__SignResult())) {
-				signstate = "未知";
-			} else {
-				signstate = signData.get__SignResult();
-			}
-			if (signData.get__is_json_error()) {
-				signtime = "未知";
-				signdate = "未知";
-				availablenum = "未知";
-				successnum = "未知";
-			} else {
-				if (StringUtil.isEmpty(signData.get__Last_time())) {
-					signtime = "未知";
-				} else {
-					signtime = signData.get__Last_time();
-				}
-				signdate = String.valueOf(signData.get__Continued()) + "/"
-						+ String.valueOf(signData.get__Sum());
-				if (signData.get__Availablerows() == 0) {
-					availablenum = "未知";
-				} else {
-					availablenum = String
-							.valueOf(signData.get__Availablerows())+"个";
-				}
-				if (signData.get__Successrows() == 0) {
-					successnum = "未知";
-				} else {
-					successnum = String
-							.valueOf(signData.get__Successrows())+"个";
-				}
-
-			}
-			if(signData.get__Totalrows()>1){
-				holder.lineviewforshow.setVisibility(View.VISIBLE);
-			}
-			holder.nickName.setText(userName);
-			holder.signtime.setText(signtime);
-			holder.signdate.setText(signdate);
-			holder.signstate.setText(signstate);
-			holder.availablenum.setText(availablenum);
-			holder.successnum.setText(successnum);
-			holder.avatarImage.setImageBitmap(getUserAvatat(userId));
-			// 处理头像
-
-		} else {
 			String missionid;
 			String missionname;
 			String missiondetial;
 			String missionstat;
 			String info;
-			if (night) {
-				holder.missionid.setTextColor(nightLinkColor);
-				holder.missionname.setTextColor(nightLinkColor);
-				holder.missiondetial.setTextColor(nightLinkColor);
-				holder.missionstat.setTextColor(nightLinkColor);
-				holder.missionidtitle.setTextColor(nightLinkColor);
-			}
 			missionid = String.valueOf(entry.get__id());
 			if (StringUtil.isEmpty(entry.get__name())) {
 				missionname = "未知";
@@ -329,10 +189,6 @@ public class SignPageAdapter extends BaseAdapter implements
 			} else {
 				info = entry.get__info();
 			}
-			holder.missionid.setText(missionid);//这边有问题
-			holder.missionname.setText(missionname);
-			holder.missiondetial.setText(missiondetial);
-			holder.missionstat.setText(missionstat);
 
 			int bgColor = res.getColor(theme.getBackgroundColor(position));
 			int fgColor = res.getColor(theme.getForegroundColor());
@@ -360,7 +216,10 @@ public class SignPageAdapter extends BaseAdapter implements
 			if(entry.get__issuccessed()==true){
 				holder.missionidtitle.setText("已完成任务ID:");
 			}
-		}
+			holder.missionid.setText(missionid);//这边有问题
+			holder.missionname.setText(missionname);
+			holder.missiondetial.setText(missiondetial);
+			holder.missionstat.setText(missionstat);
 	}
 
 
@@ -387,44 +246,6 @@ public class SignPageAdapter extends BaseAdapter implements
 				+ "</font></body>";
 
 		return ngaHtml;
-	}
-	
-	
-	private Bitmap getUserAvatat(String userId) {
-		Bitmap defaultAvatar = null, bitmap = null;
-		if (PhoneConfiguration.getInstance().nikeWidth < 3) {
-			return null;
-		}
-		if (defaultAvatar == null
-				|| defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
-			Resources res = inflater.getContext().getResources();
-			InputStream is = res.openRawResource(R.drawable.default_avatar);
-			InputStream is2 = res.openRawResource(R.drawable.default_avatar);
-			defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
-		}
-		String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId;
-		String[] extension = { ".jpg", ".png", ".gif", ".jpeg", ".bmp" };
-		for (int i = 0; i < 5; i++) {
-			File f = new File(avatarPath+extension[i]);
-			if (f.exists()) {
-				
-				bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath+extension[i]);
-				if (bitmap == null) {
-					f.delete();
-				}
-				long date = f.lastModified();
-				if ((System.currentTimeMillis() - date) / 1000 > 30 * 24 * 3600) {
-					f.delete();
-				}
-				break;
-			}
-		}
-		if (bitmap!=null) {
-			return bitmap;
-		} else {
-			return defaultAvatar;
-		}
-
 	}
 
 	protected MissionDetialData getEntry(int position) {

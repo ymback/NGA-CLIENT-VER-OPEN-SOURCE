@@ -23,7 +23,9 @@
 	<color name="red">#FF0000</color>
 	<color name="actionbar_title_color">#ffffff</color>
 	<color name="night_fore_color">#424952</color>
-	<color name="night_bg_color">#080C10</color><color name="night_link_color">#294563</color><color name="green">#00ff00</color>
+	<color name="night_bg_color">#080C10</color>
+	<color name="night_link_color">#294563</color>
+	<color name="green">#00ff00</color>
 	<color name="blue">#0000ff</color>
 	<color name="blue_hover">#00039E</color>
 	<color name="ics_blue">#33B5E5</color>
