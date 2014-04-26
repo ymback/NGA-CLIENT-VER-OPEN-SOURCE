@@ -15,7 +15,9 @@ import sp.phone.task.FiveSixVideoLoadTask;
 import sp.phone.task.Ku6VideoLoadTask;
 import sp.phone.task.LetvVideoLoadTask;
 import sp.phone.task.NeteaseVideoLoadTask;
+import sp.phone.task.PPSVideoLoadTask;
 import sp.phone.task.QQVideoLoadTask;
+import sp.phone.task.SinaVideoLoadTask;
 import sp.phone.task.SohuVideoLoadTask;
 import sp.phone.task.TudouVideoLoadTask;
 import sp.phone.task.WASUVideoLoadTask;
@@ -93,7 +95,14 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String BILIBILI_END = "/";
 	static private final String BILIBILICID_START = "https://secure.bilibili.tv/secure,";
 	static private final String BILIBILICID_END = "&";
-	
+
+	static private final String PPS_START = "http://v.pps.tv/play_";
+	static private final String PPS_END = ".html";
+	static private final String PPSSWF_START = "http://player.pps.tv/player/sid/";
+	static private final String PPSSWF_END = "/v.swf";
+	static private final String SINA_START = "http://video.sina.com.cn/";
+	static private final String SINAENT_START = "http://ent.sina.com.cn/";
+	static private final String SINASWF_START = "http://you.video.sina.com.cn/api/sinawebApi/outplayrefer.php";
 	
 	private final FragmentActivity fa ;
 	static final String dialogTag = "load_tudou";
@@ -134,7 +143,7 @@ public class ArticleListWebClient extends WebViewClient {
 			intent.setClass(view.getContext(), ImageViewerActivity.class);
 			view.getContext().startActivity(intent);
 
-		}else if(url.startsWith(YOUKU_START)){
+		}else if(url.startsWith(YOUKU_START)){//优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, YOUKU_START, YOUKU_END).result;
 			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
 					+id +
@@ -144,7 +153,7 @@ public class ArticleListWebClient extends WebViewClient {
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
 			view.getContext().startActivity(intent);
-		}else if(url.startsWith(YOUKUSWF_START)){
+		}else if(url.startsWith(YOUKUSWF_START)){//优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "sid/", YOUKUSWF_END).result;
 			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
 					+id +
@@ -154,7 +163,7 @@ public class ArticleListWebClient extends WebViewClient {
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
 			view.getContext().startActivity(intent);
-		}else if(url.startsWith(MYSOHU_START)){
+		}else if(url.startsWith(MYSOHU_START)){//搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU_START, MYSOHU_END).result;
 			id=id.substring(id.lastIndexOf("/")+1);
 			String htmlUrl = "http://my.tv.sohu.com/ipad/"
@@ -165,7 +174,7 @@ public class ArticleListWebClient extends WebViewClient {
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
 			view.getContext().startActivity(intent);
-		}else if(url.startsWith(MYSOHU2_START)){
+		}else if(url.startsWith(MYSOHU2_START)){//搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU2_START, MYSOHU2_END).result;
 			id=id.substring(id.lastIndexOf("/")+1);
 			String htmlUrl = "http://my.tv.sohu.com/ipad/"
@@ -176,7 +185,7 @@ public class ArticleListWebClient extends WebViewClient {
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
 			view.getContext().startActivity(intent);
-		}else if(url.startsWith(MYSOHUSWF_START)){
+		}else if(url.startsWith(MYSOHUSWF_START)){//搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "id=", "&").result;
 			String htmlUrl = "http://my.tv.sohu.com/ipad/"
 					+id +
@@ -186,14 +195,14 @@ public class ArticleListWebClient extends WebViewClient {
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
 			view.getContext().startActivity(intent);
-		}else if(url.startsWith(SOHU_START)){
+		}else if(url.startsWith(SOHU_START)){//搜狐,可以直接拿ID解析的
 			SohuVideoLoadTask loader = new SohuVideoLoadTask(fa);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforSohu(loader,url);
 			}else{
 				loader.execute(url);
 			}
-		}else if(url.startsWith(SOHUSWF_START)){
+		}else if(url.startsWith(SOHUSWF_START)){//搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, SOHUSWF_START, SOHUSWF_END).result;
 			String htmlUrl = "http://hot.vrs.sohu.com/ipad"
 					+id +
@@ -203,122 +212,122 @@ public class ArticleListWebClient extends WebViewClient {
 			b.putString("MEDIAPATH", htmlUrl);
 			intent.putExtras(b);
 			view.getContext().startActivity(intent);
-		}else if(url.startsWith(TUDOU_START)){
+		}else if(url.startsWith(TUDOU_START)){//土豆,需要解析后获取id然后获取M3U8地址
 			String id = StringUtil.getStringBetween(origurl, 0, TUDOU_START, TUDOU_END).result;
-			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
+			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforTudou(loader,id);
 			}else{
 				loader.execute(id);
 			}
-		}else if(url.startsWith(TUDOUWITHOUTWWW_START)){
+		}else if(url.startsWith(TUDOUWITHOUTWWW_START)){//土豆,需要解析后获取id然后获取M3U8地址
 			String id = StringUtil.getStringBetween(origurl, 0, TUDOUWITHOUTWWW_START, TUDOU_END).result;
-			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
+			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforTudou(loader,id);
 			}else{
 				loader.execute(id);
 			}
-		}else if(url.startsWith(TUDOUSWF_START)){
+		}else if(url.startsWith(TUDOUSWF_START)){//土豆,需要解析后获取id然后获取M3U8地址
 			String id = StringUtil.getStringBetween(origurl, 0, TUDOUSWF_START, TUDOUSWF_END).result;
-			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
+			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforTudou(loader,id);
 			}else{
 				loader.execute(id);
 			}
-		}else if(url.startsWith(TUDOUSWFWITHOUTWWW_START)){
+		}else if(url.startsWith(TUDOUSWFWITHOUTWWW_START)){//土豆,需要解析后获取id然后获取M3U8地址
 			String id = StringUtil.getStringBetween(origurl, 0, TUDOUSWFWITHOUTWWW_START, TUDOUSWF_END).result;
-			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa);
+			TudouVideoLoadTask loader = new TudouVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforTudou(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(A56_START)){
+		else if(url.startsWith(A56_START)){//通过JSON截取地址
 			String id = StringUtil.getStringBetween(origurl, 0, "v_", A56_END).result;
-			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa);
+			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorfor56(loader,id);
 			}else{
 				loader.execute(id);
 			}
-		}else if(url.startsWith(A56WITHOUTWWW_START)){
+		}else if(url.startsWith(A56WITHOUTWWW_START)){//通过JSON截取地址
 			String id = StringUtil.getStringBetween(origurl, 0, "v_", A56_END).result;
-			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa);
+			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorfor56(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(A56SWF_START)){
+		else if(url.startsWith(A56SWF_START)){//通过JSON截取地址
 			String id = StringUtil.getStringBetween(origurl, 0, A56SWF_START, A56SWF_END).result;
-			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa);
+			FiveSixVideoLoadTask loader = new FiveSixVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorfor56(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(KU6_START)){
+		else if(url.startsWith(KU6_START)){//酷六会把M3U8转存为F4V，所以讲获得的M3U8转存到缓存再读取缓存
 			String id = StringUtil.getStringBetween(origurl, 0, KU6_START, KU6_END).result;
-			Ku6VideoLoadTask loader = new Ku6VideoLoadTask(fa);
+			Ku6VideoLoadTask loader = new Ku6VideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforku6(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(KU6SWF_START)){
+		else if(url.startsWith(KU6SWF_START)){//酷六会把M3U8转存为F4V，所以讲获得的M3U8转存到缓存再读取缓存
 			String id = StringUtil.getStringBetween(origurl, 0, KU6SWF_START, KU6SWF_END).result;
-			Ku6VideoLoadTask loader = new Ku6VideoLoadTask(fa);
+			Ku6VideoLoadTask loader = new Ku6VideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforku6(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(LETV_START)){
+		else if(url.startsWith(LETV_START)){//无解，然后拿FLVCD的内容截取出来了
 			String id = url;
-			LetvVideoLoadTask loader = new LetvVideoLoadTask(fa);
+			LetvVideoLoadTask loader = new LetvVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforletv(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.indexOf(LETVSWF_INCLUDE.toLowerCase(Locale.US))>0){
+		else if(url.indexOf(LETVSWF_INCLUDE.toLowerCase(Locale.US))>0){//无解，然后拿FLVCD的内容截取出来了
 			String id = url;
-			LetvVideoLoadTask loader = new LetvVideoLoadTask(fa);
+			LetvVideoLoadTask loader = new LetvVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforletv(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(QQ_START) || url.indexOf(QQSWF_START.toLowerCase(Locale.US))==0){
+		else if(url.startsWith(QQ_START) || url.indexOf(QQSWF_START.toLowerCase(Locale.US))==0){//也用FLVCD的
 			String id = url;
-			QQVideoLoadTask loader = new QQVideoLoadTask(fa);
+			QQVideoLoadTask loader = new QQVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforqq(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(QQ2_START)){
+		else if(url.startsWith(QQ2_START)){//也用FLVCD的
 			String id = url;
-			QQVideoLoadTask loader = new QQVideoLoadTask(fa);
+			QQVideoLoadTask loader = new QQVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforqq(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(WASU_START)){
+		else if(url.startsWith(WASU_START)){//也FLVCD
 			String id = url;
-			WASUVideoLoadTask loader = new WASUVideoLoadTask(fa);
+			WASUVideoLoadTask loader = new WASUVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforwasu(loader,id);
 			}else{
@@ -326,116 +335,116 @@ public class ArticleListWebClient extends WebViewClient {
 			}
 		}
 		/*youtube太恶心了*/
-		else if(url.startsWith(YOUTUBE_WITH)){
+		else if(url.startsWith(YOUTUBE_WITH)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBE_WITH, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBENOWWW_WITH)){
+		else if(url.startsWith(YOUTUBENOWWW_WITH)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBENOWWW_WITH, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHARE_START)){
+		else if(url.startsWith(YOUTUBESHARE_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHARE_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBED_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBED_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBED_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBEDNOWWW_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOWWW_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOWWW_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIE_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIE_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIE_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIENOWWW_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIENOWWW_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIENOWWW_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBEDOLD_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBEDOLD_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDOLD_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBEDNOWWWOLD_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOWWWOLD_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOWWWOLD_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIEOLD_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIEOLD_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIEOLD_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
 		}
-		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START)){
+		else if(url.startsWith(YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START)){//先获取视频id,读取youtube的数据接口,将数据分割,转换,提取不同清晰度地址
 			String id = StringUtil.getStringBetween(origurl, 0, YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START, YOUTUBE_END).result;
-			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa);
+			YoutubeVideoLoadTask loader = new YoutubeVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorforyoutube(loader,id);
 			}else{
 				loader.execute(id);
 			}
-		}else if(url.startsWith(NETEASE_START) && StrTotalCount(url,"/")>3){
+		}else if(url.startsWith(NETEASE_START) && StrTotalCount(url,"/")>3){//FLVCD
 			String id = origurl;
-			NeteaseVideoLoadTask loader = new NeteaseVideoLoadTask(fa);
+			NeteaseVideoLoadTask loader = new NeteaseVideoLoadTask(fa,origurl);
 			if(ActivityUtil.isGreaterThan_2_3_3()){
 				runOnExcutorfornetease(loader,id);
 			}else{
 				loader.execute(id);
 			}
-		}else if(url.startsWith(BILIBILI_START)){
+		}else if(url.startsWith(BILIBILI_START)){//由设置,BILIBILI用其接口读取直接截取出视频地址
 			if(PhoneConfiguration.getInstance().play_acfunbili){
 				String id = StringUtil.getStringBetween(origurl, 0, BILIBILI_START, BILIBILI_END).result;
-				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa);
+				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,origurl);
 				if(ActivityUtil.isGreaterThan_2_3_3()){
 					runOnExcutorforbili(loader,id);
 				}else{
@@ -449,10 +458,10 @@ public class ArticleListWebClient extends WebViewClient {
 				    view.getContext().startActivity(intent);
 				//return false;
 			}
-		}else if(url.startsWith(BILIBILINOWWW_START)){
+		}else if(url.startsWith(BILIBILINOWWW_START)){//由设置,BILIBILI用其接口读取直接截取出视频地址
 			if(PhoneConfiguration.getInstance().play_acfunbili){
 				String id = StringUtil.getStringBetween(origurl, 0, BILIBILINOWWW_START, BILIBILI_END).result;
-				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa);
+				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,origurl);
 				if(ActivityUtil.isGreaterThan_2_3_3()){
 					runOnExcutorforbili(loader,id);
 				}else{
@@ -467,10 +476,10 @@ public class ArticleListWebClient extends WebViewClient {
 				//return false;
 			}
 		}
-		else if(url.startsWith(BILIBILI2_START)){
+		else if(url.startsWith(BILIBILI2_START)){//由设置,BILIBILI用其接口读取直接截取出视频地址
 			if(PhoneConfiguration.getInstance().play_acfunbili){
 				String id = StringUtil.getStringBetween(origurl, 0, BILIBILI2_START, BILIBILI_END).result;
-				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa);
+				BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,origurl);
 				if(ActivityUtil.isGreaterThan_2_3_3()){
 					runOnExcutorforbili(loader,id);
 				}else{
@@ -485,10 +494,10 @@ public class ArticleListWebClient extends WebViewClient {
 				//return false;
 			}
 		}
-		else if(url.startsWith(BILIBILICID_START)){
+		else if(url.startsWith(BILIBILICID_START)){//由设置,BILIBILI的CID和VID的接口不一样
 			if(PhoneConfiguration.getInstance().play_acfunbili){
 				String id = StringUtil.getStringBetween(origurl, 0, "cid=", BILIBILICID_END).result;
-				BilibiliCidVideoLoadTask loader = new BilibiliCidVideoLoadTask(fa);
+				BilibiliCidVideoLoadTask loader = new BilibiliCidVideoLoadTask(fa,origurl);
 				if(ActivityUtil.isGreaterThan_2_3_3()){
 					runOnExcutorforbilicid(loader,id);
 				}else{
@@ -501,6 +510,52 @@ public class ArticleListWebClient extends WebViewClient {
 	            if(isIntentSafe)
 				    view.getContext().startActivity(intent);
 				//return false;
+			}
+		}
+		else if(url.startsWith(PPS_START)){//
+			String id = StringUtil.getStringBetween(origurl, 0, PPS_START, PPS_END).result;
+			PPSVideoLoadTask loader = new PPSVideoLoadTask(fa,origurl);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforpps(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(PPSSWF_START)){//
+			String id = StringUtil.getStringBetween(origurl, 0, PPSSWF_START, PPSSWF_END).result;
+			PPSVideoLoadTask loader = new PPSVideoLoadTask(fa,origurl);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforpps(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(SINA_START)&&StrTotalCount(url,"/")>4){//SINA
+			String id="----";
+			SinaVideoLoadTask loader = new SinaVideoLoadTask(fa,origurl);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforsina(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(SINAENT_START)&&StrTotalCount(url,"/")>4){//SINA
+			String id = StringUtil.getStringBetween(origurl, 0, "#", "&").result;
+			SinaVideoLoadTask loader = new SinaVideoLoadTask(fa,origurl);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforsina(loader,id);
+			}else{
+				loader.execute(id);
+			}
+		}
+		else if(url.startsWith(SINASWF_START.toLowerCase(Locale.US))){//SINASWF  	
+			String id = StringUtil.getStringBetween(origurl, 0, "vid=", "\\_").result;
+			Log.i("SATAG",id);
+			SinaVideoLoadTask loader = new SinaVideoLoadTask(fa,origurl);
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				runOnExcutorforsina(loader,id);
+			}else{
+				loader.execute(id);
 			}
 		}
 		else{
@@ -561,10 +616,20 @@ public class ArticleListWebClient extends WebViewClient {
 	private void runOnExcutorforbili(BilibiliVideoLoadTask loader, String id){
 		loader.executeOnExecutor(BilibiliVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 	}
-	
+
 	@TargetApi(11)
 	private void runOnExcutorforbilicid(BilibiliCidVideoLoadTask loader, String id){
 		loader.executeOnExecutor(BilibiliCidVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+	}
+	
+	@TargetApi(11)
+	private void runOnExcutorforpps(PPSVideoLoadTask loader, String id){
+		loader.executeOnExecutor(PPSVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+	}
+	
+	@TargetApi(11)
+	private void runOnExcutorforsina(SinaVideoLoadTask loader, String id){
+		loader.executeOnExecutor(SinaVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 	}
 	
 	@TargetApi(11)

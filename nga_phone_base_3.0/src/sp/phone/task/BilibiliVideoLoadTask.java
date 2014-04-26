@@ -23,10 +23,12 @@ import android.widget.Toast;
 public class BilibiliVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	final FragmentActivity fa ;
+	final String origurl;
 	static final String dialogTag = "load_bili";
-	public BilibiliVideoLoadTask(FragmentActivity fa) {
+	public BilibiliVideoLoadTask(FragmentActivity fa,String origurl) {
 		super();
 		this.fa = fa;
+		this.origurl=origurl;
 	}
 	private boolean startIntent = true;
 	@Override
@@ -45,7 +47,12 @@ public class BilibiliVideoLoadTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		if(!startIntent){
-			Toast.makeText(fa.getBaseContext(), "创建视频窗口失败",	Toast.LENGTH_LONG).show();
+			Toast.makeText(fa.getBaseContext(), "创建视频窗口失败,将调用系统打开链接",	Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse(origurl));
+            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+            if(isIntentSafe)
+			    fa.startActivity(intent);
 			return;
 		}
 		
@@ -56,7 +63,12 @@ public class BilibiliVideoLoadTask extends AsyncTask<String, Integer, String> {
 			intent.putExtras(b);
 			fa.startActivity(intent);
 		}else{
-			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析",	Toast.LENGTH_LONG).show();
+			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析,将调用系统打开链接",	Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse(origurl));
+            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+            if(isIntentSafe)
+			    fa.startActivity(intent);
 		}
 
 		this.onCancelled();

@@ -58,6 +58,7 @@ public abstract class BaseListSample extends FragmentActivity implements MenuAda
         items.add(new Category("设置"));
         items.add(new Item("程序设置", R.drawable.action_settings));
         items.add(new Item("添加版面", R.drawable.ic_action_add_to_queue));
+        items.add(new Item("由URL读取", R.drawable.ic_action_forward));
         items.add(new Item("清空最近访问", R.drawable.ic_action_warning));
         items.add(new Item("关于", R.drawable.ic_action_about));
 

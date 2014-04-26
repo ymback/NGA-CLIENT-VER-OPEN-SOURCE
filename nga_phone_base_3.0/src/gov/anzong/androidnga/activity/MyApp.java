@@ -28,7 +28,7 @@ import com.alibaba.fastjson.JSON;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 630;
+	public final static int version = 631;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "最近访问";
@@ -166,7 +166,10 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "-65653", "剑灵", R.drawable.p65653));
 		boards.add(new Board(i, "412", "巫师之怒", R.drawable.p412));
 		boards.add(new Board(i, "-235147", "激战2", R.drawable.p235147));
+		boards.add(new Board(i, "442", "逆战", R.drawable.p442));
 		boards.add(new Board(i, "-46468", "坦克世界", R.drawable.p46468));
+		boards.add(new Board(i, "432", "战机世界", R.drawable.p432));
+		boards.add(new Board(i, "441", "战舰世界", R.drawable.pdefault));
 		boards.add(new Board(i, "321", "DotA", R.drawable.p321));
 		boards.add(new Board(i, "-2371813", "EVE", R.drawable.p2371813));
 		boards.add(new Board(i, "-7861121", "剑叁 ", R.drawable.p7861121));
@@ -177,6 +180,12 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "420", "MT", R.drawable.p420));
         boards.add(new Board(i, "424", "圣斗士", R.drawable.pdefault));
 		boards.add(new Board(i, "-1513130", "鲜血兄弟会", R.drawable.pdefault));
+		boards.add(new Board(i, "433", "神雕侠侣", R.drawable.pdefault));
+		boards.add(new Board(i, "434", "神鬼幻想", R.drawable.pdefault));
+		boards.add(new Board(i, "435", "上古卷轴Online", R.drawable.p435));
+		boards.add(new Board(i, "443", "FIFA Online 3", R.drawable.pdefault));
+		boards.add(new Board(i, "444", "刀塔传奇", R.drawable.p444));
+		boards.add(new Board(i, "445", "迷你西游", R.drawable.p445));
 		boards.addCategoryName(i, "其他游戏");
 		i++; 
 		

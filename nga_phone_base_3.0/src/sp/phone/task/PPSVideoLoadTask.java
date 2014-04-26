@@ -2,7 +2,7 @@ package sp.phone.task;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.util.StringTokenizer;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.Media_Player;
@@ -20,12 +20,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.Toast;
 
-public class LetvVideoLoadTask extends AsyncTask<String, Integer, String> {
+public class PPSVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	final FragmentActivity fa ;
 	final String origurl;
-	static final String dialogTag = "load_letv";
-	public LetvVideoLoadTask(FragmentActivity fa,String origurl) {
+	static final String dialogTag = "load_pps";
+	public PPSVideoLoadTask(FragmentActivity fa,String origurl) {
 		super();
 		this.fa = fa;
 		this.origurl=origurl;
@@ -37,7 +37,7 @@ public class LetvVideoLoadTask extends AsyncTask<String, Integer, String> {
 		 ProgressDialogFragment pd = new  ProgressDialogFragment();
 		 
 		Bundle args = new Bundle();
-		final String content = fa.getResources().getString(R.string.load_letv_video);
+		final String content = fa.getResources().getString(R.string.load_pps_video);
 		args.putString("content", content);
 		pd.setArguments(args );
 		pd.show(fa.getSupportFragmentManager(), dialogTag);
@@ -102,22 +102,21 @@ public class LetvVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected String doInBackground(String... params) {
-		String uri = params[0];
-
+		final String uri = "http://dp.ppstream.com/get_play_url_cdn.php?sid="
+				+ params[0]+"&flash_type=1";
+		final String htmlString = HttpUtil.iosGetHtml(uri, null);
+		if(htmlString.indexOf(".pfv")<0){
+			return null;
+		}
+		String url=null;
 		try {
-			uri=URLEncoder.encode(uri,"UTF-8");
+			url=URLDecoder.decode(htmlString,"utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			return null;
 		}
-		uri="http://www.flvcd.com/parse.php?kw="+uri;
-		String htmlString = HttpUtil.iosGetHtml(uri, null);
-		String iid = StringUtil.getStringBetween(
-				htmlString, 0, "clipurl = \"", "\"").result;
-		if(StringUtil.isEmpty(iid))
-			return null;
-		String m3u8Url = iid;
-		return m3u8Url;
+		Log.i("PPS",url);
+		return url;
 	}
 
 }
