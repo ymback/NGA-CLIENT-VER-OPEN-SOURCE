@@ -88,6 +88,9 @@ public class SearchDialogFragment extends DialogFragment {
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 		    		intent_search.putExtra("author", inputString);
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
 		    		startActivity(intent_search);
 		    	}else{
 		    		String userName = PhoneConfiguration.getInstance().userName;
@@ -95,6 +98,9 @@ public class SearchDialogFragment extends DialogFragment {
 			    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 			    		intent_search.putExtra("author", userName);
 			    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+						if(PhoneConfiguration.getInstance().showAnimation)
+							getActivity().overridePendingTransition(R.anim.zoom_enter,
+									R.anim.zoom_exit);
 			    		startActivity(intent_search);
 		    		}
 		    	}
@@ -105,6 +111,9 @@ public class SearchDialogFragment extends DialogFragment {
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 		    		intent_search.putExtra("author", inputString+"&searchpost=1");
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
 		    		startActivity(intent_search);
 		    	}else{
 		    		String userName = PhoneConfiguration.getInstance().userName;
@@ -112,6 +121,9 @@ public class SearchDialogFragment extends DialogFragment {
 			    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 			    		intent_search.putExtra("author", userName+"&searchpost=1");
 			    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+						if(PhoneConfiguration.getInstance().showAnimation)
+							getActivity().overridePendingTransition(R.anim.zoom_enter,
+									R.anim.zoom_exit);
 			    		startActivity(intent_search);
 		    		}
 		    	}
@@ -122,6 +134,9 @@ public class SearchDialogFragment extends DialogFragment {
 		    		intent_search.putExtra("key", inputString);
 		    		intent_search.putExtra("table", String.valueOf("6"));
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
 		    		startActivity(intent_search);
 		    	}
 		    }

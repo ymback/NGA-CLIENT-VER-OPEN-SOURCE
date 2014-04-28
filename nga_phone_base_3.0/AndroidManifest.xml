@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="631"
-	android:versionName="1.6.31" android:installLocation="auto">
+	package="gov.anzong.androidnga" android:versionCode="633"
+	android:versionName="1.6.33" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -36,6 +36,8 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".activity.LoginActivity" android:theme="@style/SwipeBackTheme"/>
+		
+		<activity android:name=".activity.FlexibleProfileActivity" android:theme="@style/SwipeBackTheme"/>
 
 		<activity android:windowSoftInputMode="adjustResize" android:name=".activity.PostActivity" android:theme="@style/SwipeBackTheme"/>
 
@@ -153,12 +155,15 @@
 		<activity android:name=".activity.SplitFlexibleTopicListActivity" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
 		
 		<activity android:name=".activity.SplitFlexibleSignActivity" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
+		<activity android:name=".activity.SplitFlexibleProfileActivity" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
 		
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaFlexibleTopicListActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaFlexibleSignActivity" android:theme="@style/SwipeBackTheme"/>
+		<activity android:hardwareAccelerated="true" android:name=".activity.HaFlexibleProfileActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitFlexibleTopicListActivity"/>
 		
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitFlexibleSignActivity"/>
+		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitFlexibleProfileActivity"/>
 		
 		<activity android:name=".activity.SplitPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme"/>

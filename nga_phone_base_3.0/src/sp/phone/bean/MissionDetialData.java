@@ -48,6 +48,6 @@ public class MissionDetialData {//给任务具体信息载入用的
 		return stat;
 	}
 	public void set__stat(String stat){
-		this.detail=stat;
+		this.stat=stat;
 	}
 }

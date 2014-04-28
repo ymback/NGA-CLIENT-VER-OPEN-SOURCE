@@ -83,6 +83,8 @@
         <WebView
             android:id="@+id/content"
             android:layout_width="fill_parent"
+        	android:padding="1dp"     
+        	android:background="@drawable/imageavatarborder"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/contenttitle"
             android:layout_alignRight="@id/contenttitle"

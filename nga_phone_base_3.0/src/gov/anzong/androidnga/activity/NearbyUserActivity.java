@@ -3,6 +3,7 @@ package gov.anzong.androidnga.activity;
 import gov.anzong.androidnga.R;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -10,11 +11,14 @@ import sp.phone.adapter.NearbyUsersAdapter;
 import sp.phone.bean.NearbyUser;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.fragment.AlertDialogFragment;
+import sp.phone.fragment.NearbyAlertDialogFragment;
 import sp.phone.interfaces.OnNearbyLoadComplete;
 import sp.phone.task.NearbyUserTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
+import sp.phone.utils.ThemeManager;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -23,6 +27,8 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -35,7 +41,8 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
 implements PerferenceConstant,OnNearbyLoadComplete{
 	ListView lv;
 	final private String ALERT_DIALOG_TAG = "alertdialog";
-	NearbyUserTask task = null;
+	NearbyUserTask task = null; 
+	private Toast toast = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -118,17 +125,70 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 		lv.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				NearbyUser u = (NearbyUser) parent.getItemAtPosition(position);
-		    	String loc = "https://maps.google.com.hk/?ie=UTF8&hl=zh-cn&q="
-    			+u.getLatitude() + "," + u.getLongitude()
-    			+"(" +u.getNickName()+")";
-		    	Uri mapUri = Uri.parse(loc);  
-    			Intent i = new Intent(Intent.ACTION_VIEW); 
-    			i.setData(mapUri);  
-       
-        		startActivity(i);
+			public void onItemClick(final AdapterView<?> parent, View view,
+					final int position, long id) {
+
+				final NearbyUser u = (NearbyUser) parent.getItemAtPosition(position);
+				String Name=u.getNickName();
+				if(Name.indexOf("(")>0){
+					Name=Name.substring(0, Name.indexOf("("));
+				}
+				final String Namea=Name;
+				String text=null;
+				try {
+					text = URLDecoder.decode(Namea,"utf-8");
+				} catch (UnsupportedEncodingException e) {
+				}
+				final String texta=text;
+				NearbyAlertDialogFragment f = NearbyAlertDialogFragment.create(getString(R.string.seeingooglemaporprofile));
+				f.setOkListener(new OnClickListener(){
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if(StringUtil.isEmail(texta)){
+							if (toast != null)
+				        	{
+				        		toast.setText("用户名为邮箱,无法通过邮箱获取论坛用户信息");
+				        		toast.setDuration(Toast.LENGTH_SHORT);
+				        		toast.show();
+				        	} else
+				        	{
+				        		toast = Toast.makeText(lv.getContext(), "用户名为邮箱,无法通过邮箱获取论坛用户信息", Toast.LENGTH_SHORT);
+				        		toast.show();
+				        	}
+						}else{
+							Intent i = new Intent(Intent.ACTION_VIEW); 
+							i.putExtra("mode", "username" );
+				    		i.putExtra("username", texta);
+				    		i.setClass(lv.getContext(), PhoneConfiguration.getInstance().profileActivityClass);
+							if(PhoneConfiguration.getInstance().showAnimation)
+								overridePendingTransition(R.anim.zoom_enter,
+										R.anim.zoom_exit);
+				    		startActivity(i);
+						}
+					}
+					
+				});
+				f.setCancleListener(new OnClickListener(){
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+				    	String loc = "https://maps.google.com.hk/?ie=UTF8&hl=zh-cn&q="
+		    			+u.getLatitude() + "," + u.getLongitude()
+		    			+"(" +Namea+")";
+				    	Uri mapUri = Uri.parse(loc);  
+		    			Intent i = new Intent(Intent.ACTION_VIEW); 
+		    			i.setData(mapUri);  
+		    			
+		        		startActivity(i);
+						
+					}
+					
+				});
+				f.show(getSupportFragmentManager(), ALERT_DIALOG_TAG);
+				
+				
 				
 			}
 			
@@ -151,6 +211,22 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 		
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		final int flags = ThemeManager.ACTION_BAR_FLAG;
+		ReflectionUtil.actionBar_setDisplayOption(this, flags);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		default:
+			finish();
+		}
+		return true;
+	}
+	
 	@Override
 	protected void onStop() {
 		if(task != null){

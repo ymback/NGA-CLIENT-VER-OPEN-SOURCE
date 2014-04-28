@@ -52,6 +52,7 @@
     <string name="quote_subject">喷之</string>
     <string name="copy_to_clipboard">复制</string>
     <string name="signature_dialog">查看签名</string>
+    <string name="showprofile">查看用户信息</string>
     <string name="avatar_dialog">查看头像</string>
     <string name="show_this_person_only">只看此人</string>
     <string name="edit">编辑</string>
@@ -60,6 +61,7 @@
     <string name="search_subject">搜索发帖</string>
     <string name="avatar_description">头像</string>
     <string name="search_hint">输入要搜索的内容/用户名</string>
+    <string name="profile_search_hint">输入要查看的用户名或ID</string>
     <string name="supertext_hint">输入内容并选择论坛代码</string>
     <string name="copy_hint">复制需要的内容</string>
     <string name="click_to_delete">点击删除</string>
@@ -92,7 +94,11 @@
     <string name="nearby_no_user">附近没有其他用户</string>
     <string name="upload_location">发帖报告我的位置</string>
     <string name="find_nearby_alert_string">你在查看附近的用户时也会泄露自己的位置，请确认是否继续</string>
+    <string name="seeingooglemaporprofile">请选择查看论坛用户信息或在Google Map中查看位置</string>
+    <string name="nearbyingooglemaps">在Google Map中查看位置</string>
+    <string name="nearbyinprofile">查看论坛用户信息</string>
     <string name="warn">警告</string>
+    <string name="warnnearby">请选择打开方式</string>
     <string name="set_upload_location_alert">位置是非常重要的隐私信息，公布后你很可能被骚扰，人肉，抢劫，强奸,请确认是否打开</string>
     <string name="location_service_disabled">好像没开定位服务</string>
     <string name="get_location_success">获取位置成功</string>
@@ -129,6 +135,7 @@
     <string name="unknow_error">客户端发生未知错误</string>
     <string name="copied_to_clipboard">已经复制到剪切板</string>
     <string name="search_dialog_hint">184.154.178.130</string>
+    <string name="profile_search_dialog_hint">直接按确定查看自己的用户信息</string>
     <string name="addfid_dialog_hintA">输入版面名称</string>
     <string name="addfid_dialog_url">输入URL地址(板块或帖子)</string>
     <string name="addfid_dialog_hintB">输入版面ID(个人版面有负号)</string>
@@ -165,6 +172,8 @@
     <string name="image_quality_chooser_prompt">选择图片质量：</string>
     <string name="image_quality_claim">图片中转压缩是一个测试性的功能，访问压力过大时，中转服务器可能会不可用。</string>
     <string name="search_topic">帖子</string>
+    <string name="profilesearch_name">用户名</string>
+    <string name="profilesearch_id">用户ID</string>
     <string name="search_user_topic">发帖</string>
     <string name="search_user_apply">回复</string>
     <string name="last_page_prompt">已加载到最后一页</string>

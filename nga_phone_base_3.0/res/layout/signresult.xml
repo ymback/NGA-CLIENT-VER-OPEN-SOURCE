@@ -63,6 +63,8 @@
         android:clickable="false"
         android:contentDescription="@string/avatar"
         android:focusable="false"
+        android:padding="1dp"     
+        android:background="@drawable/imageavatarborder"
         android:longClickable="false"/>
 
     <TextView

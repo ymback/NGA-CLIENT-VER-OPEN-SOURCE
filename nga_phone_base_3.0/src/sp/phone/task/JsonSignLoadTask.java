@@ -60,6 +60,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 //		 js="window.script_muti_get_var_store={\"error\":{\"0\":\"你今天已经签到了(以服务器时间计算)\"},\"time\":1397704424}";//错误模式
 //		js="{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":1,\"sum\":1,\"last_time\":0},\"2\":{\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务\",\"info\":\"测试\n	任务信息\",\"detail\":\"任务必须满足以下条件:\n连续签到3天(全局), \n\n任务可以获得以下奖励:\n铜币:1, \n\n任务可以重复完成, 每2天一次\n\n\",\"stat\":\"目前已经连续签到1天\n共计签到1\n\n\"}}}},\"time\":1397949753}";
 //		js="S)DB ERROR";
+//		js="{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":1,\"sum\":2,\"last_time\":1397949753},\"2\":{\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务\",\"info\":\"测试\n	任务信息\",\"detail\":\"任务必须满足以下条件:\n连续签到3天(全局), \n\n任务可以获得以下奖励:\n铜币:1, \n\n任务可以重复完成, 每2天一次\n\n\",\"stat\":\"目前已经连续签到1天\n共计签到2\n\n\"}}}},\"time\":1398578538}";
 		if (null == js) {
 			error = context.getString(R.string.network_error);
 			return null;
@@ -87,7 +88,6 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 				error = "请重新登录";
 				return null;
 			} else {
-				Log.i(TAG, oerror.getString("0"));
 				if (oerror.getString("0") != null) {
 					error = oerror.getString("0");
 					ret.set__is_json_error(true);
@@ -221,7 +221,6 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		if (result == null) {
 			ActivityUtil.getInstance().noticeError(error, context);
 		}else{
-			Log.i(TAG,"ONPOSTEXECUTE");
 			if (result.get__SignResult().equals("签到成功")) {
 				if (toast != null) {
 					toast.setText(result.get__SignResult());

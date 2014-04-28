@@ -449,6 +449,19 @@ public class ArticleListFragment extends Fragment
 				Create_Signature_Dialog(row);
 			}
 			break;
+		case R.id.show_profile:
+			if(isanonymous){
+				errordialog();
+			}else{
+				intent.putExtra("mode", "username" );
+				intent.putExtra("username", row.getAuthor() );
+				intent.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
+				startActivity(intent);
+				if(PhoneConfiguration.getInstance().showAnimation)
+					getActivity().overridePendingTransition(R.anim.zoom_enter,
+							R.anim.zoom_exit);
+			}
+			break;
 		case R.id.avatar_dialog:
 			if(isanonymous){
 				errordialog();

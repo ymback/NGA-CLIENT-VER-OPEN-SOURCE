@@ -4,7 +4,7 @@
 	<item android:id="@+id/show_whole_thread" android:title="@string/show_whole_thread" android:icon="@drawable/ic_menu_moreoverflow"></item>
     <item android:id="@+id/search_post" android:title="@string/search_post"></item>
     <item android:id="@+id/search_subject" android:title="@string/search_subject"></item>
-    
+    <item android:id="@+id/show_profile" android:title="@string/showprofile"></item>
     
 
 </menu>

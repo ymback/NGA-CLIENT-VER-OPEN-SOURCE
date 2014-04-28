@@ -1,7 +1,6 @@
 package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
-
 import io.vov.vitamio.LibsChecker;
 
 import java.io.File;
@@ -21,6 +20,9 @@ import sp.phone.bean.BoardCategory;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.fragment.LoginFragment;
+import sp.phone.fragment.ProfileSearchDialogFragment;
+import sp.phone.fragment.SearchDialogFragment;
+import sp.phone.fragment.TopiclistContainer;
 import sp.phone.interfaces.PageCategoryOwnner;
 import sp.phone.task.AppUpdateCheckTask;
 import sp.phone.utils.ActivityUtil;
@@ -31,6 +33,9 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +49,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -86,15 +94,15 @@ public class MainActivity extends BaseListSample implements PerferenceConstant,
 		initView();
 
 		if (boardInfo.getCategoryName(0).equals("最近访问")) {
-			setLocItem(4, "最近访问");
-			if (boardInfo.getCategoryCount() > 13) {
-				if (boardInfo.getCategoryName(13).equals("用户自定义")) {
-					setLocItem(17, "用户自定义");
+			setLocItem(5, "最近访问");
+			if (boardInfo.getCategoryCount() > 14) {
+				if (boardInfo.getCategoryName(14).equals("用户自定义")) {
+					setLocItem(18, "用户自定义");
 				}
 			}
 		} else {
-			if (boardInfo.getCategoryCount() == 13) {
-				setLocItem(16, "用户自定义");
+			if (boardInfo.getCategoryCount() == 14) {
+				setLocItem(17, "用户自定义");
 			}
 		}
 
@@ -129,6 +137,8 @@ public class MainActivity extends BaseListSample implements PerferenceConstant,
 			pager.setCurrentItem(0 - ifRecentExist);
 		} else if (item.mTitle.equals("签到任务")) {
 			signmission();
+		} else if (item.mTitle.equals("搜索用户信息")) {
+			search_profile();
 		} else if (item.mTitle.equals("综合讨论")) {
 			pager.setCurrentItem(1 - ifRecentExist);
 		} else if (item.mTitle.equals("大漩涡系列")) {
@@ -169,13 +179,36 @@ public class MainActivity extends BaseListSample implements PerferenceConstant,
 	}
 
 	private void signmission() {
-		// TODO Auto-generated method stub
+//		 TODO Auto-generated method stub
 		Intent intent = new Intent();
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 		intent.setClass(MainActivity.this, config.signActivityClass);
 		startActivity(intent);
 		if (PhoneConfiguration.getInstance().showAnimation) {
 			overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		}
+		
+	}
+	
+	private void search_profile(){
+
+		Bundle arg = new Bundle();
+		DialogFragment df = new ProfileSearchDialogFragment();
+		df.setArguments(arg);
+		final String dialogTag = "searchpaofile_dialog";
+		FragmentManager fm = this.getSupportFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		Fragment prev = fm.findFragmentByTag(dialogTag);
+		if (prev != null) {
+			ft.remove(prev);
+		}
+
+		try {
+			df.show(ft, dialogTag);
+		} catch (Exception e) {
+			Log.e(TopiclistContainer.class.getSimpleName(),
+					Log.getStackTraceString(e));
+
 		}
 	}
 
@@ -406,13 +439,32 @@ public class MainActivity extends BaseListSample implements PerferenceConstant,
 		alert.setView(view);
 		alert.setTitle(R.string.urlto_title_hint);
 		final EditText urladd = (EditText) view.findViewById(R.id.urladd);
+		urladd.requestFocus();
+		String clipdata=null;
+		if(ActivityUtil.isLessThan_3_0()){
+			ClipboardManager clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);  
+			if (clipboardManager.hasText()){  
+				clipdata=clipboardManager.getText().toString();  
+			}  
+		}else{
+			ClipboardManager clipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);  
+			if (clipboardManager.hasPrimaryClip()){  
+				clipdata=clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();  
+			}  
+		}
+		if(!StringUtil.isEmpty(clipdata)){
+			urladd.setText(clipdata);
+			urladd.selectAll();
+		}
+		
+		
 		alert.setPositiveButton("进入", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				String url = urladd.getText().toString();
-				if (url.equals("")) {// 空
+				String url = urladd.getText().toString().trim();
+				if (StringUtil.isEmpty(url)) {// 空
 					Toast.makeText(MainActivity.this, "请输入URL地址",
 							Toast.LENGTH_SHORT).show();
 					urladd.setFocusable(true);
@@ -426,26 +478,35 @@ public class MainActivity extends BaseListSample implements PerferenceConstant,
 					}
 				} else {
 					PhoneConfiguration conf = PhoneConfiguration.getInstance();
-					url=url.toLowerCase(Locale.US);
-					final String NGACN_BOARD_PREFIX = "http://bbs.ngacn.cc/thread.php?";
-					final String NGA178_BOARD_PREFIX = "http://nga.178.com/thread.php?";
-					final String NGACN_THREAD_PREFIX = "http://bbs.ngacn.cc/read.php?";
-					final String NGA178_THREAD_PREFIX = "http://nga.178.com/read.php?";
-					if(url.startsWith(NGACN_BOARD_PREFIX)
-							|| url.startsWith(NGA178_BOARD_PREFIX ) ){
+					url=url.toLowerCase(Locale.US).trim();
+					if(url.indexOf("thread.php")>0){
+						url= url.replaceAll("(?i)[^\\[|\\]]+fid=(-{0,1}\\d+)[^\\[|\\]]{0,}",
+								"http://nga.178.com/thread.php?fid=$1");
 						Intent intent = new Intent();
-						intent.setData(Uri.parse(url));
-						intent.setClass(view.getContext(), conf.topicActivityClass);
-						view.getContext().startActivity(intent);
-
-					}else if(url.startsWith(NGACN_THREAD_PREFIX)
-							|| url.startsWith(NGA178_THREAD_PREFIX ) ){
+								intent.setData(Uri.parse(url));
+								intent.setClass(view.getContext(), conf.topicActivityClass);
+								view.getContext().startActivity(intent);
+					}else if(url.indexOf("read.php")>0){
+						if(url.indexOf("tid")>0 && url.indexOf("pid")>0){
+							if(url.indexOf("tid")<url.indexOf("pid"))
+								url = url.replaceAll("(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}",
+									"http://nga.178.com/read.php?pid=$2&tid=$1");
+							else
+								url = url.replaceAll("(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}",
+										"http://nga.178.com/read.php?pid=$1&tid=$2");
+						}else if(url.indexOf("tid")>0 && url.indexOf("pid")<=0){
+							url = url.replaceAll("(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}",
+								"http://nga.178.com/read.php?tid=$1");
+						}else if(url.indexOf("pid")>0 && url.indexOf("tid")<=0){
+							url = url.replaceAll("(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}",
+									"http://nga.178.com/read.php?pid=$1");
+						}
 						Intent intent = new Intent();
 						intent.setData(Uri.parse(url));
 						intent.setClass(view.getContext(), conf.articleActivityClass);
 						view.getContext().startActivity(intent);
 					}else{
-						Toast.makeText(MainActivity.this, "输入的地址并非NGA的板块地址或帖子地址,或缺少http://,请检查后再试",
+						Toast.makeText(MainActivity.this, "输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试",
 								Toast.LENGTH_SHORT).show();
 						urladd.setFocusable(true);
 						try {
@@ -632,10 +693,10 @@ public class MainActivity extends BaseListSample implements PerferenceConstant,
 			saveaddFid(boardList);
 			boardInfo = loadDefaultBoard();
 			// add menu item
-			if (boardInfo.getCategoryCount() == 13) {
-				setLocItem(16, "用户自定义");
-			} else {
+			if (boardInfo.getCategoryCount() == 14) {
 				setLocItem(17, "用户自定义");
+			} else {
+				setLocItem(18, "用户自定义");
 			}
 			return;
 		} else {// 有了
@@ -896,7 +957,7 @@ public class MainActivity extends BaseListSample implements PerferenceConstant,
 							boardList.add(b1);
 							saveRecent(boardList);
 							// add recent menu item
-							setLocItem(4, "最近访问");
+							setLocItem(5, "最近访问");
 							// set menu click right
 							ifRecentExist = 0;
 							boardInfo = loadDefaultBoard();

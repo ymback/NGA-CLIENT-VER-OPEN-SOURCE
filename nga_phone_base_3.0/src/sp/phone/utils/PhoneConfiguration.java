@@ -1,17 +1,21 @@
 package sp.phone.utils;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
+import gov.anzong.androidnga.activity.FlexibleProfileActivity;
 import gov.anzong.androidnga.activity.FlexibleTopicListActivity;
 import gov.anzong.androidnga.activity.HaArticleListActivity;
+import gov.anzong.androidnga.activity.HaFlexibleProfileActivity;
 import gov.anzong.androidnga.activity.HaFlexibleSignActivity;
 import gov.anzong.androidnga.activity.HaFlexibleTopicListActivity;
 import gov.anzong.androidnga.activity.HaPostActivity;
 import gov.anzong.androidnga.activity.HaSplitArticleListActivity;
+import gov.anzong.androidnga.activity.HaSplitFlexibleProfileActivity;
 import gov.anzong.androidnga.activity.HaSplitFlexibleSignActivity;
 import gov.anzong.androidnga.activity.HaSplitFlexibleTopicListActivity;
 import gov.anzong.androidnga.activity.HaSplitPostActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.SplitArticleListActivity;
+import gov.anzong.androidnga.activity.SplitFlexibleProfileActivity;
 import gov.anzong.androidnga.activity.SplitFlexibleSignActivity;
 import gov.anzong.androidnga.activity.SplitFlexibleTopicListActivity;
 import gov.anzong.androidnga.activity.SplitPostActivity;
@@ -61,6 +65,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 	public Class<?> articleActivityClass = ArticleListActivity.class;
 	public Class<?> postActivityClass = PostActivity.class;
 	public Class<?> signActivityClass = FlexibleSignActivity.class;
+	public Class<?> profileActivityClass = FlexibleProfileActivity.class;
 	
 	
 	public int getNikeWidth() {
@@ -200,42 +205,49 @@ public class PhoneConfiguration implements PerferenceConstant{
 			articleActivityClass = SplitArticleListActivity.class;
 			postActivityClass = PostActivity.class;
 			signActivityClass = SplitFlexibleSignActivity.class;//
+			profileActivityClass = SplitFlexibleProfileActivity.class;
 			break;
 		case UI_FLAG_HA:/*仅开启硬件加速，全部都要加速，所以发的也要硬件加速的*/
 			topicActivityClass = HaFlexibleTopicListActivity.class;
 			articleActivityClass = HaArticleListActivity.class;
 			postActivityClass = HaPostActivity.class;
 			signActivityClass = HaFlexibleSignActivity.class;//OK
+			profileActivityClass = HaFlexibleProfileActivity.class;
 			break;
 		case UI_FLAG_REPLYSPLIT:/*仅开启发在下面，则菜单和硬件加速都用普通的，发用Split版本的*/
 			topicActivityClass = FlexibleTopicListActivity.class;
 			articleActivityClass = ArticleListActivity.class;
 			postActivityClass = SplitPostActivity.class;
 			signActivityClass = FlexibleSignActivity.class;//
+			profileActivityClass = FlexibleProfileActivity.class;
 			break;
 		case (UI_FLAG_SPLIT + UI_FLAG_HA):/*开启硬件加速和普通菜单在下面，则普通需要下面和加速，加速需要普通和加速，菜单只要加速*/
 			topicActivityClass = HaSplitFlexibleTopicListActivity.class;
 			articleActivityClass = HaSplitArticleListActivity.class;
 			postActivityClass = HaPostActivity.class;
 			signActivityClass = HaSplitFlexibleSignActivity.class;//
+			profileActivityClass = HaSplitFlexibleProfileActivity.class;
 			break;
 		case (UI_FLAG_SPLIT + UI_FLAG_REPLYSPLIT):/*开启2个下面，则就是所有split不用ha*/
 			topicActivityClass = SplitFlexibleTopicListActivity.class;
 			articleActivityClass = SplitArticleListActivity.class;
 			postActivityClass = SplitPostActivity.class;
 			signActivityClass = SplitFlexibleSignActivity.class;//
+			profileActivityClass = SplitFlexibleProfileActivity.class;
 			break;
 		case (UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*开启加速和下面，则普通只要加速，加速也只要加速，菜单需要加速和split*/
 			topicActivityClass = HaFlexibleTopicListActivity.class;
 			articleActivityClass = HaArticleListActivity.class;
 			postActivityClass = HaSplitPostActivity.class;
 			signActivityClass = HaFlexibleSignActivity.class;//
+			profileActivityClass = HaFlexibleProfileActivity.class;
 			break;
 		case (UI_FLAG_SPLIT + UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*全开就全开*/
 			topicActivityClass = HaSplitFlexibleTopicListActivity.class;
 			articleActivityClass = HaSplitArticleListActivity.class;
 			postActivityClass = HaSplitPostActivity.class;
 			signActivityClass = HaSplitFlexibleSignActivity.class;//
+			profileActivityClass = HaSplitFlexibleProfileActivity.class;
 			break;
 		case 0:
 		default:
@@ -243,6 +255,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			articleActivityClass = ArticleListActivity.class;
 			postActivityClass = PostActivity.class;
 			signActivityClass = FlexibleSignActivity.class;
+			profileActivityClass = FlexibleProfileActivity.class;
 		}
 	}
 

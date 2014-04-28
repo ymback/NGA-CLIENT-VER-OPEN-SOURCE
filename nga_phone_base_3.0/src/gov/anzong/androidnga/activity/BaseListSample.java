@@ -42,6 +42,7 @@ public abstract class BaseListSample extends FragmentActivity implements MenuAda
         items.add(new Item("登陆账号", R.drawable.ic_login));
         items.add(new Item("yoooo", R.drawable.ic_menu_mylocation));
         items.add(new Item("签到任务", R.drawable.ic_action_go_to_today));
+        items.add(new Item("搜索用户信息", R.drawable.action_search));
         //items.add(new Item("最近访问", R.drawable.ic_action_select_all_dark));
         items.add(new Category("分类论坛"));
         items.add(new Item("综合讨论", R.drawable.ic_action_select_all_dark));

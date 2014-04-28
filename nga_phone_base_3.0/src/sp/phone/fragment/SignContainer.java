@@ -206,7 +206,6 @@ public class SignContainer extends Fragment implements
 		canDismiss = true;
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		this.refresh();
-		Log.i(TAG,"REFRESH3");
 		super.onViewCreated(view, savedInstanceState);
 	}// ¶ÁÈ¡Êý¾Ý
 
@@ -354,7 +353,6 @@ public class SignContainer extends Fragment implements
 		@Override
 		public void onRefreshStarted(View view) {
 			refresh();
-			Log.i(TAG,"REFRESH2");
 		}
 	}
 	@Override

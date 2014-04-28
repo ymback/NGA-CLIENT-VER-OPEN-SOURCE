@@ -187,8 +187,6 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
 
-		long now = System.currentTimeMillis();
-		PhoneConfiguration config = PhoneConfiguration.getInstance();
 		View view = findViewById(R.id.item_list);
 		if (PhoneConfiguration.getInstance().fullscreen) {
 			ActivityUtil.getInstance().setFullScreen(view);
