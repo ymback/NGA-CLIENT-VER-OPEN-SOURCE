@@ -207,6 +207,9 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 				}	
 				entry.setAuthor(sb.toString());
 			}
+			if(!StringUtil.isEmpty(rowObj.getString("topic_misc"))){
+				entry.setTopicMisc(rowObj.getString("topic_misc"));
+			}
 			if(rowObj.get("author").toString().length()==38 && rowObj.get("author").toString().startsWith("anony_")){
 				StringBuilder sb = new StringBuilder();
 				String aname=rowObj.get("author").toString();

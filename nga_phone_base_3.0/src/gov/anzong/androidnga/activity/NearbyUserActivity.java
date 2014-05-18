@@ -13,12 +13,15 @@ import sp.phone.bean.PerferenceConstant;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.NearbyAlertDialogFragment;
 import sp.phone.interfaces.OnNearbyLoadComplete;
+import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.NearbyUserTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -27,6 +30,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,11 +42,14 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 
 public class NearbyUserActivity extends SwipeBackAppCompatActivity
-implements PerferenceConstant,OnNearbyLoadComplete{
+implements PerferenceConstant,OnNearbyLoadComplete,PullToRefreshAttacherOnwer{
 	ListView lv;
 	final private String ALERT_DIALOG_TAG = "alertdialog";
 	NearbyUserTask task = null; 
 	private Toast toast = null;
+	private PullToRefreshAttacher mPullToRefreshAttacher;
+
+	PullToRefreshAttacher attacher = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,6 +58,7 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 		setTheme(R.style.AppTheme);
 		lv = new ListView(this);
 		this.setContentView(lv);
+		getSupportActionBar().setTitle("Yoooo~");
 		
 		String alertString = this.getString(R.string.find_nearby_alert_string);
 		AlertDialogFragment f = AlertDialogFragment.create(alertString);
@@ -74,6 +82,43 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 		});
 		f.show(getSupportFragmentManager(), ALERT_DIALOG_TAG);
 		//initLocation();
+		PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
+		options.refreshScrollDistance = 0.3f;
+		options.refreshOnUp = true;
+		mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
+		try {
+			PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
+			attacher = attacherOnwer.getAttacher();
+
+		} catch (ClassCastException e) {
+			Log.e("NEARBYUSERACTIVITY",
+					"father activity should implement PullToRefreshAttacherOnwer");
+		}
+	}
+
+	private void refresh_saying() {
+		DefaultHeaderTransformer transformer = null;
+
+		if (attacher != null) {
+			uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
+			headerTransformer = attacher.getHeaderTransformer();
+			if (headerTransformer != null
+					&& headerTransformer instanceof DefaultHeaderTransformer)
+				transformer = (DefaultHeaderTransformer) headerTransformer;
+		}else{
+		}
+
+		if (transformer == null){
+			if(PhoneConfiguration.getInstance().fullscreen){ 
+				refresh_saying();
+			}else{
+				ActivityUtil.getInstance().noticeSaying(this);
+			}
+			}
+		else
+			transformer.setRefreshingText(ActivityUtil.getSaying());
+		if (attacher != null)
+			attacher.setRefreshing(true);
 	}
 	
 	void initLocation()
@@ -92,7 +137,16 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 			//Toast.makeText(this, R.string.fail_to_locate, Toast.LENGTH_SHORT).show();
 		}else if(StringUtil.isEmpty(userName))
 		{
-			Toast.makeText(this, R.string.nearby_no_login, Toast.LENGTH_SHORT).show();
+			if (toast != null)
+        	{
+        		toast.setText(R.string.nearby_no_login);
+        		toast.setDuration(Toast.LENGTH_SHORT);
+        		toast.show();
+        	} else
+        	{
+        		toast = Toast.makeText(lv.getContext(),  R.string.nearby_no_login, Toast.LENGTH_SHORT);
+        		toast.show();
+        	}
 		}else
 		{
 	    	ActivityUtil.getInstance().noticeSaying(this);
@@ -117,8 +171,22 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 		}catch(Exception e){
 			return ;
 		}
+		Location myloc = PhoneConfiguration.getInstance().location;
+		for(int i=0;i<list.size();i++){
+			list.get(i).setJuli(String.valueOf(ActivityUtil.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
+		}
+		attacher.setRefreshComplete();
 		if(list != null && list.size() ==0){
-			Toast.makeText(this, R.string.nearby_no_user, Toast.LENGTH_SHORT).show();
+			if (toast != null)
+        	{
+        		toast.setText(R.string.nearby_no_user);
+        		toast.setDuration(Toast.LENGTH_SHORT);
+        		toast.show();
+        	} else
+        	{
+        		toast = Toast.makeText(lv.getContext(),  R.string.nearby_no_user, Toast.LENGTH_SHORT);
+        		toast.show();
+        	}
 		}
 		
 		NearbyUsersAdapter adapter = new NearbyUsersAdapter(list);
@@ -218,6 +286,15 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 		return super.onCreateOptionsMenu(menu);
 	}
 
+
+	@Override
+	protected void onResume() {
+		if(PhoneConfiguration.getInstance().fullscreen){
+		ActivityUtil.getInstance().setFullScreen(lv);
+		}
+		super.onResume();
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -233,6 +310,12 @@ implements PerferenceConstant,OnNearbyLoadComplete{
 			task.cancel(true);
 		}
 		super.onStop();
+	}
+
+	@Override
+	public PullToRefreshAttacher getAttacher() {
+		// TODO Auto-generated method stub
+		return mPullToRefreshAttacher;
 	}
 
 }

@@ -1,6 +1,7 @@
 package sp.phone.fragment;
 
 import gov.anzong.androidnga.activity.MainActivity;
+import android.support.v7.app.ActionBarActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 
@@ -114,7 +115,6 @@ public class TopiclistContainer extends Fragment implements
 		}
 
 		if (favor != 0) {
-			this.getActivity().setTitle(R.string.bookmark_title);
 			Toast.makeText(
 					getActivity(),
 					"长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
@@ -122,13 +122,6 @@ public class TopiclistContainer extends Fragment implements
 			 listView.setLongClickable(true);
 			 listView.setOnItemLongClickListener((OnItemLongClickListener)
 			 getActivity()); }
-		}
-
-		if (!StringUtil.isEmpty(key)) {
-			final String title = this.getResources().getString(
-					android.R.string.search_go)
-					+ ":" + key;
-			this.getActivity().setTitle(title);
 		}
 
 		// JsonTopicListLoadTask task = new
@@ -311,14 +304,16 @@ public class TopiclistContainer extends Fragment implements
 	}
 
 	private boolean handlePostThread(MenuItem item) {
-
 		Intent intent = new Intent();
-		// intent.putExtra("prefix",postPrefix.toString());
 		intent.putExtra("fid", fid);
 		intent.putExtra("action", "new");
-
-		intent.setClass(getActivity(),
-				PhoneConfiguration.getInstance().postActivityClass);
+		if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
+			intent.setClass(getActivity(),
+					PhoneConfiguration.getInstance().postActivityClass);
+		}else{
+			intent.setClass(getActivity(),
+				PhoneConfiguration.getInstance().loginActivityClass);
+		}
 		startActivity(intent);
 		if (PhoneConfiguration.getInstance().showAnimation) {
 			getActivity().overridePendingTransition(R.anim.zoom_enter,
@@ -347,7 +342,6 @@ public class TopiclistContainer extends Fragment implements
 		if (prev != null) {
 			ft.remove(prev);
 		}
-
 		try {
 			df.show(ft, dialogTag);
 		} catch (Exception e) {

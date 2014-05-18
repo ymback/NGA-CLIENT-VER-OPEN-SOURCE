@@ -31,12 +31,13 @@
             android:layout_alignParentRight="true"
             android:textColor="#FF545454"
             android:gravity="right"
+                android:singleLine="true"
+				android:ellipsize="end"
             android:layout_marginRight="5dp"
             android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/lasttext"
-            android:layout_toRightOf="@+id/uid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/nickName"
@@ -109,6 +110,8 @@
         android:layout_below="@+id/statetext"
         android:layout_alignLeft="@id/statetext" 
         android:textColor="#FF545454"
+        android:singleLine="true"
+		android:ellipsize="end"
         android:textIsSelectable="false"
         android:text="AA"/>
 
@@ -171,7 +174,7 @@
     <View
         android:id="@+id/lineviewforshow"
         android:layout_width="fill_parent"
-        android:layout_height="3px"
+        android:layout_height="3dp"
         android:layout_alignParentBottom="true"
         android:background="#551200"
         android:visibility="gone" >

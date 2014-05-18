@@ -1,5 +1,8 @@
 package gov.anzong.androidnga.activity;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
+
 import gov.anzong.androidnga.R;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.fragment.AlertDialogFragment;
@@ -7,27 +10,32 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
+import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
@@ -53,15 +61,16 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton showNewweiba;
 	private CompoundButton showLajibankuai;
 	private CompoundButton showReplyButton;
-	private CompoundButton play_acfunbili;
 
 	private CompoundButton split = null;
 	private CompoundButton replysplit = null;
 	private CompoundButton ha = null;
 	private CompoundButton fullscreen = null;
-	
+
 	private RelativeLayout handsideQualityChooser;
-	
+	private RelativeLayout playModeOptionChooser;
+	private RelativeLayout blackgunSoundChooser;
+	private Toast toast;
 	private SeekBar fontSizeBar;
 	private float defaultFontSize;
 	private TextView fontTextView;
@@ -72,9 +81,20 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private TextView imageOptionInfoTextView;
 	private TextView imageOptionChoiceTextView;
 
+	private TextView playModeOptionTextView;
+	private TextView playModeOptionChoiceTextView;
+
+	private TextView blackgunSoundTextView;
+	private TextView blackgunSoundChoiceTextView;
+
 	private TextView handsideOptionInfoTextView;
 	private TextView handsideOptionChoiceTextView;
-	
+
+	private TextView picshowtitle;
+	private TextView optiontitle;
+	private TextView uishowtitle;
+	private View viewgone1,viewgone2,viewgone3;
+
 	private ImageView avatarImage;
 	private SeekBar avatarSeekBar;
 
@@ -103,9 +123,20 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			layoutId = R.layout.settings_meizu;
 		view = getLayoutInflater().inflate(layoutId, null);
 
+		getSupportActionBar().setTitle("…Ë÷√");
+
 		this.setContentView(view);
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 
+
+		picshowtitle=(TextView) findViewById(R.id.picshowtitle);
+		optiontitle=(TextView) findViewById(R.id.optiontitle);
+		uishowtitle=(TextView) findViewById(R.id.uishowtitle);
+		viewgone1=(View) findViewById(R.id.viewgone1);
+		viewgone2=(View) findViewById(R.id.viewgone2);
+		viewgone3=(View) findViewById(R.id.viewgone3);
+		
+		
 		checkBoxDownimgNowifi = (CompoundButton) findViewById(R.id.checkBox_down_img_no_wifi);
 		checkBoxDownimgNowifi.setChecked(config.downImgNoWifi);
 		DownImgNoWifiChangedListener listener = new DownImgNoWifiChangedListener();
@@ -118,15 +149,27 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		ImageQualityChooserListener imageQualityChooserListener = new ImageQualityChooserListener();
 		imageQualityChooser.setOnClickListener(imageQualityChooserListener);
 
-		
+		playModeOptionChoiceTextView = (TextView) findViewById(R.id.mediaplayer_choose_text);
+		playModeOptionTextView = (TextView) findViewById(R.id.mediaplayer_choose_info);
+		playModeOptionChooser = (RelativeLayout) findViewById(R.id.mediaplayer_choose_layout);
+		updatePlayModeOptionChoiceText(config);
+		PlayModeChooserListener playModeChooserListener = new PlayModeChooserListener();
+		playModeOptionChooser.setOnClickListener(playModeChooserListener);
+
+		blackgunSoundChoiceTextView = (TextView) findViewById(R.id.blackgun_sound_text);
+		blackgunSoundTextView = (TextView) findViewById(R.id.blackgun_sound_info);
+		blackgunSoundChooser = (RelativeLayout) findViewById(R.id.blackgun_sound_chooser);
+		updateBlackgunSoundChoiceText(config);
+		BlackgunSoundChooserListener blackgunSoundChooserListener = new BlackgunSoundChooserListener();
+		blackgunSoundChooser.setOnClickListener(blackgunSoundChooserListener);
+
 		handsideOptionInfoTextView = (TextView) findViewById(R.id.lefthand_righthand_text);
 		handsideOptionChoiceTextView = (TextView) findViewById(R.id.lefthand_righthand_info);
 		handsideQualityChooser = (RelativeLayout) findViewById(R.id.lefthand_righthand_chooser);
 		updateHandSideChoiceText(config);
 		HandSideChooserListener handsideChooserListener = new HandSideChooserListener();
 		handsideQualityChooser.setOnClickListener(handsideChooserListener);
-		
-		
+
 		checkBoxDownAvatarNowifi = (CompoundButton) findViewById(R.id.checkBox_download_avatar_no_wifi);
 		checkBoxDownAvatarNowifi.setChecked(config.downAvatarNoWifi);
 		DownAvatarNowifiChangedListener AvatarListener = new DownAvatarNowifiChangedListener();
@@ -176,14 +219,11 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		showStatic.setChecked(config.showStatic);
 		showStatic.setOnCheckedChangeListener(new ShowStaticListener());
 
-		play_acfunbili = (CompoundButton) findViewById(R.id.checkBox_play_acfunbili);
-		play_acfunbili.setChecked(config.play_acfunbili);
-		play_acfunbili.setOnCheckedChangeListener(new PlayAcfunbiliListener());
-
 		showReplyButton = (CompoundButton) findViewById(R.id.checkBox_addreplybutton);
-		showReplyButton.setOnCheckedChangeListener(new ShowReplyButtonListener());
+		showReplyButton
+				.setOnCheckedChangeListener(new ShowReplyButtonListener());
 		showReplyButton.setChecked(config.showReplyButton);
-		
+
 		showColortxt = (CompoundButton) findViewById(R.id.checkBox_color_txt);
 		showColortxt.setChecked(config.showColortxt);
 		showColortxt.setOnCheckedChangeListener(new showColortxtListener());
@@ -213,7 +253,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 				checked = false;
 			}
 			replysplit.setChecked(checked);
-			replysplit.setOnCheckedChangeListener(new ReplySplitChangedListener());
+			replysplit
+					.setOnCheckedChangeListener(new ReplySplitChangedListener());
 		}
 
 		ha = (CompoundButton) findViewById(R.id.checkBox_ha);
@@ -229,7 +270,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		fullscreen = (CompoundButton) findViewById(R.id.checkBox_fullscreen);
 		fullscreen.setChecked(config.fullscreen);
 		fullscreen.setOnCheckedChangeListener(new fullscreenListener());
-		
+
 		fontTextView = (TextView) findViewById(R.id.textView_font_size);
 		defaultFontSize = fontTextView.getTextSize();
 
@@ -249,9 +290,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		progress = 100 * webSize / defaultWebSize;
 		webSizebar.setProgress(progress);
 		websizeView.getSettings().setDefaultFontSize(webSize);
-		websizeView.loadDataWithBaseURL(null,
-				getString(R.string.websize_sample_text), "text/html", "utf-8",
-				"");
+		websizeView.setBackgroundColor(0);
 		webSizebar.setOnSeekBarChangeListener(new WebSizeListener());
 
 		progress = config.nikeWidth;
@@ -266,19 +305,55 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		avatarSeekBar.setMax(200);
 		avatarSeekBar.setProgress(progress);
 		avatarSeekBar.setOnSeekBarChangeListener(new AvatarSizeListener());
-		if(!split.isChecked()&&!replysplit.isChecked()){
+		if (!split.isChecked() && !replysplit.isChecked()) {
 			handsideQualityChooser.setVisibility(View.GONE);
 		}
-		if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){//less than 4.0
+		if (!checkBoxDownimgNowifi.isChecked()) {
+			imageQualityChooser.setVisibility(View.GONE);
+		}
+		if (!notificationSound.isChecked()||!notification.isChecked()) {
+			blackgunSoundChooser.setVisibility(View.GONE);
+		}
+		if(!notification.isChecked()){
+			notificationSound.setVisibility(View.GONE);
+		}
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			handsideQualityChooser.setVisibility(View.GONE);
 			split.setVisibility(View.GONE);
 			replysplit.setVisibility(View.GONE);
 			ha.setVisibility(View.GONE);
+			viewgone1.setVisibility(View.GONE);
+			viewgone2.setVisibility(View.GONE);
 		}
-		if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){//less than 4.4
+
+		if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {// less
+																			// than
+																			// 4.4
 			fullscreen.setVisibility(View.GONE);
+			viewgone3.setVisibility(View.GONE);
 		}
 		updateThemeUI();
+	}
+
+	private void updatePlayModeOptionChoiceText(PhoneConfiguration config) {
+		switch (config.playMode) {
+		case 0:
+			playModeOptionChoiceTextView.setText(R.string.play_all);
+			break;
+		case 1:
+			playModeOptionChoiceTextView.setText(R.string.play_all_not_acfun);
+			break;
+		case 2:
+			playModeOptionChoiceTextView
+					.setText(R.string.play_all_not_bilibili);
+			break;
+		case 3:
+			playModeOptionChoiceTextView.setText(R.string.play_all_not_acbili);
+			break;
+		case 4:
+			playModeOptionChoiceTextView.setText(R.string.play_none);
+			break;
+		}
 	}
 
 	private void updateImageQualityChoiceText(PhoneConfiguration config) {
@@ -314,12 +389,37 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			break;
 		}
 	}
-	
+
+	private void updateBlackgunSoundChoiceText(PhoneConfiguration config) {
+		switch (config.blackgunsound) {
+		case 0:
+			blackgunSoundChoiceTextView.setText(R.string.blackgun_sound_0);
+			break;
+		case 1:
+			blackgunSoundChoiceTextView.setText(R.string.blackgun_sound_1);
+			break;
+		case 2:
+			blackgunSoundChoiceTextView.setText(R.string.blackgun_sound_2);
+			break;
+		case 3:
+			blackgunSoundChoiceTextView.setText(R.string.blackgun_sound_3);
+			break;
+		}
+	}
+
 	private void updateThemeUI() {
+		if (nightMode.isChecked()) {
+			websizeView.loadDataWithBaseURL(null,
+					"<font style='color:#424952;'>"+getString(R.string.websize_sample_text)+"</font>", "text/html", "utf-8",
+					"");
+		}else{
+			websizeView.loadDataWithBaseURL(null,
+					"<font style='color:#000000;'>"+getString(R.string.websize_sample_text)+"</font>", "text/html", "utf-8",
+					"");
+		}
 		int fgColor = getResources().getColor(
 				ThemeManager.getInstance().getForegroundColor());
 		checkBoxDownimgNowifi.setTextColor(fgColor);
-		play_acfunbili.setTextColor(fgColor);
 		fullscreen.setTextColor(fgColor);
 		checkBoxDownAvatarNowifi.setTextColor(fgColor);
 		nightMode.setTextColor(fgColor);
@@ -347,9 +447,16 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		imageOptionInfoTextView.setTextColor(fgColor);
 		handsideOptionInfoTextView.setTextColor(fgColor);
 		handsideOptionChoiceTextView.setTextColor(fgColor);
-
+		playModeOptionTextView.setTextColor(fgColor);
+		playModeOptionChoiceTextView.setTextColor(fgColor);
+		blackgunSoundTextView.setTextColor(fgColor);
+		blackgunSoundChoiceTextView.setTextColor(fgColor);
 		view.setBackgroundResource(ThemeManager.getInstance()
 				.getBackgroundColor());
+
+		picshowtitle.setTextColor(fgColor);
+		optiontitle.setTextColor(fgColor);
+		uishowtitle.setTextColor(fgColor);
 	}
 
 	@Override
@@ -370,10 +477,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		default:
-			// case android.R.id.home:
-			Intent intent = new Intent(this, MainActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
+			finish();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -513,26 +617,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
-	class PlayAcfunbiliListener implements OnCheckedChangeListener,
-			PerferenceConstant {
-
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) { 
-			PhoneConfiguration.getInstance().play_acfunbili = isChecked;
-			SharedPreferences share = getSharedPreferences(PERFERENCE,
-					MODE_PRIVATE);
-
-			Editor editor = share.edit();
-			editor.putBoolean(PLAY_ACFUNBILI, isChecked);
-			editor.commit();
-
-		}
-
-	}
-	
-
-
 	class ShowStaticListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 
@@ -550,9 +634,9 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		}
 
 	}
-	
+
 	class ShowReplyButtonListener implements OnCheckedChangeListener,
-	PerferenceConstant {
+			PerferenceConstant {
 
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
@@ -565,9 +649,10 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			editor.putBoolean(SHOW_REPLYBUTTON, isChecked);
 			editor.commit();
 
-}
+		}
 
-}
+	}
+
 	class showColortxtListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 
@@ -577,8 +662,17 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			PhoneConfiguration.getInstance().showColortxt = isChecked;
 			SharedPreferences share = getSharedPreferences(PERFERENCE,
 					MODE_PRIVATE);
-			if(isChecked){
-			Toast.makeText(SettingsActivity.this, R.string.showColortxtWarn, Toast.LENGTH_LONG).show();
+			if (isChecked) {
+				if (toast != null)
+	        	{
+	        		toast.setText(R.string.showColortxtWarn);
+	        		toast.setDuration(Toast.LENGTH_SHORT);
+	        		toast.show();
+	        	} else
+	        	{
+	        		toast = Toast.makeText(SettingsActivity.this,  R.string.showColortxtWarn, Toast.LENGTH_SHORT);
+	        		toast.show();
+	        	}
 			}
 			Editor editor = share.edit();
 			editor.putBoolean(SHOW_COLORTXT, isChecked);
@@ -596,9 +690,18 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			PhoneConfiguration.getInstance().showNewweiba = isChecked;
 			SharedPreferences share = getSharedPreferences(PERFERENCE,
 					MODE_PRIVATE);
-			if(isChecked){
-				Toast.makeText(SettingsActivity.this, R.string.showNewweibaWarn, Toast.LENGTH_LONG).show();
-				}
+			if (isChecked) {
+				if (toast != null)
+	        	{
+	        		toast.setText(R.string.showNewweibaWarn);
+	        		toast.setDuration(Toast.LENGTH_SHORT);
+	        		toast.show();
+	        	} else
+	        	{
+	        		toast = Toast.makeText(SettingsActivity.this,  R.string.showNewweibaWarn, Toast.LENGTH_SHORT);
+	        		toast.show();
+	        	}
+			}
 			Editor editor = share.edit();
 			editor.putBoolean(SHOW_NEWWEIBA, isChecked);
 			editor.commit();
@@ -624,28 +727,36 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	}
 
 	class fullscreenListener implements OnCheckedChangeListener,
-	PerferenceConstant {
+			PerferenceConstant {
 
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
-		boolean isChecked) {
+				boolean isChecked) {
 			PhoneConfiguration.getInstance().fullscreen = isChecked;
 			SharedPreferences share = getSharedPreferences(PERFERENCE,
-			MODE_PRIVATE);
+					MODE_PRIVATE);
 
 			Editor editor = share.edit();
 			editor.putBoolean(FULLSCREENMODE, isChecked);
 			editor.commit();
-
+			if (isChecked) {
+				ActivityUtil.getInstance().setFullScreen(view);
+			} else {
+				ActivityUtil.getInstance().setNormalScreen(view);
+			}
 		}
 	}
-	
+
 	class DownImgNoWifiChangedListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 
 		@Override
 		public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-
+			if (arg1) {
+				imageQualityChooser.setVisibility(View.VISIBLE);
+			} else {
+				imageQualityChooser.setVisibility(View.GONE);
+			}
 			PhoneConfiguration.getInstance().downImgNoWifi = arg1;
 			SharedPreferences share = getSharedPreferences(PERFERENCE,
 					MODE_PRIVATE);
@@ -669,10 +780,10 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 					getString(R.string.image_quality_option_original),
 					getString(R.string.image_quality_option_small),
 					getString(R.string.image_quality_option_medium),
-					getString(R.string.image_quality_option_large)};
+					getString(R.string.image_quality_option_large) };
 			builder.setTitle(R.string.image_quality_chooser_prompt);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
-				
+
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
@@ -682,48 +793,268 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 					Editor editor = share.edit();
 					editor.putInt(DOWNLOAD_IMG_QUALITY_NO_WIFI, which);
 					editor.commit();
-					updateImageQualityChoiceText(PhoneConfiguration.getInstance());
+					updateImageQualityChoiceText(PhoneConfiguration
+							.getInstance());
 				}
 			});
-			AlertDialog dialog = builder.create();
+			final AlertDialog dialog = builder.create();
 			dialog.show();
-			Toast.makeText(SettingsActivity.this, R.string.image_quality_claim, Toast.LENGTH_LONG).show();
+			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface arg0) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+					if (PhoneConfiguration.getInstance().fullscreen) {
+						ActivityUtil.getInstance().setFullScreen(view);
+					}
+				}
+
+			});
+			if (toast != null)
+        	{
+        		toast.setText(R.string.image_quality_claim);
+        		toast.setDuration(Toast.LENGTH_SHORT);
+        		toast.show();
+        	} else
+        	{
+        		toast = Toast.makeText(SettingsActivity.this,  R.string.image_quality_claim, Toast.LENGTH_SHORT);
+        		toast.show();
+        	}
 		}
 
 	}
-	
-	
-	
-	class HandSideChooserListener implements
-	android.view.View.OnClickListener {
+
+	class PlayModeChooserListener implements android.view.View.OnClickListener {
 
 		@Override
 		public void onClick(View v) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(
-			SettingsActivity.this);
+					SettingsActivity.this);
+			String[] items = new String[] { getString(R.string.play_all),
+					getString(R.string.play_all_not_acfun),
+					getString(R.string.play_all_not_bilibili),
+					getString(R.string.play_all_not_acbili),
+					getString(R.string.play_none) };
+			builder.setTitle(R.string.media_player_chooser_prompt);
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					PhoneConfiguration.getInstance().playMode = which;
+					SharedPreferences share = getSharedPreferences(PERFERENCE,
+							MODE_PRIVATE);
+					Editor editor = share.edit();
+					editor.putInt(PLAY_MODE, which);
+					editor.commit();
+					updatePlayModeOptionChoiceText(PhoneConfiguration
+							.getInstance());
+				}
+			});
+			final AlertDialog dialog = builder.create();
+			dialog.show();
+			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface arg0) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+
+					if (PhoneConfiguration.getInstance().fullscreen) {
+						ActivityUtil.getInstance().setFullScreen(view);
+					}
+				}
+
+			});
+		}
+
+	}
+
+	class BlackgunSoundChooserListener implements
+			android.view.View.OnClickListener {
+
+		MediaPlayer mp = new MediaPlayer();
+		@Override
+		public void onClick(View v) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					SettingsActivity.this);
 			String[] items = new String[] {
-			getString(R.string.lefthand_option_original),
-			getString(R.string.righthand_option_original)};
+					getString(R.string.blackgun_sound_0),
+					getString(R.string.blackgun_sound_1),
+					getString(R.string.blackgun_sound_2),
+					getString(R.string.blackgun_sound_3) };
+			builder.setTitle(R.string.blackgun_sound_chooser_prompt);
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					AudioManager audioManager = (AudioManager) view
+							.getContext().getSystemService(
+									Context.AUDIO_SERVICE);
+					AssetFileDescriptor afd =null;
+					switch (which) {
+					case 0:
+						afd=null;
+						Uri ringToneUri=null;
+						ringToneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+						if (ringToneUri!=null
+								&& audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+							try {
+								mp.reset();
+								mp.setDataSource(view
+										.getContext(),ringToneUri);
+								mp.prepare();
+								mp.start();
+							} catch (IllegalArgumentException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IllegalStateException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						break;
+					case 1:
+						afd = getResources().openRawResourceFd(R.raw.taijun);
+						if (afd!=null
+								&& audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+							try {
+								mp.reset();
+								mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+								mp.prepare();
+								mp.start();
+							} catch (IllegalArgumentException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IllegalStateException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						break;
+					case 2:
+						afd = getResources().openRawResourceFd(R.raw.balckgunoftaijun);
+						if (afd!=null
+								&& audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+							try {
+								mp.reset();
+								mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+								mp.prepare();
+								mp.start();
+							} catch (IllegalArgumentException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IllegalStateException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						break;
+					case 3:
+						afd = getResources().openRawResourceFd(R.raw.balckgunofyou);
+						if (afd!=null
+								&& audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+							try {
+								mp.reset();
+								mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+								mp.prepare();
+								mp.start();
+							} catch (IllegalArgumentException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IllegalStateException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						break;
+					}
+					PhoneConfiguration.getInstance().blackgunsound = which;
+					SharedPreferences share = getSharedPreferences(PERFERENCE,
+							MODE_PRIVATE);
+					Editor editor = share.edit();
+					editor.putInt(BLACKGUN_SOUND, which);
+					editor.commit();
+					updateBlackgunSoundChoiceText(PhoneConfiguration
+							.getInstance());
+				}
+			});
+			final AlertDialog dialog = builder.create();
+			dialog.show();
+			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface arg0) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+
+					if (PhoneConfiguration.getInstance().fullscreen) {
+						ActivityUtil.getInstance().setFullScreen(view);
+					}
+				}
+
+			});
+		}
+
+	}
+
+	class HandSideChooserListener implements android.view.View.OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					SettingsActivity.this);
+			String[] items = new String[] {
+					getString(R.string.lefthand_option_original),
+					getString(R.string.righthand_option_original) };
 			builder.setTitle(R.string.lefthand_righthand_chooser_prompt);
 			builder.setItems(items, new DialogInterface.OnClickListener() {
-		
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
-			PhoneConfiguration.getInstance().HandSide = Math.abs(1-which);
-			SharedPreferences share = getSharedPreferences(PERFERENCE,
-					MODE_PRIVATE);
-			Editor editor = share.edit();
-			editor.putInt(HANDSIDE, Math.abs(1-which));
-			editor.commit();
-			updateHandSideChoiceText(PhoneConfiguration.getInstance());
-		}
-	});
-	AlertDialog dialog = builder.create();
-	dialog.show();
-}
 
-}
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					PhoneConfiguration.getInstance().HandSide = Math
+							.abs(1 - which);
+					SharedPreferences share = getSharedPreferences(PERFERENCE,
+							MODE_PRIVATE);
+					Editor editor = share.edit();
+					editor.putInt(HANDSIDE, Math.abs(1 - which));
+					editor.commit();
+					updateHandSideChoiceText(PhoneConfiguration.getInstance());
+				}
+			});
+			final AlertDialog dialog = builder.create();
+			dialog.show();
+			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface arg0) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+
+					if (PhoneConfiguration.getInstance().fullscreen) {
+						ActivityUtil.getInstance().setFullScreen(view);
+					}
+				}
+
+			});
+		}
+
+	}
+
 	class DownAvatarNowifiChangedListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 
@@ -753,7 +1084,17 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
 				boolean isChecked) {
-
+			if(isChecked){
+				notificationSound.setVisibility(View.VISIBLE);
+				if (notificationSound.isChecked()) {
+					blackgunSoundChooser.setVisibility(View.VISIBLE);
+				}else{
+					blackgunSoundChooser.setVisibility(View.GONE);
+				}
+			}else{
+				notificationSound.setVisibility(View.GONE);
+				blackgunSoundChooser.setVisibility(View.GONE);
+			}
 			PhoneConfiguration.getInstance().notification = isChecked;
 			child.setEnabled(isChecked);
 			SharedPreferences share = getSharedPreferences(PERFERENCE,
@@ -773,7 +1114,11 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView,
 				boolean isChecked) {
-
+			if (isChecked) {
+				blackgunSoundChooser.setVisibility(View.VISIBLE);
+			} else {
+				blackgunSoundChooser.setVisibility(View.GONE);
+			}
 			PhoneConfiguration.getInstance().notificationSound = isChecked;
 
 			SharedPreferences share = getSharedPreferences(PERFERENCE,
@@ -899,6 +1244,14 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
+	@Override
+	protected void onResume() {
+		if (PhoneConfiguration.getInstance().fullscreen) {
+			ActivityUtil.getInstance().setFullScreen(view);
+		}
+		super.onResume();
+	}
+
 	class HaChangedListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 
@@ -939,7 +1292,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 				handsideQualityChooser.setVisibility(View.VISIBLE);
 			} else {
 				flag = flag & ~UI_FLAG_SPLIT;
-				if(!replysplit.isChecked()){
+				if (!replysplit.isChecked()) {
 					handsideQualityChooser.setVisibility(View.GONE);
 				}
 			}
@@ -970,7 +1323,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 				handsideQualityChooser.setVisibility(View.VISIBLE);
 			} else {
 				flag = flag & ~UI_FLAG_REPLYSPLIT;
-				if(!split.isChecked()){
+				if (!split.isChecked()) {
 					handsideQualityChooser.setVisibility(View.GONE);
 				}
 			}

@@ -19,7 +19,6 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.UploadCookieCollector;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
@@ -51,7 +50,6 @@ AsyncTask<String, Integer, String> {
     static final private String attachmentsEndFlag = "'";
 	static final private String attachmentsCheckStartFlag = "attachments_check:'";
     static final private String attachmentsCheckEndFlag = "'";
-    static private Bitmap bitmap=null;
 	
 	static final private String picUrlStartTag = "url:'";
 	static final private String picUrlEndTag = "'";
@@ -71,15 +69,6 @@ AsyncTask<String, Integer, String> {
 		this.context = context;
 		this.notifier = notifier;
 		this.uri = uri;
-		try
-		  {
-		   // 读取uri所在的图片
-		   bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-		  }
-		  catch (Exception e)
-		  {
-		   Log.e("[Android]", e.getMessage());
-		  }
 	}
 	
 	
@@ -144,7 +133,7 @@ AsyncTask<String, Integer, String> {
 			if(end == -1)
 				break;
 			String picUrl = result.substring(start, end);
-			notifier.finishUpload(attachments, attachmentsCheck, picUrl,bitmap);
+			notifier.finishUpload(attachments, attachmentsCheck, picUrl,uri);
 		}while(false);
 		if(result == null && errorStr != null){
 			Toast.makeText(context, errorStr, Toast.LENGTH_SHORT).show();
@@ -310,7 +299,7 @@ AsyncTask<String, Integer, String> {
 	}
 	
 	public interface onFileUploaded{
-		int finishUpload(String attachments, String attachmentsCheck, String picUrl, Bitmap bitmap );
+		int finishUpload(String attachments, String attachmentsCheck, String picUrl, Uri uri);
 	}
 
 }

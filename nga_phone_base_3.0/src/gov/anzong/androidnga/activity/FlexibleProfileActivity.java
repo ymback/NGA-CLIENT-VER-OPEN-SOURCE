@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,53 +31,71 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
-import sp.phone.bean.ThreadRowInfo;
 import sp.phone.bean.adminForumsData;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
+import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
-implements OnProfileLoadFinishedListener,AvatarLoadCompleteCallBack,
-PerferenceConstant{
-	private static final String TAG= "FlexibleProfileActivity";
-	private String mode,params;
+		implements OnProfileLoadFinishedListener, AvatarLoadCompleteCallBack,PullToRefreshAttacherOnwer,
+		PerferenceConstant {
+	private static final String TAG = "FlexibleProfileActivity";
+	private String mode, params;
 	private View view;
 	private final Object lock = new Object();
 	private final HashSet<String> urlSet = new HashSet<String>();
 	private Object mActionModeCallback = null;
-	private TextView basedata_title,user_id,user_name,user_email_title,user_email,user_tel_title,user_tel,user_group,user_posttotal;
-	private TextView user_money_gold,user_money_silver,user_money_copper,user_title,user_state,user_registertime,user_lastlogintime;
-	private ImageView avatargold,avatarsilver,avatarcopper,avatarImage;
-	private TextView avatar_title,sign_title,admin_title,fame_title,search_title,admin2_title,fame2_title,user_shutup_title,user_shutup;
-	private WebView signwebview,adminwebview,famewebview;
-	private Button topic_button,reply_button;
+	private TextView basedata_title, user_id, user_name, user_email_title,
+			user_email, user_tel_title, user_tel, user_group, user_posttotal;
+	private TextView user_money_gold, user_money_silver, user_money_copper,
+			user_title, user_state, user_registertime, user_lastlogintime;
+	private ImageView avatargold, avatarsilver, avatarcopper, avatarImage;
+	private TextView avatar_title, sign_title, admin_title, fame_title,
+			search_title, admin2_title, fame2_title, user_shutup_title,
+			user_shutup;
+	private WebView signwebview, adminwebview, famewebview;
+	private Button topic_button, reply_button;
+
+	private PullToRefreshAttacher mPullToRefreshAttacher;
+
+	PullToRefreshAttacher attacher = null;
 	
+	ThemeManager tm = ThemeManager.getInstance();
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		activeActionMode();
 		Intent intent = this.getIntent();
-		mode=intent.getStringExtra("mode");
-		if(!StringUtil.isEmpty(mode)){
-		if(mode.equals("uid")){
-			params="uid="+intent.getStringExtra("uid");
-		}else{
-			params="username="+StringUtil.encodeUrl(intent.getStringExtra("username"),"gbk");
-		}}else{
-			params="uid=0";
+		mode = intent.getStringExtra("mode");
+		if (!StringUtil.isEmpty(mode)) {
+			if (mode.equals("uid")) {
+				params = "uid=" + intent.getStringExtra("uid");
+			} else {
+				params = "username="
+						+ StringUtil.encodeUrl(
+								intent.getStringExtra("username"), "gbk");
+			}
+		} else {
+			params = "uid=0";
 		}
-		this.setContentView(R.layout.profile);
-		this.setTitle("用户信息");
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+			this.setContentView(R.layout.profile_night);
+		} else {
+			this.setContentView(R.layout.profile);
+		}
+		getSupportActionBar().setTitle("用户信息");
 		view = findViewById(R.id.scroll_profile);
 		view.setVisibility(View.GONE);
 		basedata_title = (TextView) view.findViewById(R.id.basedata_title);
@@ -91,12 +108,16 @@ PerferenceConstant{
 		user_group = (TextView) view.findViewById(R.id.user_group);
 		user_posttotal = (TextView) view.findViewById(R.id.user_posttotal);
 		user_money_gold = (TextView) view.findViewById(R.id.user_money_gold);
-		user_money_silver = (TextView) view.findViewById(R.id.user_money_silver);
-		user_money_copper = (TextView) view.findViewById(R.id.user_money_copper);
+		user_money_silver = (TextView) view
+				.findViewById(R.id.user_money_silver);
+		user_money_copper = (TextView) view
+				.findViewById(R.id.user_money_copper);
 		user_title = (TextView) view.findViewById(R.id.user_title);
 		user_state = (TextView) view.findViewById(R.id.user_state);
-		user_registertime = (TextView) view.findViewById(R.id.user_registertime);
-		user_lastlogintime = (TextView) view.findViewById(R.id.user_lastlogintime);
+		user_registertime = (TextView) view
+				.findViewById(R.id.user_registertime);
+		user_lastlogintime = (TextView) view
+				.findViewById(R.id.user_lastlogintime);
 		avatar_title = (TextView) view.findViewById(R.id.avatar_title);
 		sign_title = (TextView) view.findViewById(R.id.sign_title);
 		admin_title = (TextView) view.findViewById(R.id.admin_title);
@@ -113,69 +134,106 @@ PerferenceConstant{
 		famewebview = (WebView) view.findViewById(R.id.famewebview);
 		topic_button = (Button) view.findViewById(R.id.topic_button);
 		reply_button = (Button) view.findViewById(R.id.reply_button);
-		user_shutup_title = (TextView) view.findViewById(R.id.user_shutup_title);
+		user_shutup_title = (TextView) view
+				.findViewById(R.id.user_shutup_title);
 		user_shutup = (TextView) view.findViewById(R.id.user_shutup);
+		PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
+		options.refreshScrollDistance = 0.3f;
+		options.refreshOnUp = true;
+		mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
+		try {
+			PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
+			attacher = attacherOnwer.getAttacher();
+
+		} catch (ClassCastException e) {
+			Log.e(TAG,
+					"father activity should implement PullToRefreshAttacherOnwer");
+		}
 		refresh();
 	}
 
 	void refresh() {
-		JsonProfileLoadTask task = new JsonProfileLoadTask(this,this);
-		ActivityUtil.getInstance().noticeSaying(this);
+		JsonProfileLoadTask task = new JsonProfileLoadTask(this, this);
+		if(PhoneConfiguration.getInstance().fullscreen){ 
+			refresh_saying();
+		}else{
+			ActivityUtil.getInstance().noticeSaying(this);
+		}
 		task.execute(params);
 	}// 读取JSON了
 
+	private void refresh_saying() {
+		DefaultHeaderTransformer transformer = null;
+
+		if (attacher != null) {
+			uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
+			headerTransformer = attacher.getHeaderTransformer();
+			if (headerTransformer != null
+					&& headerTransformer instanceof DefaultHeaderTransformer)
+				transformer = (DefaultHeaderTransformer) headerTransformer;
+		}else{
+		}
+
+		if (transformer == null)
+			ActivityUtil.getInstance().noticeSaying(this);
+		else
+			transformer.setRefreshingText(ActivityUtil.getSaying());
+		if (attacher != null)
+			attacher.setRefreshing(true);
+	}
 	
-	void writetopage(final ProfileData ret){
-		String username=ret.get_username();
-		setTitle(username+"的用户信息");
-		basedata_title.setText(":: "+username+" 的基础信息 ::");
-		avatar_title.setText(":: "+username+" 的头像 ::");
-		sign_title.setText(":: "+username+" 的签名 ::");
-		admin_title.setText(":: "+username+" 的管理权限 ::");
-		admin2_title.setText(username+" 拥有管理员权限 所属版面的主题管理权限 在以下版面担任版主 ");
-		fame_title.setText(":: "+username+" 的声望 ::");
-		fame2_title.setText("表示 论坛/某版面/某用户 对 "+username+" 的关系");
-		search_title.setText(":: "+username+" 发布的贴子  ::");
-		topic_button.setText("[搜索 "+username+" 发布的主题]");
-		reply_button.setText("[搜索 "+username+" 发布的回复]");
+	
+	void writetopage(final ProfileData ret) {
+		String username = ret.get_username();
+		getSupportActionBar().setTitle(username + "的用户信息");
+		basedata_title.setText(":: " + username + " 的基础信息 ::");
+		avatar_title.setText(":: " + username + " 的头像 ::");
+		sign_title.setText(":: " + username + " 的签名 ::");
+		admin_title.setText(":: " + username + " 的管理权限 ::");
+		admin2_title.setText(username + " 拥有管理员权限 所属版面的主题管理权限 在以下版面担任版主 ");
+		fame_title.setText(":: " + username + " 的声望 ::");
+		fame2_title.setText("表示 论坛/某版面/某用户 对 " + username + " 的关系");
+		search_title.setText(":: " + username + " 发布的贴子  ::");
+		topic_button.setText("[搜索 " + username + " 发布的主题]");
+		reply_button.setText("[搜索 " + username + " 发布的回复]");
 		user_id.setText(ret.get_uid());
 		user_name.setText(username);
-		if(ret.get_hasemail()){
+		if (ret.get_hasemail()) {
 			user_email.setText(ret.get_email());
-		}else{
+		} else {
 			user_email.setVisibility(View.GONE);
 			user_email_title.setVisibility(View.GONE);
 		}
-		if(ret.get_hastel()){
+		if (ret.get_hastel()) {
 			user_tel.setText(ret.get_tel());
-		}else{
+		} else {
 			user_tel.setVisibility(View.GONE);
 			user_tel_title.setVisibility(View.GONE);
 		}
 		user_group.setText(ret.get_group());
 		user_posttotal.setText(ret.get_posts());
-		if(ret.get_money().equals("0")){
+		if (ret.get_money().equals("0")) {
 			user_money_gold.setVisibility(View.GONE);
 			avatargold.setVisibility(View.GONE);
 			user_money_silver.setVisibility(View.GONE);
 			avatarsilver.setVisibility(View.GONE);
 			user_money_copper.setText("0");
-		}else{
-			int moneytotal=Integer.parseInt(ret.get_money());
-			int moneygold=(int)moneytotal/10000;
-			int moneysilver = (int) (moneytotal-moneygold*10000)/100;
-			int moneycopper= (int) (moneytotal-moneygold*10000-moneysilver*100);
-			if(moneygold>0){
+		} else {
+			int moneytotal = Integer.parseInt(ret.get_money());
+			int moneygold = (int) moneytotal / 10000;
+			int moneysilver = (int) (moneytotal - moneygold * 10000) / 100;
+			int moneycopper = (int) (moneytotal - moneygold * 10000 - moneysilver * 100);
+			if (moneygold > 0) {
 				user_money_gold.setText(String.valueOf(moneygold));
 				user_money_silver.setText(String.valueOf(moneysilver));
 				user_money_copper.setText(String.valueOf(moneycopper));
-			}else{
-				if(moneysilver>0){
+			} else {
+				if (moneysilver > 0) {
 					user_money_gold.setVisibility(View.GONE);
 					avatargold.setVisibility(View.GONE);
 					user_money_silver.setText(String.valueOf(moneysilver));
 					user_money_copper.setText(String.valueOf(moneycopper));
-				}else{
+				} else {
 					user_money_gold.setVisibility(View.GONE);
 					avatargold.setVisibility(View.GONE);
 					user_money_silver.setVisibility(View.GONE);
@@ -184,212 +242,268 @@ PerferenceConstant{
 				}
 			}
 		}
-		int verified=Integer.parseInt(ret.get_verified());
-		if(verified>0){
-			if(ret.get_muteTime().equals("-1")){
+		int verified = Integer.parseInt(ret.get_verified());
+		if (verified > 0) {
+			if (ret.get_muteTime().equals("-1")) {
 				user_shutup_title.setVisibility(View.GONE);
 				user_shutup.setVisibility(View.GONE);
 				user_state.setText("已激活");
-				user_state.setTextColor(this.getResources().getColor(R.color.activecolor));
-			}else{
+				if (tm.getMode() != ThemeManager.MODE_NIGHT) {
+					user_state.setTextColor(this.getResources().getColor(
+							R.color.activecolor));
+				}
+			} else {
 				user_shutup.setText(ret.get_muteTime());
-				user_shutup.setTextColor(this.getResources().getColor(R.color.mutedcolor));
+				if(tm.getMode() != ThemeManager.MODE_NIGHT){
+				user_shutup.setTextColor(this.getResources().getColor(
+						R.color.mutedcolor));}
 				user_state.setText("已禁言");
-				user_state.setTextColor(this.getResources().getColor(R.color.mutedcolor));
+				if (tm.getMode() != ThemeManager.MODE_NIGHT) {
+					user_state.setTextColor(this.getResources().getColor(
+							R.color.mutedcolor));
+				}
 			}
-		}else if(verified==0){
+		} else if (verified == 0) {
 			user_state.setText("未激活(?)");
-			user_state.setTextColor(this.getResources().getColor(R.color.unactivecolor));
+			if (tm.getMode() != ThemeManager.MODE_NIGHT) {
+				user_state.setTextColor(this.getResources().getColor(
+						R.color.unactivecolor));
+			}
 			user_shutup_title.setVisibility(View.GONE);
 			user_shutup.setVisibility(View.GONE);
-		}else if(verified==-1){
+		} else if (verified == -1) {
 			user_state.setText("NUKED(?)");
-			user_state.setTextColor(this.getResources().getColor(R.color.nukedcolor));
-			if(ret.get_muteTime().equals("-1")){
-				user_shutup_title.setVisibility(View.GONE);
-				user_shutup.setVisibility(View.GONE);
-			}else{
-				user_shutup.setText(ret.get_muteTime());
-				user_shutup.setTextColor(this.getResources().getColor(R.color.mutedcolor));
+			if (tm.getMode() != ThemeManager.MODE_NIGHT) {
+				user_state.setTextColor(this.getResources().getColor(
+						R.color.nukedcolor));
 			}
-		}else{
-			user_state.setText("已禁言");
-			user_state.setTextColor(this.getResources().getColor(R.color.mutedcolor));
-			if(ret.get_muteTime().equals("-1")){
+			if (ret.get_muteTime().equals("-1")) {
 				user_shutup_title.setVisibility(View.GONE);
 				user_shutup.setVisibility(View.GONE);
-			}else{
+			} else {
 				user_shutup.setText(ret.get_muteTime());
-				user_shutup.setTextColor(this.getResources().getColor(R.color.mutedcolor));
+				if (tm.getMode() != ThemeManager.MODE_NIGHT) {
+					user_shutup.setTextColor(this.getResources().getColor(
+							R.color.mutedcolor));
+				}
+			}
+		} else {
+			user_state.setText("已禁言");
+			if (tm.getMode() != ThemeManager.MODE_NIGHT) {
+				user_state.setTextColor(this.getResources().getColor(
+						R.color.mutedcolor));
+			}
+			if (ret.get_muteTime().equals("-1")) {
+				user_shutup_title.setVisibility(View.GONE);
+				user_shutup.setVisibility(View.GONE);
+			} else {
+				user_shutup.setText(ret.get_muteTime());
+				if (tm.getMode() != ThemeManager.MODE_NIGHT) {
+					user_shutup.setTextColor(this.getResources().getColor(
+							R.color.mutedcolor));
+				}
 			}
 		}
 		user_title.setText(ret.get_title());
 		user_registertime.setText(ret.get_regdate());
 		user_lastlogintime.setText(ret.get_lastpost());
 		handleAvatar(avatarImage, ret);
-		handleSignWebview(signwebview,ret);
-		handleadminWebview(adminwebview,ret);
-		handlefameWebview(famewebview,ret);
-		topic_button.setOnClickListener(new OnClickListener(){
+		handleSignWebview(signwebview, ret);
+		handleadminWebview(adminwebview, ret);
+		handlefameWebview(famewebview, ret);
+		topic_button.setOnClickListener(new OnClickListener() {
 
-			Intent intent_search = new Intent(view.getContext(), PhoneConfiguration.getInstance().topicActivityClass);
+			Intent intent_search = new Intent(view.getContext(),
+					PhoneConfiguration.getInstance().topicActivityClass);
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				intent_search.putExtra("fid","-7");
-	    		intent_search.putExtra("author", ret.get_username());
-	    		intent_search.putExtra("authorid", ret.get_uid());
-	    		startActivity(intent_search);
+				intent_search.putExtra("fid", "-7");
+				intent_search.putExtra("author", ret.get_username());
+				intent_search.putExtra("authorid", ret.get_uid());
+				startActivity(intent_search);
 			}
-			
+
 		});
 
-		reply_button.setOnClickListener(new OnClickListener(){
+		reply_button.setOnClickListener(new OnClickListener() {
 
-			Intent intent_search = new Intent(view.getContext(), PhoneConfiguration.getInstance().topicActivityClass);
+			Intent intent_search = new Intent(view.getContext(),
+					PhoneConfiguration.getInstance().topicActivityClass);
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				intent_search.putExtra("fid","-7");
-	    		intent_search.putExtra("author", ret.get_username()+"&searchpost=1");
-	    		intent_search.putExtra("authorid", ret.get_uid());
-	    		startActivity(intent_search);
+				intent_search.putExtra("fid", "-7");
+				intent_search.putExtra("author", ret.get_username()
+						+ "&searchpost=1");
+				intent_search.putExtra("authorid", ret.get_uid());
+				startActivity(intent_search);
 			}
-			
+
 		});
 		view.setVisibility(View.VISIBLE);
 	}
-	
-	private String createHTMLofadmin(ProfileData ret){
+
+	private String createHTMLofadmin(ProfileData ret) {
 		int i;
-		String rest="";
-		List<adminForumsData> adminForumsEntryList=ret.get_adminForumsEntryList();
-		for(i=0;i<ret.get_adminForumsEntryListrows();i++){
-			rest+="<a style=\"color:#551200;\" href=\"http://nga.178.com/thread.php?fid="+adminForumsEntryList.get(i).get_fid()+"\">["+adminForumsEntryList.get(i).get_fname()+"]</a>&nbsp;";
+		String rest = "";
+		List<adminForumsData> adminForumsEntryList = ret
+				.get_adminForumsEntryList();
+		for (i = 0; i < ret.get_adminForumsEntryListrows(); i++) {
+			rest += "<a style=\"color:#551200;\" href=\"http://nga.178.com/thread.php?fid="
+					+ adminForumsEntryList.get(i).get_fid()
+					+ "\">["
+					+ adminForumsEntryList.get(i).get_fname() + "]</a>&nbsp;";
 		}
-		if(rest==""){
+		if (rest == "") {
 			return "无管理板块";
-		}else{
-			return rest+"<br>";
+		} else {
+			return rest + "<br>";
 		}
 	}
-	
-	private String createHTMLoffame(ProfileData ret){
+
+	private String createHTMLoffame(ProfileData ret) {
 		int i;
-		String rest="<ul style=\"padding: 0px; margin: 0px;\">";
+		String rest = "<ul style=\"padding: 0px; margin: 0px;\">";
 		String fame = ret.get_fame();
-		double  famenum = (double) Double.parseDouble(fame)/10;
-		rest+="<li style=\"display: block;float: left;width: 33%;\">"
-				+"<label style=\"float: left;color: #121C46;\">威望</label>"
-				+"<span style=\"float: left; color: #808080;\">:</span>"
-				+"<span style=\"float: left; color: #808080;\">"+Double.toString(famenum)+"</span></li>";
-		List<ReputationData> ReputationEntryList=ret.get_ReputationEntryList();
-		for(i=0;i<ret.get_ReputationEntryListrows();i++){
-			rest+="<li style=\"display: block;float: left;width: 33%;\">"
-					+"<label style=\"float: left;color: #121C46;\">"+ReputationEntryList.get(i).get_name()+"</label>"
-					+"<span style=\"float: left; color: #808080;\">:</span>"
-					+"<span style=\"float: left; color: #808080;\">"+ReputationEntryList.get(i).get_data()+"</span></li>";
+		double famenum = (double) Double.parseDouble(fame) / 10;
+		rest += "<li style=\"display: block;float: left;width: 33%;\">"
+				+ "<label style=\"float: left;color: #121C46;\">威望</label>"
+				+ "<span style=\"float: left; color: #808080;\">:</span>"
+				+ "<span style=\"float: left; color: #808080;\">"
+				+ Double.toString(famenum) + "</span></li>";
+		List<ReputationData> ReputationEntryList = ret
+				.get_ReputationEntryList();
+		for (i = 0; i < ret.get_ReputationEntryListrows(); i++) {
+			rest += "<li style=\"display: block;float: left;width: 33%;\">"
+					+ "<label style=\"float: left;color: #121C46;\">"
+					+ ReputationEntryList.get(i).get_name() + "</label>"
+					+ "<span style=\"float: left; color: #808080;\">:</span>"
+					+ "<span style=\"float: left; color: #808080;\">"
+					+ ReputationEntryList.get(i).get_data() + "</span></li>";
 		}
-		return rest+"</ul><br>";
+		return rest + "</ul><br>";
 	}
-	
-	private void handleSignWebview(WebView contentTV,ProfileData ret){
+
+	private void handleSignWebview(WebView contentTV, ProfileData ret) {
 		ThemeManager theme = ThemeManager.getInstance();
-		int bgColor = getResources().getColor(R.color.profilebgcolor);
-		int fgColor = getResources().getColor(theme.getForegroundColor());
+		int bgColor,fgColor = getResources().getColor(theme.getForegroundColor());
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+			bgColor = getResources().getColor(theme.getBackgroundColor(0));
+		}else{
+			bgColor = getResources().getColor(R.color.profilebgcolor);
+		}
 		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x",bgColor);
-		
+		final String bgcolorStr = String.format("%06x", bgColor);
+
 		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x",htmlfgColor);
-		
-		
-	    WebViewClient client = new ArticleListWebClient(this);
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		WebViewClient client = new ArticleListWebClient(this);
 		contentTV.setBackgroundColor(0);
 		contentTV.setFocusableInTouchMode(false);
 		contentTV.setFocusable(false);
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
+				|| isInWifi();
 		WebSettings setting = contentTV.getSettings();
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
 		setting.setJavaScriptEnabled(false);
 		contentTV.setWebViewClient(client);
-		contentTV.loadDataWithBaseURL(null, signatureToHtmlText(ret,showImage,showImageQuality(isInWifi()),fgColorStr,bgcolorStr),
+		contentTV.loadDataWithBaseURL(
+				null,
+				signatureToHtmlText(ret, showImage,
+						showImageQuality(isInWifi()), fgColorStr, bgcolorStr),
 				"text/html", "utf-8", null);
 	}
 
-
 	public static int showImageQuality(boolean isInWifi) {
-		if (isInWifi)
-		{
+		if (isInWifi) {
 			return 0;
-		}
-		else
-		{
+		} else {
 			return PhoneConfiguration.getInstance().imageQuality;
 		}
 	}
 
-	private void handleadminWebview(WebView contentTV,ProfileData ret){
-		int bgColor = getResources().getColor(R.color.profilebgcolor);
-		int fgColor = getResources().getColor(R.color.profilefcolor);
+	private void handleadminWebview(WebView contentTV, ProfileData ret) {
+		int bgColor,fgColor;
+		ThemeManager theme = ThemeManager.getInstance();
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+			bgColor = getResources().getColor(theme.getBackgroundColor(0));
+			fgColor = getResources().getColor(theme.getForegroundColor());
+		}else{
+			bgColor = getResources().getColor(R.color.profilebgcolor);
+			fgColor = getResources().getColor(R.color.profilefcolor);
+		}
 		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x",bgColor);
-		
+		final String bgcolorStr = String.format("%06x", bgColor);
+
 		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x",htmlfgColor);
-		
-		
-	    WebViewClient client = new ArticleListWebClient(this);
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		WebViewClient client = new ArticleListWebClient(this);
 		contentTV.setBackgroundColor(0);
 		contentTV.setFocusableInTouchMode(false);
 		contentTV.setFocusable(false);
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
+				|| isInWifi();
 		WebSettings setting = contentTV.getSettings();
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
 		setting.setJavaScriptEnabled(false);
 		contentTV.setWebViewClient(client);
-		contentTV.loadDataWithBaseURL(null, adminToHtmlText(ret,showImage,showImageQuality(isInWifi()),fgColorStr,bgcolorStr),
-				"text/html", "utf-8", null);
+		contentTV.loadDataWithBaseURL(
+				null,
+				adminToHtmlText(ret, showImage, showImageQuality(isInWifi()),
+						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
 	}
 
-	private void handlefameWebview(WebView contentTV,ProfileData ret){
-		int bgColor = getResources().getColor(R.color.profilebgcolor);
-		int fgColor = getResources().getColor(R.color.profilefcolor);
+	private void handlefameWebview(WebView contentTV, ProfileData ret) {
+		int bgColor,fgColor;
+		ThemeManager theme = ThemeManager.getInstance();
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+			bgColor = getResources().getColor(theme.getBackgroundColor(0));
+			fgColor = getResources().getColor(theme.getForegroundColor());
+		}else{
+			bgColor = getResources().getColor(R.color.profilebgcolor);
+			fgColor = getResources().getColor(R.color.profilefcolor);
+		}
 		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x",bgColor);
-		
+		final String bgcolorStr = String.format("%06x", bgColor);
+
 		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x",htmlfgColor);
-		
-		
-	    WebViewClient client = new ArticleListWebClient(this);
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		WebViewClient client = new ArticleListWebClient(this);
 		contentTV.setBackgroundColor(0);
 		contentTV.setFocusableInTouchMode(false);
 		contentTV.setFocusable(false);
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
+				|| isInWifi();
 		WebSettings setting = contentTV.getSettings();
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
 		setting.setJavaScriptEnabled(false);
 		contentTV.setWebViewClient(client);
-		contentTV.loadDataWithBaseURL(null, fameToHtmlText(ret,showImage,showImageQuality(isInWifi()),fgColorStr,bgcolorStr),
-				"text/html", "utf-8", null);
+		contentTV.loadDataWithBaseURL(
+				null,
+				fameToHtmlText(ret, showImage, showImageQuality(isInWifi()),
+						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
 	}
 
-	public String fameToHtmlText(final ProfileData ret,
-			boolean showImage, int imageQuality, final String fgColorStr,
-			final String bgcolorStr) {
+	public String fameToHtmlText(final ProfileData ret, boolean showImage,
+			int imageQuality, final String fgColorStr, final String bgcolorStr) {
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = createHTMLoffame(ret);
 		if (imageURLSet.size() == 0) {
@@ -400,17 +514,13 @@ PerferenceConstant{
 				+ bgcolorStr
 				+ "'>"
 				+ "<font color='#"
-				+ fgColorStr
-				+ "' size='2'>"
-				+ ngaHtml
-				+ "</font></body>";
+				+ fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
 
 		return ngaHtml;
 	}
 
-	public String adminToHtmlText(final ProfileData ret,
-			boolean showImage, int imageQuality, final String fgColorStr,
-			final String bgcolorStr) {
+	public String adminToHtmlText(final ProfileData ret, boolean showImage,
+			int imageQuality, final String fgColorStr, final String bgcolorStr) {
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = createHTMLofadmin(ret);
 		if (imageURLSet.size() == 0) {
@@ -421,19 +531,13 @@ PerferenceConstant{
 				+ bgcolorStr
 				+ "'>"
 				+ "<font color='#"
-				+ fgColorStr
-				+ "' size='2'>"
-				+ ngaHtml
-				+ "</font></body>";
+				+ fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
 
 		return ngaHtml;
 	}
-	
-	
-	
-	public String signatureToHtmlText(final ProfileData ret,
-			boolean showImage, int imageQuality, final String fgColorStr,
-			final String bgcolorStr) {
+
+	public String signatureToHtmlText(final ProfileData ret, boolean showImage,
+			int imageQuality, final String fgColorStr, final String bgcolorStr) {
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = StringUtil.decodeForumTag(ret.get_sign(), showImage,
 				imageQuality, imageURLSet);
@@ -447,16 +551,14 @@ PerferenceConstant{
 				+ "<font color='#"
 				+ fgColorStr
 				+ "' size='2'>"
-				+"<div style=\"border: 3px solid rgb(204, 204, 204);padding: 2px; \">"
-				+ ngaHtml+
-				"</div>"
-				+ "</font></body>";
+				+ "<div style=\"border: 3px solid rgb(204, 204, 204);padding: 2px; \">"
+				+ ngaHtml + "</div>" + "</font></body>";
 
 		return ngaHtml;
 	}
-	
-	
+
 	private Bitmap defaultAvatar = null;
+
 	private void handleAvatar(ImageView avatarIV, ProfileData row) {
 
 		final String avatarUrl = parseAvatarUrl(row.get_avatar());//
@@ -524,6 +626,7 @@ PerferenceConstant{
 		}
 		return ret;
 	}
+
 	private static String parseAvatarUrl(String js_escap_avatar) {
 		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
 		if (null == js_escap_avatar)
@@ -551,9 +654,9 @@ PerferenceConstant{
 				.getState();
 		return wifi == State.CONNECTED;
 	}
-	
+
 	@TargetApi(11)
-	private void activeActionMode(){
+	private void activeActionMode() {
 		mActionModeCallback = new ActionMode.Callback() {
 
 			@Override
@@ -570,9 +673,9 @@ PerferenceConstant{
 
 			@Override
 			public void onDestroyActionMode(ActionMode mode) {
-				//int position = listview.getCheckedItemPosition();
-				//listview.setItemChecked(position, false);
-				
+				// int position = listview.getCheckedItemPosition();
+				// listview.setItemChecked(position, false);
+
 			}
 
 			@Override
@@ -580,18 +683,17 @@ PerferenceConstant{
 				// TODO Auto-generated method stub
 				return false;
 			}
-			
+
 		};
 	}
-	
+
 	@Override
 	protected void onResume() {
 		int orentation = ThemeManager.getInstance().screenOrentation;
-		if(orentation ==ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE||
-				orentation ==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-		{
+		if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+				|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
 			setRequestedOrientation(orentation);
-		}else{
+		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
 		if (PhoneConfiguration.getInstance().fullscreen) {
@@ -603,11 +705,12 @@ PerferenceConstant{
 	@Override
 	public void jsonfinishLoad(ProfileData result) {
 		// TODO Auto-generated method stub
-		if(result!=null){
+		attacher.setRefreshComplete();
+		if (result != null) {
 			writetopage(result);
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		final int flags = ThemeManager.ACTION_BAR_FLAG;
@@ -617,7 +720,7 @@ PerferenceConstant{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
+		switch (item.getItemId()) {
 		default:
 			finish();
 		}
@@ -638,5 +741,11 @@ PerferenceConstant{
 			this.urlSet.remove(url);
 		}
 
+	}
+
+	@Override
+	public PullToRefreshAttacher getAttacher() {
+		// TODO Auto-generated method stub
+		return mPullToRefreshAttacher;
 	}
 }

@@ -6,6 +6,7 @@ public class ThreadPageInfo {
 	private int fid;
 	private String tidarray;
 	private int quote_from;
+	private String topic_misc;
 	//private String quote_to;
 	//private String icon;
 	private String titlefont;
@@ -99,6 +100,12 @@ public class ThreadPageInfo {
 	}
 	public String getTitlefont() {
 		return titlefont;
+	}
+	public String getTopicMisc() {
+		return topic_misc;
+	}
+	public void setTopicMisc(String topic_misc) {
+		this.topic_misc = topic_misc;
 	}
 	public void setTitlefont(String titlefont) {
 		this.titlefont = titlefont;

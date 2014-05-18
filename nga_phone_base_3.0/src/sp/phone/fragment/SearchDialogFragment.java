@@ -31,7 +31,6 @@ public class SearchDialogFragment extends DialogFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		//this.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 		super.onCreate(savedInstanceState);
-		
 	}
 
 	@Override
@@ -82,6 +81,9 @@ public class SearchDialogFragment extends DialogFragment {
 			// TODO Auto-generated method stub
 			final String inputString = input.getText().toString();
     		Intent intent_search = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
+    		if (PhoneConfiguration.getInstance().fullscreen) {
+    			intent_search.putExtra("isFullScreen", true);
+    		}
 			if(searchradio.getCheckedRadioButtonId() == search_user_topic_button.getId()){//用户主题
 				if(!StringUtil.isEmpty(inputString))
 		    	{

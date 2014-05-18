@@ -1,27 +1,15 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.activity.MainActivity;
-import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import sp.phone.adapter.AppendableSignAdapter;
-import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.adapter.SignPageAdapter;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.SignData;
-import sp.phone.bean.TopicListInfo;
-import sp.phone.fragment.TopiclistContainer.ListRefreshListener;
-import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonSignLoadTask;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
@@ -30,15 +18,10 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -49,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SignContainer extends Fragment implements
 		OnSignPageLoadFinishedListener {
@@ -340,6 +322,7 @@ public class SignContainer extends Fragment implements
 		}
 
 	}
+	
 	public void onCategoryChanged(int position) {
 		if (position != category) {
 			category = position;

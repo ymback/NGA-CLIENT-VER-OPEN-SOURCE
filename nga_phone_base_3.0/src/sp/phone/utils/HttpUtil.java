@@ -25,7 +25,7 @@ import sp.phone.bean.ArticlePage;
 public class HttpUtil {
 
 	public final static String PATH_OLD = android.os.Environment
-			.getExternalStorageDirectory()
+			.getExternalStorageDirectory().getPath()
 			+ "/nga_cache";
 	public static String PATH_AVATAR_OLD = PATH_OLD +
 			 "/nga_cache";
@@ -33,7 +33,7 @@ public class HttpUtil {
 			.getExternalStorageDirectory().getAbsolutePath()+"/Pictures";
 	
 	public static String PATH = android.os.Environment
-			.getExternalStorageDirectory()
+			.getExternalStorageDirectory().getPath()
 			+ "/nga_cache";
 	public static String PATH_AVATAR = PATH +
 			 "/nga_cache";
@@ -232,6 +232,37 @@ public class HttpUtil {
 		}
 		return null;
 	}
+
+	public static String getHtmlForDbmeizi(String uri, String cookie) {
+		InputStream is = null;
+		try {
+			URL url = new URL(uri);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			if(!StringUtil.isEmpty(cookie))
+				conn.setRequestProperty("Cookie", cookie);
+			conn.setRequestProperty("User-Agent", USER_AGENT);
+			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
+			conn.setConnectTimeout(8000);
+			conn.setReadTimeout(8000);
+			conn.connect();
+            if(conn.getResponseCode() == 200)
+			    is = conn.getInputStream();
+            else
+                is = conn.getErrorStream();
+			if( "gzip".equals(conn.getHeaderField("Content-Encoding")) )
+				is = new GZIPInputStream(is);
+			String encoding =  getCharset( conn, "utf-8");
+			return IOUtils.toString(is, encoding);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(is);
+		}
+		return null;
+	}
+	
 	
 	public static String iosGetHtml(String uri, String cookie) {
 		InputStream is = null;
@@ -321,7 +352,9 @@ public class HttpUtil {
 		int end = contentType.indexOf( endTag, start);
 		if(-1==end)
 			end = contentType.length();
-		
+		if(contentType.substring(start, end).equals("no")){
+			return "utf-8";
+		}
 		return contentType.substring(start, end);
 	}
 	public static  ArticlePage getArticlePage(String uri, String cookie) {

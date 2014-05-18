@@ -3,24 +3,34 @@ package gov.anzong.androidnga.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -81,7 +91,6 @@ import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
 import sp.phone.utils.*;
 
-import sp.phone.utils.MD5Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -109,9 +118,10 @@ public class PostActivity extends SwipeBackAppCompatActivity
 	private Spinner userList;
 	private String REPLY_URL="http://nga.178.com/post.php?";
 	final int REQUEST_CODE_SELECT_PIC = 1;
-
+	private View v;
 	private boolean loading;
 	private FileUploadTask  uploadTask = null;
+	private Toast toast = null;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -130,7 +140,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 
 		
 		super.onCreate(savedInstanceState);
-		View v = this.getLayoutInflater().inflate(R.layout.reply, null);
+		v = this.getLayoutInflater().inflate(R.layout.reply, null);
 		v.setBackgroundColor(getResources()
 				.getColor(
 					ThemeManager.getInstance().getBackgroundColor()
@@ -146,18 +156,17 @@ public class PostActivity extends SwipeBackAppCompatActivity
 
 		Intent intent = this.getIntent();
 		prefix = intent.getStringExtra("prefix");
-		if(prefix!=null){
-			prefix=prefix.replaceAll("\\n\\n", "\n");
-		}
+//		if(prefix!=null){
+//			prefix=prefix.replaceAll("\\n\\n", "\n");
+//		}
 		action = intent.getStringExtra("action");
 		if(action.equals("new")){
-			this.setTitle(R.string.new_thread);
+			getSupportActionBar().setTitle(R.string.new_thread);
 		}else if(action.equals("reply")){
-			setTitle(R.string.reply_thread);
+			getSupportActionBar().setTitle(R.string.reply_thread);
 			
 		}else if(action.equals("modify")){
-			setTitle(R.string.modify_thread);
-			
+			getSupportActionBar().setTitle(R.string.modify_thread);
 		}
 		tid = intent.getStringExtra("tid");
 		fid = intent.getIntExtra("fid", -7);
@@ -182,6 +191,9 @@ public class PostActivity extends SwipeBackAppCompatActivity
 		titleText = (EditText) findViewById(R.id.reply_titile_edittext);
 		if(title!=null){
 			titleText.setText(title);
+		}
+		if(!action.equals("new")){
+			titleText.setHint(R.string.titlecannull);
 		}
 		titleText.setSelected(true);
 		bodyText = (EditText) findViewById(R.id.reply_body_edittext);
@@ -220,9 +232,11 @@ public class PostActivity extends SwipeBackAppCompatActivity
 					User u = (User) parent.getItemAtPosition(position);
 					MyApp app = (MyApp) getApplication();
 					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName());
+							u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
 					PhoneConfiguration.getInstance().setUid(u.getUserId());
 					PhoneConfiguration.getInstance().setCid(u.getCid());
+					PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
+					PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
 
 				}
 
@@ -266,9 +280,11 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				User u = (User)categoryAdapter.getItem(itemPosition);
 				MyApp app = (MyApp) getApplication();
 				app.addToUserList(u.getUserId(), u.getCid(),
-						u.getNickName());
+						u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
 				PhoneConfiguration.getInstance().setUid(u.getUserId());
 				PhoneConfiguration.getInstance().setCid(u.getCid());
+				PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
+				PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
 				return true;
 			}
 			 
@@ -335,7 +351,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 		return true;
 	}
 
-	private AlertDialog handleSupertext(){
+	private void handleSupertext(){
 		final int index = bodyText.getSelectionStart();
 	    LayoutInflater layoutInflater = getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.supertext_dialog, null);  
@@ -637,8 +653,18 @@ public class PostActivity extends SwipeBackAppCompatActivity
 							inputdata.startsWith("mms:") || inputdata.startsWith("rtsp:")	){
 						inputdata="[url]"+inputdata+"[/url]";
 					}else{
-						Toast.makeText(PostActivity.this, "URL需以http|https|ftp|gopher|news|telnet|mms|rtsp开头", Toast.LENGTH_SHORT).show();
-					}
+
+						if (toast != null) {
+							toast.setText("URL需以http|https|ftp|gopher|news|telnet|mms|rtsp开头");
+							toast.setDuration(Toast.LENGTH_SHORT);
+							toast.show();
+						} else {
+							toast = Toast.makeText(PostActivity.this, 
+									"URL需以http|https|ftp|gopher|news|telnet|mms|rtsp开头", 
+									Toast.LENGTH_SHORT);
+							toast.show();
+						}
+						}
 				}else if(quoteadd_button.isChecked()){
 					inputdata="[quote]"+inputdata+"[/quote]";
 				}else{
@@ -736,7 +762,20 @@ public class PostActivity extends SwipeBackAppCompatActivity
                 dialog.dismiss();
             }
 		});
-		return alert.show();
+		final AlertDialog dialog = alert.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener(){
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if(PhoneConfiguration.getInstance().fullscreen){
+				ActivityUtil.getInstance().setFullScreen(v);
+				}
+			}
+			
+		});
 	}
 	
 	@Override
@@ -843,6 +882,9 @@ public class PostActivity extends SwipeBackAppCompatActivity
 			}
 		}
 		bodyText.requestFocus();
+		if(PhoneConfiguration.getInstance().fullscreen){
+			ActivityUtil.getInstance().setFullScreen(v);
+		}
 		super.onResume();
 	}
 
@@ -898,7 +940,15 @@ public class PostActivity extends SwipeBackAppCompatActivity
 			synchronized(commit_lock){
 				if(loading == true){
 					String avoidWindfury = PostActivity.this.getString(R.string.avoidWindfury);
-					Toast.makeText(PostActivity.this, avoidWindfury, Toast.LENGTH_SHORT).show();
+					if (toast != null) {
+						toast.setText(avoidWindfury);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(PostActivity.this, avoidWindfury, 
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
 					return ;
 				}
 				loading = true;
@@ -1262,9 +1312,15 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				if(!success)
 					keepActivity = true;
 			}
-			
-			Toast.makeText(c, result,
-					Toast.LENGTH_LONG).show();
+			if (toast != null) {
+				toast.setText(result);
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
+			} else {
+				toast = Toast.makeText(PostActivity.this, result, 
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
 			PhoneConfiguration.getInstance().setRefreshAfterPost(true);
 			ActivityUtil.getInstance().dismiss();
 			if(!keepActivity)
@@ -1281,12 +1337,33 @@ public class PostActivity extends SwipeBackAppCompatActivity
 
 	@Override
 	public int finishUpload(String attachments, String attachmentsCheck,
-			String picUrl,Bitmap bitmap) {
+			String picUrl,Uri uri) {
+		String selectedImagePath2  = getPath(this,uri);
 		final int index = bodyText.getSelectionStart();
 		this.act.appendAttachments_(attachments);
 		act.appendAttachments_check_(attachmentsCheck);
 		String spantmp="[img]./" +picUrl + "[/img]";
-		if(bitmap!=null){
+		if(!StringUtil.isEmpty(selectedImagePath2)){
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2, options); //此时返回 bm 为空 
+			options.inJustDecodeBounds = false;
+			DisplayMetrics dm = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(dm);
+			int screenwidth = (int) (dm.widthPixels*0.75);
+			int screenheigth = (int) (dm.heightPixels*0.75);
+		    int width = options.outWidth;
+		    int height = options.outHeight;
+		    float scaleWidth = ((float) screenwidth) / width;
+		    float scaleHeight = ((float) screenheigth) / height;
+		    if(scaleWidth<scaleHeight && scaleWidth<1f){//不能放大啊,然后主要是哪个小缩放到哪个就行了
+		    	options.inSampleSize = (int) (1/scaleWidth);
+		    }else if(scaleWidth>=scaleHeight && scaleHeight<1f){
+		    	options.inSampleSize = (int) (1/scaleHeight);
+		    }else{
+		    	options.inSampleSize = 1; 
+		    }
+	    	bitmap=BitmapFactory.decodeFile(selectedImagePath2,options);
 			BitmapDrawable bd = new BitmapDrawable(bitmap);
 			Drawable drawable = (Drawable) bd;
 			drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
@@ -1386,6 +1463,140 @@ public class PostActivity extends SwipeBackAppCompatActivity
 			newFragment.show(fm, EMOTION_TAG);
 		}
 
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Get a file path from a Uri. This will get the the path for Storage Access
+	 * Framework Documents, as well as the _data field for the MediaStore and
+	 * other file-based ContentProviders.
+	 *
+	 * @param context The context.
+	 * @param uri The Uri to query.
+	 * @author paulburke
+	 */
+	public static String getPath(final Context context, final Uri uri) {
+
+	    final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+	    // DocumentProvider
+	    if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+	        // ExternalStorageProvider
+	        if (isExternalStorageDocument(uri)) {
+	            final String docId = DocumentsContract.getDocumentId(uri);
+	            final String[] split = docId.split(":");
+	            final String type = split[0];
+
+	            if ("primary".equalsIgnoreCase(type)) {
+	                return Environment.getExternalStorageDirectory() + "/" + split[1];
+	            }
+
+	            // TODO handle non-primary volumes
+	        }
+	        // DownloadsProvider
+	        else if (isDownloadsDocument(uri)) {
+
+	            final String id = DocumentsContract.getDocumentId(uri);
+	            final Uri contentUri = ContentUris.withAppendedId(
+	                    Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+	            return getDataColumn(context, contentUri, null, null);
+	        }
+	        // MediaProvider
+	        else if (isMediaDocument(uri)) {
+	            final String docId = DocumentsContract.getDocumentId(uri);
+	            final String[] split = docId.split(":");
+	            final String type = split[0];
+
+	            Uri contentUri = null;
+	            if ("image".equals(type)) {
+	                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+	            } else if ("video".equals(type)) {
+	                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+	            } else if ("audio".equals(type)) {
+	                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+	            }
+
+	            final String selection = "_id=?";
+	            final String[] selectionArgs = new String[] {
+	                    split[1]
+	            };
+
+	            return getDataColumn(context, contentUri, selection, selectionArgs);
+	        }
+	    }
+	    // MediaStore (and general)
+	    else if ("content".equalsIgnoreCase(uri.getScheme())) {
+	        return getDataColumn(context, uri, null, null);
+	    }
+	    // File
+	    else if ("file".equalsIgnoreCase(uri.getScheme())) {
+	        return uri.getPath();
+	    }
+
+	    return null;
+	}
+
+	/**
+	 * Get the value of the data column for this Uri. This is useful for
+	 * MediaStore Uris, and other file-based ContentProviders.
+	 *
+	 * @param context The context.
+	 * @param uri The Uri to query.
+	 * @param selection (Optional) Filter used in the query.
+	 * @param selectionArgs (Optional) Selection arguments used in the query.
+	 * @return The value of the _data column, which is typically a file path.
+	 */
+	public static String getDataColumn(Context context, Uri uri, String selection,
+	        String[] selectionArgs) {
+
+	    Cursor cursor = null;
+	    final String column = "_data";
+	    final String[] projection = {
+	            column
+	    };
+
+	    try {
+	        cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+	                null);
+	        if (cursor != null && cursor.moveToFirst()) {
+	            final int column_index = cursor.getColumnIndexOrThrow(column);
+	            return cursor.getString(column_index);
+	        }
+	    } finally {
+	        if (cursor != null)
+	            cursor.close();
+	    }
+	    return null;
+	}
+
+
+	/**
+	 * @param uri The Uri to check.
+	 * @return Whether the Uri authority is ExternalStorageProvider.
+	 */
+	public static boolean isExternalStorageDocument(Uri uri) {
+	    return "com.android.externalstorage.documents".equals(uri.getAuthority());
+	}
+
+	/**
+	 * @param uri The Uri to check.
+	 * @return Whether the Uri authority is DownloadsProvider.
+	 */
+	public static boolean isDownloadsDocument(Uri uri) {
+	    return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+	}
+
+	/**
+	 * @param uri The Uri to check.
+	 * @return Whether the Uri authority is MediaProvider.
+	 */
+	public static boolean isMediaDocument(Uri uri) {
+	    return "com.android.providers.media.documents".equals(uri.getAuthority());
 	}
 
 }

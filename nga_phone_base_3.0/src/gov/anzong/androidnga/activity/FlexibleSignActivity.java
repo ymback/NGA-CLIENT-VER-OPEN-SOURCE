@@ -71,7 +71,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 		if (null == f2) {
 			f1.setHasOptionsMenu(true);
 		} else if (!dualScreen) {
-			this.setTitle(R.string.app_name);
+			getSupportActionBar().setTitle("签到任务");
 			fm.beginTransaction().remove(f2).commit();
 			f1.setHasOptionsMenu(true);
 		} else {
@@ -108,10 +108,12 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 					User u = (User) parent.getItemAtPosition(position);
 					MyApp app = (MyApp) getApplication();
 					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName());
+							u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
 					PhoneConfiguration.getInstance().setUid(u.getUserId());
 					PhoneConfiguration.getInstance().setCid(u.getCid());
 					PhoneConfiguration.getInstance().setNickname(u.getNickName());
+					PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
+					PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
 
 				}
 
@@ -140,10 +142,12 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 					User u = (User)categoryAdapter.getItem(itemPosition);
 					MyApp app = (MyApp) getApplication();
 					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName());
+							u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
 					PhoneConfiguration.getInstance().setUid(u.getUserId());
 					PhoneConfiguration.getInstance().setCid(u.getCid());
 					PhoneConfiguration.getInstance().setNickname(u.getNickName());
+					PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
+					PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
 					SignContainer f1 = (SignContainer) getSupportFragmentManager().findFragmentById(R.id.sign_list);
 					if (f1 != null) {
 						f1.onCategoryChanged(itemPosition);
@@ -177,6 +181,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 	public PullToRefreshAttacher getAttacher() {
 		return mPullToRefreshAttacher;
 	}
+	
 	@Override
 	protected void onResume() {
 		int orentation = ThemeManager.getInstance().screenOrentation;
@@ -187,7 +192,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
 
-		View view = findViewById(R.id.item_list);
+		View view = findViewById(R.id.sign_list);
 		if (PhoneConfiguration.getInstance().fullscreen) {
 			ActivityUtil.getInstance().setFullScreen(view);
 		}
@@ -200,7 +205,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 			FragmentManager fm = getSupportFragmentManager();
 			Fragment f1 = fm.findFragmentById(R.id.sign_list);
 			f1.setHasOptionsMenu(true);
-			setTitle(R.string.app_name);
+			getSupportActionBar().setTitle("签到任务");
 		}
 
 	}// 竖屏变横屏就干这个

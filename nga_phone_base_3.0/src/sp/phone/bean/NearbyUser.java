@@ -5,7 +5,14 @@ public class NearbyUser {
 	String longitude;
 	String latitude;
 	String userId;
-	
+	String juli;
+
+	public String getJuli() {
+		return juli;
+	}
+	public void setJuli(String juli) {
+		this.juli = juli;
+	}
 	
 	public String getUserId() {
 		return userId;

@@ -12,7 +12,7 @@ public class SignData {
 	private int Successrows;
 	private int Availablerows;
 	private int Totalrows;
-	private boolean is_json_error;
+	private boolean is_json_error,is_json_signsuccess;
 	
 	
 	List<MissionDetialData> EntryList;
@@ -24,6 +24,12 @@ public class SignData {
 		return is_json_error;
 	}
 
+	public void set__is_json_signsuccess(boolean is_json_signsuccess){
+		this.is_json_signsuccess=is_json_signsuccess;
+	}
+	public boolean get__is_json_signsuccess(){
+		return is_json_signsuccess;
+	}
 
 	public void setEntryList(List<MissionDetialData> EntryList) {
 		this.EntryList = EntryList;

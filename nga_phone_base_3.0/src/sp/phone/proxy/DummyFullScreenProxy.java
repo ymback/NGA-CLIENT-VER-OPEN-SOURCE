@@ -10,4 +10,8 @@ public class DummyFullScreenProxy implements FullScreenProxy {
     public void setFullScreen(View view) {
 
     }
+    @Override
+    public void setNormalScreen(View view) {
+
+    }
 }

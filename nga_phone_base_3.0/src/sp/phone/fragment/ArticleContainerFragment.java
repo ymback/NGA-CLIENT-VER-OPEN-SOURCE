@@ -207,25 +207,39 @@ PagerOwnner{
 			case R.id.article_menuitem_reply:
 				//if(articleAdpater.getData() == null)
 				//	return false;
-				String tid = String.valueOf(this.tid);
 				Intent intent = new Intent();
-				intent.putExtra("prefix", "" );
-				intent.putExtra("tid", tid);
-				intent.putExtra("action", "reply");
-				
-				intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
-				startActivity(intent);
-				if(PhoneConfiguration.getInstance().showAnimation)
-					getActivity().overridePendingTransition(R.anim.zoom_enter,
-							R.anim.zoom_exit);
+				if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
+					String tid = String.valueOf(this.tid);
+					intent.putExtra("prefix", "" );
+					intent.putExtra("tid", tid);
+					intent.putExtra("action", "reply");
+					if (!StringUtil
+							.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+					intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);}
+					else{
+						intent.setClass(
+							getActivity(),
+							PhoneConfiguration.getInstance().loginActivityClass);
+					}
+					startActivity(intent);
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
+				}else{
+					intent.setClass(getActivity(),
+							PhoneConfiguration.getInstance().loginActivityClass);
+					startActivity(intent);
+					if (PhoneConfiguration.getInstance().showAnimation) {
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
+					}
+				}
 				break;
 			case R.id.article_menuitem_refresh:
 				int current = mViewPager.getCurrentItem();
 				ActivityUtil.getInstance().noticeSaying(getActivity());
 				mViewPager.setAdapter(mTabsAdapter);
 				mViewPager.setCurrentItem(current);
-				
-				
 				break;
 			case R.id.article_menuitem_addbookmark:				
 				BookmarkTask bt = new BookmarkTask(getActivity());

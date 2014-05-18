@@ -115,7 +115,6 @@ public class PPSVideoLoadTask extends AsyncTask<String, Integer, String> {
 			// TODO Auto-generated catch block
 			return null;
 		}
-		Log.i("PPS",url);
 		return url;
 	}
 

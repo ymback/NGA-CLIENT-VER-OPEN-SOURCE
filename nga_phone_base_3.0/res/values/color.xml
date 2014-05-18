@@ -15,6 +15,7 @@
 
 
 	<color name="font_page_now">#314396</color -->
+	<color name="pagetabfocus">#1d2a63</color>
 	<color name="page">#0000CD</color>
 	<color name="white">#FFFFFF</color>
 	<color name="black">#000000</color>
@@ -28,6 +29,7 @@
 	<color name="green">#00ff00</color>
 	<color name="blue">#0000ff</color>
 	<color name="blue_hover">#00039E</color>
+	<color name="silver">#E6E8FA</color>
 	<color name="ics_blue">#33B5E5</color>
 	<color name="nga_text_color">#121C46</color>
 	<color name="nga_title_color">#e51400</color>
@@ -47,5 +49,12 @@
     <color name="mutedcolor">#FF4500</color>
     <color name="profilebgcolor">#fff5d7</color>
     <color name="profilefcolor">#551200</color>
+    
+    
+    <color name="replynumbernormal">#80C0C0</color>
+    <color name="drawerlistcolormain">#551200</color>
+    <color name="drawerlistactiveddeep">#FFEEBB</color>
+    <color name="drawerlistactivednotdeep">#fff1c9</color>
+    <color name="drawerlistcoloritem">#F7E1A2</color>
     
 </resources>

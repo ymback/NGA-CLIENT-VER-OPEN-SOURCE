@@ -113,7 +113,6 @@ public class SinaVideoLoadTask extends AsyncTask<String, Integer, String> {
 		String videoid=null;
 		if(params[0].equals("----")){
 			final String htmlString = HttpUtil.iosGetHtml(origurl, null);
-			Log.i("TAGG",htmlString);
 			videoid = StringUtil.getStringBetween(htmlString, 0,
 					"['ipad_vid'] = \"", "\"").result;
 			if (StringUtil.isEmpty(videoid)) {// ¿Õ,×¥vid
@@ -144,7 +143,6 @@ public class SinaVideoLoadTask extends AsyncTask<String, Integer, String> {
 		String key = MD5Util.MD5(ka).substring(0,16)+"0";
 		String xmldata = HttpUtil.iosGetHtml(
 				"http://v.iask.com/v_play.php?vid=" + videoid+"&ran=0&k="+key, null);
-		Log.i("TAG",xmldata);
 		String mp4add = StringUtil.getStringBetween(xmldata, 0, "<url>",
 				"</url>").result;
 		mp4add = StringUtil.getStringBetween(mp4add, 0, "CDATA[", "]").result;

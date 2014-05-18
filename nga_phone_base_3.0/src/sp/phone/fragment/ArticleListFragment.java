@@ -393,6 +393,7 @@ public class ArticleListFragment extends Fragment
 		String content = row.getContent();
 		String signature = row.getSignature();
 		final String name = row.getAuthor();
+		final String uid=String.valueOf(row.getAuthorid());
 		boolean isanonymous=row.getISANONYMOUS();
 		String mention=null;
 		Intent intent = new Intent();
@@ -419,9 +420,11 @@ public class ArticleListFragment extends Fragment
                 .append(page);
 				postPrefix.append("]");//Topic
 				postPrefix.append("Reply");
-                postPrefix.append("[/pid] [b]Post by ");
-                postPrefix.append(name);
-                postPrefix.append(" (");
+				postPrefix.append("[/pid] [b]Post by [uid=");
+				postPrefix.append(uid);
+				postPrefix.append("]");
+				postPrefix.append(name);
+				postPrefix.append("[/uid] (");
                 postPrefix.append(postTime);
                 postPrefix.append("):[/b]\n");
                 postPrefix.append(content);
@@ -435,7 +438,14 @@ public class ArticleListFragment extends Fragment
 			intent.putExtra("prefix", StringUtil.removeBrTag(postPrefix.toString()) );
 			intent.putExtra("tid", tidStr);
 			intent.putExtra("action", "reply");	
-			intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
+			if (!StringUtil
+					.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+			intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);}
+			else{
+				intent.setClass(
+					getActivity(),
+					PhoneConfiguration.getInstance().loginActivityClass);
+			}
 			startActivity(intent);
 			if(PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,
@@ -481,7 +491,14 @@ public class ArticleListFragment extends Fragment
 			intentModify.putExtra("pid", pid);
 			intentModify.putExtra("title",StringUtil.unEscapeHtml(row.getSubject()));
 			intentModify.putExtra("action", "modify");	
-			intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
+			if (!StringUtil
+					.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+				intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);}
+			else{
+				intentModify.setClass(
+					getActivity(),
+					PhoneConfiguration.getInstance().loginActivityClass);
+			}
 			startActivity(intentModify);
             if(PhoneConfiguration.getInstance().showAnimation)
 			    getActivity().overridePendingTransition(R.anim.zoom_enter,
@@ -542,7 +559,6 @@ public class ArticleListFragment extends Fragment
 				}
 				restNotifier.reset(0, 0,row.getLou());
 				ActivityUtil.getInstance().noticeSaying(getActivity());
-				Log.i("TAG","TEST");
 			}else{
 				int tid1 = tid;
 				ArticleContainerFragment f = ArticleContainerFragment.createshowall(tid1);
@@ -603,7 +619,7 @@ public class ArticleListFragment extends Fragment
 		}
 		return true;
 	}
-	private AlertDialog errordialog(){
+	private void errordialog(){
 		 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setMessage("这白痴匿名了,神马都看不到");
 		builder.setTitle("看不到");
@@ -616,9 +632,23 @@ public class ArticleListFragment extends Fragment
 			}
 			
 		});
-		return builder.show();
+
+		final AlertDialog dialog = builder.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
 	}
-	private AlertDialog Create_Signature_Dialog(ThreadRowInfo row) {
+	private void Create_Signature_Dialog(ThreadRowInfo row) {
 		// TODO Auto-generated method stub
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
@@ -663,11 +693,25 @@ public class ArticleListFragment extends Fragment
 			}
 			
 		});
-		return alert.show();
+
+		final AlertDialog dialog = alert.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
 	}
 
 	
-	private AlertDialog Create_Avatar_Dialog(ThreadRowInfo row) {
+	private void Create_Avatar_Dialog(ThreadRowInfo row) {
 		// TODO Auto-generated method stub
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
@@ -711,7 +755,20 @@ public class ArticleListFragment extends Fragment
 			}
 			
 		});
-		return alert.show();
+		final AlertDialog dialog = alert.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
 	}
 	
 	public String signatureToHtmlText(final ThreadRowInfo row,
@@ -776,7 +833,7 @@ public class ArticleListFragment extends Fragment
 		return ngaHtml;
 	}
 	
-	private AlertDialog  CopyDialog(String content) {
+	private void  CopyDialog(String content) {
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.copy_dialog, null);  
 	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
@@ -831,7 +888,20 @@ public class ArticleListFragment extends Fragment
 		        }  
             }
 		});
-		return alert.show();
+		final AlertDialog dialog = alert.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
 		// TODO Auto-generated method stub
 		
 	}

@@ -117,7 +117,6 @@ public class NeteaseVideoLoadTask extends AsyncTask<String, Integer, String> {
 		if(StringUtil.isEmpty(iid))
 			return null;
 		String m3u8Url = iid;
-		Log.i("NETEASELOAD",iid);
 		return m3u8Url;
 	}
 
