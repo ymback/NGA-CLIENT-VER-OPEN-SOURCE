@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ThreadFragmentAdapter;
@@ -74,6 +73,7 @@ PagerOwnner{
 	ThreadFragmentAdapter mTabsAdapter;
     int tid;
     int pid;
+    String title;
     int authorid;
 	private static final String TAG= "ArticleContainerFragment";
 	private static final String GOTO_TAG = "goto";
@@ -202,12 +202,12 @@ PagerOwnner{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch( item.getItemId())
 		{
 			case R.id.article_menuitem_reply:
 				//if(articleAdpater.getData() == null)
 				//	return false;
-				Intent intent = new Intent();
 				if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
 					String tid = String.valueOf(this.tid);
 					intent.putExtra("prefix", "" );
@@ -251,6 +251,24 @@ PagerOwnner{
 				break;
 			case R.id.goto_floor:
 				createGotoDialog();
+				break;
+			case R.id.item_share:
+				intent.setAction(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				String shareUrl = "http://nga.178.com/read.php?";
+				if(this.pid != 0){
+					shareUrl = shareUrl + "pid="+this.pid+".分享自NGA客户端开源版";
+				}
+				else
+				{
+					shareUrl = shareUrl + "tid="+this.tid+".分享自NGA客户端开源版";
+				}
+				if(!StringUtil.isEmpty(this.title)){
+					shareUrl = this.title+" - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
+				}
+				intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
+				String text = getResources().getString(R.string.share);
+				getActivity().startActivity(Intent.createChooser(intent, text));
 				break;
 			case R.id.article_menuitem_back:
 			default:
@@ -337,6 +355,7 @@ PagerOwnner{
 		}
 		if( tid != data.getThreadInfo().getTid()) // mirror thread
 			tid = data.getThreadInfo().getTid();
+		title=data.getThreadInfo().getSubject();
 		
 		
 	}

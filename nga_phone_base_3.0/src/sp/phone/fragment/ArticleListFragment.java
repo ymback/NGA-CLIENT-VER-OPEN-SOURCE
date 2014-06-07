@@ -77,6 +77,7 @@ public class ArticleListFragment extends Fragment
 	//private JsonThreadLoadTask task;
 	private int page=0;
 	private int tid;
+	private String title;
 	private int pid;
 	private int authorid;
 	private boolean needLoad = true;
@@ -603,11 +604,14 @@ public class ArticleListFragment extends Fragment
 			intent.setType("text/plain");
 			String shareUrl = "http://nga.178.com/read.php?";
 			if(row.getPid() != 0){
-				shareUrl = shareUrl + "pid="+row.getPid();
+				shareUrl = shareUrl + "pid="+row.getPid()+".分享自NGA客户端开源版";
 			}
 			else
 			{
-				shareUrl = shareUrl + "tid="+tid;
+				shareUrl = shareUrl + "tid="+tid+".分享自NGA客户端开源版";
+			}
+			if(!StringUtil.isEmpty(this.title)){
+				shareUrl = this.title+" - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
 			}
 			intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
 			String text = getResources().getString(R.string.share);
@@ -770,6 +774,25 @@ public class ArticleListFragment extends Fragment
 
 		});
 	}
+	private static String parseAvatarUrl(String js_escap_avatar) {
+		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
+		if (null == js_escap_avatar)
+			return null;
+
+		int start = js_escap_avatar.indexOf("http");
+		if (start == 0 || start == -1)
+			return js_escap_avatar;
+		int end = js_escap_avatar.indexOf("\"", start);//
+		if (end == -1)
+			end = js_escap_avatar.length();
+		String ret = null;
+		try {
+			ret = js_escap_avatar.substring(start, end);
+		} catch (Exception e) {
+			Log.e(TAG, "cann't handle avatar url " + js_escap_avatar);
+		}
+		return ret;
+	}
 	
 	public String signatureToHtmlText(final ThreadRowInfo row,
 			boolean showImage, int imageQuality, final String fgColorStr,
@@ -808,7 +831,7 @@ public class ArticleListFragment extends Fragment
 			 ngaHtml = StringUtil.decodeForumTag("这家伙是骷髅党,头像什么的没有啦~<br><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >", showImage,
 					imageQuality, imageURLSet);
 		}else{
-			 ngaHtml = StringUtil.decodeForumTag("[img]"+row.getJs_escap_avatar()+"[/img]", showImage,
+			 ngaHtml = StringUtil.decodeForumTag("[img]"+parseAvatarUrl(row.getJs_escap_avatar())+"[/img]", showImage,
 					imageQuality, imageURLSet);
 		}
 		if (imageURLSet.size() == 0) {
@@ -915,6 +938,9 @@ public class ArticleListFragment extends Fragment
 
 			if( 0 != data.getThreadInfo().getQuote_from())
 				tid = data.getThreadInfo().getQuote_from();
+			if(!StringUtil.isEmpty(data.getThreadInfo().getSubject())){
+				title=data.getThreadInfo().getSubject();
+			}
 			OnThreadPageLoadFinishedListener father = null;
 			try{
 				father = (OnThreadPageLoadFinishedListener)getActivity();

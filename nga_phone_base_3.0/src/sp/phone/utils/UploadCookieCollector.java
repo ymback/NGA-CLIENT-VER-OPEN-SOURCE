@@ -1,10 +1,13 @@
 package sp.phone.utils;
 
+import gov.anzong.androidnga.activity.MyApp;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import android.util.Log;
@@ -49,12 +52,25 @@ public class UploadCookieCollector {
 		final String urlString  = collectURL + "?func=login&uid=" + config.getUid() 
 				+ "&cid=" + config.getCid() + "&expires=31536000" ;
 		//URL=http://nga.178.com/nuke.php?func=login&uid=553736&cid=ca583128fd6a500fcee2ff9d5f6c656fffade423&expires=31536000
+
+		String machine="";
+		String MODEL=android.os.Build.MODEL.toUpperCase(Locale.US);
+		String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 		
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setInstanceFollowRedirects(false);
-			conn.setRequestProperty("User-Agent", HttpUtil.USER_AGENT);
+			conn.setRequestProperty("User-Agent", USER_AGENT);
 
 			conn.connect();
 

@@ -55,15 +55,18 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 		}
         if(uri.indexOf("table=")>0){
         	table = StringUtil.getStringBetween(uri, 0, "table=", "&").result.trim();
-        	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//ÅÐ¶ÏÊÇ·ñÊÇËÑË÷
-    		Pattern pattern = Pattern.compile(pattern1);
-    		Matcher mat = pattern.matcher(table);
-        	if(!mat.find()){
-        		table=null;
+        	if(context!=null){
+            	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//ÅÐ¶ÏÊÇ·ñÊÇËÑË÷
+        		Pattern pattern = Pattern.compile(pattern1);
+        		Matcher mat = pattern.matcher(table);
+            	if(!mat.find()){
+            		table=null;
+            	}
         	}
         }
 		if(js == null){
-			error = context.getResources().getString(R.string.network_error);
+			if(context!=null)
+				error = context.getResources().getString(R.string.network_error);
 			return null;
 		}
 		if(js.indexOf("/*error fill content")>0)

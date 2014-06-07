@@ -533,8 +533,14 @@ public class ArticleListAdapter extends BaseAdapter implements
 					if (from_client.length() == 2) {
 						deviceinfo = "发送自NGA安卓客户端 机型及系统:未知";
 					} else {
-						deviceinfo = "发送自NGA安卓客户端 机型及系统:"
-								+ from_client.substring(2);
+						String fromdata=from_client.substring(2);
+						if(fromdata.startsWith("[") && fromdata.indexOf("](Android")>0){
+							deviceinfo = "发送自NGA安卓开源版客户端 机型及系统:"
+									+ fromdata.substring(1).replace("](Android", "(Android");
+						}else{
+							deviceinfo = "发送自NGA安卓官方客户端 机型及系统:"
+									+ fromdata;
+						}
 					}
 				} else if (clientappcode.equals("9")) {
 					if (from_client.length() == 2) {
@@ -774,20 +780,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 				.getColor(colorId);
 
 		final WebView contentTV = holder.contentTV;
-		// handleContentTV(contentTV, row, bgColor, fgColor);
-		if (ActivityUtil.isLessThan_4_3()) {
-			new Thread(new Runnable() {
-				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
-				}
-			}).start();
-		} else {
-			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
-				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
-				}
-			});
-		}
 
 		final String floor = String.valueOf(lou);
 		TextView floorTV = holder.floorTV;
@@ -811,6 +803,19 @@ public class ArticleListAdapter extends BaseAdapter implements
 				holder.clientBtn.setVisibility(View.VISIBLE);
 				holder.clientBtn.setOnClickListener(myListenerForClient);
 			}
+		}
+		if (ActivityUtil.isLessThan_4_3()) {
+			new Thread(new Runnable() {
+				public void run() {
+					handleContentTV(contentTV, row, bgColor, fgColor);
+				}
+			}).start();
+		} else {
+			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
+				public void run() {
+					handleContentTV(contentTV, row, bgColor, fgColor);
+				}
+			});
 		}
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());

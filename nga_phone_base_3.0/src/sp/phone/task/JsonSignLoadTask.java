@@ -27,6 +27,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 	final private OnSignPageLoadFinishedListener notifier;
 	private String error;
 	private Toast toast;
+	private int realstart = 0;
 
 	public JsonSignLoadTask(Context context,
 			OnSignPageLoadFinishedListener notifier) {
@@ -55,13 +56,14 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		String js;
 		List<MissionDetialData> EntryList = new ArrayList<MissionDetialData>();
 		js = HttpUtil.getHtml(uri,PhoneConfiguration.getInstance().getCookie());
-//		 Log.i(TAG,js);
-//		js="{\"data\":{\"0\":\"签到成功(0)\"},\"time\":1399162876}";
-//		js = "{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":58,\"continued\":3,\"sum\":38,\"last_time\":1397270302},\"2\":{\"success\":{\"1\":{\"id\":1,\"name\":\"测试任务1S\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"},\"2\":{\"id\":2,\"name\":\"测试任务2S\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"}},\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务1A\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"},\"2\":{\"id\":2,\"name\":\"测试任务2A\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"}}}},\"time\":1397452410}";
-//		 js="window.script_muti_get_var_store={\"error\":{\"0\":\"你今天已经签到了(以服务器时间计算)\"},\"time\":1397704424}";//错误模式
-//		js="{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":1,\"sum\":1,\"last_time\":0},\"2\":{\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务\",\"info\":\"测试\n	任务信息\",\"detail\":\"任务必须满足以下条件:\n连续签到3天(全局), \n\n任务可以获得以下奖励:\n铜币:1, \n\n任务可以重复完成, 每2天一次\n\n\",\"stat\":\"目前已经连续签到1天\n共计签到1\n\n\"}}}},\"time\":1397949753}";
-//		js="S)DB ERROR";
-//		js="{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":1,\"sum\":2,\"last_time\":1397949753},\"2\":{\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务\",\"info\":\"测试\n	任务信息\",\"detail\":\"任务必须满足以下条件:\n连续签到3天(全局), \n\n任务可以获得以下奖励:\n铜币:1, \n\n任务可以重复完成, 每2天一次\n\n\",\"stat\":\"目前已经连续签到1天\n共计签到2\n\n\"}}}},\"time\":1398578538}";
+//		 js = "{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":2,\"sum\":7,\"last_time\":1402056459},\"2\":{\"available\":{\"2\":{\"id\":2,\"name\":\"使用NGA手机客户端刮墙\",\"info\":\"使用NGA手机客户端刮墙 给予银币奖励\",\"detail\":\"任务必须满足以下条件:\n必须使用认证的客户端, 连续签到5天, \n\n任务可以获得以下奖励:\n铜币:500, \n\n任务可以重复完成, 每0天一次\n\n\",\"stat\":\"目前已经连续签到2天(任务计数)\n共计签到4天(任务计数)\n\n任务于服务器时间 2014-05-31 07:10:39 完成\n\n\",\"raw_detail\":{\"1\":2,\"9\":\"使用NGA手机客户端刮墙\",\"10\":\"使用NGA手机客户端刮墙 给予银币奖励\",\"16\":{\"6\":1},\"2\":{\"3\":5},\"4\":3,\"5\":0,\"6\":1,\"7\":{\"2\":500},\"12\":0,\"15\":1},\"raw_stat\":{\"1\":2,\"2\":4,\"3\":1401491439}}},\"success\":{}}},\"time\":1402101293}";
+		// js="{\"data\":{\"0\":\"签到成功(0)\"},\"time\":1399162876}";
+		// js =
+		// "{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":58,\"continued\":3,\"sum\":38,\"last_time\":1397270302},\"2\":{\"success\":{\"1\":{\"id\":1,\"name\":\"测试任务1S\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"},\"2\":{\"id\":2,\"name\":\"测试任务2S\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"}},\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务1A\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"},\"2\":{\"id\":2,\"name\":\"测试任务2A\",\"info\":\"测试\n   任务信息\",\"detail\":\"任务必须满足以下条件:连续签到3天,...\",\"stat\":\"目前已经连续签到1天\n共计签到1\n任务于 2014-04-11 18:11:48 完成\"}}}},\"time\":1397452410}";
+		// js="window.script_muti_get_var_store={\"error\":{\"0\":\"你今天已经签到了(以服务器时间计算)\"},\"time\":1397704424}";//错误模式
+		// js="{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":1,\"sum\":1,\"last_time\":0},\"2\":{\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务\",\"info\":\"测试\n	任务信息\",\"detail\":\"任务必须满足以下条件:\n连续签到3天(全局), \n\n任务可以获得以下奖励:\n铜币:1, \n\n任务可以重复完成, 每2天一次\n\n\",\"stat\":\"目前已经连续签到1天\n共计签到1\n\n\"}}}},\"time\":1397949753}";
+		// js="S)DB ERROR";
+		// js="{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":1,\"sum\":2,\"last_time\":1397949753},\"2\":{\"available\":{\"1\":{\"id\":1,\"name\":\"测试任务\",\"info\":\"测试\n	任务信息\",\"detail\":\"任务必须满足以下条件:\n连续签到3天(全局), \n\n任务可以获得以下奖励:\n铜币:1, \n\n任务可以重复完成, 每2天一次\n\n\",\"stat\":\"目前已经连续签到1天\n共计签到2\n\n\"}}}},\"time\":1398578538}";
 		if (null == js) {
 			error = context.getString(R.string.network_error);
 			return null;
@@ -105,10 +107,10 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		ret.set__SignResult(SignResult);
 		JSONObject o1 = (JSONObject) o.get("1");
 		if (null == o1) {
-			if(StringUtil.isEmpty(SignResult)){
+			if (StringUtil.isEmpty(SignResult)) {
 				error = "二哥玩坏了或者你需要重新登录";
 				return null;
-			}else{
+			} else {
 				error = SignResult;
 				ret.set__is_json_signsuccess(true);
 				ret.set__SignResult(error);
@@ -124,9 +126,9 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		ret.set__Sum(Integer.parseInt(o1.getString("sum")));
 		ret.set__Uid(Integer.parseInt(o1.getString("uid")));
 		if (!StringUtil.isEmpty(o1.getString("last_time"))) {
-			if(o1.getString("last_time").equals("0")){
+			if (o1.getString("last_time").equals("0")) {
 				ret.set__Last_time("从未");
-			}else{
+			} else {
 				ret.set__Last_time(TimeStamp2Date(o1.getString("last_time")));
 			}
 		}
@@ -146,11 +148,17 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 			JSONObject o2successdetail = null;
 			if (o2success.get(String.valueOf(i)) != null) {
 				o2successdetail = (JSONObject) o2success.get(String.valueOf(i));
+				realstart = 1;
+			} else if (o2success.get(String.valueOf(i + 1)) != null) {
+				o2successdetail = (JSONObject) o2success.get(String
+						.valueOf(i + 1));
+				realstart = 2;
 			}
-			for (i = 2; o2successdetail != null; i++) {
+			for (i = realstart + 1; o2successdetail != null; i++) {
 				try {
 					MissionDetialData entry = new MissionDetialData();
-					entry.set__id(Integer.parseInt(o2successdetail.getString("id")));
+					entry.set__id(Integer.parseInt(o2successdetail
+							.getString("id")));
 					entry.set__info(o2successdetail.getString("info"));
 					entry.set__name(o2successdetail.getString("name"));
 					entry.set__detail(o2successdetail.getString("detail"));
@@ -166,22 +174,30 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 				} catch (Exception e) {
 				}
 			}
-			ret.set__Successrows(i - 2);
-			total += i - 2;
-		}else{
+			ret.set__Successrows(i - 1 - realstart);
+			total += i - 1 - realstart;
+		} else {
 			ret.set__Successrows(0);
 		}
-		
+
 		i = 1;
+		realstart = 0;
 
 		JSONObject o2available = null;
 		if (o2.get("available") instanceof JSONObject) {
 			o2available = (JSONObject) o2.get("available");
 			JSONObject o2availabledetail = null;
 			if (o2available.get(String.valueOf(i)) != null) {
-				o2availabledetail = (JSONObject) o2available.get(String.valueOf(i));
+				o2availabledetail = (JSONObject) o2available.get(String
+						.valueOf(i));
+				realstart = 1;
+			} else if (o2available.get(String.valueOf(i + 1)) != null) {
+				o2availabledetail = (JSONObject) o2available.get(String
+						.valueOf(i + 1));
+				realstart = 2;
 			}
-			for (i = 2; o2availabledetail != null; i++) {
+
+			for (i = realstart + 1; o2availabledetail != null; i++) {
 				try {
 					MissionDetialData entry = new MissionDetialData();
 					entry.set__id(Integer.parseInt(o2availabledetail
@@ -201,12 +217,12 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 				} catch (Exception e) {
 				}
 			}
-			ret.set__Availablerows(i - 2);
-			total += i - 2;
-		}else{
+			ret.set__Availablerows(i - 1 - realstart);
+			total += i - 1 - realstart;
+		} else {
 			ret.set__Availablerows(0);
 		}
-		
+
 		ret.setEntryList(EntryList);
 		ret.set__Totalrows(total);
 
@@ -232,21 +248,19 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		ActivityUtil.getInstance().dismiss();
 		if (result == null) {
 			ActivityUtil.getInstance().noticeError(error, context);
-		}else if(result.get__is_json_error()){
+		} else if (result.get__is_json_error()) {
 			ActivityUtil.getInstance().noticeError(error, context);
-			}
-		else if(result.get__is_json_signsuccess()){
+		} else if (result.get__is_json_signsuccess()) {
 			if (toast != null) {
-			toast.setText(result.get__SignResult());
-			toast.setDuration(Toast.LENGTH_SHORT);
-			toast.show();
+				toast.setText(result.get__SignResult());
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
 			} else {
-			toast = Toast.makeText(context, result.get__SignResult(),
-					Toast.LENGTH_SHORT);
-			toast.show();
+				toast = Toast.makeText(context, result.get__SignResult(),
+						Toast.LENGTH_SHORT);
+				toast.show();
 			}
-		}
-		else{
+		} else {
 			if (result.get__SignResult().equals("签到成功")) {
 				if (toast != null) {
 					toast.setText(result.get__SignResult());

@@ -113,6 +113,7 @@
             android:layout_alignRight="@id/missiondetialtitle"
             android:layout_below="@id/missiondetialtitle"
             android:layout_marginTop="1dp"
+            android:layout_marginLeft="5dp"
             android:text="二哥很笨"
             android:textColor="#FF545454"
             android:textIsSelectable="false"
@@ -124,8 +125,8 @@
             android:id="@+id/missionstattitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/missiondetial"
-            android:layout_alignRight="@id/missiondetial"
+            android:layout_alignLeft="@id/missiondetialtitle"
+            android:layout_alignRight="@id/missiondetialtitle"
             android:layout_below="@id/missiondetial"
             android:layout_marginTop="2dp"
             android:text="任务完成状况:"
@@ -145,6 +146,7 @@
             android:text="没有斩杀二哥,但是斩杀了MIANZHAN"
             android:textColor="#FF545454"
         	android:textSize="14dp"
+            android:layout_marginLeft="5dp"
             android:textIsSelectable="false" >
         </TextView>
     </RelativeLayout>

@@ -187,7 +187,7 @@ public class SignPageAdapter extends BaseAdapter implements
 			if (StringUtil.isEmpty(entry.get__info())) {
 				info = "";
 			} else {
-				info = entry.get__info();
+				info = "<h3>"+entry.get__info()+"</h3>";
 			}
 
 			int bgColor = res.getColor(theme.getBackgroundColor(position));

@@ -285,6 +285,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				PhoneConfiguration.getInstance().setCid(u.getCid());
 				PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
 				PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
+				act.set__ngaClientChecksum(getngaClientChecksum());
 				return true;
 			}
 			 

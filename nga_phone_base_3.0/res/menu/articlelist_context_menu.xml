@@ -2,11 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/quote_subject" android:title="@string/quote_subject" android:icon="@drawable/ic_menu_cc"></item>
     <item android:id="@+id/copy_to_clipboard" android:title="@string/copy_to_clipboard" android:icon="@drawable/ic_menu_copy_holo_dark"></item>
-    <item android:id="@+id/item_share" android:title="@string/share" android:icon="@drawable/ic_menu_share_holo_dark"></item>
     <item android:id="@+id/post_comment" android:title="@string/post_comment" android:icon="@drawable/ic_menu_start_conversation"></item>
     
-    
-    <item android:id="@+id/edit" android:title="@string/edit" android:icon="@drawable/content_edit"></item>
+    <item android:id="@+id/edit" android:title="@string/edit" android:icon="@drawable/icon_menu_eraser"></item>
     <item android:id="@+id/report" android:title="@string/report"></item>
     
     <item android:id="@+id/avatar_dialog" android:title="@string/avatar_dialog"></item>

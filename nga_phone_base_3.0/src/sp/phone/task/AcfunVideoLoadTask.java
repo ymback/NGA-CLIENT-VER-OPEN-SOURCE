@@ -260,15 +260,15 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 							htmlStringFortudou, 0, "iid: ", " ").result;
 					if (StringUtil.isEmpty(iid))
 						return null;
-					String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?st=3&it="
+					String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="
 							+ iid;
 					return m3u8Url;
 				} else if (sourceUrl.toLowerCase(Locale.US).startsWith(
 						YOUKU_START)) {// 优酷,可以直接拿VID解析的
 					String id = StringUtil.getStringBetween(sourceUrl, 0,
 							YOUKU_START, YOUKU_END).result;
-					String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/"
-							+ id + "/type/mp4/v.m3u8";
+					String htmlUrl = "http://v.youku.com/player/getM3U8/vid/"
+							+ id + "/type/mp4/video.m3u8";
 					return htmlUrl;
 				}
 			} else if (sourceType.toLowerCase(Locale.US).equals("tudou")) {
@@ -286,7 +286,7 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 							htmlStringFortudou, 0, "iid: ", " ").result;
 					if (StringUtil.isEmpty(iid))
 						return null;
-					String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?st=3&it="
+					String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="
 							+ iid;
 					return m3u8Url;
 				} else {

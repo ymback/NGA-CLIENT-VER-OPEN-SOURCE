@@ -175,8 +175,8 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(YOUKU_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, YOUKU_START,
 					YOUKU_END).result;
-			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/" + id
-					+ "/type/mp4/v.m3u8";
+			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+					+ "/type/mp4/video.m3u8";
 			Intent intent = new Intent(view.getContext(), Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
@@ -185,8 +185,8 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(YOUKUSWF_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "sid/",
 					YOUKUSWF_END).result;
-			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/" + id
-					+ "/type/mp4/v.m3u8";
+			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+					+ "/type/mp4/video.m3u8";
 			Intent intent = new Intent(view.getContext(), Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
@@ -196,8 +196,8 @@ public class ArticleListWebClient extends WebViewClient {
 				&& url.indexOf("VideoIDS=".toLowerCase(Locale.US)) > 0 && StrTotalCount(url, "/") > 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "VideoIDS=",
 					"&").result;
-			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/" + id
-					+ "/type/mp4/v.m3u8";
+			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+					+ "/type/mp4/video.m3u8";
 			Intent intent = new Intent(view.getContext(), Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);
@@ -206,8 +206,8 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(YOUKUSWF3_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, YOUKUSWF3_START,
 					"/").result;
-			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/" + id
-					+ "/type/mp4/v.m3u8";
+			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+					+ "/type/mp4/video.m3u8";
 			Intent intent = new Intent(view.getContext(), Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", htmlUrl);

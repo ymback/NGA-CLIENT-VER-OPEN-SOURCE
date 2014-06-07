@@ -55,6 +55,7 @@ PerferenceConstant{
 	ThreadFragmentAdapter mTabsAdapter;
     int tid;
     int pid;
+    String title;
     int authorid;
 	private static final String TAG= "ArticleListActivity";
 	private static final String GOTO_TAG = "goto";
@@ -293,12 +294,12 @@ PerferenceConstant{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch( item.getItemId())
 		{
 			case R.id.article_menuitem_reply:
 				//if(articleAdpater.getData() == null)
 				//	return false;
-				Intent intent = new Intent();
 				String tid = String.valueOf(this.tid);
 				intent.putExtra("prefix", "" );
 				intent.putExtra("tid", tid);
@@ -337,6 +338,24 @@ PerferenceConstant{
 				break;
 			case R.id.goto_floor:
 				createGotoDialog();
+				break;
+			case R.id.item_share:
+				intent.setAction(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				String shareUrl = "http://nga.178.com/read.php?";
+				if(this.pid != 0){
+					shareUrl = shareUrl + "pid="+this.pid+".分享自NGA客户端开源版";
+				}
+				else
+				{
+					shareUrl = shareUrl + "tid="+this.tid+".分享自NGA客户端开源版";
+				}
+				if(!StringUtil.isEmpty(this.title)){
+					shareUrl = this.title+" - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
+				}
+				intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
+				String text = getResources().getString(R.string.share);
+				startActivity(Intent.createChooser(intent, text));
 				break;
 			case R.id.article_menuitem_back:
 			default:
@@ -531,6 +550,8 @@ PerferenceConstant{
 		fid = data.getThreadInfo().getFid();
 		getSupportActionBar().setTitle(StringUtil.unEscapeHtml(data.getThreadInfo().getSubject()));
 
+		title=data.getThreadInfo().getSubject();
+		
 		attacher.setRefreshComplete();
 	}
 	@Override

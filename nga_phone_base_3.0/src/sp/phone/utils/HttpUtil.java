@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HostnameVerifier;
@@ -17,9 +18,14 @@ import javax.net.ssl.SSLSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+
 import sp.phone.bean.ArticlePage;
 
 public class HttpUtil {
@@ -56,12 +62,12 @@ public class HttpUtil {
 	public static final String Servlet_timer = "/servlet/TimerServlet";
 
 	public static String HOST_PORT = "";
-	//public static String USER_AGENT = 
-	//		"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.30 Safari/536.5";
 	//软件名/版本 (硬件信息; 操作系统信息)
 	//AndroidNga/571 (Xiaomi MI 2S; Android 4.1.1)
-	public static final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(android.os.Build.MANUFACTURER).append(" ").append(android.os.Build.MODEL).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
-//	public static final String USER_AGENT = new StringBuilder().append("Mozilla/5.0 (Linux; U; Android 2.3.3; zh-cn; SH12C Build/S4040) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1").toString();
+	public static String MODEL=android.os.Build.MODEL.toUpperCase(Locale.US);
+	public static String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);
+	//	public static final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("([Xiaomi MI 2S];Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+	//	public static final String USER_AGENT = new StringBuilder().append("Mozilla/5.0 (Linux; U; Android 2.3.3; zh-cn; SH12C Build/S4040) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1").toString();
 	public static void selectServer2() {
 		for (String host : host_arr) {
 			HttpURLConnection conn = null;
@@ -144,7 +150,7 @@ public class HttpUtil {
 			Log.e(TAG, "failed to download img:" + uri+ "," + e.getMessage());
 		}
 	}
-
+	
 	public static InputStream downImage2(String uri, String fileName) {
 		InputStream is = null;
 		try {
@@ -204,6 +210,16 @@ public class HttpUtil {
 
 	public static String getHtml(String uri, String cookie) {
 		InputStream is = null;
+		String machine="";
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 		try {
 			URL url = new URL(uri);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -235,6 +251,17 @@ public class HttpUtil {
 
 	public static String getHtmlForDbmeizi(String uri, String cookie) {
 		InputStream is = null;
+		String machine="";
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+		
 		try {
 			URL url = new URL(uri);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -304,7 +331,17 @@ public class HttpUtil {
 			}
 		};
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-
+		String machine="";
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+		
 		try {
 			URL url = new URL(uri);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();

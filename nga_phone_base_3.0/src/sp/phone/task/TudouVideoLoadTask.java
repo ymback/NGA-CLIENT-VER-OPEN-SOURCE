@@ -105,7 +105,7 @@ public class TudouVideoLoadTask extends AsyncTask<String, Integer, String> {
 				htmlString, 0, "iid: ", " ").result;
 		if(StringUtil.isEmpty(iid))
 			return null;
-		String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?st=3&it="+iid;
+		String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="+iid;
 		return m3u8Url;
 	}
 

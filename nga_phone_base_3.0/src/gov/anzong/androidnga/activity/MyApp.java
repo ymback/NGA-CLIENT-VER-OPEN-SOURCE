@@ -40,7 +40,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2012;
+	public final static int version = 2017;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "最近访问";
@@ -249,6 +249,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "447", "锁链战记", R.drawable.p447));
 		boards.add(new Board(i, "-532408", "沃土", R.drawable.p532408));
 		boards.add(new Board(i, "353", "纽沃斯英雄传", R.drawable.p353));
+		boards.add(new Board(i, "452", "天涯明月刀", R.drawable.p452));
 		boards.addCategoryName(i, "其他游戏");
 		i++; 
 		

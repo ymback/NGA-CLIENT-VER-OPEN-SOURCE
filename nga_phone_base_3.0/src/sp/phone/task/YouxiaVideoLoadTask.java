@@ -139,8 +139,8 @@ public class YouxiaVideoLoadTask extends AsyncTask<String, Integer, String> {
 				return add;
 			}
 		}else if(scriptdata.indexOf("\"type\":\"youku\"")>=0){
-			String htmlUrl = "http://v.youku.com/player/getRealM3U8/vid/" + iid
-					+ "/type/mp4/v.m3u8";
+			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + iid
+					+ "/type/mp4/video.m3u8";
 			return htmlUrl;
 		}else if(scriptdata.indexOf("\"type\":\"qq\"")>=0){
 			String newurl="http://so.v.ali213.net/plus/qq.php?id="+iid;

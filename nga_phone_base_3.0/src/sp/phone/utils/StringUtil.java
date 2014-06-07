@@ -48,7 +48,39 @@ public class StringUtil {
 			return true;
 		}
 	}
-
+	/*给候总客户端乱码加适配*/
+	public static String unescape(String src) {  
+        StringBuffer tmp = new StringBuffer();  
+        tmp.ensureCapacity(src.length());  
+        int lastPos = 0, pos = 0;  
+        char ch;  
+        while (lastPos < src.length()) {  
+            pos = src.indexOf("%", lastPos);  
+            if (pos == lastPos) {  
+                if (src.charAt(pos + 1) == 'u') {  
+                    ch = (char) Integer.parseInt(src  
+                            .substring(pos + 2, pos + 6), 16);  
+                    tmp.append(ch);  
+                    lastPos = pos + 6;  
+                } else {  
+                    ch = (char) Integer.parseInt(src  
+                            .substring(pos + 1, pos + 3), 16);  
+                    tmp.append(ch);  
+                    lastPos = pos + 3;  
+                }  
+            } else {  
+                if (pos == -1) {  
+                    tmp.append(src.substring(lastPos));  
+                    lastPos = src.length();  
+                } else {  
+                    tmp.append(src.substring(lastPos, pos));  
+                    lastPos = pos;  
+                }  
+            }  
+        }  
+        return tmp.toString();  
+    }  
+	
 	public static boolean isEmpty(StringBuffer str) {
 		if (str != null && !"".equals(str)) {
 			return false;
@@ -203,7 +235,7 @@ public class StringUtil {
 		
 
 		s = s.replaceAll(
-				ignoreCaseTag + "(===(.+?)===)",
+				ignoreCaseTag + "(===([^=](.+?)[^=])===)",
 				"<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$2</h4>");
 
 		s = s.replaceAll(ignoreCaseTag + "\\[quote\\]", quoteStyle);
@@ -357,6 +389,10 @@ public class StringUtil {
 			s = s.replaceAll(
 					ignoreCaseTag
 							+ "\\[flash\\](http://www.letv.com/ptv/vplay/[^\\[|\\]]+.html)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.letv.com/ptv/vplay/[^\\[|\\]]+.html )\\[/flash\\]",
 					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
 			// LETV2可内置播放
 			s = s.replaceAll(
@@ -915,8 +951,8 @@ public class StringUtil {
 			+ "更新后每次打开看到这个窗口的,重启手机\n"
 			+ "发现bug,删除app,再更新到最新版,还有问题[@竹井詩織里]\n"
 			+ "签到/历史被喷/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
-			+ "主题列表长按楼层可以分享/看头像签名和用户信息等,收藏列表长按可删收藏\n"
-			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面\n"
+			+ "主题列表长按楼层可以看头像签名和用户信息等,收藏列表长按可删收藏\n"
+			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面,比如分享啊啥的\n"
 			+ "已安装解码器,可直接看多个站点的视频\n"
 			+ "彩蛋还有,但不知道在哪了\n"
 			+ "更新去Play商店或酷安搜索NGA客户端开源版";
