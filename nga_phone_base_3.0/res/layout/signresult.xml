@@ -176,8 +176,7 @@
         android:layout_width="fill_parent"
         android:layout_height="3dp"
         android:layout_alignParentBottom="true"
-        android:background="#551200"
-        android:visibility="gone" >
+        android:background="#551200" >
     </View>
 
 </RelativeLayout>

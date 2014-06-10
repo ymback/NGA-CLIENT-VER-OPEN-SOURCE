@@ -56,6 +56,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		String js;
 		List<MissionDetialData> EntryList = new ArrayList<MissionDetialData>();
 		js = HttpUtil.getHtml(uri,PhoneConfiguration.getInstance().getCookie());
+		Log.i(TAG,js);
 //		 js = "{\"data\":{\"0\":\"签到成功\",\"1\":{\"uid\":15776622,\"continued\":2,\"sum\":7,\"last_time\":1402056459},\"2\":{\"available\":{\"2\":{\"id\":2,\"name\":\"使用NGA手机客户端刮墙\",\"info\":\"使用NGA手机客户端刮墙 给予银币奖励\",\"detail\":\"任务必须满足以下条件:\n必须使用认证的客户端, 连续签到5天, \n\n任务可以获得以下奖励:\n铜币:500, \n\n任务可以重复完成, 每0天一次\n\n\",\"stat\":\"目前已经连续签到2天(任务计数)\n共计签到4天(任务计数)\n\n任务于服务器时间 2014-05-31 07:10:39 完成\n\n\",\"raw_detail\":{\"1\":2,\"9\":\"使用NGA手机客户端刮墙\",\"10\":\"使用NGA手机客户端刮墙 给予银币奖励\",\"16\":{\"6\":1},\"2\":{\"3\":5},\"4\":3,\"5\":0,\"6\":1,\"7\":{\"2\":500},\"12\":0,\"15\":1},\"raw_stat\":{\"1\":2,\"2\":4,\"3\":1401491439}}},\"success\":{}}},\"time\":1402101293}";
 		// js="{\"data\":{\"0\":\"签到成功(0)\"},\"time\":1399162876}";
 		// js =

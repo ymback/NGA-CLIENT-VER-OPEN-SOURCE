@@ -604,14 +604,14 @@ public class ArticleListFragment extends Fragment
 			intent.setType("text/plain");
 			String shareUrl = "http://nga.178.com/read.php?";
 			if(row.getPid() != 0){
-				shareUrl = shareUrl + "pid="+row.getPid()+".分享自NGA客户端开源版";
+				shareUrl = shareUrl + "pid="+row.getPid()+" (分享自NGA客户端开源版)";
 			}
 			else
 			{
-				shareUrl = shareUrl + "tid="+tid+".分享自NGA客户端开源版";
+				shareUrl = shareUrl + "tid="+tid+" (分享自NGA客户端开源版)";
 			}
 			if(!StringUtil.isEmpty(this.title)){
-				shareUrl = this.title+" - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
+				shareUrl = "《"+this.title+"》 - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
 			}
 			intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
 			String text = getResources().getString(R.string.share);

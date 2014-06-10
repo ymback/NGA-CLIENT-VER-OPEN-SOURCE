@@ -44,7 +44,7 @@ public class SignContainer extends Fragment implements
 	String key;
 	String table;
 	String author;
-	boolean isrefresh=false;
+	boolean isrefresh = false;
 	PullToRefreshAttacher attacher = null;
 	private ListView listView;
 	SignPageAdapter adapter;
@@ -53,13 +53,17 @@ public class SignContainer extends Fragment implements
 	private SignData result;
 	View headview;
 	LayoutInflater inflatera;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			category = savedInstanceState.getInt("category", 0);
 		}
-		this.inflatera=inflater;
+		if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+			container.setBackgroundResource(R.color.night_bg_color);
+		}
+		this.inflatera = inflater;
 		try {
 			PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
 			attacher = attacherOnwer.getAttacher();
@@ -68,13 +72,13 @@ public class SignContainer extends Fragment implements
 			Log.e(TAG,
 					"father activity should implement PullToRefreshAttacherOnwer");
 		}
-		
+
 		listView = new ListView(getActivity());
 		listView.setDivider(null);
 		adapter = new SignPageAdapter(this.getActivity());
-		headview =  inflater.inflate(R.layout.signresult, null);
+		headview = inflater.inflate(R.layout.signresult, null);
 		headview.setVisibility(View.GONE);
-//		refreshheadviewdata(headview);
+		// refreshheadviewdata(headview);
 		listView.addHeaderView(headview, null, false);
 		listView.setAdapter(adapter);
 
@@ -83,106 +87,96 @@ public class SignContainer extends Fragment implements
 		return listView;
 	}
 
-	public void refreshheadviewdata(View headview){
-			ThemeManager cfg = ThemeManager.getInstance();
-			int colorId = R.color.shit1;
-			boolean isnight=false;
-			if (cfg.getMode() == ThemeManager.MODE_NIGHT) {
-				colorId = R.color.night_bg_color;
-				isnight=true;
-			}
-			headview.setBackgroundResource(colorId);
-			TextView nickName = (TextView) headview
-					.findViewById(R.id.nickName);
-			TextView signtime = (TextView) headview
-					.findViewById(R.id.signtime);
-			TextView signdate = (TextView) headview
-					.findViewById(R.id.signdate);
-			TextView signstate = (TextView) headview
-					.findViewById(R.id.signstate);
-			TextView lasttext = (TextView) headview
-					.findViewById(R.id.lasttext);
-			TextView signdatedata = (TextView) headview
-					.findViewById(R.id.signdatedata);
-			TextView statetext = (TextView) headview
-					.findViewById(R.id.statetext);
-			ImageView avatarImage = (ImageView) headview
-					.findViewById(R.id.avatarImage);
-			View lineviewforshow = (View) headview
-					.findViewById(R.id.lineviewforshow);
-			TextView successnum = (TextView) headview
-					.findViewById(R.id.successnum);
-			TextView availablenum = (TextView) headview
-					.findViewById(R.id.availablenum);
-			String userName;
-			String signtimes;
-			String signdates;
-			String signstates = "未知";
-			String availablenums;
-			String successnums;
-			
-			if (StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {
-				userName = "未知";
-			} else {
-				userName = PhoneConfiguration.getInstance().userName;
-			}
-			String userId = "-9999";
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
-				userId =PhoneConfiguration.getInstance().uid;
-			}
-			if(result!=null){
-				if (StringUtil.isEmpty(result.get__SignResult())) {
-					signstates = "未知";
-				} else {
-					signstates = result.get__SignResult();
-				}
+	public void refreshheadviewdata(View headview) {
+		ThemeManager cfg = ThemeManager.getInstance();
+		int colorId = R.color.shit1;
+		boolean isnight = false;
+		if (cfg.getMode() == ThemeManager.MODE_NIGHT) {
+			colorId = R.color.night_bg_color;
+			isnight = true;
+		}
+		headview.setBackgroundResource(colorId);
+		TextView nickName = (TextView) headview.findViewById(R.id.nickName);
+		TextView signtime = (TextView) headview.findViewById(R.id.signtime);
+		TextView signdate = (TextView) headview.findViewById(R.id.signdate);
+		TextView signstate = (TextView) headview.findViewById(R.id.signstate);
+		TextView lasttext = (TextView) headview.findViewById(R.id.lasttext);
+		TextView signdatedata = (TextView) headview
+				.findViewById(R.id.signdatedata);
+		TextView statetext = (TextView) headview.findViewById(R.id.statetext);
+		ImageView avatarImage = (ImageView) headview
+				.findViewById(R.id.avatarImage);
+		View lineviewforshow = (View) headview
+				.findViewById(R.id.lineviewforshow);
+		TextView successnum = (TextView) headview.findViewById(R.id.successnum);
+		TextView availablenum = (TextView) headview
+				.findViewById(R.id.availablenum);
+		String userName;
+		String signtimes;
+		String signdates;
+		String signstates = "未知";
+		String availablenums;
+		String successnums;
 
-				if (result.get__is_json_error()) {
-					signtimes = "未知";
-					signdates = "未知";
-					availablenums = "未知";
-					successnums = "未知";
-				}else {
-					if (StringUtil.isEmpty(result.get__Last_time())) {
-						signtimes = "未知";
-					} else {
-						signtimes = result.get__Last_time();
-					}
-					signdates = String.valueOf(result.get__Continued()) + "/"
-							+ String.valueOf(result.get__Sum());
-					if (result.get__Availablerows() == 0) {
-						availablenums = "未知";
-					} else {
-						availablenums = String
-								.valueOf(result.get__Availablerows())+"个";
-					}
-					if (result.get__Successrows() == 0) {
-						successnums = "未知";
-					} else {
-						successnums = String
-								.valueOf(result.get__Successrows())+"个";
-					}
-					if(result.get__Totalrows()>0){
-						lineviewforshow.setVisibility(View.VISIBLE);
-					}
-				}
-				
-			}else{
+		if (StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {
+			userName = "未知";
+		} else {
+			userName = PhoneConfiguration.getInstance().userName;
+		}
+		String userId = "-9999";
+		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
+			userId = PhoneConfiguration.getInstance().uid;
+		}
+		if (result != null) {
+			if (StringUtil.isEmpty(result.get__SignResult())) {
+				signstates = "未知";
+			} else {
+				signstates = result.get__SignResult();
+			}
+
+			if (result.get__is_json_error()) {
 				signtimes = "未知";
 				signdates = "未知";
 				availablenums = "未知";
 				successnums = "未知";
+			} else {
+				if (StringUtil.isEmpty(result.get__Last_time())) {
+					signtimes = "未知";
+				} else {
+					signtimes = result.get__Last_time();
+				}
+				signdates = String.valueOf(result.get__Continued()) + "/"
+						+ String.valueOf(result.get__Sum());
+				if (result.get__Availablerows() == 0) {
+					availablenums = "未知";
+				} else {
+					availablenums = String.valueOf(result.get__Availablerows())
+							+ "个";
+				}
+				if (result.get__Successrows() == 0) {
+					successnums = "未知";
+				} else {
+					successnums = String.valueOf(result.get__Successrows())
+							+ "个";
+				}
 			}
-			nickName.setText(userName);
-			signtime.setText(signtimes);
-			signdate.setText(signdates);
-			signstate.setText(signstates);
-			availablenum.setText(availablenums);
-			successnum.setText(successnums);
-			ImageUtil.recycleImageView(avatarImage);
-			handleUserAvatat(avatarImage,userId);
+
+		} else {
+			signtimes = "未知";
+			signdates = "未知";
+			availablenums = "未知";
+			successnums = "未知";
+		}
+		nickName.setText(userName);
+		signtime.setText(signtimes);
+		signdate.setText(signdates);
+		signstate.setText(signstates);
+		availablenum.setText(availablenums);
+		successnum.setText(successnums);
+		ImageUtil.recycleImageView(avatarImage);
+		handleUserAvatat(avatarImage, userId);
 	}
-	
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		canDismiss = true;
@@ -215,7 +209,7 @@ public class SignContainer extends Fragment implements
 		// ActivityUtil.getInstance().noticeSaying(this.getActivity());
 		refresh_saying();
 		task.execute("SIGN");
-		isrefresh=true;
+		isrefresh = true;
 	}// 读取JSON了
 
 	@Override
@@ -256,22 +250,20 @@ public class SignContainer extends Fragment implements
 
 		if (result == null)
 			return;
-		this.result=result;
+		this.result = result;
 		adapter.clear();
 		adapter.jsonfinishLoad(result);
-		if(isrefresh==true){
+		if (isrefresh == true) {
 			headview.setVisibility(View.VISIBLE);
 			refreshheadviewdata(headview);
-			isrefresh=false;
+			isrefresh = false;
 		}
 		listView.setAdapter(adapter);
 		if (canDismiss)
 			ActivityUtil.getInstance().dismiss();
 	}
 
-	
-	
-	public void handleUserAvatat(ImageView avatarIV,String userId) {
+	public void handleUserAvatat(ImageView avatarIV, String userId) {
 		Bitmap defaultAvatar = null, bitmap = null;
 		if (PhoneConfiguration.getInstance().nikeWidth < 3) {
 			return;
@@ -299,10 +291,11 @@ public class SignContainer extends Fragment implements
 		String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId;
 		String[] extension = { ".jpg", ".png", ".gif", ".jpeg", ".bmp" };
 		for (int i = 0; i < 5; i++) {
-			File f = new File(avatarPath+extension[i]);
+			File f = new File(avatarPath + extension[i]);
 			if (f.exists()) {
-				
-				bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath+extension[i]);
+
+				bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath
+						+ extension[i]);
 				if (bitmap == null) {
 					f.delete();
 				}
@@ -313,7 +306,7 @@ public class SignContainer extends Fragment implements
 				break;
 			}
 		}
-		if (bitmap!=null) {
+		if (bitmap != null) {
 			avatarIV.setImageBitmap(bitmap);
 			tag.isDefault = false;
 		} else {
@@ -322,14 +315,14 @@ public class SignContainer extends Fragment implements
 		}
 
 	}
-	
+
 	public void onCategoryChanged(int position) {
 		if (position != category) {
 			category = position;
 			refresh();
 		}
 	}
-	
+
 	class ListRefreshListener implements
 			PullToRefreshAttacher.OnRefreshListener {
 
@@ -338,6 +331,7 @@ public class SignContainer extends Fragment implements
 			refresh();
 		}
 	}
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putInt("category", category);

@@ -2,7 +2,7 @@
 <resources>
     <item name="topiclist_activity" type="layout">@layout/toplist_activity_two_panel</item>
     
-    <item name="sign_activity" type="layout">@layout/sign_activity_two_panel</item>
+    <!--  item name="sign_activity" type="layout">@layout/sign_activity_two_panel</item>-->
     
      <item name="activity_main" type="layout">@layout/mainactivity_two_panel</item>
 </resources>

@@ -344,14 +344,14 @@ PerferenceConstant{
 				intent.setType("text/plain");
 				String shareUrl = "http://nga.178.com/read.php?";
 				if(this.pid != 0){
-					shareUrl = shareUrl + "pid="+this.pid+".分享自NGA客户端开源版";
+					shareUrl = shareUrl + "pid="+this.pid+" (分享自NGA客户端开源版)";
 				}
 				else
 				{
-					shareUrl = shareUrl + "tid="+this.tid+".分享自NGA客户端开源版";
+					shareUrl = shareUrl + "tid="+this.tid+" (分享自NGA客户端开源版)";
 				}
 				if(!StringUtil.isEmpty(this.title)){
-					shareUrl = this.title+" - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
+					shareUrl = "《"+this.title+"》 - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
 				}
 				intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
 				String text = getResources().getString(R.string.share);
