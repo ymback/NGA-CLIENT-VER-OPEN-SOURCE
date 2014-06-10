@@ -220,7 +220,8 @@
     <string name="fontcolor">颜色</string>
     <string name="fontsize">字号</string>
     <string name="delline">删除线</string>
-    <string name="checksecret">3ebd769858c56bd345898154e4b44427</string>
+    <string name="checksecret">4103ca8d364d2402e5e304ea07454a2a</string>
+    <!-- d\o.jav 查System.currentTimeMillis()-->
 
     <string-array name="colorchoose">
         <item>默认 (纯黑色)</item>
