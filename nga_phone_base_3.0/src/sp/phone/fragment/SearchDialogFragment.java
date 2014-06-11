@@ -25,6 +25,7 @@ public class SearchDialogFragment extends DialogFragment {
 	Spinner databasechooseSpinner;
 	RadioGroup searchradio ;
 	RadioButton search_topic_button;
+	RadioButton search_alltopic_button;
 	RadioButton search_user_topic_button;
 	RadioButton search_user_apply_button;
 	@Override
@@ -42,6 +43,8 @@ public class SearchDialogFragment extends DialogFragment {
 		alert.setTitle(R.string.search_hint);
 		alert.setPositiveButton("ËÑË÷", new PositiveOnClickListener());
 		search_topic_button=(RadioButton) view.findViewById(R.id.search_topic);
+		search_topic_button.setChecked(true);
+		search_alltopic_button=(RadioButton) view.findViewById(R.id.search_alltopic);
 		search_user_topic_button=(RadioButton) view.findViewById(R.id.search_user_topic);
 		search_user_apply_button=(RadioButton) view.findViewById(R.id.search_user_apply);
 		searchradio = (RadioGroup) view.findViewById(R.id.radioGroup);
@@ -55,12 +58,14 @@ public class SearchDialogFragment extends DialogFragment {
 					case R.id.search_topic://ËÑË÷·¢Ìû
 						input.setHint(R.string.search_dialog_hint);
 				break;
+					case R.id.search_alltopic://ËÑË÷Ö÷Ìâ
+						input.setHint(R.string.search_dialog_hint);
+				break ;
 					case R.id.search_user_topic://ËÑË÷Ö÷Ìâ
 						input.setHint(R.string.search_dialog_hint_topic_reply_byself);
 				break ;
 					case R.id.search_user_apply://ËÑË÷»Ø¸´
 						input.setHint(R.string.search_dialog_hint_reply_byself);
-				break ;
 				}
 			}
 			
@@ -129,13 +134,26 @@ public class SearchDialogFragment extends DialogFragment {
 			    		startActivity(intent_search);
 		    		}
 		    	}
-		    } else {
+		    }else if(searchradio.getCheckedRadioButtonId() == search_user_topic_button.getId()) {
 		    	if(!StringUtil.isEmpty(inputString))
 		    	{
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 		    		intent_search.putExtra("key", inputString);
-		    		intent_search.putExtra("table", String.valueOf("6"));
+		    		intent_search.putExtra("table", view.getContext().getString(
+							R.string.largesttablenum));
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
+		    		startActivity(intent_search);
+		    	}
+		    }else{
+		    	if(!StringUtil.isEmpty(inputString))
+		    	{
+		    		intent_search.putExtra("key", inputString);
+		    		intent_search.putExtra("fidgroup", "user");
+		    		intent_search.putExtra("table", view.getContext().getString(
+							R.string.largesttablenum));
 					if(PhoneConfiguration.getInstance().showAnimation)
 						getActivity().overridePendingTransition(R.anim.zoom_enter,
 								R.anim.zoom_exit);

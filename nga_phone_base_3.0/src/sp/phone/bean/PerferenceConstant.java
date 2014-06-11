@@ -47,4 +47,6 @@ public interface PerferenceConstant {
 	final int UI_FLAG_HA = 2;
 	final int UI_FLAG_REPLYSPLIT = 4;
 	final String CAN_SHOW_FULI = "0";
+	
+	final String SHOW_ICON_MODE = "showiconmode";
 }

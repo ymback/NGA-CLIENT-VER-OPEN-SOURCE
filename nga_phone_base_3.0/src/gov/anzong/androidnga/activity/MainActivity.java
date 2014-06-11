@@ -753,15 +753,18 @@ public class MainActivity extends ActionBarActivity implements
 		return output;
 	}
 
-	private void loadConfig(Intent intent) {
+	void loadConfig(Intent intent) {
 		// initUserInfo(intent);
 		this.boardInfo = this.loadDefaultBoard();
 
 	}
 
 	private BoardHolder loadDefaultBoard() {
-
-		return app.loadDefaultBoard();
+		if(PhoneConfiguration.getInstance().iconmode){Log.i(TAG,"asa");
+			return app.loadDefaultBoardOld();
+		}else{Log.i(TAG,"121");
+			return app.loadDefaultBoard();
+		}
 
 	}
 
@@ -1438,8 +1441,14 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 		if (!addFidAlreadExist) {// 没有
+//			MyApp.fddicon[1][1];
 			List<Board> boardList = new ArrayList<Board>();
-			Board b = new Board(i + 1, Fid, Name, R.drawable.pdefault);
+			Board b;
+			if(PhoneConfiguration.getInstance().iconmode){
+				 b= new Board(i + 1, Fid, Name, R.drawable.oldpdefault);
+			}else{
+				 b = new Board(i + 1, Fid, Name, R.drawable.pdefault);
+			}
 			boardList.add(b);
 			saveaddFid(boardList);
 			boardInfo = loadDefaultBoard();
@@ -1451,7 +1460,12 @@ public class MainActivity extends ActionBarActivity implements
 			}
 			return;
 		} else {// 有了
-			Board b = new Board(i, Fid, Name, R.drawable.pdefault);
+			Board b;
+			if(PhoneConfiguration.getInstance().iconmode){
+				b = new Board(i, Fid, Name, R.drawable.oldpdefault);
+			}else{
+				b = new Board(i, Fid, Name, R.drawable.pdefault);
+			}
 			addFid.add(b);
 		}
 		addFid = boardInfo.getCategory(i);

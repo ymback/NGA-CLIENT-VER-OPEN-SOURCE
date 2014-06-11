@@ -49,6 +49,7 @@ public class TopiclistContainer extends Fragment implements
 	int favor;
 	String key;
 	String table;
+	String fidgroup;
 	String author;
 
 	PullToRefreshAttacher attacher = null;
@@ -104,6 +105,7 @@ public class TopiclistContainer extends Fragment implements
 			key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
 			author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
 			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
+			fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
 		} else {
 			fid = getArguments().getInt("fid", 0);
 			authorid = getArguments().getInt("authorid", 0);
@@ -112,6 +114,7 @@ public class TopiclistContainer extends Fragment implements
 			key = getArguments().getString("key");
 			author = getArguments().getString("author");
 			table = getArguments().getString("table");
+			fidgroup = getArguments().getString("fidgroup");
 		}
 
 		if (favor != 0) {
@@ -218,6 +221,9 @@ public class TopiclistContainer extends Fragment implements
 				jsonUri += "fid=" + fid + "&";
 			if (!StringUtil.isEmpty(key)) {
 				jsonUri += "key=" + StringUtil.encodeUrl(key, "GBK") + "&";
+			}
+			if(!StringUtil.isEmpty(fidgroup)){
+				jsonUri += "fidgroup=" + fidgroup + "&";
 			}
 		}
 		if (table != null && !table.equals("")) {

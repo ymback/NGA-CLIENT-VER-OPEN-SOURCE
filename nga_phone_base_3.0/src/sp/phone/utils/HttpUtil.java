@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -227,9 +228,14 @@ public class HttpUtil {
 				conn.setRequestProperty("Cookie", cookie);
 			conn.setRequestProperty("User-Agent", USER_AGENT);
 			conn.setRequestProperty("Accept-Charset", "GBK");
+			if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+		        System.setProperty("http.keepAlive", "false");
+		    }else{
+				conn.setRequestProperty("Connection", "close");
+		    }
 			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.setConnectTimeout(8000);
-			conn.setReadTimeout(8000);
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(10000);
 			conn.connect();
             if(conn.getResponseCode() == 200)
 			    is = conn.getInputStream();
@@ -269,8 +275,13 @@ public class HttpUtil {
 				conn.setRequestProperty("Cookie", cookie);
 			conn.setRequestProperty("User-Agent", USER_AGENT);
 			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.setConnectTimeout(8000);
-			conn.setReadTimeout(8000);
+			if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+		        System.setProperty("http.keepAlive", "false");
+		    }else{
+				conn.setRequestProperty("Connection", "close");
+		    }
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(10000);
 			conn.connect();
             if(conn.getResponseCode() == 200)
 			    is = conn.getInputStream();
@@ -302,8 +313,13 @@ public class HttpUtil {
 			conn.setRequestProperty("User-Agent", ios_ua);
 			conn.setRequestProperty("Accept-Charset", "GBK");
 			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.setConnectTimeout(8000);
-			conn.setReadTimeout(8000);
+			if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+		        System.setProperty("http.keepAlive", "false");
+		    }else{
+				conn.setRequestProperty("Connection", "close");
+		    }
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(10000);
 			conn.connect();
 			is = conn.getInputStream();
 			if( "gzip".equals(conn.getHeaderField("Content-Encoding")) )

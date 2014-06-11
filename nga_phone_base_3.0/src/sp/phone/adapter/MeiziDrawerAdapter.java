@@ -55,7 +55,7 @@ public class MeiziDrawerAdapter extends BaseAdapter {
             textView.setSelected(mListView.isItemChecked(position));
             return convertView;
     	}else{
-    		if(position<MeiziCategory.ITEMS.length-2){
+    		if(position<MeiziCategory.ITEMS.length-1){//以后如果好孩子看得到了这边把position<MeiziCategory.ITEMS.length-1改为position<MeiziCategory.ITEMS.length-2
     			 if (convertView == null) {
     	                convertView = LayoutInflater.from(mContext).inflate(R.layout.listitem_drawer,parent, false);
     	            }

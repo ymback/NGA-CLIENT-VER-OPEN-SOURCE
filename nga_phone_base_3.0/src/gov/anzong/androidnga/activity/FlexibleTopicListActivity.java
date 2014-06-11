@@ -128,6 +128,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		int favor = getIntent().getIntExtra("favor", 0);
 		String  key = getIntent().getStringExtra("key"); 
+		String fidgroup=getIntent().getStringExtra("fidgroup"); 
 		int authorid = getIntent().getIntExtra("authorid", 0);
 		
 		if (favor == 0 && authorid == 0 && StringUtil.isEmpty(key)) {
@@ -140,10 +141,13 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		if (!StringUtil.isEmpty(key)) {
 			flags = ThemeManager.ACTION_BAR_FLAG;
-			final String title = this.getResources().getString(
-					android.R.string.search_go)
-					+ ":" + key;
-			getSupportActionBar().setTitle(title);
+			if(!StringUtil.isEmpty(fidgroup)){
+				final String title = "ËÑË÷È«Õ¾:" + key;
+				getSupportActionBar().setTitle(title);
+			}else{
+				final String title = "ËÑË÷:" + key;
+				getSupportActionBar().setTitle(title);
+			}
 		}
 
 	}

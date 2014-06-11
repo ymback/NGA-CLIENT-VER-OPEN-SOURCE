@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="2018"
+	package="gov.anzong.androidnga" android:versionCode="2019"
 	android:largeHeap="true" android:configChanges="orientation|screenSize" 
-	android:versionName="2.0.18" android:installLocation="auto">
+	android:versionName="2.0.19" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

@@ -31,7 +31,7 @@ public class TopicListFragment extends Fragment
 	ListView listview=null;
 	TopicListAdapter adapter=null;
 	JsonTopicListLoadTask task=null;
-	String key = null;
+	String key = null,fidgroup=null;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -108,7 +108,7 @@ public class TopicListFragment extends Fragment
 			int searchpost = getArguments().getInt("searchpost",0);
 			int favor = getArguments().getInt("favor", 0);
 			key = getArguments().getString("key");
-			
+			fidgroup = getArguments().getString("fidgroup");
 			String jsonUri = HttpUtil.Server + "/thread.php?";
 			if(!fidString.equals("0"))
 				jsonUri +="fid=" + fidString + "&";
@@ -120,6 +120,9 @@ public class TopicListFragment extends Fragment
 				jsonUri +="favor=" + favor + "&";
 			if(!StringUtil.isEmpty(key)){
 				jsonUri += "key=" +StringUtil.encodeUrl(key, "GBK") + "&";
+			}
+			if(!StringUtil.isEmpty(fidgroup)){
+				jsonUri += "fidgroup=" + fidgroup + "&";
 			}
 			
 			jsonUri += "page="+ page + "&lite=js&noprefix";

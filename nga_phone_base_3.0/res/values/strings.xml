@@ -25,6 +25,7 @@
     <string name="nowifi_downimg">载入帖子图片</string>
     <string name="video_layout_loading">正在缓冲...</string>
     <string name="nightmode">夜间模式</string>
+    <string name="iconmode">使用原版板块图标</string>
     <string name="refresh">刷新</string>
     <string name="back">返回</string>
     <string name="new_thread">发帖</string>
@@ -104,6 +105,7 @@
     <string name="nearby_no_user">附近没有其他用户</string>
     <string name="upload_location">发帖报告我的位置</string>
     <string name="find_nearby_alert_string">你在查看附近的用户时也会泄露自己的位置，请确认是否继续</string>
+    <string name="change_icon_string">切换板块图标将清除最近访问及添加的板块内容并重启本软件，请确认是否继续</string>
     <string name="seeingooglemaporprofile">请选择查看论坛用户信息或在Google Map中查看位置</string>
     <string name="nearbyingooglemaps">在Google Map中查看位置</string>
     <string name="nearbyinprofile">查看论坛用户信息</string>
@@ -190,7 +192,8 @@
     <string name="media_player_chooser_prompt">选择使用内置播放器播放：</string>
     <string name="blackgun_sound_chooser_prompt">选择黑枪提示音：</string>
     <string name="image_quality_claim">图片中转压缩是一个测试性的功能，访问压力过大时，中转服务器可能会不可用。</string>
-    <string name="search_topic">帖子</string>
+    <string name="search_topic">板块</string>
+    <string name="search_alltopic">全站</string>
     <string name="profilesearch_name">用户名</string>
     <string name="profilesearch_id">用户ID</string>
     <string name="search_user_topic">发帖</string>
