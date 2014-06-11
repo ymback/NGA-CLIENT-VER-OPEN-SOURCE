@@ -28,43 +28,44 @@
         android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lr1"
             android:orientation="vertical" >
 
             <RadioGroup
                 android:id="@+id/radioGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="搜索目的"
                 android:orientation="horizontal" >
 
                 <RadioButton
                     android:id="@+id/search_topic"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                android:layout_weight="1"
                     android:text="@string/search_topic" />
 
                 <RadioButton
                     android:id="@+id/search_alltopic"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
+                android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="35dp"
                     android:text="@string/search_alltopic" />
                 <RadioButton
                     android:id="@+id/search_user_topic"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
+                android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
                     android:text="@string/search_user_topic" />
 
                 <RadioButton
                     android:id="@+id/search_user_apply"
-                    android:layout_width="wrap_content"
+                android:layout_weight="1"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
                     android:text="@string/search_user_apply" />
             </RadioGroup>
         </LinearLayout>
