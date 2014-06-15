@@ -134,7 +134,7 @@ public class SearchDialogFragment extends DialogFragment {
 			    		startActivity(intent_search);
 		    		}
 		    	}
-		    }else if(searchradio.getCheckedRadioButtonId() == search_user_topic_button.getId()) {
+		    }else if(searchradio.getCheckedRadioButtonId() == search_topic_button.getId()) {
 		    	if(!StringUtil.isEmpty(inputString))
 		    	{
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));

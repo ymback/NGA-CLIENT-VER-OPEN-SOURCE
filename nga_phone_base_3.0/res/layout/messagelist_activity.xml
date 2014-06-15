@@ -1,0 +1,8 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FEF3D1"  >
+    
+
+</FrameLayout>

@@ -15,6 +15,7 @@
     <string name="login_successfully">登录成功</string>
     <string name="login_failed">登录失败</string>
     <string name="title">(这里填可以引喷的标题)</string>
+    <string name="messageto">(这里填ID/用户名,多人用逗号分隔)</string>
     <string name="titlecannull">(这里可以不填引喷的标题)</string>
     <string name="replycontent">(这里填可以引喷的内容)</string>
     <string name="commit">提交</string>
@@ -29,6 +30,8 @@
     <string name="refresh">刷新</string>
     <string name="back">返回</string>
     <string name="new_thread">发帖</string>
+    <string name="new_message">发新消息</string>
+    <string name="reply_message">回短消息</string>
     <string name="reply_thread">回帖</string>
     <string name="bookmark">收藏本帖</string>
     <string name="bookmark_title">已收藏的主题</string>
@@ -68,6 +71,7 @@
     <string name="show_whole_thread">显示全部</string>
     <string name="search_post">搜索回复</string>
     <string name="search_subject">搜索发帖</string>
+    <string name="send_message">发短消息</string>
     <string name="avatar_description">头像</string>
     <string name="search_hint">输入要搜索的内容/用户名</string>
     <string name="profile_search_hint">输入要查看的用户名或ID</string>
@@ -106,6 +110,9 @@
     <string name="upload_location">发帖报告我的位置</string>
     <string name="find_nearby_alert_string">你在查看附近的用户时也会泄露自己的位置，请确认是否继续</string>
     <string name="change_icon_string">切换板块图标将清除最近访问及添加的板块内容并重启本软件，请确认是否继续</string>
+    <string name="change_nigmtmode_string">切换界面模式将重新加载主题/帖子，请确认是否继续</string>
+    <string name="change_nigmtmode_string_message">切换界面模式将重新加载短消息列表和正文，请确认是否继续</string>
+    <string name="change_nigmtmode_string_refresh">切换界面模式将刷新，请确认是否继续</string>
     <string name="seeingooglemaporprofile">请选择查看论坛用户信息或在Google Map中查看位置</string>
     <string name="nearbyingooglemaps">在Google Map中查看位置</string>
     <string name="nearbyinprofile">查看论坛用户信息</string>
@@ -118,6 +125,8 @@
     <string name="fuck_gfw_prefix">方滨兴造墙烂屁眼</string>
     <string name="fail_to_cross_gfw">又被墙了,草</string>
     <string name="close">关闭</string>
+    <string name="change_night_mode">夜间模式</string>
+    <string name="change_daily_mode">白天模式</string>
     <string name="floor_one">1楼</string>
     <string name="sample_post_date">11:11:11</string>
     <string name="sample_nick_name">骷髅党</string>
@@ -199,6 +208,8 @@
     <string name="search_user_topic">发帖</string>
     <string name="search_user_apply">回复</string>
     <string name="last_page_prompt">已加载到最后一页</string>
+    <string name="last_page_prompt_message_detail">已加载到短消息内容的最后一页</string>
+    <string name="last_page_prompt_message">已加载到短消息列表的最后一页</string>
     <string name="delete_favo_confirm_text">确定从收藏夹中删除这个帖子吗？</string>
     <string name="dragon_ball_collect_complete">你收集到了7颗龙珠,成功召唤了一个叫撸的巨龙\n确定要使用这条巨龙吗(一次确定,多次使用)</string>
     <string name="delete_recentreply_confirm_text">确定删除全部喷你的信息吗？</string>
@@ -206,7 +217,7 @@
     <string name="cancle">取消</string>
     <string name="showColortxtWarn">彩虹发帖模式易导致禁言,专供有自杀需求的用户!</string>
     <string name="showNewweibaWarn">发送可见尾巴易导致禁言,专供有自杀需求的用户!</string>
-    <string name="about_client">NGA客户端开源版开发团队\n代码:[@竹井詩織里]/[@cfan8]/[@jjimmys]\n美工:[@那个惩戒骑]/[@从来不卖萌]\n查找更新请前往Play商店或酷安\n赞美片总!感谢[@force0119]!\nLicense:GNU GPL v2,软件版本:</string>
+    <string name="about_client">NGA客户端开源版开发团队\n代码:[@竹井詩織里]/[@cfan8]/[@jjimmys]/[@Moandor]\n美工:[@那个惩戒骑]/[@从来不卖萌]\n查找更新请前往Play商店或酷安\n赞美片总!感谢[@force0119]!\n客户端吐槽QQ群:172503242\nLicense:GNU GPL v2,软件版本:</string>
     <string name="play_all">全部</string>
     <string name="play_all_not_acfun">全部(除ACFUN)</string>
     <string name="play_all_not_bilibili">全部(除BILIBILI)</string>
@@ -223,7 +234,9 @@
     <string name="fontcolor">颜色</string>
     <string name="fontsize">字号</string>
     <string name="delline">删除线</string>
-    <string name="checksecret">4103ca8d364d2402e5e304ea07454a2a</string>
+    <!-- string name="checksecret">4103ca8d364d2402e5e304ea07454a2a</string -->
+    <string name="checksecret">3ebd769858c56bd345898154e4b44427</string>
+    
     <!-- d\o.jav 查System.currentTimeMillis()-->
 
     <string-array name="colorchoose">

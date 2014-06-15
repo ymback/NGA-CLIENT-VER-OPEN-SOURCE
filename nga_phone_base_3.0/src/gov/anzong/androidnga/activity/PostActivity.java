@@ -882,7 +882,6 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				temp.execute();
 			}
 		}
-		bodyText.requestFocus();
 		if(PhoneConfiguration.getInstance().fullscreen){
 			ActivityUtil.getInstance().setFullScreen(v);
 		}

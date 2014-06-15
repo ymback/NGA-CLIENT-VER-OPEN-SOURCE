@@ -70,6 +70,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 	TopicListInfo result = null;
 	private PullToRefreshAttacher mPullToRefreshAttacher;
 	View view;
+	int nightmode;
+	String guidtmp;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -81,6 +83,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			ActivityUtil.getInstance().setFullScreen(view);
 	    }
 		this.setContentView(view);
+		nightmode=ThemeManager.getInstance().getMode();
 		PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
 		options.refreshScrollDistance = 0.3f;
 		options.refreshOnUp = true;
@@ -109,7 +112,32 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		Fragment f2 = fm.findFragmentById(R.id.item_detail_container);
 		if (null == f2) {
-			f1.setHasOptionsMenu(true);
+			if(getIntent().getIntExtra("daulscrshowmode", 0)!=0){
+
+				int pid = getIntent().getIntExtra("pid",0);
+				int tid = getIntent().getIntExtra("tid",0);
+				int authorid = getIntent().getIntExtra("authorid",0);
+				if(pid!=0 || tid!=0){
+					f2 = ArticleContainerFragment.create(tid,
+							pid, authorid);
+					Bundle args = new Bundle();// (getIntent().getExtras());
+					if (null != getIntent().getExtras()) {
+						args.putAll(getIntent().getExtras());
+					}
+					args.putString("url", getIntent().getDataString());
+					f2.setArguments(args);
+					FragmentTransaction ft = fm.beginTransaction().add(R.id.item_detail_container,
+							f2);
+					ft.commit();
+					f1.setHasOptionsMenu(false);
+					f2.setHasOptionsMenu(true);
+				}else{
+					f1.setHasOptionsMenu(true);
+				}
+				// .add(R.id.item_detail_container, f);
+			}else{
+				f1.setHasOptionsMenu(true);
+			}
 		} else if (!dualScreen) {
 			getSupportActionBar().setTitle("主题列表");
 			fm.beginTransaction().remove(f2).commit();
@@ -152,6 +180,16 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 	}
 
+	@Override  
+    public boolean onPrepareOptionsMenu(Menu menu) {  
+		 Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.item_list);
+		 Fragment f2 = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
+		 f1.onPrepareOptionsMenu(menu);
+		 if(f2!=null && dualScreen)
+		 f2.onPrepareOptionsMenu(menu);
+		 return super.onPrepareOptionsMenu(menu);  
+	}
+	
 	@TargetApi(11)
 	private void setNavigation() {
 
@@ -220,28 +258,46 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 	@Override
 	protected void onResume() {
-		int orentation = ThemeManager.getInstance().screenOrentation;
-		if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-				|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-			setRequestedOrientation(orentation);
-		} else {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		}
+		if(nightmode!=ThemeManager.getInstance().getMode()){
+			Intent intent = getIntent();
+			if(!StringUtil.isEmpty(guidtmp)){
+				int pid = StringUtil.getUrlParameter(guidtmp, "pid");
+				int tid = StringUtil.getUrlParameter(guidtmp, "tid");
+				int authorid = StringUtil.getUrlParameter(guidtmp, "authorid");
+				intent.putExtra("daulscrshowmode", 1);
+				intent.putExtra("tid", tid);
+				intent.putExtra("pid", pid);
+				intent.putExtra("authorid", authorid);
+				
+			}
+			overridePendingTransition(0, 0);
+			finish();
+			overridePendingTransition(0, 0);
+			startActivity(intent);
+		}else{
+			int orentation = ThemeManager.getInstance().screenOrentation;
+			if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+					|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+				setRequestedOrientation(orentation);
+			} else {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+			}
 
-		if (asynTask != null) {
-			asynTask.cancel(true);
-			asynTask = null;
-		}
-		long now = System.currentTimeMillis();
-		PhoneConfiguration config = PhoneConfiguration.getInstance();
-		if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {//30秒才爽啊艹
-//		if(1==1){
-			Log.d(TAG, "start to check Reply Notification");
-			asynTask = new CheckReplyNotificationTask(this);
-			asynTask.execute(config.getCookie());
-		}
-		if (PhoneConfiguration.getInstance().fullscreen) {
-			ActivityUtil.getInstance().setFullScreen(view);
+			if (asynTask != null) {
+				asynTask.cancel(true);
+				asynTask = null;
+			}
+			long now = System.currentTimeMillis();
+			PhoneConfiguration config = PhoneConfiguration.getInstance();
+			if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {//30秒才爽啊艹
+//			if(1==1){
+				Log.d(TAG, "start to check Reply Notification");
+				asynTask = new CheckReplyNotificationTask(this);
+				asynTask.execute(config.getCookie());
+			}
+			if (PhoneConfiguration.getInstance().fullscreen) {
+				ActivityUtil.getInstance().setFullScreen(view);
+			}
 		}
 		super.onResume();
 	}
@@ -282,6 +338,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 				return;
 
 			guid = guid.trim();
+			guidtmp=guid;
 
 			int pid = StringUtil.getUrlParameter(guid, "pid");
 			int tid = StringUtil.getUrlParameter(guid, "tid");
@@ -387,6 +444,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			Fragment f1 = fm.findFragmentById(R.id.item_list);
 			f1.setHasOptionsMenu(true);
 			getSupportActionBar().setTitle("主题列表");
+			guidtmp="";
 		}
 
 	}

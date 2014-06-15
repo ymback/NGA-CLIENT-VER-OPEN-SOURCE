@@ -167,7 +167,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 			return "";
 		StringBuilder sb = new StringBuilder();
 		sb.append("<h4 style='color:").append(fgColorStr).append("' >")
-				.append(row.getSubject()).append("</h3>");
+				.append(row.getSubject()).append("</h4>");
 		return sb.toString();
 	}
 
