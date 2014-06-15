@@ -40,7 +40,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2020;
+	public final static int version = 2022;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "最近访问";
@@ -122,7 +122,12 @@ public class MyApp extends Application implements PerferenceConstant {
 			recentList = JSON.parseArray(recentStr, Board.class);
 			if (recentList != null) {
 				for (int j = 0; j < recentList.size(); j++) {
-					boards.add(recentList.get(j));
+					if(recentList.get(j).getIcon()==R.drawable.pdefault){
+						boards.add(new Board(i,recentList.get(j).getUrl(),
+								recentList.get(j).getName(), R.drawable.oldpdefault));
+					}else{
+						boards.add(recentList.get(j));
+					}
 				}
 			}
 		}
@@ -143,13 +148,13 @@ public class MyApp extends Application implements PerferenceConstant {
 		i++;
 
 		boards.add(new Board(i, "-7", "大漩涡", R.drawable.oldp354));
-		boards.add(new Board(i, "-362960", "艾欧泽亚", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-343809", "汽车俱乐部", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-81981", "生命之杯", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-576177", "影音讨论区", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-43", "军事历史", R.drawable.oldpdefault));
 		boards.add(new Board(i, "414", "游戏综合讨论", R.drawable.oldp414));
 		boards.add(new Board(i, "415", "主机游戏综合讨论", R.drawable.oldpdefault));
+		boards.add(new Board(i, "427", "怪物猎人", R.drawable.oldp427));
 		boards.add(new Board(i, "431", "风暴英雄", R.drawable.oldp431));
 		boards.add(new Board(i, "436", "消费电子 IT新闻", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-187579", "大漩涡历史博物馆", R.drawable.oldpdefault));
@@ -236,7 +241,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "416", "火炬之光2", R.drawable.oldpdefault));
 		boards.add(new Board(i, "406", "星际争霸2", R.drawable.oldpdefault));
 		boards.add(new Board(i, "420", "MT Online", R.drawable.oldp420));
-		boards.add(new Board(i, "424", "圣斗士", R.drawable.oldpdefault));
+		boards.add(new Board(i, "424", "圣斗士星矢", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-1513130", "鲜血兄弟会", R.drawable.oldpdefault));
 		boards.add(new Board(i, "433", "神雕侠侣", R.drawable.oldpdefault));
 		boards.add(new Board(i, "434", "神鬼幻想", R.drawable.oldpdefault));
@@ -338,7 +343,12 @@ public class MyApp extends Application implements PerferenceConstant {
 			recentList = JSON.parseArray(recentStr, Board.class);
 			if (recentList != null) {
 				for (int j = 0; j < recentList.size(); j++) {
-					boards.add(recentList.get(j));
+					if(recentList.get(j).getIcon()==R.drawable.oldpdefault){
+						boards.add(new Board(i,recentList.get(j).getUrl(),
+								recentList.get(j).getName(), R.drawable.pdefault));
+					}else{
+						boards.add(recentList.get(j));
+					}
 				}
 			}
 		}
@@ -359,13 +369,13 @@ public class MyApp extends Application implements PerferenceConstant {
 		i++;
 
 		boards.add(new Board(i, "-7", "大漩涡", R.drawable.p354));
-		boards.add(new Board(i, "-362960", "艾欧泽亚", R.drawable.p362960));
 		boards.add(new Board(i, "-343809", "汽车俱乐部", R.drawable.p343809));
 		boards.add(new Board(i, "-81981", "生命之杯", R.drawable.p81981));
 		boards.add(new Board(i, "-576177", "影音讨论区", R.drawable.p576177));
 		boards.add(new Board(i, "-43", "军事历史", R.drawable.p43));
 		boards.add(new Board(i, "414", "游戏综合讨论", R.drawable.p414));
 		boards.add(new Board(i, "415", "主机游戏综合讨论", R.drawable.p415));
+		boards.add(new Board(i, "427", "怪物猎人", R.drawable.p427));
 		boards.add(new Board(i, "431", "风暴英雄", R.drawable.p431));
 		boards.add(new Board(i, "436", "消费电子 IT新闻", R.drawable.p436));
 		boards.add(new Board(i, "-187579", "大漩涡历史博物馆", R.drawable.p187579));
@@ -452,7 +462,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "416", "火炬之光2", R.drawable.p416));
 		boards.add(new Board(i, "406", "星际争霸2", R.drawable.p406));
 		boards.add(new Board(i, "420", "MT Online", R.drawable.p420));
-		boards.add(new Board(i, "424", "圣斗士", R.drawable.p424));
+		boards.add(new Board(i, "424", "圣斗士星矢", R.drawable.p424));
 		boards.add(new Board(i, "-1513130", "鲜血兄弟会", R.drawable.p1513130));
 		boards.add(new Board(i, "433", "神雕侠侣", R.drawable.p433));
 		boards.add(new Board(i, "434", "神鬼幻想", R.drawable.p434));

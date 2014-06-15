@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="?android:attr/dividerHorizontal"
+    android:showDividers="middle"
+    tools:context=".FlexibleMessageListActivity" android:baselineAligned="false">
+
+    <FrameLayout
+        android:id="@+id/item_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+    android:background="#FEF3D1" 
+        android:layout_weight="1" />
+
+    <FrameLayout android:id="@+id/item_detail_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+    android:background="#FEF3D1" 
+        android:layout_weight="1" />
+
+</LinearLayout>

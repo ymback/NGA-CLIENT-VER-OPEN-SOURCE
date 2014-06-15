@@ -153,15 +153,15 @@ public class MainActivity extends ActionBarActivity implements
 		initView();
 		getSupportActionBar().setTitle(R.string.start_title);
 		if (boardInfo.getCategoryName(0).equals("最近访问")) {
-			setLocItem(5, "最近访问", R.drawable.ic_queue);
+			setLocItem(7, "最近访问", R.drawable.ic_queue);
 			if (boardInfo.getCategoryCount() > 12) {
 				if (boardInfo.getCategoryName(12).equals("用户自定义")) {
-					setLocItem(18, "用户自定义", R.drawable.ic_queue);
+					setLocItem(20, "用户自定义", R.drawable.ic_queue);
 				}
 			}
 		} else {
 			if (boardInfo.getCategoryCount() == 12) {
-				setLocItem(17, "用户自定义", R.drawable.ic_queue);
+				setLocItem(19, "用户自定义", R.drawable.ic_queue);
 			}
 		}
 	}
@@ -358,6 +358,10 @@ public class MainActivity extends ActionBarActivity implements
 			pager.setCurrentItem(0 - ifRecentExist);
 		} else if (item.mTitle.equals("签到任务")) {
 			signmission();
+		} else if (item.mTitle.equals("短消息")) {
+			mymessage();
+		}else if (item.mTitle.equals("大漩涡匿名版")) {
+			noname();
 		} else if (item.mTitle.equals("搜索用户信息")) {
 			search_profile();
 		} else if (item.mTitle.equals("综合讨论")) {
@@ -436,6 +440,32 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 	}
+	
+
+	private void mymessage() {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent();
+		PhoneConfiguration config = PhoneConfiguration.getInstance();
+		intent.setClass(MainActivity.this, config.messageActivityClass);
+		
+		startActivity(intent);
+		if (PhoneConfiguration.getInstance().showAnimation) {
+			overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		}
+
+	}
+	private void noname() {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent();
+		PhoneConfiguration config = PhoneConfiguration.getInstance();
+		intent.setClass(MainActivity.this, config.nonameActivityClass);
+		
+		startActivity(intent);
+		if (PhoneConfiguration.getInstance().showAnimation) {
+			overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		}
+
+	}
 
 	public void setLocItem(int loc, String itemname, int id) {
 		// set item on loc position
@@ -503,7 +533,9 @@ public class MainActivity extends ActionBarActivity implements
 	public void setitem() {
 		items.add(new Item("登录账号", R.drawable.ic_login));
 		items.add(new Item("Yoooo~", R.drawable.ic_menu_mylocation));
+		items.add(new Item("大漩涡匿名版", R.drawable.ic_action_person_dark));
 		items.add(new Item("签到任务", R.drawable.ic_action_go_to_today));
+		items.add(new Item("短消息", R.drawable.ic_action_email));
 		items.add(new Item("搜索用户信息", R.drawable.action_search));
 		items.add(new Item("最近被喷", R.drawable.ic_action_gun));
 		// items.add(new Item("最近访问", R.drawable.ic_queue));
@@ -1454,9 +1486,9 @@ public class MainActivity extends ActionBarActivity implements
 			boardInfo = loadDefaultBoard();
 			// add menu item
 			if (boardInfo.getCategoryCount() == 12) {
-				setLocItem(17, "用户自定义", R.drawable.ic_queue);
+				setLocItem(19, "用户自定义", R.drawable.ic_queue);
 			} else {
-				setLocItem(18, "用户自定义", R.drawable.ic_queue);
+				setLocItem(20, "用户自定义", R.drawable.ic_queue);
 			}
 			return;
 		} else {// 有了
@@ -1644,7 +1676,7 @@ public class MainActivity extends ActionBarActivity implements
 							boardList.add(b1);
 							saveRecent(boardList);
 							// add recent menu item
-							setLocItem(5, "最近访问", R.drawable.ic_queue);
+							setLocItem(7, "最近访问", R.drawable.ic_queue);
 							// set menu click right
 							ifRecentExist = 0;
 							boardInfo = loadDefaultBoard();

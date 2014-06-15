@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/quote_subject" android:title="@string/quote_subject" android:icon="@drawable/ic_menu_cc"></item>
+    <item android:id="@+id/copy_to_clipboard" android:title="@string/copy_to_clipboard" android:icon="@drawable/ic_menu_copy_holo_dark"></item>
+    
+    
+    <item android:id="@+id/avatar_dialog" android:title="@string/avatar_dialog" android:showAsAction="never"></item>
+    <item android:id="@+id/signature_dialog" android:title="@string/signature_dialog" android:showAsAction="never"></item>
+    
+    <item android:id="@+id/send_message" android:title="@string/send_message" android:showAsAction="never"></item>
+    <item android:id="@+id/show_profile" android:title="@string/showprofile" android:showAsAction="never"></item>
+    <item android:id="@+id/search_post" android:title="@string/search_post" android:showAsAction="never"></item>
+    <item android:id="@+id/search_subject" android:title="@string/search_subject" android:showAsAction="never"></item>
+    
+    
+    
+
+</menu>

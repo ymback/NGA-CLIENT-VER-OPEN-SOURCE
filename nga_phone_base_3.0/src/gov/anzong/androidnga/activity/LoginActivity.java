@@ -51,7 +51,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity
 	EditText passwordText;
 	View view;
 	ListView userList ;
-	private String action;
+	private String action,messagemode;
 	private String tid;
 	private int fid;
 	private boolean needtopost=false;
@@ -118,7 +118,8 @@ public class LoginActivity extends SwipeBackAppCompatActivity
 		}, 500);
 		Intent intent = this.getIntent();
 		action = intent.getStringExtra("action");
-		if(!StringUtil.isEmpty(action)){
+		messagemode = intent.getStringExtra("messagemode");
+		if(!StringUtil.isEmpty(action) && StringUtil.isEmpty(messagemode)){
 		if(action.equals("new") || action.equals("reply") ||action.equals("modify")){
 			needtopost=true;
 			prefix = intent.getStringExtra("prefix");

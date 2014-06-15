@@ -1,6 +1,8 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -75,8 +77,10 @@ PagerOwnner{
     int pid;
     String title;
     int authorid;
+    String url;
 	private static final String TAG= "ArticleContainerFragment";
 	private static final String GOTO_TAG = "goto";
+	final private String ALERT_DIALOG_TAG = "alertdialog";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,7 +95,7 @@ PagerOwnner{
 		mViewPager = (ViewPager) v.findViewById(R.id.pager);
 
 		int pageFromUrl = 0;
-		String url = getArguments().getString("url");
+		url = getArguments().getString("url");
 		if(null != url){
 			tid = this.getUrlParameter(url, "tid");		
 			pid = this.getUrlParameter(url, "pid");		
@@ -200,6 +204,23 @@ PagerOwnner{
 	}
 	
 
+    @Override  
+    public void onPrepareOptionsMenu(Menu menu) {  
+        if( menu.findItem(R.id.night_mode)!=null){
+            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
+                menu.findItem(R.id.night_mode).setIcon(  
+                        R.drawable.ic_action_brightness_high);    
+                menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
+            }else{
+                menu.findItem(R.id.night_mode).setIcon(  
+                        R.drawable.ic_action_bightness_low);    
+                menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
+            }
+        }
+        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
+        super.onPrepareOptionsMenu(menu);  
+    }  
+    
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent = new Intent();
@@ -252,6 +273,9 @@ PagerOwnner{
 			case R.id.goto_floor:
 				createGotoDialog();
 				break;
+			case R.id.night_mode:
+				nightMode(item);
+				break;
 			case R.id.item_share:
 				intent.setAction(Intent.ACTION_SEND);
 				intent.setType("text/plain");
@@ -287,7 +311,63 @@ PagerOwnner{
 		}
 		return true;
 	}
+
+	private void nightMode(final MenuItem menu) {
 	
+		String alertString = getString(R.string.change_nigmtmode_string);
+		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
+		f.setOkListener(new OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+				
+				ThemeManager tm = ThemeManager.getInstance();
+				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
+						Activity.MODE_PRIVATE);
+				int mode = ThemeManager.MODE_NORMAL;
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
+					menu.setIcon(  
+		                    R.drawable.ic_action_bightness_low); 
+					menu.setTitle(R.string.change_night_mode);
+					Editor editor = share.edit();
+					editor.putBoolean(NIGHT_MODE, false);
+					editor.commit();
+				}else{
+					menu.setIcon(  
+		                    R.drawable.ic_action_brightness_high); 
+					menu.setTitle(R.string.change_daily_mode);
+					Editor editor = share.edit();
+					editor.putBoolean(NIGHT_MODE, true);
+					editor.commit();
+					mode = ThemeManager.MODE_NIGHT;
+				}
+				Log.i(TAG,"frag");
+				ThemeManager.getInstance().setMode(mode);
+				Intent intent = getActivity().getIntent();
+				intent.putExtra("daulscrshowmode", 1);
+				intent.putExtra("tid", tid);
+				intent.putExtra("pid", pid);
+				intent.putExtra("authorid", authorid);
+				intent.putExtra("url", url);
+				
+				getActivity().overridePendingTransition(0, 0);
+				getActivity().finish();
+				getActivity().overridePendingTransition(0, 0);
+				getActivity().startActivity(intent);
+			}
+			
+		});
+		f.setCancleListener(new OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				f.dismiss();
+			}
+			
+		});
+		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
+	}
 	private ImageButton getActionItem(int id){
 		//View actionbar_compat = getActivity().findViewById(R.id.actionbar_compat);
 		View ret = null;

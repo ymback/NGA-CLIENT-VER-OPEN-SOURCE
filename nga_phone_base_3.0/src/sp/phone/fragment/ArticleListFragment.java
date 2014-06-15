@@ -8,6 +8,7 @@ import java.util.HashSet;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ArticleListAdapter;
+import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
@@ -60,22 +61,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ArticleListFragment extends Fragment
-	implements OnThreadPageLoadFinishedListener,PerferenceConstant{
+public class ArticleListFragment extends Fragment implements
+		OnThreadPageLoadFinishedListener, PerferenceConstant {
 	final static private String TAG = ArticleListFragment.class.getSimpleName();
-	/*static final int QUOTE_ORDER = 0;
-	static final int REPLY_ORDER = 1;
-	static final int COPY_CLIPBOARD_ORDER = 2;
-	static final int SHOW_THISONLY_ORDER = 3;
-	static final int SHOW_MODIFY_ORDER = 4;
-	static final int SHOW_ALL = 5;
-	static final int POST_COMMENT = 6;
-	static final int SEARCH_POST = 7;
-	static final int SEARCH_SUBJECT = 8;*/
-	private ListView listview=null;
+	/*
+	 * static final int QUOTE_ORDER = 0; static final int REPLY_ORDER = 1;
+	 * static final int COPY_CLIPBOARD_ORDER = 2; static final int
+	 * SHOW_THISONLY_ORDER = 3; static final int SHOW_MODIFY_ORDER = 4; static
+	 * final int SHOW_ALL = 5; static final int POST_COMMENT = 6; static final
+	 * int SEARCH_POST = 7; static final int SEARCH_SUBJECT = 8;
+	 */
+	private ListView listview = null;
 	private ArticleListAdapter articleAdpater;
-	//private JsonThreadLoadTask task;
-	private int page=0;
+	// private JsonThreadLoadTask task;
+	private int page = 0;
 	private int tid;
 	private String title;
 	private int pid;
@@ -83,7 +82,7 @@ public class ArticleListFragment extends Fragment
 	private boolean needLoad = true;
 	private Object mActionModeCallback = null;
 	private static Context activity;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		page = getArguments().getInt("page") + 1;
@@ -92,62 +91,61 @@ public class ArticleListFragment extends Fragment
 		authorid = getArguments().getInt("authorid", 0);
 		articleAdpater = new ArticleListAdapter(this.getActivity());
 		super.onCreate(savedInstanceState);
-	} 
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		listview = new ListView(this.getActivity());
-		
 
-		listview.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor());
+		listview.setBackgroundResource(ThemeManager.getInstance()
+				.getBackgroundColor());
 		listview.setDivider(null);
-		
-		
-			activeActionMode();
-			listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-			listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-				@TargetApi(11)
-				@Override
-				public boolean onItemLongClick(AdapterView<?> parent,
-						View view, int position, long id) {
-					ListView lv = (ListView)parent;
-					lv.setItemChecked(position, true);
-					if (mActionModeCallback != null)
-					{
-						((ActionBarActivity) getActivity()).startSupportActionMode((Callback) mActionModeCallback);
-						return true;
-					}
-					return false;
+		activeActionMode();
+		listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@TargetApi(11)
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				ListView lv = (ListView) parent;
+				lv.setItemChecked(position, true);
+				if (mActionModeCallback != null) {
+					((ActionBarActivity) getActivity())
+							.startSupportActionMode((Callback) mActionModeCallback);
+					return true;
 				}
+				return false;
+			}
 
-			});
-			
+		});
 
-	
 		listview.setDescendantFocusability(ListView.FOCUS_AFTER_DESCENDANTS);
-		
+
 		return listview;
 	}
-	
+
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {		
+	public void onActivityCreated(Bundle savedInstanceState) {
 		listview.setAdapter(articleAdpater);
 		super.onActivityCreated(savedInstanceState);
 	}
-	
+
 	@TargetApi(11)
-	private void activeActionMode(){
+	private void activeActionMode() {
 		mActionModeCallback = new ActionMode.Callback() {
-			
+
 			@Override
 			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 				MenuInflater inflater = mode.getMenuInflater();
-				if(pid == 0){
+				if (pid == 0) {
 					inflater.inflate(R.menu.articlelist_context_menu, menu);
-					
-				}else{
-					inflater.inflate(R.menu.articlelist_context_menu_with_tid, menu);
+
+				} else {
+					inflater.inflate(R.menu.articlelist_context_menu_with_tid,
+							menu);
 				}
 				return true;
 			}
@@ -166,110 +164,96 @@ public class ArticleListFragment extends Fragment
 
 			@Override
 			public void onDestroyActionMode(ActionMode mode) {
-				//int position = listview.getCheckedItemPosition();
-				//listview.setItemChecked(position, false);
-				
+				// int position = listview.getCheckedItemPosition();
+				// listview.setItemChecked(position, false);
+
 			}
-			
+
 		};
 	}
-	
+
 	@Override
 	public void onResume() {
-		Log.d(TAG, "onResume pid="+pid+"&page="+page);
-		//setHasOptionsMenu(true);
+		Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
+		// setHasOptionsMenu(true);
 		if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
-			
+
 			PagerOwnner father = null;
-			try{
+			try {
 				father = (PagerOwnner) getActivity();
 				if (father.getCurrentPage() == page) {
 					PhoneConfiguration.getInstance().setRefreshAfterPost(false);
-					//this.task = null;
+					// this.task = null;
 					this.needLoad = true;
 				}
-			}catch(ClassCastException e){
-				Log.e(TAG,"father activity does not implements interface " 
+			} catch (ClassCastException e) {
+				Log.e(TAG, "father activity does not implements interface "
 						+ PagerOwnner.class.getName());
-				
+
 			}
 
-			
 		}
 		this.loadPage();
 		super.onResume();
 	}
-	
-	
+
 	@TargetApi(11)
-	private void RunParallen(JsonThreadLoadTask task, String url){
+	private void RunParallen(JsonThreadLoadTask task, String url) {
 		task.executeOnExecutor(JsonThreadLoadTask.THREAD_POOL_EXECUTOR, url);
 	}
-	
+
 	@TargetApi(11)
-	private void RunParallen(ReportTask task, String url){
+	private void RunParallen(ReportTask task, String url) {
 		task.executeOnExecutor(JsonThreadLoadTask.THREAD_POOL_EXECUTOR, url);
 	}
-	
-	private void loadPage(){
-		if(needLoad){
+
+	private void loadPage() {
+		if (needLoad) {
 
 			Activity activity = getActivity();
-			JsonThreadLoadTask task= new JsonThreadLoadTask(activity,this);
-			String url = HttpUtil.Server + 
-					"/read.php?"
-					+"&page="+page
-					+"&lite=js&noprefix&v2";
-			if(tid !=0)
-				url = url + "&tid="+ tid;
-			if(pid !=0){
-				url = url + "&pid="+ pid;
+			JsonThreadLoadTask task = new JsonThreadLoadTask(activity, this);
+			String url = HttpUtil.Server + "/read.php?" + "&page=" + page
+					+ "&lite=js&noprefix&v2";
+			if (tid != 0)
+				url = url + "&tid=" + tid;
+			if (pid != 0) {
+				url = url + "&pid=" + pid;
 			}
-			
-			if(authorid !=0){
-				url = url + "&authorid="+ authorid;
+
+			if (authorid != 0) {
+				url = url + "&authorid=" + authorid;
 			}
-			if(ActivityUtil.isGreaterThan_2_3_3())
+			if (ActivityUtil.isGreaterThan_2_3_3())
 				RunParallen(task, url);
 			else
 				task.execute(url);
-		}else{
+		} else {
 			ActivityUtil.getInstance().dismiss();
 		}
-		
-		
-	}
-	
 
-	
-	
-	
+	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getActivity().getMenuInflater();
-		if(this.pid == 0){
+		if (this.pid == 0) {
 			inflater.inflate(R.menu.articlelist_context_menu, menu);
-			
-		}else{
+
+		} else {
 			inflater.inflate(R.menu.articlelist_context_menu_with_tid, menu);
 		}
 
-		
-		
 	}
-	
-	private void handleReport(ThreadRowInfo row){
-		/*String url="http://bbs.ngacn.cc/nuke.php?func=logpost&tid="
-				+ tid + "&pid="+ row.getPid()
-				+"&log";
-		ReportTask task= new ReportTask(getActivity());
-		if(ActivityUtil.isGreaterThan_2_3_3())
-			RunParallen(task, url);
-		else
-			task.execute(url);*/
+
+	private void handleReport(ThreadRowInfo row) {
+		/*
+		 * String url="http://bbs.ngacn.cc/nuke.php?func=logpost&tid=" + tid +
+		 * "&pid="+ row.getPid() +"&log"; ReportTask task= new
+		 * ReportTask(getActivity()); if(ActivityUtil.isGreaterThan_2_3_3())
+		 * RunParallen(task, url); else task.execute(url);
+		 */
 		DialogFragment df = new ReportDialogFragment();
 		Bundle args = new Bundle();
 		args.putInt("tid", tid);
@@ -278,262 +262,267 @@ public class ArticleListFragment extends Fragment
 		df.show(getFragmentManager(), null);
 
 	}
-	
 
-	private String checkContent(String content){
+	private String checkContent(String content) {
 		int i;
-		boolean mode=false;
-		content=content.trim();
-		String quotekeyword[][]={
-				{"[customachieve]","[/customachieve]"},//0
-				{"[wow","]]"},
-				{"[lol","]]"},
-				{"[cnarmory","]"},
-				{"[usarmory","]"},
-				{"[twarmory","]"},//5
-				{"[euarmory","]"},
-				{"[url","[/url]"},
-				{"[color=","[/color]"},
-				{"[size=","[/size]"},
-				{"[font=","[/font]"},//10
-				{"[b]","[/b]"},
-				{"[u]","[/u]"},
-				{"[i]","[/i]"},
-				{"[del]","[/del]"},
-				{"[align=","[/align]"},//15
-				{"[h]","[/h]"},
-				{"[l]","[/l]"},
-				{"[r]","[/r]"},
-				{"[list","[/list]"},
-				{"[img]","[/img]"},//20
-				{"[album=","[/album]"},
-				{"[code]","[/code]"},
-				{"[code=lua]","[/code] lua"},
-				{"[code=php]","[/code] php"},
-				{"[code=c]","[/code] c"},//25
-				{"[code=js]","[/code] javascript"},
-				{"[code=xml]","[/code] xml/html"},
-				{"[flash]","[/flash]"},
-				{"[table]","[/table]"},
-				{"[tid","[/tid]"},//30
-				{"[pid","[/pid]"},
-				{"[dice]","[/dice]"},
-				{"[crypt]","[/crypt]"},
-				{"[randomblock]","[/randomblock]"},
-				{"[@","]"},
-				{"[t.178.com/","]"},
-				{"[collapse","[/collapse]"},};
-		while(content.startsWith("\n")){
-			content=content.replaceFirst("\n", "");
+		boolean mode = false;
+		content = content.trim();
+		String quotekeyword[][] = {
+				{ "[customachieve]", "[/customachieve]" },// 0
+				{ "[wow", "]]" },
+				{ "[lol", "]]" },
+				{ "[cnarmory", "]" },
+				{ "[usarmory", "]" },
+				{ "[twarmory", "]" },// 5
+				{ "[euarmory", "]" },
+				{ "[url", "[/url]" },
+				{ "[color=", "[/color]" },
+				{ "[size=", "[/size]" },
+				{ "[font=", "[/font]" },// 10
+				{ "[b]", "[/b]" },
+				{ "[u]", "[/u]" },
+				{ "[i]", "[/i]" },
+				{ "[del]", "[/del]" },
+				{ "[align=", "[/align]" },// 15
+				{ "[h]", "[/h]" },
+				{ "[l]", "[/l]" },
+				{ "[r]", "[/r]" },
+				{ "[list", "[/list]" },
+				{ "[img]", "[/img]" },// 20
+				{ "[album=", "[/album]" },
+				{ "[code]", "[/code]" },
+				{ "[code=lua]", "[/code] lua" },
+				{ "[code=php]", "[/code] php" },
+				{ "[code=c]", "[/code] c" },// 25
+				{ "[code=js]", "[/code] javascript" },
+				{ "[code=xml]", "[/code] xml/html" },
+				{ "[flash]", "[/flash]" },
+				{ "[table]", "[/table]" },
+				{ "[tid", "[/tid]" },// 30
+				{ "[pid", "[/pid]" }, { "[dice]", "[/dice]" },
+				{ "[crypt]", "[/crypt]" },
+				{ "[randomblock]", "[/randomblock]" }, { "[@", "]" },
+				{ "[t.178.com/", "]" }, { "[collapse", "[/collapse]" }, };
+		while (content.startsWith("\n")) {
+			content = content.replaceFirst("\n", "");
 		}
 		if (content.length() > 100) {
 			content = content.substring(0, 99);
-			mode=true;
+			mode = true;
+		}
+		for (i = 0; i < 38; i++) {
+			while (content.toLowerCase().lastIndexOf(quotekeyword[i][0]) > content
+					.toLowerCase().lastIndexOf(quotekeyword[i][1])) {
+				content = content.substring(0, content.toLowerCase()
+						.lastIndexOf(quotekeyword[i][0]));
 			}
-			for(i=0;i<38;i++){
-				while(content.toLowerCase().lastIndexOf(quotekeyword[i][0]) > content.toLowerCase().lastIndexOf(quotekeyword[i][1]))
-					{
-						content = content.substring(0,content.toLowerCase().lastIndexOf(quotekeyword[i][0]));
-					}
-			}
-			if (mode) {
-					content=content+"......";
-			}
-	return content.toString();
+		}
+		if (mode) {
+			content = content + "......";
+		}
+		return content.toString();
 	}
-	
-	private boolean isComment(ThreadRowInfo row){
-		
-		return row.getAlterinfo() == null && row.getAttachs() == null && row.getComments() == null
-				&& row.getJs_escap_avatar() == null && row.getLevel() == null && row.getSignature() == null;
+
+	private boolean isComment(ThreadRowInfo row) {
+
+		return row.getAlterinfo() == null && row.getAttachs() == null
+				&& row.getComments() == null
+				&& row.getJs_escap_avatar() == null && row.getLevel() == null
+				&& row.getSignature() == null;
 	}
-	
+
 	@Override
-
-
 	public boolean onContextItemSelected(MenuItem item) {
-		
-		Log.d(TAG, "onContextItemSelected,tid="
-				+tid+ ",page="+page );
+
+		Log.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
 		PagerOwnner father = null;
-		try{
-			 father = (PagerOwnner) getActivity();
-		}catch(ClassCastException e){
-			Log.e(TAG,"father activity does not implements interface " 
+		try {
+			father = (PagerOwnner) getActivity();
+		} catch (ClassCastException e) {
+			Log.e(TAG, "father activity does not implements interface "
 					+ PagerOwnner.class.getName());
 			return true;
 		}
-		
-		if(father == null)
+
+		if (father == null)
 			return false;
-		
-		if(father.getCurrentPage() != page){
+
+		if (father.getCurrentPage() != page) {
 			return false;
 		}
-		
-	
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		int position = this.listview.getCheckedItemPosition();
-		if(info != null){
+		if (info != null) {
 			position = info.position;
 		}
-		if(position <0 || position >= listview.getAdapter().getCount()){
+		if (position < 0 || position >= listview.getAdapter().getCount()) {
 			Toast.makeText(getActivity(), R.string.floor_error,
-					Toast.LENGTH_LONG	).show();
+					Toast.LENGTH_LONG).show();
 			position = 0;
 		}
 		StringBuffer postPrefix = new StringBuffer();
 		String tidStr = String.valueOf(this.tid);
 
-		
-		ThreadRowInfo row = (ThreadRowInfo) listview.getItemAtPosition(position);
-		if(row == null){
-			Toast.makeText(getActivity(), R.string.unknow_error, Toast.LENGTH_LONG	).show();
+		ThreadRowInfo row = (ThreadRowInfo) listview
+				.getItemAtPosition(position);
+		if (row == null) {
+			Toast.makeText(getActivity(), R.string.unknow_error,
+					Toast.LENGTH_LONG).show();
 			return true;
 		}
 		String content = row.getContent();
 		String signature = row.getSignature();
 		final String name = row.getAuthor();
-		final String uid=String.valueOf(row.getAuthorid());
-		boolean isanonymous=row.getISANONYMOUS();
-		String mention=null;
+		final String uid = String.valueOf(row.getAuthorid());
+		boolean isanonymous = row.getISANONYMOUS();
+		String mention = null;
 		Intent intent = new Intent();
-		switch(item.getItemId())
-		//if( REPLY_POST_ORDER ==item.getItemId())
+		switch (item.getItemId())
+		// if( REPLY_POST_ORDER ==item.getItemId())
 		{
 		case R.id.quote_subject:
 
 			final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
-            final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
+			final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
 			content = content.replaceAll(quote_regex, "");
-            content = content.replaceAll(replay_regex, "");
+			content = content.replaceAll(replay_regex, "");
 			final String postTime = row.getPostdate();
-			
-			content=checkContent(content);
+
+			content = checkContent(content);
 			content = StringUtil.unEscapeHtml(content);
-			if(row.getPid() != 0){
-                mention = name;
+			if (row.getPid() != 0) {
+				mention = name;
 				postPrefix.append("[quote][pid=");
 				postPrefix.append(row.getPid());
-                postPrefix.append(',')
-                .append(tidStr)
-                .append(",")
-                .append(page);
-				postPrefix.append("]");//Topic
+				postPrefix.append(',').append(tidStr).append(",").append(page);
+				postPrefix.append("]");// Topic
 				postPrefix.append("Reply");
 				postPrefix.append("[/pid] [b]Post by [uid=");
 				postPrefix.append(uid);
 				postPrefix.append("]");
 				postPrefix.append(name);
 				postPrefix.append("[/uid] (");
-                postPrefix.append(postTime);
-                postPrefix.append("):[/b]\n");
-                postPrefix.append(content);
-                postPrefix.append("[/quote]\n");
+				postPrefix.append(postTime);
+				postPrefix.append("):[/b]\n");
+				postPrefix.append(content);
+				postPrefix.append("[/quote]\n");
 			}
 
-		//case R.id.r:	
-			
-			if(!StringUtil.isEmpty(mention))
+			// case R.id.r:
+
+			if (!StringUtil.isEmpty(mention))
 				intent.putExtra("mention", mention);
-			intent.putExtra("prefix", StringUtil.removeBrTag(postPrefix.toString()) );
+			intent.putExtra("prefix",
+					StringUtil.removeBrTag(postPrefix.toString()));
 			intent.putExtra("tid", tidStr);
-			intent.putExtra("action", "reply");	
-			if (!StringUtil
-					.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-			intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);}
-			else{
-				intent.setClass(
-					getActivity(),
-					PhoneConfiguration.getInstance().loginActivityClass);
+			intent.putExtra("action", "reply");
+			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+				intent.setClass(getActivity(),
+						PhoneConfiguration.getInstance().postActivityClass);
+			} else {
+				intent.setClass(getActivity(),
+						PhoneConfiguration.getInstance().loginActivityClass);
 			}
 			startActivity(intent);
-			if(PhoneConfiguration.getInstance().showAnimation)
+			if (PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,
 						R.anim.zoom_exit);
 			break;
-			
+
 		case R.id.signature_dialog:
-			if(isanonymous){
+			if (isanonymous) {
 				errordialog();
-			}else{
+			} else {
 				Create_Signature_Dialog(row);
 			}
 			break;
 		case R.id.show_profile:
-			if(isanonymous){
+			if (isanonymous) {
 				errordialog();
-			}else{
-				intent.putExtra("mode", "username" );
-				intent.putExtra("username", row.getAuthor() );
-				intent.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
+			} else {
+				intent.putExtra("mode", "username");
+				intent.putExtra("username", row.getAuthor());
+				intent.setClass(getActivity(),
+						PhoneConfiguration.getInstance().profileActivityClass);
 				startActivity(intent);
-				if(PhoneConfiguration.getInstance().showAnimation)
+				if (PhoneConfiguration.getInstance().showAnimation)
 					getActivity().overridePendingTransition(R.anim.zoom_enter,
 							R.anim.zoom_exit);
 			}
 			break;
 		case R.id.avatar_dialog:
-			if(isanonymous){
+			if (isanonymous) {
 				errordialog();
-			}else{
+			} else {
 				Create_Avatar_Dialog(row);
 			}
 			break;
-		case R.id.edit :
-			if(isComment(row)){
-				Toast.makeText(getActivity(), R.string.cannot_eidt_comment, Toast.LENGTH_SHORT).show();
+		case R.id.edit:
+			if (isComment(row)) {
+				Toast.makeText(getActivity(), R.string.cannot_eidt_comment,
+						Toast.LENGTH_SHORT).show();
 				break;
 			}
 			Intent intentModify = new Intent();
-			intentModify.putExtra("prefix", StringUtil.unEscapeHtml(StringUtil.removeBrTag(content)));
+			intentModify.putExtra("prefix",
+					StringUtil.unEscapeHtml(StringUtil.removeBrTag(content)));
 			intentModify.putExtra("tid", tidStr);
-			String pid = String.valueOf(row.getPid());//getPid(map.get("url"));
+			String pid = String.valueOf(row.getPid());// getPid(map.get("url"));
 			intentModify.putExtra("pid", pid);
-			intentModify.putExtra("title",StringUtil.unEscapeHtml(row.getSubject()));
-			intentModify.putExtra("action", "modify");	
-			if (!StringUtil
-					.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-				intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);}
-			else{
-				intentModify.setClass(
-					getActivity(),
-					PhoneConfiguration.getInstance().loginActivityClass);
+			intentModify.putExtra("title",
+					StringUtil.unEscapeHtml(row.getSubject()));
+			intentModify.putExtra("action", "modify");
+			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+				intentModify.setClass(getActivity(),
+						PhoneConfiguration.getInstance().postActivityClass);
+			} else {
+				intentModify.setClass(getActivity(),
+						PhoneConfiguration.getInstance().loginActivityClass);
 			}
 			startActivity(intentModify);
-            if(PhoneConfiguration.getInstance().showAnimation)
-			    getActivity().overridePendingTransition(R.anim.zoom_enter,
-					    R.anim.zoom_exit);
+			if (PhoneConfiguration.getInstance().showAnimation)
+				getActivity().overridePendingTransition(R.anim.zoom_enter,
+						R.anim.zoom_exit);
 			break;
 		case R.id.copy_to_clipboard:
-//			//if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB )
-//			//{
-//				android.text.ClipboardManager  cbm = (android.text.ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
-//				cbm.setText(StringUtil.removeBrTag(content));
-//			//}else{
-//				//android.content.ClipboardManager  cbm = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-//				//cbm.setPrimaryClip(ClipData.newPlainText("content", content));
-//			//}
-//
-//			Toast.makeText(getActivity(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+			// //if(android.os.Build.VERSION.SDK_INT <
+			// android.os.Build.VERSION_CODES.HONEYCOMB )
+			// //{
+			// android.text.ClipboardManager cbm =
+			// (android.text.ClipboardManager)
+			// getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
+			// cbm.setText(StringUtil.removeBrTag(content));
+			// //}else{
+			// //android.content.ClipboardManager cbm =
+			// (android.content.ClipboardManager)
+			// getSystemService(CLIPBOARD_SERVICE);
+			// //cbm.setPrimaryClip(ClipData.newPlainText("content", content));
+			// //}
+			//
+			// Toast.makeText(getActivity(), R.string.copied_to_clipboard,
+			// Toast.LENGTH_SHORT).show();
 			CopyDialog(content);
 			break;
 		case R.id.show_this_person_only:
-			
-			if(null == getActivity().findViewById(R.id.item_detail_container))
-			{			
+
+			if (null == getActivity().findViewById(R.id.item_detail_container)) {
 				Intent intentThis = new Intent();
 				intentThis.putExtra("tab", "1");
-				intentThis.putExtra("tid",tid );
-				intentThis.putExtra("authorid",row.getAuthorid() );
-				intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
+				intentThis.putExtra("tid", tid);
+				intentThis.putExtra("authorid", row.getAuthorid());
+				intentThis.setClass(getActivity(),
+						PhoneConfiguration.getInstance().articleActivityClass);
 				startActivity(intentThis);
-				if(PhoneConfiguration.getInstance().showAnimation)
-					getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-			}else{
+				if (PhoneConfiguration.getInstance().showAnimation)
+					getActivity().overridePendingTransition(R.anim.zoom_enter,
+							R.anim.zoom_exit);
+			} else {
 				int tid1 = tid;
-				int authorid1=row.getAuthorid();
-				ArticleContainerFragment f = ArticleContainerFragment.createshowonly(tid1, authorid1);
+				int authorid1 = row.getAuthorid();
+				ArticleContainerFragment f = ArticleContainerFragment
+						.createshowonly(tid1, authorid1);
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				FragmentTransaction ft = fm.beginTransaction();
 				ft.addToBackStack(null);
@@ -542,49 +531,58 @@ public class ArticleListFragment extends Fragment
 				ft.commit();
 
 			}
-		
-			//restNotifier.reset(0, row.getAuthorid());
-			//ActivityUtil.getInstance().noticeSaying(getActivity());
+
+			// restNotifier.reset(0, row.getAuthorid());
+			// ActivityUtil.getInstance().noticeSaying(getActivity());
 
 			break;
 		case R.id.show_whole_thread:
-			if(null == getActivity().findViewById(R.id.item_detail_container))
-			{			
+			if (null == getActivity().findViewById(R.id.item_detail_container)) {
 				ResetableArticle restNotifier = null;
-				try{
-					 restNotifier= (ResetableArticle)getActivity();
-				}catch(ClassCastException e){
-					Log.e(TAG,"father activity does not implements interface " 
+				try {
+					restNotifier = (ResetableArticle) getActivity();
+				} catch (ClassCastException e) {
+					Log.e(TAG, "father activity does not implements interface "
 							+ ResetableArticle.class.getName());
 					return true;
 				}
-				restNotifier.reset(0, 0,row.getLou());
+				restNotifier.reset(0, 0, row.getLou());
 				ActivityUtil.getInstance().noticeSaying(getActivity());
-			}else{
+			} else {
 				int tid1 = tid;
-				ArticleContainerFragment f = ArticleContainerFragment.createshowall(tid1);
+				ArticleContainerFragment f = ArticleContainerFragment
+						.createshowall(tid1);
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				FragmentTransaction ft = fm.beginTransaction();
 				ft.addToBackStack(null);
 				f.setHasOptionsMenu(true);
 				ft.replace(R.id.item_detail_container, f);
 				ft.commit();
+			}
+			break;
+		case R.id.send_message:
+			if (isanonymous) {
+				errordialog();
+			} else {
+				start_send_message(row);
 			}
 			break;
 		case R.id.post_comment:
 			final String dialog_tag = "post comment";
-			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-	        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(dialog_tag);
-	        if (prev != null) {
-	            ft.remove(prev);
-	        }
+			FragmentTransaction ft = getActivity().getSupportFragmentManager()
+					.beginTransaction();
+			Fragment prev = getActivity().getSupportFragmentManager()
+					.findFragmentByTag(dialog_tag);
+			if (prev != null) {
+				ft.remove(prev);
+			}
 			DialogFragment df = new PostCommentDialogFragment();
 			Bundle b = new Bundle();
-			b.putInt("pid",	row.getPid());
+			b.putInt("pid", row.getPid());
 			b.putInt("tid", this.tid);
 			df.setArguments(b);
 			df.show(ft, dialog_tag);
-			
+
 			break;
 		case R.id.report:
 			handleReport(row);
@@ -593,38 +591,54 @@ public class ArticleListFragment extends Fragment
 			intent.putExtra("searchpost", 1);
 		case R.id.search_subject:
 			intent.putExtra("authorid", row.getAuthorid());
-			intent.setClass(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
+			intent.setClass(getActivity(),
+					PhoneConfiguration.getInstance().topicActivityClass);
 			startActivity(intent);
-			if(PhoneConfiguration.getInstance().showAnimation)
-				getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-		
+			if (PhoneConfiguration.getInstance().showAnimation)
+				getActivity().overridePendingTransition(R.anim.zoom_enter,
+						R.anim.zoom_exit);
+
 			break;
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
 			String shareUrl = "http://nga.178.com/read.php?";
-			if(row.getPid() != 0){
-				shareUrl = shareUrl + "pid="+row.getPid()+" (分享自NGA客户端开源版)";
+			if (row.getPid() != 0) {
+				shareUrl = shareUrl + "pid=" + row.getPid() + " (分享自NGA客户端开源版)";
+			} else {
+				shareUrl = shareUrl + "tid=" + tid + " (分享自NGA客户端开源版)";
 			}
-			else
-			{
-				shareUrl = shareUrl + "tid="+tid+" (分享自NGA客户端开源版)";
-			}
-			if(!StringUtil.isEmpty(this.title)){
-				shareUrl = "《"+this.title+"》 - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
+			if (!StringUtil.isEmpty(this.title)) {
+				shareUrl = "《" + this.title + "》 - 艾泽拉斯国家地理论坛,地址:" + shareUrl;
 			}
 			intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
 			String text = getResources().getString(R.string.share);
 			getActivity().startActivity(Intent.createChooser(intent, text));
 			break;
 
-			
-			
 		}
 		return true;
 	}
-	private void errordialog(){
-		 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+	private void start_send_message(ThreadRowInfo row){
+		Intent intent_bookmark = new Intent();
+		intent_bookmark.putExtra("to", row.getAuthor());
+		intent_bookmark.putExtra("action", "new");
+		intent_bookmark.putExtra("messagemode", "yes");
+		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+			intent_bookmark
+					.setClass(
+							getActivity(),
+							PhoneConfiguration.getInstance().messagePostActivityClass);
+		} else {
+			intent_bookmark.setClass(getActivity(),
+					PhoneConfiguration.getInstance().loginActivityClass);
+		}
+		startActivity(intent_bookmark);
+	}
+	
+	private void errordialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setMessage("这白痴匿名了,神马都看不到");
 		builder.setTitle("看不到");
 		builder.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
@@ -634,7 +648,7 @@ public class ArticleListFragment extends Fragment
 				// TODO Auto-generated method stub
 				dialog.dismiss();
 			}
-			
+
 		});
 
 		final AlertDialog dialog = builder.create();
@@ -652,27 +666,28 @@ public class ArticleListFragment extends Fragment
 
 		});
 	}
+
 	private void Create_Signature_Dialog(ThreadRowInfo row) {
 		// TODO Auto-generated method stub
-		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
-	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
-	    String name = row.getAuthor();
-	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
-	    alert.setView(view);  
-		alert.setTitle(name+"的签名");
-		//COLOR
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+		final View view = layoutInflater.inflate(R.layout.signature_dialog,
+				null);
+		String name = row.getAuthor();
+		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+		alert.setView(view);
+		alert.setTitle(name + "的签名");
+		// COLOR
 
 		ThemeManager theme = ThemeManager.getInstance();
 		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
 		int fgColor = getResources().getColor(theme.getForegroundColor());
 		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x",bgColor);
-		
+		final String bgcolorStr = String.format("%06x", bgColor);
+
 		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x",htmlfgColor);
-		
-		
-	    WebViewClient client = new ArticleListWebClient(getActivity());
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		WebViewClient client = new ArticleListWebClient(getActivity());
 		WebView contentTV = (WebView) view.findViewById(R.id.signature);
 		contentTV.setBackgroundColor(0);
 		contentTV.setFocusableInTouchMode(false);
@@ -680,14 +695,19 @@ public class ArticleListFragment extends Fragment
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi() || ArticleUtil.isInWifi();
+		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
+				|| ArticleUtil.isInWifi();
 		WebSettings setting = contentTV.getSettings();
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
 		setting.setJavaScriptEnabled(false);
 		contentTV.setWebViewClient(client);
-		contentTV.loadDataWithBaseURL(null, signatureToHtmlText(row,showImage,ArticleUtil.showImageQuality(),fgColorStr,bgcolorStr),
-				"text/html", "utf-8", null);
+		contentTV
+				.loadDataWithBaseURL(
+						null,
+						signatureToHtmlText(row, showImage,
+								ArticleUtil.showImageQuality(), fgColorStr,
+								bgcolorStr), "text/html", "utf-8", null);
 		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
 
 			@Override
@@ -695,7 +715,7 @@ public class ArticleListFragment extends Fragment
 				// TODO Auto-generated method stub
 				dialog.dismiss();
 			}
-			
+
 		});
 
 		final AlertDialog dialog = alert.create();
@@ -714,28 +734,27 @@ public class ArticleListFragment extends Fragment
 		});
 	}
 
-	
 	private void Create_Avatar_Dialog(ThreadRowInfo row) {
 		// TODO Auto-generated method stub
-		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
-	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
-	    String name = row.getAuthor();
-	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
-	    alert.setView(view);  
-		alert.setTitle(name+"的头像");
-		//COLOR
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+		final View view = layoutInflater.inflate(R.layout.signature_dialog,
+				null);
+		String name = row.getAuthor();
+		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+		alert.setView(view);
+		alert.setTitle(name + "的头像");
+		// COLOR
 
 		ThemeManager theme = ThemeManager.getInstance();
 		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
 		int fgColor = getResources().getColor(theme.getForegroundColor());
 		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x",bgColor);
-		
+		final String bgcolorStr = String.format("%06x", bgColor);
+
 		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x",htmlfgColor);
-		
-		
-	    WebViewClient client = new ArticleListWebClient(getActivity());
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		WebViewClient client = new ArticleListWebClient(getActivity());
 		WebView contentTV = (WebView) view.findViewById(R.id.signature);
 		contentTV.setBackgroundColor(0);
 		contentTV.setFocusableInTouchMode(false);
@@ -748,8 +767,10 @@ public class ArticleListFragment extends Fragment
 				.getWebSize());
 		setting.setJavaScriptEnabled(false);
 		contentTV.setWebViewClient(client);
-		contentTV.loadDataWithBaseURL(null, avatarToHtmlText(row,true,ArticleUtil.showImageQuality(),fgColorStr,bgcolorStr),
-				"text/html", "utf-8", null);
+		contentTV.loadDataWithBaseURL(
+				null,
+				avatarToHtmlText(row, true, ArticleUtil.showImageQuality(),
+						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
 		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
 
 			@Override
@@ -757,7 +778,7 @@ public class ArticleListFragment extends Fragment
 				// TODO Auto-generated method stub
 				dialog.dismiss();
 			}
-			
+
 		});
 		final AlertDialog dialog = alert.create();
 		dialog.show();
@@ -774,6 +795,7 @@ public class ArticleListFragment extends Fragment
 
 		});
 	}
+
 	private static String parseAvatarUrl(String js_escap_avatar) {
 		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
 		if (null == js_escap_avatar)
@@ -793,13 +815,13 @@ public class ArticleListFragment extends Fragment
 		}
 		return ret;
 	}
-	
+
 	public String signatureToHtmlText(final ThreadRowInfo row,
 			boolean showImage, int imageQuality, final String fgColorStr,
 			final String bgcolorStr) {
 		HashSet<String> imageURLSet = new HashSet<String>();
-		String ngaHtml = StringUtil.decodeForumTag(row.getSignature(), showImage,
-				imageQuality, imageURLSet);
+		String ngaHtml = StringUtil.decodeForumTag(row.getSignature(),
+				showImage, imageQuality, imageURLSet);
 		if (imageURLSet.size() == 0) {
 			imageURLSet = null;
 		}
@@ -807,32 +829,32 @@ public class ArticleListFragment extends Fragment
 			ngaHtml = row.getAlterinfo();
 		}
 		if (StringUtil.isEmpty(ngaHtml)) {
-			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide) + "]</font>";
+			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide)
+					+ "]</font>";
 		}
 		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
 				+ "<body bgcolor= '#"
 				+ bgcolorStr
 				+ "'>"
 				+ "<font color='#"
-				+ fgColorStr
-				+ "' size='2'>"
-				+ ngaHtml
-				+ "</font></body>";
+				+ fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
 
 		return ngaHtml;
 	}
-	
-	public String avatarToHtmlText(final ThreadRowInfo row,
-			boolean showImage, int imageQuality, final String fgColorStr,
-			final String bgcolorStr) {
+
+	public String avatarToHtmlText(final ThreadRowInfo row, boolean showImage,
+			int imageQuality, final String fgColorStr, final String bgcolorStr) {
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = null;
-		if(row.getJs_escap_avatar().equals("")){
-			 ngaHtml = StringUtil.decodeForumTag("这家伙是骷髅党,头像什么的没有啦~<br><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >", showImage,
-					imageQuality, imageURLSet);
-		}else{
-			 ngaHtml = StringUtil.decodeForumTag("[img]"+parseAvatarUrl(row.getJs_escap_avatar())+"[/img]", showImage,
-					imageQuality, imageURLSet);
+		if (row.getJs_escap_avatar().equals("")) {
+			ngaHtml = StringUtil
+					.decodeForumTag(
+							"这家伙是骷髅党,头像什么的没有啦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
+							showImage, imageQuality, imageURLSet);
+		} else {
+			ngaHtml = StringUtil.decodeForumTag(
+					"[img]" + parseAvatarUrl(row.getJs_escap_avatar())
+							+ "[/img]", showImage, imageQuality, imageURLSet);
 		}
 		if (imageURLSet.size() == 0) {
 			imageURLSet = null;
@@ -841,75 +863,78 @@ public class ArticleListFragment extends Fragment
 			ngaHtml = row.getAlterinfo();
 		}
 		if (StringUtil.isEmpty(ngaHtml)) {
-			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide) + "]</font>";
+			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide)
+					+ "]</font>";
 		}
 		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
 				+ "<body bgcolor= '#"
 				+ bgcolorStr
 				+ "'>"
 				+ "<font color='#"
-				+ fgColorStr
-				+ "' size='2'>"
-				+ ngaHtml
-				+ "</font></body>";
+				+ fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
 
 		return ngaHtml;
 	}
-	
-	private void  CopyDialog(String content) {
-		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
-	    final View view = layoutInflater.inflate(R.layout.copy_dialog, null);  
-	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
-	    alert.setView(view);  
+
+	private void CopyDialog(String content) {
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+		final View view = layoutInflater.inflate(R.layout.copy_dialog, null);
+		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+		alert.setView(view);
 		alert.setTitle(R.string.copy_hint);
-		final EditText commentdata = (EditText) view.findViewById(R.id.copy_data);
+		final EditText commentdata = (EditText) view
+				.findViewById(R.id.copy_data);
 		commentdata.setText(content);
-		commentdata.selectAll(); 
+		commentdata.selectAll();
 		alert.setPositiveButton("复制", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				int start=commentdata.getSelectionStart();  
-                int end=commentdata.getSelectionEnd();   
-                CharSequence selectText=commentdata.getText().subSequence(start, end); 
-                if(selectText.length()>0){
-                    android.text.ClipboardManager  cbm = (android.text.ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
-    				cbm.setText(StringUtil.removeBrTag(selectText.toString()));
-    				Toast.makeText(getActivity(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
-    				try  
-    		        {  
-    		            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
-    		            field.setAccessible(true);  
-    		            field.set(dialog, true);  
-    		        } catch(Exception e) {  
-    		            e.printStackTrace();  
-    		        }  
-                }else{
-            		commentdata.selectAll(); 
-                	Toast.makeText(getActivity(), "请选择要复制的内容", Toast.LENGTH_SHORT).show();
-    				try  
-    		           {  
-    		               Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
-    		               field.setAccessible(true);  
-    		               field.set(dialog, false);  
-    		           }catch(Exception e) {  
-    		               e.printStackTrace();  
-    		           }  
-                }
+				int start = commentdata.getSelectionStart();
+				int end = commentdata.getSelectionEnd();
+				CharSequence selectText = commentdata.getText().subSequence(
+						start, end);
+				if (selectText.length() > 0) {
+					android.text.ClipboardManager cbm = (android.text.ClipboardManager) getActivity()
+							.getSystemService(Activity.CLIPBOARD_SERVICE);
+					cbm.setText(StringUtil.removeBrTag(selectText.toString()));
+					Toast.makeText(getActivity(), R.string.copied_to_clipboard,
+							Toast.LENGTH_SHORT).show();
+					try {
+						Field field = dialog.getClass().getSuperclass()
+								.getDeclaredField("mShowing");
+						field.setAccessible(true);
+						field.set(dialog, true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					commentdata.selectAll();
+					Toast.makeText(getActivity(), "请选择要复制的内容",
+							Toast.LENGTH_SHORT).show();
+					try {
+						Field field = dialog.getClass().getSuperclass()
+								.getDeclaredField("mShowing");
+						field.setAccessible(true);
+						field.set(dialog, false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
-		});  
-		alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {  
-            public void onClick(DialogInterface dialog, int whichButton) {  
-				try  
-		        {  
-		            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");  
-		            field.setAccessible(true);  
-		            field.set(dialog, true);  
-		        } catch(Exception e) {  
-		            e.printStackTrace();  
-		        }  
-            }
+		});
+		alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				try {
+					Field field = dialog.getClass().getSuperclass()
+							.getDeclaredField("mShowing");
+					field.setAccessible(true);
+					field.set(dialog, true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		});
 		final AlertDialog dialog = alert.create();
 		dialog.show();
@@ -926,36 +951,36 @@ public class ArticleListFragment extends Fragment
 
 		});
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void finishLoad(ThreadData data) {
 		Log.d(TAG, "finishLoad");
-		//ArticleListActivity father = (ArticleListActivity) this.getActivity();
-		if(null != data){
+		// ArticleListActivity father = (ArticleListActivity)
+		// this.getActivity();
+		if (null != data) {
 			articleAdpater.setData(data);
 			articleAdpater.notifyDataSetChanged();
 
-			if( 0 != data.getThreadInfo().getQuote_from())
+			if (0 != data.getThreadInfo().getQuote_from())
 				tid = data.getThreadInfo().getQuote_from();
-			if(!StringUtil.isEmpty(data.getThreadInfo().getSubject())){
-				title=data.getThreadInfo().getSubject();
+			if (!StringUtil.isEmpty(data.getThreadInfo().getSubject())) {
+				title = data.getThreadInfo().getSubject();
 			}
 			OnThreadPageLoadFinishedListener father = null;
-			try{
-				father = (OnThreadPageLoadFinishedListener)getActivity();
-				if(father != null)
+			try {
+				father = (OnThreadPageLoadFinishedListener) getActivity();
+				if (father != null)
 					father.finishLoad(data);
-			}catch(ClassCastException e){
-				Log.e(TAG, "father activity should implements OnThreadPageLoadFinishedListener");
+			} catch (ClassCastException e) {
+				Log.e(TAG,
+						"father activity should implements OnThreadPageLoadFinishedListener");
 			}
 
 		}
 		this.needLoad = false;
-		
+
 	}
-	
-	
-	
 
 }

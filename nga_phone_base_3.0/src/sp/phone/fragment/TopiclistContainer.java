@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import sp.phone.adapter.AppendableTopicAdapter;
+import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
@@ -18,10 +19,16 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
+import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -40,8 +47,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class TopiclistContainer extends Fragment implements
-		OnTopListLoadFinishedListener, NextJsonTopicListLoader {
+		OnTopListLoadFinishedListener, NextJsonTopicListLoader,PerferenceConstant {
 	final String TAG = TopiclistContainer.class.getSimpleName();
+	final private String ALERT_DIALOG_TAG = "alertdialog";
 	static final int MESSAGE_SENT = 1;
 	int fid;
 	int authorid;
@@ -130,7 +138,6 @@ public class TopiclistContainer extends Fragment implements
 		// JsonTopicListLoadTask task = new
 		// JsonTopicListLoadTask(getActivity(),this);
 		// task.execute(getUrl(1));
-
 		return listView;
 	}
 
@@ -274,6 +281,24 @@ public class TopiclistContainer extends Fragment implements
 
 	}
 
+    @Override  
+    public void onPrepareOptionsMenu(Menu menu) {  
+        System.out.println("执行了onPrepareOptionsMenu");  
+        if( menu.findItem(R.id.night_mode)!=null){
+            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
+                menu.findItem(R.id.night_mode).setIcon(  
+                        R.drawable.ic_action_brightness_high);    
+                menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
+            }else{
+                menu.findItem(R.id.night_mode).setIcon(  
+                        R.drawable.ic_action_bightness_low);    
+                menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
+            }
+        }
+        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
+        super.onPrepareOptionsMenu(menu);  
+    }  
+    
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -295,6 +320,9 @@ public class TopiclistContainer extends Fragment implements
 			intent_bookmark.putExtra("favor", 1);
 			startActivity(intent_bookmark);
 			break;
+		case R.id.night_mode:
+			nightMode(item);
+			break;
 		case R.id.search:
 			handleSearch();
 			break;
@@ -309,6 +337,57 @@ public class TopiclistContainer extends Fragment implements
 		return true;
 	}
 
+	private void nightMode(final MenuItem menu) {
+	
+		String alertString = getString(R.string.change_nigmtmode_string);
+		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
+		f.setOkListener(new OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+				
+				ThemeManager tm = ThemeManager.getInstance();
+				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
+						Activity.MODE_PRIVATE);
+				int mode = ThemeManager.MODE_NORMAL;
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
+					menu.setIcon(  
+		                    R.drawable.ic_action_bightness_low); 
+					menu.setTitle(R.string.change_night_mode);
+					Editor editor = share.edit();
+					editor.putBoolean(NIGHT_MODE, false);
+					editor.commit();
+				}else{
+					menu.setIcon(  
+		                    R.drawable.ic_action_brightness_high); 
+					menu.setTitle(R.string.change_daily_mode);
+					Editor editor = share.edit();
+					editor.putBoolean(NIGHT_MODE, true);
+					editor.commit();
+					mode = ThemeManager.MODE_NIGHT;
+				}
+				Log.i(TAG,"frag");
+				ThemeManager.getInstance().setMode(mode);
+				Intent intent = getActivity().getIntent();
+				getActivity().overridePendingTransition(0, 0);
+				getActivity().finish();
+				getActivity().overridePendingTransition(0, 0);
+				getActivity().startActivity(intent);
+			}
+			
+		});
+		f.setCancleListener(new OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				f.dismiss();
+			}
+			
+		});
+		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
+	}
+	
 	private boolean handlePostThread(MenuItem item) {
 		Intent intent = new Intent();
 		intent.putExtra("fid", fid);

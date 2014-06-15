@@ -94,15 +94,6 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 		LoginButtonListener listener = new LoginButtonListener(postUrl);
 		button_login.setOnClickListener(listener);
 
-		if (toast != null) {
-			toast.setText("豆瓣妹子网站已经隐藏了好孩子看不到的内容,就算你是神也看不到了");
-			toast.setDuration(Toast.LENGTH_SHORT);
-			toast.show();
-		} else {
-			toast = Toast.makeText(MeiziLoginActivity.this,
-					"豆瓣妹子网站已经隐藏了好孩子看不到的内容,就算你是神也看不到了", Toast.LENGTH_SHORT);
-			toast.show();
-		}
 		updateThemeUI();
 	}
 

@@ -79,52 +79,6 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 			f2.setHasOptionsMenu(true);
 		}
 		setNavigation();
-		
-		// 右边有货就menuicon右边的
-
-		/**/
-		// int favor = getIntent().getIntExtra("favor", 0);
-		// int authorid = getIntent().getIntExtra("authorid", 0);
-		// if(favor ==0 && authorid ==0)
-		// {
-		// setNavigation();
-		// }
-		// else
-		// {
-		// flags = ThemeManager.ACTION_BAR_FLAG;
-		// }//不搭嘎的东西,这边找死才去弄收藏推荐呢
-
-		userList = (Spinner) findViewById(R.id.user_list);
-		
-		
-		if (userList != null) {
-			SpinnerUserListAdapter adapter = new SpinnerUserListAdapter(this);
-			userList.setAdapter(adapter);
-			userList.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int position, long id) {
-					User u = (User) parent.getItemAtPosition(position);
-					MyApp app = (MyApp) getApplication();
-					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
-					PhoneConfiguration.getInstance().setUid(u.getUserId());
-					PhoneConfiguration.getInstance().setCid(u.getCid());
-					PhoneConfiguration.getInstance().setNickname(u.getNickName());
-					PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
-					PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
-
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-				}
-
-			});
-		}else{
-			this.setNavigation();
-		}
 	}
 
 	@TargetApi(11)
@@ -160,6 +114,13 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
+	@Override  
+    public boolean onPrepareOptionsMenu(Menu menu) {  
+		 Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.sign_list);
+		 f1.onPrepareOptionsMenu(menu);
+		 return super.onPrepareOptionsMenu(menu);  
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -210,25 +171,6 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 
 	}// 竖屏变横屏就干这个
 
-	// @Override
-	// public void jsonfinishLoad(SignData data) {
-	// // TODO Auto-generated method stub
-	//
-	// Fragment SignMissionContainer = getSupportFragmentManager()
-	// .findFragmentById(R.id.item_mission_container);
-	//
-	// OnSignPageLoadFinishedListener listener = null;
-	// try{
-	// listener = (OnSignPageLoadFinishedListener)SignMissionContainer;
-	// if(listener != null){
-	// listener.finishLoad(data);
-	// }
-	// }catch(ClassCastException e){
-	// Log.e(TAG ,
-	// "detailContainer should implements OnThreadPageLoadFinishedListener");
-	// }
-	// }//解析JSON
-
 	@Override
 	public void jsonfinishLoad(SignData result) {// 给左边SIGN信息用的
 		Fragment SignContainer = getSupportFragmentManager().findFragmentById(
@@ -244,21 +186,4 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 					+ OnSignPageLoadFinishedListener.class.getCanonicalName());
 		}
 	}
-
-//	@Override
-//	public void finishLoad(MissionData data) {
-//		Fragment missionContainer = getSupportFragmentManager()
-//				.findFragmentById(R.id.item_mission_container);
-//
-//		OnMissionLoadFinishedListener listener = null;
-//		try {
-//			listener = (OnMissionLoadFinishedListener) missionContainer;
-//			if (listener != null) {
-//				listener.finishLoad(data);
-//			}
-//		} catch (ClassCastException e) {
-//			Log.e(TAG,
-//					"detailContainer should implements OnThreadPageLoadFinishedListener");
-//		}
-//	}
 }

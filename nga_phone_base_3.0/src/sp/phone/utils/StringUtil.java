@@ -287,11 +287,14 @@ public class StringUtil {
 		s = s.replaceAll(ignoreCaseTag
 				+ "\\[uid=?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
 		s = s.replaceAll(
-				ignoreCaseTag + "Post by\\s{0,}(.+?)\\s{0,}\\(",
+				ignoreCaseTag + "Post by\\s{0,}([^\\[\\s]{1,})\\s{0,}\\(",
 				"Post by <a href='http://nga.178.com/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[@(.{2,20}?)\\]",
 				"<a href='http://nga.178.com/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[hip\\](.+?)\\[\\/hip\\]",
+				"$1");
 		if (showPlayMode() < 4) {
 			// 优酷FLASH可内置播放
 			s = s.replaceAll(
@@ -949,12 +952,13 @@ public class StringUtil {
 
 	final static String tips = "花几十秒看完,你会有新收获\n"
 			+ "更新后每次打开看到这个窗口的,重启手机\n"
-			+ "发现bug,删除app,再更新到最新版,还有问题[@竹井詩織里]\n"
-			+ "签到/历史被喷/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
+			+ "发现bug,删除app,再更新到最新版,还有问题私信[@竹井詩織里],号已经被CCQ了\n"
+			+ "签到/短消息/历史被喷/匿名版/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
 			+ "主题列表长按楼层可以看头像签名和用户信息等,收藏列表长按可删收藏\n"
 			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面,比如分享啊啥的\n"
 			+ "已安装解码器,可直接看多个站点的视频\n"
 			+ "彩蛋还有,但不知道在哪了\n"
+			+ "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n"
 			+ "更新去Play商店或酷安搜索NGA客户端开源版";
 
 	public static String getTips() {

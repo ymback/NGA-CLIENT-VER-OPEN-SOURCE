@@ -7,6 +7,8 @@
     <item android:id="@+id/edit" android:title="@string/edit" android:icon="@drawable/icon_menu_eraser"></item>
     <item android:id="@+id/report" android:title="@string/report"></item>
     
+    <item android:id="@+id/send_message" android:title="@string/send_message"></item>
+    
     <item android:id="@+id/avatar_dialog" android:title="@string/avatar_dialog"></item>
     <item android:id="@+id/signature_dialog" android:title="@string/signature_dialog"></item>
     
