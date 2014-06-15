@@ -1,5 +1,7 @@
 package sp.phone.fragment;
 
+import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.PhoneConfiguration;
 import gov.anzong.androidnga.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -38,8 +40,21 @@ public class AlertDialogFragment extends DialogFragment {
 		alert.setPositiveButton(android.R.string.ok, okLintener);
 		alert.setNegativeButton(android.R.string.cancel, cancleLintener);
 		
-		
-		return alert.create();
+
+		final AlertDialog dialog = alert.create();
+//		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+//
+//			@Override
+//			public void onDismiss(DialogInterface arg0) {
+//				// TODO Auto-generated method stub
+//				dialog.dismiss();
+//				if (PhoneConfiguration.getInstance().fullscreen) {
+//					ActivityUtil.getInstance().setFullScreen(view);
+//				}
+//			}
+//
+//		});
+		return dialog;
 
 	}
 

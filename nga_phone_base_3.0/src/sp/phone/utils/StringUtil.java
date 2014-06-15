@@ -16,16 +16,15 @@ import sp.phone.bean.StringFindResult;
 import android.R.integer;
 import android.util.Log;
 
-
 public class StringUtil {
 	public final static String key = "asdfasdf";
-	private final static String HOST = "http://bbs.ngacn.cc/";
+	private final static String HOST = "http://nga.178.com/";
 	private static final String lesserNukeStyle = "<div style='border:1px solid #B63F32;margin:10px 10px 10px 10px;padding:10px' > <span style='color:#EE8A9E'>用户因此贴被暂时禁言，此效果不会累加</span><br/>";
 	private static final String styleAlignRight = "<div style='text-align:right' >";
 	private static final String styleAlignLeft = "<div style='text-align:left' >";
 	private static final String styleAlignCenter = "<div style='text-align:center' >";
 	private static final String styleColor = "<span style='color:$1' >";
-	private static final String collapseStart= "<div style='border:1px solid #888' >";
+	private static final String collapseStart = "<div style='border:1px solid #888' >";
 	private static final String ignoreCaseTag = "(?i)";
 	private static final String endDiv = "</div>";
 
@@ -49,7 +48,39 @@ public class StringUtil {
 			return true;
 		}
 	}
-
+	/*给候总客户端乱码加适配*/
+	public static String unescape(String src) {  
+        StringBuffer tmp = new StringBuffer();  
+        tmp.ensureCapacity(src.length());  
+        int lastPos = 0, pos = 0;  
+        char ch;  
+        while (lastPos < src.length()) {  
+            pos = src.indexOf("%", lastPos);  
+            if (pos == lastPos) {  
+                if (src.charAt(pos + 1) == 'u') {  
+                    ch = (char) Integer.parseInt(src  
+                            .substring(pos + 2, pos + 6), 16);  
+                    tmp.append(ch);  
+                    lastPos = pos + 6;  
+                } else {  
+                    ch = (char) Integer.parseInt(src  
+                            .substring(pos + 1, pos + 3), 16);  
+                    tmp.append(ch);  
+                    lastPos = pos + 3;  
+                }  
+            } else {  
+                if (pos == -1) {  
+                    tmp.append(src.substring(lastPos));  
+                    lastPos = src.length();  
+                } else {  
+                    tmp.append(src.substring(lastPos, pos));  
+                    lastPos = pos;  
+                }  
+            }  
+        }  
+        return tmp.toString();  
+    }  
+	
 	public static boolean isEmpty(StringBuffer str) {
 		if (str != null && !"".equals(str)) {
 			return false;
@@ -98,15 +129,26 @@ public class StringUtil {
 		return date.getTime();
 	}
 
+	public static String encodeUrl(final String s, final String charset) {
 
+		/*
+		 * try { return java.net.URLEncoder.encode(s,charset); // this not work
+		 * in android 4.4 if a english char is followed //by a Chinese character
+		 * 
+		 * } catch (UnsupportedEncodingException e) {
+		 * 
+		 * return ""; }
+		 */
+		String ret = UriEncoderWithCharset.encode(s, null, charset);
+		// Log.i("111111", s+"----->"+ret);
+		return ret;
+	}
 
 	public static String parseHTML(String s) {
 		// 转换字体
 		if (s.indexOf("[quote]") != -1) {
 			s = s.replace("[quote]", "");
-			s = s
-					.replace("[/quote]",
-							"</font><font color='#1d2a63' size='10'>");
+			s = s.replace("[/quote]", "</font><font color='#1d2a63' size='10'>");
 
 			s = s.replace("[b]", "<font color='red' size='1'>");
 			s = s.replace("[/b]", "</font>");
@@ -125,201 +167,570 @@ public class StringUtil {
 		return s;
 	}
 
-	public static String decodeForumTag(String s,boolean showImage, int imageQuality, HashSet<String> imageURLSet) {
-		if(StringUtil.isEmpty(s))
+	public static String decodeForumTag(String s, boolean showImage,
+			int imageQuality, HashSet<String> imageURLSet) {
+		if (StringUtil.isEmpty(s))
 			return "";
-		//s = StringUtil.unEscapeHtml(s);
+		// s = StringUtil.unEscapeHtml(s);
 		String quoteStyle = "<div style='background:#E8E8E8;border:1px solid #888' >";
-		if(ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT)
+		if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT)
 			quoteStyle = "<div style='background:#000000;border:1px solid #888' >";
-		
+
 		final String styleLeft = "<div style='float:left' >";
 		final String styleRight = "<div style='float:right' >";
-		final String acniangofubbcode[]={
-				"blink","goodjob","上","中枪","偷笑",
-				"冷","凌乱","反对","吓","吻",
-				"呆","咦","哦","哭","哭1",
-				"哭笑","哼","喘","喷","嘲笑",
-				"嘲笑1","囧","委屈","心","忧伤",
-				"怒","怕","惊","愁","抓狂",
-				"抠鼻","擦汗","无语","晕","汗",
-				"瞎","羞","羡慕","花痴","茶",
-				"衰","计划通","赞同","闪光","黑枪"};//(0-44)
-		final String acniangappadd[]={
-				"-47218_5052bca81a77f.png","-47218_5052bd3b4b3bd.png","-1324875_50e597f5ce78d.png","-47218_5052bcba15fcf.png","-47218_5052bcb6e96d1.png",
-				"-47218_5052bd2a0d49a.png","-47218_5052c10aa0303.png","-47218_5052bcaaacb45.png","-1324875_50e597c090c58.png","-47218_5052c104b8e27.png",
-				"-47218_5052bc587c6f9.png","-47218_5052c1076f119.png","-47218_5052bd2497822.png","-47218_5052bd2fa0790.png","-47218_5052c0f6da079.png",
-				"-47218_5052bc4cc6331.png","-47218_5052bcf37c4c9.png","-1324875_513394fbc54e1.gif","-47218_5052bc4f51be7.png","-47218_5052c1101747c.png",
-				"-47218_5052c10d1f08c.png","-47218_5052bcdd279bc.png","-47218_5052bce27ab4d.png","-47218_5052bd35aec58.png","-47218_5052bcdfd9c69.png",
-				"-47218_5052bc835856c.png","-47218_5052bce4f2963.png","-47218_5052bd330dfad.png","-47218_5052bc7d91913.png","-47218_5052c112b3b1b.png",
-				"-47218_5052bcf0ba2db.png","-47218_5052bc8638067.png","-47218_5052bca55cb6e.png","-47218_5052bc521c04b.png","-47218_5052bca2a2f43.png",
-				"-47218_5052bcad49530.png","-47218_5052bceb823da.png","-47218_5052bc80140e3.png","-47218_5052bcb3b8944.png","-1324875_50d841a63a673.png",
-				"-47218_5052bcf68ddc2.png","-1324875_50e597e9d6319.png","-47218_5052bd27520ef.png","-47218_5052bcbe35760.png","-1324875_50e597f190a11.png"//0-44
+		final String acniangofubbcode[] = { "blink", "goodjob", "上", "中枪",
+				"偷笑", "冷", "凌乱", "反对", "吓", "吻", "呆", "咦", "哦", "哭", "哭1",
+				"哭笑", "哼", "喘", "喷", "嘲笑", "嘲笑1", "囧", "委屈", "心", "忧伤", "怒",
+				"怕", "惊", "愁", "抓狂", "抠鼻", "擦汗", "无语", "晕", "汗", "瞎", "羞",
+				"羡慕", "花痴", "茶", "衰", "计划通", "赞同", "闪光", "黑枪" };// (0-44)
+		final String acniangappadd[] = { "-47218_5052bca81a77f.png",
+				"-47218_5052bd3b4b3bd.png", "-1324875_50e597f5ce78d.png",
+				"-47218_5052bcba15fcf.png", "-47218_5052bcb6e96d1.png",
+				"-47218_5052bd2a0d49a.png", "-47218_5052c10aa0303.png",
+				"-47218_5052bcaaacb45.png", "-1324875_50e597c090c58.png",
+				"-47218_5052c104b8e27.png", "-47218_5052bc587c6f9.png",
+				"-47218_5052c1076f119.png", "-47218_5052bd2497822.png",
+				"-47218_5052bd2fa0790.png", "-47218_5052c0f6da079.png",
+				"-47218_5052bc4cc6331.png", "-47218_5052bcf37c4c9.png",
+				"-1324875_513394fbc54e1.gif", "-47218_5052bc4f51be7.png",
+				"-47218_5052c1101747c.png", "-47218_5052c10d1f08c.png",
+				"-47218_5052bcdd279bc.png", "-47218_5052bce27ab4d.png",
+				"-47218_5052bd35aec58.png", "-47218_5052bcdfd9c69.png",
+				"-47218_5052bc835856c.png", "-47218_5052bce4f2963.png",
+				"-47218_5052bd330dfad.png", "-47218_5052bc7d91913.png",
+				"-47218_5052c112b3b1b.png", "-47218_5052bcf0ba2db.png",
+				"-47218_5052bc8638067.png", "-47218_5052bca55cb6e.png",
+				"-47218_5052bc521c04b.png", "-47218_5052bca2a2f43.png",
+				"-47218_5052bcad49530.png", "-47218_5052bceb823da.png",
+				"-47218_5052bc80140e3.png", "-47218_5052bcb3b8944.png",
+				"-1324875_50d841a63a673.png", "-47218_5052bcf68ddc2.png",
+				"-1324875_50e597e9d6319.png", "-47218_5052bd27520ef.png",
+				"-47218_5052bcbe35760.png", "-1324875_50e597f190a11.png"// 0-44
 		};
-		
-		s = s.replaceAll(ignoreCaseTag +"\\[l\\]", styleLeft);
-		s = s.replaceAll(ignoreCaseTag +"\\[/l\\]", endDiv);
-		//s = s.replaceAll("\\[L\\]", styleLeft);
-		//s = s.replaceAll("\\[/L\\]", endDiv);
-		
-		s = s.replaceAll(ignoreCaseTag +"\\[r\\]", styleRight);
-		s = s.replaceAll(ignoreCaseTag +"\\[/r\\]", endDiv);
-		//s = s.replaceAll("\\[R\\]", styleRight);
-		//s = s.replaceAll("\\[/R\\]", endDiv);
-		
-		
-		
-		s = s.replaceAll(ignoreCaseTag +"\\[align=right\\]", styleAlignRight);
-		s = s.replaceAll(ignoreCaseTag +"\\[align=left\\]", styleAlignLeft);
-		s = s.replaceAll(ignoreCaseTag +"\\[align=center\\]", styleAlignCenter);
-		s = s.replaceAll(ignoreCaseTag +"\\[/align\\]", endDiv);
-		
-		s = s.replaceAll(ignoreCaseTag +"\\[quote\\]",quoteStyle);
-		s = s.replaceAll(ignoreCaseTag +"\\[/quote\\]", endDiv);
-		//reply
+
+		s = s.replaceAll(ignoreCaseTag + "&amp;", "&");
+		s = s.replaceAll(ignoreCaseTag + "\\[l\\]", styleLeft);
+		s = s.replaceAll(ignoreCaseTag + "\\[/l\\]", endDiv);
+		// s = s.replaceAll("\\[L\\]", styleLeft);
+		// s = s.replaceAll("\\[/L\\]", endDiv);
+
+		s = s.replaceAll(ignoreCaseTag + "\\[r\\]", styleRight);
+		s = s.replaceAll(ignoreCaseTag + "\\[/r\\]", endDiv);
+		// s = s.replaceAll("\\[R\\]", styleRight);
+		// s = s.replaceAll("\\[/R\\]", endDiv);
+
+		s = s.replaceAll(ignoreCaseTag + "\\[align=right\\]", styleAlignRight);
+		s = s.replaceAll(ignoreCaseTag + "\\[align=left\\]", styleAlignLeft);
+		s = s.replaceAll(ignoreCaseTag + "\\[align=center\\]", styleAlignCenter);
+		s = s.replaceAll(ignoreCaseTag + "\\[/align\\]", endDiv);
+
 		s = s.replaceAll(
-				ignoreCaseTag +"\\[pid=\\d+\\]Reply\\[/pid\\]", "Reply");
-        s = s.replaceAll(
-                ignoreCaseTag +"\\[pid=\\d+,\\d+,\\d\\]Reply\\[/pid\\]", "Reply");
-		
-		//topic
+				ignoreCaseTag
+						+ "\\[b\\]Reply to \\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\] (.+?)\\[/b\\]",
+				"[quote]Reply to [b]<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a> $4[/b][/quote]");
+
 		s = s.replaceAll(
-				ignoreCaseTag +"\\[tid=\\d+\\]Topic\\[/pid\\]", "Topic");
-		//reply
-		//s = s.replaceAll("\\[b\\]Reply to \\[pid=\\d+\\]Reply\\[/pid\\] (Post by .+ \\(\\d{4,4}-\\d\\d-\\d\\d \\d\\d:\\d\\d\\))\\[/b\\]"
-		//		, "Reply to Reply <b>$1</b>");
+				ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
+				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
+		
+
+		s = s.replaceAll(
+				ignoreCaseTag + "(===([^=](.+?)[^=])===)",
+				"<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$2</h4>");
+
+		s = s.replaceAll(ignoreCaseTag + "\\[quote\\]", quoteStyle);
+		s = s.replaceAll(ignoreCaseTag + "\\[/quote\\]", endDiv);
+
+		s = s.replaceAll(ignoreCaseTag + "\\[code\\]", quoteStyle+"Code:");
+		s = s.replaceAll(ignoreCaseTag + "\\[code(.+?)\\]", quoteStyle);
+		s = s.replaceAll(ignoreCaseTag + "\\[/code\\]", endDiv);
+		// reply
+		// s = s.replaceAll(
+		// ignoreCaseTag +"\\[pid=\\d+\\]Reply\\[/pid\\]", "Reply");
+		// s = s.replaceAll(
+		// ignoreCaseTag +"\\[pid=\\d+,\\d+,\\d\\]Reply\\[/pid\\]", "Reply");
+
+		// topic
+		s = s.replaceAll(ignoreCaseTag + "\\[tid=\\d+\\]Topic\\[/pid\\]",
+				"Topic");
+		// reply
+		// s =
+		// s.replaceAll("\\[b\\]Reply to \\[pid=\\d+\\]Reply\\[/pid\\] (Post by .+ \\(\\d{4,4}-\\d\\d-\\d\\d \\d\\d:\\d\\d\\))\\[/b\\]"
+		// , "Reply to Reply <b>$1</b>");
 		// 转换 tag
-		//[b]
-		s = s.replaceAll(ignoreCaseTag +"\\[b\\]", "<b>");
-		s = s.replaceAll(ignoreCaseTag +"\\[/b\\]","</b>"/* "</font>"*/);
-		
-		//item
-		s = s.replaceAll(ignoreCaseTag +"\\[item\\]", "<b>");
-		s = s.replaceAll(ignoreCaseTag +"\\[/item\\]","</b>");
-		
-		s = s.replaceAll(ignoreCaseTag +"\\[u\\]", "<u>");
-		s = s.replaceAll(ignoreCaseTag +"\\[/u\\]","</u>");
-		
-		s = s.replaceAll(ignoreCaseTag +"\\[s:(\\d+)\\]", "<img src='file:///android_asset/a$1.gif'>");
-		for(int i=0;i<45;i++){
-			s = s.replaceAll(ignoreCaseTag +"\\[s:ac:"+acniangofubbcode[i]+"\\]", "<img src='file:///android_asset/acniang/"+acniangappadd[i]+"'>");
+		// [b]
+		s = s.replaceAll(ignoreCaseTag + "\\[b\\]", "<b>");
+		s = s.replaceAll(ignoreCaseTag + "\\[/b\\]", "</b>"/* "</font>" */);
+
+		// item
+		s = s.replaceAll(ignoreCaseTag + "\\[item\\]", "<b>");
+		s = s.replaceAll(ignoreCaseTag + "\\[/item\\]", "</b>");
+
+		s = s.replaceAll(ignoreCaseTag + "\\[u\\]", "<u>");
+		s = s.replaceAll(ignoreCaseTag + "\\[/u\\]", "</u>");
+
+		s = s.replaceAll(ignoreCaseTag + "\\[s:(\\d+)\\]",
+				"<img src='file:///android_asset/a$1.gif'>");
+		for (int i = 0; i < 45; i++) {
+			s = s.replaceAll(ignoreCaseTag + "\\[s:ac:" + acniangofubbcode[i]
+					+ "\\]", "<img src='file:///android_asset/acniang/"
+					+ acniangappadd[i] + "'>");
 		}
-		s = s.replace(ignoreCaseTag +"<br/><br/>", "<br/>");
-		//[url][/url]
-		s = s.replaceAll(ignoreCaseTag +"\\[url\\](http[^\\[|\\]]+)\\[/url\\]",
+		s = s.replace(ignoreCaseTag + "<br/><br/>", "<br/>");
+		// [url][/url]
+		s = s.replaceAll(
+				ignoreCaseTag + "\\[url\\]([^\\[|\\]]+)\\[/url\\]",
 				"<a href=\"$1\">$1</a>");
-		s = s.replaceAll(ignoreCaseTag +"\\[url=(http[^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]"
-				,"<a href=\"$1\">$2</a>");
-		//flash
-		s = s.replaceAll(ignoreCaseTag +"\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[url=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]",
+				"<a href=\"$1\">$2</a>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[uid=?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
+		s = s.replaceAll(
+				ignoreCaseTag + "Post by\\s{0,}(.+?)\\s{0,}\\(",
+				"Post by <a href='http://nga.178.com/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
+		s = s.replaceAll(
+				ignoreCaseTag + "\\[@(.{2,20}?)\\]",
+				"<a href='http://nga.178.com/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
+		if (showPlayMode() < 4) {
+			// 优酷FLASH可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://v.youku.com/v_show/id_[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://static.youku.com/[^\\[|\\]]+/)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
+			// 优酷FLASH2可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://player.youku.com/player.php/[^\\[|\\]]+/v.swf)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
+			// 优酷FLASH2可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://player.youku.com/embed/[^\\[|\\]]+/v.swf)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
+			// SOHU可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://my.tv.sohu.com/us/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
+			// SOHU可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://my.tv.sohu.com/pl/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
+			// SOHU2可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://tv.sohu.com/[^\\[|\\]]+.shtml)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
+			// SOHU4可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://share.vrs.sohu.com/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
+			// SOHU5可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://share.vrs.sohu.com/my/v.swf[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
+			// 56-1可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.56.com/u[^\\[|\\]]+.html)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/56.png' style= 'max-width:100%;' ></a>");
+
+			// 56-1可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://56.com/u[^\\[|\\]]+.html)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/56.png' style= 'max-width:100%;' ></a>");
+			// 56-2可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://player.56.com/v_[^\\[|\\]]+.swf)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/56.png' style= 'max-width:100%;' ></a>");
+			// 土豆1可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.tudou.com/programs/view/[^\\[|\\]]+/)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
+			// 土豆1NOWWW可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://tudou.com/programs/view/[^\\[|\\]]+/)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
+			// 土豆2可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.tudou.com/v/[^\\[|\\]]+v.swf)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
+
+			// 土豆2NOWWW可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://tudou.com/v/[^\\[|\\]]+v.swf)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
+			// ku61可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://player.ku6.com/refer/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/ku6.png' style= 'max-width:100%;' ></a>");
+			// ku62可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://v.ku6.com/show/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/ku6.png' style= 'max-width:100%;' ></a>");
+
+			// LETV1可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.letv.com/ptv/vplay/[^\\[|\\]]+.html)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.letv.com/ptv/vplay/[^\\[|\\]]+.html )\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
+			// LETV2可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://[^\\[|\\]]+letv.com/player/swfPlayer.swf\\?id=[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
+
+			// NETEASE可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://v.163.com/[^\\[|\\]]+/[^\\[|\\]]+/[^\\[|\\]]+.html[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/netease.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://v.game.163.com/video/[^\\[|\\]]+.html[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/netease.png' style= 'max-width:100%;' ></a>");
+
+			// QQ1可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://v.qq.com/boke/page/[^\\[|\\]]+.html)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
+			// QQSWF可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://static.video.qq.com/TPout.swf[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
+			// QQ3可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://v.qq.com/cover/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
+			// WASU可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.wasu.cn/play/show/id/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/wasu.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBE_WITH可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.youtube.com/watch\\?v=[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBENOWWW_WITH可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://youtube.com/watch\\?v=[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHARE_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://youtu.be/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBED_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.youtube.com/embed/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBEDNOWWW_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://youtube.com/embed/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBEDNOCOOKIE_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.youtube-nocookie.com/embed/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBEDNOCOOKIENOWWW_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://youtube-nocookie.com/embed/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBEDOLD_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.youtube.com/v/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBEDNOWWWOLD_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://youtube.com/v/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://youtube.com/V/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBEDNOCOOKIEOLD_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.youtube-nocookie.com/v/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
+			// YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START可内置播放
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://youtube-nocookie.com/v/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");// 蛋疼吧
+
+			// PPS
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://v.pps.tv/play_[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/pps.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://player.pps.tv/player/sid/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/pps.png' style= 'max-width:100%;' ></a>");
+			// SINA
+
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://video.sina.com.cn/[^\\[|\\]]+/[^\\[|\\]]+/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sina.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://ent.sina.com.cn/[^\\[|\\]]+/[^\\[|\\]]+/[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sina.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://you.video.sina.com.cn/api/sinawebApi/outplayrefer.php[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/sina.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+"\\[flash\\](http://v.ali213.net/video/\\d{5,}/\\d{1,}[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/youxia.png' style= 'max-width:100%;' ></a>");
+		}
+		// BILI
+		if (showPlayMode() < 2) {
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.bilibili.tv/video/av[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://bilibili.tv/video/av[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://bilibili.kankanews.com/video/av[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](https://secure.bilibili.tv/secure,[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+		}
+		// ACFUN
+		if (showPlayMode() == 0 || showPlayMode() == 2) {
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.acfun.com/v/ac[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://static.acfun.com/player/ACFlashPlayer.out.swf\\?type=page&url=http://www.acfun.com/v/ac[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://www.acfun.tv/v/ac[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
+							+ "\\[flash\\](http://static.acfun.tv/player/ACFlashPlayer.out.swf\\?type=page&url=http://www.acfun.com/v/ac[^\\[|\\]]+)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
+		}
+		// flash
+		s = s.replaceAll(
+				ignoreCaseTag + "\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
 				"<a href=\"$1\"><img src='file:///android_asset/flash.png' style= 'max-width:100%;' ></a>");
-		//color
-		
-		//s = s.replaceAll("\\[color=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/color\\]"
-		//		,"<b style=\"color:$1\">$2</b>");
-		s=s.replaceAll(ignoreCaseTag +"\\[color=([^\\[|\\]]+)\\]",styleColor);
-		s = s.replaceAll(ignoreCaseTag +"\\[/color\\]", "</span>");
-		
-		
-		//lessernuke
+		// color
+
+		// s = s.replaceAll("\\[color=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/color\\]"
+		// ,"<b style=\"color:$1\">$2</b>");
+		s = s.replaceAll(ignoreCaseTag + "\\[color=([^\\[|\\]]+)\\]",
+				styleColor);
+		s = s.replaceAll(ignoreCaseTag + "\\[/color\\]", "</span>");
+
+		// lessernuke
 		s = s.replaceAll("\\[lessernuke\\]", lesserNukeStyle);
 		s = s.replaceAll("\\[/lessernuke\\]", endDiv);
+
+		s = s.replaceAll(
+				"\\[table\\]",
+				"<div><table cellspacing='0px' style='border:1px solid #aaa;width:99.9%;'><tbody>");
+		s = s.replaceAll("\\[/table\\]", "</tbody></table></div>");
+		s = s.replaceAll("\\[tr\\]", "<tr>");
+		s = s.replaceAll("\\[/tr\\]", "<tr>");
+		s = s.replaceAll(ignoreCaseTag
+						+ "\\[td(\\d+)\\]",
+						"<td style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\scolspan(\\d+)\\swidth(\\d+)\\]",
+				"<td colspan='$1' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+						+ "\\[td\\swidth(\\d+)\\scolspan(\\d+)\\]",
+						"<td colspan='$2' style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
 		
-		s = s.replaceAll("\\[table\\]","<table border='1px' cellspacing='0px' style='border-collapse:collapse;color:blue'><tbody>");
-		s = s.replaceAll("\\[/table\\]","</tbody></table>");
-		s = s.replaceAll("\\[tr\\]","<tr>");
-		s = s.replaceAll("\\[/tr\\]","<tr>");
-		s = s.replaceAll("\\[td\\]", "<td>");
-		s = s.replaceAll("\\[/td\\]","<td>");
-		//[i][/i]
-		s = s.replaceAll(ignoreCaseTag +"\\[i\\]", "<i style=\"font-style:italic\">");
-		s = s.replaceAll(ignoreCaseTag +"\\[/i\\]", "</i>");
-		//[del][/del]
-		s = s.replaceAll(ignoreCaseTag +"\\[del\\]", "<del class=\"gray\">");
-		s = s.replaceAll(ignoreCaseTag +"\\[/del\\]","</del>");
+		s = s.replaceAll(ignoreCaseTag
+						+ "\\[td\\swidth(\\d+)\\srowspan(\\d+)\\]",
+						"<td rowspan='$2' style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\srowspan(\\d+)\\swidth(\\d+)\\]",
+				"<td rowspan='$1' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
 		
-		s = s.replaceAll(ignoreCaseTag +"\\[font=([^\\[|\\]]+)\\]","<span style=\"font-family:$1\">");
-		s = s.replaceAll(ignoreCaseTag +"\\[/font\\]","</span>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\scolspan(\\d+)\\srowspan(\\d+)\\swidth(\\d+)\\]",
+				"<td colspan='$1' rowspan='$2' style='width:$3%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\scolspan(\\d+)\\swidth(\\d+)\\srowspan(\\d+)\\]",
+				"<td colspan='$1' rowspan='$3' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\srowspan(\\d+)\\scolspan(\\d+)\\swidth(\\d+)\\]",
+				"<td rowspan='$1' colspan='$2' style='width:$3%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\srowspan(\\d+)\\swidth(\\d+)\\scolspan(\\d+)\\]",
+				"<td rowspan='$1' colspan='$3' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\swidth(\\d+)\\scolspan(\\d+)\\srowspan(\\d+)\\]",
+				"<td rowspan='$3' colspan='$2' style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\swidth(\\d+)\\srowspan(\\d+)\\scolspan(\\d+)\\]",
+				"<td rowspan='$2' colspan='$3'  style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
 		
-		//collapse
-		s = s.replaceAll(ignoreCaseTag +"\\[collapse([^\\[|\\]])*\\](([\\d|\\D])+?)\\[/collapse\\]",
+		
+		
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[td\\scolspan=(\\d+)\\]",
+				"<td colspan='$1' style='border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+		s = s.replaceAll(ignoreCaseTag
+						+ "\\[td\\srowspan=(\\d+)\\]",
+						"<td rowspan='$1' style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
+		s = s.replaceAll("\\[td\\]", "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
+		s = s.replaceAll("\\[/td\\]", "<td>");
+		// [i][/i]
+		s = s.replaceAll(ignoreCaseTag + "\\[i\\]",
+				"<i style=\"font-style:italic\">");
+		s = s.replaceAll(ignoreCaseTag + "\\[/i\\]", "</i>");
+		// [del][/del]
+		s = s.replaceAll(ignoreCaseTag + "\\[del\\]", "<del class=\"gray\">");
+		s = s.replaceAll(ignoreCaseTag + "\\[/del\\]", "</del>");
+
+		s = s.replaceAll(ignoreCaseTag + "\\[font=([^\\[|\\]]+)\\]",
+				"<span style=\"font-family:$1\">");
+		s = s.replaceAll(ignoreCaseTag + "\\[/font\\]", "</span>");
+
+		// collapse
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[collapse([^\\[|\\]])*\\](([\\d|\\D])+?)\\[/collapse\\]",
 				collapseStart + "$2" + endDiv);
 
-		//size
-		s = s.replaceAll(ignoreCaseTag +"\\[size=(\\d+)%\\]","<span style=\"font-size:$1%;line-height:$1%\">");
-		s = s.replaceAll(ignoreCaseTag +"\\[/size\\]","</span>");
-		
-		//[img]./ddd.jpg[/img]
-	//	if(showImage){
-			s = s.replaceAll(ignoreCaseTag +"\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]", 
-				"<a href='http://" + HttpUtil.NGA_ATTACHMENT_HOST +"/attachments$1'><img src='http://" + HttpUtil.NGA_ATTACHMENT_HOST +"/attachments$1' style= 'max-width:100%' ></a>");
-			s = s.replaceAll(ignoreCaseTag +"\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]", 
+		// size
+		s = s.replaceAll(ignoreCaseTag + "\\[size=(\\d+)%\\]",
+				"<span style=\"font-size:$1%;line-height:$1%\">");
+		s = s.replaceAll(ignoreCaseTag + "\\[/size\\]", "</span>");
+
+		// [img]./ddd.jpg[/img]
+		// if(showImage){
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]",
+				"<a href='http://" + HttpUtil.NGA_ATTACHMENT_HOST
+						+ "/attachments$1'><img src='http://"
+						+ HttpUtil.NGA_ATTACHMENT_HOST
+						+ "/attachments$1' style= 'max-width:100%' ></a>");
+		s = s.replaceAll(ignoreCaseTag
+				+ "\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]",
 				"<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
-			
-			//s = s.replaceAll(ignoreCaseTag +"\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]", 
-			//		"<a href='http://img.ngacn.cc/attachments$1'><img src='http://img.ngacn.cc/attachments$1' style= 'max-width:100%' ></a>");
-			//s = s.replaceAll(ignoreCaseTag +"\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]", 
-			//		"<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
-		/*}else{
-			s = s.replaceAll("\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]", 
-					"<a href='http://img.ngacn.cc/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll("\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]", 
-					"<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll("\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]", 
-					"<a href='http://img.ngacn.cc/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll("\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]", 
-					"<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>");
-			
-		}*/
 
-		  Pattern p = Pattern.compile("<img src='(http\\S+)' style= 'max-width:100%' >"); 
-          Matcher m = p.matcher(s); 
-          try{
-          while (m.find()) { 
-              String s0 = m.group(); 
-              String s1 = m.group(1);
-              String path = ExtensionEmotionAdapter.getPathByURI(s1);
-              if(path != null)
-              {
-            	  
-            	  String newImgBlock = "<img src='"+
-            			  "file:///android_asset/"
-            			  + path
-            			  +"' style= 'max-width:100%' >";
-            	  		  s = s.replace(s0, newImgBlock);
-              }else if(!showImage){
-            	  path = "ic_offline_image.png";
-            	  String newImgBlock = "<img src='"+
-            			  "file:///android_asset/"
-            			  + path
-            			  +"' style= 'max-width:100%' >";
-            	  		  s = s.replace(s0, newImgBlock);
-              }
-              else
-              {
+		s = s.replaceAll(ignoreCaseTag
+						+ "\\[list\\](.+?)\\[/list\\]",
+						"<ul>$1</ul>");
+		s = s.replaceAll(ignoreCaseTag
+						+ "\\[\\*\\](.+?)<br/>",
+						"<li>$1</li>");
+		// s = s.replaceAll(ignoreCaseTag
+		// +"\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]",
+		// "<a href='http://img.nga.178.com/attachments$1'><img src='http://img.nga.178.com/attachments$1' style= 'max-width:100%' ></a>");
+		// s = s.replaceAll(ignoreCaseTag
+		// +"\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]",
+		// "<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
+		/*
+		 * }else{ s =
+		 * s.replaceAll("\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]",
+		 * "<a href='http://img.nga.178.com/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
+		 * ); s = s.replaceAll("\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]",
+		 * "<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
+		 * ); s = s.replaceAll("\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]",
+		 * "<a href='http://img.nga.178.com/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
+		 * ); s = s.replaceAll("\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]",
+		 * "<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
+		 * );
+		 * 
+		 * }
+		 */
 
-            	  String newImgBlock = "<img src='"+
-            			  buildOptimizedImageURL(s1, imageQuality)
-            			  +"' style= 'max-width:100%' >";
-            	  		  s = s.replace(s0, newImgBlock);
-            	  		  int t = s1.indexOf(HttpUtil.NGA_ATTACHMENT_HOST);
-            	  		  if (t != -1 && imageURLSet != null)
-            	  		  {
-            	  			  imageURLSet.add(s1.substring(t + HttpUtil.NGA_ATTACHMENT_HOST.length() + 13)); //this is the length from HOST/attachments/^
-            	  		  }
-              }
-          }
-          }catch(Exception e){
-        	  
-          }
-		
-		
-		
+		Pattern p = Pattern
+				.compile("<img src='(http\\S+)' style= 'max-width:100%' >");
+		Matcher m = p.matcher(s);
+		try {
+			while (m.find()) {
+				String s0 = m.group();
+				String s1 = m.group(1);
+				String path = ExtensionEmotionAdapter.getPathByURI(s1);
+				if (path != null) {
+
+					String newImgBlock = "<img src='"
+							+ "file:///android_asset/" + path
+							+ "' style= 'max-width:100%' >";
+					s = s.replace(s0, newImgBlock);
+				} else if (!showImage) {
+					path = "ic_offline_image.png";
+					String newImgBlock = "<img src='"
+							+ "file:///android_asset/" + path
+							+ "' style= 'max-width:100%' >";
+					s = s.replace(s0, newImgBlock);
+				} else {
+
+					String newImgBlock = "<img src='"
+							+ buildOptimizedImageURL(s1, imageQuality)
+							+ "' style= 'max-width:100%' >";
+					s = s.replace(s0, newImgBlock);
+					int t = s1.indexOf(HttpUtil.NGA_ATTACHMENT_HOST);
+					if (t != -1 && imageURLSet != null) {
+						imageURLSet.add(s1.substring(t
+								+ HttpUtil.NGA_ATTACHMENT_HOST.length() + 13)); // this
+																				// is
+																				// the
+																				// length
+																				// from
+																				// HOST/attachments/^
+					}
+				}
+			}
+		} catch (Exception e) {
+
+		}
+
 		return s;
 	}
-	
-	public static String buildOptimizedImageURL(String url, int imageQuality)
-	{
+
+	public static String buildOptimizedImageURL(String url, int imageQuality) {
 		String encodedURL = null;
 		try {
 			encodedURL = URLEncoder.encode(url, "UTF-8");
@@ -330,23 +741,27 @@ public class StringUtil {
 		String r = url;
 		switch (imageQuality) {
 		case 1:
-			r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL + "&size=small";
+			r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL
+					+ "&size=small";
 			break;
 		case 2:
-			r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL + "&size=medium";
+			r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL
+					+ "&size=medium";
 			break;
 		case 3:
-			r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL + "&size=large";
+			r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL
+					+ "&size=large";
 			break;
 		}
 		return r;
 	}
 
-	public static String removeBrTag(String s){
-		s =s.replaceAll("<br/><br/>", "\n");
-		s =s.replaceAll("<br/>", "\n");
+	public static String removeBrTag(String s) {
+		s = s.replaceAll("<br/><br/>", "\n");
+		s = s.replaceAll("<br/>", "\n");
 		return s;
 	}
+
 	/**
 	 * 处理URL
 	 * 
@@ -367,17 +782,16 @@ public class StringUtil {
 		return SAYING[num];
 	}
 
-	public static String unEscapeHtml(String s){
+	public static String unEscapeHtml(String s) {
 		String ret = "";
 		ret = StringHelper.unescapeHTML(s);
 		return ret;
 	}
-	
 
-	
-	public static String buildThreadURLByTid(String tid){
-		return "/read.php?tid="+tid;
+	public static String buildThreadURLByTid(String tid) {
+		return "/read.php?tid=" + tid;
 	}
+
 	private static final String[] SAYING = {
 			"战争打响，真理阵亡。;埃斯库罗斯",
 			"让子弹先走。 ",
@@ -387,7 +801,7 @@ public class StringUtil {
 			"传媒是我们主要的思想武器。;赫鲁晓夫",
 			"不管你喜不喜欢，历史都站在我们这边，而你们将被我们埋葬！;赫鲁晓夫",
 			"敌人在的射程内，彼此彼此。;步兵日记 ",
-			"枚战斧巡航导弹的造价：90万美元。 ",
+			"一枚战斧巡航导弹的造价：90万美元。 ",
 			"一架F-22猛禽战斗机的造价：1.35亿美元",
 			"一架F-117A“夜鹰”隐形战斗机的造价：1.22亿美元 ",
 			"一架B-2轰炸机的造价：22亿美元",
@@ -417,7 +831,7 @@ public class StringUtil {
 			"没有任何作战计划在与敌人遭遇后还有效。;鲍威尔",
 			"当保险丝被拔掉后，手雷先生就不再是我们的朋友了。;美国陆军训练提示",
 			"人有生死，国有兴亡，而意志长存。;肯尼迪",
-			"枚标枪反坦克导弹的造价：8万美元 ",
+			"一枚标枪反坦克导弹的造价：8万美元 ",
 			"以道作人主，不以兵强于天下",
 			"如果你记不住，66式(XD)就是冲着你来的 ",
 			"只有两种人了解陆战队：陆战队和它的敌人，其他人都在扯二手淡。",
@@ -508,18 +922,14 @@ public class StringUtil {
 			"单挑时， “ 正义 ” 一方支撑不住了，就会喊人帮忙： “ 对付这种魔头，不用和他讲什么江湖道义，大家一起上！ ”",
 			"少林图书馆经常失窃……", "一个人喝完闷酒一定会下暴雨。", "团体组合流行：四大?#，四大%￥，四大*(……",
 			"拔剑时，有时会有剑气，有时会拔不出来……", "朝廷的大将军是坨屎，公公才是高手。",
-			"妓院都是怡红院(我怀疑是悦来集团的子公司……)。", "美女到处都是，这是最郁闷的…… ",
-			"不要因为仅仅是意见不同就点举报",
-			"所有汉字乱码的,把接入点从wap改成net!!!",
-			"178,准时发货,绝不坑爹!",
-			"178,准时坑爹,绝不发货!",
-			"彩虹体累计已招致禁言210天次以上,自重!",
-			"寻找NGA客户端开源版更新请在Google Play商店或酷安搜索并安装",
+			"妓院都是怡红院(我怀疑是悦来集团的子公司……)。", "美女到处都是，这是最郁闷的…… ", "不要因为仅仅是意见不同就点举报",
+			"所有汉字乱码的,把接入点从wap改成net!!!", "178,准时发货,绝不坑爹!", "178,准时坑爹,绝不发货!",
+			"彩虹体累计已招致禁言210天次以上,自重!", "寻找NGA客户端开源版更新请在Google Play商店或酷安搜索并安装",
 
 	};
 
 	public static int getNowPageNum(String link) {
-		// link: http://bbs.ngacn.cc/thread.php?fid=7&page=1&rss=1&OOXX=
+		// link: http://nga.178.com/thread.php?fid=7&page=1&rss=1&OOXX=
 		int ret = 1;
 		if (link.indexOf("\n") != -1) {
 			link = link.substring(0, link.length() - 1);
@@ -527,80 +937,81 @@ public class StringUtil {
 		if (link.indexOf("&") == -1) {
 			return ret;
 		} else {
-			try{
-			ret = Integer.parseInt(link.substring(link.indexOf("page=") + 5,
-					link.length()));
-			}catch(Exception E){
-				
+			try {
+				ret = Integer.parseInt(link.substring(
+						link.indexOf("page=") + 5, link.length()));
+			} catch (Exception E) {
+
 			}
 		}
 		return ret;
 	}
-	final static String tips = 	
-					"发现bug后请先更新到最新版本,如果还有问题[@竹井詩織里]/[@cfan8]/[@force0119]\n"
-					+"彩虹发帖模式功能累计已招致禁言210天次以上,专供需要自杀的用户!\n"
-					+"安卓4.0以上现在可以设置将发帖按钮放置在输入法上方了,独立于菜单按钮\n"
-					+"设置中可选择2G/3G时图片中转压缩,使用新浪SAE处理\n"
-					+"NGA客户端开源版开发团队([@竹井詩織里]/[@cfan8]/[@force0119]/[@那个惩戒骑])再开发,赞美片总\n"
-					+"寻找更新请在Google Play商店或酷安搜索NGA客户端开源版安装\n"
-					+"178,准时坑爹,绝不发货";
-	public static String getTips(){
-		
+
+	final static String tips = "花几十秒看完,你会有新收获\n"
+			+ "更新后每次打开看到这个窗口的,重启手机\n"
+			+ "发现bug,删除app,再更新到最新版,还有问题[@竹井詩織里]\n"
+			+ "签到/历史被喷/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
+			+ "主题列表长按楼层可以看头像签名和用户信息等,收藏列表长按可删收藏\n"
+			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面,比如分享啊啥的\n"
+			+ "已安装解码器,可直接看多个站点的视频\n"
+			+ "彩蛋还有,但不知道在哪了\n"
+			+ "更新去Play商店或酷安搜索NGA客户端开源版";
+
+	public static String getTips() {
+
 		return tips;
-		
+
 	}
 
-
-	public static StringFindResult getStringBetween(String data,int begPosition,
-			String startStr, String endStr)
-	{
+	public static StringFindResult getStringBetween(String data,
+			int begPosition, String startStr, String endStr) {
 		StringFindResult ret = new StringFindResult();
-		do{
-			if(isEmpty(data) || begPosition < 0 || data.length() <= begPosition
-					|| isEmpty(startStr) || isEmpty(startStr))
+		do {
+			if (isEmpty(data) || begPosition < 0
+					|| data.length() <= begPosition || isEmpty(startStr)
+					|| isEmpty(startStr))
 				break;
-			
-			int start = data.indexOf( startStr,begPosition);
-			if(start == -1)
+
+			int start = data.indexOf(startStr, begPosition);
+			if (start == -1)
 				break;
-			
-			start +=startStr.length();
+
+			start += startStr.length();
 			int end = data.indexOf(endStr, start);
-			if(end == -1)
+			if (end == -1)
 				end = data.length();
-			ret.result = data.substring(start,end);
-			ret.position = end + endStr.length(); 
-			
-		}while(false);
-		
+			ret.result = data.substring(start, end);
+			ret.position = end + endStr.length();
+
+		} while (false);
+
 		return ret;
 	}
 
-	public static int getUrlParameter(String url, String paraName){
-		if(StringUtil.isEmpty(url))
-		{
+	public static int getUrlParameter(String url, String paraName) {
+		if (StringUtil.isEmpty(url)) {
 			return 0;
 		}
-		final String pattern = paraName+"=" ;
+		final String pattern = paraName + "=";
 		int start = url.indexOf(pattern);
-		if(start == -1)
+		if (start == -1)
 			return 0;
-		start +=pattern.length();
-		int end = url.indexOf("&",start);
-		if(end == -1)
+		start += pattern.length();
+		int end = url.indexOf("&", start);
+		if (end == -1)
 			end = url.length();
-		String value = url.substring(start,end);
+		String value = url.substring(start, end);
 		int ret = 0;
-		try{
+		try {
 			ret = Integer.parseInt(value);
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.e("getUrlParameter", "invalid url:" + url);
 		}
-		
+
 		return ret;
 	}
 
-
+	private static int showPlayMode() {
+		return PhoneConfiguration.getInstance().playMode;
+	}
 }
-
-

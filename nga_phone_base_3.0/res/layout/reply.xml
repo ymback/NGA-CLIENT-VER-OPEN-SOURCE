@@ -27,6 +27,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
+        android:hint="@string/replycontent"
         android:background="@color/white"
         android:cursorVisible="true"
         android:gravity="top|left"

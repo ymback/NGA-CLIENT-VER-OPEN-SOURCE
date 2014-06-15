@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="0dp" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+            android:id="@+id/missrelativelay"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title" >
+
+        
+<!-- 或者已完成啥的 -->
+        <TextView
+            android:id="@+id/missionidtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text=""
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#FF545454"
+            android:textIsSelectable="false"
+            android:textStyle="bold" >
+        </TextView>
+        
+        <TextView
+            android:id="@+id/missionid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:layout_marginLeft="1dp"
+            android:textColor="#FF545454"
+            android:textIsSelectable="false"
+            android:layout_toRightOf="@+id/missionidtitle"
+            android:layout_alignTop="@+id/missionidtitle"
+            android:textStyle="bold" >
+        </TextView>
+        
+        <TextView
+            android:id="@+id/missionname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/missionid"
+            android:layout_marginRight="5dp"
+            android:gravity="right"
+            android:text="斩杀二哥"
+            android:textColor="#FF545454"
+            android:textIsSelectable="false" >
+        </TextView>
+      <TextView
+            android:id="@+id/missionnametitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/missionidtitle"
+            android:layout_marginRight="1dp"
+            android:layout_toRightOf="@+id/missionid"
+            android:layout_toLeftOf="@+id/missionname"
+            android:gravity="right"
+            android:text="任务名:"
+            android:textColor="#FF545454"
+            android:textIsSelectable="false" >
+        </TextView>
+
+
+    
+   <TextView
+            android:id="@+id/contenttitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/missionidtitle"
+            android:layout_alignRight="@id/missionname"
+            android:layout_below="@id/missionidtitle"
+            android:text="任务描述:"
+            android:layout_marginTop="2dp"
+            android:textColor="#FF545454"
+        android:textSize="16dp"
+        android:textStyle="bold" 
+            android:textIsSelectable="false" >
+        </TextView>
+        <WebView
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+        	android:padding="1dp"     
+        	android:background="@drawable/imageavatarborder"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/contenttitle"
+            android:layout_alignRight="@id/contenttitle"
+            android:layout_below="@id/contenttitle" />
+        
+
+    <TextView
+            android:id="@+id/missiondetialtitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/content"
+            android:layout_alignRight="@id/content"
+            android:layout_below="@id/content"
+            android:layout_marginTop="2dp"
+            android:text="任务详细信息:"
+            android:textColor="#FF545454"
+            android:textIsSelectable="false"
+            android:textStyle="bold"
+        	android:textSize="16dp" >
+        </TextView>
+        <TextView
+            android:id="@+id/missiondetial"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/missiondetialtitle"
+            android:layout_alignRight="@id/missiondetialtitle"
+            android:layout_below="@id/missiondetialtitle"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="5dp"
+            android:text="二哥很笨"
+            android:textColor="#FF545454"
+            android:textIsSelectable="false"
+        	android:textSize="14dp" >
+        </TextView>
+	
+        
+        <TextView
+            android:id="@+id/missionstattitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/missiondetialtitle"
+            android:layout_alignRight="@id/missiondetialtitle"
+            android:layout_below="@id/missiondetial"
+            android:layout_marginTop="2dp"
+            android:text="任务完成状况:"
+            android:textColor="#FF545454"
+            android:textStyle="bold"
+        	android:textSize="16dp"
+            android:textIsSelectable="false">
+        </TextView>
+        <TextView
+            android:id="@+id/missionstat"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/missionstattitle"
+            android:layout_alignRight="@id/missionstattitle"
+            android:layout_below="@id/missionstattitle"
+            android:layout_marginTop="1dp"
+            android:text="没有斩杀二哥,但是斩杀了MIANZHAN"
+            android:textColor="#FF545454"
+        	android:textSize="14dp"
+            android:layout_marginLeft="5dp"
+            android:textIsSelectable="false" >
+        </TextView>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/lineviewforshow"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_alignLeft="@id/missrelativelay"
+            android:layout_alignRight="@id/missrelativelay"
+            android:layout_below="@id/missrelativelay"
+        android:background="#F0BF67" />
+</RelativeLayout>

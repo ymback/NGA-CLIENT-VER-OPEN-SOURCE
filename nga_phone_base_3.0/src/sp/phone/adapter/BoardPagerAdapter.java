@@ -35,7 +35,7 @@ public class BoardPagerAdapter extends FragmentStatePagerAdapter {
 	public float getPageWidth(int position) {
 		return widthPercentage/100.0f;
 	}
-	
+
 	
 
 

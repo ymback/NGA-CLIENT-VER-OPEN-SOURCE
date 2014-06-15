@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <issue id="NewApi">
+    <issue id="NewApi" severity="ignore">
         <ignore path="src/gov/anzong/androidnga/activity/MainActivity.java" />
     </issue>
+    <issue id="ValidFragment" severity="ignore" />
+    <issue id="WrongViewCast" severity="ignore" />
 </lint>

@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
@@ -76,6 +77,7 @@ public class ArticleListFragment extends Fragment
 	//private JsonThreadLoadTask task;
 	private int page=0;
 	private int tid;
+	private String title;
 	private int pid;
 	private int authorid;
 	private boolean needLoad = true;
@@ -90,7 +92,7 @@ public class ArticleListFragment extends Fragment
 		authorid = getArguments().getInt("authorid", 0);
 		articleAdpater = new ArticleListAdapter(this.getActivity());
 		super.onCreate(savedInstanceState);
-	}
+	} 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -392,6 +394,8 @@ public class ArticleListFragment extends Fragment
 		String content = row.getContent();
 		String signature = row.getSignature();
 		final String name = row.getAuthor();
+		final String uid=String.valueOf(row.getAuthorid());
+		boolean isanonymous=row.getISANONYMOUS();
 		String mention=null;
 		Intent intent = new Intent();
 		switch(item.getItemId())
@@ -417,9 +421,11 @@ public class ArticleListFragment extends Fragment
                 .append(page);
 				postPrefix.append("]");//Topic
 				postPrefix.append("Reply");
-                postPrefix.append("[/pid] [b]Post by ");
-                postPrefix.append(name);
-                postPrefix.append(" (");
+				postPrefix.append("[/pid] [b]Post by [uid=");
+				postPrefix.append(uid);
+				postPrefix.append("]");
+				postPrefix.append(name);
+				postPrefix.append("[/uid] (");
                 postPrefix.append(postTime);
                 postPrefix.append("):[/b]\n");
                 postPrefix.append(content);
@@ -433,7 +439,14 @@ public class ArticleListFragment extends Fragment
 			intent.putExtra("prefix", StringUtil.removeBrTag(postPrefix.toString()) );
 			intent.putExtra("tid", tidStr);
 			intent.putExtra("action", "reply");	
-			intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
+			if (!StringUtil
+					.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+			intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);}
+			else{
+				intent.setClass(
+					getActivity(),
+					PhoneConfiguration.getInstance().loginActivityClass);
+			}
 			startActivity(intent);
 			if(PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,
@@ -441,7 +454,31 @@ public class ArticleListFragment extends Fragment
 			break;
 			
 		case R.id.signature_dialog:
-			Create_Signature_Dialog(row);
+			if(isanonymous){
+				errordialog();
+			}else{
+				Create_Signature_Dialog(row);
+			}
+			break;
+		case R.id.show_profile:
+			if(isanonymous){
+				errordialog();
+			}else{
+				intent.putExtra("mode", "username" );
+				intent.putExtra("username", row.getAuthor() );
+				intent.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
+				startActivity(intent);
+				if(PhoneConfiguration.getInstance().showAnimation)
+					getActivity().overridePendingTransition(R.anim.zoom_enter,
+							R.anim.zoom_exit);
+			}
+			break;
+		case R.id.avatar_dialog:
+			if(isanonymous){
+				errordialog();
+			}else{
+				Create_Avatar_Dialog(row);
+			}
 			break;
 		case R.id.edit :
 			if(isComment(row)){
@@ -455,7 +492,14 @@ public class ArticleListFragment extends Fragment
 			intentModify.putExtra("pid", pid);
 			intentModify.putExtra("title",StringUtil.unEscapeHtml(row.getSubject()));
 			intentModify.putExtra("action", "modify");	
-			intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
+			if (!StringUtil
+					.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+				intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);}
+			else{
+				intentModify.setClass(
+					getActivity(),
+					PhoneConfiguration.getInstance().loginActivityClass);
+			}
 			startActivity(intentModify);
             if(PhoneConfiguration.getInstance().showAnimation)
 			    getActivity().overridePendingTransition(R.anim.zoom_enter,
@@ -475,31 +519,57 @@ public class ArticleListFragment extends Fragment
 			CopyDialog(content);
 			break;
 		case R.id.show_this_person_only:
-			Intent intentThis = new Intent();
-			intentThis.putExtra("tab", "1");
-			intentThis.putExtra("tid",tid );
-			intentThis.putExtra("authorid",row.getAuthorid() );
 			
-			intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
-			startActivity(intentThis);
-			if(PhoneConfiguration.getInstance().showAnimation)
-				getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+			if(null == getActivity().findViewById(R.id.item_detail_container))
+			{			
+				Intent intentThis = new Intent();
+				intentThis.putExtra("tab", "1");
+				intentThis.putExtra("tid",tid );
+				intentThis.putExtra("authorid",row.getAuthorid() );
+				intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
+				startActivity(intentThis);
+				if(PhoneConfiguration.getInstance().showAnimation)
+					getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+			}else{
+				int tid1 = tid;
+				int authorid1=row.getAuthorid();
+				ArticleContainerFragment f = ArticleContainerFragment.createshowonly(tid1, authorid1);
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				f.setHasOptionsMenu(true);
+				ft.replace(R.id.item_detail_container, f);
+				ft.commit();
+
+			}
 		
 			//restNotifier.reset(0, row.getAuthorid());
 			//ActivityUtil.getInstance().noticeSaying(getActivity());
 
 			break;
 		case R.id.show_whole_thread:
-			ResetableArticle restNotifier = null;
-			try{
-				 restNotifier= (ResetableArticle)getActivity();
-			}catch(ClassCastException e){
-				Log.e(TAG,"father activity does not implements interface " 
-						+ ResetableArticle.class.getName());
-				return true;
+			if(null == getActivity().findViewById(R.id.item_detail_container))
+			{			
+				ResetableArticle restNotifier = null;
+				try{
+					 restNotifier= (ResetableArticle)getActivity();
+				}catch(ClassCastException e){
+					Log.e(TAG,"father activity does not implements interface " 
+							+ ResetableArticle.class.getName());
+					return true;
+				}
+				restNotifier.reset(0, 0,row.getLou());
+				ActivityUtil.getInstance().noticeSaying(getActivity());
+			}else{
+				int tid1 = tid;
+				ArticleContainerFragment f = ArticleContainerFragment.createshowall(tid1);
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				f.setHasOptionsMenu(true);
+				ft.replace(R.id.item_detail_container, f);
+				ft.commit();
 			}
-			restNotifier.reset(0, 0,row.getLou());
-			ActivityUtil.getInstance().noticeSaying(getActivity());
 			break;
 		case R.id.post_comment:
 			final String dialog_tag = "post comment";
@@ -520,7 +590,6 @@ public class ArticleListFragment extends Fragment
 			handleReport(row);
 			break;
 		case R.id.search_post:
-			
 			intent.putExtra("searchpost", 1);
 		case R.id.search_subject:
 			intent.putExtra("authorid", row.getAuthorid());
@@ -533,13 +602,16 @@ public class ArticleListFragment extends Fragment
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
-			String shareUrl = "http://bbs.ngacn.cc/read.php?";
+			String shareUrl = "http://nga.178.com/read.php?";
 			if(row.getPid() != 0){
-				shareUrl = shareUrl + "pid="+row.getPid();
+				shareUrl = shareUrl + "pid="+row.getPid()+" (分享自NGA客户端开源版)";
 			}
 			else
 			{
-				shareUrl = shareUrl + "tid="+tid;
+				shareUrl = shareUrl + "tid="+tid+" (分享自NGA客户端开源版)";
+			}
+			if(!StringUtil.isEmpty(this.title)){
+				shareUrl = "《"+this.title+"》 - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
 			}
 			intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
 			String text = getResources().getString(R.string.share);
@@ -551,7 +623,36 @@ public class ArticleListFragment extends Fragment
 		}
 		return true;
 	}
-	private AlertDialog Create_Signature_Dialog(ThreadRowInfo row) {
+	private void errordialog(){
+		 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setMessage("这白痴匿名了,神马都看不到");
+		builder.setTitle("看不到");
+		builder.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+			
+		});
+
+		final AlertDialog dialog = builder.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
+	}
+	private void Create_Signature_Dialog(ThreadRowInfo row) {
 		// TODO Auto-generated method stub
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
@@ -596,9 +697,103 @@ public class ArticleListFragment extends Fragment
 			}
 			
 		});
-		return alert.show();
+
+		final AlertDialog dialog = alert.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
 	}
 
+	
+	private void Create_Avatar_Dialog(ThreadRowInfo row) {
+		// TODO Auto-generated method stub
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
+	    final View view = layoutInflater.inflate(R.layout.signature_dialog, null);  
+	    String name = row.getAuthor();
+	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
+	    alert.setView(view);  
+		alert.setTitle(name+"的头像");
+		//COLOR
+
+		ThemeManager theme = ThemeManager.getInstance();
+		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
+		int fgColor = getResources().getColor(theme.getForegroundColor());
+		bgColor = bgColor & 0xffffff;
+		final String bgcolorStr = String.format("%06x",bgColor);
+		
+		int htmlfgColor = fgColor & 0xffffff;
+		final String fgColorStr = String.format("%06x",htmlfgColor);
+		
+		
+	    WebViewClient client = new ArticleListWebClient(getActivity());
+		WebView contentTV = (WebView) view.findViewById(R.id.signature);
+		contentTV.setBackgroundColor(0);
+		contentTV.setFocusableInTouchMode(false);
+		contentTV.setFocusable(false);
+		if (ActivityUtil.isGreaterThan_2_2()) {
+			contentTV.setLongClickable(false);
+		}
+		WebSettings setting = contentTV.getSettings();
+		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+				.getWebSize());
+		setting.setJavaScriptEnabled(false);
+		contentTV.setWebViewClient(client);
+		contentTV.loadDataWithBaseURL(null, avatarToHtmlText(row,true,ArticleUtil.showImageQuality(),fgColorStr,bgcolorStr),
+				"text/html", "utf-8", null);
+		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+			
+		});
+		final AlertDialog dialog = alert.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
+	}
+	private static String parseAvatarUrl(String js_escap_avatar) {
+		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
+		if (null == js_escap_avatar)
+			return null;
+
+		int start = js_escap_avatar.indexOf("http");
+		if (start == 0 || start == -1)
+			return js_escap_avatar;
+		int end = js_escap_avatar.indexOf("\"", start);//
+		if (end == -1)
+			end = js_escap_avatar.length();
+		String ret = null;
+		try {
+			ret = js_escap_avatar.substring(start, end);
+		} catch (Exception e) {
+			Log.e(TAG, "cann't handle avatar url " + js_escap_avatar);
+		}
+		return ret;
+	}
+	
 	public String signatureToHtmlText(final ThreadRowInfo row,
 			boolean showImage, int imageQuality, final String fgColorStr,
 			final String bgcolorStr) {
@@ -627,8 +822,41 @@ public class ArticleListFragment extends Fragment
 		return ngaHtml;
 	}
 	
+	public String avatarToHtmlText(final ThreadRowInfo row,
+			boolean showImage, int imageQuality, final String fgColorStr,
+			final String bgcolorStr) {
+		HashSet<String> imageURLSet = new HashSet<String>();
+		String ngaHtml = null;
+		if(row.getJs_escap_avatar().equals("")){
+			 ngaHtml = StringUtil.decodeForumTag("这家伙是骷髅党,头像什么的没有啦~<br><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >", showImage,
+					imageQuality, imageURLSet);
+		}else{
+			 ngaHtml = StringUtil.decodeForumTag("[img]"+parseAvatarUrl(row.getJs_escap_avatar())+"[/img]", showImage,
+					imageQuality, imageURLSet);
+		}
+		if (imageURLSet.size() == 0) {
+			imageURLSet = null;
+		}
+		if (StringUtil.isEmpty(ngaHtml)) {
+			ngaHtml = row.getAlterinfo();
+		}
+		if (StringUtil.isEmpty(ngaHtml)) {
+			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide) + "]</font>";
+		}
+		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
+				+ "<body bgcolor= '#"
+				+ bgcolorStr
+				+ "'>"
+				+ "<font color='#"
+				+ fgColorStr
+				+ "' size='2'>"
+				+ ngaHtml
+				+ "</font></body>";
+
+		return ngaHtml;
+	}
 	
-	private AlertDialog  CopyDialog(String content) {
+	private void  CopyDialog(String content) {
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();  
 	    final View view = layoutInflater.inflate(R.layout.copy_dialog, null);  
 	    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());   
@@ -683,7 +911,20 @@ public class ArticleListFragment extends Fragment
 		        }  
             }
 		});
-		return alert.show();
+		final AlertDialog dialog = alert.create();
+		dialog.show();
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+
+		});
 		// TODO Auto-generated method stub
 		
 	}
@@ -697,6 +938,9 @@ public class ArticleListFragment extends Fragment
 
 			if( 0 != data.getThreadInfo().getQuote_from())
 				tid = data.getThreadInfo().getQuote_from();
+			if(!StringUtil.isEmpty(data.getThreadInfo().getSubject())){
+				title=data.getThreadInfo().getSubject();
+			}
 			OnThreadPageLoadFinishedListener father = null;
 			try{
 				father = (OnThreadPageLoadFinishedListener)getActivity();

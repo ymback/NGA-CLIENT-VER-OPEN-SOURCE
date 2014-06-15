@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Locale;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HostnameVerifier;
@@ -17,15 +18,21 @@ import javax.net.ssl.SSLSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+
 import sp.phone.bean.ArticlePage;
 
 public class HttpUtil {
 
 	public final static String PATH_OLD = android.os.Environment
-			.getExternalStorageDirectory()
+			.getExternalStorageDirectory().getPath()
 			+ "/nga_cache";
 	public static String PATH_AVATAR_OLD = PATH_OLD +
 			 "/nga_cache";
@@ -33,7 +40,7 @@ public class HttpUtil {
 			.getExternalStorageDirectory().getAbsolutePath()+"/Pictures";
 	
 	public static String PATH = android.os.Environment
-			.getExternalStorageDirectory()
+			.getExternalStorageDirectory().getPath()
 			+ "/nga_cache";
 	public static String PATH_AVATAR = PATH +
 			 "/nga_cache";
@@ -42,9 +49,9 @@ public class HttpUtil {
 
 	public static  final String PATH_ZIP = "";
 
-	public static String Server = "http://bbs.ngacn.cc";
-	public static final String NGA_ATTACHMENT_HOST = "img6.ngacn.cc";
-	private static final String servers[] = {"http://bbs.ngacn.cc","http://bbs.ngacn.cc"};
+	public static String Server = "http://nga.178.com";
+	public static final String NGA_ATTACHMENT_HOST = "img6.nga.178.com";
+	private static final String servers[] = {"http://nga.178.com","http://nga.178.com"};
 	private static final String TAG = HttpUtil.class.getSimpleName();
 	/*private static String[] host_arr = { "http://aa121077313.gicp.net:8099",
 			"http://aa121077313.gicp.net:8098", "http://10.0.2.2:8099",
@@ -56,12 +63,12 @@ public class HttpUtil {
 	public static final String Servlet_timer = "/servlet/TimerServlet";
 
 	public static String HOST_PORT = "";
-	//public static String USER_AGENT = 
-	//		"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.30 Safari/536.5";
 	//软件名/版本 (硬件信息; 操作系统信息)
 	//AndroidNga/571 (Xiaomi MI 2S; Android 4.1.1)
-	public static final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(android.os.Build.MANUFACTURER).append(" ").append(android.os.Build.MODEL).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
-//	public static final String USER_AGENT = new StringBuilder().append("Mozilla/5.0 (Linux; U; Android 2.3.3; zh-cn; SH12C Build/S4040) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1").toString();
+	public static String MODEL=android.os.Build.MODEL.toUpperCase(Locale.US);
+	public static String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);
+	//	public static final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("([Xiaomi MI 2S];Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+	//	public static final String USER_AGENT = new StringBuilder().append("Mozilla/5.0 (Linux; U; Android 2.3.3; zh-cn; SH12C Build/S4040) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1").toString();
 	public static void selectServer2() {
 		for (String host : host_arr) {
 			HttpURLConnection conn = null;
@@ -144,7 +151,7 @@ public class HttpUtil {
 			Log.e(TAG, "failed to download img:" + uri+ "," + e.getMessage());
 		}
 	}
-
+	
 	public static InputStream downImage2(String uri, String fileName) {
 		InputStream is = null;
 		try {
@@ -204,6 +211,16 @@ public class HttpUtil {
 
 	public static String getHtml(String uri, String cookie) {
 		InputStream is = null;
+		String machine="";
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 		try {
 			URL url = new URL(uri);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -211,9 +228,14 @@ public class HttpUtil {
 				conn.setRequestProperty("Cookie", cookie);
 			conn.setRequestProperty("User-Agent", USER_AGENT);
 			conn.setRequestProperty("Accept-Charset", "GBK");
+			if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+		        System.setProperty("http.keepAlive", "false");
+		    }else{
+				conn.setRequestProperty("Connection", "close");
+		    }
 			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.setConnectTimeout(8000);
-			conn.setReadTimeout(8000);
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(10000);
 			conn.connect();
             if(conn.getResponseCode() == 200)
 			    is = conn.getInputStream();
@@ -232,6 +254,53 @@ public class HttpUtil {
 		}
 		return null;
 	}
+
+	public static String getHtmlForDbmeizi(String uri, String cookie) {
+		InputStream is = null;
+		String machine="";
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+		
+		try {
+			URL url = new URL(uri);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			if(!StringUtil.isEmpty(cookie))
+				conn.setRequestProperty("Cookie", cookie);
+			conn.setRequestProperty("User-Agent", USER_AGENT);
+			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
+			if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+		        System.setProperty("http.keepAlive", "false");
+		    }else{
+				conn.setRequestProperty("Connection", "close");
+		    }
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(10000);
+			conn.connect();
+            if(conn.getResponseCode() == 200)
+			    is = conn.getInputStream();
+            else
+                is = conn.getErrorStream();
+			if( "gzip".equals(conn.getHeaderField("Content-Encoding")) )
+				is = new GZIPInputStream(is);
+			String encoding =  getCharset( conn, "utf-8");
+			return IOUtils.toString(is, encoding);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(is);
+		}
+		return null;
+	}
+	
 	
 	public static String iosGetHtml(String uri, String cookie) {
 		InputStream is = null;
@@ -244,8 +313,13 @@ public class HttpUtil {
 			conn.setRequestProperty("User-Agent", ios_ua);
 			conn.setRequestProperty("Accept-Charset", "GBK");
 			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.setConnectTimeout(8000);
-			conn.setReadTimeout(8000);
+			if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+		        System.setProperty("http.keepAlive", "false");
+		    }else{
+				conn.setRequestProperty("Connection", "close");
+		    }
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(10000);
 			conn.connect();
 			is = conn.getInputStream();
 			if( "gzip".equals(conn.getHeaderField("Content-Encoding")) )
@@ -273,7 +347,17 @@ public class HttpUtil {
 			}
 		};
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-
+		String machine="";
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+		
 		try {
 			URL url = new URL(uri);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -321,7 +405,9 @@ public class HttpUtil {
 		int end = contentType.indexOf( endTag, start);
 		if(-1==end)
 			end = contentType.length();
-		
+		if(contentType.substring(start, end).equals("no")){
+			return "utf-8";
+		}
 		return contentType.substring(start, end);
 	}
 	public static  ArticlePage getArticlePage(String uri, String cookie) {

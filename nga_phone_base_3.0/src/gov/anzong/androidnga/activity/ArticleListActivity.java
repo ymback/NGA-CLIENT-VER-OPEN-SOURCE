@@ -19,14 +19,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TabHost;
-import android.widget.Toast;
-
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
@@ -36,6 +36,7 @@ import sp.phone.fragment.ArticleListFragment;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.interfaces.ResetableArticle;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtil;
@@ -43,20 +44,27 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class ArticleListActivity extends SwipeBackAppCompatActivity
-implements PagerOwnner,ResetableArticle,OnThreadPageLoadFinishedListener,
+implements PagerOwnner,ResetableArticle,OnThreadPageLoadFinishedListener,PullToRefreshAttacherOnwer,
 PerferenceConstant{
 	TabHost tabhost;
 	ViewPager  mViewPager;
 	ThreadFragmentAdapter mTabsAdapter;
     int tid;
     int pid;
+    String title;
     int authorid;
 	private static final String TAG= "ArticleListActivity";
 	private static final String GOTO_TAG = "goto";
 	private int fid = 0;
+	private PullToRefreshAttacher mPullToRefreshAttacher;
+
+	private int fromreplyactivity=0;
 	
+	PullToRefreshAttacher attacher = null;
 	protected int getViewId(){
 		return R.layout.pagerview_article_list;
 		//return R.layout.article_viewpager;
@@ -64,7 +72,6 @@ PerferenceConstant{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(getViewId());
 		
 		if(PhoneConfiguration.getInstance().uploadLocation
@@ -94,7 +101,6 @@ PerferenceConstant{
 		if (ActivityUtil.isNotLessThan_4_0()) {			
 			setNfcCallBack();
 		}
-
 		tid = 7;
 		int pageFromUrl = 0;
 		String url = this.getIntent().getDataString();
@@ -109,7 +115,8 @@ PerferenceConstant{
 		pid = this.getIntent().getIntExtra("pid", 0);
 		authorid = this.getIntent().getIntExtra("authorid", 0);
 		}
-	
+
+		fromreplyactivity =  this.getIntent().getIntExtra("fromreplyactivity", 0);
 		View v = findViewById(android.R.id.content);//.getChildAt(0);
 		tabhost = (TabHost) findViewById(android.R.id.tabhost);
 		
@@ -125,7 +132,6 @@ PerferenceConstant{
 		mTabsAdapter.setArgument("id", tid);
 		mTabsAdapter.setArgument("pid", pid);
 		mTabsAdapter.setArgument("authorid", authorid);
-		ActivityUtil.getInstance().noticeSaying(this);
 
         if (savedInstanceState != null) {
         	int pageCount = savedInstanceState.getInt("pageCount");
@@ -141,8 +147,57 @@ PerferenceConstant{
         	mTabsAdapter.setCount(pageFromUrl);
         	mViewPager.setCurrentItem(pageFromUrl);
         }
+        try {
+			PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
+			attacher = attacherOnwer.getAttacher();
+
+		} catch (ClassCastException e) {
+			Log.e(TAG,
+					"father activity should implement PullToRefreshAttacherOnwer");
+		}
+
+
+		PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
+		options.refreshScrollDistance = 0.3f;
+		options.refreshOnUp = true;
+		mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
+		try {
+			PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
+			attacher = attacherOnwer.getAttacher();
+
+		} catch (ClassCastException e) {
+			Log.e(TAG,
+					"father activity should implement PullToRefreshAttacherOnwer");
+		}
+
+		if(PhoneConfiguration.getInstance().fullscreen){ 
+			refresh_saying();
+		}else{
+			ActivityUtil.getInstance().noticeSaying(this);
+		}
 		
 	}
+	
+	private void refresh_saying() {
+		DefaultHeaderTransformer transformer = null;
+
+		if (attacher != null) {
+			uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
+			headerTransformer = attacher.getHeaderTransformer();
+			if (headerTransformer != null
+					&& headerTransformer instanceof DefaultHeaderTransformer)
+				transformer = (DefaultHeaderTransformer) headerTransformer;
+		}else{
+		}
+
+		if (transformer == null)
+			ActivityUtil.getInstance().noticeSaying(this);
+		else
+			transformer.setRefreshingText(ActivityUtil.getSaying());
+		if (attacher != null)
+			attacher.setRefreshing(true);
+	}
+	
 	
 	private int getUrlParameter(String url, String paraName){
 		if(StringUtil.isEmpty(url))
@@ -239,26 +294,35 @@ PerferenceConstant{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch( item.getItemId())
 		{
 			case R.id.article_menuitem_reply:
 				//if(articleAdpater.getData() == null)
 				//	return false;
 				String tid = String.valueOf(this.tid);
-				Intent intent = new Intent();
 				intent.putExtra("prefix", "" );
 				intent.putExtra("tid", tid);
 				intent.putExtra("action", "reply");
-				
-				intent.setClass(this, PhoneConfiguration.getInstance().postActivityClass);
+				if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
+					intent.setClass(this, PhoneConfiguration.getInstance().postActivityClass);
+				}else{
+					intent.setClass(this,
+							PhoneConfiguration.getInstance().loginActivityClass);
+				}
 				startActivity(intent);
-				if(PhoneConfiguration.getInstance().showAnimation)
+				if (PhoneConfiguration.getInstance().showAnimation) {
 					overridePendingTransition(R.anim.zoom_enter,
 							R.anim.zoom_exit);
+				}
 				break;
 			case R.id.article_menuitem_refresh:
 				int current = mViewPager.getCurrentItem();
-				ActivityUtil.getInstance().noticeSaying(this);
+				if(PhoneConfiguration.getInstance().fullscreen){ 
+					refresh_saying();
+				}else{
+					ActivityUtil.getInstance().noticeSaying(this);
+				}
 				mViewPager.setAdapter(mTabsAdapter);
 				mViewPager.setCurrentItem(current);
 				
@@ -275,9 +339,27 @@ PerferenceConstant{
 			case R.id.goto_floor:
 				createGotoDialog();
 				break;
+			case R.id.item_share:
+				intent.setAction(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				String shareUrl = "http://nga.178.com/read.php?";
+				if(this.pid != 0){
+					shareUrl = shareUrl + "pid="+this.pid+" (分享自NGA客户端开源版)";
+				}
+				else
+				{
+					shareUrl = shareUrl + "tid="+this.tid+" (分享自NGA客户端开源版)";
+				}
+				if(!StringUtil.isEmpty(this.title)){
+					shareUrl = "《"+this.title+"》 - 艾泽拉斯国家地理论坛,地址:"+shareUrl;
+				}
+				intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
+				String text = getResources().getString(R.string.share);
+				startActivity(Intent.createChooser(intent, text));
+				break;
 			case R.id.article_menuitem_back:
 			default:
-				if(0 == fid)
+				if(0 == fid || fromreplyactivity != 0)
 				{
 					finish();
 				}else
@@ -286,7 +368,6 @@ PerferenceConstant{
                     intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent2.putExtra("fid", fid);
                     startActivity(intent2);
-					
 				}
 				break;
 		}
@@ -331,7 +412,7 @@ PerferenceConstant{
 		
 		
 		SharedPreferences share = getSharedPreferences(PERFERENCE,
-				Activity.MODE_PRIVATE);
+				MODE_MULTI_PROCESS);
 		Editor editor = share.edit();
 		editor.putInt(SCREEN_ORENTATION, newOrientation);
 		editor.commit();
@@ -378,6 +459,9 @@ PerferenceConstant{
 		}else{
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
+		if(PhoneConfiguration.getInstance().fullscreen){
+			ActivityUtil.getInstance().setFullScreen(mViewPager);
+		}
 		super.onResume();
 	}
 
@@ -423,7 +507,7 @@ PerferenceConstant{
 	public String getUrl(){
 		final String scheme = getResources().getString(R.string.myscheme);
 		final StringBuilder sb = new StringBuilder(scheme);
-		sb.append("://bbs.ngacn.cc/read.php?");
+		sb.append("://nga.178.com/read.php?");
 		if(tid!=0){
 			sb.append("tid=");
 			sb.append(tid);
@@ -464,7 +548,16 @@ PerferenceConstant{
 		if( tid != data.getThreadInfo().getTid()) // mirror thread
 			tid = data.getThreadInfo().getTid();
 		fid = data.getThreadInfo().getFid();
-		setTitle(StringUtil.unEscapeHtml(data.getThreadInfo().getSubject()));
+		getSupportActionBar().setTitle(StringUtil.unEscapeHtml(data.getThreadInfo().getSubject()));
+
+		title=data.getThreadInfo().getSubject();
+		
+		attacher.setRefreshComplete();
+	}
+	@Override
+	public PullToRefreshAttacher getAttacher() {
+		// TODO Auto-generated method stub
+		return mPullToRefreshAttacher;
 	}
 
 

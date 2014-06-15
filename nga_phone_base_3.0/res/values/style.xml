@@ -14,11 +14,30 @@
   limitations under the License.
   -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="style/Theme.AppCompat" />
+    <style name="AppTheme" parent="style/Theme.AppCompat" >
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    </style>
     
-
+    <style name="AppThemeNight" parent="style/Theme.AppCompat" >
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    </style>
+        
+	<!-- Title of tabs -->
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/custom_tab_indicator</item>
+        <item name="android:textColor">#551200</item>
+        <item name="android:dividerPadding">10dp</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:fadingEdgeLength">8dp</item>
+        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+    </style>
+    
     <style name="SwipeBackBaseTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
     </style>
@@ -79,27 +98,6 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="MenuDrawerStyle" parent="Widget.MenuDrawer">
-        <item name="mdActiveIndicator">@drawable/menu_arrow_start</item>
-        <item name="mdMenuSize">250dp</item>
-    </style>
-
-    <style name="MenuDrawerStyle.Right" parent="Widget.MenuDrawer">
-        <item name="mdActiveIndicator">@drawable/menu_arrow_end</item>
-        <item name="mdMenuSize">150dp</item>
-    </style>
-
-    <style name="MenuDrawerStyle.Top" parent="Widget.MenuDrawer">
-        <item name="mdActiveIndicator">@drawable/menu_arrow_top</item>
-        <item name="mdMenuSize">64dp</item>
-        <item name="mdAllowIndicatorAnimation">true</item>
-    </style>
-
-    <style name="MenuDrawerStyle.Bottom" parent="Widget.MenuDrawer">
-        <item name="mdActiveIndicator">@drawable/menu_arrow_bottom</item>
-        <item name="mdMenuSize">64dp</item>
-    </style>
-    
     <style name="ClientDialog" parent="android:style/Theme.Dialog"> 
     <item name="android:windowFrame">@null</item>  
     <item name="android:windowIsFloating">true</item>  

@@ -1,5 +1,7 @@
 package sp.phone.fragment;
 
+import gov.anzong.androidnga.activity.LoginActivity;
+import gov.anzong.androidnga.activity.MainActivity;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.R;
 
@@ -35,7 +37,11 @@ PerferenceConstant{
 	EditText userText;
 	EditText passwordText;
 	ListView userList ;
-
+	String name;
+	Object commit_lock = new Object();
+	private boolean loading=false;
+	private Toast toast = null;
+	
 	public LoginFragment() {
 		super();
 	}
@@ -48,6 +54,7 @@ PerferenceConstant{
 		return view;
 	}
 
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		Button button_login = (Button) view.findViewById(R.id.login_button);
@@ -60,8 +67,10 @@ PerferenceConstant{
 
 
 		String userName = PhoneConfiguration.getInstance().userName;
-		if (userName != "")
+		if (userName != ""){
 			userText.setText(userName);
+			userText.selectAll();
+			}
 
 		LoginButtonListener listener = new LoginButtonListener(postUrl);
 		button_login.setOnClickListener(listener);
@@ -84,21 +93,37 @@ PerferenceConstant{
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			StringBuffer bodyBuffer = new StringBuffer();
-			bodyBuffer.append("type=username&email=");
-			
-			try {
-				bodyBuffer.append(URLEncoder.encode(userText.getText().toString(),"utf-8"));
-				bodyBuffer.append("&password=");
-				bodyBuffer.append(URLEncoder.encode(passwordText.getText()
-						.toString(),"utf-8"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			new LoginTask(v).execute(loginUrl,bodyBuffer.toString());
-			
 
+			synchronized(commit_lock){
+				if(loading == true){
+					String avoidWindfury = getActivity().getString(R.string.avoidWindfury);
+					if (toast != null) {
+						toast.setText(avoidWindfury);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(), avoidWindfury, 
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
+					return ;
+				}else{
+					name  = userText.getText().toString();
+					StringBuffer bodyBuffer = new StringBuffer();
+					bodyBuffer.append("type=username&email=");
+					
+					try {
+						bodyBuffer.append(URLEncoder.encode(userText.getText().toString(),"utf-8"));
+						bodyBuffer.append("&password=");
+						bodyBuffer.append(URLEncoder.encode(passwordText.getText()
+								.toString(),"utf-8"));
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					new LoginTask(v).execute(loginUrl,bodyBuffer.toString());
+				}
+				loading = true;
+			}
 		}
 
 
@@ -163,9 +188,19 @@ PerferenceConstant{
 			
 			@Override
 			protected void onPostExecute( Boolean result) {
+				synchronized(commit_lock){
+					loading = false;
+				}
 				if(result.booleanValue()){
-				Toast.makeText(v.getContext(), R.string.login_successfully,
-						Toast.LENGTH_LONG).show();
+					if (toast != null) {
+						toast.setText(R.string.login_successfully);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(), R.string.login_successfully, 
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
 				/*Intent intent = new Intent();
 				intent.setClass(v.getContext(), MainActivity.class);
 	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
@@ -174,22 +209,32 @@ PerferenceConstant{
 				Editor editor = share.edit();
 				editor.putString(UID, uid);
 				editor.putString(CID, cid);
-				final String name  = userText.getText().toString();
+				editor.putString(PENDING_REPLYS, "");
+				editor.putString(REPLYTOTALNUM, "0");
 				editor.putString(USER_NAME, name );
 				editor.commit();
 				MyApp app = (MyApp) getActivity().getApplication();
-				app.addToUserList(uid, cid, name);
+				app.addToUserList(uid, cid, name,"",0);
 				
 				PhoneConfiguration.getInstance().setUid(uid);
 				PhoneConfiguration.getInstance().setCid(cid);
 				PhoneConfiguration.getInstance().userName = name;
+				PhoneConfiguration.getInstance().setReplyString("");
+				PhoneConfiguration.getInstance().setReplyTotalNum(0);
 				
 				LoginFragment.this.dismiss();
 				//startActivity(intent);
 				super.onPostExecute(result);
 				}else{
-					Toast.makeText(v.getContext(), R.string.login_failed,
-							Toast.LENGTH_LONG).show();
+					if (toast != null) {
+						toast.setText(R.string.login_failed);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(), R.string.login_failed, 
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
 				}
 			}
 			

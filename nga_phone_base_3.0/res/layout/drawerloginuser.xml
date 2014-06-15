@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:id="@+id/mainlisthead"
+    android:orientation="vertical" >
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="11dp"
+        android:background="#00000000"
+        android:clickable="false"
+        android:contentDescription="@string/avatar"
+        android:focusable="false"
+        android:longClickable="false"
+        android:src="@drawable/drawerdefaulticon" />
+
+    <TextView
+        android:id="@+id/loginstate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/avatarImage"
+        android:layout_toRightOf="@+id/avatarImage"
+        android:text="已登入"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        android:textColor="#712D08"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/loginnameandid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/loginstate"
+        android:layout_below="@+id/loginstate"
+        android:layout_marginTop="5dp"
+        android:text="竹井詩織里(58)"
+		android:singleLine="true"
+		android:ellipsize="end"
+        android:textColor="#712D08"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+	<ImageView
+	    android:id="@+id/nextImage"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:background="@drawable/ic_action_next_item"
+	    android:clickable="false"
+	    android:contentDescription="@string/avatar"
+	    android:focusable="false"
+	    android:layout_centerInParent="true"
+	    android:longClickable="false" />
+
+</RelativeLayout>

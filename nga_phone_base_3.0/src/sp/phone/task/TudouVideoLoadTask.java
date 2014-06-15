@@ -1,6 +1,7 @@
 package sp.phone.task;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.Media_Player;
 import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.StringUtil;
@@ -12,14 +13,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.Toast;
 
 public class TudouVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	final FragmentActivity fa ;
+	final String origurl;
 	static final String dialogTag = "load_tudou";
-	public TudouVideoLoadTask(FragmentActivity fa) {
+	public TudouVideoLoadTask(FragmentActivity fa,String origurl) {
 		super();
 		this.fa = fa;
+		this.origurl=origurl;
 	}
 	private boolean startIntent = true;
 	@Override
@@ -37,13 +42,29 @@ public class TudouVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		if(!startIntent)
+		if(!startIntent){
+			Toast.makeText(fa.getBaseContext(), "创建视频窗口失败,将调用系统打开链接",	Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse(origurl));
+            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+            if(isIntentSafe)
+			    fa.startActivity(intent);
 			return;
+		}
 		
 		if(result != null){
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(result));
+			Intent intent = new Intent(fa.getBaseContext(),Media_Player.class);
+			Bundle b = new Bundle();
+			b.putString("MEDIAPATH", result);
+			intent.putExtras(b);
 			fa.startActivity(intent);
+		}else{
+			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析,将调用系统打开链接",	Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setData(Uri.parse(origurl));
+            boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
+            if(isIntentSafe)
+			    fa.startActivity(intent);
 		}
 
 		this.onCancelled();
@@ -77,28 +98,15 @@ public class TudouVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected String doInBackground(String... params) {
-		if(params.length ==0)
-		{
-			return null;
-		}
-		int index  = params[0].indexOf("/v.swf");
-		if(index != -1){
-			params[0] = params[0].substring(0, index);
-		}
-		final String uri = "http://www.tudou.com/programs/view/html5embed.action?code="
-				+ params[0];
+		final String uri = "http://www.tudou.com/programs/view/"
+				+ params[0]+"/";
 		final String htmlString = HttpUtil.iosGetHtml(uri, null);
-		final String imgUrl = StringUtil.getStringBetween(
-				htmlString, 0, "poster=\"", "\"").result;
-		if(StringUtil.isEmpty(imgUrl))
+		final String iid = StringUtil.getStringBetween(
+				htmlString, 0, "iid: ", " ").result;
+		if(StringUtil.isEmpty(iid))
 			return null;
-		String m3u8Url = imgUrl.replace("http://i2.tdimg.com", "http://m3u8.tdimg.com");
-		index  = m3u8Url.lastIndexOf('/'); 
-		if(index ==-1){
-			return null;
-		}
-		m3u8Url = m3u8Url.substring(0, index);
-		return m3u8Url+"/3.m3u8";
+		String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="+iid;
+		return m3u8Url;
 	}
 
 }
