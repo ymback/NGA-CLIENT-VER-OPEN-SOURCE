@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="0dp" >
+
+    <RelativeLayout
+            android:id="@+id/titlehahaha"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/nickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#FF545454"
+            android:text="安总"
+            android:textIsSelectable="false"
+            android:textStyle="bold" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/signtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/nickName"
+            android:layout_alignParentRight="true"
+            android:textColor="#FF545454"
+            android:gravity="right"
+                android:singleLine="true"
+				android:ellipsize="end"
+            android:layout_marginRight="5dp"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/lasttext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/nickName"
+            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@id/signtime"
+            android:text="上次签到:"
+            android:gravity="right"
+            android:textColor="#FF545454"
+            android:textIsSelectable="false" />
+        
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/avahahahb"
+		    android:layout_width="fill_parent"
+		    android:layout_below="@id/titlehahaha" 
+		    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+        android:clickable="false"
+        android:contentDescription="@string/avatar"
+        android:focusable="false"
+        android:padding="1dp"     
+        android:background="@drawable/imageavatarborder"
+        android:longClickable="false"/>
+
+    <TextView
+        android:id="@+id/signdatedata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_toRightOf="@+id/avatarImage"
+        android:layout_alignTop="@+id/avatarImage"
+        android:text="连续/总计签到天数:"
+        android:textColor="#FF545454"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/signdate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/signdatedata"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/signdatedata"
+        android:textColor="#FF545454"
+        android:textIsSelectable="false"/>
+
+    <TextView
+        android:id="@+id/statetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signdate"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/avatarImage"
+        android:text="签到状态:"
+        android:textColor="#FF545454"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/signstate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/statetext"
+        android:layout_alignLeft="@id/statetext" 
+        android:textColor="#FF545454"
+        android:singleLine="true"
+		android:ellipsize="end"
+        android:textIsSelectable="false"
+        android:text="AA"/>
+
+    <TextView
+        android:id="@+id/success_mission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signstate"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/avatarImage"
+        android:text="已完成任务:"
+        android:textColor="#FF545454"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/successnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/success_mission"
+        android:layout_marginLeft="3dp"
+        android:text="3"
+        android:layout_toRightOf="@+id/success_mission"
+        android:textColor="#FF545454"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:id="@+id/available_mission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/signstate"
+        android:layout_toRightOf="@+id/successnum"
+        android:layout_alignTop="@id/success_mission"
+        android:text="可完成任务:"
+        android:textColor="#FF545454"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/availablenum"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/available_mission"
+        android:layout_marginLeft="3dp"
+        android:text="3"
+        android:layout_toRightOf="@+id/available_mission"
+        android:textColor="#FF545454"
+        android:textIsSelectable="false" />
+		</RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/place_holder"
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/avahahahb"
+        android:orientation="horizontal" />
+
+    <View
+        android:id="@+id/lineviewforshow"
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentBottom="true"
+        android:background="#551200" >
+    </View>
+
+</RelativeLayout>

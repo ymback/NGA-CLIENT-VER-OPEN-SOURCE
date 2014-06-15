@@ -6,40 +6,42 @@ import java.net.HttpURLConnection;
 
 import org.apache.commons.io.IOUtils;
 
+import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.HeaderViewListAdapter;
 import android.widget.Toast;
 
 
-//有Bug，且坑太大，干脆去掉了删除收藏的功能
 public class DeleteBookmarkTask extends AsyncTask<String, Integer, String> {
-	//String url = "http://bbs.ngacn.cc/nuke.php?func=topicfavor&action=del";
+//	String url = "http://nga.178.com/nuke.php?__lib=topic_favor&__act=topic_favor&raw=3&action=del&";
 	//post tidarray:3092111
 	private Context context;
-	private final String url = "http://bbs.ngacn.cc/nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=del&tid=";
+	private final String url = "http://nga.178.com/nuke.php?nuke.php?__lib=topic_favor&__act=topic_favor&raw=3&lite=js&action=del&";
+	private AdapterView<?> parent;
+	private int position;
 	
-	
-	
-	public DeleteBookmarkTask(Context context) {
+	public DeleteBookmarkTask(Context context,AdapterView<?> parent,int position) {
 		super();
 		this.context = context;
+		this.parent = parent;
+		this.position=position;
 	}
 
 	@Override
 	protected String doInBackground(String... params) {
 
-		/* 这个Tid是有问题的，真正的Tid应该是Tid_Pid才能准确删除收藏列表里的某一项，但是
-		 * Pid的信息在Json Parse的部分就被扔掉了，要做的话要从网络部分一路改起，坑太大，慎重慎重！
-		 */
-		String tid = params[0];
-		HttpPostClient c =  new HttpPostClient(url+tid);
+		String tidarray = params[0];
+		HttpPostClient c =  new HttpPostClient(url+tidarray);
 		String cookie = PhoneConfiguration.getInstance().getCookie();
 		c.setCookie(cookie);
-		String body ="__lib=topic_favor&__act=topic_favor&lite=js&noprefix&action=del&tid="+tid;
+		String body ="__lib=topic_favor&__act=topic_favor&raw=3&lite=js&action=del&"+tidarray;
 
 		String ret = null;
 		try {
@@ -76,6 +78,19 @@ public class DeleteBookmarkTask extends AsyncTask<String, Integer, String> {
 		//android.R.drawable.ic_search_category_default
 		if(!StringUtil.isEmpty(msg)){
 			Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
+			if(msg.trim().equals("操作成功")){
+				Object a = parent.getAdapter();
+				AppendableTopicAdapter adapter = null;
+				if (a instanceof AppendableTopicAdapter) {
+					adapter = (AppendableTopicAdapter) a;
+				} else if (a instanceof HeaderViewListAdapter) {
+					HeaderViewListAdapter ha = (HeaderViewListAdapter) a;
+					adapter = (AppendableTopicAdapter) ha.getWrappedAdapter();
+					position -= ha.getHeadersCount();
+				}
+				adapter.remove(position);
+				adapter.notifyDataSetChanged(); 
+			}
 		}
 	}
 

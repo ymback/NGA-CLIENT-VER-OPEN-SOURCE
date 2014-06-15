@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:windowSoftInputMode="stateHidden|adjustResize"
+    android:id="@+id/video_view_for_media_player"
+	android:background="@android:color/black"
+	>
+    <io.vov.vitamio.widget.VideoView
+        android:id="@+id/surface_view" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+		android:background="@android:color/transparent"  />
+    <LinearLayout
+        android:id="@+id/video_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" 
+        android:gravity="center_vertical" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="6.0dip"
+            android:text="@string/video_layout_loading"
+            android:textSize="20.0sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/video_position_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/video_loading"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="6.0dip"
+            android:id="@+id/video_loading_text"
+            android:text=""
+            android:textSize="20.0sp" />
+    </LinearLayout>
+    <FrameLayout android:id="@+id/operation_volume_brightness"
+        android:visibility="invisible" android:layout_centerInParent="true"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:background="@android:color/transparent"  android:orientation="horizontal"
+        android:padding="0dip">
+        <ImageView android:id="@+id/operation_bg"
+            android:layout_gravity="center" android:src="@drawable/video_volumn_bg"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <FrameLayout android:layout_gravity="bottom|center_horizontal"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:paddingBottom="25dip">
+            <ImageView android:id="@+id/operation_full"
+                android:layout_gravity="left" android:src="@drawable/video_num_bg"
+                android:layout_width="94dip" android:layout_height="wrap_content" />
+            <ImageView android:id="@+id/operation_percent"
+                android:layout_gravity="left" android:src="@drawable/video_num_front"
+                android:layout_width="0dip" android:layout_height="wrap_content"
+                android:scaleType="matrix" />
+        </FrameLayout>
+    </FrameLayout>
+</RelativeLayout>

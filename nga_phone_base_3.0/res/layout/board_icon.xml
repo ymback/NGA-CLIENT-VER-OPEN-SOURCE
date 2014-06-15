@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/board_imgicon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-</ImageView>
+        android:layout_width="48dp"
+        android:layout_height="48dp" >
+	</ImageView>
     <TextView android:layout_height="wrap_content"  android:layout_width="wrap_content" android:id="@+id/board_name_view"></TextView>
 </LinearLayout>

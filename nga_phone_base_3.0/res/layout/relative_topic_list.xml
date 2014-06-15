@@ -70,9 +70,7 @@
 			    android:textColor="@color/night_link_color"
 			    android:textIsSelectable="false"
 			    android:textSize="11.0sp" >
-
 			</TextView>
 		</RelativeLayout>
-    
-
 </RelativeLayout>
+			

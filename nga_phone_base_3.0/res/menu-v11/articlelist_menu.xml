@@ -6,6 +6,7 @@
     <item android:id="@+id/article_menuitem_refresh"  android:title="@string/refresh" android:icon="@drawable/ic_refresh" androidnga:showAsAction="always" android:showAsAction="always"></item>
     <item android:id="@+id/article_menuitem_reply"  android:title="@string/reply_thread" android:icon="@drawable/content_edit" androidnga:showAsAction="always" android:showAsAction="always"></item>
     <item android:id="@+id/article_menuitem_addbookmark"  android:title="@string/bookmark" android:icon="@drawable/btn_star_big_on"></item>
+    <item android:id="@+id/item_share" android:title="@string/share" android:icon="@drawable/ic_menu_share_holo_dark"></item>
     <item android:id="@+id/article_menuitem_back"  android:title="@string/close" android:icon="@drawable/ic_exit"></item>
     
     

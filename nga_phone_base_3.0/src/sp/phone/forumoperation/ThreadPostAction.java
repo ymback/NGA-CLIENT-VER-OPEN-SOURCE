@@ -2,6 +2,7 @@ package sp.phone.forumoperation;
 import java.io.UnsupportedEncodingException;
 import java.lang.StringBuffer;
 import java.net.URLEncoder;
+import android.util.Log;
 
 import sp.phone.utils.StringUtil;
 
@@ -103,19 +104,14 @@ public class ThreadPostAction {
 			sb.append("&force_topic_key="); sb.append(force_topic_key_);
 			sb.append("&filter_key="); sb.append(filter_key_);
 			sb.append("&post_subject="); 
-			try {
-				sb.append( URLEncoder.encode(post_subject_,"GBK"));
-				sb.append("&post_content="); sb.append( URLEncoder.encode(post_content_,"GBK"));
-				if(mention_.length() !=0){
-					sb.append("&mention="); sb.append( URLEncoder.encode(mention_,"GBK"));
-					
-				}else{
-					sb.append("&mention="); sb.append( URLEncoder.encode("","GBK"));
-				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		
+			sb.append(StringUtil.encodeUrl(post_subject_,"GBK"));
+			sb.append("&post_content="); sb.append(StringUtil.encodeUrl(post_content_,"GBK"));
+			if(mention_.length() !=0){
+                sb.append("&mention="); sb.append(StringUtil.encodeUrl(mention_,"GBK"));
+
+            }else{
+                sb.append("&mention="); sb.append(StringUtil.encodeUrl("","GBK"));
+            }
 			sb.append("&checkkey="); sb.append(checkkey_);
 			sb.append("&__ngaClientChecksum=");sb.append(__ngaClientChecksum);
 			return sb.toString();

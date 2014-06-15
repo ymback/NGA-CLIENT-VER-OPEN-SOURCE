@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/click_to_delete"
-        android:src="@drawable/ic_action_delete" /><TextView
+        android:src="@drawable/ic_action_delete" />
+    <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

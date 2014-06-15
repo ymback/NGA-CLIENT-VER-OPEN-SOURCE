@@ -70,10 +70,9 @@ public class NearbyUsersAdapter extends BaseAdapter {
 		} catch (UnsupportedEncodingException e) {
 
 		}
-		Location myloc = PhoneConfiguration.getInstance().location;
 
 		text = text +"(" + 
-				ActivityUtil.distanceBetween(myloc, u.getLatitude(), u.getLongitude()) +
+				u.getJuli() +
 				"รื)";
 		TextView tv = (TextView)ret.findViewById(R.id.nickname);
 		tv.setText(text);

@@ -1,23 +1,27 @@
 package gov.anzong.androidnga.activity;
 
+import gov.anzong.androidnga.R;
+import sp.phone.task.DownloadImageTask;
+import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ReflectionUtil;
+import sp.phone.utils.ThemeManager;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import gov.anzong.androidnga.R;
-import sp.phone.task.DownloadImageTask;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.ThemeManager;
+import android.support.v7.app.ActionBarActivity;
 
 public class ImageViewerActivity extends  SwipeBackAppCompatActivity {
 	private WebView wv;
@@ -27,9 +31,9 @@ public class ImageViewerActivity extends  SwipeBackAppCompatActivity {
 		if(ActivityUtil.isGreaterThan_2_3_3())
 			requestWindowFeature(Window.FEATURE_PROGRESS);
 		super.onCreate(arg0); 
-		this.setContentView(R.layout.webview_layout);
+		View view = LayoutInflater.from(this).inflate(R.layout.webview_layout,null,false);
+		this.setContentView(view);
 		wv = (WebView) findViewById(R.id.webview);
-		
 		if(ActivityUtil.isGreaterThan_2_3_3())
 		 wv.setWebChromeClient(new WebChromeClient() {  
              public void onProgressChanged(WebView view, int progress) {  
@@ -44,6 +48,9 @@ public class ImageViewerActivity extends  SwipeBackAppCompatActivity {
 	@Override
 	protected void onResume() {
 		load();
+		if(PhoneConfiguration.getInstance().fullscreen){
+		ActivityUtil.getInstance().setFullScreen(wv);
+		}
 		super.onResume();
 	}
 	

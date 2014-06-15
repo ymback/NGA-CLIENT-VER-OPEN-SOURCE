@@ -5,6 +5,7 @@ import sp.phone.bean.User;
 import sp.phone.utils.PhoneConfiguration;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,11 +61,24 @@ implements  OnClickListener{
 		if(position == 0){
 			if(userList.size() == 0){
 				PhoneConfiguration.getInstance().setUid("");
-				PhoneConfiguration.getInstance().setCid("");
+				PhoneConfiguration.getInstance().setNickname("");
+				PhoneConfiguration.getInstance().setCid("");			
+				PhoneConfiguration.getInstance().setReplyString("");
+				PhoneConfiguration.getInstance().setReplyTotalNum(0);
+				Editor editor = share.edit();
+				editor.putString(UID, "");
+				editor.putString(CID, "");
+				editor.putString(USER_NAME, "" );
+				editor.putString(PENDING_REPLYS, "");
+				editor.putString(REPLYTOTALNUM, "0");
+				editor.commit();
 			}else{
 				User u = userList.get(0);
 				PhoneConfiguration.getInstance().setUid(u.getUserId());
+				PhoneConfiguration.getInstance().setNickname(u.getNickName());
 				PhoneConfiguration.getInstance().setCid(u.getCid());
+				PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
+				PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
 			}
 		}
 		

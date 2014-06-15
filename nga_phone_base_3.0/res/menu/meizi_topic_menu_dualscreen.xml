@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+    
+    
+    <item android:id="@+id/meizi_topic_refresh"  android:title="@string/refresh" android:icon="@drawable/ic_refresh" androidnga:showAsAction="always" android:showAsAction="always"></item>
+    
+    <item android:id="@+id/article_menuitem_back" android:showAsAction="always" androidnga:showAsAction="always" android:title="@string/close" android:icon="@drawable/ic_exit"></item>
+    
+    
+    
+
+</menu>

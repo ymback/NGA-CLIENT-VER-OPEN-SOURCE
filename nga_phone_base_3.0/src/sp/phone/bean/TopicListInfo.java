@@ -8,17 +8,15 @@ public class TopicListInfo {
 	int __SELECTED_FORUM;
 	int __TABLE;
 	boolean __SEARCHNORESULT=false;
-	
 	List<ThreadPageInfo> articleEntryList;
 
 	public int get__ROWS() {
 		return __ROWS;
 	}
-
 	public void set__ROWS(int __ROWS) {
 		this.__ROWS = __ROWS;
 	}
-	public void set__SEARCHNORESULT(boolean __SEARCHNORESULT){
+	public void set__SEARCHNORESULT(boolean __SEARCHNORESULT){//是不是没有结果
 		this.__SEARCHNORESULT=__SEARCHNORESULT;
 	}
 	public void set__TABLE(int __TABLE) {
