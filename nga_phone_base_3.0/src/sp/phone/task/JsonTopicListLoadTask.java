@@ -193,7 +193,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 				}
 			}
 			entry.setTidarray(tidarray);
-			if(rowObj.get("author").toString().length()==38 && rowObj.get("author").toString().startsWith("anony_")){
+			if(rowObj.get("author").toString().length()==39 && rowObj.get("author").toString().startsWith("#anony_")){
 				StringBuilder sb = new StringBuilder();
 				String aname=rowObj.get("author").toString();
 				int ia=6;
@@ -209,6 +209,24 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 					}ia+=2;
 				}	
 				entry.setAuthor(sb.toString());
+			}
+
+			if(rowObj.get("lastposter").toString().length()==39 && rowObj.get("lastposter").toString().startsWith("#anony_")){
+				StringBuilder sb = new StringBuilder();
+				String aname=rowObj.get("lastposter").toString();
+				int ia=6;
+				for(int j=0;j<6;j++){
+					int pos = 0;
+					if(j==0||j==3){
+						pos=Integer.valueOf(aname.substring(ia+1,ia+2),16);
+						sb.append(t1.charAt(pos));
+					}else if(j<6)
+					{
+						pos=Integer.valueOf(aname.substring(ia,ia+2),16);
+						sb.append(t2.charAt(pos));
+					}ia+=2;
+				}	
+				entry.setLastposter(sb.toString());
 			}
 			if(!StringUtil.isEmpty(rowObj.getString("topic_misc"))){
 				entry.setTopicMisc(rowObj.getString("topic_misc"));

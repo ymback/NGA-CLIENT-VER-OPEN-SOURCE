@@ -75,6 +75,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton replysplit = null;
 	private CompoundButton ha = null;
 	private CompoundButton fullscreen = null;
+	private CompoundButton kitwebview = null;
 
 	private RelativeLayout handsideQualityChooser;
 	private RelativeLayout playModeOptionChooser;
@@ -102,7 +103,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private TextView picshowtitle;
 	private TextView optiontitle;
 	private TextView uishowtitle;
-	private View viewgone1, viewgone2, viewgone3;
+	private View viewgone1, viewgone2, viewgone3, viewgone4;
 
 	private ImageView avatarImage;
 	private SeekBar avatarSeekBar;
@@ -145,6 +146,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		viewgone1 = (View) findViewById(R.id.viewgone1);
 		viewgone2 = (View) findViewById(R.id.viewgone2);
 		viewgone3 = (View) findViewById(R.id.viewgone3);
+		viewgone4 = (View) findViewById(R.id.viewgone4);
 
 		checkBoxDownimgNowifi = (CompoundButton) findViewById(R.id.checkBox_down_img_no_wifi);
 		checkBoxDownimgNowifi.setChecked(config.downImgNoWifi);
@@ -282,6 +284,10 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		fullscreen = (CompoundButton) findViewById(R.id.checkBox_fullscreen);
 		fullscreen.setChecked(config.fullscreen);
 		fullscreen.setOnCheckedChangeListener(new fullscreenListener());
+		
+		kitwebview = (CompoundButton) findViewById(R.id.checkBox_kitwebview);
+		kitwebview.setChecked(config.kitwebview);
+		kitwebview.setOnCheckedChangeListener(new kitwebviewListener());
 
 		fontTextView = (TextView) findViewById(R.id.textView_font_size);
 		defaultFontSize = fontTextView.getTextSize();
@@ -343,6 +349,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 																			// 4.4
 			fullscreen.setVisibility(View.GONE);
 			viewgone3.setVisibility(View.GONE);
+			kitwebview.setVisibility(View.GONE);
+			viewgone4.setVisibility(View.GONE);
 		}
 		updateThemeUI();
 	}
@@ -435,6 +443,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 				ThemeManager.getInstance().getForegroundColor());
 		checkBoxDownimgNowifi.setTextColor(fgColor);
 		fullscreen.setTextColor(fgColor);
+		kitwebview.setTextColor(fgColor);
 		checkBoxDownAvatarNowifi.setTextColor(fgColor);
 		nightMode.setTextColor(fgColor);
 		showAnimation.setTextColor(fgColor);
@@ -807,6 +816,34 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 				ActivityUtil.getInstance().setFullScreen(view);
 			} else {
 				ActivityUtil.getInstance().setNormalScreen(view);
+			}
+		}
+	}
+	
+
+	class kitwebviewListener implements OnCheckedChangeListener,
+			PerferenceConstant {
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			PhoneConfiguration.getInstance().kitwebview = isChecked;
+			SharedPreferences share = getSharedPreferences(PERFERENCE,
+					MODE_PRIVATE);
+
+			Editor editor = share.edit();
+			editor.putBoolean(KITWEBVIEWMODE, isChecked);
+			editor.commit();
+			if(isChecked){
+				if (toast != null) {
+					toast.setText(R.string.kitwebviewinfo);
+					toast.setDuration(Toast.LENGTH_SHORT);
+					toast.show();
+				} else {
+					toast = Toast.makeText(SettingsActivity.this,
+							R.string.kitwebviewinfo, Toast.LENGTH_SHORT);
+					toast.show();
+				}
 			}
 		}
 	}

@@ -173,12 +173,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 
 	@Override
 	public void OnChildFragmentRemoved(int id) {
-		if (id == R.id.item_mission_container) {
-			FragmentManager fm = getSupportFragmentManager();
-			Fragment f1 = fm.findFragmentById(R.id.item_list);
-			f1.setHasOptionsMenu(true);
-			getSupportActionBar().setTitle("短消息正文");
-		}
+		finish();
 
 	}// 竖屏变横屏就干这个
 

@@ -34,6 +34,7 @@ public interface PerferenceConstant {
     final String SHOW_LAJIBANKUAI = "showLajibankuai";
     final String HANDSIDE = "HandSide";
     final String FULLSCREENMODE = "fullscreen";
+    final String KITWEBVIEWMODE = "kitwebview";
     final String DRAGON_BALL="0";
 	final String BLACKGUN_SOUND = "blackgun_sound";
     

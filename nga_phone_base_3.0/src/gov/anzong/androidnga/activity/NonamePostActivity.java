@@ -141,7 +141,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 		}
 
 		super.onCreate(savedInstanceState);
-		v = this.getLayoutInflater().inflate(R.layout.reply, null);
+		v = this.getLayoutInflater().inflate(R.layout.nonamereply, null);
 		v.setBackgroundColor(getResources().getColor(
 				ThemeManager.getInstance().getBackgroundColor()));
 		this.setContentView(v);

@@ -23,6 +23,7 @@ public class ThreadPostAction {
 		private String checkkey_;
 		private String mention_;
 		private String __ngaClientChecksum;
+		private boolean __isanony;//&anony=1
 		public ThreadPostAction(String tid,String subject,String content)
 		{
 			step_ = 2;
@@ -39,6 +40,7 @@ public class ThreadPostAction {
 			post_content_ = content;
 			checkkey_ = "";
 			mention_ = "";
+			__isanony=false;
 			
 			
 		}
@@ -47,6 +49,9 @@ public class ThreadPostAction {
 		}
 		public void setFid_(int fid) {
 			fid_ = fid;
+		}
+		public void set__isanony(boolean isanony){
+			__isanony=isanony;
 		}
 		public String getPost_subject_() {
 			return post_subject_;
@@ -96,8 +101,10 @@ public class ThreadPostAction {
 			}else{
 				sb.append("&fid=");
 			}
-			String from_device = android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL+"; Android"+android.os.Build.VERSION.RELEASE;
 			sb.append("&tid="); sb.append(tid_);
+			if(__isanony){
+				sb.append("&anony=1");
+			}
 			sb.append("&_ff="); sb.append(_ff_);
 			sb.append("&attachments="); sb.append(attachments_);
 			sb.append("&attachments_check="); sb.append(attachments_check_);

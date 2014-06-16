@@ -298,15 +298,6 @@ PagerOwnner{
 		});
 		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
 	}
-	private ImageButton getActionItem(int id){
-		//View actionbar_compat = getActivity().findViewById(R.id.actionbar_compat);
-		View ret = null;
-		/*if(actionbar_compat != null)
-		{
-			ret = actionbar_compat.findViewById(id);
-		}*/
-		return (ImageButton) ret;
-	}
 	
 	private void handleLockOrientation(MenuItem item){
 		int preOrentation = ThemeManager.getInstance().screenOrentation;

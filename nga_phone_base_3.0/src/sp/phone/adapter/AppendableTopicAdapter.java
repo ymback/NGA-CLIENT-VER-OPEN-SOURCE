@@ -147,6 +147,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 		count = 0;
 		infoList.clear();
 		tidSet.clear();
+		isPrompted=false;
 		setSelected(-1);
 	}
 	

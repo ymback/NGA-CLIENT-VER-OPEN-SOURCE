@@ -135,6 +135,8 @@
     <string name="replysplit">发帖按钮在下面(4.0以上)</string>
     <string name="ha">硬件加速(4.0以上)</string>
     <string name="fullscreenmode">全屏模式(4.4以上)</string>
+    <string name="kitwebview">列表卡顿修复(4.4以上,测试)</string>
+    <string name="kitwebviewinfo">如果你的手机在主题帖中不卡顿,请不要启用本功能!</string>
     <string name="addreplybutton">主题页面显示回复按钮</string>
     <string name="report">举报</string>
     <string name="reportdialog_description">不要仅仅因为意见不同而举报</string>
@@ -229,6 +231,7 @@
     <string name="quoteadd">[quote]</string>
     <string name="wenzichuli">字体美化</string>
     <string name="bold">加粗</string>
+    <string name="anony">匿名</string>
     <string name="italic">斜体</string>
     <string name="underline">下划线</string>
     <string name="fontcolor">颜色</string>

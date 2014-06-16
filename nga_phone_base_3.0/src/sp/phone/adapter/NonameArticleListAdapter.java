@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import android.support.v4.app.Fragment;
+import sp.phone.adapter.ArticleListAdapter.ViewHolder;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.ThreadData;
@@ -182,7 +183,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 
 			ngaHtml = "<font color='red'>[" + hide + "]</font>";
 		}
-		ngaHtml = ngaHtml;
 		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
 				+ buildHeader(row, fgColorStr)
 				+ "<body bgcolor= '#"
@@ -215,10 +215,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		 * String.format("%06x",htmlfgColor); if(row.getContent()== null){
 		 * row.setContent(row.getSubject()); row.setSubject(null); }
 		 */
-
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| isInWifi();
-
 		WebSettings setting = contentTV.getSettings();
 		// setting.setBlockNetworkImage(!showImage);
 		// the network image url already replaced by local icon. this should not
@@ -289,8 +285,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 	}
 
 	private final WebViewClient client;
-
-	private Bitmap defaultAvatar = null;
 	
 	private ViewHolder initHolder(final View view) {
 		final ViewHolder holder = new ViewHolder();
@@ -298,11 +292,10 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 
 		holder.floorTV = (TextView) view.findViewById(R.id.floor);
 		holder.postTimeTV = (TextView) view.findViewById(R.id.postTime);
-		new Thread(new Runnable() {
-			public void run() {
-				holder.contentTV = (WebView) view.findViewById(R.id.content);
-			}
-		}).run();
+		holder.contentTV = (WebView) view.findViewById(R.id.content);
+		holder.contentTV.setHorizontalScrollBarEnabled(false);
+		holder.viewBtn = (ImageButton) view
+				.findViewById(R.id.listviewreplybtn);
 		/*
 		 * holder.levelTV = (TextView) view.findViewById(R.id.level);
 		 * holder.aurvrcTV= (TextView) view.findViewById(R.id.aurvrc);
@@ -330,7 +323,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		@Override
 		public void onClick(View v) {
 
-			if (System.currentTimeMillis() - this.lastTimestamp <= 2000) {
+			if (System.currentTimeMillis() - this.lastTimestamp <= 3000) {
 				return;
 			} else {
 				this.lastTimestamp = System.currentTimeMillis();
@@ -458,7 +451,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 	}
 
 	public View getView(int position, View view, ViewGroup parent) {
-		MyListenerForReply myListenerForReply = null;
+		MyListenerForReply myListenerForReply = new MyListenerForReply(position);
 		final NonameReadBody row = data.data.posts[position];
 
 		int lou = -1;
@@ -466,55 +459,58 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 			lou = row.floor;
 		ViewHolder holder = null;
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
+		if (ActivityUtil.isLessThan_4_4() || PhoneConfiguration.getInstance().kitwebview==false) {
 
-		SoftReference<View> ref = viewCache.get(position);
-		View cachedView = null;
-		if (ref != null) {
-			cachedView = ref.get();
-		}
-		if (cachedView != null) {
-			// Log.d(TAG, "get view from cache ,floor " + lou);
-			return cachedView;
-		} else {
-			// if(ref != null)
-			// Log.i(TAG, "cached view recycle by system:" + lou);
-			if (view == null || config.useViewCache) {
-				// Log.d(TAG, "inflater new view ,floor " + lou);
-				myListenerForReply = new MyListenerForReply(position);
-
-				view = LayoutInflater.from(activity).inflate(
-						R.layout.relative_nonamearitclelist, parent, false);
-				WebView webView = (WebView) view.findViewById(R.id.content);
-				webView.setHorizontalScrollBarEnabled(false);
-				holder = initHolder(view);
-				holder.viewBtn = (ImageButton) view
-						.findViewById(R.id.listviewreplybtn);
-				view.setTag(holder);
-				if (config.useViewCache)
-					viewCache.put(position, new SoftReference<View>(view));
+			SoftReference<View> ref = viewCache.get(position);
+			View cachedView = null;
+			if (ref != null) {
+				cachedView = ref.get();
+			}
+			if (cachedView != null) {
+				// Log.d(TAG, "get view from cache ,floor " + lou);
+				return cachedView;
 			} else {
-				holder = (ViewHolder) view.getTag();
-				if (holder.position == position) {
-					return view;
-				}
-				holder.contentTV.stopLoading();
-				if (holder.contentTV.getHeight() > 300) {
-					// Log.d(TAG, "skip and store a tall view ,floor " + lou);
-					// if (config.useViewCache)
-					viewCache.put(holder.position,
-							new SoftReference<View>(view));
+				// if(ref != null)
+				// Log.i(TAG, "cached view recycle by system:" + lou);
+				if (view == null || config.useViewCache) {
+					// Log.d(TAG, "inflater new view ,floor " + lou);
 
 					view = LayoutInflater.from(activity).inflate(
-							R.layout.relative_aritclelist, parent, false);
-					WebView webView = (WebView) view.findViewById(R.id.content);
-					webView.setHorizontalScrollBarEnabled(false);
+							R.layout.relative_nonamearitclelist, parent, false);
 					holder = initHolder(view);
 					view.setTag(holder);
+					if (config.useViewCache)
+						viewCache.put(position, new SoftReference<View>(view));
+				} else {
+					holder = (ViewHolder) view.getTag();
+					if (holder.position == position) {
+						return view;
+					}
+					holder.contentTV.stopLoading();
+					if (holder.contentTV.getHeight() > 300) {
+						// Log.d(TAG, "skip and store a tall view ,floor " + lou);
+						// if (config.useViewCache)
+						viewCache.put(holder.position,
+								new SoftReference<View>(view));
+
+						view = LayoutInflater.from(activity).inflate(
+								R.layout.relative_aritclelist, parent, false);
+						holder = initHolder(view);
+						view.setTag(holder);
+
+					}
 
 				}
 
 			}
-
+		}else{
+			if (view == null) {
+				view = LayoutInflater.from(activity).inflate(
+						R.layout.relative_nonamearitclelist, parent, false);
+				holder = initHolder(view);
+				view.setTag(holder);
+			}
+			holder = (ViewHolder) view.getTag();
 		}
 
 		if (!PhoneConfiguration.getInstance().showReplyButton) {
@@ -557,19 +553,21 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		TextView floorTV = holder.floorTV;
 		floorTV.setText("[" + floor + " ¥]");
 		floorTV.setTextColor(fgColor);
-
+		
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
 					handleContentTV(contentTV, row, bgColor, fgColor);
 				}
 			}).start();
-		} else {
+		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
 					handleContentTV(contentTV, row, bgColor, fgColor);
 				}
 			});
+		} else {
+			handleContentTV(contentTV, row, bgColor, fgColor);
 		}
 		final long longposttime = row.ptime;
 		String postTime ="";

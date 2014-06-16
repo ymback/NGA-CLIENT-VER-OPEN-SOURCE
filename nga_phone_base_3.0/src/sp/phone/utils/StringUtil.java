@@ -253,6 +253,8 @@ public class StringUtil {
 		// topic
 		s = s.replaceAll(ignoreCaseTag + "\\[tid=\\d+\\]Topic\\[/pid\\]",
 				"Topic");
+		s = s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\]Topic\\[/tid\\]",
+				"<a href='http://nga.178.com/read.php?tid=$1' style='font-weight: bold;'>[Topic]</a>");
 		// reply
 		// s =
 		// s.replaceAll("\\[b\\]Reply to \\[pid=\\d+\\]Reply\\[/pid\\] (Post by .+ \\(\\d{4,4}-\\d\\d-\\d\\d \\d\\d:\\d\\d\\))\\[/b\\]"
@@ -292,6 +294,8 @@ public class StringUtil {
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[@(.{2,20}?)\\]",
 				"<a href='http://nga.178.com/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
+		s = s.replaceAll(ignoreCaseTag 
+				+ "\\[uid=-?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
 		s = s.replaceAll(ignoreCaseTag
 				+ "\\[hip\\](.+?)\\[\\/hip\\]",
 				"$1");

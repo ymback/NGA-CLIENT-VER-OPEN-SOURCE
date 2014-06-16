@@ -104,6 +104,7 @@ public class AppendableMessageAdapter extends MessageListAdapter {
 		infoList.clear();
 		midSet.clear();
 		setSelected(-1);
+		isPrompted=false;
 	}
 	
 	public int getNextPage(){

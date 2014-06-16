@@ -106,6 +106,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 	private String prefix;
 	private EditText titleText;
 	private EditText bodyText;
+	private CheckBox anony;
 	private ThreadPostAction act; 
 	private String action;
 	private String tid;
@@ -189,6 +190,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 		loading = false;
 		
 		titleText = (EditText) findViewById(R.id.reply_titile_edittext);
+		anony = (CheckBox) findViewById(R.id.anony);
 		if(title!=null){
 			titleText.setText(title);
 		}
@@ -215,6 +217,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 			int textColor = this.getResources().getColor(tm.getForegroundColor());
 			bodyText.setTextColor(textColor);
 			titleText.setTextColor(textColor);
+			anony.setTextColor(textColor);
 		}
 
 
@@ -248,6 +251,28 @@ public class PostActivity extends SwipeBackAppCompatActivity
 		}else{
 			this.setNavigation();
 		}
+
+		anony.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
+			@Override 
+            public void onCheckedChanged(CompoundButton buttonView, 
+                    boolean isChecked) { 
+                // TODO Auto-generated method stub 
+                if(isChecked){ 
+					if (toast != null) {
+						toast.setText("匿名发帖/回复每次将扣除一百铜币,慎重");
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(PostActivity.this, 
+								"匿名发帖/回复每次将扣除一百铜币,慎重", 
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
+                }
+            } 
+			
+		});
 	}
 	
 	private String getngaClientChecksum()
@@ -969,7 +994,7 @@ public class PostActivity extends SwipeBackAppCompatActivity
 		
 		public void handleReply(View v1) {
 
-
+			act.set__isanony(anony.isChecked());
 			act.setPost_subject_(titleText.getText().toString());
 			if(bodyText.getText().toString().length()>0){
 			if(!act.getAction_().equals("modify"))

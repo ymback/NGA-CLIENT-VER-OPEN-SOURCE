@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 public class AlertDialogFragment extends DialogFragment {
@@ -25,17 +27,19 @@ public class AlertDialogFragment extends DialogFragment {
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());       
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+		final View view = layoutInflater.inflate(R.layout.default_dialog, null);
+		final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+		alert.setView(view);         
 		final String title = this.getArguments().getString("title");
 		if(title != null)
 			alert.setTitle(title);
 		else
 			alert.setTitle(R.string.warn);
 		final String text = this.getArguments().getString("text");
-		TextView v = new TextView(this.getActivity());
+		TextView v = (TextView) view.findViewById(R.id.defaultdialog_name);
 		v.setText(text);
-		v.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-		alert.setView(v);  
+		v.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
 		
 		alert.setPositiveButton(android.R.string.ok, okLintener);
 		alert.setNegativeButton(android.R.string.cancel, cancleLintener);

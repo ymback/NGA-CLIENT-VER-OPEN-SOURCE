@@ -59,25 +59,6 @@ public class AppendableNonameTopicAdapter extends NonameTopicListAdapter {
             return;
         }
         ActivityUtil.getInstance().dismiss();
-
-//		if (count != 0) {
-//			List<NonameThreadBody> threadList = new ArrayList<NonameThreadBody>();
-//			for (int i = 0; i < result.get_data().get_threads().length; i++) {
-//				NonameThreadBody info = result.get_data().get_threads()[i];
-//				if(info == null){
-//					continue;
-//				}
-//				int tid = info.get_tid();
-//				if (!tidSet.contains(tid)) {
-//					threadList.add(info);
-//					tidSet.add(tid);
-//				}
-//			}
-//			int size = threadList.size();
-//			NonameThreadBody[] arr = (NonameThreadBody[]) threadList.toArray(new NonameThreadBody[size]);
-//			result.get_data().set_threads(arr);
-//		}else{
-        Log.i("TAG", String.valueOf(result.data));
 			for (int i = 0; i < result.data.threads.length; i++) {
 				NonameThreadBody info = result.data.threads[i];
 				if(info == null){
@@ -106,6 +87,7 @@ public class AppendableNonameTopicAdapter extends NonameTopicListAdapter {
 		infoList.clear();
 		tidSet.clear();
 		setSelected(-1);
+		isPrompted=false;
 	}
 	
 	public int getNextPage(){

@@ -92,6 +92,7 @@ public class PhoneConfiguration implements PerferenceConstant{
     public boolean showLajibankuai  = true;
 	private int uiFlag = 0;
     public boolean fullscreen  = false;
+    public boolean kitwebview =false;
     public int replytotalnum = 0;
     
 

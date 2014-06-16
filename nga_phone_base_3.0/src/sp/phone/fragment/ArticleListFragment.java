@@ -399,11 +399,21 @@ public class ArticleListFragment extends Fragment implements
 				postPrefix.append(',').append(tidStr).append(",").append(page);
 				postPrefix.append("]");// Topic
 				postPrefix.append("Reply");
-				postPrefix.append("[/pid] [b]Post by [uid=");
-				postPrefix.append(uid);
-				postPrefix.append("]");
-				postPrefix.append(name);
-				postPrefix.append("[/uid] (");
+				if(row.getISANONYMOUS()){//是匿名的人
+					postPrefix.append("[/pid] [b]Post by [uid=");
+					postPrefix.append("-1");
+					postPrefix.append("]");
+					postPrefix.append(name);
+					postPrefix.append("[/uid][color=gray](");
+					postPrefix.append(row.getLou());
+					postPrefix.append("楼)[/color] (");
+				}else{
+					postPrefix.append("[/pid] [b]Post by [uid=");
+					postPrefix.append(uid);
+					postPrefix.append("]");
+					postPrefix.append(name);
+					postPrefix.append("[/uid] (");
+				}
 				postPrefix.append(postTime);
 				postPrefix.append("):[/b]\n");
 				postPrefix.append(content);

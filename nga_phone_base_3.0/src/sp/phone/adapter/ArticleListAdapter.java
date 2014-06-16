@@ -244,7 +244,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		ngaHtml = ngaHtml + buildComment(row, fgColorStr)
 				+ buildAttachment(row, showImage, imageQuality, imageURLSet)
 				+ buildSignature(row, showImage, imageQuality);
-		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
+		ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
 				+ buildHeader(row, fgColorStr)
 				+ "<body bgcolor= '#"
 				+ bgcolorStr
@@ -380,14 +380,12 @@ public class ArticleListAdapter extends BaseAdapter implements
 		final ViewHolder holder = new ViewHolder();
 		holder.nickNameTV = (TextView) view.findViewById(R.id.nickName);
 		holder.avatarIV = (ImageView) view.findViewById(R.id.avatarImage);
-
 		holder.floorTV = (TextView) view.findViewById(R.id.floor);
 		holder.postTimeTV = (TextView) view.findViewById(R.id.postTime);
-		new Thread(new Runnable() {
-			public void run() {
-				holder.contentTV = (WebView) view.findViewById(R.id.content);
-			}
-		}).run();
+		holder.contentTV = (WebView) view.findViewById(R.id.content);
+		holder.contentTV.setHorizontalScrollBarEnabled(false);
+		holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
+		holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
 		/*
 		 * holder.levelTV = (TextView) view.findViewById(R.id.level);
 		 * holder.aurvrcTV= (TextView) view.findViewById(R.id.aurvrc);
@@ -408,7 +406,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		@Override
 		public void onClick(View v) {
 
-			if (System.currentTimeMillis() - this.lastTimestamp <= 2000) {
+			if (System.currentTimeMillis() - this.lastTimestamp <= 3000) {
 				return;
 			} else {
 				this.lastTimestamp = System.currentTimeMillis();
@@ -456,11 +454,21 @@ public class ArticleListAdapter extends BaseAdapter implements
 							postPrefix.append(page);
 						postPrefix.append("]");// Topic
 						postPrefix.append("Reply");
-						postPrefix.append("[/pid] [b]Post by [uid=");
-						postPrefix.append(uid);
-						postPrefix.append("]");
-						postPrefix.append(name);
-						postPrefix.append("[/uid] (");
+						if(row.getISANONYMOUS()){//是匿名的人
+							postPrefix.append("[/pid] [b]Post by [uid=");
+							postPrefix.append("-1");
+							postPrefix.append("]");
+							postPrefix.append(name);
+							postPrefix.append("[/uid][color=gray](");
+							postPrefix.append(row.getLou());
+							postPrefix.append("楼)[/color] (");
+						}else{
+							postPrefix.append("[/pid] [b]Post by [uid=");
+							postPrefix.append(uid);
+							postPrefix.append("]");
+							postPrefix.append(name);
+							postPrefix.append("[/uid] (");
+						}
 						postPrefix.append(postTime);
 						postPrefix.append("):[/b]\n");
 						postPrefix.append(content);
@@ -501,9 +509,9 @@ public class ArticleListAdapter extends BaseAdapter implements
 		private long lastTimestamp = 0;
 		private ViewGroup parent;
 
-		public MyListenerForClient(int inPosition,ViewGroup parent) {
+		public MyListenerForClient(int inPosition, ViewGroup parent) {
 			mPosition = inPosition;
-			this.parent=parent;
+			this.parent = parent;
 		}
 
 		@Override
@@ -529,17 +537,18 @@ public class ArticleListAdapter extends BaseAdapter implements
 						deviceinfo = "发送自NGA苹果官方客户端 机型及系统:"
 								+ from_client.substring(2);
 					}
-				}else if (clientappcode.equals("8")) {
+				} else if (clientappcode.equals("8")) {
 					if (from_client.length() == 2) {
 						deviceinfo = "发送自NGA安卓客户端 机型及系统:未知";
 					} else {
-						String fromdata=from_client.substring(2);
-						if(fromdata.startsWith("[") && fromdata.indexOf("](Android")>0){
+						String fromdata = from_client.substring(2);
+						if (fromdata.startsWith("[")
+								&& fromdata.indexOf("](Android") > 0) {
 							deviceinfo = "发送自NGA安卓开源版客户端 机型及系统:"
-									+ fromdata.substring(1).replace("](Android", "(Android");
-						}else{
-							deviceinfo = "发送自NGA安卓官方客户端 机型及系统:"
-									+ fromdata;
+									+ fromdata.substring(1).replace(
+											"](Android", "(Android");
+						} else {
+							deviceinfo = "发送自NGA安卓官方客户端 机型及系统:" + fromdata;
 						}
 					}
 				} else if (clientappcode.equals("9")) {
@@ -600,17 +609,17 @@ public class ArticleListAdapter extends BaseAdapter implements
 				lp.width = (int) (wm.getDefaultDisplay().getWidth()); // 设置宽度
 				dialog.getWindow().setAttributes(lp);
 				dialog.show();
-				dialog.setOnCancelListener(new OnCancelListener(){
+				dialog.setOnCancelListener(new OnCancelListener() {
 
 					@Override
 					public void onCancel(DialogInterface arg0) {
 						// TODO Auto-generated method stub
-						if(PhoneConfiguration.getInstance().fullscreen){
+						if (PhoneConfiguration.getInstance().fullscreen) {
 							ActivityUtil.getInstance().setFullScreen(parent);
 						}
 						dialog.dismiss();
 					}
-					
+
 				});
 				dialog.setCanceledOnTouchOutside(true);
 			}
@@ -680,8 +689,9 @@ public class ArticleListAdapter extends BaseAdapter implements
 	}
 
 	public View getView(int position, View view, ViewGroup parent) {
-		MyListenerForReply myListenerForReply = null;
-		MyListenerForClient myListenerForClient = null;
+		MyListenerForReply myListenerForReply = new MyListenerForReply(position);
+		MyListenerForClient myListenerForClient = new MyListenerForClient(position,
+				parent);
 		final ThreadRowInfo row = data.getRowList().get(position);
 
 		int lou = -1;
@@ -690,59 +700,59 @@ public class ArticleListAdapter extends BaseAdapter implements
 		ViewHolder holder = null;
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 
-		SoftReference<View> ref = viewCache.get(position);
-		View cachedView = null;
-		if (ref != null) {
-			cachedView = ref.get();
-		}
-		if (cachedView != null) {
-			// Log.d(TAG, "get view from cache ,floor " + lou);
-			return cachedView;
-		} else {
-			// if(ref != null)
-			// Log.i(TAG, "cached view recycle by system:" + lou);
-			if (view == null || config.useViewCache) {
-				// Log.d(TAG, "inflater new view ,floor " + lou);
-				myListenerForReply = new MyListenerForReply(position);
-				myListenerForClient = new MyListenerForClient(position,parent);
-
-				view = LayoutInflater.from(activity).inflate(
-						R.layout.relative_aritclelist, parent, false);
-				WebView webView = (WebView) view.findViewById(R.id.content);
-				webView.setHorizontalScrollBarEnabled(false);
-				holder = initHolder(view);
-				holder.viewBtn = (ImageButton) view
-						.findViewById(R.id.listviewreplybtn);
-				holder.clientBtn = (ImageButton) view
-						.findViewById(R.id.clientbutton);
-				view.setTag(holder);
-				if (config.useViewCache)
-					viewCache.put(position, new SoftReference<View>(view));
+		if (ActivityUtil.isLessThan_4_4() || PhoneConfiguration.getInstance().kitwebview==false) {
+			SoftReference<View> ref = viewCache.get(position);
+			View cachedView = null;
+			if (ref != null) {
+				cachedView = ref.get();
+			}
+			if (cachedView != null) {
+				 Log.d(TAG, "get view from cache ,floor " + lou);
+				return cachedView;
 			} else {
-				holder = (ViewHolder) view.getTag();
-				if (holder.position == position) {
-					return view;
-				}
-				holder.contentTV.stopLoading();
-				if (holder.contentTV.getHeight() > 300) {
-					// Log.d(TAG, "skip and store a tall view ,floor " + lou);
-					// if (config.useViewCache)
-					viewCache.put(holder.position,
-							new SoftReference<View>(view));
+				// if(ref != null)
+				 Log.i(TAG, "cached view recycle by system:" + lou);
+				if (view == null || config.useViewCache) {
+					 Log.d(TAG, "inflater new view ,floor " + lou);
 
 					view = LayoutInflater.from(activity).inflate(
 							R.layout.relative_aritclelist, parent, false);
-					WebView webView = (WebView) view.findViewById(R.id.content);
-					webView.setHorizontalScrollBarEnabled(false);
 					holder = initHolder(view);
 					view.setTag(holder);
+					if (config.useViewCache)
+						viewCache.put(position, new SoftReference<View>(view));
+				} else {
+					holder = (ViewHolder) view.getTag();
+					if (holder.position == position) {
+						return view;
+					}
+					holder.contentTV.stopLoading();
+					if (holder.contentTV.getHeight() > 300) {
+						 Log.d(TAG, "skip and store a tall view ,floor " +
+						 position);
+						// if (config.useViewCache)
+						viewCache.put(holder.position, new SoftReference<View>(
+								view));
+
+						view = LayoutInflater.from(activity).inflate(
+								R.layout.relative_aritclelist, parent, false);
+						holder = initHolder(view);
+						view.setTag(holder);
+
+					}
 
 				}
 
 			}
-
+		} else {
+			if (view == null) {
+				view = LayoutInflater.from(activity).inflate(
+						R.layout.relative_aritclelist, parent, false);
+				holder = initHolder(view);
+				view.setTag(holder);
+			}
+			holder = (ViewHolder) view.getTag();
 		}
-
 		if (!PhoneConfiguration.getInstance().showReplyButton) {
 			holder.viewBtn.setVisibility(View.GONE);
 		} else {
@@ -792,9 +802,11 @@ public class ArticleListAdapter extends BaseAdapter implements
 			if (from_client.indexOf(" ") > 0) {
 				String clientappcode = from_client.substring(0,
 						from_client.indexOf(" "));
-				if (clientappcode.equals("1") || clientappcode.equals("7") || clientappcode.equals("101")) {
+				if (clientappcode.equals("1") || clientappcode.equals("7")
+						|| clientappcode.equals("101")) {
 					holder.clientBtn.setImageResource(R.drawable.ios);// IOS
-				} else if (clientappcode.equals("103") || clientappcode.equals("9")) {
+				} else if (clientappcode.equals("103")
+						|| clientappcode.equals("9")) {
 					holder.clientBtn.setImageResource(R.drawable.wp);// WP
 				} else if (!clientappcode.equals("8")
 						&& !clientappcode.equals("100")) {
@@ -810,16 +822,19 @@ public class ArticleListAdapter extends BaseAdapter implements
 					handleContentTV(contentTV, row, bgColor, fgColor);
 				}
 			}).start();
-		} else {
+		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
 					handleContentTV(contentTV, row, bgColor, fgColor);
 				}
 			});
+		} else {
+			handleContentTV(contentTV, row, bgColor, fgColor);
 		}
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());
 		postTimeTV.setTextColor(fgColor);
+		contentTV.requestLayout();
 		return view;
 	}
 
@@ -926,7 +941,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 		StringBuilder ret = new StringBuilder();
 		ret.append("<br/></br>").append(comment).append("<hr/><br/>");
-		ret.append("<table  border='1px' cellspacing='0px' style='border-collapse:collapse;");
+		ret.append("<table border='1px' cellspacing='0px' style='border-collapse:collapse;");
 		ret.append("color:");
 		ret.append(fgColor);
 		ret.append("'>");
