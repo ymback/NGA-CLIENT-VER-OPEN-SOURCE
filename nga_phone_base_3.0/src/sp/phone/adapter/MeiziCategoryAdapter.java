@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 
 import com.huewu.pla.lib.MultiColumnListView;
 import com.nostra13.universalimageloader.core.ImageLoader;

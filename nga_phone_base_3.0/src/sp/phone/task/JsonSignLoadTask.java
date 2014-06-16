@@ -15,7 +15,7 @@ import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MD5Util;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;

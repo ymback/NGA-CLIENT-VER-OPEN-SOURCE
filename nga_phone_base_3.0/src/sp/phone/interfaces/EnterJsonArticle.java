@@ -1,6 +1,6 @@
 package sp.phone.interfaces;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.adapter.TopicListAdapter;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;

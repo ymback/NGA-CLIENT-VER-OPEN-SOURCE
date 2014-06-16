@@ -1,6 +1,6 @@
 package sp.phone.adapter;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.bean.BoardCategory;
 import sp.phone.utils.ReflectionUtil;
 import android.content.res.Resources;

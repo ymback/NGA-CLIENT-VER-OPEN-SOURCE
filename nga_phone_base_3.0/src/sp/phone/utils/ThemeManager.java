@@ -1,7 +1,7 @@
 package sp.phone.utils;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 public class ThemeManager {
 	private static ThemeManager instance = null;
 	int foregroundColor[]={R.color.black,R.color.night_fore_color};

@@ -1,8 +1,8 @@
 package sp.phone.task;
 
-import gov.anzong.androidnga.activity.MyApp;
-import gov.anzong.androidnga.activity.ReplyListActivity;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.MyApp;
+import gov.anzong.androidnga2.activity.ReplyListActivity;
 
 import java.util.ArrayList;
 import java.util.List;

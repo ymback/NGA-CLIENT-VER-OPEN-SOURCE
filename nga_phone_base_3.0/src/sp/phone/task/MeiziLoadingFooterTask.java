@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 
 public class MeiziLoadingFooterTask {
     protected View mLoadingFooter;

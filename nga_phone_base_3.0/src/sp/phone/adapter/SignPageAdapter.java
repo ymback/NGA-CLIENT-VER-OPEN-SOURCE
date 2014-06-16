@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.HashSet;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.bean.ThreadPageInfo;

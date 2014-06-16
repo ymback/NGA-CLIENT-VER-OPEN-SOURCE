@@ -1,8 +1,8 @@
 package sp.phone.utils;
 
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.ImageViewerActivity;
-import gov.anzong.androidnga.activity.Media_Player;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.ImageViewerActivity;
+import gov.anzong.androidnga2.activity.Media_Player;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;

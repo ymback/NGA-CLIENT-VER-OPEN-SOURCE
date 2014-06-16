@@ -20,8 +20,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.ImageViewerActivity;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.ImageViewerActivity;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 

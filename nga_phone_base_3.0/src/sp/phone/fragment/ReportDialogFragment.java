@@ -3,7 +3,7 @@ package sp.phone.fragment;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtil;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;

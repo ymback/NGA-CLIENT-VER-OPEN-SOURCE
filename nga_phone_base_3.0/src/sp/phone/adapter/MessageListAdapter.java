@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import com.alibaba.fastjson.util.Base64;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.bean.ThreadPageInfo;

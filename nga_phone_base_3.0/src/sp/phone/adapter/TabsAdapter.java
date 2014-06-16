@@ -1,6 +1,6 @@
 package sp.phone.adapter;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

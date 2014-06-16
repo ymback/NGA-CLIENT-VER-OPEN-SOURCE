@@ -2,7 +2,7 @@ package sp.phone.fragment;
 
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

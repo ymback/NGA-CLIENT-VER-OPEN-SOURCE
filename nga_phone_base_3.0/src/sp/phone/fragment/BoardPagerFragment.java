@@ -1,6 +1,6 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.adapter.BoardCatagoryAdapter;
 import sp.phone.interfaces.PageCategoryOwnner;
 import sp.phone.utils.PhoneConfiguration;

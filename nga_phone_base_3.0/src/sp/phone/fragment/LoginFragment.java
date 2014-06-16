@@ -1,9 +1,9 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.activity.LoginActivity;
-import gov.anzong.androidnga.activity.MainActivity;
-import gov.anzong.androidnga.activity.MyApp;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.LoginActivity;
+import gov.anzong.androidnga2.activity.MainActivity;
+import gov.anzong.androidnga2.activity.MyApp;
 
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;

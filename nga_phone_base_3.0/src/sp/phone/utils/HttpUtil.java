@@ -1,6 +1,6 @@
 package sp.phone.utils;
 
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga2.activity.MyApp;
 
 import java.io.File;
 import java.io.IOException;

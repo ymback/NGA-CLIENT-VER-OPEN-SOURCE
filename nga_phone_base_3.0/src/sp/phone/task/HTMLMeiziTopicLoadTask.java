@@ -1,6 +1,6 @@
 package sp.phone.task;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 
 import java.text.ParseException;
 import java.util.ArrayList;

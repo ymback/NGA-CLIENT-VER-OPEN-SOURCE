@@ -7,8 +7,8 @@ import java.io.OutputStream;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.Media_Player;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.Media_Player;
 import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.StringUtil;

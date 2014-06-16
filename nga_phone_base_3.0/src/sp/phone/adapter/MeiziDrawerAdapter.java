@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 
 public class MeiziDrawerAdapter extends BaseAdapter {
 

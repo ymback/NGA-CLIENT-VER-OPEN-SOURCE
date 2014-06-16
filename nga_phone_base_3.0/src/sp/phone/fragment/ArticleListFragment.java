@@ -5,8 +5,8 @@ import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.HashSet;
 
-import gov.anzong.androidnga.activity.PostActivity;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.PostActivity;
 import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.PerferenceConstant;

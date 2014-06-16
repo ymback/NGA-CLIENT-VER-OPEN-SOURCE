@@ -2,7 +2,7 @@ package sp.phone.fragment;
 
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;

@@ -1,7 +1,7 @@
 package sp.phone.adapter;
 
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.Media_Player;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.Media_Player;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="2022"
+	package="gov.anzong.androidnga2" android:versionCode="2022"
 	android:largeHeap="true" android:configChanges="orientation|screenSize" 
 	android:versionName="2.0.22" android:installLocation="auto">
 	

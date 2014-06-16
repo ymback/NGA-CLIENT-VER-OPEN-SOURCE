@@ -2,6 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="uk.co.senab.actionbarpulltorefresh.library">
 
-    <uses-sdk android:targetSdkVersion="18" />
+    <uses-sdk android:targetSdkVersion="18" android:minSdkVersion="11" />
     <application />
 </manifest> 

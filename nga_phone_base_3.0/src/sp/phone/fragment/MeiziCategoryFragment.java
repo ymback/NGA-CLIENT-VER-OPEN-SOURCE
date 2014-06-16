@@ -38,8 +38,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MeiziLoginActivity;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.MeiziLoginActivity;
 
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.MultiColumnPullToRefreshListView;

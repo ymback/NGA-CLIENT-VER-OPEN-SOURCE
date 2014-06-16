@@ -2,7 +2,7 @@ package sp.phone.fragment;
 
 import sp.phone.interfaces.OnPostCommentFinishedListener;
 import sp.phone.task.PostCommentTask;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;

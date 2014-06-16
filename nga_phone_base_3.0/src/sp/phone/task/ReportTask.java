@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import org.apache.commons.io.IOUtils;
 
 import sp.phone.forumoperation.HttpPostClient;

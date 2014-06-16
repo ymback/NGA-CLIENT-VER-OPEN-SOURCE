@@ -1,7 +1,7 @@
 package sp.phone.utils;
 
-import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.MainActivity;
+import gov.anzong.androidnga2.activity.ArticleListActivity;
+import gov.anzong.androidnga2.activity.MainActivity;
 
 import java.lang.reflect.Method;
 

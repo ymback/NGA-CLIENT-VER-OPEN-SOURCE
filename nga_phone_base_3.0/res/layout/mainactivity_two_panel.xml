@@ -11,7 +11,7 @@
         android:baselineAligned="false"
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal"
-    	tools:context="gov.anzong.androidnga.activity.MeiziMainActivity"
+    	tools:context="gov.anzong.androidnga2.activity.MeiziMainActivity"
         android:showDividers="middle" >
 
         <FrameLayout

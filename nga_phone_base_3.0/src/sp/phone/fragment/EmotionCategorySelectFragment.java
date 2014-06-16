@@ -1,7 +1,7 @@
 package sp.phone.fragment;
 
 import sp.phone.interfaces.EmotionCategorySelectedListener;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

@@ -9,7 +9,7 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;

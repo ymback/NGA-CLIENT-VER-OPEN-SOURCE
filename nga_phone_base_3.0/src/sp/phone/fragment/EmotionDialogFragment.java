@@ -1,7 +1,7 @@
 package sp.phone.fragment;
 
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 
 import java.io.IOException;
 import java.io.InputStream;

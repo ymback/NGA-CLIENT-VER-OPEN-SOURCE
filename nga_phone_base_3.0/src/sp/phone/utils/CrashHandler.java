@@ -23,7 +23,7 @@ import android.os.Environment;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 
 /**
  * UncaughtException

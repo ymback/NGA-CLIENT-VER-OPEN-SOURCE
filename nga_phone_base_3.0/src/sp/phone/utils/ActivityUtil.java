@@ -4,7 +4,7 @@ import sp.phone.proxy.DummyFullScreenProxy;
 import sp.phone.proxy.FullScreenProxy;
 import sp.phone.proxy.V19FullScreenProxy;
 import sp.phone.bean.BoardHolder;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;

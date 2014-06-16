@@ -1,7 +1,7 @@
 
 package sp.phone.utils;
 
-import gov.anzong.androidnga.activity.MeiziTopicActivity;
+import gov.anzong.androidnga2.activity.MeiziTopicActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

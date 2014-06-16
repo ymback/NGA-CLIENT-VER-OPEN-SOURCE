@@ -1,6 +1,6 @@
 package sp.phone.utils;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;

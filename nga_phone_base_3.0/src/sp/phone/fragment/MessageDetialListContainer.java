@@ -1,12 +1,12 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.activity.MainActivity;
-import gov.anzong.androidnga.activity.MessagePostActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
-import gov.anzong.androidnga.activity.PostActivity;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.MainActivity;
+import gov.anzong.androidnga2.activity.MessagePostActivity;
+import gov.anzong.androidnga2.activity.PostActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;

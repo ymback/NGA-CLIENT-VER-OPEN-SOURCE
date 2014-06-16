@@ -1,6 +1,6 @@
 package sp.phone.forumoperation;
 
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga2.activity.MyApp;
 
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;

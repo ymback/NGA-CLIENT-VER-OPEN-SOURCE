@@ -7,8 +7,8 @@ import java.util.HashSet;
 
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import gov.anzong.androidnga.activity.PostActivity;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.PostActivity;
 import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.adapter.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;

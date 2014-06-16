@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import com.alibaba.fastjson.util.Base64;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;

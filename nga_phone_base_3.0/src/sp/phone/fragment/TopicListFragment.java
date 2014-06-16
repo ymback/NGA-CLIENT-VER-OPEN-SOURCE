@@ -1,5 +1,5 @@
 package sp.phone.fragment;
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

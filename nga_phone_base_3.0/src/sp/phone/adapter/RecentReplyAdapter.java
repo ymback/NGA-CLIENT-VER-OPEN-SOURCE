@@ -1,7 +1,7 @@
 package sp.phone.adapter;
 
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.MyApp;
 
 import java.io.File;
 import java.io.InputStream;

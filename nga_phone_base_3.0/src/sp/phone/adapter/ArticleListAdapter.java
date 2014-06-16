@@ -1,7 +1,7 @@
 package sp.phone.adapter;
 
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.PostActivity;
+import gov.anzong.androidnga2.R;
+import gov.anzong.androidnga2.activity.PostActivity;
 
 import java.io.File;
 import java.io.InputStream;
@@ -380,14 +380,14 @@ public class ArticleListAdapter extends BaseAdapter implements
 		final ViewHolder holder = new ViewHolder();
 		holder.nickNameTV = (TextView) view.findViewById(R.id.nickName);
 		holder.avatarIV = (ImageView) view.findViewById(R.id.avatarImage);
-
 		holder.floorTV = (TextView) view.findViewById(R.id.floor);
 		holder.postTimeTV = (TextView) view.findViewById(R.id.postTime);
-		new Thread(new Runnable() {
-			public void run() {
-				holder.contentTV = (WebView) view.findViewById(R.id.content);
-			}
-		}).run();
+		holder.contentTV = (WebView) view.findViewById(R.id.content);
+		holder.contentTV.setHorizontalScrollBarEnabled(false);
+		holder.viewBtn = (ImageButton) view
+				.findViewById(R.id.listviewreplybtn);
+		holder.clientBtn = (ImageButton) view
+				.findViewById(R.id.clientbutton);
 		/*
 		 * holder.levelTV = (TextView) view.findViewById(R.id.level);
 		 * holder.aurvrcTV= (TextView) view.findViewById(R.id.aurvrc);
@@ -690,59 +690,16 @@ public class ArticleListAdapter extends BaseAdapter implements
 		ViewHolder holder = null;
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 
-		SoftReference<View> ref = viewCache.get(position);
-		View cachedView = null;
-		if (ref != null) {
-			cachedView = ref.get();
+		if (view == null)
+		{
+			view = LayoutInflater.from(activity).inflate(
+					R.layout.relative_aritclelist, parent, false);
+			holder = initHolder(view);
+			view.setTag(holder);
+			myListenerForReply = new MyListenerForReply(position);
+			myListenerForClient = new MyListenerForClient(position,parent);
 		}
-		if (cachedView != null) {
-			// Log.d(TAG, "get view from cache ,floor " + lou);
-			return cachedView;
-		} else {
-			// if(ref != null)
-			// Log.i(TAG, "cached view recycle by system:" + lou);
-			if (view == null || config.useViewCache) {
-				// Log.d(TAG, "inflater new view ,floor " + lou);
-				myListenerForReply = new MyListenerForReply(position);
-				myListenerForClient = new MyListenerForClient(position,parent);
-
-				view = LayoutInflater.from(activity).inflate(
-						R.layout.relative_aritclelist, parent, false);
-				WebView webView = (WebView) view.findViewById(R.id.content);
-				webView.setHorizontalScrollBarEnabled(false);
-				holder = initHolder(view);
-				holder.viewBtn = (ImageButton) view
-						.findViewById(R.id.listviewreplybtn);
-				holder.clientBtn = (ImageButton) view
-						.findViewById(R.id.clientbutton);
-				view.setTag(holder);
-				if (config.useViewCache)
-					viewCache.put(position, new SoftReference<View>(view));
-			} else {
-				holder = (ViewHolder) view.getTag();
-				if (holder.position == position) {
-					return view;
-				}
-				holder.contentTV.stopLoading();
-				if (holder.contentTV.getHeight() > 300) {
-					// Log.d(TAG, "skip and store a tall view ,floor " + lou);
-					// if (config.useViewCache)
-					viewCache.put(holder.position,
-							new SoftReference<View>(view));
-
-					view = LayoutInflater.from(activity).inflate(
-							R.layout.relative_aritclelist, parent, false);
-					WebView webView = (WebView) view.findViewById(R.id.content);
-					webView.setHorizontalScrollBarEnabled(false);
-					holder = initHolder(view);
-					view.setTag(holder);
-
-				}
-
-			}
-
-		}
-
+		holder = (ViewHolder) view.getTag();
 		if (!PhoneConfiguration.getInstance().showReplyButton) {
 			holder.viewBtn.setVisibility(View.GONE);
 		} else {
@@ -804,22 +761,11 @@ public class ArticleListAdapter extends BaseAdapter implements
 				holder.clientBtn.setOnClickListener(myListenerForClient);
 			}
 		}
-		if (ActivityUtil.isLessThan_4_3()) {
-			new Thread(new Runnable() {
-				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
-				}
-			}).start();
-		} else {
-			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
-				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
-				}
-			});
-		}
+		handleContentTV(contentTV, row, bgColor, fgColor);
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());
 		postTimeTV.setTextColor(fgColor);
+		contentTV.requestLayout();
 		return view;
 	}
 

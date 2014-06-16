@@ -8,7 +8,7 @@ import noname.gson.parse.NonameThreadResponse;
 
 import com.alibaba.fastjson.util.Base64;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;

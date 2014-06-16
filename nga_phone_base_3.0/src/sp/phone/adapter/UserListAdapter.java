@@ -1,6 +1,6 @@
 package sp.phone.adapter;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.androidnga2.R;
 import sp.phone.bean.User;
 import sp.phone.utils.PhoneConfiguration;
 import android.content.Context;
