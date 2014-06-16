@@ -92,6 +92,7 @@ import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
+import sp.phone.task.NonameFileUploadTask;
 import sp.phone.utils.*;
 
 import java.io.IOException;
@@ -101,7 +102,7 @@ import java.net.HttpURLConnection;
 public class NonamePostActivity extends SwipeBackAppCompatActivity
 	implements 
 	EmotionCategorySelectedListener,
-	OnEmotionPickedListener{
+	OnEmotionPickedListener, NonameFileUploadTask.onFileUploaded{
 
 	private final String LOG_TAG = Activity.class.getSimpleName();
 	static private final String EMOTION_CATEGORY_TAG = "emotion_category";
@@ -122,6 +123,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity
 	final int REQUEST_CODE_SELECT_PIC = 1;
 	private View v;
 	private boolean loading;
+	private NonameFileUploadTask  uploadTask = null;
 	private Toast toast = null;
 
 	/* (non-Javadoc)
@@ -230,17 +232,36 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity
 		 ReflectionUtil.actionBar_setDisplayOption(this, flags);
 		 return true;
 	}
+	
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == RESULT_CANCELED ||data == null )
+			return;
+		switch(requestCode)
+		{
+		case REQUEST_CODE_SELECT_PIC :
+				Log.i(LOG_TAG, " select file :" + data.getDataString() );
+				uploadTask = new NonameFileUploadTask(this, this, data.getData());
+				break;
+		default:
+				;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	
 
 	private ButtonCommitListener commitListener = null;
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
-//		case R.id.upload :
-//            Intent intent = new Intent();  
-//            intent.setType("image/*");  
-//            intent.setAction(Intent.ACTION_GET_CONTENT);   
-//            startActivityForResult(intent,  REQUEST_CODE_SELECT_PIC);  
-//            break;
+		case R.id.upload :
+            Intent intent = new Intent();  
+            intent.setType("image/*");  
+            intent.setAction(Intent.ACTION_GET_CONTENT);   
+            startActivityForResult(intent,  REQUEST_CODE_SELECT_PIC);  
+            break;
 		case R.id.emotion:
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			Fragment prev = getSupportFragmentManager().findFragmentByTag
@@ -771,11 +792,30 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity
 		}else{
 			bodyText.requestFocus();
 		}
+
+		if(uploadTask != null){
+			NonameFileUploadTask temp = uploadTask;
+			uploadTask = null;
+			if(ActivityUtil.isGreaterThan_2_3_3()){
+				RunParallel(temp);
+			}
+			else
+			{
+				temp.execute();
+			}
+		}
 		if(PhoneConfiguration.getInstance().fullscreen){
 			ActivityUtil.getInstance().setFullScreen(v);
 		}
 		super.onResume();
 	}
+	
+
+	@TargetApi(11)
+	private void RunParallel(NonameFileUploadTask task){
+		task.executeOnExecutor(NonameFileUploadTask.THREAD_POOL_EXECUTOR);
+	}
+
 
 	private String buildSig()
 	{
@@ -1426,6 +1466,78 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity
 	 */
 	public static boolean isMediaDocument(Uri uri) {
 	    return "com.android.providers.media.documents".equals(uri.getAuthority());
+	}
+
+	@Override
+	public int finishUpload(String picUrl, Uri uri) {
+		String selectedImagePath2  = getPath(this,uri);
+		final int index = bodyText.getSelectionStart();
+		String spantmp="[img]" +picUrl + "[/img]";
+		if(!StringUtil.isEmpty(selectedImagePath2)){
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2, options); //此时返回 bm 为空 
+			options.inJustDecodeBounds = false;
+			DisplayMetrics dm = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(dm);
+			int screenwidth = (int) (dm.widthPixels*0.75);
+			int screenheigth = (int) (dm.heightPixels*0.75);
+		    int width = options.outWidth;
+		    int height = options.outHeight;
+		    float scaleWidth = ((float) screenwidth) / width;
+		    float scaleHeight = ((float) screenheigth) / height;
+		    if(scaleWidth<scaleHeight && scaleWidth<1f){//不能放大啊,然后主要是哪个小缩放到哪个就行了
+		    	options.inSampleSize = (int) (1/scaleWidth);
+		    }else if(scaleWidth>=scaleHeight && scaleHeight<1f){
+		    	options.inSampleSize = (int) (1/scaleHeight);
+		    }else{
+		    	options.inSampleSize = 1; 
+		    }
+	    	bitmap=BitmapFactory.decodeFile(selectedImagePath2,options);
+			BitmapDrawable bd = new BitmapDrawable(bitmap);
+			Drawable drawable = (Drawable) bd;
+			drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+			SpannableString spanStringS = new SpannableString(spantmp);
+			ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);  
+			spanStringS.setSpan(span, 0, spantmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+			if(bodyText.getText().toString().replaceAll("\\n", "").trim().equals("")){//NO INPUT DATA
+						bodyText.append(spanStringS);
+						bodyText.append("\n");
+					}
+					else{
+						if (index <= 0 || index >= bodyText.length() ){// pos @ begin / end
+							if(bodyText.getText().toString().endsWith("\n")){
+								bodyText.append(spanStringS);
+								bodyText.append("\n");
+							}else{
+								bodyText.append("\n");
+								bodyText.append(spanStringS);
+								bodyText.append("\n");
+								}
+						}else{
+								bodyText.getText().insert(index,spanStringS);
+						}
+						}
+		}
+		else{
+			if(bodyText.getText().toString().replaceAll("\\n", "").trim().equals("")){//NO INPUT DATA
+				bodyText.append(spantmp+ "\n");
+			}else{
+				if (index <= 0 || index >= bodyText.length() ){// pos @ begin / end
+					if(bodyText.getText().toString().endsWith("\n")){
+						bodyText.append(spantmp+ "\n");
+					}else{
+						bodyText.append("\n" +spantmp + "\n");
+					}
+					}else{
+							bodyText.getText().insert(index,spantmp);
+				}
+			}
+		}
+		InputMethodManager imm = (InputMethodManager) bodyText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
+		imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+		return 1;
 	}
 
 }
