@@ -369,8 +369,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 					content = StringUtil.unEscapeHtml(content);
 					mention = name;
 					postPrefix.append("[quote]");
-					postPrefix.append("Reply");
-					postPrefix.append(" [b]Post by [hip]");
+					postPrefix.append("[b]Post by [hip]");
 					postPrefix.append(name);
 					postPrefix.append("[/hip] (");
 					postPrefix.append(postTime);
@@ -384,17 +383,9 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 					if (tidStr != null)
 						intent.putExtra("tid", tidStr);
 					intent.putExtra("action", "reply");
-
-					if (!StringUtil
-							.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
 						intent.setClass(
 								activity,
 								PhoneConfiguration.getInstance().nonamePostActivityClass);
-					} else {
-						intent.setClass(
-								activity,
-								PhoneConfiguration.getInstance().loginActivityClass);
-					}
 					activity.startActivity(intent);
 					if (PhoneConfiguration.getInstance().showAnimation)
 						((Activity) activity).overridePendingTransition(

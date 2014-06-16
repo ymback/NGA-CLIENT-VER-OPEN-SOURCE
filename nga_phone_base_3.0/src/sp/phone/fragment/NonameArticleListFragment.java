@@ -364,8 +364,7 @@ public class NonameArticleListFragment extends Fragment implements
 			content = StringUtil.unEscapeHtml(content);
 				mention = name;
 				postPrefix.append("[quote]");
-				postPrefix.append("Reply");
-				postPrefix.append(" [b]Post by [hip]");
+				postPrefix.append("[b]Post by [hip]");
 				postPrefix.append(name);
 				postPrefix.append("[/hip] (");
 				postPrefix.append(postTime);
@@ -381,13 +380,8 @@ public class NonameArticleListFragment extends Fragment implements
 					StringUtil.removeBrTag(postPrefix.toString()));
 			intent.putExtra("tid", tidStr);
 			intent.putExtra("action", "reply");
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
 				intent.setClass(getActivity(),
 						PhoneConfiguration.getInstance().nonamePostActivityClass);
-			} else {
-				intent.setClass(getActivity(),
-						PhoneConfiguration.getInstance().loginActivityClass);
-			}
 			startActivity(intent);
 			if (PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,

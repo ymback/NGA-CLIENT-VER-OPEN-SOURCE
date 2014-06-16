@@ -94,6 +94,8 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 			} else {
 				if (oerror.getString("0") != null) {
 					error = oerror.getString("0");
+					if(error.startsWith("你今天已经签到了"))
+						ret.set__today_alreadysign(true);
 					ret.set__is_json_error(true);
 					ret.set__SignResult(error);
 					ret.setEntryList(EntryList);
@@ -249,7 +251,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		ActivityUtil.getInstance().dismiss();
 		if (result == null) {
 			ActivityUtil.getInstance().noticeError(error, context);
-		} else if (result.get__is_json_error()) {
+		} else if (result.get__is_json_error() && !result.get__today_alreadysign()) {
 			ActivityUtil.getInstance().noticeError(error, context);
 		} else if (result.get__is_json_signsuccess()) {
 			if (toast != null) {

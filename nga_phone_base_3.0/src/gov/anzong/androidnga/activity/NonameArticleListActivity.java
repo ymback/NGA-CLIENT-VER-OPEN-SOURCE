@@ -278,13 +278,8 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 			intent.putExtra("prefix", "");
 			intent.putExtra("tid", tid);
 			intent.putExtra("action", "reply");
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-				intent.setClass(this,
+			intent.setClass(this,
 						PhoneConfiguration.getInstance().nonamePostActivityClass);
-			} else {
-				intent.setClass(this,
-						PhoneConfiguration.getInstance().loginActivityClass);
-			}
 			startActivity(intent);
 			if (PhoneConfiguration.getInstance().showAnimation) {
 				overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);

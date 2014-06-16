@@ -200,34 +200,15 @@ PagerOwnner{
 		switch( item.getItemId())
 		{
 			case R.id.article_menuitem_reply:
-				//if(articleAdpater.getData() == null)
-				//	return false;
-				if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
 					String tid = String.valueOf(this.tid);
 					intent.putExtra("prefix", "" );
 					intent.putExtra("tid", tid);
 					intent.putExtra("action", "reply");
-					if (!StringUtil
-							.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-					intent.setClass(getActivity(), PhoneConfiguration.getInstance().nonamePostActivityClass);}
-					else{
-						intent.setClass(
-							getActivity(),
-							PhoneConfiguration.getInstance().loginActivityClass);
-					}
+					intent.setClass(getActivity(), PhoneConfiguration.getInstance().nonamePostActivityClass);
 					startActivity(intent);
 					if(PhoneConfiguration.getInstance().showAnimation)
 						getActivity().overridePendingTransition(R.anim.zoom_enter,
 								R.anim.zoom_exit);
-				}else{
-					intent.setClass(getActivity(),
-							PhoneConfiguration.getInstance().loginActivityClass);
-					startActivity(intent);
-					if (PhoneConfiguration.getInstance().showAnimation) {
-						getActivity().overridePendingTransition(R.anim.zoom_enter,
-								R.anim.zoom_exit);
-					}
-				}
 				break;
 			case R.id.article_menuitem_refresh:
 				int current = mViewPager.getCurrentItem();

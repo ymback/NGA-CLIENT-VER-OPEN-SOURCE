@@ -13,9 +13,17 @@ public class SignData {
 	private int Availablerows;
 	private int Totalrows;
 	private boolean is_json_error,is_json_signsuccess;
+	private boolean today_alreadysign;
 	
 	
 	List<MissionDetialData> EntryList;
+
+	public void set__today_alreadysign(boolean today_alreadysign){
+		this.today_alreadysign=today_alreadysign;
+	}
+	public boolean get__today_alreadysign(){
+		return today_alreadysign;
+	}
 	
 	public void set__is_json_error(boolean is_json_error){
 		this.is_json_error=is_json_error;

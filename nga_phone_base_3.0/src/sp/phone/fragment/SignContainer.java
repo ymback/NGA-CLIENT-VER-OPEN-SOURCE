@@ -42,7 +42,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class SignContainer extends Fragment implements
-		OnSignPageLoadFinishedListener,PerferenceConstant {
+		OnSignPageLoadFinishedListener, PerferenceConstant {
 	final String TAG = SignContainer.class.getSimpleName();
 	static final int MESSAGE_SENT = 1;
 	int fid;
@@ -96,25 +96,26 @@ public class SignContainer extends Fragment implements
 		return listView;
 	}
 
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		System.out.println("执行了onPrepareOptionsMenu");
+		if (menu.findItem(R.id.night_mode) != null) {
+			if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_brightness_high);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_daily_mode);
+			} else {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_bightness_low);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_night_mode);
+			}
+		}
+		// getSupportMenuInflater().inflate(R.menu.book_detail, menu);
+		super.onPrepareOptionsMenu(menu);
+	}
 
-    @Override  
-    public void onPrepareOptionsMenu(Menu menu) {  
-        System.out.println("执行了onPrepareOptionsMenu");  
-        if( menu.findItem(R.id.night_mode)!=null){
-            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_brightness_high);    
-                menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
-            }else{
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_bightness_low);    
-                menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
-            }
-        }
-        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
-        super.onPrepareOptionsMenu(menu);  
-    }  
-	
 	public void refreshheadviewdata(View headview) {
 		ThemeManager cfg = ThemeManager.getInstance();
 		int colorId = R.color.shit1;
@@ -163,10 +164,17 @@ public class SignContainer extends Fragment implements
 			}
 
 			if (result.get__is_json_error()) {
-				signtimes = "未知";
-				signdates = "未知";
-				availablenums = "未知";
-				successnums = "未知";
+				if (result.get__today_alreadysign()) {
+					signtimes = "今天";
+					signdates = "未知";
+					availablenums = "0个";
+					successnums = "0个";
+				} else {
+					signtimes = "未知";
+					signdates = "未知";
+					availablenums = "0个";
+					successnums = "0个";
+				}
 			} else {
 				if (StringUtil.isEmpty(result.get__Last_time())) {
 					signtimes = "未知";
@@ -175,18 +183,9 @@ public class SignContainer extends Fragment implements
 				}
 				signdates = String.valueOf(result.get__Continued()) + "/"
 						+ String.valueOf(result.get__Sum());
-				if (result.get__Availablerows() == 0) {
-					availablenums = "未知";
-				} else {
-					availablenums = String.valueOf(result.get__Availablerows())
-							+ "个";
-				}
-				if (result.get__Successrows() == 0) {
-					successnums = "未知";
-				} else {
-					successnums = String.valueOf(result.get__Successrows())
-							+ "个";
-				}
+				availablenums = String.valueOf(result.get__Availablerows())
+						+ "个";
+				successnums = String.valueOf(result.get__Successrows()) + "个";
 			}
 
 		} else {
@@ -206,36 +205,33 @@ public class SignContainer extends Fragment implements
 	}
 
 	private void nightMode(final MenuItem menu) {
-	
+
 		String alertString = getString(R.string.change_nigmtmode_string_refresh);
 		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener(){
+		f.setOkListener(new OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 
-				
 				ThemeManager tm = ThemeManager.getInstance();
-				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
-						Activity.MODE_PRIVATE);
+				SharedPreferences share = getActivity().getSharedPreferences(
+						PERFERENCE, Activity.MODE_PRIVATE);
 				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
-					menu.setIcon(  
-		                    R.drawable.ic_action_bightness_low); 
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
+					menu.setIcon(R.drawable.ic_action_bightness_low);
 					menu.setTitle(R.string.change_night_mode);
 					Editor editor = share.edit();
 					editor.putBoolean(NIGHT_MODE, false);
-					editor.commit(); 
-				}else{
-					menu.setIcon(  
-		                    R.drawable.ic_action_brightness_high); 
+					editor.commit();
+				} else {
+					menu.setIcon(R.drawable.ic_action_brightness_high);
 					menu.setTitle(R.string.change_daily_mode);
 					Editor editor = share.edit();
 					editor.putBoolean(NIGHT_MODE, true);
 					editor.commit();
 					mode = ThemeManager.MODE_NIGHT;
 				}
-				Log.i(TAG,"frag");
+				Log.i(TAG, "frag");
 				ThemeManager.getInstance().setMode(mode);
 				Intent intent = getActivity().getIntent();
 				getActivity().overridePendingTransition(0, 0);
@@ -243,18 +239,19 @@ public class SignContainer extends Fragment implements
 				getActivity().overridePendingTransition(0, 0);
 				getActivity().startActivity(intent);
 			}
-			
+
 		});
-		f.setCancleListener(new OnClickListener(){
+		f.setCancleListener(new OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				f.dismiss();
 			}
-			
+
 		});
-		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
+		f.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
 	}
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		canDismiss = true;

@@ -337,13 +337,8 @@ public class NonameTopiclistContainer extends Fragment implements
 		Intent intent = new Intent();
 		intent.putExtra("fid", fid);
 		intent.putExtra("action", "new");
-		if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
 			intent.setClass(getActivity(),
 					PhoneConfiguration.getInstance().nonamePostActivityClass);
-		}else{
-			intent.setClass(getActivity(),
-				PhoneConfiguration.getInstance().loginActivityClass);
-		}
 		startActivity(intent);
 		if (PhoneConfiguration.getInstance().showAnimation) {
 			getActivity().overridePendingTransition(R.anim.zoom_enter,
