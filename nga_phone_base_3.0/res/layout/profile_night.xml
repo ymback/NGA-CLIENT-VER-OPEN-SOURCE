@@ -599,7 +599,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-        		android:id="@+id/avahahahb"
             android:background="@drawable/shape_night"
             android:orientation="vertical" >
 
@@ -629,6 +628,52 @@
                     android:layout_weight="1"
                     android:textColor="#424952"
                     android:text="[搜索 竹井詩織里 发布的回复]"
+                    android:textSize="12dp" >
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+        
+        
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 短消息 ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+        		android:id="@+id/avahahahb"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" >
+
+                <Button
+                    android:id="@+id/message_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:text="[向 竹井詩織里 发送论坛短消息]"
+                    android:textColor="#424952"
                     android:textSize="12dp" >
                 </Button>
             </LinearLayout>

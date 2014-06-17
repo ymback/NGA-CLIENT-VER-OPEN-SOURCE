@@ -65,7 +65,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			search_title, admin2_title, fame2_title, user_shutup_title,
 			user_shutup;
 	private WebView signwebview, adminwebview, famewebview;
-	private Button topic_button, reply_button;
+	private Button topic_button, reply_button,message_button;
 
 	private PullToRefreshAttacher mPullToRefreshAttacher;
 
@@ -134,6 +134,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		famewebview = (WebView) view.findViewById(R.id.famewebview);
 		topic_button = (Button) view.findViewById(R.id.topic_button);
 		reply_button = (Button) view.findViewById(R.id.reply_button);
+		message_button= (Button) view.findViewById(R.id.message_button);
 		user_shutup_title = (TextView) view
 				.findViewById(R.id.user_shutup_title);
 		user_shutup = (TextView) view.findViewById(R.id.user_shutup);
@@ -184,7 +185,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	
 	
 	void writetopage(final ProfileData ret) {
-		String username = ret.get_username();
+		final String username = ret.get_username();
 		getSupportActionBar().setTitle(username + "的用户信息");
 		basedata_title.setText(":: " + username + " 的基础信息 ::");
 		avatar_title.setText(":: " + username + " 的头像 ::");
@@ -196,6 +197,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		search_title.setText(":: " + username + " 发布的贴子  ::");
 		topic_button.setText("[搜索 " + username + " 发布的主题]");
 		reply_button.setText("[搜索 " + username + " 发布的回复]");
+		message_button.setText("[向 " + username + " 发送论坛短消息]");
 		user_id.setText(ret.get_uid());
 		user_name.setText(username);
 		if (ret.get_hasemail()) {
@@ -340,6 +342,31 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 						+ "&searchpost=1");
 				intent_search.putExtra("authorid", ret.get_uid());
 				startActivity(intent_search);
+			}
+
+		});
+		
+
+		message_button.setOnClickListener(new OnClickListener() {
+			
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				Intent intent_bookmark = new Intent();
+				intent_bookmark.putExtra("to", username);
+				intent_bookmark.putExtra("action", "new");
+				intent_bookmark.putExtra("messagemode", "yes");
+				if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+					intent_bookmark
+							.setClass(view.getContext(),
+									PhoneConfiguration.getInstance().messagePostActivityClass);
+				} else {
+					intent_bookmark.setClass(view.getContext(),
+							PhoneConfiguration.getInstance().loginActivityClass);
+				}
+				startActivity(intent_bookmark);
 			}
 
 		});

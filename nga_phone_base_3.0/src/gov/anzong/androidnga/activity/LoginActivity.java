@@ -55,10 +55,11 @@ public class LoginActivity extends SwipeBackAppCompatActivity
 	private String tid;
 	private int fid;
 	private boolean needtopost=false;
-	private String prefix;
+	private String prefix,to;
 	private String pid;
 	private String title;
 	private String mention;
+	private int mid;
 	private boolean alreadylogin=false;
 
 	Object commit_lock = new Object();
@@ -119,16 +120,35 @@ public class LoginActivity extends SwipeBackAppCompatActivity
 		Intent intent = this.getIntent();
 		action = intent.getStringExtra("action");
 		messagemode = intent.getStringExtra("messagemode");
-		if(!StringUtil.isEmpty(action) && StringUtil.isEmpty(messagemode)){
-		if(action.equals("new") || action.equals("reply") ||action.equals("modify")){
-			needtopost=true;
-			prefix = intent.getStringExtra("prefix");
-			tid = intent.getStringExtra("tid");
-			fid = intent.getIntExtra("fid", -7);
-			title = intent.getStringExtra("title");
-			pid = intent.getStringExtra("pid");
-			mention = intent.getStringExtra("mention");
-		}}
+		if(!StringUtil.isEmail(action)){
+			if (toast != null) {
+				toast.setText("你需要登录才能进行下一步操作");
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
+			} else {
+				toast = Toast.makeText(LoginActivity.this, "你需要登录才能进行下一步操作", 
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
+			if(StringUtil.isEmpty(messagemode)){
+				if(action.equals("new") || action.equals("reply") ||action.equals("modify")){
+					needtopost=true;
+					prefix = intent.getStringExtra("prefix");
+					tid = intent.getStringExtra("tid");
+					fid = intent.getIntExtra("fid", -7);
+					title = intent.getStringExtra("title");
+					pid = intent.getStringExtra("pid");
+					mention = intent.getStringExtra("mention");
+				}
+				}else {
+					if(action.equals("new") || action.equals("reply")){
+						needtopost=true;
+						to = intent.getStringExtra("to");
+						title = intent.getStringExtra("title");
+						mid=intent.getIntExtra("mid", 0);
+					}
+				}
+		}
 	}
 	
 	private void updateThemeUI(){
@@ -377,21 +397,34 @@ public class LoginActivity extends SwipeBackAppCompatActivity
 				alreadylogin=true;
 				Intent intent = new Intent();
 				if(needtopost){
-					if(action.equals("new")){
-						intent.putExtra("fid", fid);
+					if(StringUtil.isEmpty(to)){
+						if(action.equals("new")){
+							intent.putExtra("fid", fid);
+							intent.putExtra("action", "new");
+						}else if(action.equals("reply")){
+							intent.putExtra("prefix", "" );
+							intent.putExtra("tid", tid);
+							intent.putExtra("action", "reply");
+						}else if(action.equals("modify")){
+							intent.putExtra("prefix",prefix);
+							intent.putExtra("tid", tid);
+							intent.putExtra("pid", pid);
+							intent.putExtra("title",title);
+							intent.putExtra("action", "modify");	
+						}
+						intent.setClass(v.getContext(), PhoneConfiguration.getInstance().postActivityClass);
+					}else{
+						if(action.equals("new")){
+						intent.putExtra("to", to);
 						intent.putExtra("action", "new");
 					}else if(action.equals("reply")){
-						intent.putExtra("prefix", "" );
-						intent.putExtra("tid", tid);
-						intent.putExtra("action", "reply");
-					}else if(action.equals("modify")){
-						intent.putExtra("prefix",prefix);
-						intent.putExtra("tid", tid);
-						intent.putExtra("pid", pid);
+						intent.putExtra("mid", mid );
 						intent.putExtra("title",title);
-						intent.putExtra("action", "modify");	
+						intent.putExtra("to", to);
+						intent.putExtra("action", "reply");
 					}
-					intent.setClass(v.getContext(), PhoneConfiguration.getInstance().postActivityClass);
+						intent.setClass(v.getContext(), PhoneConfiguration.getInstance().messagePostActivityClass);
+					}
 					startActivity(intent);
 				}else{
 					intent.setClass(v.getContext(), MainActivity.class);
