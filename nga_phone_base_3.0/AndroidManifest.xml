@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="2023"
+	package="gov.anzong.androidnga" android:versionCode="2025"
 	android:largeHeap="true" android:configChanges="orientation|screenSize" 
-	android:versionName="2.0.23" android:installLocation="auto">
+	android:versionName="2.0.25" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -94,11 +94,13 @@
 			<intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="bbs.ngacn.cc" android:path="/thread.php"/>
 			</intent-filter>
 			<intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="http" android:host="nga.178.com" android:path="/thread.php"/>
             </intent-filter>
 		</activity>

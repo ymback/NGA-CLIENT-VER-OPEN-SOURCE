@@ -120,7 +120,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity
 		Intent intent = this.getIntent();
 		action = intent.getStringExtra("action");
 		messagemode = intent.getStringExtra("messagemode");
-		if(!StringUtil.isEmail(action)){
+		if(!StringUtil.isEmpty(action)){
 			if (toast != null) {
 				toast.setText("你需要登录才能进行下一步操作");
 				toast.setDuration(Toast.LENGTH_SHORT);

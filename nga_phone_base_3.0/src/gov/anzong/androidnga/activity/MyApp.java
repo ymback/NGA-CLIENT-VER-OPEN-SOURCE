@@ -40,7 +40,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2023;
+	public final static int version = 2025;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "ื๎ฝüทรฮส";
