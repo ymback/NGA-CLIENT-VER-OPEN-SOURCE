@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/add_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/urladd"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/urladd"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/avataradd"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/urladd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/add_title"
+            android:background="@color/white"
+            android:cursorVisible="true"
+            android:hint="@string/avataraddtitle"
+            android:inputType="textNoSuggestions"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@null" />
+        
+        <TextView
+            android:id="@+id/avatarpreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:layout_alignLeft="@id/add_title"
+        	android:layout_below="@id/add_title"
+        	android:layout_marginTop="15dp"
+            android:text="@string/avatarpreview"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+        android:layout_alignTop="@id/avatarpreview"
+        android:layout_toRightOf="@id/avatarpreview"
+        android:layout_alignRight="@id/urladd"
+        android:clickable="false"
+        android:contentDescription="@string/avatar"
+        android:focusable="false"
+        android:longClickable="false"
+        android:padding="5dp"
+        android:src="@drawable/default_avatar" />
+    
+    
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="right" >
+    <Button
+        android:id="@+id/selectpic_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/selectpic" >
+</Button>
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/selectpic_button"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/submit" >
+</Button>
+    </RelativeLayout>
+
+
+</LinearLayout>

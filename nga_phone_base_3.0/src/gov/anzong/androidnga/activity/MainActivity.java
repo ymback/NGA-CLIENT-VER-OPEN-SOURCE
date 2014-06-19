@@ -1727,7 +1727,7 @@ public class MainActivity extends ActionBarActivity implements
 							Editor editor = share.edit();
 							editor.putString(CAN_SHOW_FULI, "1");
 							editor.commit();
-							setLocItem(boardInfo.getCategoryCount() + 12,
+							setLocItem(boardInfo.getCategoryCount() + 14,
 									"我要龙珠~撸~", R.drawable.ic_action_dragon_ball);
 							if (toast != null) {
 								toast.setText("你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");

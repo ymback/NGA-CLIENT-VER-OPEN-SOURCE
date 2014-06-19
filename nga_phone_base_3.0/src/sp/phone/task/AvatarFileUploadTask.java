@@ -21,6 +21,8 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.UploadCookieCollector;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
@@ -28,12 +30,12 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
-public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
-	private static final String TAG = NonameFileUploadTask.class
+public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
+	private static final String TAG = AvatarFileUploadTask.class
 			.getSimpleName();
 	private static final String BOUNDARY = "-----------------------------7db1c5232222b";
 	private static final String ATTACHMENT_SERVER = "http://ngac.sinaapp.com/nganoname/attach.php?";
-	private static final String LOG_TAG = NonameFileUploadTask.class
+	private static final String LOG_TAG = AvatarFileUploadTask.class
 			.getSimpleName();
 
 	/* private InputStream is; */
@@ -57,7 +59,7 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 	 * }
 	 */
 
-	public NonameFileUploadTask(Context context, onFileUploaded notifier,
+	public AvatarFileUploadTask(Context context, onFileUploaded notifier,
 			Uri uri) {
 		this.context = context;
 		this.notifier = notifier;
@@ -85,7 +87,7 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected void onProgressUpdate(Integer... values) {
 		if (values[0] == 50) {
-			Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT)
+			Toast.makeText(context, R.string.image_to_big2, Toast.LENGTH_SHORT)
 					.show();
 		}
 	}
@@ -125,14 +127,18 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 				return null;
 			}
 			filesize = pfd.getStatSize();
-			if (filesize >= 1024 * 1024) {
+			BitmapFactory.Options opts = new BitmapFactory.Options();
+			opts.inJustDecodeBounds = true;
+			Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri), null,opts);
+			int width = opts.outWidth;
+		    int height = opts.outHeight;
+			if (width>255 || height>180) {
 				this.publishProgress(50);
-				byte[] img = ImageUtil.fitImageToUpload(
-						cr.openInputStream(uri), cr.openInputStream(uri));
+				byte[] img = ImageUtil.fitNGAImageToUpload(
+						cr.openInputStream(uri),opts);
 				contentType = "image/png";
 				filesize = img.length;
 				is = new ByteArrayInputStream(img);
-
 			}
 
 			Log.d(LOG_TAG, "file size =" + filesize);
@@ -237,24 +243,6 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 
 	private String buildTail() {
 		StringBuilder sb = new StringBuilder();
-		/*
-		 * sb.append("\r\n"); sb.append("--" + BOUNDARY + "\r\n");
-		 * sb.append("Content-Disposition: form-data;");
-		 * sb.append(" name=\"attachment_file1_watermark\"\r\n\r\n\r\n");
-		 * 
-		 * sb.append("--" + BOUNDARY + "\r\n");
-		 * sb.append("Content-Disposition: form-data;");
-		 * sb.append(" name=\"attachment_file1_dscp\"\r\n\r\n\r\n");
-		 * sb.append("--" + BOUNDARY + "\r\n");
-		 * sb.append("Content-Disposition: form-data;");
-		 * sb.append(" name=\"attachment_file1_url_utf8_name\"\r\n\r\n");
-		 * sb.append(utfFilename + "\r\n"); sb.append("--" + BOUNDARY + "\r\n");
-		 * sb.append("Content-Disposition: form-data;");
-		 * sb.append(" name=\"func\"\r\n\r\nupload\r\n"); sb.append("--" +
-		 * BOUNDARY + "\r\n"); sb.append("Content-Disposition: form-data;");
-		 * sb.append(" name=\"fid\"\r\n\r\n-7\r\n");
-		 */
-
 		sb.append("\r\n--" + BOUNDARY + "--\r\n");
 
 		return sb.toString();

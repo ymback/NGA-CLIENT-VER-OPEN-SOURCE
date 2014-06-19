@@ -332,7 +332,7 @@ public class ArticleUtil {
 
 		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
 				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
-
+		
 		row.setFormated_html_data(formated_html_data);
 	}
 

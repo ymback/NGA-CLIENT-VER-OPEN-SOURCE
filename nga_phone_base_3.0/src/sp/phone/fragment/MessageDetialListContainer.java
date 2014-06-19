@@ -56,6 +56,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -540,7 +542,11 @@ public class MessageDetialListContainer extends Fragment implements
 		alert.setTitle(R.string.copy_hint);
 		final EditText commentdata = (EditText) view
 				.findViewById(R.id.copy_data);
-		commentdata.setText(content);
+		content= content.replaceAll("(?i)"
+				+ "<img src='(.+?)'(.+?){0,}>",
+				"$1");
+		Spanned spanned = Html.fromHtml(content);
+		commentdata.setText(spanned);
 		commentdata.selectAll();
 		alert.setPositiveButton("¸´ÖÆ", new DialogInterface.OnClickListener() {
 

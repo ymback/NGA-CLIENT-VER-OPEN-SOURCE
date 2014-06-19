@@ -59,7 +59,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 		dualScreen = false;
 		String url = this.getIntent().getDataString();
 		if(null != url){
-			mid = this.getUrlParameter(url, "tid");		
+			mid = this.getUrlParameter(url, "mid");		
 		}else
 		{
 		mid = this.getIntent().getIntExtra("mid", 0);		

@@ -421,6 +421,21 @@
             android:background="@drawable/shape_night"
             android:orientation="vertical" >
 
+                <TextView
+                    android:id="@+id/change_avatar_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:text="[更改头像]"
+                	android:layout_marginTop="3dp"
+            		android:clickable="true"
+                    android:visibility="gone"
+                	android:layout_marginLeft="5dp"
+            		android:onClick="installedSoftTab"
+                    android:textColor="#551200"
+                    android:textSize="12dp" >
+                </TextView>
+                
             <ImageView
                 android:id="@+id/avatarImage"
                 android:layout_width="wrap_content"
@@ -428,8 +443,10 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp" 
            		android:padding="3dp"     
                 android:background="@drawable/imageavatarborder"
+                android:layout_below="@id/change_avatar_button"
                 android:clickable="false"
                 android:contentDescription="@string/avatar"
                 android:focusable="false"
@@ -465,13 +482,29 @@
             android:background="@drawable/shape_night"
             android:orientation="vertical" >
 
+                <TextView
+                    android:id="@+id/change_sign_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:text="[更改签名]"
+                    android:visibility="gone"
+                	android:layout_marginTop="3dp"
+            		android:clickable="true"
+                	android:layout_marginLeft="5dp"
+            		android:onClick="installedSoftTab"
+                    android:textColor="#551200"
+                    android:textSize="12dp" >
+                </TextView>
             <WebView
                 android:id="@+id/signwebview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/change_sign_button"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"  />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -521,7 +554,8 @@
                 android:layout_below="@id/admin2_title"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="3dp" 
+                android:layout_marginBottom="3dp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -571,7 +605,8 @@
                 android:layout_below="@id/fame2_title"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"  />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -646,6 +681,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
             android:text=":: 短消息 ::"
+            android:id="@+id/message_title"
             android:textColor="#712D08"
             android:textIsSelectable="false"
             android:textSize="16dp"

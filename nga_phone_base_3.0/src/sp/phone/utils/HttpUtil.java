@@ -2,7 +2,10 @@ package sp.phone.utils;
 
 import gov.anzong.androidnga.activity.MyApp;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -20,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -169,6 +173,26 @@ public class HttpUtil {
 			IOUtils.closeQuietly(is);
 		}
 		return is;
+	}
+
+	public static void downImage3(Bitmap bitmap, String fileName) {
+		File f = new File(fileName);
+		InputStream is = null;
+		if (f.exists()) {
+				f.delete();
+		} 
+		try {
+				FileOutputStream out = new FileOutputStream(f);
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			   out.flush();
+			   out.close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(is);
+		}
 	}
 
 	public static InputStream imageInputStream2(String uri,

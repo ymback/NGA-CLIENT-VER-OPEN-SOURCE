@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="2025"
+	package="gov.anzong.androidnga" android:versionCode="2026"
 	android:largeHeap="true" android:configChanges="orientation|screenSize" 
-	android:versionName="2.0.25" android:installLocation="auto">
+	android:versionName="2.0.26" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -43,6 +43,8 @@
 		<activity android:name=".activity.FlexibleProfileActivity" android:theme="@style/SwipeBackTheme"/>
 
 		<activity android:windowSoftInputMode="adjustResize" android:name=".activity.PostActivity" android:theme="@style/SwipeBackTheme"/>
+		<activity android:windowSoftInputMode="adjustResize" android:name=".activity.AvatarPostActivity" android:theme="@style/SwipeBackTheme"/>
+		<activity android:windowSoftInputMode="adjustResize" android:name=".activity.SignPostActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:windowSoftInputMode="adjustResize" android:name=".activity.NonamePostActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:windowSoftInputMode="adjustResize" android:name=".activity.MessagePostActivity" android:theme="@style/SwipeBackTheme"/>
 
@@ -178,13 +180,16 @@
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitFlexibleProfileActivity"/>
 		
 		<activity android:name=".activity.SplitPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
+		<activity android:name=".activity.SplitSignPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
 		<activity android:name=".activity.SplitNonamePostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
 		<activity android:name=".activity.SplitMessagePostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme" android:uiOptions="splitActionBarWhenNarrow"/>
 		
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme"/>
+		<activity android:hardwareAccelerated="true" android:name=".activity.HaSignPostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme"/>
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaNonamePostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme"/>
 		<activity android:hardwareAccelerated="true" android:name=".activity.HaMessagePostActivity" android:windowSoftInputMode="stateVisible|adjustResize" android:theme="@style/SwipeBackTheme"/>
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:windowSoftInputMode="stateVisible|adjustResize" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitPostActivity"/>
+		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:windowSoftInputMode="stateVisible|adjustResize" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitSignPostActivity"/>
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:windowSoftInputMode="stateVisible|adjustResize" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitNonamePostActivity"/>
 		<activity android:hardwareAccelerated="true" android:theme="@style/SwipeBackTheme" android:windowSoftInputMode="stateVisible|adjustResize" android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.HaSplitMessagePostActivity"/>
 		<activity android:uiOptions="splitActionBarWhenNarrow" android:name=".activity.SplitArticleListActivity" android:multiprocess="true" android:theme="@style/SwipeBackTheme"/>

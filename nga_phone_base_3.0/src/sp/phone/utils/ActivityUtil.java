@@ -198,8 +198,10 @@ public class ActivityUtil {
 	}
 	
 	public void noticeError(String error,Context context){
-		HttpUtil.switchServer();
-		notice(context.getString(R.string.error), error,context);
+		if(context!=null){
+			HttpUtil.switchServer();
+			notice(context.getString(R.string.error), error,context);
+		}
 	}
 
 	private void notice(String title, String content,Context c) {

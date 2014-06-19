@@ -16,6 +16,7 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class ImageUtil {
@@ -424,6 +425,60 @@ public class ImageUtil {
         bitmap.compress(CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
         
+	}
+	
+
+	static public byte[] fitNGAImageToUpload(InputStream is,BitmapFactory.Options opts){
+		if(is== null)
+			return null;
+		
+		int width = opts.outWidth;
+	    int height = opts.outHeight;
+
+		if(height>255){
+			if(width<=180){
+				width=(int)(255*width/height);
+				height=255;
+			}else{ 
+				if(((float)(height/width))>((float)(255/180))){
+					width=(int)(255*width/height);
+					height=255;
+				}else if(((float)(height/width))<((float)(255/180))){
+					height=(int)(180*height/width);
+					width=180;
+				}else{
+					height=255;
+					width=180;
+				}
+			}
+		}else{
+			if(width>180){
+				height=(int)(180*height/width);
+				width=180;
+			}
+		}
+
+		int widthchuli=1,heightchuli=1;
+		if(opts.outWidth%width==0){
+			widthchuli=opts.outWidth/width;
+		}else{
+			widthchuli=opts.outWidth/width+1;
+		}
+		if(opts.outHeight%height==0){
+			heightchuli=opts.outHeight/height;
+		}else{
+			heightchuli=opts.outHeight/height+1;
+		}
+	    opts.inSampleSize = Math.max(widthchuli, heightchuli);
+        opts.inJustDecodeBounds = false;
+        opts.inPurgeable = true;
+        Bitmap bitmap = BitmapFactory.decodeStream(is, null, opts);
+        if(opts.outHeight>255 || opts.outWidth>180)
+        	bitmap = Bitmap.createScaledBitmap(bitmap, width, height,
+                true);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
 	}
 	
 	public static void recycleImageView(ImageView avatarIV){

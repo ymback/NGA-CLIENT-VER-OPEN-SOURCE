@@ -12,12 +12,17 @@
     <string name="db_login_user_hint">输入豆瓣妹子网站的邮箱账号</string>
     <string name="password">密码</string>
     <string name="login">登录</string>
+    <string name="submit">提交</string>
+    <string name="selectpic">选择图片</string>
     <string name="login_successfully">登录成功</string>
     <string name="login_failed">登录失败</string>
+    <string name="not_to_send_to_self">不要给自己发短消息,你有不精分对不,万一你是,去短消息界面发吧</string>
     <string name="title">(这里填可以引喷的标题)</string>
+    <string name="avataraddtitle">(这里填炫酷的头像URL地址)</string>
     <string name="messageto">(这里填ID/用户名,多人用逗号分隔)</string>
     <string name="titlecannull">(这里可以不填引喷的标题)</string>
     <string name="replycontent">(这里填可以引喷的内容)</string>
+    <string name="changesignhint">(这里填你喜欢的签名内容)</string>
     <string name="commit">提交</string>
     <string name="cancel">取消</string>
     <string name="drawer_open">打开侧边栏</string>
@@ -100,6 +105,7 @@
     <string name="group_search">搜索</string>
     <string name="share">分享到…</string>
     <string name="image_to_big">图片超过1M，自动缩小</string>
+    <string name="image_to_big2">图片宽高超过180*255分辨率，自动缩小</string>
     <string name="page">页</string>
     <string name="search">搜索</string>
     <string name="menu_nearby_user">yooooo</string>
@@ -183,7 +189,9 @@
     <string name="new_weiba">发送可见尾巴信息</string>
     <string name="show_lajibankuai">大漩涡中显示小版块主题</string>
     <string name="multi_reply_format">已经挨了%d发黑枪了,态君不够用了!</string>
+    <string name="multi_message_format">收到了%d封短消息,态君也比不过你了!</string>
     <string name="reply_to_you"> ←态君,这个家伙给你打黑枪!</string>
+    <string name="message_to_you"> UID:%d给你发送了短消息!</string>
     <string name="image_quality_info">图片中转压缩(Beta)</string>
     <string name="blackgun_sound_info">黑枪提示音</string>
     <string name="lefthand_righthand">按键常用操作习惯(4.0以上 )</string>
@@ -232,6 +240,8 @@
     <string name="wenzichuli">字体美化</string>
     <string name="bold">加粗</string>
     <string name="anony">匿名</string>
+    <string name="avataradd">头像地址</string>
+    <string name="avatarpreview">头像预览</string>
     <string name="italic">斜体</string>
     <string name="underline">下划线</string>
     <string name="fontcolor">颜色</string>

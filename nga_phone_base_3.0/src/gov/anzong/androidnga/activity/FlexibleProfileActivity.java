@@ -25,6 +25,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.AvatarTag;
@@ -51,13 +52,13 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		implements OnProfileLoadFinishedListener, AvatarLoadCompleteCallBack,PullToRefreshAttacherOnwer,
 		PerferenceConstant {
 	private static final String TAG = "FlexibleProfileActivity";
-	private String mode, params;
+	private String mode, params,trueusername;
 	private View view;
 	private final Object lock = new Object();
 	private final HashSet<String> urlSet = new HashSet<String>();
 	private Object mActionModeCallback = null;
 	private TextView basedata_title, user_id, user_name, user_email_title,
-			user_email, user_tel_title, user_tel, user_group, user_posttotal;
+			user_email, user_tel_title, user_tel, user_group, user_posttotal,message_title;
 	private TextView user_money_gold, user_money_silver, user_money_copper,
 			user_title, user_state, user_registertime, user_lastlogintime;
 	private ImageView avatargold, avatarsilver, avatarcopper, avatarImage;
@@ -66,6 +67,9 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			user_shutup;
 	private WebView signwebview, adminwebview, famewebview;
 	private Button topic_button, reply_button,message_button;
+	private RelativeLayout avahahahb;
+	private TextView change_avatar_button,change_sign_button;
+	ProfileData resulttmp;
 
 	private PullToRefreshAttacher mPullToRefreshAttacher;
 
@@ -102,11 +106,13 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		user_id = (TextView) view.findViewById(R.id.user_id);
 		user_name = (TextView) view.findViewById(R.id.user_name);
 		user_email_title = (TextView) view.findViewById(R.id.user_email_title);
+		avahahahb=(RelativeLayout)view.findViewById(R.id.avahahahb);
 		user_email = (TextView) view.findViewById(R.id.user_email);
 		user_tel_title = (TextView) view.findViewById(R.id.user_tel_title);
 		user_tel = (TextView) view.findViewById(R.id.user_tel);
 		user_group = (TextView) view.findViewById(R.id.user_group);
 		user_posttotal = (TextView) view.findViewById(R.id.user_posttotal);
+		message_title = (TextView) view.findViewById(R.id.message_title);
 		user_money_gold = (TextView) view.findViewById(R.id.user_money_gold);
 		user_money_silver = (TextView) view
 				.findViewById(R.id.user_money_silver);
@@ -135,6 +141,10 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		topic_button = (Button) view.findViewById(R.id.topic_button);
 		reply_button = (Button) view.findViewById(R.id.reply_button);
 		message_button= (Button) view.findViewById(R.id.message_button);
+		change_sign_button = (TextView) view
+				.findViewById(R.id.change_sign_button);
+		change_avatar_button = (TextView) view
+		.findViewById(R.id.change_avatar_button);
 		user_shutup_title = (TextView) view
 				.findViewById(R.id.user_shutup_title);
 		user_shutup = (TextView) view.findViewById(R.id.user_shutup);
@@ -186,6 +196,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	
 	void writetopage(final ProfileData ret) {
 		final String username = ret.get_username();
+		trueusername=username;
 		getSupportActionBar().setTitle(username + "的用户信息");
 		basedata_title.setText(":: " + username + " 的基础信息 ::");
 		avatar_title.setText(":: " + username + " 的头像 ::");
@@ -197,7 +208,68 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		search_title.setText(":: " + username + " 发布的贴子  ::");
 		topic_button.setText("[搜索 " + username + " 发布的主题]");
 		reply_button.setText("[搜索 " + username + " 发布的回复]");
-		message_button.setText("[向 " + username + " 发送论坛短消息]");
+		if(!PhoneConfiguration.getInstance().userName.equals(username)){
+			message_button.setText("[向 " + username + " 发送论坛短消息]");
+			message_button.setOnClickListener(new OnClickListener() {
+				
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+
+					Intent intent_bookmark = new Intent();
+					intent_bookmark.putExtra("to", username);
+					intent_bookmark.putExtra("action", "new");
+					intent_bookmark.putExtra("messagemode", "yes");
+					if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+						intent_bookmark
+								.setClass(view.getContext(),
+										PhoneConfiguration.getInstance().messagePostActivityClass);
+					} else {
+						intent_bookmark.setClass(view.getContext(),
+								PhoneConfiguration.getInstance().loginActivityClass);
+					}
+					startActivity(intent_bookmark);
+				}
+
+			});
+		}else{
+			avahahahb.setVisibility(View.GONE);
+			message_title.setVisibility(View.GONE);
+			change_avatar_button.setVisibility(View.VISIBLE);
+			change_sign_button.setVisibility(View.VISIBLE);
+
+			change_sign_button.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+
+					Intent intent_bookmark = new Intent();
+					intent_bookmark.putExtra("prefix", ret.get_sign());
+
+					intent_bookmark
+							.setClass(view.getContext(),
+									PhoneConfiguration.getInstance().signPostActivityClass);
+						startActivityForResult(intent_bookmark,321);
+				}
+
+			});
+
+			change_avatar_button.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+
+					Intent intent_bookmark = new Intent();
+					intent_bookmark.putExtra("prefix", ret.get_sign());
+
+					intent_bookmark
+							.setClass(view.getContext(),AvatarPostActivity.class);
+						startActivityForResult(intent_bookmark,123);
+				}
+
+			});
+		}
 		user_id.setText(ret.get_uid());
 		user_name.setText(username);
 		if (ret.get_hasemail()) {
@@ -347,29 +419,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		});
 		
 
-		message_button.setOnClickListener(new OnClickListener() {
-			
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				Intent intent_bookmark = new Intent();
-				intent_bookmark.putExtra("to", username);
-				intent_bookmark.putExtra("action", "new");
-				intent_bookmark.putExtra("messagemode", "yes");
-				if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-					intent_bookmark
-							.setClass(view.getContext(),
-									PhoneConfiguration.getInstance().messagePostActivityClass);
-				} else {
-					intent_bookmark.setClass(view.getContext(),
-							PhoneConfiguration.getInstance().loginActivityClass);
-				}
-				startActivity(intent_bookmark);
-			}
-
-		});
 		view.setVisibility(View.VISIBLE);
 	}
 
@@ -414,6 +463,23 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		return rest + "</ul><br>";
 	}
 
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode==321){
+			String signdata=data.getStringExtra("sign");
+			resulttmp.set_sign(signdata);
+			signwebview.requestLayout();
+			handleSignWebview(signwebview, resulttmp);
+		}
+		if(resultCode==123){
+			String avatardata=data.getStringExtra("avatar");
+			resulttmp.set_avatar(avatardata);
+			signwebview.requestLayout();
+			handleAvatar(avatarImage, resulttmp);
+		}
+	}
+	
 	private void handleSignWebview(WebView contentTV, ProfileData ret) {
 		ThemeManager theme = ThemeManager.getInstance();
 		int bgColor,fgColor = getResources().getColor(theme.getForegroundColor());
@@ -607,9 +673,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			AvatarTag origTag = (AvatarTag) tagObj;
 			if (origTag.isDefault == false) {
 				ImageUtil.recycleImageView(avatarIV);
-				// Log.d(TAG, "recycle avatar:" + origTag.lou);
-			} else {
-				// Log.d(TAG, "default avatar, skip recycle");
 			}
 		}
 		AvatarTag tag = new AvatarTag(0, true);
@@ -655,7 +718,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	}
 
 	private static String parseAvatarUrl(String js_escap_avatar) {
-		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
 		if (null == js_escap_avatar)
 			return null;
 
@@ -726,6 +788,16 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		if (PhoneConfiguration.getInstance().fullscreen) {
 			ActivityUtil.getInstance().setFullScreen(view);
 		}
+		if(!StringUtil.isEmpty(trueusername)){
+			if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){
+				if(trueusername.equals(PhoneConfiguration.getInstance().userName)){
+					avahahahb.setVisibility(View.GONE);
+					message_title.setVisibility(View.GONE);
+					change_avatar_button.setVisibility(View.VISIBLE);
+					change_sign_button.setVisibility(View.VISIBLE);
+				}
+			}
+		}
 		super.onResume();
 	}
 
@@ -733,6 +805,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	public void jsonfinishLoad(ProfileData result) {
 		// TODO Auto-generated method stub
 		attacher.setRefreshComplete();
+		this.resulttmp=result;
 		if (result != null) {
 			writetopage(result);
 		}

@@ -14,7 +14,7 @@ public class ThreadPageInfo {
 	//private int authorid;
 	private String subject;
 	//private int ifmark;
-	//private int type;
+	private int type;
 	//private int type_2;
 	//private String postdate;
 	//private int lastpost;
@@ -39,6 +39,12 @@ public class ThreadPageInfo {
 
 	public int getFid() {
 		return fid;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type=type;
 	}
 	public void setFid(int fid) {
 		this.fid = fid;

@@ -42,6 +42,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -497,23 +502,7 @@ public class ArticleListFragment extends Fragment implements
 						R.anim.zoom_exit);
 			break;
 		case R.id.copy_to_clipboard:
-			// //if(android.os.Build.VERSION.SDK_INT <
-			// android.os.Build.VERSION_CODES.HONEYCOMB )
-			// //{
-			// android.text.ClipboardManager cbm =
-			// (android.text.ClipboardManager)
-			// getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
-			// cbm.setText(StringUtil.removeBrTag(content));
-			// //}else{
-			// //android.content.ClipboardManager cbm =
-			// (android.content.ClipboardManager)
-			// getSystemService(CLIPBOARD_SERVICE);
-			// //cbm.setPrimaryClip(ClipData.newPlainText("content", content));
-			// //}
-			//
-			// Toast.makeText(getActivity(), R.string.copied_to_clipboard,
-			// Toast.LENGTH_SHORT).show();
-			CopyDialog(content);
+			CopyDialog(row.getFormated_html_data());
 			break;
 		case R.id.show_this_person_only:
 
@@ -894,7 +883,11 @@ public class ArticleListFragment extends Fragment implements
 		alert.setTitle(R.string.copy_hint);
 		final EditText commentdata = (EditText) view
 				.findViewById(R.id.copy_data);
-		commentdata.setText(content);
+		content= content.replaceAll("(?i)"
+				+ "<img src='(.+?)'(.+?){0,}>",
+				"$1");
+		Spanned spanned = Html.fromHtml(content);
+		commentdata.setText(spanned);
 		commentdata.selectAll();
 		alert.setPositiveButton("¸´ÖÆ", new DialogInterface.OnClickListener() {
 

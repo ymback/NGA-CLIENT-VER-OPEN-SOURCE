@@ -14,9 +14,18 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,80 +150,84 @@ public class TopicListAdapter extends BaseAdapter implements
 			holder.lastReply.setTextColor(nightLinkColor);
 			holder.num.setTextColor(nightLinkColor);
 		}
-		holder.title.setTextColor(res.getColor(theme.getForegroundColor()));
-		float size = PhoneConfiguration.getInstance().getTextSize();
+		handleTitleView(holder.title,entry);
+	}
 
+	private void handleTitleView(TextView view,ThreadPageInfo entry){
+
+		ThemeManager theme = ThemeManager.getInstance();
+		Resources res = inflater.getContext().getResources();
+		float size = PhoneConfiguration.getInstance().getTextSize();
+			view.setTextColor(res.getColor(theme.getForegroundColor()));
+			view.setTextSize(size);
 		String titile = entry.getContent();
+		int type=entry.getType();
+		String needadd="";
+		if((type&1024)==1024){
+			needadd+=" [锁定]";
+		}
+		if((type&8192)==8192){
+			needadd+=" +";
+		}
+		int titlelength;
 		if (StringUtil.isEmpty(titile)) {
 			titile = entry.getSubject();
-			holder.title.setText(StringUtil.unEscapeHtml(titile));
+			titile=StringUtil.unEscapeHtml(titile);
+			titlelength=titile.length();
+			titile+=needadd;
 
 		} else {
-			holder.title.setText(StringUtil.removeBrTag(StringUtil
-					.unEscapeHtml(titile)));
+			titile=StringUtil.removeBrTag(StringUtil
+					.unEscapeHtml(titile));
+			titlelength=titile.length();
+			titile+=needadd;
 		}
+		ForegroundColorSpan greenSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.title_green));
+		ForegroundColorSpan blueSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.title_blue));
+		ForegroundColorSpan redSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.title_red));
+		ForegroundColorSpan lockredSpan = new ForegroundColorSpan(Color.RED);
+		ForegroundColorSpan orangeSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.title_orange));
+		ForegroundColorSpan sliverSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.silver));
 
-		holder.title.setTextSize(size);
-		final TextPaint tp = holder.title.getPaint();
-		tp.setFakeBoldText(false);
-		if (!StringUtil.isEmpty(entry.getTitlefont())) {
-			final String font = entry.getTitlefont();
-			if(font.indexOf("~")>=0){
-				if (font.equals("~1~~") || font.equals("~~~1")) {
-					tp.setFakeBoldText(true);
-				} else {
-					String miscarray[] = font.toLowerCase(Locale.US).split("~");
-					for (int i = 0; i < miscarray.length; i++) {
-						if (miscarray[i].equals("green")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_green));
-						} else if (miscarray[i].equals("blue")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_blue));
-						} else if (miscarray[i].equals("red")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_red));
-						} else if (miscarray[i].equals("orange")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_orange));
-						}else if (miscarray[i].equals("b")) {
-							holder.title.getPaint().setFakeBoldText(true);
-						}else if (miscarray[i].equals("i")) {
-							holder.title.setTypeface(Typeface.MONOSPACE,Typeface.ITALIC);
-						}else if (miscarray[i].equals("u")) {
-							holder.title.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
-						}
-						
-					}
-				}
-			}
+		SpannableStringBuilder builder = new SpannableStringBuilder(titile);
+		int totallength=titile.length();
+		Log.i(titile.substring(0,3),String.valueOf(totallength)+"|"+String.valueOf(titlelength));
+		if((type&8192)==8192&&(type&1024)==1024){//均有
+			builder.setSpan(orangeSpan, totallength-1, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
+			builder.setSpan(lockredSpan, totallength-6, totallength-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
+		}else if((type&8192)==8192){//只有+
+			builder.setSpan(orangeSpan, totallength-1,totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
+		}else if((type&1024)==1024){//只有锁定
+			builder.setSpan(lockredSpan, totallength-4, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
 		}
 		if (!StringUtil.isEmpty(entry.getTopicMisc())) {
 			final String misc = entry.getTopicMisc();
 			if(misc.indexOf("~")>=0){
 				if (misc.equals("~1~~") || misc.equals("~~~1")) {
-					tp.setFakeBoldText(true);
+					builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				} else {
 					String miscarray[] = misc.toLowerCase(Locale.US).split("~");
 					for (int i = 0; i < miscarray.length; i++) {
 						if (miscarray[i].equals("green")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_green));
+							builder.setSpan(greenSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						} else if (miscarray[i].equals("blue")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_blue));
+							builder.setSpan(blueSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						} else if (miscarray[i].equals("red")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_red));
+							builder.setSpan(redSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 						} else if (miscarray[i].equals("orange")) {
-							holder.title.setTextColor(res
-									.getColor(R.color.title_orange));
+							builder.setSpan(orangeSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						}else if (miscarray[i].equals("sliver")) {
+							builder.setSpan(sliverSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						}
+						if (miscarray[i].equals("b") && miscarray[i].equals("i")) {
+							builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
 						}else if (miscarray[i].equals("b")) {
-							holder.title.getPaint().setFakeBoldText(true);
-						}else if (miscarray[i].equals("i")) {
-							holder.title.setTypeface(Typeface.MONOSPACE,Typeface.ITALIC);
-						}else if (miscarray[i].equals("u")) {
-							holder.title.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
+							builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
+						}else if(miscarray[i].equals("i")) {
+							builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						}
+						if (miscarray[i].equals("u")) {
+							builder.setSpan(new UnderlineSpan(), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
 						}
 						
 					}
@@ -232,40 +245,70 @@ public class TopicListAdapter extends BaseAdapter implements
 				            BigInteger src2= new BigInteger(miscstringend,2);//转换为BigInteger类型
 				            int d2 = src2.intValue();
 				            if ((d2 & _FONT_GREEN)==_FONT_GREEN) {
-								holder.title.setTextColor(res
-										.getColor(R.color.title_green));
+								builder.setSpan(greenSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							} else if ((d2 & _FONT_BLUE)==_FONT_BLUE) {
-								holder.title.setTextColor(res
-										.getColor(R.color.title_blue));
+								builder.setSpan(blueSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							} else if ((d2 & _FONT_RED)==_FONT_RED) {
-								holder.title.setTextColor(res
-										.getColor(R.color.title_red));
+								builder.setSpan(redSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							} else if ((d2 & _FONT_ORANGE)==_FONT_ORANGE) {
-								holder.title.setTextColor(res
-										.getColor(R.color.title_orange));
+								builder.setSpan(orangeSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							} else if ((d2 & _FONT_SILVER)==_FONT_SILVER) {
-								holder.title.setTextColor(res
-										.getColor(R.color.silver));
+								builder.setSpan(sliverSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							}
-				            if ((d2 & _FONT_B)==_FONT_B) {
-								holder.title.getPaint().setFakeBoldText(true);
-							}
-				            if ((d2 & _FONT_I)==_FONT_I) {
-								holder.title.setTypeface(Typeface.MONOSPACE,Typeface.ITALIC);
+				            if ((d2 & _FONT_B)==_FONT_B && (d2 & _FONT_I)==_FONT_I) {
+								builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							}else if((d2 & _FONT_I)==_FONT_I){
+								builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							}else if((d2 & _FONT_B)==_FONT_B){
+								builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
 							}
 				            if ((d2 & _FONT_U)==_FONT_U) {
-								holder.title.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
+								builder.setSpan(new UnderlineSpan(), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
 							}
 				            
 				        }
 					}
 				}
 			}
+		}else{
+			if (!StringUtil.isEmpty(entry.getTitlefont())) {
+				final String font = entry.getTitlefont();
+				if(font.indexOf("~")>=0){
+					if (font.equals("~1~~") || font.equals("~~~1")) {
+						builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
+					} else {
+						String miscarray[] = font.toLowerCase(Locale.US).split("~");
+						for (int i = 0; i < miscarray.length; i++) {
+							if (miscarray[i].equals("green")) {
+								builder.setSpan(greenSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							} else if (miscarray[i].equals("blue")) {
+								builder.setSpan(blueSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							} else if (miscarray[i].equals("red")) {
+								builder.setSpan(redSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							} else if (miscarray[i].equals("orange")) {
+								builder.setSpan(orangeSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							}else if (miscarray[i].equals("sliver")) {
+								builder.setSpan(sliverSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							}
+							if (miscarray[i].equals("b") && miscarray[i].equals("i")) {
+								builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
+							}else if (miscarray[i].equals("b")) {
+								builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
+							}else if(miscarray[i].equals("i")) {
+								builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							}
+							if (miscarray[i].equals("u")) {
+								builder.setSpan(new UnderlineSpan(), 0, titlelength,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
+							}
+							
+						}
+					}
+				}
+			}
 		}
-
+		view.setText(builder);  
 	}
-
-
+	
 	private String toBinary( byte[] bytes )
 	{
 	    StringBuilder sb = new StringBuilder(bytes.length * Byte.SIZE);

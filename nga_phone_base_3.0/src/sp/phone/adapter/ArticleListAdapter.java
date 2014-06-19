@@ -171,6 +171,15 @@ public class ArticleListAdapter extends BaseAdapter implements
 		return sb.toString();
 	}
 
+	private static String buildAnony(ThreadRowInfo row) {
+		if (row == null || !row.getISANONYMOUS())
+			return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append("<font style='color:#D00;font-weight: bold;'>")
+				.append("[匿名]").append("</font><br/>");
+		return sb.toString();
+	}
+
 	private static String buildLocation(final ThreadRowInfo row) {
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 
@@ -241,11 +250,12 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 			ngaHtml = "<font color='red'>[" + hide + "]</font>";
 		}
-		ngaHtml = ngaHtml + buildComment(row, fgColorStr)
+		ngaHtml = ngaHtml + buildComment(row, fgColorStr,showImage, imageQuality)
 				+ buildAttachment(row, showImage, imageQuality, imageURLSet)
 				+ buildSignature(row, showImage, imageQuality);
 		ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
 				+ buildHeader(row, fgColorStr)
+				+ buildAnony(row)
 				+ "<body bgcolor= '#"
 				+ bgcolorStr
 				+ "'>"
@@ -454,7 +464,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 							postPrefix.append(page);
 						postPrefix.append("]");// Topic
 						postPrefix.append("Reply");
-						if(row.getISANONYMOUS()){//是匿名的人
+						if (row.getISANONYMOUS()) {// 是匿名的人
 							postPrefix.append("[/pid] [b]Post by [uid=");
 							postPrefix.append("-1");
 							postPrefix.append("]");
@@ -462,7 +472,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 							postPrefix.append("[/uid][color=gray](");
 							postPrefix.append(row.getLou());
 							postPrefix.append("楼)[/color] (");
-						}else{
+						} else {
 							postPrefix.append("[/pid] [b]Post by [uid=");
 							postPrefix.append(uid);
 							postPrefix.append("]");
@@ -690,8 +700,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 	public View getView(int position, View view, ViewGroup parent) {
 		MyListenerForReply myListenerForReply = new MyListenerForReply(position);
-		MyListenerForClient myListenerForClient = new MyListenerForClient(position,
-				parent);
+		MyListenerForClient myListenerForClient = new MyListenerForClient(
+				position, parent);
 		final ThreadRowInfo row = data.getRowList().get(position);
 
 		int lou = -1;
@@ -700,20 +710,21 @@ public class ArticleListAdapter extends BaseAdapter implements
 		ViewHolder holder = null;
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 
-		if (ActivityUtil.isLessThan_4_4() || PhoneConfiguration.getInstance().kitwebview==false) {
+		if (ActivityUtil.isLessThan_4_4()
+				|| PhoneConfiguration.getInstance().kitwebview == false) {
 			SoftReference<View> ref = viewCache.get(position);
 			View cachedView = null;
 			if (ref != null) {
 				cachedView = ref.get();
 			}
 			if (cachedView != null) {
-				 Log.d(TAG, "get view from cache ,floor " + lou);
+				Log.d(TAG, "get view from cache ,floor " + lou);
 				return cachedView;
 			} else {
 				// if(ref != null)
-				 Log.i(TAG, "cached view recycle by system:" + lou);
+				Log.i(TAG, "cached view recycle by system:" + lou);
 				if (view == null || config.useViewCache) {
-					 Log.d(TAG, "inflater new view ,floor " + lou);
+					Log.d(TAG, "inflater new view ,floor " + lou);
 
 					view = LayoutInflater.from(activity).inflate(
 							R.layout.relative_aritclelist, parent, false);
@@ -728,8 +739,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 					}
 					holder.contentTV.stopLoading();
 					if (holder.contentTV.getHeight() > 300) {
-						 Log.d(TAG, "skip and store a tall view ,floor " +
-						 position);
+						Log.d(TAG, "skip and store a tall view ,floor "
+								+ position);
 						// if (config.useViewCache)
 						viewCache.put(holder.position, new SoftReference<View>(
 								view));
@@ -933,7 +944,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 		return ret;
 	}
 
-	private static String buildComment(ThreadRowInfo row, String fgColor) {
+	private static String buildComment(ThreadRowInfo row, String fgColor,boolean showImage,
+			int imageQuality) {
 		if (row == null || row.getComments() == null
 				|| row.getComments().size() == 0) {
 			return "";
@@ -961,7 +973,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 			ret.append("' style= 'max-width:32;'>");
 
 			ret.append("</td><td>");
-			ret.append(comment.getContent());
+			ret.append(StringUtil.decodeForumTag(comment.getContent(), showImage,
+					imageQuality, null));
 			ret.append("</td></tr>");
 
 		}

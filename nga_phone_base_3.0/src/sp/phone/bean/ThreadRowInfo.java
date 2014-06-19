@@ -181,8 +181,7 @@ public class ThreadRowInfo {
 	public void setFormated_html_data(String formated_html_data) {
 		this.formated_html_data = formated_html_data;
 	}
-
-
+	
 
 
 

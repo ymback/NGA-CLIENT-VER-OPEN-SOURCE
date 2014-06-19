@@ -16,6 +16,7 @@ import gov.anzong.androidnga.activity.HaMessagePostActivity;
 import gov.anzong.androidnga.activity.HaNonameArticleListActivity;
 import gov.anzong.androidnga.activity.HaNonamePostActivity;
 import gov.anzong.androidnga.activity.HaPostActivity;
+import gov.anzong.androidnga.activity.HaSignPostActivity;
 import gov.anzong.androidnga.activity.HaSplitArticleListActivity;
 import gov.anzong.androidnga.activity.HaSplitFlexibleMessageListActivity;
 import gov.anzong.androidnga.activity.HaSplitFlexibleNonameTopicListActivity;
@@ -27,6 +28,7 @@ import gov.anzong.androidnga.activity.HaSplitMessagePostActivity;
 import gov.anzong.androidnga.activity.HaSplitNonameArticleListActivity;
 import gov.anzong.androidnga.activity.HaSplitNonamePostActivity;
 import gov.anzong.androidnga.activity.HaSplitPostActivity;
+import gov.anzong.androidnga.activity.HaSplitSignPostActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MeiziMainActivity;
 import gov.anzong.androidnga.activity.MeiziTopicActivity;
@@ -36,6 +38,7 @@ import gov.anzong.androidnga.activity.NonameArticleListActivity;
 import gov.anzong.androidnga.activity.NonamePostActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.RecentReplyListActivity;
+import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.SplitArticleListActivity;
 import gov.anzong.androidnga.activity.SplitFlexibleMessageListActivity;
 import gov.anzong.androidnga.activity.SplitFlexibleNonameTopicListActivity;
@@ -51,6 +54,7 @@ import gov.anzong.androidnga.activity.SplitNonamePostActivity;
 import gov.anzong.androidnga.activity.SplitPostActivity;
 import gov.anzong.androidnga.activity.FlexibleSignActivity;
 import gov.anzong.androidnga.activity.SplitRecentReplyListActivity;
+import gov.anzong.androidnga.activity.SplitSignPostActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +118,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 	public Class<?> postActivityClass = PostActivity.class;
 	public Class<?> nonamePostActivityClass = NonamePostActivity.class;
 	public Class<?> messagePostActivityClass = MessagePostActivity.class;
+	public Class<?> signPostActivityClass = SignPostActivity.class;
 	public Class<?> signActivityClass = FlexibleSignActivity.class;
 	public Class<?> profileActivityClass = FlexibleProfileActivity.class;
 	public Class<?> loginActivityClass = LoginActivity.class;
@@ -279,6 +284,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			nonameArticleActivityClass = SplitNonameArticleListActivity.class;
 			messageDetialActivity = SplitMessageDetialActivity.class;
 			postActivityClass = PostActivity.class;
+			signPostActivityClass = SignPostActivity.class;
 			nonamePostActivityClass = NonamePostActivity.class;
 			messagePostActivityClass = MessagePostActivity.class;
 			signActivityClass = SplitFlexibleSignActivity.class;//
@@ -295,6 +301,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			messageActivityClass = HaFlexibleMessageListActivity.class;
 			nonameActivityClass = HaFlexibleNonameTopicListActivity.class;
 			postActivityClass = HaPostActivity.class;
+			signPostActivityClass = HaSignPostActivity.class;
 			nonamePostActivityClass = HaNonamePostActivity.class;
 			messagePostActivityClass = HaMessagePostActivity.class;
 			signActivityClass = HaFlexibleSignActivity.class;//OK
@@ -311,6 +318,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			nonameArticleActivityClass = NonameArticleListActivity.class;
 			messageDetialActivity = MessageDetialActivity.class;
 			postActivityClass = SplitPostActivity.class;
+			signPostActivityClass = SplitSignPostActivity.class;
 			nonamePostActivityClass = SplitNonamePostActivity.class;
 			messagePostActivityClass = SplitMessagePostActivity.class;
 			signActivityClass = FlexibleSignActivity.class;//
@@ -327,6 +335,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			nonameArticleActivityClass = HaSplitNonameArticleListActivity.class;
 			messageDetialActivity = HaSplitMessageDetialActivity.class;
 			postActivityClass = HaPostActivity.class;
+			signPostActivityClass = HaSignPostActivity.class;
 			nonamePostActivityClass = HaNonamePostActivity.class;
 			messagePostActivityClass = HaMessagePostActivity.class;
 			signActivityClass = HaSplitFlexibleSignActivity.class;//
@@ -343,6 +352,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			nonameArticleActivityClass = SplitNonameArticleListActivity.class;
 			messageDetialActivity = SplitMessageDetialActivity.class;
 			postActivityClass = SplitPostActivity.class;
+			signPostActivityClass = SplitSignPostActivity.class;
 			nonamePostActivityClass = SplitNonamePostActivity.class;
 			messagePostActivityClass = SplitMessagePostActivity.class;
 			signActivityClass = SplitFlexibleSignActivity.class;//
@@ -359,6 +369,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			nonameArticleActivityClass = HaNonameArticleListActivity.class;
 			messageDetialActivity = HaMessageDetialActivity.class;
 			postActivityClass = HaSplitPostActivity.class;
+			signPostActivityClass = HaSplitSignPostActivity.class;
 			nonamePostActivityClass = HaSplitNonamePostActivity.class;
 			messagePostActivityClass = HaMessagePostActivity.class;
 			signActivityClass = HaFlexibleSignActivity.class;//
@@ -375,6 +386,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			nonameArticleActivityClass = HaSplitNonameArticleListActivity.class;
 			messageDetialActivity = HaSplitMessageDetialActivity.class;
 			postActivityClass = HaSplitPostActivity.class;
+			signPostActivityClass = HaSplitSignPostActivity.class;
 			nonamePostActivityClass = HaSplitNonamePostActivity.class;
 			messagePostActivityClass = HaSplitMessagePostActivity.class;
 			signActivityClass = HaSplitFlexibleSignActivity.class;//
@@ -390,6 +402,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			nonameArticleActivityClass = NonameArticleListActivity.class;
 			messageDetialActivity = MessageDetialActivity.class;
 			postActivityClass = PostActivity.class;
+			signPostActivityClass = SignPostActivity.class;
 			messagePostActivityClass = MessagePostActivity.class;
 			signActivityClass = FlexibleSignActivity.class;
 			profileActivityClass = FlexibleProfileActivity.class;

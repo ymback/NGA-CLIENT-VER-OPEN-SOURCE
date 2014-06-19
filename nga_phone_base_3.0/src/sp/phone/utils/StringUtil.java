@@ -167,6 +167,31 @@ public class StringUtil {
 		return s;
 	}
 
+	
+	public static String decodealbum(String s,String quotediv){
+		int startpos=s.indexOf("[album="),endpos=s.indexOf("[/album]")+8;
+		String sup="",sdown="",salbum="",stemp="",stitle="";
+		while(startpos<endpos && startpos>=0){
+			Log.i("SATAG","sa");
+			sup=s.substring(0,startpos);
+			if(endpos>=0)
+				sdown=s.substring(endpos,s.length());
+			salbum=s.substring(startpos,endpos);
+			stitle=salbum.replaceAll("(?i)"+"\\[album=(.*?)\\](.*?)\\[/album\\]", "$1");
+			stemp=salbum.replaceAll("(?i)"+"\\[album=(.*?)\\](.*?)\\[/album\\]", "$2");
+			if(stemp.startsWith("<br/>")){
+				stemp="[img]"+stemp.substring(5)+"[/img]";
+			}
+			stitle="相册列表:"+stitle+"<br/>";
+			stemp=stemp.replaceAll("<br/>", "[/img]<br/><br/>[img]");
+			stemp="<br/>"+quotediv+stitle+"<br/>"+stemp+"</div>";
+			s=sup+stemp+sdown;
+			startpos=s.indexOf("[album=");
+			endpos=s.indexOf("[/album]")+8;
+		}
+		return s;
+	}
+	
 	public static String decodeForumTag(String s, boolean showImage,
 			int imageQuality, HashSet<String> imageURLSet) {
 		if (StringUtil.isEmpty(s))
@@ -207,7 +232,7 @@ public class StringUtil {
 				"-1324875_50e597e9d6319.png", "-47218_5052bd27520ef.png",
 				"-47218_5052bcbe35760.png", "-1324875_50e597f190a11.png"// 0-44
 		};
-
+		s = decodealbum(s,quoteStyle);
 		s = s.replaceAll(ignoreCaseTag + "&amp;", "&");
 		s = s.replaceAll(ignoreCaseTag + "\\[l\\]", styleLeft);
 		s = s.replaceAll(ignoreCaseTag + "\\[/l\\]", endDiv);
@@ -958,7 +983,7 @@ public class StringUtil {
 			+ "更新后每次打开看到这个窗口的,重启手机\n"
 			+ "发现bug,删除app,再更新到最新版,还有问题私信[@竹井詩織里],号已经被CCQ了\n"
 			+ "签到/短消息/历史被喷/匿名版/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
-			+ "主题列表长按楼层可以看头像签名和用户信息等,收藏列表长按可删收藏\n"
+			+ "主题列表长按楼层可以看头像签名和用户信息等,自己的个人信息界面可以改头像和签名,收藏列表长按可删收藏\n"
 			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面,比如分享啊啥的\n"
 			+ "已安装解码器,可直接看多个站点的视频\n"
 			+ "彩蛋还有,但不知道在哪了\n"

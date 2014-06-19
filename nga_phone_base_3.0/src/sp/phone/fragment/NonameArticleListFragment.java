@@ -47,6 +47,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -406,7 +408,11 @@ public class NonameArticleListFragment extends Fragment implements
 		alert.setTitle(R.string.copy_hint);
 		final EditText commentdata = (EditText) view
 				.findViewById(R.id.copy_data);
-		commentdata.setText(content);
+		content= content.replaceAll("(?i)"
+				+ "<img src='(.+?)'(.+?){0,}>",
+				"$1");
+		Spanned spanned = Html.fromHtml(content);
+		commentdata.setText(spanned);
 		commentdata.selectAll();
 		alert.setPositiveButton("¸´ÖÆ", new DialogInterface.OnClickListener() {
 
