@@ -153,8 +153,6 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 		final byte header[] = buildHeader().getBytes();
 		final byte tail[] = buildTail().getBytes();
 
-		final String cookie = new UploadCookieCollector().StartCollect()
-				.toString();
 		String html = null;
 		URL url;
 		try {
@@ -167,7 +165,6 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 			conn.setRequestProperty("Content-Length",
 					String.valueOf(header.length + filesize + tail.length));
 			conn.setRequestProperty("Accept-Charset", "GBK");
-			conn.setRequestProperty("Cookie", cookie);
 			conn.setDoOutput(true);
 
 			OutputStream out = conn.getOutputStream();

@@ -19,8 +19,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TabWidget;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ThreadFragmentAdapter;
@@ -75,6 +77,7 @@ PagerOwnner{
 	ThreadFragmentAdapter mTabsAdapter;
     int tid;
     int pid;
+    TabWidget tabs;
     String title;
     int authorid;
     String url;
@@ -93,7 +96,6 @@ PagerOwnner{
 		//refreshPager.setMode(Mode.DISABLED);
 		mViewPager = refreshPager.getRefreshableView();*/
 		mViewPager = (ViewPager) v.findViewById(R.id.pager);
-
 		int pageFromUrl = 0;
 		url = getArguments().getString("url");
 		if(null != url){
@@ -114,6 +116,8 @@ PagerOwnner{
 				getChildFragmentManager(),
 				mViewPager,ArticleListFragment.class);
 				//new TabsAdapter(getActivity(), tabhost, mViewPager,ArticleListFragment.class);
+		
+		
 		
 		mTabsAdapter.setArgument("id", tid);
 		mTabsAdapter.setArgument("pid", pid);

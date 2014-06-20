@@ -440,13 +440,13 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		}
 	}
 
-	private String createHTMLoffame(ProfileData ret) {
+	private String createHTMLoffame(ProfileData ret,String color) {
 		int i;
 		String rest = "<ul style=\"padding: 0px; margin: 0px;\">";
 		String fame = ret.get_fame();
 		double famenum = (double) Double.parseDouble(fame) / 10;
 		rest += "<li style=\"display: block;float: left;width: 33%;\">"
-				+ "<label style=\"float: left;color: #121C46;\">ÍþÍû</label>"
+				+ "<label style=\"float: left;color: "+color+";\">ÍþÍû</label>"
 				+ "<span style=\"float: left; color: #808080;\">:</span>"
 				+ "<span style=\"float: left; color: #808080;\">"
 				+ Double.toString(famenum) + "</span></li>";
@@ -454,7 +454,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 				.get_ReputationEntryList();
 		for (i = 0; i < ret.get_ReputationEntryListrows(); i++) {
 			rest += "<li style=\"display: block;float: left;width: 33%;\">"
-					+ "<label style=\"float: left;color: #121C46;\">"
+					+ "<label style=\"float: left;color: "+color+";\">"
 					+ ReputationEntryList.get(i).get_name() + "</label>"
 					+ "<span style=\"float: left; color: #808080;\">:</span>"
 					+ "<span style=\"float: left; color: #808080;\">"
@@ -598,7 +598,11 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	public String fameToHtmlText(final ProfileData ret, boolean showImage,
 			int imageQuality, final String fgColorStr, final String bgcolorStr) {
 		HashSet<String> imageURLSet = new HashSet<String>();
-		String ngaHtml = createHTMLoffame(ret);
+		String color = "#121C46";
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+			color="#712D08";
+		}
+		String ngaHtml = createHTMLoffame(ret,color);
 		if (imageURLSet.size() == 0) {
 			imageURLSet = null;
 		}

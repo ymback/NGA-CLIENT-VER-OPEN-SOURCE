@@ -182,7 +182,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 		titleText.setSelected(true);
 		bodyText = (EditText) findViewById(R.id.reply_body_edittext);
 		if (prefix != null) {
-			if (prefix.startsWith("[quote][pid=")
+			if (prefix.startsWith("[quote]")
 					&& prefix.endsWith("[/quote]\n")) {
 				SpannableString spanString = new SpannableString(prefix);
 				spanString.setSpan(new BackgroundColorSpan(-1513240), 0,

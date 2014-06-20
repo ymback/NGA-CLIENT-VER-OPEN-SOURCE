@@ -187,17 +187,17 @@ public class TopicListAdapter extends BaseAdapter implements
 		ForegroundColorSpan redSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.title_red));
 		ForegroundColorSpan lockredSpan = new ForegroundColorSpan(Color.RED);
 		ForegroundColorSpan orangeSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.title_orange));
+		ForegroundColorSpan picorangeSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.title_orange));
 		ForegroundColorSpan sliverSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.silver));
 
 		SpannableStringBuilder builder = new SpannableStringBuilder(titile);
 		int totallength=titile.length();
-		Log.i(titile.substring(0,3),String.valueOf(totallength)+"|"+String.valueOf(titlelength));
-		if((type&8192)==8192&&(type&1024)==1024){//均有
-			builder.setSpan(orangeSpan, totallength-1, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
+		if((type&8192)==8192&&(type&1024)==1024 && totallength>=6){//均有
+			builder.setSpan(picorangeSpan, totallength-1, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
 			builder.setSpan(lockredSpan, totallength-6, totallength-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
-		}else if((type&8192)==8192){//只有+
-			builder.setSpan(orangeSpan, totallength-1,totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
-		}else if((type&1024)==1024){//只有锁定
+		}else if((type&8192)==8192 && totallength>0){//只有+
+			builder.setSpan(picorangeSpan, totallength-1,totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
+		}else if((type&1024)==1024 && totallength>=4){//只有锁定
 			builder.setSpan(lockredSpan, totallength-4, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
 		}
 		if (!StringUtil.isEmpty(entry.getTopicMisc())) {
