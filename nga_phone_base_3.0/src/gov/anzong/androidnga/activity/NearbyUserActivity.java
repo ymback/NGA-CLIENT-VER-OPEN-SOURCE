@@ -4,7 +4,6 @@ import gov.anzong.androidnga.R;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 
 import sp.phone.adapter.NearbyUsersAdapter;
@@ -29,7 +28,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +41,7 @@ import com.alibaba.fastjson.JSON;
 
 public class NearbyUserActivity extends SwipeBackAppCompatActivity
 implements PerferenceConstant,OnNearbyLoadComplete,PullToRefreshAttacherOnwer{
-	ListView lv;
+	private ListView lv;
 	final private String ALERT_DIALOG_TAG = "alertdialog";
 	NearbyUserTask task = null; 
 	private Toast toast = null;
