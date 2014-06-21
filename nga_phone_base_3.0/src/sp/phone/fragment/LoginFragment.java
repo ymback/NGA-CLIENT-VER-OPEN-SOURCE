@@ -13,6 +13,7 @@ import sp.phone.adapter.UserListAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.StringUtil;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -212,15 +213,17 @@ PerferenceConstant{
 				editor.putString(PENDING_REPLYS, "");
 				editor.putString(REPLYTOTALNUM, "0");
 				editor.putString(USER_NAME, name );
+				editor.putString(BLACK_LIST, "" );
 				editor.commit();
 				MyApp app = (MyApp) getActivity().getApplication();
-				app.addToUserList(uid, cid, name,"",0);
+				app.addToUserList(uid, cid, name,"",0,"");
 				
 				PhoneConfiguration.getInstance().setUid(uid);
 				PhoneConfiguration.getInstance().setCid(cid);
 				PhoneConfiguration.getInstance().userName = name;
 				PhoneConfiguration.getInstance().setReplyString("");
 				PhoneConfiguration.getInstance().setReplyTotalNum(0);
+				PhoneConfiguration.getInstance().blacklist=StringUtil.blackliststringtolisttohashset("");
 				
 				LoginFragment.this.dismiss();
 				//startActivity(intent);

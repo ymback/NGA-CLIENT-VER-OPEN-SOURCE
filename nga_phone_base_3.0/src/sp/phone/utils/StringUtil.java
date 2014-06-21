@@ -5,9 +5,13 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -172,7 +176,6 @@ public class StringUtil {
 		int startpos=s.indexOf("[album="),endpos=s.indexOf("[/album]")+8;
 		String sup="",sdown="",salbum="",stemp="",stitle="";
 		while(startpos<endpos && startpos>=0){
-			Log.i("SATAG","sa");
 			sup=s.substring(0,startpos);
 			if(endpos>=0)
 				sdown=s.substring(endpos,s.length());
@@ -980,10 +983,11 @@ public class StringUtil {
 	}
 
 	final static String tips = "花几十秒看完,你会有新收获\n"
+			+ "由于新增黑名单功能,低于2.0.28版本的APP更新后会重置登录信息\n"
 			+ "更新后每次打开看到这个窗口的,重启手机\n"
 			+ "发现bug,删除app,再更新到最新版,还有问题私信[@竹井詩織里],号已经被CCQ了\n"
 			+ "签到/短消息/历史被喷/匿名版/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
-			+ "主题列表长按楼层可以看头像签名和用户信息等,自己的个人信息界面可以改头像和签名,收藏列表长按可删收藏\n"
+			+ "主题列表长按楼层可以看头像签名、用户信息、屏蔽用户等,自己的个人信息界面可以改头像和签名,收藏列表长按可删收藏\n"
 			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面,比如分享啊啥的\n"
 			+ "已安装解码器,可直接看多个站点的视频\n"
 			+ "彩蛋还有,但不知道在哪了\n"
@@ -1047,4 +1051,26 @@ public class StringUtil {
 	private static int showPlayMode() {
 		return PhoneConfiguration.getInstance().playMode;
 	}
+	
+
+	public static Set<Integer> blackliststringtolisttohashset(String s){
+		if(StringUtil.isEmpty(s)){
+			Set<Integer> sset = new HashSet<Integer>();
+			return sset;
+		}
+		if(s.startsWith("[") && s.endsWith("]") && s.length()>2){
+			s=s.replace("[", "").replace("]", "").replace(" ", "");
+			String[] sarray=s.split(",");
+			List<String> sliststring=Arrays.asList(sarray);  
+			List<Integer> slistint = new ArrayList<Integer>(sliststring.size());
+			for (String myString : sliststring) { 
+				slistint.add(Integer.parseInt(myString)); 
+					}
+			Set<Integer> sset = new HashSet<Integer>(slistint);  
+			return sset;
+		}else{
+			Set<Integer> sset = new HashSet<Integer>();
+			return sset;
+			}
+		}
 }

@@ -164,6 +164,7 @@ public class BookmarkActivity extends SwipeBackAppCompatActivity
 		Intent intent = new Intent();
 		intent.putExtra("tab", "1");
 		intent.putExtra("tid",tid);
+		intent.putExtra("fromreplyactivity",1);
 		intent.setClass(this, PhoneConfiguration.getInstance().articleActivityClass);
 		startActivity(intent);
 		if(PhoneConfiguration.getInstance().showAnimation)

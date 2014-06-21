@@ -70,6 +70,8 @@
     <string name="copy_to_clipboard">复制</string>
     <string name="signature_dialog">查看签名</string>
     <string name="showprofile">查看用户信息</string>
+    <string name="ban_thisone">屏蔽此人</string>
+    <string name="cancel_ban_thisone">取消屏蔽此人</string>
     <string name="avatar_dialog">查看头像</string>
     <string name="show_this_person_only">只看此人</string>
     <string name="edit">编辑</string>
@@ -149,6 +151,10 @@
     <string name="report_confirm">举报确认</string>
     <string name="emotion">表情</string>
     <string name="cannot_eidt_comment">不能编辑贴条</string>
+    <string name="cannot_add_to_blacklist_cause_logout">你没登录,不能拉黑</string>
+    <string name="cannot_add_to_blacklist_cause_anony">这傻逼匿名了,不能拉黑</string>
+    <string name="remove_from_blacklist_success">解除屏蔽成功</string>
+    <string name="add_to_blacklist_success">添加屏蔽成功</string>
     <string name="websize_sample_text">帖子内字体大小</string>
     <string name="prompt">提示</string>
     <string name="promptnewversion">提示(花几秒看完它)</string>
@@ -175,6 +181,7 @@
     <string name="meter">米</string>
     <string name="kilo_meter">公里</string>
     <string name="hide">隐藏</string>
+    <string name="blacklistban">屏蔽</string>
     <string name="legend">传说</string>
     <string name="attachment">附件</string>
     <string name="comment">评论</string>

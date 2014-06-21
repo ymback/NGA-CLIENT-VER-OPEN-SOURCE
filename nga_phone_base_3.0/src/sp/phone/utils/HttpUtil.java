@@ -84,17 +84,12 @@ public class HttpUtil {
 				int result = conn.getResponseCode();
 				String re = conn.getResponseMessage();
 				if (result == HttpURLConnection.HTTP_OK) {
-					System.out.println(re);
-					System.out.println(host + "ok !");
 					HOST = host;//
 					break;
 				} else {
-					System.out.println(host + "fail !");
 				}
 			} catch (MalformedURLException e) {
-				System.out.println(e);
 			} catch (IOException e) {
-				System.out.println(e);
 			} finally {
 				if (conn != null) {
 					conn.disconnect();
@@ -123,18 +118,14 @@ public class HttpUtil {
 				conn.setConnectTimeout(4000);
 				int result = conn.getResponseCode();
 				if (result == HttpURLConnection.HTTP_OK) {
-					System.out.println(host + "ok !");
 					HOST = str;//
 					HOST_PORT = host;
 					status = true;
 					break;
 				} else {
-					System.out.println(host + "fail !");
 				}
 			} catch (MalformedURLException e) {
-				System.out.println(e);
 			} catch (IOException e) {
-				System.out.println(e);
 			} finally {
 				if (conn != null) {
 					conn.disconnect();
@@ -203,10 +194,8 @@ public class HttpUtil {
 			URLConnection conn = url.openConnection();
 			final InputStream is = conn.getInputStream();
 			// InputStream is2 = is;
-			System.out.println("get image is");
 			new Thread() {
 				public void run() {
-					System.out.println("write image");
 					writeFile(is, newFileName);
 				};
 			}.start();
@@ -453,12 +442,10 @@ public class HttpUtil {
 	}
 
 	public static ArticlePage getArticlePageByJson(String uri) {
-		System.out.println("from this");
 		//TODO
 		String json = getHtml(uri,"");
 		long t = System.currentTimeMillis();
 		ArticlePage ap = JSON.parseObject(json, ArticlePage.class);
-		System.out.println(System.currentTimeMillis() - t);
 		return ap;
 	}
 }

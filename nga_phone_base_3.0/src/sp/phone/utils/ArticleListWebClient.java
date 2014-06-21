@@ -148,6 +148,7 @@ public class ArticleListWebClient extends WebViewClient {
 				|| url.startsWith(NGA178_THREAD_PREFIX)) {
 			Intent intent = new Intent();
 			intent.setData(Uri.parse(origurl));
+			intent.putExtra("fromreplyactivity", 1);
 			intent.setClass(view.getContext(), conf.articleActivityClass);
 			view.getContext().startActivity(intent);
 		} else if (url.endsWith(".gif") || url.endsWith(".jpg")

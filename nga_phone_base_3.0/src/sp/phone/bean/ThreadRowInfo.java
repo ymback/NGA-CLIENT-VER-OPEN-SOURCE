@@ -54,6 +54,14 @@ public class ThreadRowInfo {
 	//private String nickname;
 	private List<ThreadRowInfo> comments;
 	
+	private boolean isInBlackList;
+	
+	public void set_IsInBlackList(boolean isin){
+		this.isInBlackList=isin;
+	}
+	public boolean get_isInBlackList(){
+		return isInBlackList;
+	}
 	
 	private String formated_html_data;
 	private String from_client;

@@ -346,7 +346,6 @@ PagerOwnner{
 					editor.commit();
 					mode = ThemeManager.MODE_NIGHT;
 				}
-				Log.i(TAG,"frag");
 				ThemeManager.getInstance().setMode(mode);
 				Intent intent = getActivity().getIntent();
 				intent.putExtra("daulscrshowmode", 1);

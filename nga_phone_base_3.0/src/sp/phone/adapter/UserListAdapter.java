@@ -3,6 +3,7 @@ package sp.phone.adapter;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.User;
 import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.StringUtil;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -65,12 +66,14 @@ implements  OnClickListener{
 				PhoneConfiguration.getInstance().setCid("");			
 				PhoneConfiguration.getInstance().setReplyString("");
 				PhoneConfiguration.getInstance().setReplyTotalNum(0);
+				PhoneConfiguration.getInstance().blacklist=StringUtil.blackliststringtolisttohashset("");
 				Editor editor = share.edit();
 				editor.putString(UID, "");
 				editor.putString(CID, "");
 				editor.putString(USER_NAME, "" );
 				editor.putString(PENDING_REPLYS, "");
 				editor.putString(REPLYTOTALNUM, "0");
+				editor.putString(BLACK_LIST, "");
 				editor.commit();
 			}else{
 				User u = userList.get(0);
@@ -79,6 +82,7 @@ implements  OnClickListener{
 				PhoneConfiguration.getInstance().setCid(u.getCid());
 				PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
 				PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
+				PhoneConfiguration.getInstance().blacklist=StringUtil.blackliststringtolisttohashset(u.getBlackList());
 			}
 		}
 		

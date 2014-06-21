@@ -193,7 +193,7 @@ public class CheckReplyNotificationTask extends
 								MyApp app = (MyApp) ((Activity) context)
 										.getApplication();
 								app.addToUserList(u.getUserId(), u.getCid(),
-										u.getNickName(), recentstr, list.size());
+										u.getNickName(), recentstr, list.size(),u.getBlackList());
 								break;
 							}
 						}
@@ -408,6 +408,7 @@ public class CheckReplyNotificationTask extends
 			url = url + "&pid=" + pid;
 		}
 		intent.setData(Uri.parse(url));
+		intent.putExtra("fromreplyactivity", 1);
 
 		// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK
 		// );

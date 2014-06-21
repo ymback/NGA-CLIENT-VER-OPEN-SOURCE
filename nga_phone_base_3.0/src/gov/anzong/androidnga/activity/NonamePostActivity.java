@@ -1277,7 +1277,6 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 				return "parameter error";
 			String ret = "{\"error\":true,\"errorinfo\":\"\u7f51\u7edc\u9519\u8bef\"}";// ÍøÂç´íÎó
 			String url = params[0];
-			Log.i("TAG", url);
 			String body = params[1];
 
 			HttpPostClient c = new HttpPostClient(url);
@@ -1300,7 +1299,6 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 					ret = IOUtils.toString(input, "utf-8");
 				} else
 					keepActivity = true;
-				Log.i("TAG", ret);
 			} catch (IOException e) {
 				keepActivity = true;
 				Log.e(LOG_TAG, Log.getStackTraceString(e));
@@ -1318,7 +1316,6 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 					keepActivity = true;
 			}
 			if (s.error) {// ³ö´í
-				Log.i("atg", "S");
 				if (toast != null) {
 					toast.setText(s.errorinfo);
 					toast.setDuration(Toast.LENGTH_SHORT);

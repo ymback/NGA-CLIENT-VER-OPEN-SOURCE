@@ -94,7 +94,9 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 		 * refreshPager.setOnRefreshListener(new OnRefreshListener<ViewPager>(){
 		 * 
 		 * @Override public void onRefresh(PullToRefreshBase<ViewPager>
-		 * refreshView) { finish();
+		 * refreshView) { 
+
+();
 		 * 
 		 * }
 		 * 
@@ -123,6 +125,9 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 		fromreplyactivity = this.getIntent()
 				.getIntExtra("fromreplyactivity", 0);
+		if(authorid!=0){
+			fromreplyactivity=1;
+		}
 		View v = findViewById(android.R.id.content);// .getChildAt(0);
 		tabhost = (TabHost) findViewById(android.R.id.tabhost);
 
@@ -287,7 +292,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	
     @Override  
     public boolean onPrepareOptionsMenu(Menu menu) {  
-        System.out.println("÷¥––¡ÀonPrepareOptionsMenu");  
         if( menu.findItem(R.id.night_mode)!=null){
         if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
             menu.findItem(R.id.night_mode).setIcon(  
@@ -369,7 +373,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 			break;
 		case R.id.article_menuitem_back:
 		default:
-			if (0 == fid || fromreplyactivity != 0) {
+			if (0 == fid || pid!=0 || fromreplyactivity != 0) {
 				finish();
 			} else {
 				Intent intent2 = new Intent(this,
@@ -464,7 +468,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 					mode = ThemeManager.MODE_NIGHT;
 				}
 				ThemeManager.getInstance().setMode(mode);
-				Log.i(TAG, "acti");
 				Intent intent = getIntent();
 				overridePendingTransition(0, 0);
 				finish();

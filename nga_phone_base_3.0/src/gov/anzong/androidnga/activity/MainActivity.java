@@ -674,7 +674,7 @@ public class MainActivity extends ActionBarActivity implements
 					User u = userList.get(flipper.getDisplayedChild());
 					app.addToUserList(u.getUserId(), u.getCid(),
 							u.getNickName(), u.getReplyString(),
-							u.getReplyTotalNum());
+							u.getReplyTotalNum(),u.getBlackList());
 					PhoneConfiguration.getInstance().setUid(u.getUserId());
 					PhoneConfiguration.getInstance().setNickname(
 							u.getNickName());
@@ -683,6 +683,7 @@ public class MainActivity extends ActionBarActivity implements
 							u.getReplyString());
 					PhoneConfiguration.getInstance().setReplyTotalNum(
 							u.getReplyTotalNum());
+					PhoneConfiguration.getInstance().blacklist=StringUtil.blackliststringtolisttohashset(u.getBlackList());
 					if (toast != null) {
 						toast.setText("切换账户成功,当前账户名:" + u.getNickName());
 						toast.setDuration(Toast.LENGTH_SHORT);
@@ -792,9 +793,9 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	private BoardHolder loadDefaultBoard() {
-		if(PhoneConfiguration.getInstance().iconmode){Log.i(TAG,"asa");
+		if(PhoneConfiguration.getInstance().iconmode){
 			return app.loadDefaultBoardOld();
-		}else{Log.i(TAG,"121");
+		}else{
 			return app.loadDefaultBoard();
 		}
 

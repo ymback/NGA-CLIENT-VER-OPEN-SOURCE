@@ -392,7 +392,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 					mode = ThemeManager.MODE_NIGHT;
 				}
 				ThemeManager.getInstance().setMode(mode);
-				Log.i(TAG, "acti");
 				Intent intent = getIntent();
 				overridePendingTransition(0, 0);
 				finish();

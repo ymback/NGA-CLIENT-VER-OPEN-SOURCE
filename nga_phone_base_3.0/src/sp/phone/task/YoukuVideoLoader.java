@@ -49,14 +49,12 @@ public class YoukuVideoLoader extends AsyncTask<String, Integer, String> {
 			format = "mp4";
 		} catch (JSONException e)
 		{
-			System.out.println("没有MP4格式");
 			try
 			{
 				flvid = obj2.getString("flv");
 				format = "flv";
 			} catch (JSONException e1)
 			{
-				System.out.println("没有FLV格式");
 				return null;
 			}
 		}
@@ -82,7 +80,6 @@ public class YoukuVideoLoader extends AsyncTask<String, Integer, String> {
 			String k = o.getString("k");
 			url = "http://f.youku.com/player/getFlvPath/sid/" + sid + "_" + String.format("%1$02X", i) + "/st/" + format
 					+ "/fileid/" + idLeft + String.format("%1$02X", i) + idRight + "?K=" + k;
-			System.out.println(url);
 			break;
 		}
 			return url;

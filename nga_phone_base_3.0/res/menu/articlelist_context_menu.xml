@@ -14,6 +14,7 @@
     
     <item android:id="@+id/show_profile" android:title="@string/showprofile"></item>
     <item android:id="@+id/show_this_person_only" android:title="@string/show_this_person_only"></item>
+    <item android:id="@+id/ban_thisone" android:title="@string/ban_thisone"></item>
     <item android:id="@+id/search_post" android:title="@string/search_post"></item>
     <item android:id="@+id/search_subject" android:title="@string/search_subject"></item>
     

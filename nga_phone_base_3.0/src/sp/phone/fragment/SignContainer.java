@@ -98,7 +98,6 @@ public class SignContainer extends Fragment implements
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		System.out.println("÷¥––¡ÀonPrepareOptionsMenu");
 		if (menu.findItem(R.id.night_mode) != null) {
 			if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
 				menu.findItem(R.id.night_mode).setIcon(
@@ -231,7 +230,6 @@ public class SignContainer extends Fragment implements
 					editor.commit();
 					mode = ThemeManager.MODE_NIGHT;
 				}
-				Log.i(TAG, "frag");
 				ThemeManager.getInstance().setMode(mode);
 				Intent intent = getActivity().getIntent();
 				getActivity().overridePendingTransition(0, 0);

@@ -391,16 +391,18 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 					Editor editor = share.edit().putString(UID, uid)
 							.putString(CID, cid).putString(PENDING_REPLYS, "")
 							.putString(REPLYTOTALNUM, "0")
-							.putString(USER_NAME, name);
+							.putString(USER_NAME, name)
+							.putString(BLACK_LIST, "");
 					editor.commit();
 					MyApp app = (MyApp) LoginActivity.this.getApplication();
-					app.addToUserList(uid, cid, name, "", 0);
+					app.addToUserList(uid, cid, name, "", 0,"");
 
 					PhoneConfiguration.getInstance().setUid(uid);
 					PhoneConfiguration.getInstance().setCid(cid);
 					PhoneConfiguration.getInstance().userName = name;
 					PhoneConfiguration.getInstance().setReplyTotalNum(0);
 					PhoneConfiguration.getInstance().setReplyString("");
+					PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset("");
 					alreadylogin = true;
 					Intent intent = new Intent();
 					if (needtopost) {

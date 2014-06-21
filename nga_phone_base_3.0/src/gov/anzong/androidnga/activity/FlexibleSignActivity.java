@@ -12,6 +12,7 @@ import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
+import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import android.annotation.TargetApi;
@@ -96,12 +97,13 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 					User u = (User)categoryAdapter.getItem(itemPosition);
 					MyApp app = (MyApp) getApplication();
 					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
+							u.getNickName(),u.getReplyString(),u.getReplyTotalNum(),u.getBlackList());
 					PhoneConfiguration.getInstance().setUid(u.getUserId());
 					PhoneConfiguration.getInstance().setCid(u.getCid());
 					PhoneConfiguration.getInstance().setNickname(u.getNickName());
 					PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
 					PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
+					PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset(u.getBlackList());
 					SignContainer f1 = (SignContainer) getSupportFragmentManager().findFragmentById(R.id.sign_list);
 					if (f1 != null) {
 						f1.onCategoryChanged(itemPosition);

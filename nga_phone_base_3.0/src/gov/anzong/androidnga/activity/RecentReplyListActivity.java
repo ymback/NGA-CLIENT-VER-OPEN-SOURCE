@@ -73,7 +73,7 @@ public class RecentReplyListActivity extends SwipeBackAppCompatActivity implemen
 						PhoneConfiguration.getInstance().uid)) {
 					MyApp app = ((MyApp) getApplication());
 					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName(), "", 0);
+							u.getNickName(), "", 0,u.getBlackList());
 					break;
 				}
 			}

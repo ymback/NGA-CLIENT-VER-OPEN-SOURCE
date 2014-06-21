@@ -139,7 +139,7 @@ PerferenceConstant {
 					MyApp app = (MyApp) ((Activity) mcontext)
 							.getApplication();
 					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName(), str, list.size());
+							u.getNickName(), str, list.size(),u.getBlackList());
 					break;
 				}
 			}

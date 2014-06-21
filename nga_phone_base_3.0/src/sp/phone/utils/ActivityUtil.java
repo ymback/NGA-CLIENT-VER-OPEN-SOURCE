@@ -137,12 +137,6 @@ public class ActivityUtil {
 	    
 	}
 	public static void updateLocation(Location location){
-    	String uid = PhoneConfiguration.getInstance().uid;
-    	if("553736".equals(uid))
-    	{
-    		location.setLatitude(39.905219);
-    		location.setLongitude(116.39342);
-    	}
     	PhoneConfiguration.getInstance().location = location;
 	}
 	private static final  double EARTH_RADIUS = 6378.137;

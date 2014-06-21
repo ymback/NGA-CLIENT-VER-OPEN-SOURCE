@@ -66,7 +66,6 @@ public class YouxiaVideoLoadTask extends AsyncTask<String, Integer, String> {
 		}
 
 		if (result != null) {
-			Log.i("tag",result);
 			Intent intent = new Intent(fa.getBaseContext(), Media_Player.class);
 			Bundle b = new Bundle();
 			b.putString("MEDIAPATH", result);

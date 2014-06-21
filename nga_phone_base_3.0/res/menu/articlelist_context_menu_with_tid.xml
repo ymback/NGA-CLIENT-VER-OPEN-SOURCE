@@ -5,6 +5,7 @@
     <item android:id="@+id/search_subject" android:title="@string/search_subject"></item>
     <item android:id="@+id/search_post" android:title="@string/search_post"></item>
     <item android:id="@+id/send_message" android:title="@string/send_message" android:showAsAction="never"></item>
+    <item android:id="@+id/ban_thisone" android:title="@string/ban_thisone"></item>
     <item android:id="@+id/show_profile" android:title="@string/showprofile"></item>
     <item android:id="@+id/item_share" android:title="@string/share" android:icon="@drawable/ic_menu_share_holo_dark"></item>
     

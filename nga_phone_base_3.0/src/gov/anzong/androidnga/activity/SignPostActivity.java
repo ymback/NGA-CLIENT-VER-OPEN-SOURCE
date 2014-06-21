@@ -1188,7 +1188,6 @@ public class SignPostActivity extends SwipeBackAppCompatActivity
 			if (null == js) {
 				return "·¢ËÍÊ§°Ü";
 			}
-			Log.i("TAG",js);
 			js = js.replaceAll("window.script_muti_get_var_store=", "");
 			if(js.indexOf("/*error fill content")>0)
 				js=js.substring(0, js.indexOf("/*error fill content"));

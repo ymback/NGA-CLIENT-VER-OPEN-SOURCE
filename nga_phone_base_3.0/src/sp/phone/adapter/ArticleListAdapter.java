@@ -75,6 +75,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 	static String meter = null;
 	static String kiloMeter = null;
 	static String hide = null;
+	static String blacklistban = null;
 	static String legend = null;
 	static String attachment = null;
 	static String comment = null;
@@ -101,6 +102,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		meter = activity.getString(R.string.meter);
 		kiloMeter = activity.getString(R.string.kilo_meter);
 		hide = activity.getString(R.string.hide);
+		blacklistban = activity.getString(R.string.blacklistban);
 		legend = activity.getString(R.string.legend);
 		attachment = activity.getString(R.string.attachment);
 		comment = activity.getString(R.string.comment);
@@ -240,32 +242,40 @@ public class ArticleListAdapter extends BaseAdapter implements
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage,
 				imageQuality, imageURLSet);
-		if (imageURLSet.size() == 0) {
-			imageURLSet = null;
-		}
-		if (StringUtil.isEmpty(ngaHtml)) {
-			ngaHtml = row.getAlterinfo();
-		}
-		if (StringUtil.isEmpty(ngaHtml)) {
+		if(row.get_isInBlackList()){
+			ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
+					+ "<body bgcolor= '#"
+					+ bgcolorStr
+					+ "'>"
+					+ "<font color='red' size='2'>[" + blacklistban + "]</font>"
+					+ "</font></body>";
+		}else{
+			if (imageURLSet.size() == 0) {
+				imageURLSet = null;
+			}
+			if (StringUtil.isEmpty(ngaHtml)) {
+				ngaHtml = row.getAlterinfo();
+			}
+			if (StringUtil.isEmpty(ngaHtml)) {
 
-			ngaHtml = "<font color='red'>[" + hide + "]</font>";
+				ngaHtml = "<font color='red'>[" + hide + "]</font>";
+			}
+			ngaHtml = ngaHtml + buildComment(row, fgColorStr,showImage, imageQuality)
+					+ buildAttachment(row, showImage, imageQuality, imageURLSet)
+					+ buildSignature(row, showImage, imageQuality);
+			ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
+					+ buildHeader(row, fgColorStr)
+					+ buildAnony(row)
+					+ "<body bgcolor= '#"
+					+ bgcolorStr
+					+ "'>"
+					+ "<font color='#"
+					+ fgColorStr
+					+ "' size='2'>"
+					+ buildLocation(row)
+					+ ngaHtml
+					+ "</font></body>";
 		}
-		ngaHtml = ngaHtml + buildComment(row, fgColorStr,showImage, imageQuality)
-				+ buildAttachment(row, showImage, imageQuality, imageURLSet)
-				+ buildSignature(row, showImage, imageQuality);
-		ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
-				+ buildHeader(row, fgColorStr)
-				+ buildAnony(row)
-				+ "<body bgcolor= '#"
-				+ bgcolorStr
-				+ "'>"
-				+ "<font color='#"
-				+ fgColorStr
-				+ "' size='2'>"
-				+ buildLocation(row)
-				+ ngaHtml
-				+ "</font></body>";
-
 		return ngaHtml;
 	}
 
@@ -862,6 +872,10 @@ public class ArticleListAdapter extends BaseAdapter implements
 				&& !"0".equals(row.getMute_time())) {
 			fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
 			nickName += "(" + legend + ")";
+		}
+		if(row.get_isInBlackList()){
+			fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
+			nickName += "(" + blacklistban + ")";
 		}
 		nickNameTV.setText(nickName);
 		TextPaint tp = nickNameTV.getPaint();

@@ -249,7 +249,6 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
 			guidtmp=guid;
 
 			int tid = StringUtil.getUrlParameter(guid, "tid");
-			System.out.print(tid);
 			NonameArticleContainerFragment f = NonameArticleContainerFragment.create(tid);
 			FragmentManager fm = getSupportFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();

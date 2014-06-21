@@ -47,7 +47,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class TopiclistContainer extends Fragment implements
-		OnTopListLoadFinishedListener, NextJsonTopicListLoader,PerferenceConstant {
+		OnTopListLoadFinishedListener, NextJsonTopicListLoader,
+		PerferenceConstant {
 	final String TAG = TopiclistContainer.class.getSimpleName();
 	final private String ALERT_DIALOG_TAG = "alertdialog";
 	static final int MESSAGE_SENT = 1;
@@ -65,6 +66,7 @@ public class TopiclistContainer extends Fragment implements
 	AppendableTopicAdapter adapter;
 	boolean canDismiss = true;
 	int category = 0;
+	int fromreplyactivity = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,13 +128,17 @@ public class TopiclistContainer extends Fragment implements
 		}
 
 		if (favor != 0) {
-			Toast.makeText(
-					getActivity(),
-					"长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "长按可删除收藏的帖子", Toast.LENGTH_SHORT)
+					.show();
 			if (getActivity() instanceof OnItemLongClickListener) {
-			 listView.setLongClickable(true);
-			 listView.setOnItemLongClickListener((OnItemLongClickListener)
-			 getActivity()); }
+				listView.setLongClickable(true);
+				listView.setOnItemLongClickListener((OnItemLongClickListener) getActivity());
+			}
+		}
+		if (!StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)
+				|| !StringUtil.isEmpty(fidgroup) || !StringUtil.isEmpty(table)
+				|| searchpost != 0 || authorid != 0 || favor != 0) {
+			fromreplyactivity = 1;
 		}
 
 		// JsonTopicListLoadTask task = new
@@ -229,7 +235,7 @@ public class TopiclistContainer extends Fragment implements
 			if (!StringUtil.isEmpty(key)) {
 				jsonUri += "key=" + StringUtil.encodeUrl(key, "GBK") + "&";
 			}
-			if(!StringUtil.isEmpty(fidgroup)){
+			if (!StringUtil.isEmpty(fidgroup)) {
 				jsonUri += "fidgroup=" + fidgroup + "&";
 			}
 		}
@@ -281,24 +287,25 @@ public class TopiclistContainer extends Fragment implements
 
 	}
 
-    @Override  
-    public void onPrepareOptionsMenu(Menu menu) {  
-        System.out.println("执行了onPrepareOptionsMenu");  
-        if( menu.findItem(R.id.night_mode)!=null){
-            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_brightness_high);    
-                menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
-            }else{
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_bightness_low);    
-                menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
-            }
-        }
-        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
-        super.onPrepareOptionsMenu(menu);  
-    }  
-    
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		if (menu.findItem(R.id.night_mode) != null) {
+			if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_brightness_high);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_daily_mode);
+			} else {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_bightness_low);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_night_mode);
+			}
+		}
+		// getSupportMenuInflater().inflate(R.menu.book_detail, menu);
+		super.onPrepareOptionsMenu(menu);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -338,36 +345,32 @@ public class TopiclistContainer extends Fragment implements
 	}
 
 	private void nightMode(final MenuItem menu) {
-	
+
 		String alertString = getString(R.string.change_nigmtmode_string);
 		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener(){
+		f.setOkListener(new OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 
-				
 				ThemeManager tm = ThemeManager.getInstance();
-				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
-						Activity.MODE_PRIVATE);
+				SharedPreferences share = getActivity().getSharedPreferences(
+						PERFERENCE, Activity.MODE_PRIVATE);
 				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
-					menu.setIcon(  
-		                    R.drawable.ic_action_bightness_low); 
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
+					menu.setIcon(R.drawable.ic_action_bightness_low);
 					menu.setTitle(R.string.change_night_mode);
 					Editor editor = share.edit();
 					editor.putBoolean(NIGHT_MODE, false);
 					editor.commit();
-				}else{
-					menu.setIcon(  
-		                    R.drawable.ic_action_brightness_high); 
+				} else {
+					menu.setIcon(R.drawable.ic_action_brightness_high);
 					menu.setTitle(R.string.change_daily_mode);
 					Editor editor = share.edit();
 					editor.putBoolean(NIGHT_MODE, true);
 					editor.commit();
 					mode = ThemeManager.MODE_NIGHT;
 				}
-				Log.i(TAG,"frag");
 				ThemeManager.getInstance().setMode(mode);
 				Intent intent = getActivity().getIntent();
 				getActivity().overridePendingTransition(0, 0);
@@ -375,29 +378,29 @@ public class TopiclistContainer extends Fragment implements
 				getActivity().overridePendingTransition(0, 0);
 				getActivity().startActivity(intent);
 			}
-			
+
 		});
-		f.setCancleListener(new OnClickListener(){
+		f.setCancleListener(new OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				f.dismiss();
 			}
-			
+
 		});
-		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
+		f.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
 	}
-	
+
 	private boolean handlePostThread(MenuItem item) {
 		Intent intent = new Intent();
 		intent.putExtra("fid", fid);
 		intent.putExtra("action", "new");
-		if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
+		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
 			intent.setClass(getActivity(),
 					PhoneConfiguration.getInstance().postActivityClass);
-		}else{
+		} else {
 			intent.setClass(getActivity(),
-				PhoneConfiguration.getInstance().loginActivityClass);
+					PhoneConfiguration.getInstance().loginActivityClass);
 		}
 		startActivity(intent);
 		if (PhoneConfiguration.getInstance().showAnimation) {

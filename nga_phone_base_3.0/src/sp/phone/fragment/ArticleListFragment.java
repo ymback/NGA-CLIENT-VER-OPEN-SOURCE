@@ -4,7 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.HashSet;
+import java.util.Set;
 
+import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ArticleListAdapter;
@@ -31,6 +33,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.os.Bundle;
@@ -87,6 +91,7 @@ public class ArticleListFragment extends Fragment implements
 	private boolean needLoad = true;
 	private Object mActionModeCallback = null;
 	private static Context activity;
+	private Toast toast;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -151,6 +156,19 @@ public class ArticleListFragment extends Fragment implements
 				} else {
 					inflater.inflate(R.menu.articlelist_context_menu_with_tid,
 							menu);
+				}
+				int position = listview.getCheckedItemPosition();
+				ThreadRowInfo row = new ThreadRowInfo();
+				if(position<listview.getCount())
+					row = (ThreadRowInfo) listview.getItemAtPosition(position);
+				
+				MenuItem mi = (MenuItem) menu.findItem(R.id.ban_thisone);
+				if (mi != null && row != null) {
+					if (row.get_isInBlackList()) {// 处于屏蔽列表，需要去掉
+						mi.setTitle(R.string.cancel_ban_thisone);
+					} else {
+						mi.setTitle(R.string.ban_thisone);
+					}
 				}
 				return true;
 			}
@@ -248,6 +266,19 @@ public class ArticleListFragment extends Fragment implements
 
 		} else {
 			inflater.inflate(R.menu.articlelist_context_menu_with_tid, menu);
+		}
+		int position = listview.getCheckedItemPosition();
+		ThreadRowInfo row = new ThreadRowInfo();
+		if(position<listview.getCount())
+			row = (ThreadRowInfo) listview.getItemAtPosition(position);
+		
+		MenuItem mi = (MenuItem) menu.findItem(R.id.ban_thisone);
+		if (mi != null && row != null) {
+			if (row.get_isInBlackList()) {// 处于屏蔽列表，需要去掉
+				mi.setTitle(R.string.cancel_ban_thisone);
+			} else {
+				mi.setTitle(R.string.ban_thisone);
+			}
 		}
 
 	}
@@ -363,8 +394,15 @@ public class ArticleListFragment extends Fragment implements
 			position = info.position;
 		}
 		if (position < 0 || position >= listview.getAdapter().getCount()) {
-			Toast.makeText(getActivity(), R.string.floor_error,
-					Toast.LENGTH_LONG).show();
+			if (toast != null) {
+				toast.setText(R.string.floor_error);
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
+			} else {
+				toast = Toast.makeText(getActivity(), R.string.floor_error,
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
 			position = 0;
 		}
 		StringBuffer postPrefix = new StringBuffer();
@@ -373,8 +411,16 @@ public class ArticleListFragment extends Fragment implements
 		ThreadRowInfo row = (ThreadRowInfo) listview
 				.getItemAtPosition(position);
 		if (row == null) {
-			Toast.makeText(getActivity(), R.string.unknow_error,
-					Toast.LENGTH_LONG).show();
+
+			if (toast != null) {
+				toast.setText(R.string.unknow_error);
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
+			} else {
+				toast = Toast.makeText(getActivity(), R.string.unknow_error,
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
 			return true;
 		}
 		String content = row.getContent();
@@ -404,7 +450,7 @@ public class ArticleListFragment extends Fragment implements
 				postPrefix.append(',').append(tidStr).append(",").append(page);
 				postPrefix.append("]");// Topic
 				postPrefix.append("Reply");
-				if(row.getISANONYMOUS()){//是匿名的人
+				if (row.getISANONYMOUS()) {// 是匿名的人
 					postPrefix.append("[/pid] [b]Post by [uid=");
 					postPrefix.append("-1");
 					postPrefix.append("]");
@@ -412,7 +458,7 @@ public class ArticleListFragment extends Fragment implements
 					postPrefix.append("[/uid][color=gray](");
 					postPrefix.append(row.getLou());
 					postPrefix.append("楼)[/color] (");
-				}else{
+				} else {
 					postPrefix.append("[/pid] [b]Post by [uid=");
 					postPrefix.append(uid);
 					postPrefix.append("]");
@@ -453,6 +499,73 @@ public class ArticleListFragment extends Fragment implements
 				Create_Signature_Dialog(row);
 			}
 			break;
+
+		case R.id.ban_thisone:
+			if (isanonymous) {
+				if (toast != null) {
+					toast.setText(R.string.cannot_add_to_blacklist_cause_anony);
+					toast.setDuration(Toast.LENGTH_SHORT);
+					toast.show();
+				} else {
+					toast = Toast.makeText(getActivity(),
+							R.string.cannot_add_to_blacklist_cause_anony,
+							Toast.LENGTH_SHORT);
+					toast.show();
+				}
+			} else {
+				Set<Integer> blacklist = PhoneConfiguration.getInstance().blacklist;
+				String blickliststring = "";
+				if (row.get_isInBlackList()) {// 在屏蔽列表中，需要去除
+					row.set_IsInBlackList(false);
+					blacklist.remove(row.getAuthorid());
+					if (toast != null) {
+						toast.setText(R.string.remove_from_blacklist_success);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(),
+								R.string.remove_from_blacklist_success,
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				} else {
+					row.set_IsInBlackList(true);
+					blacklist.add(row.getAuthorid());
+					if (toast != null) {
+						toast.setText(R.string.add_to_blacklist_success);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(),
+								R.string.add_to_blacklist_success,
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				}
+				PhoneConfiguration.getInstance().blacklist = blacklist;
+				blickliststring = blacklist.toString();
+				SharedPreferences share = getActivity().getSharedPreferences(
+						PERFERENCE, Context.MODE_PRIVATE);
+				Editor editor = share.edit();
+				editor.putString(BLACK_LIST, blickliststring);
+				editor.commit();
+				if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
+					MyApp app = (MyApp) getActivity().getApplication();
+					app.upgradeUserdata(blacklist.toString());
+				} else {
+					if (toast != null) {
+						toast.setText(R.string.cannot_add_to_blacklist_cause_logout);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(),
+								R.string.cannot_add_to_blacklist_cause_logout,
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				}
+			}
+			break;
 		case R.id.show_profile:
 			if (isanonymous) {
 				errordialog();
@@ -476,8 +589,15 @@ public class ArticleListFragment extends Fragment implements
 			break;
 		case R.id.edit:
 			if (isComment(row)) {
-				Toast.makeText(getActivity(), R.string.cannot_eidt_comment,
-						Toast.LENGTH_SHORT).show();
+				if (toast != null) {
+					toast.setText(R.string.cannot_eidt_comment);
+					toast.setDuration(Toast.LENGTH_SHORT);
+					toast.show();
+				} else {
+					toast = Toast.makeText(getActivity(),
+							R.string.cannot_eidt_comment, Toast.LENGTH_SHORT);
+					toast.show();
+				}
 				break;
 			}
 			Intent intentModify = new Intent();
@@ -511,6 +631,7 @@ public class ArticleListFragment extends Fragment implements
 				intentThis.putExtra("tab", "1");
 				intentThis.putExtra("tid", tid);
 				intentThis.putExtra("authorid", row.getAuthorid());
+				intentThis.putExtra("fromreplyactivity", 1);
 				intentThis.setClass(getActivity(),
 						PhoneConfiguration.getInstance().articleActivityClass);
 				startActivity(intentThis);
@@ -619,23 +740,21 @@ public class ArticleListFragment extends Fragment implements
 		return true;
 	}
 
-	private void start_send_message(ThreadRowInfo row){
+	private void start_send_message(ThreadRowInfo row) {
 		Intent intent_bookmark = new Intent();
 		intent_bookmark.putExtra("to", row.getAuthor());
 		intent_bookmark.putExtra("action", "new");
 		intent_bookmark.putExtra("messagemode", "yes");
 		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-			intent_bookmark
-					.setClass(
-							getActivity(),
-							PhoneConfiguration.getInstance().messagePostActivityClass);
+			intent_bookmark.setClass(getActivity(),
+					PhoneConfiguration.getInstance().messagePostActivityClass);
 		} else {
 			intent_bookmark.setClass(getActivity(),
 					PhoneConfiguration.getInstance().loginActivityClass);
 		}
 		startActivity(intent_bookmark);
 	}
-	
+
 	private void errordialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setMessage("这白痴匿名了,神马都看不到");
@@ -883,8 +1002,7 @@ public class ArticleListFragment extends Fragment implements
 		alert.setTitle(R.string.copy_hint);
 		final EditText commentdata = (EditText) view
 				.findViewById(R.id.copy_data);
-		content= content.replaceAll("(?i)"
-				+ "<img src='(.+?)'(.+?){0,}>",
+		content = content.replaceAll("(?i)" + "<img src='(.+?)'(.+?){0,}>",
 				"$1");
 		Spanned spanned = Html.fromHtml(content);
 		commentdata.setText(spanned);
@@ -902,8 +1020,16 @@ public class ArticleListFragment extends Fragment implements
 					android.text.ClipboardManager cbm = (android.text.ClipboardManager) getActivity()
 							.getSystemService(Activity.CLIPBOARD_SERVICE);
 					cbm.setText(StringUtil.removeBrTag(selectText.toString()));
-					Toast.makeText(getActivity(), R.string.copied_to_clipboard,
-							Toast.LENGTH_SHORT).show();
+					if (toast != null) {
+						toast.setText(R.string.copied_to_clipboard);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(),
+								R.string.copied_to_clipboard,
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
 					try {
 						Field field = dialog.getClass().getSuperclass()
 								.getDeclaredField("mShowing");
@@ -914,8 +1040,15 @@ public class ArticleListFragment extends Fragment implements
 					}
 				} else {
 					commentdata.selectAll();
-					Toast.makeText(getActivity(), "请选择要复制的内容",
-							Toast.LENGTH_SHORT).show();
+					if (toast != null) {
+						toast.setText("请选择要复制的内容");
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(), "请选择要复制的内容",
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
 					try {
 						Field field = dialog.getClass().getSuperclass()
 								.getDeclaredField("mShowing");

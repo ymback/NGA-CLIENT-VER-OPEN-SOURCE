@@ -7,7 +7,6 @@ import sp.phone.adapter.MeiziCategoryAdapter;
 import sp.phone.bean.MeiziTopicMData;
 import sp.phone.bean.MeiziUrlData;
 import sp.phone.bean.MeiziCategory.MeiziCategoryItem;
-import sp.phone.fragment.SignContainer.ListRefreshListener;
 import sp.phone.interfaces.OnMeiziCategoryLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.HTMLMeiziCategoryLoadTask;
@@ -175,14 +174,16 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
                 if(StringUtil.isEmpty(meiziM.topicUrl)){
     				if (toast != null)
     	        	{
-    	        		toast.setText("大胆晒不能看详细页面");
+    	        		toast.setText("大胆晒无详细页面,直接看图");
     	        		toast.setDuration(Toast.LENGTH_SHORT);
     	        		toast.show();
     	        	} else
     	        	{
-    	        		toast = Toast.makeText(getActivity(), "大胆晒不能看详细页面", Toast.LENGTH_SHORT);
+    	        		toast = Toast.makeText(getActivity(), "大胆晒无详细页面,直接看图", Toast.LENGTH_SHORT);
     	        		toast.show();
     	        	}
+    				MeiziNavigationUtil.startBrowser(getActivity(),
+    						meiziM.largePicUrl);
                 }else{
                 	if(getActivity().findViewById(R.id.left_drawer)==null){
                 		if (meiziM != null) {

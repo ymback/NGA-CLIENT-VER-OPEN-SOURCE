@@ -42,6 +42,7 @@ public interface PerferenceConstant {
 	final String USER_LIST = "userList";
 	final String UPLOAD_LOCATION = "uploadLocation";
 	final String PENDING_REPLYS = "pendingReplys";
+	final String BLACK_LIST = "";
 	final String PENDING_REPLYS_FOR_SHOW = "pendingReplysForShow";
 	final String UI_FLAG = "uiflag";
 	final int UI_FLAG_SPLIT = 1;

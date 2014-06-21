@@ -235,11 +235,12 @@ public class PostActivity extends SwipeBackAppCompatActivity
 					User u = (User) parent.getItemAtPosition(position);
 					MyApp app = (MyApp) getApplication();
 					app.addToUserList(u.getUserId(), u.getCid(),
-							u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
+							u.getNickName(),u.getReplyString(),u.getReplyTotalNum(),u.getBlackList());
 					PhoneConfiguration.getInstance().setUid(u.getUserId());
 					PhoneConfiguration.getInstance().setCid(u.getCid());
 					PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
 					PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
+					PhoneConfiguration.getInstance().blacklist=StringUtil.blackliststringtolisttohashset(u.getBlackList());
 
 				}
 
@@ -305,11 +306,12 @@ public class PostActivity extends SwipeBackAppCompatActivity
 				User u = (User)categoryAdapter.getItem(itemPosition);
 				MyApp app = (MyApp) getApplication();
 				app.addToUserList(u.getUserId(), u.getCid(),
-						u.getNickName(),u.getReplyString(),u.getReplyTotalNum());
+						u.getNickName(),u.getReplyString(),u.getReplyTotalNum(),u.getBlackList());
 				PhoneConfiguration.getInstance().setUid(u.getUserId());
 				PhoneConfiguration.getInstance().setCid(u.getCid());
 				PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
 				PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
+				PhoneConfiguration.getInstance().blacklist=StringUtil.blackliststringtolisttohashset(u.getBlackList());
 				act.set__ngaClientChecksum(getngaClientChecksum());
 				return true;
 			}

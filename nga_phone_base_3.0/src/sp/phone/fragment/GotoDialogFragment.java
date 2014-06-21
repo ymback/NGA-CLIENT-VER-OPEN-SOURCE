@@ -99,6 +99,7 @@ public class GotoDialogFragment extends NoframeDialogFragment {
 	@TargetApi(11)
 	private int getNumberPickerValue() {
 		final NumberPicker picker = (NumberPicker)v;
+		picker.clearFocus();
 		return picker.getValue();
 	}
 

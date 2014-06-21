@@ -37,6 +37,9 @@ public class EnterJsonArticle implements OnItemClickListener {
 		intent.putExtra("tid",tid );
 		intent.putExtra("pid",pid );
 		intent.putExtra("authorid",authorid );
+		if(authorid!=0){
+			intent.putExtra("fromreplyactivity",1 );
+		}
 		ListView listview = (ListView)parent;
 		Object a = parent.getAdapter();
 		TopicListAdapter adapter = null;

@@ -75,7 +75,6 @@ PagerOwnner{
 		int pageFromUrl = 0;
 		url = getArguments().getString("url");
 		if(null != url){
-			Log.i(TAG,url);
 			tid = this.getUrlParameter(url, "tid");		
 			pageFromUrl = this.getUrlParameter(url, "page");
 		}else
@@ -274,7 +273,6 @@ PagerOwnner{
 					editor.commit();
 					mode = ThemeManager.MODE_NIGHT;
 				}
-				Log.i(TAG,"frag");
 				ThemeManager.getInstance().setMode(mode);
 				Intent intent = getActivity().getIntent();
 				intent.putExtra("daulscrshowmode", 1);
@@ -346,7 +344,6 @@ PagerOwnner{
 	@Override
 	public void finishLoad(NonameReadResponse data) {
 		int exactCount = data.data.totalpage;
-		Log.i(TAG,String.valueOf(exactCount));
 		if(mTabsAdapter.getCount() != exactCount){
 			mTabsAdapter.setCount(exactCount);
 		}

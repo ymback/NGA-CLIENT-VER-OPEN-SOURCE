@@ -1,5 +1,8 @@
 package sp.phone.bean;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class User {
 
 	private String userId;
@@ -7,6 +10,13 @@ public class User {
 	private String cid;
 	private String replyString;
 	private int replytotalnum;
+	private String blacklist;
+	public String getBlackList() {
+		return blacklist;
+	}
+	public void setBlackList(String blacklist) {
+		this.blacklist = blacklist;
+	}
 	public String getUserId() {
 		return userId;
 	}

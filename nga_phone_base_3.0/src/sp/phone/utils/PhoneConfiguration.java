@@ -58,6 +58,7 @@ import gov.anzong.androidnga.activity.SplitSignPostActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import android.R.integer;
 import android.location.Location;
@@ -98,6 +99,7 @@ public class PhoneConfiguration implements PerferenceConstant{
     public boolean fullscreen  = false;
     public boolean kitwebview =false;
     public int replytotalnum = 0;
+    public Set<Integer> blacklist;
     
 
 	public String db_cookie;

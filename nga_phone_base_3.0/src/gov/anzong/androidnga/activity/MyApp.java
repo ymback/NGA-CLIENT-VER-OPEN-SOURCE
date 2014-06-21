@@ -5,6 +5,7 @@ import gov.anzong.androidnga.R;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
@@ -40,7 +41,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2027;
+	public final static int version = 2028;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "×î½ü·ÃÎÊ";
@@ -54,8 +55,8 @@ public class MyApp extends Application implements PerferenceConstant {
 		// crashHandler.init(getApplicationContext());
 		if (config == null)
 			config = PhoneConfiguration.getInstance();
-		initUserInfo();
 		loadConfig();
+		initUserInfo();
 		if (ActivityUtil.isGreaterThan_2_1())
 			initPath();
 		initImageLoader();
@@ -579,17 +580,20 @@ public class MyApp extends Application implements PerferenceConstant {
 		final String replystring = share.getString(PENDING_REPLYS, "");
 		final int replytotalnum = Integer.parseInt(share.getString(
 				REPLYTOTALNUM, "0"));
+		final String black=share.getString(BLACK_LIST, "");
+		final Set<Integer> blacklist=StringUtil.blackliststringtolisttohashset(black);
 		if (!StringUtil.isEmpty(uid) && !StringUtil.isEmpty(cid)) {
 			config.setUid(uid);
 			config.setCid(cid);
 			config.setReplyString(replystring);
 			config.setReplyTotalNum(replytotalnum);
+			config.blacklist=blacklist;
 			String userListString = share.getString(USER_LIST, "");
 			final String name = share.getString(USER_NAME, "");
 			config.userName = name;
 			if (StringUtil.isEmpty(userListString)) {
 
-				addToUserList(uid, cid, name, replystring, replytotalnum);
+				addToUserList(uid, cid, name, replystring, replytotalnum,black);
 
 			}
 		}
@@ -606,7 +610,7 @@ public class MyApp extends Application implements PerferenceConstant {
 	}
 
 	public void addToUserList(String uid, String cid, String name,
-			String replyString, int replytotalnum) {
+			String replyString, int replytotalnum,String blacklist) {
 		SharedPreferences share = this.getSharedPreferences(PERFERENCE,
 				MODE_PRIVATE);
 
@@ -633,6 +637,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		user.setNickName(name);
 		user.setReplyString(replyString);
 		user.setReplyTotalNum(replytotalnum);
+		user.setBlackList(blacklist);
 		userList.add(0, user);
 
 		userListString = JSON.toJSONString(userList);
@@ -640,9 +645,30 @@ public class MyApp extends Application implements PerferenceConstant {
 				.putString(USER_NAME, name)
 				.putString(PENDING_REPLYS, replyString)
 				.putString(REPLYTOTALNUM, String.valueOf(replytotalnum))
-				.putString(USER_LIST, userListString).commit();
+				.putString(USER_LIST, userListString).putString(BLACK_LIST, blacklist).commit();
 	}
 
+	public void upgradeUserdata(String blacklist){
+		SharedPreferences share = this.getSharedPreferences(PERFERENCE,
+				MODE_PRIVATE);
+
+		String userListString = share.getString(USER_LIST, "");
+		List<User> userList = null;
+		if (StringUtil.isEmpty(userListString)) {
+			userList = new ArrayList<User>();
+		} else {
+			userList = JSON.parseArray(userListString, User.class);
+			for (User u : userList) {
+				if (u.getUserId().equals(PhoneConfiguration.getInstance().uid)) {
+					addToUserList(u.getUserId(),u.getCid(),u.getNickName(),u.getReplyString(),u.getReplyTotalNum(),blacklist);
+					break;
+				}
+
+			}
+		}
+	}
+	
+	
 	public void addToMeiziUserList(String uid, String sess) {
 		SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
 		String cookie = "uid=" + uid + "; sess=" + sess;
@@ -679,7 +705,9 @@ public class MyApp extends Application implements PerferenceConstant {
 					editor.putString(RECENT_BOARD, recentStr);
 				}
 			}
-
+			if(version_in_config<2028){
+				editor.putString(USER_LIST, "");
+			}
 			editor.commit();
 
 		}

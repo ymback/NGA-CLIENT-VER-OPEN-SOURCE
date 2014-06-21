@@ -260,13 +260,11 @@ public class ImageUtil {
 
 		InputStream is = null;
 		try {
-			System.out.println(HttpUtil.PATH_ZIP);
 
 			if (zf != null) {
 				ZipEntry entry = zf.getEntry("avatarImage/" + userId + "."
 						+ extension);
 				if (entry != null) {
-					System.out.println("ZipFile:" + entry.getName());
 					is = zf.getInputStream(entry);
 				}
 			}

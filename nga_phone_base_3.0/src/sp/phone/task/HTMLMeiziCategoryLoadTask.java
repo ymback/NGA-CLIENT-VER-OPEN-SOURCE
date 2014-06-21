@@ -43,7 +43,6 @@ public class HTMLMeiziCategoryLoadTask extends
 	protected List<MeiziUrlData> doInBackground(String... params) {
 		String url = params[0];
 		String htmlString;
-		Log.i("TAG",url);
 		htmlString = HttpUtil.getHtmlForDbmeizi(url, PhoneConfiguration
 					.getInstance().getDb_Cookie());
 
@@ -189,7 +188,6 @@ public class HTMLMeiziCategoryLoadTask extends
 							meiziM.smallPicUrl = "http://www.dadanshai.com"+meiziE.select("img.post-image").attr("src");
 							meiziM.largePicUrl = "http://www.dadanshai.com"+meiziE.select("img.post-image").attr("src");
 						}
-						Log.i("TAG",meiziM.largePicUrl);
 						result.add(meiziM);
 					}
 				}
