@@ -9,13 +9,11 @@ import java.net.URLDecoder;
 import java.util.List;
 
 import sp.phone.bean.NearbyUser;
-import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.location.Location;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +52,7 @@ public class NearbyUsersAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, final ViewGroup parent) {
 		View ret = null;
 		if(convertView == null){
 
@@ -63,21 +61,32 @@ public class NearbyUsersAdapter extends BaseAdapter {
 		}else{
 			ret =  convertView;
 		}
-		NearbyUser u = list.get(position);
+		final NearbyUser u = list.get(position);
 		String text = u.getNickName();
 		try {
 			text = URLDecoder.decode(text,"utf-8");
 		} catch (UnsupportedEncodingException e) {
 
 		}
-
 		text = text +"(" + 
 				u.getJuli() +
 				"รื)";
 		TextView tv = (TextView)ret.findViewById(R.id.nickname);
 		tv.setText(text);
-		ImageView iv = (ImageView)ret.findViewById(R.id.avatarimg);
-		iv.setImageBitmap(getAvatar(u,parent.getContext()));
+		final ImageView iv = (ImageView)ret.findViewById(R.id.avatarimg);
+		// load bitmap in background
+		AsyncTask.execute(new Runnable() {
+			@Override
+			public void run() {
+				final Bitmap bitmap = getAvatar(u, parent.getContext());
+				iv.post(new Runnable() {
+					@Override
+					public void run() {
+						iv.setImageBitmap(bitmap);
+					}
+				});
+			}
+		});
 		return ret;
 	}
 	Bitmap getAvatar(NearbyUser u,Context c){
