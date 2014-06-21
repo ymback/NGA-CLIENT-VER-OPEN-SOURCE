@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/copy_to_clipboard" android:title="@string/copy_to_clipboard" android:icon="@drawable/ic_menu_copy_holo_dark"></item>
+    <item android:id="@+id/quote_subject" android:title="@string/quote_subject" android:icon="@drawable/ic_menu_cc"></item>
+    
+    
+
+</menu>

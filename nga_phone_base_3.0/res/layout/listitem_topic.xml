@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:paddingBottom="8dp" >
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="5dp" >
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:paddingRight="3dp"
+                android:text=""
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/poster_ori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/poster"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:paddingRight="3dp"
+                android:text="@string/btn_poster"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/topic_ori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/topic"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="@string/btn_topic"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="#000000" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="250dip"
+        android:layout_marginBottom="4dip"
+        android:background="@drawable/loading"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+</LinearLayout>

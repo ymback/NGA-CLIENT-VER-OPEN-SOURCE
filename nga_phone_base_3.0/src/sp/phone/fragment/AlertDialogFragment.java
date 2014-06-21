@@ -1,5 +1,7 @@
 package sp.phone.fragment;
 
+import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.PhoneConfiguration;
 import gov.anzong.androidnga.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +9,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 public class AlertDialogFragment extends DialogFragment {
@@ -23,23 +27,38 @@ public class AlertDialogFragment extends DialogFragment {
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());       
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+		final View view = layoutInflater.inflate(R.layout.default_dialog, null);
+		final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+		alert.setView(view);         
 		final String title = this.getArguments().getString("title");
 		if(title != null)
 			alert.setTitle(title);
 		else
 			alert.setTitle(R.string.warn);
 		final String text = this.getArguments().getString("text");
-		TextView v = new TextView(this.getActivity());
+		TextView v = (TextView) view.findViewById(R.id.defaultdialog_name);
 		v.setText(text);
-		v.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-		alert.setView(v);  
+		v.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
 		
 		alert.setPositiveButton(android.R.string.ok, okLintener);
 		alert.setNegativeButton(android.R.string.cancel, cancleLintener);
 		
-		
-		return alert.create();
+
+		final AlertDialog dialog = alert.create();
+//		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+//
+//			@Override
+//			public void onDismiss(DialogInterface arg0) {
+//				// TODO Auto-generated method stub
+//				dialog.dismiss();
+//				if (PhoneConfiguration.getInstance().fullscreen) {
+//					ActivityUtil.getInstance().setFullScreen(view);
+//				}
+//			}
+//
+//		});
+		return dialog;
 
 	}
 

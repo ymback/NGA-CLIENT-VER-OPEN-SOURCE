@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/nickName"
         android:layout_toRightOf="@id/avatarImage" />
-
+    
     <!-- 由于wrap_content不支持margin bottom，用一个place_holder把整个撑大，避免快速回复按钮和文字重叠 -->
     <LinearLayout
         android:id="@+id/place_holder"
@@ -84,5 +84,4 @@
         android:contentDescription="@string/quote_subject"
         android:scaleType="fitXY"
         android:src="@drawable/listreply3" />
-
 </RelativeLayout>

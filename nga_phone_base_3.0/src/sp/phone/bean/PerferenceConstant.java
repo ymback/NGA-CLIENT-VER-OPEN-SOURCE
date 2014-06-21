@@ -5,12 +5,16 @@ public interface PerferenceConstant {
 	final String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
 	final String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";
 	final String DOWNLOAD_IMG_QUALITY_NO_WIFI = "download_img_quality_without_wifi";
+	final String PLAY_MODE = "play_mode";
 	final String ENABLE_NOTIFIACTION = "enableNotification";
 	final String NOTIFIACTION_SOUND = "notificationSound";
 	final String TEXT_SIZE = "textsize";
 	final String WEB_SIZE = "websize";
 	final String UID = "uid";
 	final String CID = "cid";
+	final String DBCOOKIE = "";
+	final String REPLYSTRING = "";
+	final String REPLYTOTALNUM = "0";
 	final String BOOKMARKS = "bookmarks";
 	final String USER_NAME = "username";
 	final String NIGHT_MODE ="nightmode";
@@ -30,13 +34,20 @@ public interface PerferenceConstant {
     final String SHOW_LAJIBANKUAI = "showLajibankuai";
     final String HANDSIDE = "HandSide";
     final String FULLSCREENMODE = "fullscreen";
+    final String KITWEBVIEWMODE = "kitwebview";
+    final String DRAGON_BALL="0";
+	final String BLACKGUN_SOUND = "blackgun_sound";
     
 	final String USE_VIEW_CACHE = "useViewCache";
 	final String USER_LIST = "userList";
 	final String UPLOAD_LOCATION = "uploadLocation";
 	final String PENDING_REPLYS = "pendingReplys";
+	final String PENDING_REPLYS_FOR_SHOW = "pendingReplysForShow";
 	final String UI_FLAG = "uiflag";
 	final int UI_FLAG_SPLIT = 1;
 	final int UI_FLAG_HA = 2;
 	final int UI_FLAG_REPLYSPLIT = 4;
+	final String CAN_SHOW_FULI = "0";
+	
+	final String SHOW_ICON_MODE = "showiconmode";
 }

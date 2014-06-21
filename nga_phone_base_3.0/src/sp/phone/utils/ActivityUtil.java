@@ -64,6 +64,10 @@ public class ActivityUtil {
 	public static boolean isLessThan_4_4(){
         return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
+
+	public static boolean isLessThan_4_3(){
+        return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN;
+    }
 	static ActivityUtil instance;
 	static final String TAG = ActivityUtil.class.getSimpleName();
 	public static final String dialogTag = "saying"; 
@@ -86,6 +90,10 @@ public class ActivityUtil {
     public  void setFullScreen(View v)
     {
         fullScreenProxy.setFullScreen(v);
+    }
+    public  void setNormalScreen(View v)
+    {
+        fullScreenProxy.setNormalScreen(v);
     }
 	
 	public static void reflushLocation(Context context){
@@ -190,8 +198,10 @@ public class ActivityUtil {
 	}
 	
 	public void noticeError(String error,Context context){
-		HttpUtil.switchServer();
-		notice(context.getString(R.string.error), error,context);
+		if(context!=null){
+			HttpUtil.switchServer();
+			notice(context.getString(R.string.error), error,context);
+		}
 	}
 
 	private void notice(String title, String content,Context c) {

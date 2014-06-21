@@ -1,62 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>   
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"   
-    android:layout_width="fill_parent"   
-    android:layout_height="fill_parent"   
-    android:orientation="vertical" >   
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout   
-        android:layout_width="fill_parent"   
-        android:layout_height="wrap_content"   
-        android:gravity="center" >   
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
 
-        <EditText   
+        <EditText
             android:id="@+id/search_data"
-            android:layout_width="0dip"   
-            android:layout_height="wrap_content"   
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/search_dialog_hint" />   
+            android:hint="@string/search_dialog_hint" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
+            android:gravity="center"
         android:layout_height="wrap_content" >
+    
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lr1"
+            android:orientation="vertical" >
 
-	<RadioGroup
-	    android:id="@+id/radioGroup"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentTop="true"
-	    android:layout_centerHorizontal="true"
-	    android:contentDescription="搜索目的"
-	    android:orientation="horizontal" >
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="搜索目的"
+            android:orientation="horizontal" >
 
-		<RadioButton
-		    android:id="@+id/search_topic"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:checked="true"
-		    android:text="@string/search_topic" />
+            <RadioButton
+                android:id="@+id/search_topic"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/search_topic" />
 
-	    <RadioButton
-	        android:id="@+id/search_user_topic"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="20dp"
-	        android:text="@string/search_user_topic" />
+            <RadioButton
+                android:id="@+id/search_alltopic"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/search_alltopic" />
 
-	    <RadioButton
-	        android:id="@+id/search_user_apply"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="20dp"
-	        android:text="@string/search_user_apply" />
-	</RadioGroup>
+            <RadioButton
+                android:id="@+id/search_user_topic"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/search_user_topic" />
 
-    </RelativeLayout>
-    <LinearLayout   
-        android:layout_width="fill_parent"   
-        android:layout_height="wrap_content"   
-        android:gravity="center" 
-  		android:orientation="vertical"> 
+            <RadioButton
+                android:id="@+id/search_user_apply"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/search_user_apply" />
+
+            <TextView>
+            </TextView>
+        </RadioGroup>
+    </LinearLayout></RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
     </LinearLayout>
-</LinearLayout>   
+
+</LinearLayout>

@@ -25,13 +25,13 @@ public class SearchDialogFragment extends DialogFragment {
 	Spinner databasechooseSpinner;
 	RadioGroup searchradio ;
 	RadioButton search_topic_button;
+	RadioButton search_alltopic_button;
 	RadioButton search_user_topic_button;
 	RadioButton search_user_apply_button;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		//this.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
 		super.onCreate(savedInstanceState);
-		
 	}
 
 	@Override
@@ -43,6 +43,8 @@ public class SearchDialogFragment extends DialogFragment {
 		alert.setTitle(R.string.search_hint);
 		alert.setPositiveButton("搜索", new PositiveOnClickListener());
 		search_topic_button=(RadioButton) view.findViewById(R.id.search_topic);
+		search_topic_button.setChecked(true);
+		search_alltopic_button=(RadioButton) view.findViewById(R.id.search_alltopic);
 		search_user_topic_button=(RadioButton) view.findViewById(R.id.search_user_topic);
 		search_user_apply_button=(RadioButton) view.findViewById(R.id.search_user_apply);
 		searchradio = (RadioGroup) view.findViewById(R.id.radioGroup);
@@ -56,12 +58,14 @@ public class SearchDialogFragment extends DialogFragment {
 					case R.id.search_topic://搜索发帖
 						input.setHint(R.string.search_dialog_hint);
 				break;
+					case R.id.search_alltopic://搜索主题
+						input.setHint(R.string.search_dialog_hint);
+				break ;
 					case R.id.search_user_topic://搜索主题
 						input.setHint(R.string.search_dialog_hint_topic_reply_byself);
 				break ;
 					case R.id.search_user_apply://搜索回复
 						input.setHint(R.string.search_dialog_hint_reply_byself);
-				break ;
 				}
 			}
 			
@@ -82,12 +86,18 @@ public class SearchDialogFragment extends DialogFragment {
 			// TODO Auto-generated method stub
 			final String inputString = input.getText().toString();
     		Intent intent_search = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
+    		if (PhoneConfiguration.getInstance().fullscreen) {
+    			intent_search.putExtra("isFullScreen", true);
+    		}
 			if(searchradio.getCheckedRadioButtonId() == search_user_topic_button.getId()){//用户主题
 				if(!StringUtil.isEmpty(inputString))
 		    	{
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 		    		intent_search.putExtra("author", inputString);
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
 		    		startActivity(intent_search);
 		    	}else{
 		    		String userName = PhoneConfiguration.getInstance().userName;
@@ -95,6 +105,9 @@ public class SearchDialogFragment extends DialogFragment {
 			    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 			    		intent_search.putExtra("author", userName);
 			    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+						if(PhoneConfiguration.getInstance().showAnimation)
+							getActivity().overridePendingTransition(R.anim.zoom_enter,
+									R.anim.zoom_exit);
 			    		startActivity(intent_search);
 		    		}
 		    	}
@@ -105,6 +118,9 @@ public class SearchDialogFragment extends DialogFragment {
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 		    		intent_search.putExtra("author", inputString+"&searchpost=1");
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
 		    		startActivity(intent_search);
 		    	}else{
 		    		String userName = PhoneConfiguration.getInstance().userName;
@@ -112,16 +128,35 @@ public class SearchDialogFragment extends DialogFragment {
 			    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 			    		intent_search.putExtra("author", userName+"&searchpost=1");
 			    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+						if(PhoneConfiguration.getInstance().showAnimation)
+							getActivity().overridePendingTransition(R.anim.zoom_enter,
+									R.anim.zoom_exit);
 			    		startActivity(intent_search);
 		    		}
 		    	}
-		    } else {
+		    }else if(searchradio.getCheckedRadioButtonId() == search_topic_button.getId()) {
 		    	if(!StringUtil.isEmpty(inputString))
 		    	{
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 		    		intent_search.putExtra("key", inputString);
-		    		intent_search.putExtra("table", String.valueOf("6"));
+		    		intent_search.putExtra("table", view.getContext().getString(
+							R.string.largesttablenum));
 		    		intent_search.putExtra("authorid", getArguments().getInt("authorid",0));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
+		    		startActivity(intent_search);
+		    	}
+		    }else{
+		    	if(!StringUtil.isEmpty(inputString))
+		    	{
+		    		intent_search.putExtra("key", inputString);
+		    		intent_search.putExtra("fidgroup", "user");
+		    		intent_search.putExtra("table", view.getContext().getString(
+							R.string.largesttablenum));
+					if(PhoneConfiguration.getInstance().showAnimation)
+						getActivity().overridePendingTransition(R.anim.zoom_enter,
+								R.anim.zoom_exit);
 		    		startActivity(intent_search);
 		    	}
 		    }

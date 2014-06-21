@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/select_category"
-        android:src="@drawable/p7" />
+        android:src="@drawable/p0" />
         
     <ImageView
         android:id="@+id/emotion_baozou"

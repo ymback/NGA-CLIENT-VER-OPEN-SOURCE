@@ -7,4 +7,5 @@ import android.view.View;
  */
 public interface  FullScreenProxy {
     void  setFullScreen(View view);
+    void  setNormalScreen(View view);
 }

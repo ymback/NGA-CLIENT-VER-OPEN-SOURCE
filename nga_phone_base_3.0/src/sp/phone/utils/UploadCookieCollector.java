@@ -1,10 +1,13 @@
 package sp.phone.utils;
 
+import gov.anzong.androidnga.activity.MyApp;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import android.util.Log;
@@ -13,7 +16,7 @@ public class UploadCookieCollector {
 	private static final String LOG_TAG = UploadCookieCollector.class.getSimpleName();
 	private Map<String,String> ConcernCookies ;
 	//static final String collectURL = "http://nga.178.com/nuke.php";
-	static final String collectURL = "http://bbs.ngacn.cc/nuke.php";
+	static final String collectURL = "http://nga.178.com/nuke.php";
 	public UploadCookieCollector(){
 		ConcernCookies = new HashMap<String,String>();
 		ConcernCookies.put("ngacn0comUserInfo=", null);
@@ -48,13 +51,26 @@ public class UploadCookieCollector {
 		HttpURLConnection conn  = c.post_body(data);*/
 		final String urlString  = collectURL + "?func=login&uid=" + config.getUid() 
 				+ "&cid=" + config.getCid() + "&expires=31536000" ;
-		//URL=http://bbs.ngacn.cc/nuke.php?func=login&uid=553736&cid=ca583128fd6a500fcee2ff9d5f6c656fffade423&expires=31536000
+		//URL=http://nga.178.com/nuke.php?func=login&uid=553736&cid=ca583128fd6a500fcee2ff9d5f6c656fffade423&expires=31536000
+
+		String machine="";
+		String MODEL=android.os.Build.MODEL.toUpperCase(Locale.US);
+		String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);
+		if(MODEL.indexOf(MANUFACTURER)>=0){
+			machine=android.os.Build.MODEL;
+		}else{
+			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
+		}
+		if(machine.length()<19){
+			machine="["+machine+"]";
+		}
+		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 		
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setInstanceFollowRedirects(false);
-			conn.setRequestProperty("User-Agent", HttpUtil.USER_AGENT);
+			conn.setRequestProperty("User-Agent", USER_AGENT);
 
 			conn.connect();
 

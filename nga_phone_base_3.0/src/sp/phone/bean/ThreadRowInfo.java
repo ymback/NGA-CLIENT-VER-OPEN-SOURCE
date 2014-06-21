@@ -26,6 +26,7 @@ public class ThreadRowInfo {
 	// private int lastmodify;
 	// private int recommend;
 	private int pid;
+	private boolean isanonymous=false;
 	private String alterinfo;// something like "edited by ..."
 	private String content;
 	private int lou;
@@ -80,6 +81,12 @@ public class ThreadRowInfo {
 	}
 	public void setAlterinfo(String alterinfo) {
 		this.alterinfo = alterinfo;
+	}
+	public void setISANONYMOUS(boolean isanonymous){
+		this.isanonymous=isanonymous;
+	}
+	public boolean getISANONYMOUS(){
+		return isanonymous;
 	}
 	public int getLou() {
 		return lou;
@@ -174,8 +181,7 @@ public class ThreadRowInfo {
 	public void setFormated_html_data(String formated_html_data) {
 		this.formated_html_data = formated_html_data;
 	}
-
-
+	
 
 
 

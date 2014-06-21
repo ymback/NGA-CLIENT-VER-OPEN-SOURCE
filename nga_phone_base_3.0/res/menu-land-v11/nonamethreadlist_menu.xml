@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/night_mode"  android:title="@string/change_night_mode" androidnga:showAsAction="ifRoom|withText" android:showAsAction="ifRoom|withText"></item>
+    <item android:id="@+id/threadlist_menu_item2" android:title="@string/refresh" android:icon="@drawable/ic_refresh" androidnga:showAsAction="always|withText" android:showAsAction="always|withText"></item>
+    <item android:id="@+id/threadlist_menu_newthread" android:title="@string/new_thread"  androidnga:showAsAction="always|withText" android:icon="@drawable/content_edit" android:showAsAction="always|withText"></item>
+    
+</menu>
+

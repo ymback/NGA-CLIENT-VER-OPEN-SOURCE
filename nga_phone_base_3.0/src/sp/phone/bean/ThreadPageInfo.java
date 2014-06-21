@@ -4,7 +4,9 @@ public class ThreadPageInfo {
 	
 	private int tid;
 	private int fid;
+	private String tidarray;
 	private int quote_from;
+	private String topic_misc;
 	//private String quote_to;
 	//private String icon;
 	private String titlefont;
@@ -12,7 +14,7 @@ public class ThreadPageInfo {
 	//private int authorid;
 	private String subject;
 	//private int ifmark;
-	//private int type;
+	private int type;
 	//private int type_2;
 	//private String postdate;
 	//private int lastpost;
@@ -38,11 +40,24 @@ public class ThreadPageInfo {
 	public int getFid() {
 		return fid;
 	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type=type;
+	}
 	public void setFid(int fid) {
 		this.fid = fid;
 	}
 	public String getSubject() {
 		return subject;
+	}
+
+	public void setTidarray(String tidarray) {
+		this.tidarray = tidarray;
+	}
+	public String getTidarray() {
+		return tidarray;
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;
@@ -91,6 +106,12 @@ public class ThreadPageInfo {
 	}
 	public String getTitlefont() {
 		return titlefont;
+	}
+	public String getTopicMisc() {
+		return topic_misc;
+	}
+	public void setTopicMisc(String topic_misc) {
+		this.topic_misc = topic_misc;
 	}
 	public void setTitlefont(String titlefont) {
 		this.titlefont = titlefont;

@@ -37,7 +37,7 @@ implements PerferenceConstant{
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		SharedPreferences  share = 
 			getActivity().getSharedPreferences(PERFERENCE, Context.MODE_PRIVATE);
-		String str = share.getString(PENDING_REPLYS,"");
+		String str = share.getString(PENDING_REPLYS_FOR_SHOW,"");
 		if(!StringUtil.isEmpty(str)){
 			List<NotificationObject> list = JSON.parseArray(str, NotificationObject.class);
 			if( list != null && list.size() != 0){
@@ -61,6 +61,7 @@ implements PerferenceConstant{
 				intent.putExtra("tid",no.getTid() );
 				intent.putExtra("pid",no.getPid() );
 				intent.putExtra("authorid",0 );
+				intent.putExtra("fromreplyactivity","1" );
 				
 				intent.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
 				getActivity().startActivity(intent);
