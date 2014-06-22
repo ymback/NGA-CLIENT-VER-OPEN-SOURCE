@@ -41,7 +41,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2028;
+	public final static int version = 2029;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "×î½ü·ÃÎÊ";
@@ -613,7 +613,9 @@ public class MyApp extends Application implements PerferenceConstant {
 			String replyString, int replytotalnum,String blacklist) {
 		SharedPreferences share = this.getSharedPreferences(PERFERENCE,
 				MODE_PRIVATE);
-
+		if(blacklist==null){
+			blacklist="";
+		}
 		String userListString = share.getString(USER_LIST, "");
 
 		List<User> userList = null;
@@ -639,7 +641,6 @@ public class MyApp extends Application implements PerferenceConstant {
 		user.setReplyTotalNum(replytotalnum);
 		user.setBlackList(blacklist);
 		userList.add(0, user);
-
 		userListString = JSON.toJSONString(userList);
 		share.edit().putString(UID, uid).putString(CID, cid)
 				.putString(USER_NAME, name)

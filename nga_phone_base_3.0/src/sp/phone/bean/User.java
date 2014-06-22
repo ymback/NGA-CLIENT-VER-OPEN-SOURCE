@@ -10,7 +10,7 @@ public class User {
 	private String cid;
 	private String replyString;
 	private int replytotalnum;
-	private String blacklist;
+	private String blacklist="";
 	public String getBlackList() {
 		return blacklist;
 	}

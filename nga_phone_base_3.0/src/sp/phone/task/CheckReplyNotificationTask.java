@@ -44,15 +44,14 @@ public class CheckReplyNotificationTask extends
 	protected String doInBackground(String... params) {
 
 		final String cookie = params[0];
-		// final String emptyMessage = "window.script_muti_get_var_store=null";
-		String result = null;// emptyMessage;
+		String result = "";
 
 		result = HttpUtil.getHtml(url, cookie, null, 3000);
 
 		PhoneConfiguration.getInstance().lastMessageCheck = System
 				.currentTimeMillis();
 		Log.i(this.getClass().getSimpleName(), "get message:" + result);
-//		return "{0:[{0:2,1:20174851,2:\"竹井詩織里\",3:20174851,4:\"竹井詩織里\",5:\"发布新主题发布新主题发布新主题发布新主题\",9:1399199275,8:130348654,6:7031525,7:130397834,10:2},{0:2,1:20174851,2:\"竹井詩織里\",3:20174851,4:\"竹井詩織里\",5:\"发布新主题发布新主题发布新主题发布新主题\",9:1399199294,8:130397834,6:7031525,7:130397842,10:3}],1:[{0:10,1:20174851,2:\"\326\361\276\256\324\212\277\227\300\357\",9:1403009958,6:121212},{0:10,1:20174851,2:\"\326\361\276\256\324\212\277\227\300\357\",9:1403009958,6:212121}]}";
+//		return "[truncated]window.script_muti_get_var_store={0:[{\"0\":1,\"1\":20174851,\"2\":\"\326\361\276\256\324\212\277\227\300\357\",\"3\":20174851,\"4\":\"\326\361\276\256\324\212\277\227\300\357\",\"5\":\"\277\264\262\273\265\275\316\322\",\"9\":1403393562,\"6\":71387683,\"7\":133146646,\"10\":1}] }";
 		 return result;
 	}
 
@@ -82,28 +81,24 @@ public class CheckReplyNotificationTask extends
 						+ "}";
 			}
 		}// 回复信息
-
+		
 		if (StringUtil.isEmpty(msgresult) && StringUtil.isEmpty(notiresult)) {
 			return;
 		} else {
 			if (!StringUtil.isEmpty(notiresult)) {
 				int start = 0;
-
 				while (true) {
-					/*
-					 * start = result.indexOf(",2:\"", start)+4; int end =
-					 * result.indexOf("\",3:",start); String nickName =
-					 * result.substring(start, end); start = end;
-					 */
+					
 					StringFindResult ret = StringUtil.getStringBetween(
-							notiresult, start, ",1:", ",2");
+							notiresult, start, ",\"1\":", ",\"2\"");
 					start = ret.position;
 					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
 						break;
 					String authorId = ret.result;
 
+
 					ret = StringUtil.getStringBetween(notiresult, start, ":\"",
-							"\",3:");
+							"\",\"3\":");
 					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
 						break;
 					String nickName = ret.result;
@@ -116,7 +111,7 @@ public class CheckReplyNotificationTask extends
 					 */
 
 					ret = StringUtil.getStringBetween(notiresult, start,
-							",5:\"", "\",9:");
+							",\"5\":\"", "\",\"9\":");
 					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
 						break;
 
@@ -128,8 +123,8 @@ public class CheckReplyNotificationTask extends
 					 * result.indexOf(",7:",start); String tid =
 					 * result.substring(start, end); start = end;
 					 */
-					ret = StringUtil.getStringBetween(notiresult, start, ",6:",
-							",7");
+					ret = StringUtil.getStringBetween(notiresult, start, ",\"6\":",
+							",\"7\"");
 					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
 						break;
 
@@ -137,7 +132,6 @@ public class CheckReplyNotificationTask extends
 					if (tid.indexOf('}') > 0) {
 						tid = tid.substring(0, tid.indexOf('}'));
 					}
-
 					start = ret.position;
 
 					/*
@@ -147,7 +141,7 @@ public class CheckReplyNotificationTask extends
 					 */
 
 					ret = StringUtil.getStringBetween(notiresult, start, ":",
-							",10:");
+							",\"10\":");
 					String pid = ret.result;
 					if (!StringUtil.isEmpty(ret.result))
 						start = ret.position;
@@ -221,21 +215,21 @@ public class CheckReplyNotificationTask extends
 					 * result.substring(start, end); start = end;
 					 */
 					StringFindResult ret = StringUtil.getStringBetween(msgresult, starta,
-							",1:", ",2");
-					starta = ret.position-2;
+							",\"1\":", ",\"2\"");
+					starta = ret.position-4;
 					if (StringUtil.isEmpty(ret.result) || ret.position == -1){
 						break;
 					}
 					String authorId = ret.result;
 
-					ret = StringUtil.getStringBetween(msgresult, starta, ",2:\"", "\",");
+					ret = StringUtil.getStringBetween(msgresult, starta, ",\"2\":\"", "\",");
 					if (StringUtil.isEmpty(ret.result) || ret.position == -1){
 						break;
 					}
 					String title = ret.result;
 					starta = ret.position;
 
-					ret = StringUtil.getStringBetween(msgresult, starta, ",6:", "}");
+					ret = StringUtil.getStringBetween(msgresult, starta, ",\"6\":", "}");
 					if (StringUtil.isEmpty(ret.result) || ret.position == -1){
 						break;
 					}
