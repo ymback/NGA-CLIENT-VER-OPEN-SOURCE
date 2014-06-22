@@ -57,6 +57,7 @@ import gov.anzong.androidnga.activity.SplitRecentReplyListActivity;
 import gov.anzong.androidnga.activity.SplitSignPostActivity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -99,7 +100,7 @@ public class PhoneConfiguration implements PerferenceConstant{
     public boolean fullscreen  = false;
     public boolean kitwebview =false;
     public int replytotalnum = 0;
-    public Set<Integer> blacklist;
+    public Set<Integer> blacklist = new HashSet<Integer>();
     
 
 	public String db_cookie;
