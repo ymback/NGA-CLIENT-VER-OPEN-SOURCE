@@ -132,7 +132,7 @@ public class ArticleListWebClient extends WebViewClient {
 
 	@Override
 	public boolean shouldOverrideUrlLoading(WebView view, String origurl) {
-		if (!origurl.startsWith("http")) {
+		if (!origurl.startsWith("http") && !origurl.startsWith("market")) {
 			return true;
 		}
 		PhoneConfiguration conf = PhoneConfiguration.getInstance();

@@ -53,14 +53,18 @@ public class StringUtil {
 		}
 	}
 	/*给候总客户端乱码加适配*/
-	public static String unescape(String src) {  
+	public static String unescape(String src) { 
+		String patternStr="[\\d%u]{1,}";
+		boolean result = Pattern.matches(patternStr, src.trim()); //trim之后必须是数字或者%u
+		if(!result)
+			return src.trim();
         StringBuffer tmp = new StringBuffer();  
         tmp.ensureCapacity(src.length());  
         int lastPos = 0, pos = 0;  
         char ch;  
         while (lastPos < src.length()) {  
             pos = src.indexOf("%", lastPos);  
-            if (pos == lastPos) {  
+            if (pos == lastPos) {
                 if (src.charAt(pos + 1) == 'u') {  
                     ch = (char) Integer.parseInt(src  
                             .substring(pos + 2, pos + 6), 16);  
@@ -327,6 +331,8 @@ public class StringUtil {
 		s = s.replaceAll(ignoreCaseTag
 				+ "\\[hip\\](.+?)\\[\\/hip\\]",
 				"$1");
+		s= s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\](.+?)\\[/tid\\]",
+				"<a href='http://nga.178.com/read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
 		if (showPlayMode() < 4) {
 			// 优酷FLASH可内置播放
 			s = s.replaceAll(
@@ -992,7 +998,7 @@ public class StringUtil {
 			+ "已安装解码器,可直接看多个站点的视频\n"
 			+ "彩蛋还有,但不知道在哪了\n"
 			+ "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n"
-			+ "更新去Play商店或酷安搜索NGA客户端开源版";
+			+ "查找更新请使用侧边栏关于中的新版校验功能";
 
 	public static String getTips() {
 

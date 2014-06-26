@@ -54,6 +54,7 @@ import android.gesture.GestureOverlayView.OnGestureListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
@@ -73,6 +74,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -360,7 +367,7 @@ public class MainActivity extends ActionBarActivity implements
 			signmission();
 		} else if (item.mTitle.equals("短消息")) {
 			mymessage();
-		}else if (item.mTitle.equals("大漩涡匿名版")) {
+		} else if (item.mTitle.equals("大漩涡匿名版")) {
 			noname();
 		} else if (item.mTitle.equals("搜索用户信息")) {
 			search_profile();
@@ -440,26 +447,26 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 	}
-	
 
 	private void mymessage() {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent();
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 		intent.setClass(MainActivity.this, config.messageActivityClass);
-		
+
 		startActivity(intent);
 		if (PhoneConfiguration.getInstance().showAnimation) {
 			overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 		}
 
 	}
+
 	private void noname() {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent();
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 		intent.setClass(MainActivity.this, config.nonameActivityClass);
-		
+
 		startActivity(intent);
 		if (PhoneConfiguration.getInstance().showAnimation) {
 			overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
@@ -488,6 +495,7 @@ public class MainActivity extends ActionBarActivity implements
 		alert.setView(view);
 		alert.setTitle("关于");
 		String versionName = null;
+		int versionvalue=0;
 		TextView textview = (TextView) view
 				.findViewById(R.id.client_device_dialog);
 		try {
@@ -497,13 +505,30 @@ public class MainActivity extends ActionBarActivity implements
 					PackageManager.GET_ACTIVITIES);
 			if (pi != null) {
 				versionName = pi.versionName == null ? "null" : pi.versionName;
+				versionvalue=pi.versionCode;
 			}
 		} catch (NameNotFoundException e) {
 			Log.e(TAG, "an error occured when collect package info", e);
 		}
-		String textviewtext = MainActivity.this
-				.getString(R.string.about_client) + versionName;
-		textview.setText(textviewtext);
+		String textviewtext = String.format(MainActivity.this
+				.getString(R.string.about_client), versionName,versionvalue);
+		textview.setText(Html.fromHtml(textviewtext));
+
+		textview.setMovementMethod(LinkMovementMethod.getInstance());
+		CharSequence text = textview.getText();
+		if (text instanceof Spannable) {
+			int end = text.length();
+			Spannable sp = (Spannable) textview.getText();
+			URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
+			SpannableStringBuilder style = new SpannableStringBuilder(text);
+			style.clearSpans();// should clear old spans
+			for (URLSpan url : urls) {
+				MyURLSpan myURLSpan = new MyURLSpan(url.getURL());
+				style.setSpan(myURLSpan, sp.getSpanStart(url),
+						sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			}
+			textview.setText(style);
+		}
 		alert.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
 
 			@Override
@@ -528,6 +553,24 @@ public class MainActivity extends ActionBarActivity implements
 			}
 
 		});
+	}
+
+	public class MyURLSpan extends ClickableSpan {
+
+		private String mUrl;
+
+		MyURLSpan(String url) {
+			mUrl = url;
+		}
+
+		@Override
+		public void onClick(View widget) {
+
+			Intent intent = new Intent();
+			intent.putExtra("path", mUrl);
+			intent.setClass(MainActivity.this, WebViewerActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	public void setitem() {
@@ -674,7 +717,7 @@ public class MainActivity extends ActionBarActivity implements
 					User u = userList.get(flipper.getDisplayedChild());
 					app.addToUserList(u.getUserId(), u.getCid(),
 							u.getNickName(), u.getReplyString(),
-							u.getReplyTotalNum(),u.getBlackList());
+							u.getReplyTotalNum(), u.getBlackList());
 					PhoneConfiguration.getInstance().setUid(u.getUserId());
 					PhoneConfiguration.getInstance().setNickname(
 							u.getNickName());
@@ -683,7 +726,8 @@ public class MainActivity extends ActionBarActivity implements
 							u.getReplyString());
 					PhoneConfiguration.getInstance().setReplyTotalNum(
 							u.getReplyTotalNum());
-					PhoneConfiguration.getInstance().blacklist=StringUtil.blackliststringtolisttohashset(u.getBlackList());
+					PhoneConfiguration.getInstance().blacklist = StringUtil
+							.blackliststringtolisttohashset(u.getBlackList());
 					if (toast != null) {
 						toast.setText("切换账户成功,当前账户名:" + u.getNickName());
 						toast.setDuration(Toast.LENGTH_SHORT);
@@ -793,9 +837,9 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	private BoardHolder loadDefaultBoard() {
-		if(PhoneConfiguration.getInstance().iconmode){
+		if (PhoneConfiguration.getInstance().iconmode) {
 			return app.loadDefaultBoardOld();
-		}else{
+		} else {
 			return app.loadDefaultBoard();
 		}
 
@@ -1133,7 +1177,8 @@ public class MainActivity extends ActionBarActivity implements
 				} else {
 					if (url.toLowerCase(Locale.US).indexOf("dbmeizi.com") >= 0
 							|| url.toLowerCase(Locale.US).indexOf("baozhao.me") >= 0
-							|| url.toLowerCase(Locale.US).indexOf("dadanshai.com") >= 0
+							|| url.toLowerCase(Locale.US).indexOf(
+									"dadanshai.com") >= 0
 							|| url.indexOf("豆瓣妹子") >= 0
 							|| url.indexOf("鲍照") >= 0
 							|| url.indexOf("大胆晒") >= 0 || url.equals("1024")) {
@@ -1256,14 +1301,14 @@ public class MainActivity extends ActionBarActivity implements
 			boolean showtextbool = new Random().nextBoolean();
 			if (showtextbool) {
 				showtextbool = new Random().nextBoolean();
-				if(showtextbool){
+				if (showtextbool) {
 					toastdata = "MENU×7";
-				}else{
+				} else {
 					toastdata = "豆瓣妹子";
 				}
-			}else{
+			} else {
 				showtextbool = new Random().nextBoolean();
-				if(showtextbool){
+				if (showtextbool) {
 					toastdata = "dbmeizi.com";
 				}
 			}
@@ -1474,13 +1519,13 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 		if (!addFidAlreadExist) {// 没有
-//			MyApp.fddicon[1][1];
+			// MyApp.fddicon[1][1];
 			List<Board> boardList = new ArrayList<Board>();
 			Board b;
-			if(PhoneConfiguration.getInstance().iconmode){
-				 b= new Board(i + 1, Fid, Name, R.drawable.oldpdefault);
-			}else{
-				 b = new Board(i + 1, Fid, Name, R.drawable.pdefault);
+			if (PhoneConfiguration.getInstance().iconmode) {
+				b = new Board(i + 1, Fid, Name, R.drawable.oldpdefault);
+			} else {
+				b = new Board(i + 1, Fid, Name, R.drawable.pdefault);
 			}
 			boardList.add(b);
 			saveaddFid(boardList);
@@ -1494,9 +1539,9 @@ public class MainActivity extends ActionBarActivity implements
 			return;
 		} else {// 有了
 			Board b;
-			if(PhoneConfiguration.getInstance().iconmode){
+			if (PhoneConfiguration.getInstance().iconmode) {
 				b = new Board(i, Fid, Name, R.drawable.oldpdefault);
-			}else{
+			} else {
 				b = new Board(i, Fid, Name, R.drawable.pdefault);
 			}
 			addFid.add(b);

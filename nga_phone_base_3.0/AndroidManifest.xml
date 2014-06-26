@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="gov.anzong.androidnga" android:versionCode="2030"
+	package="gov.anzong.androidnga" android:versionCode="2031"
 	android:largeHeap="true" android:configChanges="orientation|screenSize" 
-	android:versionName="2.0.30" android:installLocation="auto">
+	android:versionName="2.0.31" android:installLocation="auto">
 	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -156,6 +156,7 @@
 		    
 		</activity>
 		<activity android:name=".activity.ImageViewerActivity" android:theme="@style/SwipeBackTheme"/>
+		<activity android:name=".activity.WebViewerActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:name=".activity.NearbyUserActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:name=".activity.ReplyListActivity" android:theme="@style/SwipeBackTheme"/>
 		<activity android:name=".activity.RecentReplyListActivity" android:theme="@style/SwipeBackTheme"/>
