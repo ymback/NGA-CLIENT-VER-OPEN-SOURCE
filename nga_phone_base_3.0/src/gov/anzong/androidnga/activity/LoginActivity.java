@@ -131,6 +131,10 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
+			if(action.equals("search")){
+				fid = intent.getIntExtra("fid", -7);
+				needtopost = true;
+			}
 			if (StringUtil.isEmpty(messagemode)) {
 				if (action.equals("new") || action.equals("reply")
 						|| action.equals("modify")) {
@@ -407,6 +411,14 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 					Intent intent = new Intent();
 					if (needtopost) {
 						if (StringUtil.isEmpty(to)) {
+							if(action.equals("search")){
+								intent.putExtra("fid", fid);
+								intent.putExtra("searchmode", "true");
+								intent.setClass(
+										v.getContext(),
+										PhoneConfiguration.getInstance().topicActivityClass);
+								startActivity(intent);
+							}else{
 							if (action.equals("new")) {
 								intent.putExtra("fid", fid);
 								intent.putExtra("action", "new");
@@ -425,6 +437,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 									v.getContext(),
 									PhoneConfiguration.getInstance().postActivityClass);
 							startActivity(intent);
+							}
 						} else {
 							if(to.equals(name)){
 								if (toast != null) {

@@ -15,9 +15,9 @@ public class MeiziCategory {
             new MeiziCategoryItem("豆瓣男淫:肌肉男", 7),
             new MeiziCategoryItem("豆瓣男淫:清新男", 8),
             new MeiziCategoryItem("豆瓣男淫:文艺男", 13),
-            new MeiziCategoryItem("大胆晒:最新", -2),
-            new MeiziCategoryItem("大胆晒:最热", -3),
-            new MeiziCategoryItem("只有神知道的世界", -1),//好孩子看不到又有了
+//            new MeiziCategoryItem("大胆晒:最新", -2),
+//            new MeiziCategoryItem("大胆晒:最热", -3),//大胆晒已经嗝屁了
+            new MeiziCategoryItem("只有神知道的世界", -1),
     };
 
     public static int getCount(){

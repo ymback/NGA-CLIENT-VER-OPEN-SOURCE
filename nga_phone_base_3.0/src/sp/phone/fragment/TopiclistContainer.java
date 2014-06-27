@@ -67,6 +67,7 @@ public class TopiclistContainer extends Fragment implements
 	boolean canDismiss = true;
 	int category = 0;
 	int fromreplyactivity = 0;
+	boolean searchmode=false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,6 +117,7 @@ public class TopiclistContainer extends Fragment implements
 			author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
 			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
 			fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+			searchmode=false;
 		} else {
 			fid = getArguments().getInt("fid", 0);
 			authorid = getArguments().getInt("authorid", 0);
@@ -125,6 +127,10 @@ public class TopiclistContainer extends Fragment implements
 			author = getArguments().getString("author");
 			table = getArguments().getString("table");
 			fidgroup = getArguments().getString("fidgroup");
+			if(!StringUtil.isEmpty(getArguments().getString("searchmode"))){
+				if(getArguments().getString("searchmode").equals("true"))
+				searchmode=true;
+			}
 		}
 
 		if (favor != 0) {
@@ -152,6 +158,8 @@ public class TopiclistContainer extends Fragment implements
 		canDismiss = true;
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		this.refresh();
+		if(searchmode)
+			handleSearch();
 		super.onViewCreated(view, savedInstanceState);
 	}
 
@@ -331,7 +339,20 @@ public class TopiclistContainer extends Fragment implements
 			nightMode(item);
 			break;
 		case R.id.search:
-			handleSearch();
+			Intent intentsearch = new Intent();
+			intentsearch.putExtra("fid", fid);
+			intentsearch.putExtra("action", "search");
+			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+				handleSearch();
+			} else {
+				intentsearch.setClass(getActivity(),
+						PhoneConfiguration.getInstance().loginActivityClass);
+				startActivity(intentsearch);
+				if (PhoneConfiguration.getInstance().showAnimation) {
+					getActivity().overridePendingTransition(R.anim.zoom_enter,
+							R.anim.zoom_exit);
+				}
+			}
 			break;
 		case R.id.threadlist_menu_item3:
 		default:

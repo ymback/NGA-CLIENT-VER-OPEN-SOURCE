@@ -199,7 +199,7 @@
     <string name="multi_message_format">收到了%d封短消息,态君也比不过你了!</string>
     <string name="reply_to_you"> ←态君,这个家伙给你打黑枪!</string>
     <string name="message_to_you"> UID:%d给你发送了短消息!</string>
-    <string name="image_quality_info">图片中转压缩(Beta)</string>
+    <string name="image_quality_info">图片中转压缩</string>
     <string name="blackgun_sound_info">黑枪提示音</string>
     <string name="lefthand_righthand">按键常用操作习惯(4.0以上 )</string>
     <string name="mediaplayer_choose_info">使用内置播放器播放</string>
@@ -217,7 +217,7 @@
     <string name="image_quality_chooser_prompt">选择图片质量：</string>
     <string name="media_player_chooser_prompt">选择使用内置播放器播放：</string>
     <string name="blackgun_sound_chooser_prompt">选择黑枪提示音：</string>
-    <string name="image_quality_claim">图片中转压缩是一个测试性的功能，访问压力过大时，中转服务器可能会不可用。</string>
+    <string name="image_quality_claim">图片中转压缩是一个降低流量使用量的功能，访问压力过大时，中转压缩服务器可能会不可用。</string>
     <string name="search_topic">板块</string>
     <string name="search_alltopic">全站</string>
     <string name="profilesearch_name">用户名</string>

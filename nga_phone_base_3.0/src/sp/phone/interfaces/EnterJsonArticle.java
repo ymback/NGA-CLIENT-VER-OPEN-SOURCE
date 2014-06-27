@@ -15,9 +15,11 @@ import android.widget.ListView;
 public class EnterJsonArticle implements OnItemClickListener {
 
 	private final Activity activity;
-	public EnterJsonArticle(Activity activity) {
+	private boolean fromreplyactivity;
+	public EnterJsonArticle(Activity activity,boolean _fromreplyactivity) {
 		super();
 		this.activity = activity;
+		this.fromreplyactivity=_fromreplyactivity;
 	}
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -37,7 +39,7 @@ public class EnterJsonArticle implements OnItemClickListener {
 		intent.putExtra("tid",tid );
 		intent.putExtra("pid",pid );
 		intent.putExtra("authorid",authorid );
-		if(authorid!=0){
+		if(fromreplyactivity){
 			intent.putExtra("fromreplyactivity",1 );
 		}
 		ListView listview = (ListView)parent;

@@ -52,42 +52,57 @@ public class StringUtil {
 			return true;
 		}
 	}
-	/*给候总客户端乱码加适配*/
-	public static String unescape(String src) { 
-		String patternStr="[\\d%u]{1,}";
-		boolean result = Pattern.matches(patternStr, src.trim()); //trim之后必须是数字或者%u
-		if(!result)
-			return src.trim();
-        StringBuffer tmp = new StringBuffer();  
-        tmp.ensureCapacity(src.length());  
-        int lastPos = 0, pos = 0;  
-        char ch;  
-        while (lastPos < src.length()) {  
-            pos = src.indexOf("%", lastPos);  
-            if (pos == lastPos) {
-                if (src.charAt(pos + 1) == 'u') {  
-                    ch = (char) Integer.parseInt(src  
-                            .substring(pos + 2, pos + 6), 16);  
-                    tmp.append(ch);  
-                    lastPos = pos + 6;  
-                } else {  
-                    ch = (char) Integer.parseInt(src  
-                            .substring(pos + 1, pos + 3), 16);  
-                    tmp.append(ch);  
-                    lastPos = pos + 3;  
-                }  
-            } else {  
-                if (pos == -1) {  
-                    tmp.append(src.substring(lastPos));  
-                    lastPos = src.length();  
-                } else {  
-                    tmp.append(src.substring(lastPos, pos));  
-                    lastPos = pos;  
-                }  
-            }  
-        }  
-        return tmp.toString();  
-    }  
+
+	/* 给候总客户端乱码加适配 */
+	public static String unescape(String src) {
+		StringBuffer tmp = new StringBuffer();
+		tmp.ensureCapacity(src.length());
+		int lastPos = 0, pos = 0;
+		char ch;
+		String patternStr="[A-Fa-f0-9]{4}";
+		while (lastPos < src.length()) {
+			pos = src.indexOf("%", lastPos);
+			if (pos == lastPos) {
+				if (src.charAt(pos + 1) == 'u') {
+					try {
+						if(Pattern.matches(patternStr, src.substring(pos + 2, pos + 6))){
+							ch = (char) Integer.parseInt(
+									src.substring(pos + 2, pos + 6), 16);
+							tmp.append(ch);
+							lastPos = pos + 6;
+						}else{
+							tmp.append(src.substring(pos, pos + 3));
+							lastPos = pos + 3;
+						}
+					} catch (Exception e) {
+						tmp.append(src.substring(pos, pos + 3));
+						lastPos = pos + 3;
+					}
+
+				} else {
+					try {
+						ch = (char) Integer.parseInt(
+								src.substring(pos + 1, pos + 3), 16);
+						tmp.append(ch);
+						lastPos = pos + 3;
+					} catch (Exception e) {
+						tmp.append(src.substring(pos, pos + 3));
+						lastPos = pos + 3;
+					}
+				}
+			} else {
+				if (pos == -1) {
+					tmp.append(src.substring(lastPos));
+					lastPos = src.length();
+				} else {
+					tmp.append(src.substring(lastPos, pos));
+					lastPos = pos;
+				}
+			}
+		}
+		return tmp.toString();
+	}
+
 	
 	public static boolean isEmpty(StringBuffer str) {
 		if (str != null && !"".equals(str)) {

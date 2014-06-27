@@ -59,7 +59,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		OnThreadPageLoadFinishedListener, PagerOwnner,
 		OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
 		OnItemLongClickListener {
- 
+
 	private String TAG = FlexibleTopicListActivity.class.getSimpleName();
 	boolean dualScreen = true;
 	private CheckReplyNotificationTask asynTask;
@@ -72,18 +72,51 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 	View view;
 	int nightmode;
 	String guidtmp;
-	
+
+	int authorid;
+	int searchpost;
+	int favor;
+	String key;
+	String table;
+	String fidgroup;
+	String author;
+	boolean fromreplyactivity = false;
+
+	private int getUrlParameter(String url, String paraName) {
+		if (StringUtil.isEmpty(url)) {
+			return 0;
+		}
+		final String pattern = paraName + "=";
+		int start = url.indexOf(pattern);
+		if (start == -1)
+			return 0;
+		start += pattern.length();
+		int end = url.indexOf("&", start);
+		if (end == -1)
+			end = url.length();
+		String value = url.substring(start, end);
+		int ret = 0;
+		try {
+			ret = Integer.parseInt(value);
+		} catch (Exception e) {
+			Log.e(TAG, "invalid url:" + url);
+		}
+
+		return ret;
+	}
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity, null);
-		Intent intent=getIntent();
-	    boolean isfullScreen =  intent.getBooleanExtra("isFullScreen", false);
-	    if(isfullScreen){
+		view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity,
+				null);
+		Intent intent = getIntent();
+		boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
+		if (isfullScreen) {
 			ActivityUtil.getInstance().setFullScreen(view);
-	    }
+		}
 		this.setContentView(view);
-		nightmode=ThemeManager.getInstance().getMode();
+		nightmode = ThemeManager.getInstance().getMode();
 		PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
 		options.refreshScrollDistance = 0.3f;
 		options.refreshOnUp = true;
@@ -97,6 +130,32 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment f1 = fm.findFragmentById(R.id.item_list);
+
+		String url = getIntent().getDataString();
+		if (url != null) {
+			authorid = getUrlParameter(url, "authorid");
+			searchpost = getUrlParameter(url, "searchpost");
+			favor = getUrlParameter(url, "favor");
+			key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
+			author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
+			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
+			fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+		} else {
+			if (null != getIntent().getExtras()) {
+				authorid = getIntent().getExtras().getInt("authorid", 0);
+				searchpost = getIntent().getExtras().getInt("searchpost", 0);
+				favor = getIntent().getExtras().getInt("favor", 0);
+				key = getIntent().getExtras().getString("key");
+				author = getIntent().getExtras().getString("author");
+				table = getIntent().getExtras().getString("table");
+				fidgroup = getIntent().getExtras().getString("fidgroup");
+			}
+		}
+		if (authorid > 0 || searchpost > 0 || favor > 0
+				|| !StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)
+				|| !StringUtil.isEmpty(table) || !StringUtil.isEmpty(fidgroup)) {
+			fromreplyactivity = true;
+		}
 		if (f1 == null) {
 			f1 = new TopiclistContainer();
 			Bundle args = new Bundle();// (getIntent().getExtras());
@@ -112,30 +171,29 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		Fragment f2 = fm.findFragmentById(R.id.item_detail_container);
 		if (null == f2) {
-			if(getIntent().getIntExtra("daulscrshowmode", 0)!=0){
+			if (getIntent().getIntExtra("daulscrshowmode", 0) != 0) {
 
-				int pid = getIntent().getIntExtra("pid",0);
-				int tid = getIntent().getIntExtra("tid",0);
-				int authorid = getIntent().getIntExtra("authorid",0);
-				if(pid!=0 || tid!=0){
-					f2 = ArticleContainerFragment.create(tid,
-							pid, authorid);
+				int pid = getIntent().getIntExtra("pid", 0);
+				int tid = getIntent().getIntExtra("tid", 0);
+				int authorid = getIntent().getIntExtra("authorid", 0);
+				if (pid != 0 || tid != 0) {
+					f2 = ArticleContainerFragment.create(tid, pid, authorid);
 					Bundle args = new Bundle();// (getIntent().getExtras());
 					if (null != getIntent().getExtras()) {
 						args.putAll(getIntent().getExtras());
 					}
 					args.putString("url", getIntent().getDataString());
 					f2.setArguments(args);
-					FragmentTransaction ft = fm.beginTransaction().add(R.id.item_detail_container,
-							f2);
+					FragmentTransaction ft = fm.beginTransaction().add(
+							R.id.item_detail_container, f2);
 					ft.commit();
 					f1.setHasOptionsMenu(false);
 					f2.setHasOptionsMenu(true);
-				}else{
+				} else {
 					f1.setHasOptionsMenu(true);
 				}
 				// .add(R.id.item_detail_container, f);
-			}else{
+			} else {
 				f1.setHasOptionsMenu(true);
 			}
 		} else if (!dualScreen) {
@@ -155,24 +213,24 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			}
 		}
 		int favor = getIntent().getIntExtra("favor", 0);
-		String  key = getIntent().getStringExtra("key"); 
-		String fidgroup=getIntent().getStringExtra("fidgroup"); 
+		String key = getIntent().getStringExtra("key");
+		String fidgroup = getIntent().getStringExtra("fidgroup");
 		int authorid = getIntent().getIntExtra("authorid", 0);
-		
+
 		if (favor == 0 && authorid == 0 && StringUtil.isEmpty(key)) {
 			setNavigation();
 		} else {
 			flags = ThemeManager.ACTION_BAR_FLAG;
 		}
-		if(favor!=0){
+		if (favor != 0) {
 			getSupportActionBar().setTitle(R.string.bookmark_title);
 		}
 		if (!StringUtil.isEmpty(key)) {
 			flags = ThemeManager.ACTION_BAR_FLAG;
-			if(!StringUtil.isEmpty(fidgroup)){
+			if (!StringUtil.isEmpty(fidgroup)) {
 				final String title = "À—À˜»´’æ:" + key;
 				getSupportActionBar().setTitle(title);
-			}else{
+			} else {
 				final String title = "À—À˜:" + key;
 				getSupportActionBar().setTitle(title);
 			}
@@ -180,16 +238,18 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 	}
 
-	@Override  
-    public boolean onPrepareOptionsMenu(Menu menu) {  
-		 Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.item_list);
-		 Fragment f2 = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
-		 f1.onPrepareOptionsMenu(menu);
-		 if(f2!=null && dualScreen)
-		 f2.onPrepareOptionsMenu(menu);
-		 return super.onPrepareOptionsMenu(menu);  
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		Fragment f1 = getSupportFragmentManager().findFragmentById(
+				R.id.item_list);
+		Fragment f2 = getSupportFragmentManager().findFragmentById(
+				R.id.item_detail_container);
+		f1.onPrepareOptionsMenu(menu);
+		if (f2 != null && dualScreen)
+			f2.onPrepareOptionsMenu(menu);
+		return super.onPrepareOptionsMenu(menu);
 	}
-	
+
 	@TargetApi(11)
 	private void setNavigation() {
 
@@ -258,9 +318,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 	@Override
 	protected void onResume() {
-		if(nightmode!=ThemeManager.getInstance().getMode()){
+		if (nightmode != ThemeManager.getInstance().getMode()) {
 			Intent intent = getIntent();
-			if(!StringUtil.isEmpty(guidtmp)){
+			if (!StringUtil.isEmpty(guidtmp)) {
 				int pid = StringUtil.getUrlParameter(guidtmp, "pid");
 				int tid = StringUtil.getUrlParameter(guidtmp, "tid");
 				int authorid = StringUtil.getUrlParameter(guidtmp, "authorid");
@@ -268,13 +328,13 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 				intent.putExtra("tid", tid);
 				intent.putExtra("pid", pid);
 				intent.putExtra("authorid", authorid);
-				
+
 			}
 			overridePendingTransition(0, 0);
 			finish();
 			overridePendingTransition(0, 0);
 			startActivity(intent);
-		}else{
+		} else {
 			int orentation = ThemeManager.getInstance().screenOrentation;
 			if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 					|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -289,8 +349,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			}
 			long now = System.currentTimeMillis();
 			PhoneConfiguration config = PhoneConfiguration.getInstance();
-			if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {//30√Î≤≈À¨∞°‹≥
-//			if(1==1){
+			if (now - config.lastMessageCheck > 30 * 1000
+					&& config.notification) {// 30√Î≤≈À¨∞°‹≥
+			// if(1==1){
 				Log.d(TAG, "start to check Reply Notification");
 				asynTask = new CheckReplyNotificationTask(this);
 				asynTask.execute(config.getCookie());
@@ -307,7 +368,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		Fragment topicContainer = getSupportFragmentManager().findFragmentById(
 				R.id.item_list);
 		if (!result.get__SEARCHNORESULT()) {
-			this.result=result;
+			this.result = result;
 		}
 		OnTopListLoadFinishedListener listener = null;
 		try {
@@ -328,7 +389,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 		if (!dualScreen) {// ∑«∆Ω∞Â
 			if (null == onItemClickNewActivity) {
-				onItemClickNewActivity = new EnterJsonArticle(this);
+				onItemClickNewActivity = new EnterJsonArticle(this,fromreplyactivity);
 			}
 			onItemClickNewActivity.onItemClick(parent, view, position, id);
 
@@ -338,7 +399,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 				return;
 
 			guid = guid.trim();
-			guidtmp=guid;
+			guidtmp = guid;
 
 			int pid = StringUtil.getUrlParameter(guid, "pid");
 			int tid = StringUtil.getUrlParameter(guid, "tid");
@@ -389,8 +450,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			listener = (OnThreadPageLoadFinishedListener) articleContainer;
 			if (listener != null) {
 				listener.finishLoad(data);
-				getSupportActionBar().setTitle(StringUtil.unEscapeHtml(data.getThreadInfo()
-						.getSubject()));
+				getSupportActionBar().setTitle(
+						StringUtil.unEscapeHtml(data.getThreadInfo()
+								.getSubject()));
 			}
 		} catch (ClassCastException e) {
 			Log.e(TAG,
@@ -444,7 +506,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			Fragment f1 = fm.findFragmentById(R.id.item_list);
 			f1.setHasOptionsMenu(true);
 			getSupportActionBar().setTitle("÷˜Ã‚¡–±Ì");
-			guidtmp="";
+			guidtmp = "";
 		}
 
 	}
@@ -459,10 +521,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			return result.getArticleEntryList().get(position);
 		return null;
 	}
-	
+
 	@Override
-	public boolean onItemLongClick(final AdapterView<?> parent, final View view,
-			int position, long id) { 
+	public boolean onItemLongClick(final AdapterView<?> parent,
+			final View view, int position, long id) {
 		Object a = parent.getAdapter();
 		AppendableTopicAdapter adapter = null;
 		if (a instanceof AppendableTopicAdapter) {
@@ -480,7 +542,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 				switch (which) {
 				case DialogInterface.BUTTON_POSITIVE:
 					DeleteBookmarkTask task = new DeleteBookmarkTask(
-							FlexibleTopicListActivity.this,parent, positiona);
+							FlexibleTopicListActivity.this, parent, positiona);
 					task.execute(deladd);
 					break;
 
@@ -497,17 +559,17 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 				.setNegativeButton(R.string.cancle, dialogClickListener);
 		final AlertDialog dialog = builder.create();
 		dialog.show();
-		dialog.setOnDismissListener(new AlertDialog.OnDismissListener(){
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
 
 			@Override
 			public void onDismiss(DialogInterface arg0) {
 				// TODO Auto-generated method stub
 				dialog.dismiss();
-				if(PhoneConfiguration.getInstance().fullscreen){
-				ActivityUtil.getInstance().setFullScreen(view);
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(view);
 				}
 			}
-			
+
 		});
 		return true;
 	}

@@ -229,7 +229,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 		return ret;
 	}
-
+	
 	@TargetApi(14)
 	private void setNfcCallBack() {
 		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(this);
