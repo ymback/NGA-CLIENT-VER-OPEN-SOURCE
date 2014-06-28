@@ -86,10 +86,10 @@ public class NearbyUsersAdapter extends BaseAdapter {
 				public void run() {
 					final Bitmap bitmap = getAvatarFromFile(u, parent.getContext());
 					if (bitmap != null) {
-						putAvatarToMemoryCache(u, bitmap);
 						iv.post(new Runnable() {
 							@Override
 							public void run() {
+								putAvatarToMemoryCache(u, bitmap);
 								iv.setImageBitmap(bitmap);
 							}
 						});
