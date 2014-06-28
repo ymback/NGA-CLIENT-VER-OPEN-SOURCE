@@ -3,15 +3,16 @@ package sp.phone.adapter;
 import gov.anzong.androidnga.R;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.SoftReference;
 import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sp.phone.bean.NearbyUser;
 import sp.phone.utils.ImageUtil;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -23,8 +24,8 @@ import android.widget.TextView;
 
 public class NearbyUsersAdapter extends BaseAdapter {
 	private final List<NearbyUser> list;
-	
-	
+	private Map<String, SoftReference<Bitmap>> mAvatarCache = 
+			new HashMap<String, SoftReference<Bitmap>>();// avatar memory cache
 
 	public NearbyUsersAdapter(List<NearbyUser> list) {
 		super();
@@ -75,21 +76,31 @@ public class NearbyUsersAdapter extends BaseAdapter {
 		TextView tv = (TextView)ret.findViewById(R.id.nickname);
 		tv.setText(text);
 		final ImageView iv = (ImageView)ret.findViewById(R.id.avatarimg);
-		AsyncTask.execute(new Runnable() {
-			@Override
-			public void run() {
-				final Bitmap bitmap = getAvatar(u, parent.getContext());
-				iv.post(new Runnable() {
-					@Override
-					public void run() {
-						iv.setImageBitmap(bitmap);
+		Bitmap bitmap = getAvatarFromMemoryCache(u);
+		if (bitmap != null) {
+			iv.setImageBitmap(bitmap);
+		} else {
+			iv.setImageResource(R.drawable.default_avatar);
+			AsyncTask.execute(new Runnable() {
+				@Override
+				public void run() {
+					final Bitmap bitmap = getAvatarFromFile(u, parent.getContext());
+					if (bitmap != null) {
+						iv.post(new Runnable() {
+							@Override
+							public void run() {
+								putAvatarToMemoryCache(u, bitmap);
+								iv.setImageBitmap(bitmap);
+							}
+						});
 					}
-				});
-			}
-		});
+				}
+			});
+		}
 		return ret;
 	}
-	Bitmap getAvatar(NearbyUser u,Context c){
+	
+	private Bitmap getAvatarFromFile(NearbyUser u,Context c){
 		String extensions[] = {"jpg","png","bmp","gif","jpeg"};
 		Bitmap bitmap = null;
 		for(int i = 0 ; i< extensions.length; ++i){
@@ -104,16 +115,28 @@ public class NearbyUsersAdapter extends BaseAdapter {
 			}
 			
 		}
-		Resources res = c.getResources();
-		if(bitmap == null)
-		{
-			
-			InputStream is = res.openRawResource(R.drawable.default_avatar);
-			InputStream is2 = res.openRawResource(R.drawable.default_avatar);
-			bitmap = ImageUtil.loadAvatarFromStream(is, is2, 150);
-		}
-		
 		return bitmap;
 	}
 
+	/**
+	 * Returns the user's avatar Bitmap if it is found in the memory cache, or null otherwise.
+	 * @param user
+	 * @return avatar image bitmap
+	 */
+	private Bitmap getAvatarFromMemoryCache(NearbyUser user) {
+		SoftReference<Bitmap> ref = mAvatarCache.get(user.getUserId());
+		if (ref != null) {
+			return ref.get();
+		}
+		return null;
+	}
+	
+	/**
+	 * Puts the avatar Bitmap to the memory cache.
+	 * @param user
+	 * @param avatar
+	 */
+	private void putAvatarToMemoryCache(NearbyUser user, Bitmap avatar) {
+		mAvatarCache.put(user.getUserId(), new SoftReference<Bitmap>(avatar));
+	}
 }
