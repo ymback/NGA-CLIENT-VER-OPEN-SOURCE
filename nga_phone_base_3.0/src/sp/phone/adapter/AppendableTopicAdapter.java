@@ -1,7 +1,6 @@
 package sp.phone.adapter;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.Media_Player;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,11 +10,11 @@ import java.util.Set;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonTopicListLoader;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
+
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
+
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -93,11 +92,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
             }
             return;
         }
-        if(result == null){
-            return;
-        }
         ActivityUtil.getInstance().dismiss();
-
 		if (count != 0) {
 			List<ThreadPageInfo> threadList = new ArrayList<ThreadPageInfo>();
 			for (int i = 0; i < result.getArticleEntryList().size(); i++) {
@@ -216,7 +211,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     private int TableNum=6;
     
 	public void remove(int position) {
-		// TODO Auto-generated method stub
 		for(int i=0; i< infoList.size(); i++){
 			if(position < infoList.get(i).get__T__ROWS()){
 				infoList.get(i).getArticleEntryList().remove(position);
@@ -229,7 +223,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 	
 
 	public String gettidarray(int position) {
-		// TODO Auto-generated method stub
 		for(int i=0; i< infoList.size(); i++){
 			if(position < infoList.get(i).get__T__ROWS()){
 				return infoList.get(i).getArticleEntryList().get(position).getTidarray();

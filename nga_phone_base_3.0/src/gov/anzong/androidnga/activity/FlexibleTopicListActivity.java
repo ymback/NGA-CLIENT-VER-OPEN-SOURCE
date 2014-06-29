@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
+
 import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.adapter.TopicListAdapter;
 import sp.phone.bean.BoardHolder;
@@ -22,8 +23,9 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
+
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
-import android.R.integer;
+
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -49,10 +51,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.support.v7.app.ActionBarActivity;
 
 public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		implements OnTopListLoadFinishedListener, OnItemClickListener,

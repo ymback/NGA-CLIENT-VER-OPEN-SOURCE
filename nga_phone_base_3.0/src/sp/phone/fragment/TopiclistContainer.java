@@ -1,8 +1,6 @@
 package sp.phone.fragment;
 
 import gov.anzong.androidnga.activity.MainActivity;
-import android.support.v7.app.ActionBarActivity;
-import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 
 import java.io.UnsupportedEncodingException;
@@ -20,8 +18,10 @@ import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
+
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -68,7 +68,17 @@ public class TopiclistContainer extends Fragment implements
 	int category = 0;
 	int fromreplyactivity = 0;
 	boolean searchmode=false;
+	
+	private TopicListInfo mTopicListInfo;
+	private int mListPosition;
+	private int mListFirstTop;
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -157,12 +167,31 @@ public class TopiclistContainer extends Fragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		canDismiss = true;
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		this.refresh();
+		if (mTopicListInfo == null) {
+			refresh();
+		} else {
+			jsonfinishLoad(mTopicListInfo);
+		}
 		if(searchmode)
 			handleSearch();
 		super.onViewCreated(view, savedInstanceState);
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		listView.setSelectionFromTop(mListPosition, mListFirstTop);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (listView.getChildCount() >= 1) {
+			mListPosition = listView.getFirstVisiblePosition();
+			mListFirstTop = listView.getChildAt(0).getTop();
+		}
+	}
+	
 	private void refresh_saying() {
 		DefaultHeaderTransformer transformer = null;
 
@@ -234,7 +263,6 @@ public class TopiclistContainer extends Fragment implements
 							+ URLEncoder.encode(author, "GBK") + "&";
 				}
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
@@ -497,6 +525,8 @@ public class TopiclistContainer extends Fragment implements
 
 		if (result == null)
 			return;
+		
+		mTopicListInfo = result;
 		if (result.get__SEARCHNORESULT()) {
 			JsonTopicListLoadTask task = new JsonTopicListLoadTask(
 					getActivity(), this);
