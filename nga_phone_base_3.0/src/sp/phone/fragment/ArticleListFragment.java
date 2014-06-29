@@ -132,6 +132,12 @@ public class ArticleListFragment extends Fragment implements
 	}
 
 	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		
+	}
+	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		listview.setAdapter(articleAdpater);
 		super.onActivityCreated(savedInstanceState);
@@ -212,7 +218,7 @@ public class ArticleListFragment extends Fragment implements
 		}
 		loadPage();
 		if (mData != null) {
-			finishLoad(mData);
+			((OnThreadPageLoadFinishedListener) getActivity()).finishLoad(mData);
 		}
 		super.onResume();
 		listview.setSelectionFromTop(mListPosition, mListFirstTop);
