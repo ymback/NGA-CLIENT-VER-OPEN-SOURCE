@@ -7,6 +7,7 @@ import gov.anzong.androidnga.R;
 
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import sp.phone.adapter.UserListAdapter;
@@ -165,10 +166,27 @@ PerferenceConstant{
 					if (key.equalsIgnoreCase("set-cookie")) {
 						cookieVal = conn.getHeaderField(i);
 						cookieVal = cookieVal.substring(0, cookieVal.indexOf(';'));
+						Log.i("loginac",cookieVal);
 						if (cookieVal.indexOf("_sid=") == 0)
 							cid = cookieVal.substring(5);
-						if (cookieVal.indexOf("_178c=") == 0)
+						if (cookieVal.indexOf("_178c=") == 0){
 							uid = cookieVal.substring(6, cookieVal.indexOf('%'));
+							if(StringUtil.isEmail(name)){
+								try {
+									String nametmp = cookieVal.substring(cookieVal.indexOf("%23")+3);
+									nametmp = URLDecoder.decode(nametmp,"utf-8");
+									String[] stemp=nametmp.split("#");
+									for(int ia=0;ia<stemp.length;ia++){
+										if(!StringUtil.isEmail(stemp[ia])){
+											name=stemp[ia];
+											ia=stemp.length;
+										}
+									}
+									
+								} catch (UnsupportedEncodingException e) {
+								}
+							}
+						}
 
 					}
 					if (key.equalsIgnoreCase("Location")) {

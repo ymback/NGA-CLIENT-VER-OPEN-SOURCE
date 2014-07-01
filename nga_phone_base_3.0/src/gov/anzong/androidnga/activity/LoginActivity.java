@@ -2,6 +2,7 @@ package gov.anzong.androidnga.activity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -131,7 +132,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
-			if(action.equals("search")){
+			if (action.equals("search")) {
 				fid = intent.getIntExtra("fid", -7);
 				needtopost = true;
 			}
@@ -351,9 +352,25 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 								cookieVal.indexOf(';'));
 						if (cookieVal.indexOf("_sid=") == 0)
 							cid = cookieVal.substring(5);
-						if (cookieVal.indexOf("_178c=") == 0)
-							uid = cookieVal
-									.substring(6, cookieVal.indexOf('%'));
+						if (cookieVal.indexOf("_178c=") == 0) {
+							uid = cookieVal.substring(6, cookieVal.indexOf('%'));
+							if (StringUtil.isEmail(name)) {
+								try {
+									String nametmp = cookieVal
+											.substring(cookieVal.indexOf("%23") + 3);
+									nametmp = URLDecoder.decode(nametmp,
+											"utf-8");
+									String[] stemp = nametmp.split("#");
+									for (int ia = 0; ia < stemp.length; ia++) {
+										if (!StringUtil.isEmail(stemp[ia])) {
+											name = stemp[ia];
+											ia = stemp.length;
+										}
+									}
+								} catch (UnsupportedEncodingException e) {
+								}
+							}
+						}
 
 					}
 					if (key.equalsIgnoreCase("Location")) {
@@ -399,58 +416,60 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 							.putString(BLACK_LIST, "");
 					editor.commit();
 					MyApp app = (MyApp) LoginActivity.this.getApplication();
-					app.addToUserList(uid, cid, name, "", 0,"");
+					app.addToUserList(uid, cid, name, "", 0, "");
 
 					PhoneConfiguration.getInstance().setUid(uid);
 					PhoneConfiguration.getInstance().setCid(cid);
 					PhoneConfiguration.getInstance().userName = name;
 					PhoneConfiguration.getInstance().setReplyTotalNum(0);
 					PhoneConfiguration.getInstance().setReplyString("");
-					PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset("");
+					PhoneConfiguration.getInstance().blacklist = StringUtil
+							.blackliststringtolisttohashset("");
 					alreadylogin = true;
 					Intent intent = new Intent();
 					if (needtopost) {
 						if (StringUtil.isEmpty(to)) {
-							if(action.equals("search")){
+							if (action.equals("search")) {
 								intent.putExtra("fid", fid);
 								intent.putExtra("searchmode", "true");
 								intent.setClass(
 										v.getContext(),
 										PhoneConfiguration.getInstance().topicActivityClass);
 								startActivity(intent);
-							}else{
-							if (action.equals("new")) {
-								intent.putExtra("fid", fid);
-								intent.putExtra("action", "new");
-							} else if (action.equals("reply")) {
-								intent.putExtra("prefix", "");
-								intent.putExtra("tid", tid);
-								intent.putExtra("action", "reply");
-							} else if (action.equals("modify")) {
-								intent.putExtra("prefix", prefix);
-								intent.putExtra("tid", tid);
-								intent.putExtra("pid", pid);
-								intent.putExtra("title", title);
-								intent.putExtra("action", "modify");
-							}
-							intent.setClass(
-									v.getContext(),
-									PhoneConfiguration.getInstance().postActivityClass);
-							startActivity(intent);
+							} else {
+								if (action.equals("new")) {
+									intent.putExtra("fid", fid);
+									intent.putExtra("action", "new");
+								} else if (action.equals("reply")) {
+									intent.putExtra("prefix", "");
+									intent.putExtra("tid", tid);
+									intent.putExtra("action", "reply");
+								} else if (action.equals("modify")) {
+									intent.putExtra("prefix", prefix);
+									intent.putExtra("tid", tid);
+									intent.putExtra("pid", pid);
+									intent.putExtra("title", title);
+									intent.putExtra("action", "modify");
+								}
+								intent.setClass(
+										v.getContext(),
+										PhoneConfiguration.getInstance().postActivityClass);
+								startActivity(intent);
 							}
 						} else {
-							if(to.equals(name)){
+							if (to.equals(name)) {
 								if (toast != null) {
 									toast.setText(R.string.not_to_send_to_self);
 									toast.setDuration(Toast.LENGTH_SHORT);
 									toast.show();
 								} else {
 									toast = Toast.makeText(LoginActivity.this,
-											R.string.not_to_send_to_self, Toast.LENGTH_SHORT);
+											R.string.not_to_send_to_self,
+											Toast.LENGTH_SHORT);
 									toast.show();
 								}
 								finish();
-							}else{
+							} else {
 								if (action.equals("new")) {
 									intent.putExtra("to", to);
 									intent.putExtra("action", "new");

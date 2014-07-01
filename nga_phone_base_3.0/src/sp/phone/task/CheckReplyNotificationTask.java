@@ -490,7 +490,7 @@ public class CheckReplyNotificationTask extends
 
 		String tickerText = String.format(
 				context.getString(R.string.message_to_you),
-				authId);
+				title);
 
 		Notification notification = new Notification();
 		notification.icon = R.drawable.nga_bg;

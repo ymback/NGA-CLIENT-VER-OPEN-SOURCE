@@ -34,6 +34,8 @@ public class StringUtil {
 
 	/** 验证是否是邮箱 */
 	public static boolean isEmail(String email) {
+		if(isEmpty(email))
+			return false;
 		String pattern1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 		Pattern pattern = Pattern.compile(pattern1);
 		Matcher mat = pattern.matcher(email);
@@ -348,6 +350,10 @@ public class StringUtil {
 				"$1");
 		s= s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\](.+?)\\[/tid\\]",
 				"<a href='http://nga.178.com/read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
+		s = s.replaceAll(
+				ignoreCaseTag
+						+ "\\[pid=(.+?)\\]\\[/pid\\]",
+				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
 		if (showPlayMode() < 4) {
 			// 优酷FLASH可内置播放
 			s = s.replaceAll(

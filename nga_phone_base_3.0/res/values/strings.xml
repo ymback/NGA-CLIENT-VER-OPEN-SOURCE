@@ -198,7 +198,7 @@
     <string name="multi_reply_format">已经挨了%d发黑枪了,态君不够用了!</string>
     <string name="multi_message_format">收到了%d封短消息,态君也比不过你了!</string>
     <string name="reply_to_you"> ←态君,这个家伙给你打黑枪!</string>
-    <string name="message_to_you"> UID:%d给你发送了短消息!</string>
+    <string name="message_to_you">%s 给你发送了短消息!</string>
     <string name="image_quality_info">图片中转压缩</string>
     <string name="blackgun_sound_info">黑枪提示音</string>
     <string name="lefthand_righthand">按键常用操作习惯(4.0以上 )</string>
