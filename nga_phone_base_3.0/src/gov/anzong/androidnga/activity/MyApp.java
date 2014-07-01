@@ -254,6 +254,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "-532408", "沃土", R.drawable.oldpdefault));
 		boards.add(new Board(i, "353", "纽沃斯英雄传", R.drawable.oldpdefault));
 		boards.add(new Board(i, "452", "天涯明月刀", R.drawable.oldpdefault));
+		boards.add(new Board(i, "453", "魔力宝贝", R.drawable.oldpdefault));
 		boards.addCategoryName(i, "其他游戏");
 		i++;
 
@@ -306,6 +307,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "-403298", "怨灵图纸收藏室", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-3432136", "飘落的诗章", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-187628", "家居 装修", R.drawable.oldpdefault));
+		boards.add(new Board(i, "-8627585", "牛头人酋长乐队", R.drawable.oldpdefault));
 		boards.addCategoryName(i, "个人版面");
 
 		SharedPreferences shareaddFid = getSharedPreferences(PERFERENCE,
@@ -475,6 +477,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "-532408", "沃土", R.drawable.p532408));
 		boards.add(new Board(i, "353", "纽沃斯英雄传", R.drawable.p353));
 		boards.add(new Board(i, "452", "天涯明月刀", R.drawable.p452));
+		boards.add(new Board(i, "453", "魔力宝贝", R.drawable.p453));
 		boards.addCategoryName(i, "其他游戏");
 		i++;
 
@@ -527,6 +530,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "-403298", "怨灵图纸收藏室", R.drawable.p403298));
 		boards.add(new Board(i, "-3432136", "飘落的诗章", R.drawable.p3432136));
 		boards.add(new Board(i, "-187628", "家居 装修", R.drawable.p187628));
+		boards.add(new Board(i, "-8627585", "牛头人酋长乐队", R.drawable.p8627585));
 		boards.addCategoryName(i, "个人版面");
 		// i++;
 
