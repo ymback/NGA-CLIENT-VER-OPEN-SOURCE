@@ -1,16 +1,12 @@
 package sp.phone.fragment;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Set;
 
 import gov.anzong.androidnga.activity.MyApp;
-import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ArticleListAdapter;
-import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
@@ -22,11 +18,11 @@ import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.ArticleUtil;
-import sp.phone.utils.Des;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -35,22 +31,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -90,17 +80,21 @@ public class ArticleListFragment extends Fragment implements
 	private int authorid;
 	private boolean needLoad = true;
 	private Object mActionModeCallback = null;
-	private static Context activity;
 	private Toast toast;
+	private ThreadData mData;
+	private int mListPosition;
+	private int mListFirstTop;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "onCreate");
 		page = getArguments().getInt("page") + 1;
 		tid = getArguments().getInt("id");
 		pid = getArguments().getInt("pid", 0);
 		authorid = getArguments().getInt("authorid", 0);
 		articleAdpater = new ArticleListAdapter(this.getActivity());
 		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
 	}
 
 	@Override
@@ -137,6 +131,12 @@ public class ArticleListFragment extends Fragment implements
 		return listview;
 	}
 
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		listview.setAdapter(articleAdpater);
@@ -216,8 +216,21 @@ public class ArticleListFragment extends Fragment implements
 			}
 
 		}
-		this.loadPage();
+		loadPage();
+		if (mData != null) {
+			((OnThreadPageLoadFinishedListener) getActivity()).finishLoad(mData);
+		}
 		super.onResume();
+		listview.setSelectionFromTop(mListPosition, mListFirstTop);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (listview.getChildCount() >= 1) {
+			mListPosition = listview.getFirstVisiblePosition();
+			mListFirstTop = listview.getChildAt(0).getTop();
+		}
 	}
 
 	@TargetApi(11)
@@ -232,7 +245,7 @@ public class ArticleListFragment extends Fragment implements
 
 	private void loadPage() {
 		if (needLoad) {
-
+			Log.d(TAG, "loadPage" + page);
 			Activity activity = getActivity();
 			JsonThreadLoadTask task = new JsonThreadLoadTask(activity, this);
 			String url = HttpUtil.Server + "/read.php?" + "&page=" + page
@@ -424,7 +437,6 @@ public class ArticleListFragment extends Fragment implements
 			return true;
 		}
 		String content = row.getContent();
-		String signature = row.getSignature();
 		final String name = row.getAuthor();
 		final String uid = String.valueOf(row.getAuthorid());
 		boolean isanonymous = row.getISANONYMOUS();
@@ -760,33 +772,26 @@ public class ArticleListFragment extends Fragment implements
 		builder.setMessage("这白痴匿名了,神马都看不到");
 		builder.setTitle("看不到");
 		builder.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
-
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 			}
-
 		});
 
 		final AlertDialog dialog = builder.create();
 		dialog.show();
 		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
 			@Override
 			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 				if (PhoneConfiguration.getInstance().fullscreen) {
 					ActivityUtil.getInstance().setFullScreen(listview);
 				}
 			}
-
 		});
 	}
 
 	private void Create_Signature_Dialog(ThreadRowInfo row) {
-		// TODO Auto-generated method stub
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 		final View view = layoutInflater.inflate(R.layout.signature_dialog,
 				null);
@@ -827,33 +832,26 @@ public class ArticleListFragment extends Fragment implements
 								ArticleUtil.showImageQuality(), fgColorStr,
 								bgcolorStr), "text/html", "utf-8", null);
 		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
-
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 			}
-
 		});
 
 		final AlertDialog dialog = alert.create();
 		dialog.show();
 		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
 			@Override
 			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 				if (PhoneConfiguration.getInstance().fullscreen) {
 					ActivityUtil.getInstance().setFullScreen(listview);
 				}
 			}
-
 		});
 	}
 
 	private void Create_Avatar_Dialog(ThreadRowInfo row) {
-		// TODO Auto-generated method stub
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 		final View view = layoutInflater.inflate(R.layout.signature_dialog,
 				null);
@@ -890,21 +888,16 @@ public class ArticleListFragment extends Fragment implements
 				avatarToHtmlText(row, true, ArticleUtil.showImageQuality(),
 						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
 		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
-
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 			}
-
 		});
 		final AlertDialog dialog = alert.create();
 		dialog.show();
 		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
 			@Override
 			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 				if (PhoneConfiguration.getInstance().fullscreen) {
 					ActivityUtil.getInstance().setFullScreen(listview);
@@ -1008,10 +1001,8 @@ public class ArticleListFragment extends Fragment implements
 		commentdata.setText(spanned);
 		commentdata.selectAll();
 		alert.setPositiveButton("复制", new DialogInterface.OnClickListener() {
-
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				int start = commentdata.getSelectionStart();
 				int end = commentdata.getSelectionEnd();
 				CharSequence selectText = commentdata.getText().subSequence(
@@ -1075,10 +1066,8 @@ public class ArticleListFragment extends Fragment implements
 		final AlertDialog dialog = alert.create();
 		dialog.show();
 		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
 			@Override
 			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
 				dialog.dismiss();
 				if (PhoneConfiguration.getInstance().fullscreen) {
 					ActivityUtil.getInstance().setFullScreen(listview);
@@ -1086,8 +1075,6 @@ public class ArticleListFragment extends Fragment implements
 			}
 
 		});
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1096,6 +1083,7 @@ public class ArticleListFragment extends Fragment implements
 		// ArticleListActivity father = (ArticleListActivity)
 		// this.getActivity();
 		if (null != data) {
+			mData = data;
 			articleAdpater.setData(data);
 			articleAdpater.notifyDataSetChanged();
 
