@@ -244,8 +244,12 @@ public class ArticleUtil {
 					row.setComments(convertJSobjToList(commObj, userInfoMap));
 				}
 				String from_client = rowObj.getString("from_client");
-				if (from_client != null) {
+				if (!StringUtil.isEmpty(from_client)) {
 					row.setFromClient(from_client.toString());
+				}
+				String vote = rowObj.getString("vote");
+				if (!StringUtil.isEmpty(vote)) {
+					row.setVote(vote);
 				}
 
 				fillUserInfo(row, userInfoMap);

@@ -18,7 +18,17 @@ public class ProfileData {
 	public String get_username(){
 		return username;
 	}
+	
+	public String iplog;
+	
+	public void set_iplog(String iplog){
+		this.iplog=iplog;
+	}
 
+	public String get_iplog(){
+		return iplog;
+	}
+	
 	private String fame;
 	public void set_fame(String fame){
 		this.fame=fame;

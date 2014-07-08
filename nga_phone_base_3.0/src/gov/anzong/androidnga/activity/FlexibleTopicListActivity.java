@@ -217,7 +217,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		String fidgroup = getIntent().getStringExtra("fidgroup");
 		int authorid = getIntent().getIntExtra("authorid", 0);
 
-		if (favor == 0 && authorid == 0 && StringUtil.isEmpty(key)) {
+		if (favor == 0 && authorid == 0 && StringUtil.isEmpty(key) && StringUtil.isEmpty(author)) {
 			setNavigation();
 		} else {
 			flags = ThemeManager.ACTION_BAR_FLAG;
@@ -233,6 +233,17 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			} else {
 				final String title = "搜索:" + key;
 				getSupportActionBar().setTitle(title);
+			}
+		}else{
+			if(!StringUtil.isEmpty(author)){
+				flags = ThemeManager.ACTION_BAR_FLAG;
+				if (searchpost>0) {
+					final String title = "搜索" + author+ "的回复";
+					getSupportActionBar().setTitle(title);
+				} else {
+					final String title = "搜索" + author +"的主题";
+					getSupportActionBar().setTitle(title);
+				}
 			}
 		}
 

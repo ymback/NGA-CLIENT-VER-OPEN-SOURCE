@@ -1,0 +1,32 @@
+body{
+    font-size: 12px;
+    border-spacing: 1px;
+}
+.silver {
+    color: #888;
+    font-size: 1.17em;
+    font-weight: bold;
+    border-bottom: 1px solid #AAA;
+    clear: both;
+    margin-bottom: 0px;
+}
+.b {
+    font-weight: bold;
+}
+a {
+    text-decoration: none;
+    color: #551200;
+}
+table {
+    border-spacing: 0px;
+    text-align: left;
+    line-height: 1.83em;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+td {
+    line-height: 1.83em;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-size: 13px;
+}

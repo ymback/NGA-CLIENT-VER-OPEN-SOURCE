@@ -398,7 +398,49 @@
                 android:layout_below="@id/user_lastlogintime"
                 android:orientation="horizontal" />
         </RelativeLayout>
+        
+        <TextView
+            android:id="@+id/iplog_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 的IP ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
 
+        <RelativeLayout
+            android:id="@+id/iplogrelativelayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+                
+            <TextView
+                android:id="@+id/iplog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="2dp" 
+                android:textIsSelectable="false"
+                android:textColor="#424952"
+            	android:text="2014-07-07 122.224.125.42" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/iplog"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+        
         <TextView
             android:id="@+id/avatar_title"
             android:layout_width="fill_parent"

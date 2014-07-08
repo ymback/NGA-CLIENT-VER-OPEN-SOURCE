@@ -57,39 +57,47 @@ public class StringUtil {
 
 	/* 给候总客户端乱码加适配 */
 	public static String unescape(String src) {
+		if (isEmpty(src))
+			return "";
 		StringBuffer tmp = new StringBuffer();
 		tmp.ensureCapacity(src.length());
 		int lastPos = 0, pos = 0;
 		char ch;
-		String patternStr="[A-Fa-f0-9]{4}";
+		String patternStr = "[A-Fa-f0-9]{4}";
 		while (lastPos < src.length()) {
 			pos = src.indexOf("%", lastPos);
 			if (pos == lastPos) {
-				if (src.charAt(pos + 1) == 'u') {
-					try {
-						if(Pattern.matches(patternStr, src.substring(pos + 2, pos + 6))){
-							ch = (char) Integer.parseInt(
-									src.substring(pos + 2, pos + 6), 16);
-							tmp.append(ch);
-							lastPos = pos + 6;
-						}else{
+				if (pos > src.length()-3) {
+					tmp.append(src.substring(pos, src.length()));
+					lastPos = pos + 3;
+				} else {
+					if (src.charAt(pos + 1) == 'u') {
+						try {
+							if (Pattern.matches(patternStr,
+									src.substring(pos + 2, pos + 6))) {
+								ch = (char) Integer.parseInt(
+										src.substring(pos + 2, pos + 6), 16);
+								tmp.append(ch);
+								lastPos = pos + 6;
+							} else {
+								tmp.append(src.substring(pos, pos + 3));
+								lastPos = pos + 3;
+							}
+						} catch (Exception e) {
 							tmp.append(src.substring(pos, pos + 3));
 							lastPos = pos + 3;
 						}
-					} catch (Exception e) {
-						tmp.append(src.substring(pos, pos + 3));
-						lastPos = pos + 3;
-					}
 
-				} else {
-					try {
-						ch = (char) Integer.parseInt(
-								src.substring(pos + 1, pos + 3), 16);
-						tmp.append(ch);
-						lastPos = pos + 3;
-					} catch (Exception e) {
-						tmp.append(src.substring(pos, pos + 3));
-						lastPos = pos + 3;
+					} else {
+						try {
+							ch = (char) Integer.parseInt(
+									src.substring(pos + 1, pos + 3), 16);
+							tmp.append(ch);
+							lastPos = pos + 3;
+						} catch (Exception e) {
+							tmp.append(src.substring(pos, pos + 3));
+							lastPos = pos + 3;
+						}
 					}
 				}
 			} else {
@@ -1014,7 +1022,7 @@ public class StringUtil {
 			+ "更新后每次打开看到这个窗口的,重启手机\n"
 			+ "发现bug,删除app,再更新到最新版,还有问题私信[@竹井詩織里],号已经被CCQ了\n"
 			+ "签到/短消息/历史被喷/匿名版/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
-			+ "主题列表长按楼层可以看头像签名、用户信息、屏蔽用户等,自己的个人信息界面可以改头像和签名,收藏列表长按可删收藏\n"
+			+ "主题列表长按楼层可以看头像签名、用户信息、屏蔽用户等,还有投票,自己的个人信息界面可以改头像和签名,收藏列表长按可删收藏\n"
 			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面,比如分享啊啥的\n"
 			+ "已安装解码器,可直接看多个站点的视频\n"
 			+ "彩蛋还有,但不知道在哪了\n"

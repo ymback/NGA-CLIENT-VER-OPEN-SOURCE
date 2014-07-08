@@ -14,6 +14,7 @@ public class ThreadRowInfo {
 	 private String author;//user name
 	 private int authorid;
 	 private String subject;
+	 private String vote;
 	// private int type;
 	// private int type_2;
 	private String postdate;
@@ -125,6 +126,12 @@ public class ThreadRowInfo {
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+	public String getVote() {
+		return vote;
+	}
+	public void setVote(String vote) {
+		this.vote = vote;
 	}
 	public String getPostdate() {
 		return postdate;

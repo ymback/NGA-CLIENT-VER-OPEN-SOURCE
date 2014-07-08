@@ -11,6 +11,7 @@
     
     <item android:id="@+id/avatar_dialog" android:title="@string/avatar_dialog"></item>
     <item android:id="@+id/signature_dialog" android:title="@string/signature_dialog"></item>
+    <item android:id="@+id/vote_dialog" android:title="@string/vote_dialog"></item>
     
     <item android:id="@+id/show_profile" android:title="@string/showprofile"></item>
     <item android:id="@+id/show_this_person_only" android:title="@string/show_this_person_only"></item>

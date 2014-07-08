@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 public class NearbyAlertDialogFragment extends DialogFragment {
@@ -23,8 +25,11 @@ public class NearbyAlertDialogFragment extends DialogFragment {
 	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());       
 		final String title = this.getArguments().getString("title");
+		final View view = layoutInflater.inflate(R.layout.default_dialog, null);
+		alert.setView(view);         
 		if(title != null)
 			alert.setTitle(title);
 		else

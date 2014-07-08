@@ -74,7 +74,7 @@ public class JsonProfileLoadTask extends
 		js = js.replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",");
 		js = js.replaceAll("\"subject\":\\+(\\d+),", "\"subject\":\"+$1\",");
 		js = js.replaceAll("/\\*\\$js\\$\\*/", "");
-		JSONObject o = null, oerror = null, o0 = null, oreputation = null, oadminForums = null;
+		JSONObject o = null, oerror = null, o0 = null, oreputation = null, oadminForums = null,oipLog=null;
 		try {
 			o = (JSONObject) JSON.parseObject(js).get("data");
 			oerror = (JSONObject) JSON.parseObject(js).get("error");
@@ -95,6 +95,7 @@ public class JsonProfileLoadTask extends
 			o0 = (JSONObject) o.get("0");
 			oreputation = (JSONObject) o0.get("reputation");
 			oadminForums = (JSONObject) o0.get("adminForums");
+			oipLog = (JSONObject) o0.get("ipLog");
 		} catch (Exception e) {
 			Log.e(TAG, "can not parse :\n" + js);
 		}
@@ -246,10 +247,64 @@ public class JsonProfileLoadTask extends
 		} else {
 			ret.set_adminForumsEntryListrows(0);
 		}
-
+		if (oipLog != null) {
+			i=0;
+			String iplogestring="";
+			long jsonip,jsondate;
+			JSONObject oipLogdata = null;
+			if (oipLog.get(String.valueOf(i)) != null) {
+				oipLogdata = (JSONObject) oipLog.get(String
+						.valueOf(i));
+			}
+			for (i = 1; oipLogdata != null; i++) {
+				jsondate=0l;
+				jsonip=0l;
+				try {
+					jsondate=oipLogdata.getLongValue("1");
+					jsonip=oipLogdata.getLongValue("0");
+					if(jsondate>0l && jsonip>0l){
+						iplogestring +=TimeStamp2Day(jsondate)+"¡ú"+IntToIP(jsonip)+"<br/>";
+					}
+					if (oipLog.get(String.valueOf(i)) != null) {
+						oipLogdata = (JSONObject) oipLog.get(String
+								.valueOf(i));
+					} else {
+						oipLogdata = null;
+					}
+				} catch (Exception e) {
+				}
+			}
+			if(iplogestring.endsWith("<br/>")){
+				iplogestring=iplogestring.substring(0,iplogestring.length()-5);
+			}
+			ret.set_iplog(iplogestring);
+		} else {
+			ret.set_iplog("");
+		}
+		
 		return ret;
 
 	}
+
+	public static String TimeStamp2Day(Long timestamp) {
+		timestamp = timestamp * 1000;
+		String date = new java.text.SimpleDateFormat("yyyy-MM-dd")
+				.format(new java.util.Date(timestamp));
+		return date;
+	}
+	public static String IntToIP(long ipAddressNum)
+    {
+        long ui1 = ipAddressNum & 0xFF000000;
+        ui1 = ui1 >> 24;
+        long ui2 = ipAddressNum & 0x00FF0000;
+        ui2 = ui2 >> 16;
+        long ui3 = ipAddressNum & 0x0000FF00;
+        ui3 = ui3 >> 8;
+        long ui4 = ipAddressNum & 0x000000FF;
+        String IPstr = "";
+        IPstr = String.valueOf(ui1) + "." + String.valueOf(ui2) + "." + String.valueOf(ui3) + "." + String.valueOf(ui4);
+        return IPstr;
+    }
 
 	public static String TimeStamp2Date(String timestampString) {
 		Long timestamp = Long.parseLong(timestampString) * 1000;

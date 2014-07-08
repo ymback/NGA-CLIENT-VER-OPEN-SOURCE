@@ -181,6 +181,16 @@ public class ActivityUtil {
 		}
 	}
 	
+
+	public void noticeSaying(String str,Context context){
+		
+		if (str.indexOf(";") != -1) {
+			notice("",str.replace(";", "-----"),context);
+		} else {
+			notice("", str,context);
+		}
+	}
+	
 	static public String getSaying(){
 		String str = StringUtil.getSaying();
 		if (str.indexOf(";") != -1) {

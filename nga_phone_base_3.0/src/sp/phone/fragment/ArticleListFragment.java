@@ -1,15 +1,27 @@
 package sp.phone.fragment;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.io.IOUtils;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ArticleListAdapter;
+import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
 import sp.phone.interfaces.ResetableArticle;
@@ -26,11 +38,13 @@ import sp.phone.utils.ThemeManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -48,8 +62,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -94,9 +114,10 @@ public class ArticleListFragment extends Fragment implements
 		authorid = getArguments().getInt("authorid", 0);
 		articleAdpater = new ArticleListAdapter(this.getActivity());
 		super.onCreate(savedInstanceState);
-		String fatheractivityclassname = getActivity().getClass().getSimpleName();
-		if(!StringUtil.isEmpty(fatheractivityclassname)){
-			if(fatheractivityclassname.indexOf("TopicListActivity")<0)
+		String fatheractivityclassname = getActivity().getClass()
+				.getSimpleName();
+		if (!StringUtil.isEmpty(fatheractivityclassname)) {
+			if (fatheractivityclassname.indexOf("TopicListActivity") < 0)
 				setRetainInstance(true);
 		}
 	}
@@ -138,9 +159,9 @@ public class ArticleListFragment extends Fragment implements
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		
+
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		listview.setAdapter(articleAdpater);
@@ -156,16 +177,15 @@ public class ArticleListFragment extends Fragment implements
 				MenuInflater inflater = mode.getMenuInflater();
 				if (pid == 0) {
 					inflater.inflate(R.menu.articlelist_context_menu, menu);
-
 				} else {
 					inflater.inflate(R.menu.articlelist_context_menu_with_tid,
 							menu);
 				}
 				int position = listview.getCheckedItemPosition();
 				ThreadRowInfo row = new ThreadRowInfo();
-				if(position<listview.getCount())
+				if (position < listview.getCount())
 					row = (ThreadRowInfo) listview.getItemAtPosition(position);
-				
+
 				MenuItem mi = (MenuItem) menu.findItem(R.id.ban_thisone);
 				if (mi != null && row != null) {
 					if (row.get_isInBlackList()) {// 处于屏蔽列表，需要去掉
@@ -173,6 +193,10 @@ public class ArticleListFragment extends Fragment implements
 					} else {
 						mi.setTitle(R.string.ban_thisone);
 					}
+				}
+				MenuItem votemenu = (MenuItem) menu.findItem(R.id.vote_dialog);
+				if (votemenu != null && StringUtil.isEmpty(row.getVote())) {
+					menu.removeItem(R.id.vote_dialog);
 				}
 				return true;
 			}
@@ -222,12 +246,13 @@ public class ArticleListFragment extends Fragment implements
 		}
 		loadPage();
 		if (mData != null) {
-			((OnThreadPageLoadFinishedListener) getActivity()).finishLoad(mData);
+			((OnThreadPageLoadFinishedListener) getActivity())
+					.finishLoad(mData);
 		}
 		super.onResume();
 		listview.setSelectionFromTop(mListPosition, mListFirstTop);
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -286,9 +311,9 @@ public class ArticleListFragment extends Fragment implements
 		}
 		int position = listview.getCheckedItemPosition();
 		ThreadRowInfo row = new ThreadRowInfo();
-		if(position<listview.getCount())
+		if (position < listview.getCount())
 			row = (ThreadRowInfo) listview.getItemAtPosition(position);
-		
+
 		MenuItem mi = (MenuItem) menu.findItem(R.id.ban_thisone);
 		if (mi != null && row != null) {
 			if (row.get_isInBlackList()) {// 处于屏蔽列表，需要去掉
@@ -296,6 +321,10 @@ public class ArticleListFragment extends Fragment implements
 			} else {
 				mi.setTitle(R.string.ban_thisone);
 			}
+		}
+		MenuItem votemenu = (MenuItem) menu.findItem(R.id.vote_dialog);
+		if (votemenu != null && StringUtil.isEmpty(row.getVote())) {
+			menu.removeItem(R.id.vote_dialog);
 		}
 
 	}
@@ -514,6 +543,9 @@ public class ArticleListFragment extends Fragment implements
 			} else {
 				Create_Signature_Dialog(row);
 			}
+			break;
+		case R.id.vote_dialog:
+			Create_Vote_Dialog(row);
 			break;
 
 		case R.id.ban_thisone:
@@ -740,7 +772,8 @@ public class ArticleListFragment extends Fragment implements
 			intent.setType("text/plain");
 			String shareUrl = "http://nga.178.com/read.php?";
 			if (row.getPid() != 0) {
-				shareUrl = shareUrl + "pid=" + row.getPid() + " (分享自NGA安卓客户端开源版)";
+				shareUrl = shareUrl + "pid=" + row.getPid()
+						+ " (分享自NGA安卓客户端开源版)";
 			} else {
 				shareUrl = shareUrl + "tid=" + tid + " (分享自NGA安卓客户端开源版)";
 			}
@@ -793,6 +826,248 @@ public class ArticleListFragment extends Fragment implements
 				}
 			}
 		});
+	}
+
+	private void Create_Vote_Dialog(ThreadRowInfo row) {
+		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+		final View view = layoutInflater.inflate(R.layout.vote_dialog, null);
+		String name = row.getAuthor();
+		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+		alert.setView(view);
+		alert.setTitle("投票/投注");
+		// COLOR
+
+		ThemeManager theme = ThemeManager.getInstance();
+		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
+		int fgColor = getResources().getColor(theme.getForegroundColor());
+		bgColor = bgColor & 0xffffff;
+		final String bgcolorStr = String.format("%06x", bgColor);
+
+		int htmlfgColor = fgColor & 0xffffff;
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		WebViewClient client = new ArticleListWebClient(getActivity());
+		final WebView contentTV = (WebView) view.findViewById(R.id.votewebview);
+		contentTV.setBackgroundColor(0);
+		if (ActivityUtil.isGreaterThan_2_2()) {
+			contentTV.setLongClickable(false);
+			contentTV.setOnLongClickListener(new View.OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View view) {
+					return true;
+				}
+			});
+		}
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
+				|| ArticleUtil.isInWifi();
+		WebSettings setting = contentTV.getSettings();
+		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+				.getWebSize());
+		setting.setJavaScriptEnabled(true);
+		setting.setJavaScriptCanOpenWindowsAutomatically(true);
+		contentTV.addJavascriptInterface(new ProxyBridge(), "ProxyBridge");
+		contentTV.setFocusableInTouchMode(true);
+		contentTV.setFocusable(true);
+		contentTV.setHapticFeedbackEnabled(true);
+		contentTV.setClickable(true);
+		contentTV.requestFocusFromTouch();
+		contentTV.setWebChromeClient(new WebChromeClient() {
+			
+			@Override
+			public void onProgressChanged(WebView view, int newProgress){
+				super.onProgressChanged(view, newProgress);
+                view.requestFocus(View.FOCUS_DOWN);
+                view.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                            case MotionEvent.ACTION_UP:
+                                if (!v.hasFocus()) {
+                                    v.requestFocus(View.FOCUS_DOWN);
+                                    Log.i(TAG,"sasasas");
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+			}
+			@Override
+			public boolean onJsAlert(WebView view, String url, String message,
+					final android.webkit.JsResult result) {
+				final AlertDialog.Builder b2 = new AlertDialog.Builder(getActivity())
+						.setMessage(message)
+						.setPositiveButton("确定",
+								new AlertDialog.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										result.confirm();
+									}
+								});
+
+				b2.setCancelable(false);
+				b2.create();
+				b2.show();
+				return true;
+			}
+
+			@Override
+			public boolean onJsConfirm(WebView view, String url,
+					String message, final android.webkit.JsResult result) {
+				final AlertDialog.Builder b1 = new AlertDialog.Builder(
+						getActivity())
+						.setMessage(message)
+						.setPositiveButton("确定",
+								new AlertDialog.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										result.confirm();
+									}
+								})
+						.setNeutralButton("取消",
+								new AlertDialog.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										result.cancel();
+									}
+								})
+						.setOnCancelListener(
+								new AlertDialog.OnCancelListener() {
+									@Override
+									public void onCancel(DialogInterface dialog) {
+										result.cancel();
+									}
+								});
+				b1.create();
+				b1.show();
+				return true;
+			}
+		});
+		contentTV.setWebViewClient(client);
+		contentTV.loadDataWithBaseURL(
+				null,
+				VoteToHtmlText(row, showImage, ArticleUtil.showImageQuality(),
+						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
+		contentTV.requestLayout();
+		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+
+		final Dialog dialog = alert.create();	
+		dialog.show();
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				dialog.dismiss();
+				if (PhoneConfiguration.getInstance().fullscreen) {
+					ActivityUtil.getInstance().setFullScreen(listview);
+				}
+			}
+		});
+	}
+
+	final class ProxyBridge {
+		@JavascriptInterface
+		public void postURL(String url) {
+			ActivityUtil.getInstance().noticeSaying("正在提交...", getActivity());
+			(new AsyncTask<String, Integer, String>() {
+				@Override
+				protected void onPostExecute(String result) {
+					ActivityUtil.getInstance().dismiss();
+					if(StringUtil.isEmpty(result))
+						result="未知错误,请重试";
+					if(result.startsWith("操作成功"))
+						result="操作成功";
+					if (toast != null) {
+						toast.setText(result);
+						toast.setDuration(Toast.LENGTH_SHORT);
+						toast.show();
+					} else {
+						toast = Toast.makeText(getActivity(),
+								result,
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				}
+
+				@Override
+				protected String doInBackground(String... params) {
+					if(StringUtil.isEmpty(params[0]))
+						return "选择错误";
+					String url="http://nga.178.com/nuke.php?"+params[0];
+					HttpPostClient c =  new HttpPostClient(url);
+					String cookie = PhoneConfiguration.getInstance().getCookie();
+					c.setCookie(cookie);
+					try {
+						InputStream input = null;
+						HttpURLConnection conn = c.post_body(params[0]);
+						if(conn!=null){
+							if (conn.getResponseCode() >= 500) 
+							{
+								input = null;
+							}
+							else{
+								if(conn.getResponseCode() >= 400)
+								{
+									input = conn.getErrorStream();
+			                    }
+								else
+									input = conn.getInputStream();
+							}
+						}else{
+							return "网络错误";
+						}
+
+						if(input != null)
+						{
+						String js = IOUtils.toString(input, "gbk");
+						if (null == js) {
+							return getActivity().getString(R.string.network_error);
+						}
+						js = js.replaceAll("window.script_muti_get_var_store=", "");
+						JSONObject o = null, oerror = null;
+						try {
+							o = (JSONObject) JSON.parseObject(js).get("data");
+							oerror = (JSONObject) JSON.parseObject(js).get("error");
+						} catch (Exception e) {
+							Log.e(TAG, "can not parse :\n" + js);
+						}
+						if (o == null) {
+							if (oerror == null) {
+								return "请重新登录";
+							}else {
+								if (!StringUtil.isEmpty(oerror.getString("0"))) {
+									return oerror.getString("0");
+								}else{
+									return "二哥又开始乱搞了";
+								}
+							}
+						}else{
+							if (!StringUtil.isEmpty(o.getString("0"))) {
+							return o.getString("0");
+							}else{
+							return "二哥又开始乱搞了";
+							}
+						}
+						}else{
+							return "二哥在用服务器下毛片";
+						}
+					} catch (IOException e) {
+					}
+					return "";
+				}
+			}).execute(url);
+		}
+
 	}
 
 	private void Create_Signature_Dialog(ThreadRowInfo row) {
@@ -954,6 +1229,22 @@ public class ArticleListFragment extends Fragment implements
 				+ "<font color='#"
 				+ fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
 
+		return ngaHtml;
+	}
+
+	public String VoteToHtmlText(final ThreadRowInfo row, boolean showImage,
+			int imageQuality, final String fgColorStr, final String bgcolorStr) {
+		if (StringUtil.isEmpty(row.getVote()))
+			return "本楼没有投票/投注内容";
+		String ngaHtml = String.valueOf(row.getTid()) + ",'" + row.getVote()
+				+ "'";
+		ngaHtml = "<!DOCTYPE html><html><head><meta http-equiv=Content-Type content=\"text/html;charset=utf-8\">"
+				+ "<script type=\"text/javascript\" src=\"file:///android_asset/vote/vote.js\"></script><link rel=\"stylesheet\" type=\"text/css\" href=\"file:///android_asset/vote/vote.css\" />"
+				+ " </head><body style=\"color:#"+fgColorStr+"\"bgcolor= '#"
+				+ bgcolorStr
+				+ "'><span id='votec'></span><script>vote("
+				+ ngaHtml
+				+ ")</script></body></html>";
 		return ngaHtml;
 	}
 

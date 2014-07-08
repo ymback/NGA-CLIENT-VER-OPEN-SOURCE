@@ -69,6 +69,7 @@
     <string name="quote_subject">喷之</string>
     <string name="copy_to_clipboard">复制</string>
     <string name="signature_dialog">查看签名</string>
+    <string name="vote_dialog">投票/投注</string>
     <string name="showprofile">查看用户信息</string>
     <string name="ban_thisone">屏蔽此人</string>
     <string name="cancel_ban_thisone">取消屏蔽此人</string>
@@ -119,6 +120,8 @@
     <string name="find_nearby_alert_string">你在查看附近的用户时也会泄露自己的位置，请确认是否继续</string>
     <string name="change_icon_string">切换板块图标将清除最近访问及添加的板块内容并重启本软件，请确认是否继续</string>
     <string name="change_nigmtmode_string">切换界面模式将重新加载主题/帖子，请确认是否继续</string>
+    <string name="alert_vote">来自投票/投注页面的消息</string>
+    <string name="confirm_vote">来自投票/投注页面的确认消息</string>
     <string name="change_nigmtmode_string_message">切换界面模式将重新加载短消息列表和正文，请确认是否继续</string>
     <string name="change_nigmtmode_string_refresh">切换界面模式将刷新，请确认是否继续</string>
     <string name="seeingooglemaporprofile">请选择查看论坛用户信息或在Google Map中查看位置</string>

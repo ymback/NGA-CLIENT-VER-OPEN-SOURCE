@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,10 +65,10 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	private ImageView avatargold, avatarsilver, avatarcopper, avatarImage;
 	private TextView avatar_title, sign_title, admin_title, fame_title,
 			search_title, admin2_title, fame2_title, user_shutup_title,
-			user_shutup;
+			user_shutup,iplog_title,iplog;
 	private WebView signwebview, adminwebview, famewebview;
 	private Button topic_button, reply_button,message_button;
-	private RelativeLayout avahahahb;
+	private RelativeLayout avahahahb,iplogrelativelayout;
 	private TextView change_avatar_button,change_sign_button;
 	ProfileData resulttmp;
 
@@ -107,6 +108,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		user_name = (TextView) view.findViewById(R.id.user_name);
 		user_email_title = (TextView) view.findViewById(R.id.user_email_title);
 		avahahahb=(RelativeLayout)view.findViewById(R.id.avahahahb);
+		iplogrelativelayout=(RelativeLayout)view.findViewById(R.id.iplogrelativelayout);
 		user_email = (TextView) view.findViewById(R.id.user_email);
 		user_tel_title = (TextView) view.findViewById(R.id.user_tel_title);
 		user_tel = (TextView) view.findViewById(R.id.user_tel);
@@ -148,6 +150,8 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		user_shutup_title = (TextView) view
 				.findViewById(R.id.user_shutup_title);
 		user_shutup = (TextView) view.findViewById(R.id.user_shutup);
+		iplog_title = (TextView) view.findViewById(R.id.iplog_title);
+		iplog = (TextView) view.findViewById(R.id.iplog);
 		PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
 		options.refreshScrollDistance = 0.3f;
 		options.refreshOnUp = true;
@@ -196,6 +200,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	
 	void writetopage(final ProfileData ret) {
 		final String username = ret.get_username();
+		final String iplogdata = ret.get_iplog();
 		trueusername=username;
 		getSupportActionBar().setTitle(username + "的用户信息");
 		basedata_title.setText(":: " + username + " 的基础信息 ::");
@@ -208,6 +213,17 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		search_title.setText(":: " + username + " 发布的贴子  ::");
 		topic_button.setText("[搜索 " + username + " 发布的主题]");
 		reply_button.setText("[搜索 " + username + " 发布的回复]");
+		if(StringUtil.isEmpty(iplogdata)){
+			iplog_title.setVisibility(View.GONE);
+			iplog.setVisibility(View.GONE);
+			iplogrelativelayout.setVisibility(View.GONE);
+		}else{
+			iplog_title.setVisibility(View.VISIBLE);
+			iplog.setVisibility(View.VISIBLE);
+			iplogrelativelayout.setVisibility(View.VISIBLE);
+			iplog_title.setText(":: " + username + " 的IP ::");
+			iplog.setText(Html.fromHtml(iplogdata));
+		}
 		if(!PhoneConfiguration.getInstance().userName.equals(username)){
 			message_button.setText("[向 " + username + " 发送论坛短消息]");
 			message_button.setOnClickListener(new OnClickListener() {

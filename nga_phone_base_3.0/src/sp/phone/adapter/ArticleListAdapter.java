@@ -262,7 +262,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 			}
 			ngaHtml = ngaHtml + buildComment(row, fgColorStr,showImage, imageQuality)
 					+ buildAttachment(row, showImage, imageQuality, imageURLSet)
-					+ buildSignature(row, showImage, imageQuality);
+					+ buildSignature(row, showImage, imageQuality)+buildVote(row);
 			ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
 					+ buildHeader(row, fgColorStr)
 					+ buildAnony(row)
@@ -1010,6 +1010,14 @@ public class ArticleListAdapter extends BaseAdapter implements
 						imageQuality, null);
 	}
 
+	private static String buildVote(ThreadRowInfo row) {
+		if (row == null || StringUtil.isEmpty(row.getVote())) {
+			return "";
+		}
+		return "<br/><hr/>"
+				+ "本楼有投票/投注内容,长按本楼在菜单中点击投票/投注按钮";
+	}
+	
 	@Override
 	public void notifyDataSetChanged() {
 		this.viewCache.clear();
