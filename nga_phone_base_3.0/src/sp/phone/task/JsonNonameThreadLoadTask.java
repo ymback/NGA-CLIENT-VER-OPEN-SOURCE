@@ -3,14 +3,9 @@ package sp.phone.task;
 import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonameReadResponse;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 
-import sp.phone.bean.ThreadData;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import gov.anzong.androidnga.R;
@@ -55,7 +50,6 @@ public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameR
 		if(result.error){
 			errorStr = result.errorinfo;
 			return null;
-			
 		}
 		return result;
 

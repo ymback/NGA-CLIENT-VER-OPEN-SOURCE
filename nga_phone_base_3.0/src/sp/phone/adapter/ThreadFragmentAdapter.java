@@ -68,7 +68,23 @@ implements OnPageChangeListener {
 
 		
 	}
+	
+	boolean isnotifyDataSetChanged=false;
+	
+	public void notifyDataSetChangedChangeMode(){
+		isnotifyDataSetChanged=true;
+		super.notifyDataSetChanged();
+	}
 
+	@Override
+	public int getItemPosition(Object object) {
+		if(isnotifyDataSetChanged){
+			isnotifyDataSetChanged=false;
+		    return POSITION_NONE;
+		}
+		return super.getItemPosition(object);
+	}
+	
 	private Toast lastToast = null;
 	@Override
 	public void onPageSelected(int arg0) {

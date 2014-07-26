@@ -113,14 +113,10 @@ public class TabsAdapter extends ThreadFragmentAdapter implements
 	
 	@Override
 	public Fragment getItem(int position) {
-		//Log.d(TAG, "get framgent:" + position);
-		//offset = position/ MAX_TAB * MAX_TAB;
 		Log.i(TAG, "getItem "+ position + "current offset=" + offset );
 		Bundle args = new Bundle(arguments);
 		args.putInt("page", position);
-		//args.putInt("id", id);
-		//args.putInt("pid", pid);
-		//args.putInt("authorid", authorid);
+		Log.i(TAG,"again+"+String.valueOf(position));
 		Fragment f = Fragment.instantiate(mContext, clss.getName(), args);
 		
 		return f;

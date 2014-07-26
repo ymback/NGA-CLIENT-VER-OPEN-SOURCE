@@ -1,5 +1,6 @@
 package sp.phone.adapter;
 
+import sp.phone.fragment.NonameArticleListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.widget.Toast;
 
 public class NonameThreadFragmentAdapter extends FragmentStatePagerAdapter 
@@ -37,7 +39,7 @@ implements OnPageChangeListener {
 		
 		return f;
 	}
-
+	
 	@Override
 	public int getCount() {
 
@@ -65,10 +67,25 @@ implements OnPageChangeListener {
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-
 		
 	}
+	
+	boolean isnotifyDataSetChanged=false;
+	
+	public void notifyDataSetChangedChangeMode(){
+		isnotifyDataSetChanged=true;
+		super.notifyDataSetChanged();
+	}
 
+	@Override
+	public int getItemPosition(Object object) {
+		if(isnotifyDataSetChanged){
+			isnotifyDataSetChanged=false;
+		    return POSITION_NONE;
+		}
+		return super.getItemPosition(object);
+	}
+	
 	private Toast lastToast = null;
 	@Override
 	public void onPageSelected(int arg0) {

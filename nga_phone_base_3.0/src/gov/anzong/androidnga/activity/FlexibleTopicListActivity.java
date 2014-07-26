@@ -9,6 +9,8 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.fragment.ArticleContainerFragment;
+import sp.phone.fragment.MessageDetialListContainer;
+import sp.phone.fragment.MessageListContainer;
 import sp.phone.fragment.TopiclistContainer;
 import sp.phone.interfaces.EnterJsonArticle;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
@@ -49,6 +51,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 import android.support.v7.app.ActionBar;
@@ -58,7 +61,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		implements OnTopListLoadFinishedListener, OnItemClickListener,
 		OnThreadPageLoadFinishedListener, PagerOwnner,
 		OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
-		OnItemLongClickListener {
+		OnItemLongClickListener,
+		ArticleContainerFragment.OnArticleContainerFragmentListener,
+		TopiclistContainer.OnTopiclistContainerListener{
 
 	private String TAG = FlexibleTopicListActivity.class.getSimpleName();
 	boolean dualScreen = true;
@@ -171,31 +176,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		Fragment f2 = fm.findFragmentById(R.id.item_detail_container);
 		if (null == f2) {
-			if (getIntent().getIntExtra("daulscrshowmode", 0) != 0) {
-
-				int pid = getIntent().getIntExtra("pid", 0);
-				int tid = getIntent().getIntExtra("tid", 0);
-				int authorid = getIntent().getIntExtra("authorid", 0);
-				if (pid != 0 || tid != 0) {
-					f2 = ArticleContainerFragment.create(tid, pid, authorid);
-					Bundle args = new Bundle();// (getIntent().getExtras());
-					if (null != getIntent().getExtras()) {
-						args.putAll(getIntent().getExtras());
-					}
-					args.putString("url", getIntent().getDataString());
-					f2.setArguments(args);
-					FragmentTransaction ft = fm.beginTransaction().add(
-							R.id.item_detail_container, f2);
-					ft.commit();
-					f1.setHasOptionsMenu(false);
-					f2.setHasOptionsMenu(true);
-				} else {
-					f1.setHasOptionsMenu(true);
-				}
-				// .add(R.id.item_detail_container, f);
-			} else {
 				f1.setHasOptionsMenu(true);
-			}
 		} else if (!dualScreen) {
 			getSupportActionBar().setTitle("主题列表");
 			fm.beginTransaction().remove(f2).commit();
@@ -217,7 +198,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		String fidgroup = getIntent().getStringExtra("fidgroup");
 		int authorid = getIntent().getIntExtra("authorid", 0);
 
-		if (favor == 0 && authorid == 0 && StringUtil.isEmpty(key) && StringUtil.isEmpty(author)) {
+		if (favor == 0 && authorid == 0 && StringUtil.isEmpty(key)
+				&& StringUtil.isEmpty(author)) {
 			setNavigation();
 		} else {
 			flags = ThemeManager.ACTION_BAR_FLAG;
@@ -234,14 +216,14 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 				final String title = "搜索:" + key;
 				getSupportActionBar().setTitle(title);
 			}
-		}else{
-			if(!StringUtil.isEmpty(author)){
+		} else {
+			if (!StringUtil.isEmpty(author)) {
 				flags = ThemeManager.ACTION_BAR_FLAG;
-				if (searchpost>0) {
-					final String title = "搜索" + author+ "的回复";
+				if (searchpost > 0) {
+					final String title = "搜索" + author + "的回复";
 					getSupportActionBar().setTitle(title);
 				} else {
-					final String title = "搜索" + author +"的主题";
+					final String title = "搜索" + author + "的主题";
 					getSupportActionBar().setTitle(title);
 				}
 			}
@@ -330,46 +312,32 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 	@Override
 	protected void onResume() {
 		if (nightmode != ThemeManager.getInstance().getMode()) {
-			Intent intent = getIntent();
-			if (!StringUtil.isEmpty(guidtmp)) {
-				int pid = StringUtil.getUrlParameter(guidtmp, "pid");
-				int tid = StringUtil.getUrlParameter(guidtmp, "tid");
-				int authorid = StringUtil.getUrlParameter(guidtmp, "authorid");
-				intent.putExtra("daulscrshowmode", 1);
-				intent.putExtra("tid", tid);
-				intent.putExtra("pid", pid);
-				intent.putExtra("authorid", authorid);
-
-			}
-			overridePendingTransition(0, 0);
-			finish();
-			overridePendingTransition(0, 0);
-			startActivity(intent);
+			onModeChanged();
+			invalidateOptionsMenu();
+			nightmode = ThemeManager.getInstance().getMode();
+		}
+		int orentation = ThemeManager.getInstance().screenOrentation;
+		if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+				|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+			setRequestedOrientation(orentation);
 		} else {
-			int orentation = ThemeManager.getInstance().screenOrentation;
-			if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-					|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-				setRequestedOrientation(orentation);
-			} else {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-			}
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		}
 
-			if (asynTask != null) {
-				asynTask.cancel(true);
-				asynTask = null;
-			}
-			long now = System.currentTimeMillis();
-			PhoneConfiguration config = PhoneConfiguration.getInstance();
-			if (now - config.lastMessageCheck > 30 * 1000
-					&& config.notification) {// 30秒才爽啊艹
+		if (asynTask != null) {
+			asynTask.cancel(true);
+			asynTask = null;
+		}
+		long now = System.currentTimeMillis();
+		PhoneConfiguration config = PhoneConfiguration.getInstance();
+		if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
 			// if(1==1){
-				Log.d(TAG, "start to check Reply Notification");
-				asynTask = new CheckReplyNotificationTask(this);
-				asynTask.execute(config.getCookie());
-			}
-			if (PhoneConfiguration.getInstance().fullscreen) {
-				ActivityUtil.getInstance().setFullScreen(view);
-			}
+			Log.d(TAG, "start to check Reply Notification");
+			asynTask = new CheckReplyNotificationTask(this);
+			asynTask.execute(config.getCookie());
+		}
+		if (PhoneConfiguration.getInstance().fullscreen) {
+			ActivityUtil.getInstance().setFullScreen(view);
 		}
 		super.onResume();
 	}
@@ -400,7 +368,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 		if (!dualScreen) {// 非平板
 			if (null == onItemClickNewActivity) {
-				onItemClickNewActivity = new EnterJsonArticle(this,fromreplyactivity);
+				onItemClickNewActivity = new EnterJsonArticle(this,
+						fromreplyactivity);
 			}
 			onItemClickNewActivity.onItemClick(parent, view, position, id);
 
@@ -583,5 +552,34 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 		});
 		return true;
+	}
+
+	@Override
+	public void onModeChanged() {
+		// TODO Auto-generated method stub
+		Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.item_list);
+		if (f1 != null) {
+			((TopiclistContainer) f1).changedmode();
+		}
+	}
+
+	@Override
+	public void onAnotherModeChanged() {
+		// TODO Auto-generated method stub
+
+		nightmode = ThemeManager.getInstance().getMode();
+		Fragment f2 = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
+		if (f2 != null) {
+			((ArticleContainerFragment) f2).changemode();
+		}else{
+			FrameLayout v = (FrameLayout) view.findViewById(R.id.item_detail_container);
+			if(v!=null){
+				if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+					v.setBackgroundResource(R.color.night_bg_color);
+				} else {
+					v.setBackgroundResource(R.color.shit1);
+				}
+			}
+		}
 	}
 }

@@ -33,6 +33,7 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.app.Activity;
@@ -129,7 +130,6 @@ public class MainActivity extends ActionBarActivity implements
 	private boolean tabletloginfragmentshowed = false;
 	private Toast toast = null;
 	private ViewFlipper flipper;
-	private int activedposition = 0;
 	private SharedPreferences share;
 	private int dragonballnum = 0;
 	private MediaPlayer mp = new MediaPlayer();
@@ -140,7 +140,6 @@ public class MainActivity extends ActionBarActivity implements
 	private int menucishu = 0;
 	private String fulimode = "0";
 	private ThemeManager tm = ThemeManager.getInstance();
-	private int ifRecentExist = 0;// ifRecentExist，menu item click right
 	private OnItemClickListener onItemClickListenerlistener = new EnterToplistLintener();
 
 	@Override
@@ -151,28 +150,13 @@ public class MainActivity extends ActionBarActivity implements
 		this.setTheme(R.style.AppTheme);
 		share = getSharedPreferences(PERFERENCE, Activity.MODE_PRIVATE);
 		dragonballnum = Integer.parseInt(share.getString(DRAGON_BALL, "0"));
-		Intent intent = getIntent();
 		app = ((MyApp) getApplication());
 		fulimode = share.getString(CAN_SHOW_FULI, "0");
-		loadConfig(intent);
 		initDate();
 		setitem();
 		initView();
 		getSupportActionBar().setTitle(R.string.start_title);
-		if (boardInfo.getCategoryName(0).equals("最近访问")) {
-			setLocItem(7, "最近访问", R.drawable.ic_queue);
-			if (boardInfo.getCategoryCount() > 12) {
-				if (boardInfo.getCategoryName(12).equals("用户自定义")) {
-					setLocItem(20, "用户自定义", R.drawable.ic_queue);
-				}
-			}
-		} else {
-			if (boardInfo.getCategoryCount() == 12) {
-				setLocItem(19, "用户自定义", R.drawable.ic_queue);
-			}
-		}
 	}
-
 	private void initView() {
 		// TODO Auto-generated method stub
 		// mIndicator = (TabPageIndicator)findViewById(R.id.indicator);
@@ -183,13 +167,10 @@ public class MainActivity extends ActionBarActivity implements
 		setContentView(view);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
 		mLinearLayout = (LinearLayout) findViewById(R.id.drawer_linearlayout);
 
-		LayoutInflater layoutInflater = getLayoutInflater();
-		headview = layoutInflater.inflate(R.layout.maindrawer_viewlipper, null);
+		headview = LayoutInflater.from(this).inflate(R.layout.maindrawer_viewlipper, null);
 		mDrawerList.addHeaderView(headview, null, false);
-		updatemDrawerList();
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -247,18 +228,20 @@ public class MainActivity extends ActionBarActivity implements
 
 		}
 	}
-
+	
 	public void updatemDrawerList() {
 		mAdapter = new MenuAdapter(this, items);
 		mDrawerList.setCacheColorHint(0x00000000);
 		if (tm.getMode() == ThemeManager.MODE_NIGHT) {
 			ColorDrawable sage = new ColorDrawable(mDrawerList.getResources()
 					.getColor(R.color.night_link_color));
+			mDrawerList.setBackgroundResource(R.color.night_bg_color);
 			mDrawerList.setDivider(sage);
 			mDrawerList.setDividerHeight(1);
 		} else {
 			ColorDrawable sage = new ColorDrawable(mDrawerList.getResources()
 					.getColor(R.color.white));
+			mDrawerList.setBackgroundResource(R.color.drawerlistactiveddeep);
 			mDrawerList.setDivider(sage);
 			mDrawerList.setDividerHeight(1);
 		}
@@ -268,11 +251,9 @@ public class MainActivity extends ActionBarActivity implements
 			mDrawerList.setSelection(mActivePosition);
 		} else {
 			mDrawerList.setSelection(mAdapter.getCount());
-		}
-		if (activedposition <= mAdapter.getCount() && activedposition >= 1) {
-			mDrawerList.setItemChecked(activedposition, true);
-		} else {
-			activedposition = 0;
+		}	
+		if (mActivePosition <= mAdapter.getCount() && mActivePosition >= 1) {
+			mDrawerList.setItemChecked(mActivePosition, true);
 		}
 	}
 
@@ -307,6 +288,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -317,7 +299,6 @@ public class MainActivity extends ActionBarActivity implements
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			mActivePosition = position;
-			activedposition = position;
 			selectItem(position, (Item) mAdapter.getItem(position - 1));
 		}
 	}
@@ -345,73 +326,45 @@ public class MainActivity extends ActionBarActivity implements
 		}
 		// Handle action buttons
 		switch (item.getItemId()) {
+		case R.id.mainmenu_setting:
+			jumpToSetting();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
 	private void selectItem(int position, Item item) {
-		//
-		if (!boardInfo.getCategoryName(0).equals("最近访问")) {
-			ifRecentExist = 1;
-		}
 		if (item.mTitle.equals("登录账号")) {
 			jumpToLogin();
 		} else if (item.mTitle.equals("Yoooo~")) {
 			jumpToNearby();
 		} else if (item.mTitle.equals("最近被喷")) {
 			jumpToRecentReply();
-		} else if (item.mTitle.equals("最近访问")) {
-			pager.setCurrentItem(0 - ifRecentExist);
-		} else if (item.mTitle.equals("签到任务")) {
+		}  else if (item.mTitle.equals("签到任务")) {
 			signmission();
 		} else if (item.mTitle.equals("短消息")) {
 			mymessage();
 		} else if (item.mTitle.equals("大漩涡匿名版")) {
 			noname();
-		} else if (item.mTitle.equals("搜索用户信息")) {
+		} else if (item.mTitle.equals("搜索用户")) {
 			search_profile();
-		} else if (item.mTitle.equals("综合讨论")) {
-			pager.setCurrentItem(1 - ifRecentExist);
-		} else if (item.mTitle.equals("大漩涡系列")) {
-			pager.setCurrentItem(2 - ifRecentExist);
-		} else if (item.mTitle.equals("职业讨论区")) {
-			pager.setCurrentItem(3 - ifRecentExist);
-		} else if (item.mTitle.equals("冒险心得")) {
-			pager.setCurrentItem(4 - ifRecentExist);
-		} else if (item.mTitle.equals("麦迪文之塔")) {
-			pager.setCurrentItem(5 - ifRecentExist);
-		} else if (item.mTitle.equals("系统软硬件讨论")) {
-			pager.setCurrentItem(6 - ifRecentExist);
-		} else if (item.mTitle.equals("其他游戏")) {
-			pager.setCurrentItem(7 - ifRecentExist);
-		} else if (item.mTitle.equals("暗黑破坏神")) {
-			pager.setCurrentItem(8 - ifRecentExist);
-		} else if (item.mTitle.equals("炉石传说")) {
-			pager.setCurrentItem(9 - ifRecentExist);
-		} else if (item.mTitle.equals("英雄联盟")) {
-			pager.setCurrentItem(10 - ifRecentExist);
-		} else if (item.mTitle.equals("个人版面")) {
-			pager.setCurrentItem(11 - ifRecentExist);
-		} else if (item.mTitle.equals("用户自定义")) {
-			pager.setCurrentItem(12 - ifRecentExist);
-		} else if (item.mTitle.equals("程序设置")) {
-			jumpToSetting();
 		} else if (item.mTitle.equals("添加版面")) {
 			add_fid_dialog();
 		} else if (item.mTitle.equals("由URL读取")) {
 			useurltoactivity_dialog();
 		} else if (item.mTitle.equals("清空最近访问")) {
 			clear_recent_board();
-		} else if (item.mTitle.equals("关于")) {
-			about_ngaclient();
 		} else if (item.mTitle.equals("我要龙珠~撸~")) {
 			collect_dragon_ball();
-		}
+		} else if (item.mTitle.equals("关于")) {
+			about_ngaclient();
+		} 
 		mDrawerList.setItemChecked(position, true);
 		if (!item.mTitle.equals("我要龙珠~撸~")) {
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
+		mActivePosition=position;
 	}
 
 	private void search_profile() {
@@ -480,9 +433,6 @@ public class MainActivity extends ActionBarActivity implements
 		// reset menu
 		if (loc + 1 <= mActivePosition) {
 			mActivePosition++;
-		}
-		if (loc + 1 <= activedposition) {
-			activedposition++;
 		}
 		updatemDrawerList();
 	}
@@ -575,34 +525,21 @@ public class MainActivity extends ActionBarActivity implements
 
 	public void setitem() {
 		items.add(new Item("登录账号", R.drawable.ic_login));
-		items.add(new Item("Yoooo~", R.drawable.ic_menu_mylocation));
-		items.add(new Item("大漩涡匿名版", R.drawable.ic_action_person_dark));
-		items.add(new Item("签到任务", R.drawable.ic_action_go_to_today));
+		items.add(new Category("论坛功能"));
 		items.add(new Item("短消息", R.drawable.ic_action_email));
-		items.add(new Item("搜索用户信息", R.drawable.action_search));
-		items.add(new Item("最近被喷", R.drawable.ic_action_gun));
-		// items.add(new Item("最近访问", R.drawable.ic_queue));
-		items.add(new Category("分类论坛"));
-		items.add(new Item("综合讨论", R.drawable.ic_queue));
-		items.add(new Item("大漩涡系列", R.drawable.ic_queue));
-		items.add(new Item("职业讨论区", R.drawable.ic_queue));
-		items.add(new Item("冒险心得", R.drawable.ic_queue));
-		items.add(new Item("麦迪文之塔", R.drawable.ic_queue));
-		items.add(new Item("系统软硬件讨论", R.drawable.ic_queue));
-		items.add(new Item("其他游戏", R.drawable.ic_queue));
-		items.add(new Item("暗黑破坏神", R.drawable.ic_queue));
-		items.add(new Item("炉石传说", R.drawable.ic_queue));
-		items.add(new Item("英雄联盟", R.drawable.ic_queue));
-		items.add(new Item("个人版面", R.drawable.ic_queue));
-		items.add(new Category("设置"));
-		items.add(new Item("程序设置", R.drawable.action_settings));
-		items.add(new Item("添加版面", R.drawable.ic_action_add_to_queue));
+		items.add(new Item("签到任务", R.drawable.ic_action_go_to_today));
+		items.add(new Item("搜索用户", R.drawable.action_search));
 		items.add(new Item("由URL读取", R.drawable.ic_action_forward));
+		items.add(new Item("添加版面", R.drawable.ic_action_add_to_queue));
 		items.add(new Item("清空最近访问", R.drawable.ic_action_warning));
-		items.add(new Item("关于", R.drawable.ic_action_about));
+		items.add(new Item("最近被喷", R.drawable.ic_action_gun));
+		items.add(new Category("私货"));
+		items.add(new Item("Yoooo~", R.drawable.ic_menu_mylocation));
+		items.add(new Item("大漩涡匿名版", R.drawable.ic_action_noname));
 		if (!fulimode.equals("0")) {
 			items.add(new Item("我要龙珠~撸~", R.drawable.ic_action_dragon_ball));
 		}
+		items.add(new Item("关于", R.drawable.ic_action_about));
 	}
 
 	void updateflipper(String userListString) {
@@ -1093,24 +1030,10 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	private void clear_recent_board() {
-		if (mActivePosition == 4) {
-			mActivePosition = 0;
-		} else if (mActivePosition > 5) {
-			mActivePosition--;
-		}
-		if (activedposition == 4) {
-			activedposition = 0;
-		} else if (activedposition > 5) {
-			activedposition--;
-		}
-
 		Editor editor = share.edit();
 		editor.putString(RECENT_BOARD, "");
 		editor.commit();
-		Intent iareboot = getBaseContext().getPackageManager()
-				.getLaunchIntentForPackage(getBaseContext().getPackageName());
-		iareboot.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(iareboot);
+		onResume();
 	}
 
 	private void useurltoactivity_dialog() {
@@ -1176,12 +1099,7 @@ public class MainActivity extends ActionBarActivity implements
 					}
 				} else {
 					if (url.toLowerCase(Locale.US).indexOf("dbmeizi.com") >= 0
-							|| url.toLowerCase(Locale.US).indexOf("baozhao.me") >= 0
-							|| url.toLowerCase(Locale.US).indexOf(
-									"dadanshai.com") >= 0
-							|| url.indexOf("豆瓣妹子") >= 0
-							|| url.indexOf("鲍照") >= 0
-							|| url.indexOf("大胆晒") >= 0 || url.equals("1024")) {
+							|| url.indexOf("豆瓣妹子") >= 0 || url.equals("1024")) {
 						if (toast != null) {
 							toast.setText("恭喜你找到了一种方法,知道就是知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
 							toast.setDuration(Toast.LENGTH_SHORT);
@@ -1376,7 +1294,13 @@ public class MainActivity extends ActionBarActivity implements
 
 					Pattern pattern = Pattern.compile("-{0,1}[0-9]*");
 					Matcher match = pattern.matcher(fid);
-					if (match.matches() == false || fid.equals("")) {
+					boolean fidisnotint =false;
+					try {
+						int checkint = Integer.parseInt(fid);
+					} catch (Exception e) {
+						fidisnotint=true;
+					}
+					if (match.matches() == false || fid.equals("") || fidisnotint) {
 						addfid_id.setText("");
 						addfid_id.setFocusable(true);
 						if (toast != null) {
@@ -1457,8 +1381,6 @@ public class MainActivity extends ActionBarActivity implements
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							updatepager();
-							updatemDrawerList();
 						}
 					}
 				}
@@ -1495,16 +1417,7 @@ public class MainActivity extends ActionBarActivity implements
 
 		});
 	}
-
-	// private boolean isBoardExist(String boardname){
-	// for(int i =0; i < boardInfo.getCategoryCount(); i++){
-	// //System.out.println(boardname+boardInfo.getCategoryName(i));
-	// if(boardname.equals(boardInfo.getCategoryName(i))){
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
+	
 	private void addToaddFid(String Name, String Fid) {
 		boolean addFidAlreadExist = false;
 		BoardCategory addFid = null;
@@ -1517,9 +1430,7 @@ public class MainActivity extends ActionBarActivity implements
 			}
 			;
 		}
-
 		if (!addFidAlreadExist) {// 没有
-			// MyApp.fddicon[1][1];
 			List<Board> boardList = new ArrayList<Board>();
 			Board b;
 			if (PhoneConfiguration.getInstance().iconmode) {
@@ -1529,14 +1440,8 @@ public class MainActivity extends ActionBarActivity implements
 			}
 			boardList.add(b);
 			saveaddFid(boardList);
-			boardInfo = loadDefaultBoard();
-			// add menu item
-			if (boardInfo.getCategoryCount() == 12) {
-				setLocItem(19, "用户自定义", R.drawable.ic_queue);
-			} else {
-				setLocItem(20, "用户自定义", R.drawable.ic_queue);
-			}
-			return;
+			onResume();
+			mIndicator.setCurrentItem(i+1);
 		} else {// 有了
 			Board b;
 			if (PhoneConfiguration.getInstance().iconmode) {
@@ -1545,16 +1450,14 @@ public class MainActivity extends ActionBarActivity implements
 				b = new Board(i, Fid, Name, R.drawable.pdefault);
 			}
 			addFid.add(b);
+			saveaddFid(addFid.getBoardList());
 		}
-		addFid = boardInfo.getCategory(i);
-		this.saveaddFid(addFid.getBoardList());
 		return;
 
 	}
 
 	private void saveaddFid(List<Board> boardList) {
 		// TODO Auto-generated method stub
-
 		String addFidStr = JSON.toJSONString(boardList);
 		Editor editor = share.edit();
 		editor.putString(ADD_FID, addFidStr);
@@ -1582,6 +1485,11 @@ public class MainActivity extends ActionBarActivity implements
 		}
 		if (PhoneConfiguration.getInstance().fullscreen) {
 			ActivityUtil.getInstance().setFullScreen(view);
+		}
+		Intent intent = getIntent();
+		loadConfig(intent);
+		if(pager.getAdapter()!=null){
+			mIndicator.notifyDataSetChanged();
 		}
 		updatemDrawerList();
 		updatepager();
@@ -1657,17 +1565,10 @@ public class MainActivity extends ActionBarActivity implements
 					+ "&rss=1";
 			PhoneConfiguration config = PhoneConfiguration.getInstance();
 			if (!StringUtil.isEmpty(config.getCookie())) {
-
 				url = url + "&" + config.getCookie().replace("; ", "&");
-			} else if (fid < 0 && fid != -7) {
+			} else if (fid < 0) {
 				jumpToLogin();
 				return;
-			}
-
-			if (StringUtil.isEmpty(share.getString(RECENT_BOARD, ""))) {
-				Intent intenta = getIntent();
-				loadConfig(intenta);
-				initView();
 			}
 			addToRecent();
 			if (!StringUtil.isEmpty(url)) {
@@ -1721,19 +1622,13 @@ public class MainActivity extends ActionBarActivity implements
 							List<Board> boardList = new ArrayList<Board>();
 							boardList.add(b1);
 							saveRecent(boardList);
-							// add recent menu item
-							setLocItem(7, "最近访问", R.drawable.ic_queue);
-							// set menu click right
-							ifRecentExist = 0;
-							boardInfo = loadDefaultBoard();
-							updatemDrawerList();
-							updatepager();
+							onResume();
 							return;
 						} else {
 							recent.addFront(b1);
+							recent = boardInfo.getCategory(0);
+							saveRecent(recent.getBoardList());
 						}
-						recent = boardInfo.getCategory(0);
-						this.saveRecent(recent.getBoardList());
 
 						return;
 					}// if
@@ -1744,7 +1639,6 @@ public class MainActivity extends ActionBarActivity implements
 		}
 
 	}
-
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
@@ -1773,7 +1667,7 @@ public class MainActivity extends ActionBarActivity implements
 							Editor editor = share.edit();
 							editor.putString(CAN_SHOW_FULI, "1");
 							editor.commit();
-							setLocItem(boardInfo.getCategoryCount() + 14,
+							setLocItem(12,
 									"我要龙珠~撸~", R.drawable.ic_action_dragon_ball);
 							if (toast != null) {
 								toast.setText("你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");

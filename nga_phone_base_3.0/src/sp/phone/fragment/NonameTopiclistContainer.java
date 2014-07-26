@@ -1,25 +1,15 @@
 package sp.phone.fragment;
 
 import gov.anzong.androidnga.activity.MainActivity;
-import android.support.v7.app.ActionBarActivity;
-import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.AppendableNonameTopicAdapter;
-import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.bean.PerferenceConstant;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
-import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonNonameTopicListLoadTask;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -29,10 +19,8 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -146,6 +134,11 @@ public class NonameTopiclistContainer extends Fragment implements
 		return listView;
 	}
 
+	public void changedmode(){
+		if(adapter!=null)
+			adapter.notifyDataSetChanged();
+	}
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		canDismiss = true;
@@ -154,6 +147,24 @@ public class NonameTopiclistContainer extends Fragment implements
 		super.onViewCreated(view, savedInstanceState);
 	}
 
+	OnNonameTopiclistContainerListener mCallback;  
+    
+    // Container Activity must implement this interface  
+    public interface OnNonameTopiclistContainerListener {  
+        public void onAnotherModeChanged();  
+    }  
+    
+	@Override  
+    public void onAttach(Activity activity) {  
+        super.onAttach(activity);  
+          
+        // This makes sure that the container activity has implemented  
+        // the callback interface. If not, it throws an exception  
+        try {  
+            mCallback = (OnNonameTopiclistContainerListener) activity;  
+        } catch (ClassCastException e) {  
+        }  
+    }  
 	private void refresh_saying() {
 		DefaultHeaderTransformer transformer = null;
 
@@ -226,10 +237,6 @@ public class NonameTopiclistContainer extends Fragment implements
 			menuId = R.menu.nonamethreadlist_menu;
 		}
 		inflater.inflate(menuId, menu);
-		/*
-		 * if(ActivityUtil.isLessThan_3_0()) { for(int i=0; i< menu.size();
-		 * ++i){ menu.getItem(i).setVisible(false); } }
-		 */
 
 	}
 
@@ -245,8 +252,7 @@ public class NonameTopiclistContainer extends Fragment implements
                         R.drawable.ic_action_bightness_low);    
                 menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
             }
-        }
-        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
+        } 
         super.onPrepareOptionsMenu(menu);  
     }  
     
@@ -259,21 +265,11 @@ public class NonameTopiclistContainer extends Fragment implements
 		case R.id.threadlist_menu_item2:
 			this.refresh();
 			break;
-//		case R.id.goto_bookmark_item:
-//			Intent intent_bookmark = new Intent(getActivity(),
-//					PhoneConfiguration.getInstance().topicActivityClass);
-//			intent_bookmark.putExtra("favor", 1);
-//			startActivity(intent_bookmark);
-//			break;
-		case R.id.night_mode:
+		case R.id.night_mode://OK
 			nightMode(item);
 			break;
-//		case R.id.search:
-//			handleSearch();
-//			break;
 		case R.id.threadlist_menu_item3:
 		default:
-			// case android.R.id.home:
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
@@ -283,14 +279,6 @@ public class NonameTopiclistContainer extends Fragment implements
 	}
 
 	private void nightMode(final MenuItem menu) {
-	
-		String alertString = getString(R.string.change_nigmtmode_string);
-		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
 				
 				ThemeManager tm = ThemeManager.getInstance();
 				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
@@ -313,23 +301,12 @@ public class NonameTopiclistContainer extends Fragment implements
 					mode = ThemeManager.MODE_NIGHT;
 				}
 				ThemeManager.getInstance().setMode(mode);
-				Intent intent = getActivity().getIntent();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().finish();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().startActivity(intent);
-			}
-			
-		});
-		f.setCancleListener(new OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				f.dismiss();
-			}
-			
-		});
-		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
+				if(adapter!=null){
+					adapter.notifyDataSetChanged();
+				}
+				if(mCallback!=null){
+					mCallback.onAnotherModeChanged();
+				}
 	}
 	
 	private boolean handlePostThread(MenuItem item) {

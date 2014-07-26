@@ -12,7 +12,7 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.User;
 import sp.phone.fragment.ArticleContainerFragment;
 import sp.phone.fragment.MessageDetialListContainer;
-import sp.phone.fragment.MessagelistContainer;
+import sp.phone.fragment.MessageListContainer;
 import sp.phone.fragment.SignContainer;
 import sp.phone.fragment.TopiclistContainer;
 import sp.phone.interfaces.EnterJsonMessageThread;
@@ -62,7 +62,8 @@ import android.support.v7.app.ActionBarActivity;
 public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 		implements OnMessageListLoadFinishedListener, OnItemClickListener,
 		PagerOwnner,
-		OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer {
+		OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
+		MessageDetialListContainer.OnMessageDetialListContainerListener,MessageListContainer.OnMessagelistContainerListener {
  
 	private String TAG = FlexibleMessageListActivity.class.getSimpleName();
 	boolean dualScreen = true;
@@ -71,19 +72,19 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 	MessageListInfo result = null;
 	private PullToRefreshAttacher mPullToRefreshAttacher;
 	View view;
-
 	int nightmode;
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		view = LayoutInflater.from(this).inflate(R.layout.messagelist_activity, null);
 		Intent intent=getIntent();
-		nightmode=ThemeManager.getInstance().getMode();
 	    boolean isfullScreen =  intent.getBooleanExtra("isFullScreen", false);
 	    if(isfullScreen){
 			ActivityUtil.getInstance().setFullScreen(view);
 	    }
 		this.setContentView(view);
+		nightmode = ThemeManager.getInstance().getMode();
 		PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
 		options.refreshScrollDistance = 0.3f;
 		options.refreshOnUp = true;
@@ -98,7 +99,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment f1 = fm.findFragmentById(R.id.item_list);
 		if (f1 == null) {
-			f1 = new MessagelistContainer();
+			f1 = new MessageListContainer();
 			Bundle args = new Bundle();// (getIntent().getExtras());
 			if (null != getIntent().getExtras()) {
 				args.putAll(getIntent().getExtras());
@@ -112,7 +113,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 		setNavigation();
 		Fragment f2 = fm.findFragmentById(R.id.item_detail_container);
 		if (null == f2) {
-				f1.setHasOptionsMenu(true);
+			f1.setHasOptionsMenu(true);
 		} else if (!dualScreen) {
 			fm.beginTransaction().remove(f2).commit();
 			f1.setHasOptionsMenu(true);
@@ -124,18 +125,6 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 			FrameLayout v = (FrameLayout) view.findViewById(R.id.item_detail_container);
 			if(v!=null)
 			v.setBackgroundResource(R.color.night_bg_color);
-		}
-	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode==123){
-		    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
-		    fragment.onActivityResult(requestCode, resultCode, data);
-		}
-		if(resultCode==321){
-		    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.item_list);
-		    fragment.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
@@ -172,7 +161,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 					PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
 					PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
 					PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset(u.getBlackList());
-					MessagelistContainer f1 = (MessagelistContainer) getSupportFragmentManager().findFragmentById(R.id.item_list);
+					MessageListContainer f1 = (MessageListContainer) getSupportFragmentManager().findFragmentById(R.id.item_list);
 					if (f1 != null) {
 						f1.onCategoryChanged(itemPosition);
 					}
@@ -235,13 +224,11 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 	
 	@Override
 	protected void onResume() {
-		if(nightmode!=ThemeManager.getInstance().getMode()){
-			Intent intent = getIntent();
-			overridePendingTransition(0, 0);
-			finish();
-			overridePendingTransition(0, 0);
-			startActivity(intent);
-		}else{
+		if (nightmode != ThemeManager.getInstance().getMode()) {
+			onModeChanged();
+			invalidateOptionsMenu();
+			nightmode = ThemeManager.getInstance().getMode();
+		}
 		int orentation = ThemeManager.getInstance().screenOrentation;
 		if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 				|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -249,12 +236,9 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 		} else {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
-
-		long now = System.currentTimeMillis();
-		PhoneConfiguration config = PhoneConfiguration.getInstance();
 		if (PhoneConfiguration.getInstance().fullscreen) {
 			ActivityUtil.getInstance().setFullScreen(view);
-		}}
+		}
 		super.onResume();
 	}
 
@@ -381,6 +365,34 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 		if (result != null)
 			return result.getMessageEntryList().get(position);
 		return null;
+	}
+
+	@Override
+	public void onModeChanged() {
+		// TODO Auto-generated method stub
+		Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.item_list);
+		if (f1 != null) {
+			((MessageListContainer) f1).changedmode();
+		}
+	}
+
+	@Override
+	public void onAnotherModeChanged() {
+		// TODO Auto-generated method stub
+		nightmode = ThemeManager.getInstance().getMode();
+		Fragment f2 = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
+		if (f2 != null) {
+			((MessageDetialListContainer) f2).changemode();
+		}else{
+			FrameLayout v = (FrameLayout) view.findViewById(R.id.item_detail_container);
+			if(v!=null){
+				if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+					v.setBackgroundResource(R.color.night_bg_color);
+				} else {
+					v.setBackgroundResource(R.color.shit1);
+				}
+			}
+		}
 	}
 
 

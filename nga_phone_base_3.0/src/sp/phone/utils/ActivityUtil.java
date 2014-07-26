@@ -180,7 +180,16 @@ public class ActivityUtil {
 			notice("", str,context);
 		}
 	}
-	
+
+	public void noticeSayingWithProgressBar(Context context){
+		
+		String str = StringUtil.getSaying();
+		if (str.indexOf(";") != -1) {
+			noticebar("",str.replace(";", "-----"),context);
+		} else {
+			noticebar("", str,context);
+		}
+	}
 
 	public void noticeSaying(String str,Context context){
 		
@@ -243,12 +252,56 @@ public class ActivityUtil {
 
 	}
 
+	private void noticebar(String title, String content,Context c) {
+
+		if(c == null)
+			return;
+		Log.d(TAG, "saying dialog");
+		Bundle b = new Bundle();
+		b.putString("title", title);
+		b.putString("content", content);
+		synchronized (lock) {
+			try{
+			
+			DialogFragment df = new SayingDialogFragmentWithProgressBar(); 
+			df.setArguments(b);
+			
+			FragmentActivity fa = (FragmentActivity)c;
+			FragmentManager fm = fa.getSupportFragmentManager();
+			FragmentTransaction ft = fm.beginTransaction();
+
+	       	Fragment prev = fm.findFragmentByTag(dialogTag);
+	        if (prev != null) {
+	            ft.remove(prev);
+	        }
+
+	        ft.commit();
+			df.show(fm, dialogTag);
+			this.df = df;
+			}catch(Exception e){
+				Log.e(this.getClass().getSimpleName(),Log.getStackTraceString(e));
+
+			}
+			
+		}
+
+	}
+	
+	public void noticebarsetprogress(int i){
+		Log.d(TAG, "trying setprocess" + String.valueOf(i));
+		if (df != null && df.getActivity() != null) {
+				if(df instanceof SayingDialogFragmentWithProgressBar ){
+					((SayingDialogFragmentWithProgressBar) df).setProgress(i);
+				}
+			}
+	}
 	
 	public void clear(){
 		synchronized (lock) {
 			this.df = null;
 		}
 	}
+	
 	public void dismiss() {
 
 		synchronized (lock) {
@@ -297,6 +350,45 @@ public class ActivityUtil {
         }
 
         ft.commit();
+	}
+	
+
+	public static class SayingDialogFragmentWithProgressBar extends DialogFragment{
+
+		ProgressDialog dialog;
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			dialog = new ProgressDialog(getActivity());
+		    //
+			Bundle b = getArguments();
+			if (b != null) {
+				String title = b.getString("title");
+				String content = b.getString("content");
+				dialog.setTitle(title);
+				if(StringUtil.isEmpty(content))
+					content = ActivityUtil.getSaying();
+				dialog.setMessage(content);
+			}
+		    
+			
+		    dialog.setCanceledOnTouchOutside(true);
+		    dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		    dialog.setIndeterminate(false);
+		    dialog.setMax(100);
+		    dialog.setCancelable(true);
+		    
+
+		    // etc...
+		    this.setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme);
+		    return dialog;
+		}
+		
+		public void setProgress(int i){
+			if(dialog!=null){
+				dialog.setProgress(i);
+			}
+		}
+		
 	}
 	
 	public static class SayingDialogFragment extends DialogFragment{

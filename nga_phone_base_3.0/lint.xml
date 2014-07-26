@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="InflateParams" severity="ignore" />
     <issue id="NewApi" severity="ignore">
         <ignore path="src/gov/anzong/androidnga/activity/MainActivity.java" />
     </issue>

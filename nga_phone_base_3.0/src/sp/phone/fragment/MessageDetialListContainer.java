@@ -79,7 +79,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MessageDetialListContainer extends Fragment implements
-		OnMessageDetialLoadFinishedListener, NextJsonMessageDetialLoader,PerferenceConstant {
+		OnMessageDetialLoadFinishedListener, NextJsonMessageDetialLoader,
+		PerferenceConstant {
 	final String TAG = MessageDetialListContainer.class.getSimpleName();
 	static final int MESSAGE_SENT = 1;
 
@@ -93,10 +94,11 @@ public class MessageDetialListContainer extends Fragment implements
 	String title, to;
 	String url;
 
+	private ViewGroup mcontainer;
 
-	public static MessageDetialListContainer create(int mid){
+	public static MessageDetialListContainer create(int mid) {
 		MessageDetialListContainer f = new MessageDetialListContainer();
-		Bundle args = new Bundle ();
+		Bundle args = new Bundle();
 		args.putInt("mid", mid);
 		f.setArguments(args);
 		return f;
@@ -105,12 +107,14 @@ public class MessageDetialListContainer extends Fragment implements
 	public MessageDetialListContainer() {
 		super();
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		mcontainer = container;
 		if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-			container.setBackgroundResource(R.color.night_bg_color);
+			if(mcontainer!=null)
+				mcontainer.setBackgroundResource(R.color.night_bg_color);
 		}
 
 		try {
@@ -157,11 +161,11 @@ public class MessageDetialListContainer extends Fragment implements
 			attacher.addRefreshableView(listView, new ListRefreshListener());
 
 		url = getArguments().getString("url");
-		
+
 		if (url != null) {
 			String tmp = StringUtil.getStringBetween(url, 0, "mid=", "&").result;
-			if(!StringUtil.isEmpty(tmp)){
-				mid=Integer.parseInt(tmp, 0);
+			if (!StringUtil.isEmpty(tmp)) {
+				mid = Integer.parseInt(tmp, 0);
 			}
 		} else {
 			mid = getArguments().getInt("mid", 0);
@@ -180,6 +184,18 @@ public class MessageDetialListContainer extends Fragment implements
 		super.onViewCreated(view, savedInstanceState);
 	}
 
+	public void changemode(){
+	if(mcontainer!=null){
+		if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+			mcontainer.setBackgroundResource(R.color.night_bg_color);
+		}else{
+			mcontainer.setBackgroundResource(R.color.shit1);
+		}
+	}
+		if(adapter!=null)
+			adapter.notifyDataSetChangedWithModChange();
+	}
+	
 	@TargetApi(11)
 	private void activeActionMode() {
 		mActionModeCallback = new ActionMode.Callback() {
@@ -213,23 +229,25 @@ public class MessageDetialListContainer extends Fragment implements
 
 		};
 	}
-	
-    @Override  
-    public void onPrepareOptionsMenu(Menu menu) {  
-        if( menu.findItem(R.id.night_mode)!=null){
-            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_brightness_high);    
-                menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
-            }else{
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_bightness_low);    
-                menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
-            }
-        }
-        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
-        super.onPrepareOptionsMenu(menu);  
-    }  
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		if (menu.findItem(R.id.night_mode) != null) {
+			if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_brightness_high);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_daily_mode);
+			} else {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_bightness_low);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_night_mode);
+			}
+		}
+		// getSupportMenuInflater().inflate(R.menu.book_detail, menu);
+		super.onPrepareOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -380,7 +398,7 @@ public class MessageDetialListContainer extends Fragment implements
 				intent.setClass(getActivity(),
 						PhoneConfiguration.getInstance().loginActivityClass);
 			}
-			startActivityForResult(intent,123);
+			startActivityForResult(intent, 123);
 			if (PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,
 						R.anim.zoom_exit);
@@ -390,60 +408,59 @@ public class MessageDetialListContainer extends Fragment implements
 		return true;
 	}
 
-
-
-
+	OnMessageDetialListContainerListener mCallback;  
+    
+    // Container Activity must implement this interface  
+    public interface OnMessageDetialListContainerListener {  
+        public void onModeChanged();  
+    }  
+    
+	@Override  
+    public void onAttach(Activity activity) {  
+        super.onAttach(activity);  
+          
+        // This makes sure that the container activity has implemented  
+        // the callback interface. If not, it throws an exception  
+        try {  
+            mCallback = (OnMessageDetialListContainerListener) activity;  
+        } catch (ClassCastException e) {   
+        }  
+    }  
+	
 	private void nightMode(final MenuItem menu) {
-	
-		String alertString = getString(R.string.change_nigmtmode_string_message);
-		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-				
-				ThemeManager tm = ThemeManager.getInstance();
-				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
-						Activity.MODE_PRIVATE);
-				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
-					menu.setIcon(  
-		                    R.drawable.ic_action_bightness_low); 
-					menu.setTitle(R.string.change_night_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, false);
-					editor.commit();
-				}else{
-					menu.setIcon(  
-		                    R.drawable.ic_action_brightness_high); 
-					menu.setTitle(R.string.change_daily_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, true);
-					editor.commit();
-					mode = ThemeManager.MODE_NIGHT;
-				}
-				ThemeManager.getInstance().setMode(mode);
-				Intent intent = getActivity().getIntent();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().finish();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().startActivity(intent);
-			}
-			
-		});
-		f.setCancleListener(new OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				f.dismiss();
-			}
-			
-		});
-		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
+		refresh_saying();
+		ThemeManager tm = ThemeManager.getInstance();
+		SharedPreferences share = getActivity().getSharedPreferences(
+				PERFERENCE, Activity.MODE_PRIVATE);
+		int mode = ThemeManager.MODE_NORMAL;
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
+			menu.setIcon(R.drawable.ic_action_bightness_low);
+			menu.setTitle(R.string.change_night_mode);
+			Editor editor = share.edit();
+			editor.putBoolean(NIGHT_MODE, false);
+			editor.commit();
+		} else {
+			menu.setIcon(R.drawable.ic_action_brightness_high);
+			menu.setTitle(R.string.change_daily_mode);
+			Editor editor = share.edit();
+			editor.putBoolean(NIGHT_MODE, true);
+			editor.commit();
+			mode = ThemeManager.MODE_NIGHT;
+		}
+		ThemeManager.getInstance().setMode(mode);
+		if (mode == ThemeManager.MODE_NIGHT) {
+			mcontainer.setBackgroundResource(R.color.night_bg_color);
+		} else {
+			mcontainer.setBackgroundResource(R.color.shit1);
+		}
+		if(adapter!=null)
+			adapter.notifyDataSetChangedWithModChange();
+		if(mCallback!=null)
+			mCallback.onModeChanged();
+		if (attacher != null)
+			attacher.setRefreshComplete();
 	}
-	
-	
+
 	private void errordialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setMessage("这白痴是系统账号,神马都看不到");
@@ -542,8 +559,7 @@ public class MessageDetialListContainer extends Fragment implements
 		alert.setTitle(R.string.copy_hint);
 		final EditText commentdata = (EditText) view
 				.findViewById(R.id.copy_data);
-		content= content.replaceAll("(?i)"
-				+ "<img src='(.+?)'(.+?){0,}>",
+		content = content.replaceAll("(?i)" + "<img src='(.+?)'(.+?){0,}>",
 				"$1");
 		Spanned spanned = Html.fromHtml(content);
 		commentdata.setText(spanned);
@@ -615,23 +631,22 @@ public class MessageDetialListContainer extends Fragment implements
 		// TODO Auto-generated method stub
 
 	}
-	private void start_send_message(MessageArticlePageInfo row){
+
+	private void start_send_message(MessageArticlePageInfo row) {
 		Intent intent_bookmark = new Intent();
 		intent_bookmark.putExtra("to", row.getAuthor());
 		intent_bookmark.putExtra("action", "new");
 		intent_bookmark.putExtra("messagemode", "yes");
 		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-			intent_bookmark
-					.setClass(
-							getActivity(),
-							PhoneConfiguration.getInstance().messagePostActivityClass);
+			intent_bookmark.setClass(getActivity(),
+					PhoneConfiguration.getInstance().messagePostActivityClass);
 		} else {
 			intent_bookmark.setClass(getActivity(),
 					PhoneConfiguration.getInstance().loginActivityClass);
 		}
 		startActivity(intent_bookmark);
 	}
-	
+
 	private void Create_Avatar_Dialog(MessageArticlePageInfo row) {
 		// TODO Auto-generated method stub
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
@@ -882,7 +897,8 @@ public class MessageDetialListContainer extends Fragment implements
 		String jsonUri = HttpUtil.Server
 				+ "/nuke.php?__lib=message&__act=message&act=read&";
 
-		jsonUri += "page=" + page + "&mid=" + String.valueOf(mid) + "&lite=js&noprefix";
+		jsonUri += "page=" + page + "&mid=" + String.valueOf(mid)
+				+ "&lite=js&noprefix";
 
 		return jsonUri;
 	}
@@ -909,7 +925,7 @@ public class MessageDetialListContainer extends Fragment implements
 		case R.id.article_menuitem_refresh:
 			this.refresh();
 			break;
-		case R.id.night_mode:
+		case R.id.night_mode://OK
 			nightMode(item);
 			break;
 		case R.id.article_menuitem_reply:
@@ -928,7 +944,7 @@ public class MessageDetialListContainer extends Fragment implements
 				intent_bookmark.setClass(getActivity(),
 						PhoneConfiguration.getInstance().loginActivityClass);
 			}
-			startActivityForResult(intent_bookmark,123);
+			startActivityForResult(intent_bookmark, 123);
 			break;
 		case R.id.article_menuitem_back:
 		default:
@@ -955,23 +971,22 @@ public class MessageDetialListContainer extends Fragment implements
 		super.onSaveInstanceState(outState);
 	}
 
-	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode==123){
+		if (resultCode == 123) {
 			refresh();
 		}
 	}
-	
+
 	@Override
 	public void finishLoad(MessageDetialInfo result) {
 		if (attacher != null)
 			attacher.setRefreshComplete();
 
-		if (result == null){
+		if (result == null) {
 			return;
 		}
-		
+
 		title = result.get_Title();
 		to = result.get_Alluser();
 		adapter.finishLoad(result);
@@ -999,8 +1014,6 @@ public class MessageDetialListContainer extends Fragment implements
 					false));
 	}
 
-	
-	
 	class ListRefreshListener implements
 			PullToRefreshAttacher.OnRefreshListener {
 

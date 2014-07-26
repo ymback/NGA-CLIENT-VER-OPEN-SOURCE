@@ -12,6 +12,7 @@ import sp.phone.adapter.AppendableMessageAdapter;
 import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.PerferenceConstant;
+import sp.phone.fragment.MessageDetialListContainer.OnMessageDetialListContainerListener;
 import sp.phone.interfaces.NextJsonMessageListLoader;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -45,9 +46,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class MessagelistContainer extends Fragment implements
+public class MessageListContainer extends Fragment implements
 		OnMessageListLoadFinishedListener, NextJsonMessageListLoader,PerferenceConstant {
-	final String TAG = MessagelistContainer.class.getSimpleName();
+	final String TAG = MessageListContainer.class.getSimpleName();
 	static final int MESSAGE_SENT = 1;
 
 	PullToRefreshAttacher attacher = null;
@@ -56,6 +57,7 @@ public class MessagelistContainer extends Fragment implements
 	boolean canDismiss = true;
 	int category = 0;
 	final private String ALERT_DIALOG_TAG = "alertdialog";
+	private ViewGroup mcontainer;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,8 +65,10 @@ public class MessagelistContainer extends Fragment implements
 		if (savedInstanceState != null) {
 			category = savedInstanceState.getInt("category", 0);
 		}
+		mcontainer = container;
 		if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-			container.setBackgroundResource(R.color.night_bg_color);
+		if(mcontainer!=null)
+			mcontainer.setBackgroundResource(R.color.night_bg_color);
 		}
 
 		try {
@@ -100,7 +104,31 @@ public class MessagelistContainer extends Fragment implements
 
 		return listView;
 	}
+	
+	public void changedmode(){
+		if(adapter!=null)
+			adapter.notifyDataSetChanged();
+	}
 
+	OnMessagelistContainerListener mCallback;  
+    
+    // Container Activity must implement this interface  
+    public interface OnMessagelistContainerListener {  
+        public void onAnotherModeChanged();  
+    }  
+    
+	@Override  
+    public void onAttach(Activity activity) {  
+        super.onAttach(activity);  
+          
+        // This makes sure that the container activity has implemented  
+        // the callback interface. If not, it throws an exception  
+        try {  
+            mCallback = (OnMessagelistContainerListener) activity;  
+        } catch (ClassCastException e) {  
+        }  
+    }  
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		canDismiss = true;
@@ -197,7 +225,7 @@ public class MessagelistContainer extends Fragment implements
 		}
 		startActivityForResult(intent_bookmark,321);
 			break;
-		case R.id.night_mode:
+		case R.id.night_mode://OK
 			nightMode(item);
 			break;
 		case R.id.threadlist_menu_item3:
@@ -215,15 +243,6 @@ public class MessagelistContainer extends Fragment implements
 
 
 	private void nightMode(final MenuItem menu) {
-	
-		String alertString = getString(R.string.change_nigmtmode_string_message);
-		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-				
 				ThemeManager tm = ThemeManager.getInstance();
 				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
 						Activity.MODE_PRIVATE);
@@ -244,53 +263,21 @@ public class MessagelistContainer extends Fragment implements
 					editor.commit();
 					mode = ThemeManager.MODE_NIGHT;
 				}
-				ThemeManager.getInstance().setMode(mode);
-				Intent intent = getActivity().getIntent();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().finish();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().startActivity(intent);
+		ThemeManager.getInstance().setMode(mode);
+		if (mcontainer != null) {
+			if (mode == ThemeManager.MODE_NIGHT) {
+				mcontainer.setBackgroundResource(R.color.night_bg_color);
+			} else {
+				mcontainer.setBackgroundResource(R.color.shit1);
 			}
-			
-		});
-		f.setCancleListener(new OnClickListener(){
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				f.dismiss();
-			}
-			
-		});
-		f.show(getActivity().getSupportFragmentManager(),ALERT_DIALOG_TAG);
-	}
-	
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode==321){
-			refresh();
 		}
+				if(mCallback!=null)
+					mCallback.onAnotherModeChanged();
+				if(adapter!=null)
+					adapter.notifyDataSetChanged();
 	}
-
-//	private boolean handlePostThread(MenuItem item) {
-//		Intent intent = new Intent();
-//		intent.putExtra("fid", fid);
-//		intent.putExtra("action", "new");
-//		if(!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)){//登入了才能发
-//			intent.setClass(getActivity(),
-//					PhoneConfiguration.getInstance().postActivityClass);
-//		}else{
-//			intent.setClass(getActivity(),
-//				PhoneConfiguration.getInstance().loginActivityClass);
-//		}
-//		startActivity(intent);
-//		if (PhoneConfiguration.getInstance().showAnimation) {
-//			getActivity().overridePendingTransition(R.anim.zoom_enter,
-//					R.anim.zoom_exit);
-//		}
-//		return true;
-//	}
-
+	
+	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putInt("category", category);

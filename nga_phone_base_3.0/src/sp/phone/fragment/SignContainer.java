@@ -61,16 +61,21 @@ public class SignContainer extends Fragment implements
 	private SignData result;
 	View headview;
 	LayoutInflater inflatera;
+	ThemeManager cfg;
 	final private String ALERT_DIALOG_TAG = "alertdialog";
+	private ViewGroup mcontainer;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		cfg = ThemeManager.getInstance();
+		mcontainer = container;
 		if (savedInstanceState != null) {
 			category = savedInstanceState.getInt("category", 0);
 		}
-		if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-			container.setBackgroundResource(R.color.night_bg_color);
+		if (cfg.getMode() == ThemeManager.MODE_NIGHT) {
+			if (mcontainer != null)
+				mcontainer.setBackgroundResource(R.color.night_bg_color);
 		}
 		this.inflatera = inflater;
 		try {
@@ -82,24 +87,28 @@ public class SignContainer extends Fragment implements
 					"father activity should implement PullToRefreshAttacherOnwer");
 		}
 
+		return initListView();
+	}
+
+	public ListView initListView() {
 		listView = new ListView(getActivity());
 		listView.setDivider(null);
 		adapter = new SignPageAdapter(this.getActivity());
-		headview = inflater.inflate(R.layout.signresult, null);
+		headview = inflatera.inflate(R.layout.signresult, null);
 		headview.setVisibility(View.GONE);
 		// refreshheadviewdata(headview);
 		listView.addHeaderView(headview, null, false);
 		listView.setAdapter(adapter);
-
 		if (attacher != null)
 			attacher.addRefreshableView(listView, new ListRefreshListener());
+		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		return listView;
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		if (menu.findItem(R.id.night_mode) != null) {
-			if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+			if (cfg.getMode() == ThemeManager.MODE_NIGHT) {
 				menu.findItem(R.id.night_mode).setIcon(
 						R.drawable.ic_action_brightness_high);
 				menu.findItem(R.id.night_mode).setTitle(
@@ -116,7 +125,7 @@ public class SignContainer extends Fragment implements
 	}
 
 	public void refreshheadviewdata(View headview) {
-		ThemeManager cfg = ThemeManager.getInstance();
+		Log.i("SignPageAdapter", "SignPageAdapter");
 		int colorId = R.color.shit1;
 		boolean isnight = false;
 		if (cfg.getMode() == ThemeManager.MODE_NIGHT) {
@@ -142,12 +151,12 @@ public class SignContainer extends Fragment implements
 		String userName;
 		String signtimes;
 		String signdates;
-		String signstates = "Î´Öª";
+		String signstates = "æœªçŸ¥";
 		String availablenums;
 		String successnums;
 
 		if (StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {
-			userName = "Î´Öª";
+			userName = "æœªçŸ¥";
 		} else {
 			userName = PhoneConfiguration.getInstance().userName;
 		}
@@ -157,41 +166,41 @@ public class SignContainer extends Fragment implements
 		}
 		if (result != null) {
 			if (StringUtil.isEmpty(result.get__SignResult())) {
-				signstates = "Î´Öª";
+				signstates = "æœªçŸ¥";
 			} else {
 				signstates = result.get__SignResult();
 			}
 
 			if (result.get__is_json_error()) {
 				if (result.get__today_alreadysign()) {
-					signtimes = "½ñÌì";
-					signdates = "Î´Öª";
-					availablenums = "0¸ö";
-					successnums = "0¸ö";
+					signtimes = "ä»Šå¤©";
+					signdates = "æœªçŸ¥";
+					availablenums = "0ä¸ª";
+					successnums = "0ä¸ª";
 				} else {
-					signtimes = "Î´Öª";
-					signdates = "Î´Öª";
-					availablenums = "0¸ö";
-					successnums = "0¸ö";
+					signtimes = "æœªçŸ¥";
+					signdates = "æœªçŸ¥";
+					availablenums = "0ä¸ª";
+					successnums = "0ä¸ª";
 				}
 			} else {
 				if (StringUtil.isEmpty(result.get__Last_time())) {
-					signtimes = "Î´Öª";
+					signtimes = "æœªçŸ¥";
 				} else {
 					signtimes = result.get__Last_time();
 				}
 				signdates = String.valueOf(result.get__Continued()) + "/"
 						+ String.valueOf(result.get__Sum());
 				availablenums = String.valueOf(result.get__Availablerows())
-						+ "¸ö";
-				successnums = String.valueOf(result.get__Successrows()) + "¸ö";
+						+ "ä¸ª";
+				successnums = String.valueOf(result.get__Successrows()) + "ä¸ª";
 			}
 
 		} else {
-			signtimes = "Î´Öª";
-			signdates = "Î´Öª";
-			availablenums = "Î´Öª";
-			successnums = "Î´Öª";
+			signtimes = "æœªçŸ¥";
+			signdates = "æœªçŸ¥";
+			availablenums = "æœªçŸ¥";
+			successnums = "æœªçŸ¥";
 		}
 		nickName.setText(userName);
 		signtime.setText(signtimes);
@@ -204,59 +213,41 @@ public class SignContainer extends Fragment implements
 	}
 
 	private void nightMode(final MenuItem menu) {
-
-		String alertString = getString(R.string.change_nigmtmode_string_refresh);
-		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-				ThemeManager tm = ThemeManager.getInstance();
-				SharedPreferences share = getActivity().getSharedPreferences(
-						PERFERENCE, Activity.MODE_PRIVATE);
-				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// ÊÇÍíÉÏÄ£Ê½£¬¸Ä°×ÌìµÄ
-					menu.setIcon(R.drawable.ic_action_bightness_low);
-					menu.setTitle(R.string.change_night_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, false);
-					editor.commit();
-				} else {
-					menu.setIcon(R.drawable.ic_action_brightness_high);
-					menu.setTitle(R.string.change_daily_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, true);
-					editor.commit();
-					mode = ThemeManager.MODE_NIGHT;
-				}
-				ThemeManager.getInstance().setMode(mode);
-				Intent intent = getActivity().getIntent();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().finish();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().startActivity(intent);
+		SharedPreferences share = getActivity().getSharedPreferences(
+				PERFERENCE, Activity.MODE_PRIVATE);
+		int mode = ThemeManager.MODE_NORMAL;
+		if (cfg.getMode() == ThemeManager.MODE_NIGHT) {// æ˜¯æ™šä¸Šæ¨¡å¼ï¼Œæ”¹ç™½å¤©çš„
+			menu.setIcon(R.drawable.ic_action_bightness_low);
+			menu.setTitle(R.string.change_night_mode);
+			Editor editor = share.edit();
+			editor.putBoolean(NIGHT_MODE, false);
+			editor.commit();
+		} else {
+			menu.setIcon(R.drawable.ic_action_brightness_high);
+			menu.setTitle(R.string.change_daily_mode);
+			Editor editor = share.edit();
+			editor.putBoolean(NIGHT_MODE, true);
+			editor.commit();
+			mode = ThemeManager.MODE_NIGHT;
+		}
+		cfg.setMode(mode);
+		isrefresh = true;
+		if (mcontainer != null) {
+			if (mode == ThemeManager.MODE_NIGHT) {
+				mcontainer.setBackgroundResource(R.color.night_bg_color);
+			} else {
+				mcontainer.setBackgroundResource(R.color.shit1);
 			}
-
-		});
-		f.setCancleListener(new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				f.dismiss();
-			}
-
-		});
-		f.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
+		}
+		jsonfinishLoad(result);
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		canDismiss = true;
-		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		this.refresh();
 		super.onViewCreated(view, savedInstanceState);
-	}// ¶ÁÈ¡Êı¾İ
+	}// è¯»å–æ•°æ®
 
 	private void refresh_saying() {
 		DefaultHeaderTransformer transformer = null;
@@ -275,7 +266,7 @@ public class SignContainer extends Fragment implements
 			transformer.setRefreshingText(ActivityUtil.getSaying());
 		if (attacher != null)
 			attacher.setRefreshing(true);
-	}// ÓĞĞ§
+	}// æœ‰æ•ˆ
 
 	void refresh() {
 		JsonSignLoadTask task = new JsonSignLoadTask(getActivity(), this);
@@ -283,14 +274,14 @@ public class SignContainer extends Fragment implements
 		refresh_saying();
 		task.execute("SIGN");
 		isrefresh = true;
-	}// ¶ÁÈ¡JSONÁË
+	}// è¯»å–JSONäº†
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		int menuId;
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// Ö÷ÌâÁĞ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// ä¸»é¢˜åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				menuId = R.menu.signpage_menu_left;
 			} else {
 				menuId = R.menu.signpage_menu;
@@ -308,7 +299,7 @@ public class SignContainer extends Fragment implements
 		case R.id.signpage_menuitem_refresh:
 			refresh();
 			break;
-		case R.id.night_mode:
+		case R.id.night_mode:// OK
 			nightMode(item);
 			break;
 		case R.id.signpage_menuitem_back:

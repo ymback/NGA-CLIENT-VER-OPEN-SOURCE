@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.TopicListInfo;
+import sp.phone.fragment.MessageListContainer.OnMessagelistContainerListener;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -78,7 +79,30 @@ public class TopiclistContainer extends Fragment implements
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 	}
-	
+
+	public void changedmode(){
+		if(adapter!=null)
+			adapter.notifyDataSetChanged();
+	}
+
+	OnTopiclistContainerListener mCallback;  
+    
+    // Container Activity must implement this interface  
+    public interface OnTopiclistContainerListener {  
+        public void onAnotherModeChanged();  
+    }  
+    
+	@Override  
+    public void onAttach(Activity activity) {  
+        super.onAttach(activity);  
+          
+        // This makes sure that the container activity has implemented  
+        // the callback interface. If not, it throws an exception  
+        try {  
+            mCallback = (OnTopiclistContainerListener) activity;  
+        } catch (ClassCastException e) {  
+        }  
+    }  
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -363,7 +387,7 @@ public class TopiclistContainer extends Fragment implements
 			intent_bookmark.putExtra("favor", 1);
 			startActivity(intent_bookmark);
 			break;
-		case R.id.night_mode:
+		case R.id.night_mode://OK
 			nightMode(item);
 			break;
 		case R.id.search:
@@ -394,14 +418,6 @@ public class TopiclistContainer extends Fragment implements
 	}
 
 	private void nightMode(final MenuItem menu) {
-
-		String alertString = getString(R.string.change_nigmtmode_string);
-		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
 				ThemeManager tm = ThemeManager.getInstance();
 				SharedPreferences share = getActivity().getSharedPreferences(
 						PERFERENCE, Activity.MODE_PRIVATE);
@@ -421,23 +437,10 @@ public class TopiclistContainer extends Fragment implements
 					mode = ThemeManager.MODE_NIGHT;
 				}
 				ThemeManager.getInstance().setMode(mode);
-				Intent intent = getActivity().getIntent();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().finish();
-				getActivity().overridePendingTransition(0, 0);
-				getActivity().startActivity(intent);
-			}
-
-		});
-		f.setCancleListener(new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				f.dismiss();
-			}
-
-		});
-		f.show(getActivity().getSupportFragmentManager(), ALERT_DIALOG_TAG);
+				if(adapter!=null)
+				adapter.notifyDataSetChanged();
+				if(mCallback!=null)
+					mCallback.onAnotherModeChanged();
 	}
 
 	private boolean handlePostThread(MenuItem item) {

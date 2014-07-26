@@ -43,16 +43,14 @@ function vote(tid, x) {
             txt += "<td><input type='" + type + "' name='vote" + tid + "' value='" + k + "'/></td>"
         }
         if (x.done) {
-            if (x.done.indexOf(',' + k + ',') != -1)
+            if (k.indexOf(x.done) != -1)
                 txt += "<td><b class='red'>胜出</b></td>"
             else
                 txt += "<td></td>"
         }
-        txt += "<td><b>" + x[k][1] + "人</b></td>"
-        txt += "<td style='width:10em'><div style='background:#790000;height:1em;width:" + ((sum) ? x[k][1] / sum * 100 : 0) + "%'></div></td>";
+        txt += "<td><b>" + x[k][1] + "人("+ ((sum) ? Math.round(x[k][1] / sum * 10000)/100 : 0) + "%)</b></td>"
         if (x.type == 1) {
-            txt += "<td><b>投注" + x[k][2] + "</b></td>"
-            txt += "<td style='width:10em'><div style='background:#790000;height:1em;width:" + ((vsum) ? x[k][2] / vsum * 100 : 0) + "%'></div></td>";
+            txt += "<td><b>投注" + x[k][2] + "("+((vsum) ? Math.round(x[k][2] / vsum * 10000)/100 : 0) + "%)</b></td>"
         }
         txt += '</tr>'
     }

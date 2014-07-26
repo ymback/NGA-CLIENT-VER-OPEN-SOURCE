@@ -88,6 +88,7 @@ public class NonameArticleListFragment extends Fragment implements
 	private boolean needLoad = true;
 	private Object mActionModeCallback = null;
 	private static Context activity;
+	NonameReadResponse result;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -481,7 +482,7 @@ public class NonameArticleListFragment extends Fragment implements
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public void finishLoad(NonameReadResponse data) {
 		Log.d(TAG, "finishLoad");

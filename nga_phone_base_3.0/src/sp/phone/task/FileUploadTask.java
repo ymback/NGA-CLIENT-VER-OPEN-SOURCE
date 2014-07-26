@@ -74,9 +74,14 @@ AsyncTask<String, Integer, String> {
 	
 	@Override
 	protected void onPreExecute() {
-		ActivityUtil.getInstance().noticeSaying(context);
+		ActivityUtil.getInstance().noticeSayingWithProgressBar(context);
 		super.onPreExecute();
 	}
+	private void Toastsuoxiao(){
+		Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT)
+		.show();
+	}
+	
 
 	@Override
 	protected void onCancelled() {
@@ -94,9 +99,10 @@ AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
-		if( values[0] == 50){
-			Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT).show();
+		if(values[0]<0 || values[0]>100){
+			values[0]=100;
 		}
+		ActivityUtil.getInstance().noticebarsetprogress(values[0]);
 	}
 
 	@Override
@@ -159,7 +165,7 @@ AsyncTask<String, Integer, String> {
 			 filesize = pfd.getStatSize();
 			 if(filesize >= 1024*1024)
 			 {
-				 this.publishProgress(50);
+				 Toastsuoxiao();
 				 byte[] img = ImageUtil.fitImageToUpload(cr.openInputStream(uri),cr.openInputStream(uri));
 				 contentType = "image/png";
 				 filesize = img.length;
@@ -205,8 +211,13 @@ AsyncTask<String, Integer, String> {
 		byte[] buf = new byte[1024];  
 	    int len;  
 	    out.write(header);
-	    while ((len = is.read(buf)) != -1)  
-	        out.write(buf, 0, len);  
+	    int ilen=0,progress=0;
+		while ((len = is.read(buf)) != -1){
+			ilen+=len;
+			progress = (int)((ilen / (float) filesize) * 100);
+			publishProgress(progress);
+			out.write(buf, 0, len);
+		}
 	  
 	    out.write(tail);
 	  

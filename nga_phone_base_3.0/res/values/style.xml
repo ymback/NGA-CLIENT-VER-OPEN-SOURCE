@@ -17,11 +17,16 @@
 
     <style name="AppTheme" parent="style/Theme.AppCompat" >
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    	<item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
     
     <style name="AppThemeNight" parent="style/Theme.AppCompat" >
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    	<item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
+	<style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+    	<item name="android:src">@drawable/ic_menu_moreoverflow_normal_holo_light</item>
+	</style>
         
 	<!-- Title of tabs -->
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">

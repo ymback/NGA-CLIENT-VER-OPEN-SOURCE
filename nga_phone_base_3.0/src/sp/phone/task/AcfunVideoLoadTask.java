@@ -140,7 +140,7 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 			}
 			return null;
 		} else {
-			String newurl = "http://www.acfun.com/video/getVideo.aspx?id="
+			String newurl = "http://www.acfun.tv/video/getVideo.aspx?id="
 					+ datavid;
 			final String htmlStringstep2 = HttpUtil.iosGetHtml(newurl, null);
 			String sourceType = StringUtil.getStringBetween(htmlStringstep2, 0,

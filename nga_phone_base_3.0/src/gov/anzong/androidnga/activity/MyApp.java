@@ -253,7 +253,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "447", "锁链战记", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-532408", "沃土", R.drawable.oldpdefault));
 		boards.add(new Board(i, "353", "纽沃斯英雄传", R.drawable.oldpdefault));
-		boards.add(new Board(i, "452", "天涯明月刀", R.drawable.oldpdefault));
+		boards.add(new Board(i, "452", "天涯明月刀", R.drawable.oldp452));
 		boards.add(new Board(i, "453", "魔力宝贝", R.drawable.oldpdefault));
 		boards.addCategoryName(i, "其他游戏");
 		i++;

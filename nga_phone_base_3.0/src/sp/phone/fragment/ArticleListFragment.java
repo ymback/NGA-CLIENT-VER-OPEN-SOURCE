@@ -886,7 +886,6 @@ public class ArticleListFragment extends Fragment implements
                             case MotionEvent.ACTION_UP:
                                 if (!v.hasFocus()) {
                                     v.requestFocus(View.FOCUS_DOWN);
-                                    Log.i(TAG,"sasasas");
                                 }
                                 break;
                         }

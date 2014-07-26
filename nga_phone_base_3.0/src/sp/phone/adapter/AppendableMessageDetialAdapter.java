@@ -18,8 +18,14 @@ import sp.phone.interfaces.NextJsonMessageListLoader;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.MessageUtil;
+import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.StringUtil;
+import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo.State;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +38,7 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
     private int count=0;
     private boolean isEndOfList = false;
 	Toast toast=null;
-	Context context;
+	static Context context;
 	public AppendableMessageDetialAdapter(Context context,PullToRefreshAttacher attacher,NextJsonMessageDetialLoader loader ) {
 		super(context);
 		this.context=context;
@@ -70,7 +76,60 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
 		this.notifyDataSetChanged();
 	}
 	
+	public void notifyDataSetChangedWithModChange(){
+		List<MessageDetialInfo> infoListTmp;
+		for(int i=0;i<infoList.size();i++){
+			for(int j=0;j<infoList.get(i).getMessageEntryList().size();j++){
+				sethtmldata(infoList.get(i).getMessageEntryList().get(j),j);
+			}
+		}
+		this.notifyDataSetChanged();
+	}
 	
+	public void sethtmldata(MessageArticlePageInfo row,int i){
+		fillFormated_html_data(row,i+1);
+	}
+	
+	public void fillFormated_html_data(MessageArticlePageInfo row, int i) {
+
+		ThemeManager theme = ThemeManager.getInstance();
+		if (row.getContent() == null) {
+			row.setContent(row.getSubject());
+			row.setSubject(null);
+		}
+		int bgColor = context.getResources().getColor(
+				theme.getBackgroundColor(i));
+		int fgColor = context.getResources().getColor(
+				theme.getForegroundColor());
+		bgColor = bgColor & 0xffffff;
+		final String bgcolorStr = String.format("%06x", bgColor);
+
+		int htmlfgColor = fgColor & 0xffffff;
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		String formated_html_data = MessageDetialAdapter.convertToHtmlText(row,
+				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
+
+		row.setFormated_html_data(formated_html_data);
+	}
+
+	public static int showImageQuality() {
+		if (isInWifi()) {
+			return 0;
+		} else {
+			return PhoneConfiguration.getInstance().imageQuality;
+		}
+	}
+	private boolean isShowImage() {
+		return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+	}
+	public static boolean isInWifi() {
+		ConnectivityManager conMan = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+				.getState();
+		return wifi == State.CONNECTED;
+	}
 	public int getNextPage(){
 		return infoList.size() + 1;
 	}

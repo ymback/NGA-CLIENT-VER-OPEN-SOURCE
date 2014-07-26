@@ -223,17 +223,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// MenuInflater inflater = getMenuInflater();
-		// inflater.inflate(R.menu.main_menu, menu);
-		int flags = 15;/*
-						 * ActionBar.DISPLAY_SHOW_HOME; flags |=
-						 * ActionBar.DISPLAY_USE_LOGO; flags |=
-						 * ActionBar.DISPLAY_SHOW_TITLE; flags |=
-						 * ActionBar.DISPLAY_HOME_AS_UP; flags |=
-						 * ActionBar.DISPLAY_SHOW_CUSTOM;
-						 */
-		// final ActionBar bar = getActionBar();
-		// bar.setDisplayOptions(flags);
+		int flags = 15;
 		ReflectionUtil.actionBar_setDisplayOption(this, flags);
 		return super.onCreateOptionsMenu(menu);
 	}

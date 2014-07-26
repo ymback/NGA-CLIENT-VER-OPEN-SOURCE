@@ -18,15 +18,11 @@ a {
     color: #551200;
 }
 table {
-    border-spacing: 0px;
-    text-align: left;
-    line-height: 1.83em;
-    word-wrap: break-word;
-    word-break: break-all;
+	border-spacing: 0px;
 }
 td {
-    line-height: 1.83em;
-    word-wrap: break-word;
-    word-break: break-all;
-    font-size: 13px;
+	padding:2px;
+}
+.red {
+    color: #D00;
 }

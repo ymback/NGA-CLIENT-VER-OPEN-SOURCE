@@ -2,12 +2,15 @@ package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo.State;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -30,10 +33,12 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 import gov.anzong.androidnga.R;
+import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
+import sp.phone.bean.ThreadRowInfo;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.ArticleListFragment;
 import sp.phone.fragment.GotoDialogFragment;
@@ -59,7 +64,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	int tid;
 	int pid;
 	String title;
-	int nightmode;
 	int authorid;
 	private static final String TAG = "ArticleListActivity";
 	private static final String GOTO_TAG = "goto";
@@ -68,6 +72,8 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	final private String ALERT_DIALOG_TAG = "alertdialog";
 
 	private int fromreplyactivity = 0;
+
+	ThreadData result;
 
 	PullToRefreshAttacher attacher = null;
 
@@ -85,25 +91,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 				&& PhoneConfiguration.getInstance().location == null) {
 			ActivityUtil.reflushLocation(this);
 		}
-		nightmode = ThemeManager.getInstance().getMode();
-
-		/*
-		 * PullToRefreshViewPager refreshPager = (PullToRefreshViewPager)
-		 * findViewById(R.id.pull_refresh_viewpager);
-		 * refreshPager.setMode(Mode.PULL_FROM_START);
-		 * refreshPager.setOnRefreshListener(new OnRefreshListener<ViewPager>(){
-		 * 
-		 * @Override public void onRefresh(PullToRefreshBase<ViewPager>
-		 * refreshView) { 
-
-();
-		 * 
-		 * }
-		 * 
-		 * });
-		 * 
-		 * mViewPager = refreshPager.getRefreshableView();
-		 */
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		if (ActivityUtil.isNotLessThan_4_0()) {
@@ -125,8 +112,8 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 		fromreplyactivity = this.getIntent()
 				.getIntExtra("fromreplyactivity", 0);
-		if(authorid!=0){
-			fromreplyactivity=1;
+		if (authorid != 0) {
+			fromreplyactivity = 1;
 		}
 		View v = findViewById(android.R.id.content);// .getChildAt(0);
 		tabhost = (TabHost) findViewById(android.R.id.tabhost);
@@ -229,7 +216,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 		return ret;
 	}
-	
+
 	@TargetApi(14)
 	private void setNfcCallBack() {
 		NfcAdapter adapter = NfcAdapter.getDefaultAdapter(this);
@@ -288,24 +275,25 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 		ReflectionUtil.actionBar_setDisplayOption(this, flags);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
-	
-    @Override  
-    public boolean onPrepareOptionsMenu(Menu menu) {  
-        if( menu.findItem(R.id.night_mode)!=null){
-        if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
-            menu.findItem(R.id.night_mode).setIcon(  
-                    R.drawable.ic_action_brightness_high);    
-            menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
-        }else{
-            menu.findItem(R.id.night_mode).setIcon(  
-                    R.drawable.ic_action_bightness_low);    
-            menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
-        }
-        }
-        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
-        return super.onPrepareOptionsMenu(menu);  
-    }  
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (menu.findItem(R.id.night_mode) != null) {
+			if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_brightness_high);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_daily_mode);
+			} else {
+				menu.findItem(R.id.night_mode).setIcon(
+						R.drawable.ic_action_bightness_low);
+				menu.findItem(R.id.night_mode).setTitle(
+						R.string.change_night_mode);
+			}
+		}
+		// getSupportMenuInflater().inflate(R.menu.book_detail, menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -373,7 +361,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 			break;
 		case R.id.article_menuitem_back:
 		default:
-			if (0 == fid || pid!=0 || fromreplyactivity != 0) {
+			if (0 == fid || pid != 0 || fromreplyactivity != 0) {
 				finish();
 			} else {
 				Intent intent2 = new Intent(this,
@@ -439,52 +427,79 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	 */
 
 	private void nightMode(final MenuItem menu) {
-
-		String alertString = getString(R.string.change_nigmtmode_string);
-		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-				ThemeManager tm = ThemeManager.getInstance();
-				SharedPreferences share = getSharedPreferences(PERFERENCE,
-						MODE_PRIVATE);
-				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
-					menu.setIcon(  
-		                    R.drawable.ic_action_bightness_low); 
-					menu.setTitle(R.string.change_night_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, false);
-					editor.commit();
-				} else {
-					menu.setIcon(  
-		                    R.drawable.ic_action_brightness_high); 
-					menu.setTitle(R.string.change_daily_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, true);
-					editor.commit();
-					mode = ThemeManager.MODE_NIGHT;
-				}
-				ThemeManager.getInstance().setMode(mode);
-				Intent intent = getIntent();
-				overridePendingTransition(0, 0);
-				finish();
-				overridePendingTransition(0, 0);
-				startActivity(intent);
+		refresh_saying();
+		ThemeManager tm = ThemeManager.getInstance();
+		SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
+		int mode = ThemeManager.MODE_NORMAL;
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
+			menu.setIcon(R.drawable.ic_action_bightness_low);
+			menu.setTitle(R.string.change_night_mode);
+			Editor editor = share.edit();
+			editor.putBoolean(NIGHT_MODE, false);
+			editor.commit();
+		} else {
+			menu.setIcon(R.drawable.ic_action_brightness_high);
+			menu.setTitle(R.string.change_daily_mode);
+			Editor editor = share.edit();
+			editor.putBoolean(NIGHT_MODE, true);
+			editor.commit();
+			mode = ThemeManager.MODE_NIGHT;
+		}
+		ThemeManager.getInstance().setMode(mode);
+		if (mTabsAdapter != null && result != null) {
+			for (int i = 0; i < result.getRowList().size(); i++) {
+				fillFormated_html_data(result.getRowList().get(i), i);
 			}
+			finishLoad(result);
+			mTabsAdapter.notifyDataSetChangedChangeMode();
+		}
+	}
 
-		});
-		f.setCancleListener(new OnClickListener() {
+	private void fillFormated_html_data(ThreadRowInfo row, int i) {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				f.dismiss();
+		ThemeManager theme = ThemeManager.getInstance();
+		if (row.getContent() == null) {
+			row.setContent(row.getSubject());
+			row.setSubject(null);
+		}
+		if (!StringUtil.isEmpty(row.getFromClient())) {
+			if (row.getFromClient().startsWith("103 ")
+					&& !StringUtil.isEmpty(row.getContent())) {
+				row.setContent(StringUtil.unescape(row.getContent()));
 			}
+		}
+		int bgColor = getResources().getColor(theme.getBackgroundColor(i));
+		int fgColor = getResources().getColor(theme.getForegroundColor());
+		bgColor = bgColor & 0xffffff;
+		final String bgcolorStr = String.format("%06x", bgColor);
 
-		});
-		f.show(getSupportFragmentManager(), ALERT_DIALOG_TAG);
+		int htmlfgColor = fgColor & 0xffffff;
+		final String fgColorStr = String.format("%06x", htmlfgColor);
+
+		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
+				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
+
+		row.setFormated_html_data(formated_html_data);
+	}
+
+	private boolean isShowImage() {
+		return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+	}
+
+	public int showImageQuality() {
+		if (isInWifi()) {
+			return 0;
+		} else {
+			return PhoneConfiguration.getInstance().imageQuality;
+		}
+	}
+
+	public boolean isInWifi() {
+		ConnectivityManager conMan = (ConnectivityManager) this
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+				.getState();
+		return wifi == State.CONNECTED;
 	}
 
 	private void createGotoDialog() {
@@ -508,24 +523,15 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 	@Override
 	protected void onResume() {
-
-		if (nightmode != ThemeManager.getInstance().getMode()) {
-			Intent intent = getIntent();
-			overridePendingTransition(0, 0);
-			finish();
-			overridePendingTransition(0, 0);
-			startActivity(intent);
+		int orentation = ThemeManager.getInstance().screenOrentation;
+		if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+				|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+			setRequestedOrientation(orentation);
 		} else {
-			int orentation = ThemeManager.getInstance().screenOrentation;
-			if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-					|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-				setRequestedOrientation(orentation);
-			} else {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-			}
-			if (PhoneConfiguration.getInstance().fullscreen) {
-				ActivityUtil.getInstance().setFullScreen(mViewPager);
-			}
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		}
+		if (PhoneConfiguration.getInstance().fullscreen) {
+			ActivityUtil.getInstance().setFullScreen(mViewPager);
 		}
 		super.onResume();
 	}
@@ -537,7 +543,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	}
 
 	/*
-	 * public ThreadFragmentAdapter getmTabsAdapter() { return mTabsAdapter; }
+	 * public ThreadFragmentAdapter getmTabsAdapter() { return ; }
 	 */
 
 	@Override
@@ -596,6 +602,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 	@Override
 	public void finishLoad(ThreadData data) {
+		result = data;
 		int exactCount = 1 + data.getThreadInfo().getReplies() / 20;
 		if (mTabsAdapter.getCount() != exactCount && this.authorid == 0) {
 			if (this.pid != 0)

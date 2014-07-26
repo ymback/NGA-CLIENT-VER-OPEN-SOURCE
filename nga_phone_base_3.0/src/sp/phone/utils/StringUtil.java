@@ -362,6 +362,10 @@ public class StringUtil {
 				ignoreCaseTag
 						+ "\\[pid=(.+?)\\]\\[/pid\\]",
 				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
+		s = s.replaceAll(
+				ignoreCaseTag
+						+ "\\[pid=(.+?)\\](.+?)\\[/pid\\]",
+				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
 		if (showPlayMode() < 4) {
 			// 优酷FLASH可内置播放
 			s = s.replaceAll(
@@ -734,26 +738,6 @@ public class StringUtil {
 		s = s.replaceAll(ignoreCaseTag
 						+ "\\[\\*\\](.+?)<br/>",
 						"<li>$1</li>");
-		// s = s.replaceAll(ignoreCaseTag
-		// +"\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]",
-		// "<a href='http://img.nga.178.com/attachments$1'><img src='http://img.nga.178.com/attachments$1' style= 'max-width:100%' ></a>");
-		// s = s.replaceAll(ignoreCaseTag
-		// +"\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]",
-		// "<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
-		/*
-		 * }else{ s =
-		 * s.replaceAll("\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]",
-		 * "<a href='http://img.nga.178.com/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
-		 * ); s = s.replaceAll("\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]",
-		 * "<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
-		 * ); s = s.replaceAll("\\[IMG\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/IMG\\]",
-		 * "<a href='http://img.nga.178.com/attachments$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
-		 * ); s = s.replaceAll("\\[IMG\\]\\s*(http[^\\[|\\]]+)\\s*\\[/IMG\\]",
-		 * "<a href='$1'><img src='file:///android_asset/ic_offline_image.png' style= 'max-width:100%;' ></a>"
-		 * );
-		 * 
-		 * }
-		 */
 
 		Pattern p = Pattern
 				.compile("<img src='(http\\S+)' style= 'max-width:100%' >");

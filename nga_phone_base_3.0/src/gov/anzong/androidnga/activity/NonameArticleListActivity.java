@@ -61,7 +61,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 	ThreadFragmentAdapter mTabsAdapter;
 	int tid;
 	String title;
-	int nightmode;
 	private static final String TAG = "ArticleListActivity";
 	private static final String GOTO_TAG = "goto";
 	private PullToRefreshAttacher mPullToRefreshAttacher;
@@ -83,23 +82,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 				&& PhoneConfiguration.getInstance().location == null) {
 			ActivityUtil.reflushLocation(this);
 		}
-		nightmode = ThemeManager.getInstance().getMode();
-
-		/*
-		 * PullToRefreshViewPager refreshPager = (PullToRefreshViewPager)
-		 * findViewById(R.id.pull_refresh_viewpager);
-		 * refreshPager.setMode(Mode.PULL_FROM_START);
-		 * refreshPager.setOnRefreshListener(new OnRefreshListener<ViewPager>(){
-		 * 
-		 * @Override public void onRefresh(PullToRefreshBase<ViewPager>
-		 * refreshView) { finish();
-		 * 
-		 * }
-		 * 
-		 * });
-		 * 
-		 * mViewPager = refreshPager.getRefreshableView();
-		 */
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		int pageFromUrl = 0;
@@ -302,7 +284,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 		case R.id.goto_floor:
 			createGotoDialog();
 			break;
-		case R.id.night_mode:
+		case R.id.night_mode://OK
 			nightMode(item);
 			break;
 		case R.id.article_menuitem_back:
@@ -366,13 +348,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 
 	private void nightMode(final MenuItem menu) {
 
-		String alertString = getString(R.string.change_nigmtmode_string);
-		final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-		f.setOkListener(new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
 				ThemeManager tm = ThemeManager.getInstance();
 				SharedPreferences share = getSharedPreferences(PERFERENCE,
 						MODE_PRIVATE);
@@ -392,23 +367,9 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 					mode = ThemeManager.MODE_NIGHT;
 				}
 				ThemeManager.getInstance().setMode(mode);
-				Intent intent = getIntent();
-				overridePendingTransition(0, 0);
-				finish();
-				overridePendingTransition(0, 0);
-				startActivity(intent);
-			}
-
-		});
-		f.setCancleListener(new OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				f.dismiss();
-			}
-
-		});
-		f.show(getSupportFragmentManager(), ALERT_DIALOG_TAG);
+				if(mTabsAdapter!=null){
+					mTabsAdapter.notifyDataSetChangedChangeMode();
+				}
 	}
 
 	private void createGotoDialog() {
@@ -432,14 +393,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 
 	@Override
 	protected void onResume() {
-
-		if (nightmode != ThemeManager.getInstance().getMode()) {
-			Intent intent = getIntent();
-			overridePendingTransition(0, 0);
-			finish();
-			overridePendingTransition(0, 0);
-			startActivity(intent);
-		} else {
 			int orentation = ThemeManager.getInstance().screenOrentation;
 			if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 					|| orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -450,7 +403,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 			if (PhoneConfiguration.getInstance().fullscreen) {
 				ActivityUtil.getInstance().setFullScreen(mViewPager);
 			}
-		}
 		super.onResume();
 	}
 
