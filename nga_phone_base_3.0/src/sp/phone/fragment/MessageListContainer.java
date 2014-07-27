@@ -57,7 +57,7 @@ public class MessageListContainer extends Fragment implements
 	boolean canDismiss = true;
 	int category = 0;
 	final private String ALERT_DIALOG_TAG = "alertdialog";
-	private ViewGroup mcontainer;
+	private ViewGroup mcontainer; 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
