@@ -77,6 +77,7 @@ AsyncTask<String, Integer, String> {
 		ActivityUtil.getInstance().noticeSayingWithProgressBar(context);
 		super.onPreExecute();
 	}
+	
 	private void Toastsuoxiao(){
 		Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT)
 		.show();
@@ -218,18 +219,11 @@ AsyncTask<String, Integer, String> {
 			publishProgress(progress);
 			out.write(buf, 0, len);
 		}
-	  
 	    out.write(tail);
 	  
 	    is.close(); 
 	    InputStream httpInputStream = conn.getInputStream();
-		for (int i = 1; (conn.getHeaderFieldKey(i)) != null; i++) {
-			//Log.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":"
-			//		+ conn.getHeaderField(i));
-
-		}
 	    html = IOUtils.toString(httpInputStream, "gbk");
-	   // Log.d(LOG_TAG, "get response" + html);
 	    out.close();
 	    
 		} catch (Exception e) {

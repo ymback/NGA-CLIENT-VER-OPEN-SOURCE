@@ -528,8 +528,8 @@ public class Media_Player extends Activity {
 		lpa.screenBrightness = mBrightness + percent;
 		if (lpa.screenBrightness > 1.0f)
 			lpa.screenBrightness = 1.0f;
-		else if (lpa.screenBrightness < 0.01f)
-			lpa.screenBrightness = 0.01f;
+		else if (lpa.screenBrightness < 0f)
+			lpa.screenBrightness = 0f;
 		getWindow().setAttributes(lpa);
 		int britmp = (int) (lpa.screenBrightness * 100);
 		vol_brightness_textview.setVisibility(View.VISIBLE);

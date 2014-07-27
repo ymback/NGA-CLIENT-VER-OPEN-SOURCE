@@ -68,7 +68,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onPreExecute() {
-		ActivityUtil.getInstance().noticeSaying(context);
+		ActivityUtil.getInstance().noticeSayingWithProgressBar(context);
 		super.onPreExecute();
 	}
 
@@ -86,12 +86,17 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
-		if (values[0] == 50) {
-			Toast.makeText(context, R.string.image_to_big2, Toast.LENGTH_SHORT)
-					.show();
+		if(values[0]<0 || values[0]>100){
+			values[0]=100;
 		}
+		ActivityUtil.getInstance().noticebarsetprogress(values[0]);
 	}
 
+	private void Toastsuoxiao(){
+		Toast.makeText(context, R.string.image_to_big2, Toast.LENGTH_SHORT)
+		.show();
+	}
+	
 	@Override
 	protected void onPostExecute(String result) {
 		if(StringUtil.isEmpty(result)){
@@ -133,7 +138,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 			int width = opts.outWidth;
 		    int height = opts.outHeight;
 			if (width>255 || height>180) {
-				this.publishProgress(50);
+				Toastsuoxiao();
 				byte[] img = ImageUtil.fitNGAImageToUpload(
 						cr.openInputStream(uri),opts);
 				contentType = "image/png";
@@ -178,20 +183,18 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 			byte[] buf = new byte[1024];
 			int len;
 			out.write(header);
-			while ((len = is.read(buf)) != -1)
+		    int ilen=0,progress=0;
+			while ((len = is.read(buf)) != -1){
+				ilen+=len;
+				progress = (int)((ilen / (float) filesize) * 100);
+				publishProgress(progress);
 				out.write(buf, 0, len);
-
+			}
 			out.write(tail);
 
 			is.close();
 			InputStream httpInputStream = conn.getInputStream();
-			for (int i = 1; (conn.getHeaderFieldKey(i)) != null; i++) {
-				// Log.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":"
-				// + conn.getHeaderField(i));
-
-			}
 			html = IOUtils.toString(httpInputStream, "gbk");
-			// Log.d(LOG_TAG, "get response" + html);
 			out.close();
 
 		} catch (Exception e) {
