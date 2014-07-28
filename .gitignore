@@ -215,3 +215,5 @@ pip-log.txt
 .mr.developer.cfg
 /test
 /RemoteSystemsTempFiles
+/nga_phone_base_3.0/src/sp/phone/fragment/MessageListContainer.java
+/nga_phone_base_3.0/src/sp/phone/fragment/MessageListContainer.java

@@ -36,17 +36,21 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light" >
         <activity
-            android:name=".activity.Media_Player"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="Media/MediaPlayer"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" >
-        </activity>
-        <activity
-            android:name="io.vov.vitamio.activity.InitActivity"
+            android:name="io.vov.vitamio.player.InitActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+            android:process=":vitamio"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="gov.anzong.mediaplayer.VideoActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:process=":vitamio"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
@@ -498,6 +502,10 @@
             android:theme="@style/SwipeBackTheme"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
+
+        <service
+            android:name="gov.anzong.mediaplayer.PlayerService"
+            android:process=":vitamio" />
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="vitamio_library_app_name">VitamioLibrary</string>
     <string name="vitamio_init_decoders">正在安装解码器\n你可以使用客户端直接看帖子里大部分视频网站的视频了...</string>
     <string name="permission_group_tools_label">Vitamio tools</string>
@@ -11,8 +10,7 @@
     <string name="permission_write_providers_description">Delete, update or create new items in Vitamio providers.
     </string>
     <string name="VideoView_error_title">不能播放视频</string>
-    <string name="VideoView_error_text_invalid_progressive_playback">抱歉,对本设备而言该流媒体无效.
-    </string>
+    <string name="VideoView_error_text_invalid_progressive_playback">抱歉,对本设备而言该流媒体无效.</string>
     <string name="VideoView_error_text_unknown">抱歉,该视频无法播放.</string>
     <string name="VideoView_error_button">OK</string>
     <string name="mediacontroller_play_pause">播放/暂停</string>

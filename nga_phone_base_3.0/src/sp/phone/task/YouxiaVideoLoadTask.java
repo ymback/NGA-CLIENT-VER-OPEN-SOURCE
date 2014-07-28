@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.Media_Player;
+import gov.anzong.mediaplayer.VideoActivity;
 import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MD5Util;
@@ -66,11 +66,7 @@ public class YouxiaVideoLoadTask extends AsyncTask<String, Integer, String> {
 		}
 
 		if (result != null) {
-			Intent intent = new Intent(fa.getBaseContext(), Media_Player.class);
-			Bundle b = new Bundle();
-			b.putString("MEDIAPATH", result);
-			intent.putExtras(b);
-			fa.startActivity(intent);
+		    VideoActivity.openVideo(fa, Uri.parse(result), "游侠视频");
 		} else {
 				Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析,将调用系统打开链接",
 						Toast.LENGTH_LONG).show();

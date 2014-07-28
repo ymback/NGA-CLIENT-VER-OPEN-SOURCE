@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.Media_Player;
+import gov.anzong.mediaplayer.VideoActivity;
 import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MD5Util;
@@ -75,12 +75,7 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 		}
 
 		if (result != null) {
-			Intent intent = new Intent(fa.getBaseContext(), Media_Player.class);
-			Bundle b = new Bundle();
-			b.putString("MEDIAPATH", result);
-			b.putString("origurl", origurl);
-			intent.putExtras(b);
-			fa.startActivity(intent);
+		    VideoActivity.openVideo(fa, Uri.parse(result), "ACFUN");
 		} else {
 			if (isdelected) {
 				Toast.makeText(fa.getBaseContext(), "抱歉,该视频已经被删除",
@@ -128,7 +123,9 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected String doInBackground(String... params) {
-		final String uri = params[0];
+		String uri = params[0];
+		uri=uri.replace("acfun.com", "acfun.tv");
+		Log.i("TAG",uri);
 		final String htmlStringstep1 = HttpUtil.iosGetHtml(uri, null);
 		String datavid = StringUtil.getStringBetween(htmlStringstep1, 0,
 				"data-vid=\"", "\"").result;

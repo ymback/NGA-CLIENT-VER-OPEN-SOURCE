@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.Media_Player;
+import gov.anzong.mediaplayer.VideoActivity;
 import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.StringUtil;
@@ -61,11 +61,7 @@ public class Ku6VideoLoadTask extends AsyncTask<String, Integer, String> {
 		}
 		
 		if(result != null){
-				Intent intent = new Intent(fa.getBaseContext(),Media_Player.class);
-				Bundle b = new Bundle();
-				b.putString("MEDIAPATH", result);
-				intent.putExtras(b);
-				fa.startActivity(intent);
+		    VideoActivity.openVideo(fa, Uri.parse(result), "酷6视频");
 		}else{
 			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析,将调用系统打开链接",	Toast.LENGTH_LONG).show();
 			Intent intent = new Intent(Intent.ACTION_VIEW);
