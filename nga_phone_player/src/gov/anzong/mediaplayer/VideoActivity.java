@@ -1,6 +1,6 @@
 package gov.anzong.mediaplayer;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.mediaplayer.R;
 
 import java.io.File;
 import java.nio.ByteBuffer;

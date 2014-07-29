@@ -3,7 +3,7 @@
 package gov.anzong.mediaplayer;
 
 import gov.anzong.mediaplayer.CommonGestures.TouchListener;
-import gov.anzong.androidnga.R;
+import gov.anzong.mediaplayer.R;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

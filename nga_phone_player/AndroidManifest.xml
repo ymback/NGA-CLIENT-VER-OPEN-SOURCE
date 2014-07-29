@@ -1,31 +1,45 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gov.anzong.androidnga"
-    android:versionCode="300"
-    android:versionName="3.0" >
+    package="gov.anzong.mediaplayer"
+    android:installLocation="auto"
+    android:versionCode="100"
+    android:versionName="1.0"
+    android:sharedUserId="gov.anzong.androidnga" >
 
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="17" />
-    
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    
-    <application        
-        android:label="@string/vitamio_name" >
+
+    <application
+        android:label="@string/vitamio_name"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
-            android:name="io.vov.vitamio.player.InitActivity"
+            android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="gov.anzong.mediaplayer.ReceiveIntentActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:process=":vitamio"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="gov.anzong.mediaplayer.VideoActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
             android:process=":vitamio"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
