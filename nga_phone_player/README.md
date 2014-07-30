@@ -5,18 +5,18 @@ NGA客户端播放器基于VitamioMediaPlayerDemo,可作为插件或库使用
 
 怎么用?
 ==========
-导入视频解码库 [VitamioBundle](https://github.com/yixia/VitamioBundle).
-作为库:
-1. 复制权限及Activity的说明(AndroidManifest.xml中)到你的项目
-2. 使用.
+导入视频解码库 [VitamioBundle](https://github.com/yixia/VitamioBundle).<br>
+作为库:<br>
+1. 复制权限及Activity的说明(AndroidManifest.xml中)到你的项目<br>
+2. 使用:
 
 ```
     Uri uri = Uri.parse("xxxx");
     VideoActivity.openVideo(this, uri, "video title");
 ```
 
-作为插件：
-在你的项目中使用如下代码
+作为插件：<br>
+1. 在你的项目中使用如下代码:
 
 ```
 try{
