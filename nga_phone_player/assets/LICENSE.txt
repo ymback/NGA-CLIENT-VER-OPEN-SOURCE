@@ -1,0 +1,27 @@
+------------------------------
+ VitamioBundle
+------------------------------
+  io.vov.vitamio
+  libs/armeabi/libvinit.so
+  libs/armeabi-v7a/libvinit.so
+  libs/mips/libvinit.so
+  libs/x86/libvinit.so
+  res/raw/libarm.so
+
+  https://github.com/yixia/VitamioBundle/
+
+  Copyright 2013 yixia.com
+
+  VitamioBundle is Licensed by their own explanation; https://www.vitamio.org/en/License/ 
+  
+
+------------------------------
+ VitamioMediaPlayerDemo
+------------------------------
+  *
+
+  https://github.com/crossle/VitamioMediaPlayerDemo
+
+  Copyright 2013 yixia.com
+
+  License NOT explained
