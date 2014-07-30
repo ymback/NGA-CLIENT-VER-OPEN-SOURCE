@@ -35,9 +35,10 @@
                 <TextView
                     android:id="@+id/mediacontroller_file_name"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:paddingLeft="8dip"
+                    android:gravity="center_vertical|left"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
@@ -46,7 +47,8 @@
                 <TextView
                     android:id="@+id/download_rate"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:drawableLeft="@drawable/video_download_rate"
                     android:drawablePadding="3.0dp"
                     android:paddingRight="12dp"
@@ -57,23 +59,36 @@
                 <TextView
                     android:id="@+id/wifi_rate"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:paddingRight="12dp"
                     android:textColor="@android:color/white"/>
                 
                 <TextView
                     android:id="@+id/date_time"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
                     android:paddingRight="12dp"
                     android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/battery_level"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="12dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingRight="18dp"
                     android:textColor="@android:color/white" />
+                <Button
+                    android:id="@+id/mode_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                	android:paddingLeft="16dp"
+                	android:paddingRight="16dp"
+                	android:textSize="20sp"
+                    android:textColor="@android:color/white" 
+    				android:background="@drawable/spinner_ab_default"/>
             </LinearLayout>
 
             <LinearLayout

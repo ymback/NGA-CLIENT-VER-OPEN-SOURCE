@@ -17,13 +17,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal" >
-
+		
         <RelativeLayout
             android:id="@+id/video_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
-
+		
             <ImageView
                 android:id="@+id/video_loading_progress"
                 android:layout_width="wrap_content"
@@ -74,6 +74,19 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:visibility="gone" />
         </RelativeLayout>
+        
+		
+		<ImageButton
+		    android:id="@+id/player_back"
+		    style="@style/MediaController_Button"
+		    android:layout_width="@dimen/action_bar_default_height"
+		    android:layout_height="@dimen/action_bar_default_height"
+		    android:layout_alignParentTop="true"
+		    android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+		    android:contentDescription="@string/content_desc_lock"
+		    android:src="@drawable/bili_player_back_button" />
     </RelativeLayout>
 
 </gov.anzong.mediaplayer.CenterLayout>

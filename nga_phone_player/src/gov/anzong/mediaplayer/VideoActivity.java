@@ -34,10 +34,13 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,6 +91,7 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 	private ServiceConnection vPlayerServiceConnection;
 	private Animation mLoadingAnimation;
 	private View mLoadingProgressView;
+	private ImageButton player_back;
 
 	static {
 		SCREEN_FILTER.addAction(Intent.ACTION_SCREEN_OFF);
@@ -252,7 +256,16 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 		mVideoLoadingText = (TextView) findViewById(R.id.video_loading_text);
 		mVideoLoadingLayout = findViewById(R.id.video_loading);
 		mLoadingProgressView = mVideoLoadingLayout.findViewById(R.id.video_loading_progress);
+		player_back = (ImageButton) findViewById(R.id.player_back);
+		player_back.setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+			
+		});
 		mLoadingAnimation = AnimationUtils.loadAnimation(VideoActivity.this, R.anim.loading_rotate);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
@@ -724,6 +737,7 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 
 		@Override
 		public void onBufferComplete() {
+			player_back.setVisibility(View.GONE);
 			vPlayerHandler.sendEmptyMessage(BUFFER_COMPLETE);
 			if (vPlayer != null && !vPlayer.needResume())
 				startPlayer();
@@ -893,6 +907,7 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 	@Override
 	public void removeLoadingView() {
 		mVideoLoadingLayout.setVisibility(View.GONE);
+		player_back.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -922,5 +937,12 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 			if (vPlayer.needResume())
 				vPlayer.start();
 		}
+	}
+
+	@Override
+	public void setVideoQuality(int quality) {
+		// TODO Auto-generated method stub
+		if (isInitialized())
+			vPlayer.setVideoQuality(quality);
 	}
 }

@@ -5,5 +5,7 @@
     <color name="gray">#FF777777</color>
     <color name="mediacontroller_bg_pressed">#ff53c1bd</color>
     <color name="mediacontroller_bg">#99000000</color>
+    
+	<color name="listviewtextcolorseleted">#FFEEBB</color>
 
 </resources>

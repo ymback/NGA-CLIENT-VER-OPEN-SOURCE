@@ -5,6 +5,8 @@ package gov.anzong.mediaplayer;
 import gov.anzong.mediaplayer.CommonGestures.TouchListener;
 import gov.anzong.mediaplayer.R;
 
+import io.vov.vitamio.MediaPlayer;
+
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,7 +16,9 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,24 +27,35 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
@@ -48,6 +63,7 @@ public class MediaController extends FrameLayout {
 	private MediaPlayerControl mPlayer;
 	private static Activity mContext;
 	private PopupWindow mWindow;
+	private PopupWindow videoqualityWindow;
 	private View mAnchor;
 	private View mRoot;
 	private ImageButton mLock;
@@ -64,6 +80,7 @@ public class MediaController extends FrameLayout {
 	private static final int DEFAULT_SEEKBAR_VALUE = 1000;
 	private static final int TIME_TICK_INTERVAL = 1000;
 	private ImageButton mPauseButton,mediacontroller_back;
+	private int selectedposition = 1;
 
 	private View mMediaController;
 	private long toposition = -1l;
@@ -74,6 +91,9 @@ public class MediaController extends FrameLayout {
 	private static TextView mWifiRate;
 	private TextView mFileName;
 	private TextView mBatteryLevel;
+	
+	private Button mModeButton;
+
 
 	private TextView mOperationInfo;
 	private RelativeLayout relativeLayout_volume, relativeLayout_brightness;
@@ -171,7 +191,7 @@ public class MediaController extends FrameLayout {
 		mWindow.setContentView(mRoot);
 		mWindow.setWidth(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 		mWindow.setHeight(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-
+		
 		findViewItems(mRoot);
 		showSystemUi(false);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -224,13 +244,113 @@ public class MediaController extends FrameLayout {
 		mProgress.setMax(DEFAULT_SEEKBAR_VALUE);
 
 		mOperationInfo = (TextView) v.findViewById(R.id.operation_info);
-
+		mModeButton = (Button) v.findViewById(R.id.mode_spinner);
+		mModeButton.setText("普通");
+		mModeButton.setOnClickListener(videoquality());
+	    
+	    
 		relativeLayout_volume = (RelativeLayout) findViewById(R.id.relativeLayout_volume);
 		relativeLayout_brightness = (RelativeLayout) findViewById(R.id.relativeLayout_brightness);
 		volumeProgressBar = (ProgressBar) findViewById(R.id.volumeProgressBar);
 		brightnessProgressBar = (ProgressBar) findViewById(R.id.brightnessProgressBar);
 	}
+	
+	public OnClickListener videoquality(){ 
+		OnClickListener videoqualityonclick = new OnClickListener(){
+	        
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				show(); 
+				final View mLayout;  // 下拉列表的布局  
+		        final ListView mListView;    // 下拉列表控件 
+		        final BaseAdapter adaptervideoQuality;
+				LayoutInflater inflater = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+				mLayout = inflater.inflate(R.layout.spinnerlistview,null);
+				mListView = (ListView) mLayout.findViewById(R.id.mlistview); 
+	            mListView.setCacheColorHint(Color.TRANSPARENT);
+	            adaptervideoQuality=adaptervideoQuality(inflater);
+	            mListView.setAdapter(adaptervideoQuality);
+				videoqualityWindow = new PopupWindow(mLayout,mModeButton.getWidth(),ViewGroup.LayoutParams.WRAP_CONTENT);
+				videoqualityWindow.setContentView(mLayout);
+				videoqualityWindow.setFocusable(true);
+				videoqualityWindow.setBackgroundDrawable(new BitmapDrawable()); 
+				videoqualityWindow.setOutsideTouchable(true);
+				int[] location = new  int[2] ;
+				mModeButton.getLocationOnScreen(location);
+				videoqualityWindow.showAtLocation(mLayout, Gravity.TOP|Gravity.LEFT, location[0], mSystemInfoLayout.getHeight());
+				mListView.setOnItemClickListener(new OnItemClickListener(){
 
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						// TODO Auto-generated method stub
+						show();
+						selectedposition=position;
+						mModeButton.setText((String) mListView.getItemAtPosition(position));
+						switch(position){
+							case 1 :
+								mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
+								break;
+							case 2:
+								mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
+								break;
+							case 0:
+							default:
+								mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_LOW);
+								break;
+						}
+						setOperationInfo("视频质量："+(String) mListView.getItemAtPosition(position), 1500);
+						adaptervideoQuality.notifyDataSetChanged();
+					}
+				});
+			}
+			
+		};
+		return videoqualityonclick;
+		
+	}
+	
+	public BaseAdapter adaptervideoQuality(final LayoutInflater inflater){
+		BaseAdapter adaptervideoQuality =new BaseAdapter(){
+
+			@Override
+			public int getCount() {
+				// TODO Auto-generated method stub
+				return mContext.getResources().getStringArray(R.array.videoquality).length;    //选项总个数
+			}
+
+			@Override
+			public String getItem(int arg0) {
+				// TODO Auto-generated method stub
+				return mContext.getResources().getStringArray(R.array.videoquality)[arg0];
+			}
+
+			@Override
+			public long getItemId(int position) {
+				// TODO Auto-generated method stub
+				return position;
+			}
+
+			@Override
+			 public View getView(int arg0, View convertView, ViewGroup arg2) {
+				// TODO Auto-generated method stub
+				View v = convertView;
+				if (v == null) {
+					v = inflater.inflate(R.layout.listtextview, null);
+				}
+				TextView TV = (TextView) v.findViewById(R.id.spinner_dropdown_item_textview);
+				TV.setText(mContext.getResources().getStringArray(R.array.videoquality)[arg0]);
+				if(selectedposition==arg0){
+					TV.setTextColor(mContext.getResources().getColor(R.color.listviewtextcolorseleted));
+				}else{
+					TV.setTextColor(Color.WHITE);
+				}
+				return v;
+			}};
+			return adaptervideoQuality;
+	}
+	
 	public void setAnchorView(View view) {
 		mAnchor = view;
 		int[] location = new int[2];
@@ -350,6 +470,9 @@ public class MediaController extends FrameLayout {
 				mHandler.removeMessages(MSG_SHOW_PROGRESS);
 				mControlsLayout.startAnimation(mAnimSlideOutTop);
 				mSystemInfoLayout.startAnimation(mAnimSlideOutBottom);
+				if(videoqualityWindow!=null){
+					videoqualityWindow.dismiss();
+				}
 			} catch (IllegalArgumentException ex) {
 			}
 			mShowing = false;
@@ -396,14 +519,18 @@ public class MediaController extends FrameLayout {
 			mLock.setImageResource(R.drawable.mediacontroller_lock);
 			mProgress.setEnabled(false);
 			mPauseButton.setClickable(false);
+			mModeButton.setClickable(false);
 			mediacontroller_back.setClickable(false);
 			mScreenToggle.setClickable(false);
 			if (mScreenLocked != toLock)
 				setOperationInfo(mContext.getString(R.string.video_screen_locked), 1000);
+			if(videoqualityWindow!=null)
+				videoqualityWindow.dismiss();
 		} else {
 			mLock.setImageResource(R.drawable.mediacontroller_unlock);
 			mProgress.setEnabled(true);
 			mPauseButton.setClickable(true);
+			mModeButton.setClickable(true);
 			mediacontroller_back.setClickable(true);
 			mScreenToggle.setClickable(true);
 			if (mScreenLocked != toLock)
@@ -852,6 +979,8 @@ public class MediaController extends FrameLayout {
 		void stop();
 
 		void seekTo(long pos);
+		
+		void setVideoQuality(int quality);
 
 		boolean isPlaying();
 

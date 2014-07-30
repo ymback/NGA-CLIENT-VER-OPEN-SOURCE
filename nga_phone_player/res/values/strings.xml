@@ -21,4 +21,11 @@
     <string name="closing_file">退出中…</string>
     <string name="file_explorer_sdcard_not_available">你的SD卡不能读取.</string>
     <string name="subtitle_image">副标题</string>
+    
+    <string-array name="videoquality">
+        <item>流畅</item>
+        <item>普通</item>
+        <item>高质</item>
+    </string-array>
+    
 </resources>
