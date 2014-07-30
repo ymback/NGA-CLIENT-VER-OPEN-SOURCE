@@ -187,6 +187,9 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 			while ((len = is.read(buf)) != -1){
 				ilen+=len;
 				progress = (int)((ilen / (float) filesize) * 100);
+				if(progress==100){
+					progress=99;
+				}
 				publishProgress(progress);
 				out.write(buf, 0, len);
 			}
@@ -196,6 +199,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 			InputStream httpInputStream = conn.getInputStream();
 			html = IOUtils.toString(httpInputStream, "gbk");
 			out.close();
+			publishProgress(100);
 
 		} catch (Exception e) {
 			errorStr = context.getResources().getString(

@@ -100,6 +100,7 @@ AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
+		Log.i(TAG,String.valueOf(values[0]));
 		if(values[0]<0 || values[0]>100){
 			values[0]=100;
 		}
@@ -216,6 +217,9 @@ AsyncTask<String, Integer, String> {
 		while ((len = is.read(buf)) != -1){
 			ilen+=len;
 			progress = (int)((ilen / (float) filesize) * 100);
+			if(progress==100){
+				progress=99;
+			}
 			publishProgress(progress);
 			out.write(buf, 0, len);
 		}
@@ -225,6 +229,7 @@ AsyncTask<String, Integer, String> {
 	    InputStream httpInputStream = conn.getInputStream();
 	    html = IOUtils.toString(httpInputStream, "gbk");
 	    out.close();
+		publishProgress(100);
 	    
 		} catch (Exception e) {
 			Log.e(LOG_TAG, Log.getStackTraceString(e));

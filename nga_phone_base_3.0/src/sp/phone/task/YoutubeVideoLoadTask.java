@@ -5,10 +5,10 @@ import java.net.URLDecoder;
 import java.util.StringTokenizer;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.mediaplayer.VideoActivity;
 import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.StringUtil;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,7 +47,7 @@ public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		if(!startIntent){
-			Toast.makeText(fa.getBaseContext(), "创建视频窗口失败,将调用系统打开链接",	Toast.LENGTH_LONG).show();
+			Toast.makeText(fa.getBaseContext(), R.string.videoplay_createwindow_error,	Toast.LENGTH_LONG).show();
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(origurl));
             boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;
@@ -57,9 +57,26 @@ public class YoutubeVideoLoadTask extends AsyncTask<String, Integer, String> {
 		}
 		
 		if(result != null){
-		    VideoActivity.openVideo(fa, Uri.parse(result), "Youtube");
+		    try{
+		        Intent intent = new Intent();
+		        ComponentName comp = new ComponentName("gov.anzong.mediaplayer","gov.anzong.mediaplayer.ReceiveIntentActivity");
+		        intent.setComponent(comp);
+		        intent.putExtra("uri", result);
+		        intent.putExtra("title", "Youtube");
+				fa.startActivity(intent);
+		    }catch(Exception e){
+		    	//TODO
+		    	Toast.makeText(fa.getBaseContext(), R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					fa.startActivity(intent);
+		    }
 		}else{
-			Toast.makeText(fa.getBaseContext(), "抱歉,该视频无法解析,将调用系统打开链接",	Toast.LENGTH_LONG).show();
+			Toast.makeText(fa.getBaseContext(), R.string.videoplay_urlgetfailed_error,	Toast.LENGTH_LONG).show();
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(origurl));
             boolean isIntentSafe = fa.getPackageManager().queryIntentActivities(intent,0).size() > 0;

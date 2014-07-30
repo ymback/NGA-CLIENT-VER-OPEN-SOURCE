@@ -2,7 +2,6 @@ package sp.phone.utils;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ImageViewerActivity;
-import gov.anzong.mediaplayer.VideoActivity;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -28,6 +27,7 @@ import sp.phone.task.WASUVideoLoadTask;
 import sp.phone.task.YoutubeVideoLoadTask;
 import sp.phone.task.YouxiaVideoLoadTask;
 import android.annotation.TargetApi;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -38,6 +38,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class ArticleListWebClient extends WebViewClient {
 	static private final String NGACN_BOARD_PREFIX = "http://bbs.ngacn.cc/thread.php?";
@@ -178,42 +179,183 @@ public class ArticleListWebClient extends WebViewClient {
 					YOUKU_END).result;
 			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "优酷视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "优酷视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(YOUKUSWF_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "sid/",
 					YOUKUSWF_END).result;
 			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "优酷视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "优酷视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(YOUKUSWF2_START) && showPlayMode() != 4
-				&& url.indexOf("VideoIDS=".toLowerCase(Locale.US)) > 0 && StrTotalCount(url, "/") > 4) {// 优酷,可以直接拿VID解析的
+				&& url.indexOf("VideoIDS=".toLowerCase(Locale.US)) > 0
+				&& StrTotalCount(url, "/") > 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "VideoIDS=",
 					"&").result;
 			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "优酷视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "优酷视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(YOUKUSWF3_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
-			String id = StringUtil.getStringBetween(origurl, 0, YOUKUSWF3_START,
-					"/").result;
+			String id = StringUtil.getStringBetween(origurl, 0,
+					YOUKUSWF3_START, "/").result;
 			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "优酷视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "优酷视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(MYSOHU_START) && showPlayMode() != 4) {// 搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU_START,
 					MYSOHU_END).result;
 			id = id.substring(id.lastIndexOf("/") + 1);
 			String htmlUrl = "http://my.tv.sohu.com/ipad/" + id + ".m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "搜狐视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "搜狐视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(MYSOHU2_START) && showPlayMode() != 4) {// 搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU2_START,
 					MYSOHU2_END).result;
 			id = id.substring(id.lastIndexOf("/") + 1);
 			String htmlUrl = "http://my.tv.sohu.com/ipad/" + id + ".m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "搜狐视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "搜狐视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(MYSOHUSWF_START) && showPlayMode() != 4) {// 搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "id=", "&").result;
 			String htmlUrl = "http://my.tv.sohu.com/ipad/" + id + ".m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "搜狐视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "搜狐视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(SOHU_START) && showPlayMode() != 4) {// 搜狐,可以直接拿ID解析的
 			SohuVideoLoadTask loader = new SohuVideoLoadTask(fa);
 			if (ActivityUtil.isGreaterThan_2_3_3()) {
@@ -225,7 +367,27 @@ public class ArticleListWebClient extends WebViewClient {
 			String id = StringUtil.getStringBetween(origurl, 0, SOHUSWF_START,
 					SOHUSWF_END).result;
 			String htmlUrl = "http://hot.vrs.sohu.com/ipad" + id + ".m3u8";
-		    VideoActivity.openVideo(view.getContext(), Uri.parse(htmlUrl), "搜狐视频");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", htmlUrl);
+				intent.putExtra("title", "搜狐视频");
+				view.getContext().startActivity(intent);
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(view.getContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
+						Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse(origurl));
+				boolean isIntentSafe = fa.getPackageManager()
+						.queryIntentActivities(intent, 0).size() > 0;
+				if (isIntentSafe)
+					view.getContext().startActivity(intent);
+			}
 		} else if (url.startsWith(TUDOU_START) && showPlayMode() != 4) {// 土豆,需要解析后获取id然后获取M3U8地址
 			String id = StringUtil.getStringBetween(origurl, 0, TUDOU_START,
 					TUDOU_END).result;
@@ -474,8 +636,8 @@ public class ArticleListWebClient extends WebViewClient {
 			} else {
 				loader.execute(id);
 			}
-		} else if (url.startsWith(NETEASEGAME_START) && StrTotalCount(url, "/") > 5
-				&& showPlayMode() != 4) {// FLVCD
+		} else if (url.startsWith(NETEASEGAME_START)
+				&& StrTotalCount(url, "/") > 5 && showPlayMode() != 4) {// FLVCD
 			String id = origurl;
 			NeteaseVideoLoadTask loader = new NeteaseVideoLoadTask(fa, origurl);
 			if (ActivityUtil.isGreaterThan_2_3_3()) {

@@ -152,6 +152,11 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 				favor = getIntent().getExtras().getInt("favor", 0);
 				key = getIntent().getExtras().getString("key");
 				author = getIntent().getExtras().getString("author");
+				if(!StringUtil.isEmpty(author))
+					if(author.indexOf("&searchpost=1")>0){
+						author=author.replace("&searchpost=1", "");
+						searchpost=1;
+				}
 				table = getIntent().getExtras().getString("table");
 				fidgroup = getIntent().getExtras().getString("fidgroup");
 			}

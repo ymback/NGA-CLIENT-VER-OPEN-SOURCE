@@ -236,7 +236,7 @@
     <string name="cancle">取消</string>
     <string name="showColortxtWarn">彩虹发帖模式易导致禁言,专供有自杀需求的用户!</string>
     <string name="showNewweibaWarn">发送可见尾巴易导致禁言,专供有自杀需求的用户!</string>
-    <string name="about_client">NGA客户端开源版开发团队&lt;br/&gt;代码:[@竹井詩織里]/[@cfan8]/[@jjimmys]/[@Moandor]&lt;br/&gt;美工:[@那个惩戒骑]/[@从来不卖萌]&lt;br/&gt;查找更新请前往Play商店或酷安&lt;br/&gt;赞美片总!感谢[@force0119]!&lt;br/&gt;客户端吐槽QQ群:172503242&lt;br/&gt;License:&lt;a style="color:blue;" href="file:///android_asset/LICENSE.TXT"&gt;GNU GPL v2&lt;/a&gt;,软件版本:%1$s&lt;br/&gt;&lt;a style="color:blue;" href="http://ngac.sinaapp.com/blog/"&gt;Blog&lt;/a&gt; , &lt;a style="color:blue;" href="http://ngac.sinaapp.com/clientcheck/index.php?version=%2$d"&gt;客户端新版校验&lt;/a&gt;</string>
+    <string name="about_client">NGA客户端开源版开发团队&lt;br/&gt;代码:[@竹井詩織里]/[@cfan8]/[@jjimmys]/[@Moandor]&lt;br/&gt;美工:[@那个惩戒骑]/[@从来不卖萌]&lt;br/&gt;查找更新请前往Play商店或酷安&lt;br/&gt;赞美片总!感谢[@force0119]!&lt;br/&gt;客户端吐槽QQ群:172503242&lt;br/&gt;License:&lt;a style="color:blue;" href="file:///android_asset/LICENSE.TXT"&gt;GNU GPL v2&lt;/a&gt;,软件版本:%1$s&lt;br/&gt;&lt;a style="color:blue;" href="http://ngac.sinaapp.com/blog/"&gt;Blog&lt;/a&gt; , &lt;a style="color:blue;" href="http://ngac.sinaapp.com/clientcheck/index.php?version=%2$d"&gt;客户端新版校验及播放器下载&lt;/a&gt;</string>
     <string name="play_all">全部</string>
     <string name="play_all_not_acfun">全部(除ACFUN)</string>
     <string name="play_all_not_bilibili">全部(除BILIBILI)</string>
@@ -332,4 +332,11 @@
     <string name="setting_uishow">界面设置</string>
     <string name="setting_option">功能设置</string>
 
+    <!-- videoplay error toast -->
+    <string name="videoplay_createwindow_error">创建视频窗口失败,将调用系统打开链接</string>
+    <string name="videoplay_createwindow_error_noopen">创建视频窗口失败</string>
+    <string name="videoplay_deleted_error">抱歉,该视频已经被删除</string>
+    <string name="videoplay_urlgetfailed_error">抱歉,该视频无法解析,将调用系统打开链接</string>
+    <string name="videoplay_ngaplayernotinstall_error">无法调用NGA客户端播放器,请到侧边栏关于中下载或更新播放器,本次将调用系统打开链接</string>
+    
 </resources>

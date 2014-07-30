@@ -1,12 +1,10 @@
 package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
-import io.vov.vitamio.LibsChecker;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,17 +21,14 @@ import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.PerferenceConstant;
-import sp.phone.bean.User;
 import sp.phone.fragment.LoginFragment;
 import sp.phone.fragment.ProfileSearchDialogFragment;
 import sp.phone.fragment.TopiclistContainer;
 import sp.phone.interfaces.PageCategoryOwnner;
-import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.app.Activity;
@@ -50,12 +45,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.gesture.GestureOverlayView;
-import android.gesture.GestureOverlayView.OnGestureListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
@@ -81,14 +73,12 @@ import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -101,12 +91,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-import android.view.GestureDetector;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.readystatesoftware.viewbadger.BadgeView;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -145,8 +133,6 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!LibsChecker.checkVitamioLibs(this))
-			return;
 		this.setTheme(R.style.AppTheme);
 		share = getSharedPreferences(PERFERENCE, Activity.MODE_PRIVATE);
 		dragonballnum = Integer.parseInt(share.getString(DRAGON_BALL, "0"));
@@ -701,9 +687,6 @@ public class MainActivity extends ActionBarActivity implements
 			AvatarTag origTag = (AvatarTag) tagObj;
 			if (origTag.isDefault == false) {
 				ImageUtil.recycleImageView(avatarIV);
-				// Log.d(TAG, "recycle avatar:" + origTag.lou);
-			} else {
-				// Log.d(TAG, "default avatar, skip recycle");
 			}
 		}
 		AvatarTag tag = new AvatarTag(Integer.parseInt(userId), true);
@@ -779,7 +762,6 @@ public class MainActivity extends ActionBarActivity implements
 		} else {
 			return app.loadDefaultBoard();
 		}
-
 	}
 
 	private void delay(String text) {
@@ -1491,8 +1473,8 @@ public class MainActivity extends ActionBarActivity implements
 		if(pager.getAdapter()!=null){
 			mIndicator.notifyDataSetChanged();
 		}
-		updatemDrawerList();
 		updatepager();
+		updatemDrawerList();
 		refreshheadview();
 		super.onResume();
 	}

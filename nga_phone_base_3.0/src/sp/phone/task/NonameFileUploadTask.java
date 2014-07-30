@@ -181,6 +181,9 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 			while ((len = is.read(buf)) != -1){
 				ilen+=len;
 				progress = (int)((ilen / (float) filesize) * 100);
+				if(progress==100){
+					progress=99;
+				}
 				publishProgress(progress);
 				out.write(buf, 0, len);
 			}
@@ -188,15 +191,9 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 
 			is.close();
 			InputStream httpInputStream = conn.getInputStream();
-			for (int i = 1; (conn.getHeaderFieldKey(i)) != null; i++) {
-				// Log.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":"
-				// + conn.getHeaderField(i));
-
-			}
 			html = IOUtils.toString(httpInputStream, "gbk");
-			// Log.d(LOG_TAG, "get response" + html);
 			out.close();
-
+			publishProgress(100);
 		} catch (Exception e) {
 			errorStr = context.getResources().getString(
 					R.string.net_work_error);
