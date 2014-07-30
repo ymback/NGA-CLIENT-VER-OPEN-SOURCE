@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="vitamio_library_app_name">VitamioLibrary</string>
-    <string name="vitamio_init_decoders">正在安装解码器\n你可以使用客户端直接看帖子里大部分视频网站的视频了...</string>
+    <string name="vitamio_init_decoders">正在安装解码器&#8230;</string>
     <string name="permission_group_tools_label">Vitamio tools</string>
     <string name="permission_group_tools_description">Access Vitamio package and resources.</string>
     <string name="permission_receive_messages_label">Receive Vitamio messages</string>

@@ -201,6 +201,10 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 			release();
 		if (mMediaController != null)
 			mMediaController.release();
+		try {
+				android.os.Process.killProcess(android.os.Process.myPid());
+		}catch(Exception e){
+			}
 	}
 
 	@Override

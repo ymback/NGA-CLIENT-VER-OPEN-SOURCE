@@ -16,9 +16,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,6 +37,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -40,7 +46,7 @@ import android.widget.TextView;
 
 public class MediaController extends FrameLayout {
 	private MediaPlayerControl mPlayer;
-	private Activity mContext;
+	private static Activity mContext;
 	private PopupWindow mWindow;
 	private View mAnchor;
 	private View mRoot;
@@ -65,12 +71,13 @@ public class MediaController extends FrameLayout {
 	private View mSystemInfoLayout;
 	private TextView mDateTime;
 	private TextView mDownloadRate;
+	private static TextView mWifiRate;
 	private TextView mFileName;
 	private TextView mBatteryLevel;
 
 	private TextView mOperationInfo;
 	private RelativeLayout relativeLayout_volume, relativeLayout_brightness;
-	private VerticalProgressBar volumeProgressBar, brightnessProgressBar;
+	private ProgressBar volumeProgressBar, brightnessProgressBar;
 
 	private AudioManager mAM;
 	private int mMaxVolume;
@@ -120,6 +127,14 @@ public class MediaController extends FrameLayout {
 		}
 	}
 
+	public static boolean isInWifi() {
+		ConnectivityManager conMan = (ConnectivityManager) mContext
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+				.getState();
+		return wifi == State.CONNECTED;
+	}
+	
 	@SuppressLint("NewApi")
 	private void initResources() {
 		mHandler = new MHandler(this);
@@ -184,6 +199,7 @@ public class MediaController extends FrameLayout {
 		mFileName = (TextView) v.findViewById(R.id.mediacontroller_file_name);
 		mDateTime = (TextView) v.findViewById(R.id.date_time);
 		mDownloadRate = (TextView) v.findViewById(R.id.download_rate);
+		mWifiRate = (TextView) v.findViewById(R.id.wifi_rate);
 		mBatteryLevel = (TextView) v.findViewById(R.id.battery_level);
 
 		mControlsLayout = v.findViewById(R.id.mediacontroller_controls);
@@ -211,8 +227,8 @@ public class MediaController extends FrameLayout {
 
 		relativeLayout_volume = (RelativeLayout) findViewById(R.id.relativeLayout_volume);
 		relativeLayout_brightness = (RelativeLayout) findViewById(R.id.relativeLayout_brightness);
-		volumeProgressBar = (VerticalProgressBar) findViewById(R.id.volumeProgressBar);
-		brightnessProgressBar = (VerticalProgressBar) findViewById(R.id.brightnessProgressBar);
+		volumeProgressBar = (ProgressBar) findViewById(R.id.volumeProgressBar);
+		brightnessProgressBar = (ProgressBar) findViewById(R.id.brightnessProgressBar);
 	}
 
 	public void setAnchorView(View view) {
@@ -241,12 +257,54 @@ public class MediaController extends FrameLayout {
 	public void setFileName(String name) {
 		mFileName.setText(name);
 	}
-
+	
 	public void setDownloadRate(String rate) {
 		mDownloadRate.setVisibility(View.VISIBLE);
 		mDownloadRate.setText(rate);
 	}
-
+	
+	public static String getNetworkClass() {
+		if(!isConnected()){
+			return "无网络";
+		}
+	    TelephonyManager mTelephonyManager = (TelephonyManager)
+	            mContext.getSystemService(Context.TELEPHONY_SERVICE);
+	    int networkType = mTelephonyManager.getNetworkType();
+	    switch (networkType) {
+	        case TelephonyManager.NETWORK_TYPE_GPRS:
+	        case TelephonyManager.NETWORK_TYPE_EDGE:
+	        case TelephonyManager.NETWORK_TYPE_CDMA:
+	        case TelephonyManager.NETWORK_TYPE_1xRTT:
+	        case TelephonyManager.NETWORK_TYPE_IDEN:
+	            return "2G";
+	        case TelephonyManager.NETWORK_TYPE_UMTS:
+	        case TelephonyManager.NETWORK_TYPE_EVDO_0:
+	        case TelephonyManager.NETWORK_TYPE_EVDO_A:
+	        case TelephonyManager.NETWORK_TYPE_HSDPA:
+	        case TelephonyManager.NETWORK_TYPE_HSUPA:
+	        case TelephonyManager.NETWORK_TYPE_HSPA:
+	        case TelephonyManager.NETWORK_TYPE_EVDO_B:
+	        case TelephonyManager.NETWORK_TYPE_EHRPD:
+	        case TelephonyManager.NETWORK_TYPE_HSPAP:
+	            return "3G";
+	        case TelephonyManager.NETWORK_TYPE_LTE:
+	            return "4G";
+	        default:
+	        	if(isInWifi()){
+		            return "WIFI";
+	        	}else{
+		            return "未知蜂窝网络";
+	        	}
+	    }
+	}
+	
+    public static boolean isConnected(){
+		ConnectivityManager conMan = (ConnectivityManager) mContext
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = conMan.getActiveNetworkInfo();
+        return (info != null && info.isConnected());
+    }
+    
 	public void setBatteryLevel(String level) {
 		mBatteryLevel.setVisibility(View.VISIBLE);
 		mBatteryLevel.setText(level);
@@ -397,6 +455,7 @@ public class MediaController extends FrameLayout {
 				break;
 			case MSG_TIME_TICK:
 				c.mDateTime.setText(currentTimeString());
+				c.mWifiRate.setText(getNetworkClass());
 				sendEmptyMessageDelayed(MSG_TIME_TICK, TIME_TICK_INTERVAL);
 				break;
 			case MSG_HIDE_OPERATION_INFO:
@@ -480,7 +539,7 @@ public class MediaController extends FrameLayout {
 			initDuration();
 			mSpeed = 0;
 			toposition = -1l;
-			istoanotherposition=true;
+			istoanotherposition=false;
 			total_length = length2time(mDuration);
 			mVideo_current_length = mPlayer.getCurrentPosition();// 当前播放长度
 		}
@@ -521,6 +580,7 @@ public class MediaController extends FrameLayout {
 			} else if (mVideo_start_length <= 0) {
 				mVideo_start_length = 0L;
 			}
+			istoanotherposition=true;
 			toposition = (long) mVideo_start_length;
 			String start_length = length2time(mVideo_start_length);
 			int pasttime = (int) ((mVideo_start_length - mVideo_current_length) / 1000l);

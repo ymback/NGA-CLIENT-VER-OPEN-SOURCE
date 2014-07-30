@@ -1,7 +1,7 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
 
     <LinearLayout
@@ -11,10 +11,21 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <com.viewpagerindicator.TabPageIndicator
-            android:id="@+id/indicator"
+        <com.astuetz.PagerSlidingTabStrip
+    		xmlns:app="http://schemas.android.com/apk/res-auto"
+    		xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/pagerslidingtab"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="48dp"
+            app:pstsIndicatorColor="@color/profilefcolor"
+            app:pstsUnderlineColor="@color/profilefcolor"
+            app:pstsDividerPadding="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/profilefcolor"
+            android:fadingEdge="horizontal"
+        	app:pstsDividerColor="#bdbdbd"
+            android:fadingEdgeLength="10dp"
+            app:pstsTabPaddingLeftRight="8dip" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"

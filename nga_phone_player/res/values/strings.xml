@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="vitamio_name">NGA客户端播放器</string>
-    <string name="vitamio_init_decoders">正在安装解码器\n你可以使用客户端直接看帖子里大部分视频网站的视频了…</string>
+    <string name="vitamio_init_decoders">正在安装解码器&#8230;</string>
     <string name="vitamio_videoview_error_title">不能播放该视频</string>
     <string name="vitamio_videoview_error_text_invalid_progressive_playback">你的设备无法播放该视频.</string>
     <string name="vitamio_videoview_error_text_unknown">该视频无法播放.</string>
@@ -9,7 +9,7 @@
     <string name="mediacontroller_play_pause">播放/暂停</string>
     <string name="content_desc_lock">锁定</string>
     <string name="content_desc_menu">菜单</string>
-    <string name="video_layout_loading">正在加载&#8230;</string>
+    <string name="video_layout_loading">正在从安星云加载~~~</string>
     <string name="video_original">原始画面</string>
     <string name="video_fit_screen">画面全屏</string>
     <string name="video_stretch">画面拉伸</string>

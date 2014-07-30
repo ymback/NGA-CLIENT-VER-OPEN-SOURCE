@@ -95,8 +95,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.viewpagerindicator.PageIndicator;
-import com.viewpagerindicator.TabPageIndicator;
+import com.astuetz.PagerSlidingTabStrip;
 
 public class MainActivity extends ActionBarActivity implements
 		PerferenceConstant, PageCategoryOwnner, OnItemClickListener {
@@ -111,7 +110,7 @@ public class MainActivity extends ActionBarActivity implements
 	private MenuAdapter mAdapter;
 	private int mActivePosition = 0;
 	private BoardHolder boardInfo;
-	private PageIndicator mIndicator;
+	private PagerSlidingTabStrip mPagerSlidingTabStrip;
 	private ViewPager pager;
 	private View view;
 	private LinearLayout mLinearLayout;
@@ -191,7 +190,7 @@ public class MainActivity extends ActionBarActivity implements
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		pager = (ViewPager) findViewById(R.id.pager);
-		mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
+		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.pagerslidingtab);
 		if (app.isNewVersion()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.prompt).setMessage(StringUtil.getTips())
@@ -253,15 +252,14 @@ public class MainActivity extends ActionBarActivity implements
 				break;
 			}
 	}
-
+	
 	public void updatepager() {
 		mLinearLayout.setBackgroundResource(ThemeManager.getInstance()
 				.getBackgroundColor());
 		int width = getResources().getInteger(R.integer.page_category_width);
 		pager.setAdapter(new BoardPagerAdapter(getSupportFragmentManager(),
 				this, width));
-		mIndicator.setViewPager(pager);
-		mIndicator.setCurrentItem(0);
+		mPagerSlidingTabStrip.setViewPager(pager);
 	}
 
 	/* Called whenever we call invalidateOptionsMenu() */
@@ -1423,7 +1421,7 @@ public class MainActivity extends ActionBarActivity implements
 			boardList.add(b);
 			saveaddFid(boardList);
 			onResume();
-			mIndicator.setCurrentItem(i+1);
+			pager.setCurrentItem(i+1);
 		} else {// спак
 			Board b;
 			if (PhoneConfiguration.getInstance().iconmode) {
@@ -1471,7 +1469,7 @@ public class MainActivity extends ActionBarActivity implements
 		Intent intent = getIntent();
 		loadConfig(intent);
 		if(pager.getAdapter()!=null){
-			mIndicator.notifyDataSetChanged();
+			mPagerSlidingTabStrip.notifyDataSetChanged();
 		}
 		updatepager();
 		updatemDrawerList();

@@ -7,7 +7,7 @@
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -16,19 +16,20 @@
 
     <application
         android:label="@string/vitamio_name"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        android:icon="@drawable/logo" >
         <activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="gov.anzong.mediaplayer.ReceiveIntentActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
-            android:process=":vitamio"
             android:screenOrientation="landscape"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,14 +39,13 @@
             android:name="gov.anzong.mediaplayer.VideoActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
-            android:process=":vitamio"
             android:screenOrientation="landscape"
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <service
-            android:name="gov.anzong.mediaplayer.PlayerService"
-            android:process=":vitamio" />
+            android:name="gov.anzong.mediaplayer.PlayerService"/>
     </application>
 
 </manifest>

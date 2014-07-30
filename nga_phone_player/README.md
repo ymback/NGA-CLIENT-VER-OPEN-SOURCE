@@ -25,7 +25,7 @@ try{
     mIntent.putExtra("uri", "video url");//http://192.168.2.64/1.flv，不要转化为URI
     mIntent.putExtra("title", "video title");
     startActivity(mIntent);
-}casth(Exception e){
+}catch(Exception e){
 	//TODO
 }
 ```
