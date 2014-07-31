@@ -13,9 +13,7 @@
 ------------------------------
   libs/commons-io-2.4.jar
 
-  http://commons.apache.org/collections/
   http://commons.apache.org/io/
-  http://commons.apache.org/lang/
 
   Copyright 2001-2012 The Apache Software Foundation
 
@@ -23,7 +21,7 @@
   
 
 ------------------------------
- Android-PullToRefresh
+ Android-PullToRefresh ?.?.?
 ------------------------------
   uk.co.senab.actionbarpulltorefresh.library
 
@@ -47,7 +45,7 @@
   
 
 ------------------------------
- Android-ViewBadger
+ Android-ViewBadger 1.0
 ------------------------------
   com.readystatesoftware.viewbadger
 
@@ -59,7 +57,7 @@
   
 
 ------------------------------
- PagerSlidingTabStrip
+ PagerSlidingTabStrip ?.?.?
 ------------------------------
   com.astuetz
 
@@ -71,7 +69,7 @@
   
 
 ------------------------------
- PinterestLikeAdapterView
+ PinterestLikeAdapterView 1.0
 ------------------------------
   com.huewu.pla.lib
 
@@ -83,7 +81,7 @@
   
 
 ------------------------------
- SwipeBackLayoutLibrary
+ SwipeBackLayoutLibrary 1.0
 ------------------------------
   me.imid.swipebacklayout.lib
 

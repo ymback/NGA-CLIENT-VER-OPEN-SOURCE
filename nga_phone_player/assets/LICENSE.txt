@@ -1,5 +1,5 @@
 ------------------------------
- VitamioBundle
+ VitamioBundle 4.2.2
 ------------------------------
   io.vov.vitamio
   libs/armeabi/libvinit.so
@@ -16,7 +16,7 @@
   
 
 ------------------------------
- VitamioMediaPlayerDemo
+ VitamioMediaPlayerDemo 3.0
 ------------------------------
   *
 

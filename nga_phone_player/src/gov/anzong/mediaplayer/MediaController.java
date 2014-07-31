@@ -384,6 +384,9 @@ public class MediaController extends FrameLayout {
 	}
 	
 	public static String getNetworkClass() {
+    	if(isInWifi()){
+            return "WIFI";
+    	}
 		if(!isConnected()){
 			return "ÎŞÍøÂç";
 		}
@@ -410,11 +413,8 @@ public class MediaController extends FrameLayout {
 	        case TelephonyManager.NETWORK_TYPE_LTE:
 	            return "4G";
 	        default:
-	        	if(isInWifi()){
-		            return "WIFI";
-	        	}else{
-		            return "Î´Öª·äÎÑÍøÂç";
-	        	}
+		        return "Î´ÖªÍøÂç";
+	        	
 	    }
 	}
 	

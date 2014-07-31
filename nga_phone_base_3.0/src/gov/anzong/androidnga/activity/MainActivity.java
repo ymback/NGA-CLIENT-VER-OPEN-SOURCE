@@ -141,11 +141,45 @@ public class MainActivity extends ActionBarActivity implements
 		setitem();
 		initView();
 		getSupportActionBar().setTitle(R.string.start_title);
+		checknewversion();
+	}
+	
+	private void checknewversion(){
+		if (app.isNewVersion()) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.prompt).setMessage(StringUtil.getTips())
+					.setPositiveButton(R.string.i_know, null);
+			final AlertDialog dialog = builder.create();
+			dialog.show();
+			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface arg0) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+					if (PhoneConfiguration.getInstance().fullscreen) {
+						ActivityUtil.getInstance().setFullScreen(view);
+					}
+				}
+
+			});
+			app.setNewVersion(false);
+			if (toast != null) {
+				toast.setText("播放器现已插件化,请到关于中下载安装");
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
+			} else {
+				toast = Toast.makeText(MainActivity.this,
+						"播放器现已插件化,请到关于中下载安装",
+						Toast.LENGTH_SHORT);
+
+				toast.show();
+			}
+		}
 	}
 	private void initView() {
 		// TODO Auto-generated method stub
-		// mIndicator = (TabPageIndicator)findViewById(R.id.indicator);
-		// mIndicator.setViewPager(mPager);
+		
 
 		view = LayoutInflater.from(this).inflate(R.layout.mainfragment, null);
 
@@ -191,27 +225,6 @@ public class MainActivity extends ActionBarActivity implements
 
 		pager = (ViewPager) findViewById(R.id.pager);
 		mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.pagerslidingtab);
-		if (app.isNewVersion()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.prompt).setMessage(StringUtil.getTips())
-					.setPositiveButton(R.string.i_know, null);
-			final AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-				@Override
-				public void onDismiss(DialogInterface arg0) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-					if (PhoneConfiguration.getInstance().fullscreen) {
-						ActivityUtil.getInstance().setFullScreen(view);
-					}
-				}
-
-			});
-			app.setNewVersion(false);
-
-		}
 	}
 	
 	public void updatemDrawerList() {
@@ -1471,9 +1484,9 @@ public class MainActivity extends ActionBarActivity implements
 		if(pager.getAdapter()!=null){
 			mPagerSlidingTabStrip.notifyDataSetChanged();
 		}
-		updatepager();
 		updatemDrawerList();
 		refreshheadview();
+		updatepager();
 		super.onResume();
 	}
 

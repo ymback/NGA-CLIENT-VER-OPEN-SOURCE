@@ -165,20 +165,17 @@ public class ArticleListAdapter extends BaseAdapter implements
 	}
 
 	private static String buildHeader(ThreadRowInfo row, String fgColorStr) {
-		if (row == null || StringUtil.isEmpty(row.getSubject()))
+		if (row == null
+				|| (StringUtil.isEmpty(row.getSubject()) && !row.getISANONYMOUS()))
 			return "";
 		StringBuilder sb = new StringBuilder();
-		sb.append("<h4 style='color:").append(fgColorStr).append("' >")
-				.append(row.getSubject()).append("</h4>");
-		return sb.toString();
-	}
-
-	private static String buildAnony(ThreadRowInfo row) {
-		if (row == null || !row.getISANONYMOUS())
-			return "";
-		StringBuilder sb = new StringBuilder();
-		sb.append("<font style='color:#D00;font-weight: bold;'>")
-				.append("[匿名]").append("</font><br/>");
+		sb.append("<h4 style='color:").append(fgColorStr).append("' >");
+		if (!StringUtil.isEmpty(row.getSubject()))
+			sb.append(row.getSubject());
+		if (row.getISANONYMOUS())
+			sb.append("<font style='color:#D00;font-weight: bold;'>")
+					.append("[匿名]").append("</font>");
+		sb.append("</h4>");
 		return sb.toString();
 	}
 
@@ -242,14 +239,15 @@ public class ArticleListAdapter extends BaseAdapter implements
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage,
 				imageQuality, imageURLSet);
-		if(row.get_isInBlackList()){
+		if (row.get_isInBlackList()) {
 			ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
 					+ "<body bgcolor= '#"
 					+ bgcolorStr
 					+ "'>"
-					+ "<font color='red' size='2'>[" + blacklistban + "]</font>"
-					+ "</font></body>";
-		}else{
+					+ "<font color='red' size='2'>["
+					+ blacklistban
+					+ "]</font>" + "</font></body>";
+		} else {
 			if (imageURLSet.size() == 0) {
 				imageURLSet = null;
 			}
@@ -260,12 +258,13 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 				ngaHtml = "<font color='red'>[" + hide + "]</font>";
 			}
-			ngaHtml = ngaHtml + buildComment(row, fgColorStr,showImage, imageQuality)
+			ngaHtml = ngaHtml
+					+ buildComment(row, fgColorStr, showImage, imageQuality)
 					+ buildAttachment(row, showImage, imageQuality, imageURLSet)
-					+ buildSignature(row, showImage, imageQuality)+buildVote(row);
+					+ buildSignature(row, showImage, imageQuality)
+					+ buildVote(row);
 			ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
 					+ buildHeader(row, fgColorStr)
-					+ buildAnony(row)
 					+ "<body bgcolor= '#"
 					+ bgcolorStr
 					+ "'>"
@@ -873,7 +872,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 			fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
 			nickName += "(" + legend + ")";
 		}
-		if(row.get_isInBlackList()){
+		if (row.get_isInBlackList()) {
 			fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
 			nickName += "(" + blacklistban + ")";
 		}
@@ -894,9 +893,9 @@ public class ArticleListAdapter extends BaseAdapter implements
 		ThemeManager theme = ThemeManager.getInstance();
 		ret.append("<br/><br/>").append(attachment).append("<hr/><br/>");
 		// ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;margin:0px 0px 10px 30px;padding:10px;color:#6b2d25;max-width:100%;'>");
-		if(theme.mode==theme.MODE_NIGHT){
+		if (theme.mode == theme.MODE_NIGHT) {
 			ret.append("<table style='background:#000000;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:2'>");
-		}else{
+		} else {
 			ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:2'>");
 		}
 		ret.append("<tbody>");
@@ -963,8 +962,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 		return ret;
 	}
 
-	private static String buildComment(ThreadRowInfo row, String fgColor,boolean showImage,
-			int imageQuality) {
+	private static String buildComment(ThreadRowInfo row, String fgColor,
+			boolean showImage, int imageQuality) {
 		if (row == null || row.getComments() == null
 				|| row.getComments().size() == 0) {
 			return "";
@@ -992,8 +991,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 			ret.append("' style= 'max-width:32;'>");
 
 			ret.append("</td><td>");
-			ret.append(StringUtil.decodeForumTag(comment.getContent(), showImage,
-					imageQuality, null));
+			ret.append(StringUtil.decodeForumTag(comment.getContent(),
+					showImage, imageQuality, null));
 			ret.append("</td></tr>");
 
 		}
@@ -1019,10 +1018,9 @@ public class ArticleListAdapter extends BaseAdapter implements
 		if (row == null || StringUtil.isEmpty(row.getVote())) {
 			return "";
 		}
-		return "<br/><hr/>"
-				+ "本楼有投票/投注内容,长按本楼在菜单中点击投票/投注按钮";
+		return "<br/><hr/>" + "本楼有投票/投注内容,长按本楼在菜单中点击投票/投注按钮";
 	}
-	
+
 	@Override
 	public void notifyDataSetChanged() {
 		this.viewCache.clear();
