@@ -45,6 +45,10 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String NGA178_BOARD_PREFIX = "http://nga.178.com/thread.php?";
 	static private final String NGACN_THREAD_PREFIX = "http://bbs.ngacn.cc/read.php?";
 	static private final String NGA178_THREAD_PREFIX = "http://nga.178.com/read.php?";
+	static private final String NGACN_BOARD_PREFIX_NOHTTP = "bbs.ngacn.cc/thread.php?";
+	static private final String NGA178_BOARD_PREFIX_NOHTTP = "nga.178.com/thread.php?";
+	static private final String NGACN_THREAD_PREFIX_NOHTTP = "bbs.ngacn.cc/read.php?";
+	static private final String NGA178_THREAD_PREFIX_NOHTTP = "nga.178.com/read.php?";
 	static private final String YOUKUSWF_END = "/v.swf";
 	static private final String YOUKUSWF_START = "http://player.youku.com/player.php/";
 	static private final String YOUKUSWF2_START = "http://static.youku.com";
@@ -133,11 +137,32 @@ public class ArticleListWebClient extends WebViewClient {
 
 	@Override
 	public boolean shouldOverrideUrlLoading(WebView view, String origurl) {
-		if (!origurl.startsWith("http") && !origurl.startsWith("market")) {
+		final String url = origurl.toLowerCase(Locale.US);
+		PhoneConfiguration conf = PhoneConfiguration.getInstance();
+		if (!url.startsWith("http") && !url.startsWith("market")) {
+			if (url.startsWith(NGACN_BOARD_PREFIX_NOHTTP)
+					|| url.startsWith(NGA178_BOARD_PREFIX_NOHTTP)) {
+				Intent intent = new Intent();
+				intent.setData(Uri.parse("http://"+origurl));
+				intent.setClass(view.getContext(), conf.topicActivityClass);
+				view.getContext().startActivity(intent);
+			} else if (url.startsWith(NGACN_THREAD_PREFIX_NOHTTP)
+					|| url.startsWith(NGA178_THREAD_PREFIX_NOHTTP)) {
+				Intent intent = new Intent();
+				intent.setData(Uri.parse("http://"+origurl));
+				intent.putExtra("fromreplyactivity", 1);
+				intent.setClass(view.getContext(), conf.articleActivityClass);
+				view.getContext().startActivity(intent);
+			}else if (url.endsWith(".gif") || url.endsWith(".jpg")
+					|| url.endsWith(".png") || url.endsWith(".jpeg")
+					|| url.endsWith(".bmp")) {
+				Intent intent = new Intent();
+				intent.putExtra("path", "http://"+origurl);
+				intent.setClass(view.getContext(), ImageViewerActivity.class);
+				view.getContext().startActivity(intent);
+			}
 			return true;
 		}
-		PhoneConfiguration conf = PhoneConfiguration.getInstance();
-		final String url = origurl.toLowerCase(Locale.US);
 		if (url.startsWith(NGACN_BOARD_PREFIX)
 				|| url.startsWith(NGA178_BOARD_PREFIX)) {
 			Intent intent = new Intent();

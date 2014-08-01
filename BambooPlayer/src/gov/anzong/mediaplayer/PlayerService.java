@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2012 YIXIA.COM
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+/* register service */
 package gov.anzong.mediaplayer;
 
 import io.vov.vitamio.MediaPlayer;
@@ -34,15 +19,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class PlayerService extends Service implements
@@ -56,6 +45,7 @@ public class PlayerService extends Service implements
 	private float mSeekTo = -1f;
 	private boolean mFromNotification;
 	private String[] mSubPaths;
+    private AudioManager mAm;
 	private boolean mInitialized;
 	private final IBinder mBinder = new LocalBinder();
 	private int mCurrentState;
@@ -63,7 +53,7 @@ public class PlayerService extends Service implements
 	public static final int VPLYAER_NOTIFICATION_ID = 1;
 
 	public static final int STATE_PREPARED = -1;
-	public static final int STATE_PLAYING = 0;	
+	public static final int STATE_PLAYING = 0;
 	private TelephonyManager mTelephonyManager;
 	public static final int STATE_NEED_RESUME = 1;
 	public static final int STATE_STOPPED = 2;
@@ -83,12 +73,16 @@ public class PlayerService extends Service implements
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mInitialized = false;	
+		mInitialized = false;
 		mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		mTelephonyManager.listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
-
+		mTelephonyManager.listen(mPhoneListener,
+				PhoneStateListener.LISTEN_CALL_STATE);
+        mAm = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int a=mAm.requestAudioFocus(focusChangeListener, 
+                AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN);
 	}
-
+    
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (VitamioInstaller.isNativeLibsInited(this)) {
@@ -133,6 +127,7 @@ public class PlayerService extends Service implements
 		super.onDestroy();
 		release(true);
 		releaseContext();
+		mAm.abandonAudioFocus(focusChangeListener);  
 	}
 
 	public boolean isInitialized() {
@@ -588,4 +583,31 @@ public class PlayerService extends Service implements
 		else
 			return files.toArray(new String[files.size()]);
 	}
+	
+	private OnAudioFocusChangeListener focusChangeListener =
+	          new OnAudioFocusChangeListener() {
+        public void onAudioFocusChange(int focusChange) {
+          switch (focusChange) {
+
+                 case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) :
+                 // Lower the volume while ducking.
+                 setVolume(0.2f, 0.2f);
+                 break;
+                 case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) :
+                	 stop();
+                 break;
+
+                 case (AudioManager.AUDIOFOCUS_LOSS) :
+                 stop();
+                 break;
+
+                 case (AudioManager.AUDIOFOCUS_GAIN) :
+                 // Return the volume to normal and resume if paused.
+                 setVolume(1f, 1f);
+                 start();
+                 break;
+                 default: break;
+}
+}
+};
 }

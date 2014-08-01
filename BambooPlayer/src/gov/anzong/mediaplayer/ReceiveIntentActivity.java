@@ -8,24 +8,29 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 public class ReceiveIntentActivity extends Activity {
-	public String uri,title;
+	public String uri, title;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (!LibsChecker.checkVitamioLibs(this))
 			return;
-		Intent intent=getIntent();
-		uri=intent.getStringExtra("uri");
-		title=intent.getStringExtra("title");
-		if(!isEmpty(uri)){
-			if(isEmpty(title)){
-				title="未知来源视频";
+		Intent intent = getIntent();
+		uri = intent.getStringExtra("uri");
+		title = intent.getStringExtra("title");
+		if (!isEmpty(uri)) {
+			if (isEmpty(title)) {
+				title = "未知来源视频";
 			}
 			VideoActivity.openVideo(this, Uri.parse(uri), title);
-		}else{
+			this.finish();
+		} else {
 			Toast.makeText(this, "视频地址错误", Toast.LENGTH_SHORT).show();
+			try {
+				android.os.Process.killProcess(android.os.Process.myPid());
+			} catch (Exception e) {
+			}
 		}
-		this.finish();
 	}
 
 	/** 判断是否是 "" 或者 null */

@@ -290,10 +290,9 @@ public class StringUtil {
 				ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
 				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
 		
-
 		s = s.replaceAll(
-				ignoreCaseTag + "(===([^=](.+?)[^=])===)",
-				"<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$2</h4>");
+				ignoreCaseTag + "===([^=](.*?)[^=])===",
+				"<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$1</h4>");
 
 		s = s.replaceAll(ignoreCaseTag + "\\[quote\\]", quoteStyle);
 		s = s.replaceAll(ignoreCaseTag + "\\[/quote\\]", endDiv);
