@@ -23,7 +23,7 @@ public class ReceiveIntentActivity extends Activity {
 			}
 			VideoActivity.openVideo(this, Uri.parse(uri), title);
 		}else{
-			Toast.makeText(this, "视频地址错误", Toast.LENGTH_SHORT);
+			Toast.makeText(this, "视频地址错误", Toast.LENGTH_SHORT).show();
 		}
 		this.finish();
 	}

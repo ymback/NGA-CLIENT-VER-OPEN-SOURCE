@@ -35,14 +35,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.SurfaceHolder;
 
-public class PlayerService extends Service implements OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener, OnErrorListener, OnInfoListener, OnSeekCompleteListener, OnTimedTextListener {
+public class PlayerService extends Service implements
+		OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener,
+		OnVideoSizeChangedListener, OnErrorListener, OnInfoListener,
+		OnSeekCompleteListener, OnTimedTextListener {
 	private MediaPlayer mPlayer;
 	private VPlayerListener mListener;
 	private Uri mUri;
@@ -57,7 +63,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	public static final int VPLYAER_NOTIFICATION_ID = 1;
 
 	public static final int STATE_PREPARED = -1;
-	public static final int STATE_PLAYING = 0;
+	public static final int STATE_PLAYING = 0;	
+	private TelephonyManager mTelephonyManager;
 	public static final int STATE_NEED_RESUME = 1;
 	public static final int STATE_STOPPED = 2;
 	public static final int STATE_RINGING = 3;
@@ -76,10 +83,12 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mInitialized = false;
-		
+		mInitialized = false;	
+		mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		mTelephonyManager.listen(mPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+
 	}
-	
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (VitamioInstaller.isNativeLibsInited(this)) {
@@ -89,9 +98,10 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		}
 		return super.onStartCommand(intent, flags, startId);
 	}
-	
+
 	private void vplayerInit(boolean isHWCodec) {
-		mPlayer = new MediaPlayer(PlayerService.this.getApplicationContext(), isHWCodec);
+		mPlayer = new MediaPlayer(PlayerService.this.getApplicationContext(),
+				isHWCodec);
 		mPlayer.setOnHWRenderFailedListener(new OnHWRenderFailedListener() {
 			@Override
 			public void onFailed() {
@@ -124,12 +134,14 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		release(true);
 		releaseContext();
 	}
-	
+
 	public boolean isInitialized() {
 		return mInitialized;
 	}
 
-	public boolean initialize(Uri filePath, String displayName, boolean saveUri, float startPos, VPlayerListener listener, int parentId, boolean isHWCodec) {
+	public boolean initialize(Uri filePath, String displayName,
+			boolean saveUri, float startPos, VPlayerListener listener,
+			int parentId, boolean isHWCodec) {
 		if (mPlayer == null)
 			vplayerInit(isHWCodec);
 		mListener = listener;
@@ -141,7 +153,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		mLastSubTrackId = -1;
 		mLastSubTrack = "";
 		setMediaTrack();
-		mFromNotification = mInitialized && mUri != null && mUri.equals(mOldUri);
+		mFromNotification = mInitialized && mUri != null
+				&& mUri.equals(mOldUri);
 		mListener.onOpenStart();
 		if (!mFromNotification)
 			openVideo();
@@ -169,7 +182,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 				mPlayer.selectTrack(mLastAudioTrack);
 			if (mLastSubTrackId != -1)
 				mPlayer.selectTrack(mLastSubTrackId);
-			if (mSurfaceHolder != null && mSurfaceHolder.getSurface() != null && mSurfaceHolder.getSurface().isValid())
+			if (mSurfaceHolder != null && mSurfaceHolder.getSurface() != null
+					&& mSurfaceHolder.getSurface().isValid())
 				mPlayer.setDisplay(mSurfaceHolder);
 			mPlayer.prepareAsync();
 		} catch (IllegalArgumentException e) {
@@ -207,7 +221,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 	}
 
 	public boolean needResume() {
-		return mInitialized && (mCurrentState == STATE_NEED_RESUME || mCurrentState == STATE_PREPARED);
+		return mInitialized
+				&& (mCurrentState == STATE_NEED_RESUME || mCurrentState == STATE_PREPARED);
 	}
 
 	public boolean ringingState() {
@@ -356,6 +371,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		if (mInitialized)
 			mPlayer.setTimedTextShown(shown);
 	}
+
 	protected boolean isBuffering() {
 		return (mInitialized && mPlayer.isBuffering());
 	}
@@ -397,7 +413,8 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 
 	protected void setSubEncoding(String encoding) {
 		if (mInitialized) {
-			String enc = encoding.equals(VP.DEFAULT_SUB_ENCODING) ? null : encoding;
+			String enc = encoding.equals(VP.DEFAULT_SUB_ENCODING) ? null
+					: encoding;
 			mPlayer.setTimedTextEncoding(enc);
 		}
 	}
@@ -467,7 +484,6 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		}
 	}
 
-
 	public static String getCanonical(File f) {
 		if (f == null)
 			return null;
@@ -478,7 +494,7 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 			return f.getAbsolutePath();
 		}
 	}
-	
+
 	@Override
 	public void onCompletion(MediaPlayer arg0) {
 		if (mListener != null) {
@@ -537,10 +553,32 @@ public class PlayerService extends Service implements OnBufferingUpdateListener,
 		return true;
 	}
 
+	private PhoneStateListener mPhoneListener = new PhoneStateListener() {
+		@Override
+		public void onCallStateChanged(int state, String incomingNumber) {
+			switch (state) {
+			case TelephonyManager.CALL_STATE_IDLE:
+				break;
+			case TelephonyManager.CALL_STATE_OFFHOOK:
+			case TelephonyManager.CALL_STATE_RINGING:
+				if (isPlaying()) {
+					stop();
+					setState(STATE_RINGING);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	};
+
 	private String[] getSubFiles(String videoPath) {
 		ArrayList<String> files = new ArrayList<String>();
 		for (String ext : MediaPlayer.SUB_TYPES) {
-			File s = new File(videoPath.substring(0, videoPath.lastIndexOf('.') > 0 ? videoPath.lastIndexOf('.') : videoPath.length()) + ext);
+			File s = new File(videoPath.substring(0,
+					videoPath.lastIndexOf('.') > 0 ? videoPath.lastIndexOf('.')
+							: videoPath.length())
+					+ ext);
 			if (s.exists() && s.isFile() && s.canRead())
 				files.add(s.getAbsolutePath());
 		}

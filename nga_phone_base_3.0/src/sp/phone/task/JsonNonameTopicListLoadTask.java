@@ -47,10 +47,14 @@ public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, Nona
 		Log.d(TAG, "start to load " + params[0]);
 		String uri = params[0];
 		String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
-        boolean filter = false;
-		if(js == null){
+		if(StringUtil.isEmpty(js)){
 			if(context!=null)
 				error = context.getResources().getString(R.string.network_error);
+			return null;
+		}
+		if(!js.startsWith("{")){
+			if(context!=null)
+				error = context.getResources().getString(R.string.datafromserver_error);
 			return null;
 		}
 		NonameThreadResponse ret = NonameParseJson.parseThreadRead(js);

@@ -52,6 +52,7 @@
     <string name="avoidWindfury">防止风怒机制</string>
     <string name="avatar">头像</string>
     <string name="network_error">网络错误</string>
+    <string name="datafromserver_error">服务器返回数据错误</string>
     <string name="book_mark_successfully">收藏成功</string>
     <string name="already_bookmarked">链接已经在收藏夹里了</string>
     <string name="avatar_size">头像大小</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="vitamio_name">NGA客户端播放器</string>
+    <string name="vitamio_name">AnPlayer</string>
     <string name="vitamio_init_decoders">正在安装解码器&#8230;</string>
     <string name="vitamio_videoview_error_title">不能播放该视频</string>
     <string name="vitamio_videoview_error_text_invalid_progressive_playback">你的设备无法播放该视频.</string>

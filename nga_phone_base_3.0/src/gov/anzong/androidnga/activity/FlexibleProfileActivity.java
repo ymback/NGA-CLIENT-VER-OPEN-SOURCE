@@ -224,6 +224,9 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			iplog_title.setText(":: " + username + " 的IP ::");
 			iplog.setText(Html.fromHtml(iplogdata));
 		}
+		if(PhoneConfiguration.getInstance().userName==null){
+			PhoneConfiguration.getInstance().userName="";
+		}
 		if(!PhoneConfiguration.getInstance().userName.equals(username)){
 			message_button.setText("[向 " + username + " 发送论坛短消息]");
 			message_button.setOnClickListener(new OnClickListener() {

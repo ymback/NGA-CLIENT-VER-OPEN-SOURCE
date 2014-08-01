@@ -8,6 +8,7 @@ import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.StringUtil;
 import gov.anzong.androidnga.R;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -42,8 +43,14 @@ public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameR
 		// Log.d(TAG, "start to load:" + uri);
 		String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance()
 				.getCookie());
-		if (null == js) {
-			errorStr = context.getString(R.string.network_error);
+		if(StringUtil.isEmpty(js)){
+			if(context!=null)
+				errorStr = context.getResources().getString(R.string.network_error);
+			return null;
+		}
+		if(!js.startsWith("{")){
+			if(context!=null)
+				errorStr = context.getResources().getString(R.string.datafromserver_error);
 			return null;
 		}
 		NonameReadResponse result = NonameParseJson.parseRead(js);
