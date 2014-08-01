@@ -165,12 +165,12 @@ public class MainActivity extends ActionBarActivity implements
 			});
 			app.setNewVersion(false);
 			if (toast != null) {
-				toast.setText("播放器现已插件化,请到关于中下载安装");
+				toast.setText("播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装");
 				toast.setDuration(Toast.LENGTH_SHORT);
 				toast.show();
 			} else {
 				toast = Toast.makeText(MainActivity.this,
-						"播放器现已插件化,请到关于中下载安装",
+						"播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装",
 						Toast.LENGTH_SHORT);
 
 				toast.show();
