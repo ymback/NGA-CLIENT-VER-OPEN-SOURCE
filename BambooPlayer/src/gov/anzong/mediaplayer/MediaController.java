@@ -27,9 +27,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,21 +40,17 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Spinner;
 import android.widget.TextView;
-
 
 public class MediaController extends FrameLayout {
 	private MediaPlayerControl mPlayer;
@@ -79,7 +72,7 @@ public class MediaController extends FrameLayout {
 	private static final int DEFAULT_LONG_TIME_SHOW = 120000;
 	private static final int DEFAULT_SEEKBAR_VALUE = 1000;
 	private static final int TIME_TICK_INTERVAL = 1000;
-	private ImageButton mPauseButton,mediacontroller_back;
+	private ImageButton mPauseButton, mediacontroller_back;
 	private int selectedposition = 1;
 
 	private View mMediaController;
@@ -91,9 +84,8 @@ public class MediaController extends FrameLayout {
 	private static TextView mWifiRate;
 	private TextView mFileName;
 	private TextView mBatteryLevel;
-	
-	private Button mModeButton;
 
+	private Button mModeButton;
 
 	private TextView mOperationInfo;
 	private RelativeLayout relativeLayout_volume, relativeLayout_brightness;
@@ -114,6 +106,7 @@ public class MediaController extends FrameLayout {
 	private int mVideoMode;
 	private int mSpeed = 0;
 	private boolean istoanotherposition = false;
+	private int pressbacktime = 0;
 
 	public MediaController(Context context) {
 		super(context);
@@ -140,8 +133,11 @@ public class MediaController extends FrameLayout {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			try {
 				mAnchor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-				Method setWindowLayoutType = PopupWindow.class.getMethod("setWindowLayoutType", new Class[] { int.class });
-				setWindowLayoutType.invoke(mWindow, WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG);
+				Method setWindowLayoutType = PopupWindow.class.getMethod(
+						"setWindowLayoutType", new Class[] { int.class });
+				setWindowLayoutType
+						.invoke(mWindow,
+								WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG);
 			} catch (Exception e) {
 			}
 		}
@@ -154,7 +150,7 @@ public class MediaController extends FrameLayout {
 				.getState();
 		return wifi == State.CONNECTED;
 	}
-	
+
 	@SuppressLint("NewApi")
 	private void initResources() {
 		mHandler = new MHandler(this);
@@ -163,10 +159,14 @@ public class MediaController extends FrameLayout {
 		mGestures = new CommonGestures(mContext);
 		mGestures.setTouchListener(mTouchListener, true);
 
-		mAnimSlideOutBottom = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_bottom);
-		mAnimSlideOutTop = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_top);
-		mAnimSlideInBottom = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_bottom);
-		mAnimSlideInTop = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_top);
+		mAnimSlideOutBottom = AnimationUtils.loadAnimation(mContext,
+				R.anim.slide_out_bottom);
+		mAnimSlideOutTop = AnimationUtils.loadAnimation(mContext,
+				R.anim.slide_out_top);
+		mAnimSlideInBottom = AnimationUtils.loadAnimation(mContext,
+				R.anim.slide_in_bottom);
+		mAnimSlideInTop = AnimationUtils.loadAnimation(mContext,
+				R.anim.slide_in_top);
 		mAnimSlideOutBottom.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -177,7 +177,8 @@ public class MediaController extends FrameLayout {
 				mMediaController.setVisibility(View.INVISIBLE);
 				showButtons(false);
 				mHandler.removeMessages(MSG_HIDE_SYSTEM_UI);
-				mHandler.sendEmptyMessageDelayed(MSG_HIDE_SYSTEM_UI, DEFAULT_TIME_OUT);
+				mHandler.sendEmptyMessageDelayed(MSG_HIDE_SYSTEM_UI,
+						DEFAULT_TIME_OUT);
 			}
 
 			@Override
@@ -191,14 +192,15 @@ public class MediaController extends FrameLayout {
 		mWindow.setContentView(mRoot);
 		mWindow.setWidth(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 		mWindow.setHeight(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-		
+
 		findViewItems(mRoot);
 		showSystemUi(false);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			mRoot.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
 				public void onSystemUiVisibilityChange(int visibility) {
 					if ((visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0) {
-						mHandler.sendEmptyMessageDelayed(MSG_HIDE_SYSTEM_UI, DEFAULT_TIME_OUT);
+						mHandler.sendEmptyMessageDelayed(MSG_HIDE_SYSTEM_UI,
+								DEFAULT_TIME_OUT);
 					}
 				}
 			});
@@ -206,7 +208,9 @@ public class MediaController extends FrameLayout {
 	}
 
 	private View inflateLayout() {
-		return ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.mediacontroller, this);
+		return ((LayoutInflater) mContext
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
+				R.layout.mediacontroller, this);
 	}
 
 	private void findViewItems(View v) {
@@ -224,20 +228,20 @@ public class MediaController extends FrameLayout {
 
 		mControlsLayout = v.findViewById(R.id.mediacontroller_controls);
 
-
 		mLock = (ImageButton) v.findViewById(R.id.mediacontroller_lock);
 		mLock.setOnClickListener(mLockClickListener);
 
-		mScreenToggle = (ImageButton) v.findViewById(R.id.mediacontroller_screen_size);
+		mScreenToggle = (ImageButton) v
+				.findViewById(R.id.mediacontroller_screen_size);
 		mScreenToggle.setOnClickListener(mScreenToggleListener);
 
-
-		mPauseButton = (ImageButton) v.findViewById(R.id.mediacontroller_play_pause);
+		mPauseButton = (ImageButton) v
+				.findViewById(R.id.mediacontroller_play_pause);
 		mPauseButton.setOnClickListener(mPauseListener);
-		
-		mediacontroller_back = (ImageButton) v.findViewById(R.id.mediacontroller_back);
+
+		mediacontroller_back = (ImageButton) v
+				.findViewById(R.id.mediacontroller_back);
 		mediacontroller_back.setOnClickListener(mMediacontroller_backListener);
-		
 
 		mProgress = (SeekBar) v.findViewById(R.id.mediacontroller_seekbar);
 		mProgress.setOnSeekBarChangeListener(mSeekListener);
@@ -247,83 +251,94 @@ public class MediaController extends FrameLayout {
 		mModeButton = (Button) v.findViewById(R.id.mode_spinner);
 		mModeButton.setText("普通");
 		mModeButton.setOnClickListener(videoquality());
-	    
-	    
+
 		relativeLayout_volume = (RelativeLayout) findViewById(R.id.relativeLayout_volume);
 		relativeLayout_brightness = (RelativeLayout) findViewById(R.id.relativeLayout_brightness);
 		volumeProgressBar = (ProgressBar) findViewById(R.id.volumeProgressBar);
 		brightnessProgressBar = (ProgressBar) findViewById(R.id.brightnessProgressBar);
 	}
-	
-	public OnClickListener videoquality(){ 
-		OnClickListener videoqualityonclick = new OnClickListener(){
-	        
+
+	public OnClickListener videoquality() {
+		OnClickListener videoqualityonclick = new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				show(); 
-				final View mLayout;  // 下拉列表的布局  
-		        final ListView mListView;    // 下拉列表控件 
-		        final BaseAdapter adaptervideoQuality;
-				LayoutInflater inflater = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-				mLayout = inflater.inflate(R.layout.spinnerlistview,null);
-				mListView = (ListView) mLayout.findViewById(R.id.mlistview); 
-	            mListView.setCacheColorHint(Color.TRANSPARENT);
-	            adaptervideoQuality=adaptervideoQuality(inflater);
-	            mListView.setAdapter(adaptervideoQuality);
-				videoqualityWindow = new PopupWindow(mLayout,mModeButton.getWidth(),ViewGroup.LayoutParams.WRAP_CONTENT);
+				show();
+				final View mLayout; // 下拉列表的布局
+				final ListView mListView; // 下拉列表控件
+				final BaseAdapter adaptervideoQuality;
+				LayoutInflater inflater = ((LayoutInflater) mContext
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+				mLayout = inflater.inflate(R.layout.spinnerlistview, null);
+				mListView = (ListView) mLayout.findViewById(R.id.mlistview);
+				mListView.setCacheColorHint(Color.TRANSPARENT);
+				adaptervideoQuality = adaptervideoQuality(inflater);
+				mListView.setAdapter(adaptervideoQuality);
+				videoqualityWindow = new PopupWindow(mLayout,
+						mModeButton.getWidth(),
+						ViewGroup.LayoutParams.WRAP_CONTENT);
 				videoqualityWindow.setContentView(mLayout);
 				videoqualityWindow.setFocusable(true);
-				videoqualityWindow.setBackgroundDrawable(new BitmapDrawable()); 
+				videoqualityWindow.setBackgroundDrawable(new BitmapDrawable());
 				videoqualityWindow.setOutsideTouchable(true);
-				int[] location = new  int[2] ;
+				int[] location = new int[2];
 				mModeButton.getLocationOnScreen(location);
-				videoqualityWindow.showAtLocation(mLayout, Gravity.TOP|Gravity.LEFT, location[0], mSystemInfoLayout.getHeight());
-				mListView.setOnItemClickListener(new OnItemClickListener(){
+				videoqualityWindow.showAtLocation(mLayout, Gravity.TOP
+						| Gravity.LEFT, location[0],
+						mSystemInfoLayout.getHeight());
+				mListView.setOnItemClickListener(new OnItemClickListener() {
 
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
 						// TODO Auto-generated method stub
 						show();
-						selectedposition=position;
-						mModeButton.setText((String) mListView.getItemAtPosition(position));
-						switch(position){
-							case 1 :
-								mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
-								break;
-							case 2:
-								mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
-								break;
-							case 0:
-							default:
-								mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_LOW);
-								break;
+						selectedposition = position;
+						mModeButton.setText((String) mListView
+								.getItemAtPosition(position));
+						switch (position) {
+						case 1:
+							mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
+							break;
+						case 2:
+							mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
+							break;
+						case 0:
+						default:
+							mPlayer.setVideoQuality(MediaPlayer.VIDEOQUALITY_LOW);
+							break;
 						}
-						setOperationInfo("视频质量："+(String) mListView.getItemAtPosition(position), 1500);
+						setOperationInfo(
+								"视频质量："
+										+ (String) mListView
+												.getItemAtPosition(position),
+								1500);
 						adaptervideoQuality.notifyDataSetChanged();
 					}
 				});
 			}
-			
+
 		};
 		return videoqualityonclick;
-		
+
 	}
-	
-	public BaseAdapter adaptervideoQuality(final LayoutInflater inflater){
-		BaseAdapter adaptervideoQuality =new BaseAdapter(){
+
+	public BaseAdapter adaptervideoQuality(final LayoutInflater inflater) {
+		BaseAdapter adaptervideoQuality = new BaseAdapter() {
 
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				return mContext.getResources().getStringArray(R.array.videoquality).length;    //选项总个数
+				return mContext.getResources().getStringArray(
+						R.array.videoquality).length; // 选项总个数
 			}
 
 			@Override
 			public String getItem(int arg0) {
 				// TODO Auto-generated method stub
-				return mContext.getResources().getStringArray(R.array.videoquality)[arg0];
+				return mContext.getResources().getStringArray(
+						R.array.videoquality)[arg0];
 			}
 
 			@Override
@@ -333,31 +348,37 @@ public class MediaController extends FrameLayout {
 			}
 
 			@Override
-			 public View getView(int arg0, View convertView, ViewGroup arg2) {
+			public View getView(int arg0, View convertView, ViewGroup arg2) {
 				// TODO Auto-generated method stub
 				View v = convertView;
 				if (v == null) {
 					v = inflater.inflate(R.layout.listtextview, null);
 				}
-				TextView TV = (TextView) v.findViewById(R.id.spinner_dropdown_item_textview);
-				TV.setText(mContext.getResources().getStringArray(R.array.videoquality)[arg0]);
-				if(selectedposition==arg0){
-					TV.setTextColor(mContext.getResources().getColor(R.color.listviewtextcolorseleted));
-				}else{
+				TextView TV = (TextView) v
+						.findViewById(R.id.spinner_dropdown_item_textview);
+				TV.setText(mContext.getResources().getStringArray(
+						R.array.videoquality)[arg0]);
+				if (selectedposition == arg0) {
+					TV.setTextColor(mContext.getResources().getColor(
+							R.color.listviewtextcolorseleted));
+				} else {
 					TV.setTextColor(Color.WHITE);
 				}
 				return v;
-			}};
-			return adaptervideoQuality;
+			}
+		};
+		return adaptervideoQuality;
 	}
-	
+
 	public void setAnchorView(View view) {
 		mAnchor = view;
 		int[] location = new int[2];
 		mAnchor.getLocationOnScreen(location);
-		Rect anchorRect = new Rect(location[0], location[1], location[0] + mAnchor.getWidth(), location[1] + mAnchor.getHeight());
+		Rect anchorRect = new Rect(location[0], location[1], location[0]
+				+ mAnchor.getWidth(), location[1] + mAnchor.getHeight());
 		setWindowLayoutType();
-		mWindow.showAtLocation(mAnchor, Gravity.NO_GRAVITY, anchorRect.left, anchorRect.bottom);
+		mWindow.showAtLocation(mAnchor, Gravity.NO_GRAVITY, anchorRect.left,
+				anchorRect.bottom);
 	}
 
 	public void release() {
@@ -377,54 +398,54 @@ public class MediaController extends FrameLayout {
 	public void setFileName(String name) {
 		mFileName.setText(name);
 	}
-	
+
 	public void setDownloadRate(String rate) {
 		mDownloadRate.setVisibility(View.VISIBLE);
 		mDownloadRate.setText(rate);
 	}
-	
+
 	public static String getNetworkClass() {
-    	if(isInWifi()){
-            return "WIFI";
-    	}
-		if(!isConnected()){
+		if (isInWifi()) {
+			return "WIFI";
+		}
+		if (!isConnected()) {
 			return "无网络";
 		}
-	    TelephonyManager mTelephonyManager = (TelephonyManager)
-	            mContext.getSystemService(Context.TELEPHONY_SERVICE);
-	    int networkType = mTelephonyManager.getNetworkType();
-	    switch (networkType) {
-	        case TelephonyManager.NETWORK_TYPE_GPRS:
-	        case TelephonyManager.NETWORK_TYPE_EDGE:
-	        case TelephonyManager.NETWORK_TYPE_CDMA:
-	        case TelephonyManager.NETWORK_TYPE_1xRTT:
-	        case TelephonyManager.NETWORK_TYPE_IDEN:
-	            return "2G";
-	        case TelephonyManager.NETWORK_TYPE_UMTS:
-	        case TelephonyManager.NETWORK_TYPE_EVDO_0:
-	        case TelephonyManager.NETWORK_TYPE_EVDO_A:
-	        case TelephonyManager.NETWORK_TYPE_HSDPA:
-	        case TelephonyManager.NETWORK_TYPE_HSUPA:
-	        case TelephonyManager.NETWORK_TYPE_HSPA:
-	        case TelephonyManager.NETWORK_TYPE_EVDO_B:
-	        case TelephonyManager.NETWORK_TYPE_EHRPD:
-	        case TelephonyManager.NETWORK_TYPE_HSPAP:
-	            return "3G";
-	        case TelephonyManager.NETWORK_TYPE_LTE:
-	            return "4G";
-	        default:
-		        return "未知网络";
-	        	
-	    }
+		TelephonyManager mTelephonyManager = (TelephonyManager) mContext
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		int networkType = mTelephonyManager.getNetworkType();
+		switch (networkType) {
+		case TelephonyManager.NETWORK_TYPE_GPRS:
+		case TelephonyManager.NETWORK_TYPE_EDGE:
+		case TelephonyManager.NETWORK_TYPE_CDMA:
+		case TelephonyManager.NETWORK_TYPE_1xRTT:
+		case TelephonyManager.NETWORK_TYPE_IDEN:
+			return "2G";
+		case TelephonyManager.NETWORK_TYPE_UMTS:
+		case TelephonyManager.NETWORK_TYPE_EVDO_0:
+		case TelephonyManager.NETWORK_TYPE_EVDO_A:
+		case TelephonyManager.NETWORK_TYPE_HSDPA:
+		case TelephonyManager.NETWORK_TYPE_HSUPA:
+		case TelephonyManager.NETWORK_TYPE_HSPA:
+		case TelephonyManager.NETWORK_TYPE_EVDO_B:
+		case TelephonyManager.NETWORK_TYPE_EHRPD:
+		case TelephonyManager.NETWORK_TYPE_HSPAP:
+			return "3G";
+		case TelephonyManager.NETWORK_TYPE_LTE:
+			return "4G";
+		default:
+			return "未知网络";
+
+		}
 	}
-	
-    public static boolean isConnected(){
+
+	public static boolean isConnected() {
 		ConnectivityManager conMan = (ConnectivityManager) mContext
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = conMan.getActiveNetworkInfo();
-        return (info != null && info.isConnected());
-    }
-    
+		NetworkInfo info = conMan.getActiveNetworkInfo();
+		return (info != null && info.isConnected());
+	}
+
 	public void setBatteryLevel(String level) {
 		mBatteryLevel.setVisibility(View.VISIBLE);
 		mBatteryLevel.setText(level);
@@ -442,7 +463,8 @@ public class MediaController extends FrameLayout {
 	public void show(int timeout) {
 		if (timeout != 0) {
 			mHandler.removeMessages(MSG_FADE_OUT);
-			mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_FADE_OUT), timeout);
+			mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_FADE_OUT),
+					timeout);
 		}
 		if (!mShowing) {
 			showButtons(true);
@@ -470,7 +492,7 @@ public class MediaController extends FrameLayout {
 				mHandler.removeMessages(MSG_SHOW_PROGRESS);
 				mControlsLayout.startAnimation(mAnimSlideOutTop);
 				mSystemInfoLayout.startAnimation(mAnimSlideOutBottom);
-				if(videoqualityWindow!=null){
+				if (videoqualityWindow != null) {
 					videoqualityWindow.dismiss();
 				}
 			} catch (IllegalArgumentException ex) {
@@ -495,19 +517,23 @@ public class MediaController extends FrameLayout {
 		switch (mVideoMode) {
 		case VideoView.VIDEO_LAYOUT_ORIGIN:
 			setOperationInfo(mContext.getString(R.string.video_original), 500);
-			mScreenToggle.setImageResource(R.drawable.mediacontroller_sreen_size_100);
+			mScreenToggle
+					.setImageResource(R.drawable.mediacontroller_sreen_size_100);
 			break;
 		case VideoView.VIDEO_LAYOUT_SCALE:
 			setOperationInfo(mContext.getString(R.string.video_fit_screen), 500);
-			mScreenToggle.setImageResource(R.drawable.mediacontroller_screen_fit);
+			mScreenToggle
+					.setImageResource(R.drawable.mediacontroller_screen_fit);
 			break;
 		case VideoView.VIDEO_LAYOUT_STRETCH:
 			setOperationInfo(mContext.getString(R.string.video_stretch), 500);
-			mScreenToggle.setImageResource(R.drawable.mediacontroller_screen_size);
+			mScreenToggle
+					.setImageResource(R.drawable.mediacontroller_screen_size);
 			break;
 		case VideoView.VIDEO_LAYOUT_ZOOM:
 			setOperationInfo(mContext.getString(R.string.video_crop), 500);
-			mScreenToggle.setImageResource(R.drawable.mediacontroller_sreen_size_crop);
+			mScreenToggle
+					.setImageResource(R.drawable.mediacontroller_sreen_size_crop);
 			break;
 		}
 
@@ -523,8 +549,9 @@ public class MediaController extends FrameLayout {
 			mediacontroller_back.setClickable(false);
 			mScreenToggle.setClickable(false);
 			if (mScreenLocked != toLock)
-				setOperationInfo(mContext.getString(R.string.video_screen_locked), 1000);
-			if(videoqualityWindow!=null)
+				setOperationInfo(
+						mContext.getString(R.string.video_screen_locked), 1000);
+			if (videoqualityWindow != null)
 				videoqualityWindow.dismiss();
 		} else {
 			mLock.setImageResource(R.drawable.mediacontroller_unlock);
@@ -534,7 +561,9 @@ public class MediaController extends FrameLayout {
 			mediacontroller_back.setClickable(true);
 			mScreenToggle.setClickable(true);
 			if (mScreenLocked != toLock)
-				setOperationInfo(mContext.getString(R.string.video_screen_unlocked), 1000);
+				setOperationInfo(
+						mContext.getString(R.string.video_screen_unlocked),
+						1000);
 		}
 		mScreenLocked = toLock;
 		mGestures.setTouchListener(mTouchListener, !mScreenLocked);
@@ -595,11 +624,11 @@ public class MediaController extends FrameLayout {
 		}
 	};
 
-	private static String currentTimeString(){
-	    SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");  
-	    return sdf.format(new java.util.Date());  
+	private static String currentTimeString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		return sdf.format(new java.util.Date());
 	}
-	
+
 	private long setProgress() {
 		if (mPlayer == null || mDragging)
 			return 0;
@@ -614,35 +643,39 @@ public class MediaController extends FrameLayout {
 		mProgress.setSecondaryProgress(percent * 10);
 
 		mDuration = duration;
-		mTime.setText(length2time(position)+"/"+length2time(mDuration));
+		mTime.setText(length2time(position) + "/" + length2time(mDuration));
 
 		return position;
 	}
-	
-	public void initDuration(){
-		if(mPlayer!=null && mDuration<=0l){
+
+	public void initDuration() {
+		if (mPlayer != null && mDuration <= 0l) {
 			mDuration = mPlayer.getDuration();
 		}
 	}
+
 	/**
 	 * 将进度长度转变为进度时间
 	 */
-	private String length2time(long length) { 
+	private String length2time(long length) {
 		int totalSeconds = (int) (length / 1000);
 		int seconds = totalSeconds % 60;
 		int minutes = (totalSeconds / 60) % 60;
 		int hours = totalSeconds / 3600;
-		return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes, seconds) : String.format("%02d:%02d", minutes, seconds);
+		return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes,
+				seconds) : String.format("%02d:%02d", minutes, seconds);
 	}
-	
-    public static String generateTime(long time) {
-        int totalSeconds = (int) (time / 1000);
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = totalSeconds / 3600;
 
-        return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes, seconds) : String.format("%02d:%02d", minutes, seconds);
-    }
+	public static String generateTime(long time) {
+		int totalSeconds = (int) (time / 1000);
+		int seconds = totalSeconds % 60;
+		int minutes = (totalSeconds / 60) % 60;
+		int hours = totalSeconds / 3600;
+
+		return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes,
+				seconds) : String.format("%02d:%02d", minutes, seconds);
+	}
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		mHandler.removeMessages(MSG_HIDE_SYSTEM_UI);
@@ -653,6 +686,7 @@ public class MediaController extends FrameLayout {
 	private TouchListener mTouchListener = new TouchListener() {
 		long mVideo_current_length;
 		String total_length;
+
 		@Override
 		public void onGestureBegin() {
 			mBrightness = mContext.getWindow().getAttributes().screenBrightness;
@@ -666,7 +700,7 @@ public class MediaController extends FrameLayout {
 			initDuration();
 			mSpeed = 0;
 			toposition = -1l;
-			istoanotherposition=false;
+			istoanotherposition = false;
 			total_length = length2time(mDuration);
 			mVideo_current_length = mPlayer.getCurrentPosition();// 当前播放长度
 		}
@@ -674,19 +708,19 @@ public class MediaController extends FrameLayout {
 		@Override
 		public void onLeftSlide(float percent) {
 			setBrightness(mBrightness + percent);
-			
+
 		}
 
 		@Override
 		public void onGestureEnd() {
 			relativeLayout_volume.setVisibility(View.INVISIBLE);
 			relativeLayout_brightness.setVisibility(View.INVISIBLE);
-			if(istoanotherposition){
-				istoanotherposition=false;
+			if (istoanotherposition) {
+				istoanotherposition = false;
 				mPlayer.seekTo(toposition);
 			}
 		}
-		
+
 		@Override
 		public void onRightSlide(float percent) {
 			int v = (int) (percent * mMaxVolume) + mVolume;
@@ -694,7 +728,7 @@ public class MediaController extends FrameLayout {
 		}
 
 		@Override
-		public void onVideoSpeed(float distanceX){
+		public void onVideoSpeed(float distanceX) {
 			if (distanceX > 0) {// 往左滑动 --
 				--mSpeed;
 			} else if (distanceX < 0) {// 往右滑动 ++
@@ -707,7 +741,7 @@ public class MediaController extends FrameLayout {
 			} else if (mVideo_start_length <= 0) {
 				mVideo_start_length = 0L;
 			}
-			istoanotherposition=true;
+			istoanotherposition = true;
 			toposition = (long) mVideo_start_length;
 			String start_length = length2time(mVideo_start_length);
 			int pasttime = (int) ((mVideo_start_length - mVideo_current_length) / 1000l);
@@ -717,17 +751,17 @@ public class MediaController extends FrameLayout {
 			} else {
 				pasttimestr = String.valueOf(pasttime);
 			}
-			setOperationInfo(start_length + "/" + total_length + "\n" + pasttimestr
-					+ "秒",500);
+			setOperationInfo(start_length + "/" + total_length + "\n"
+					+ pasttimestr + "秒", 500);
 		}
-		
+
 		@Override
 		public void onSingleTap() {
 			if (mShowing)
 				hide();
 			else
 				show();
-			if (mPlayer.getBufferPercentage() >= 100){
+			if (mPlayer.getBufferPercentage() >= 100) {
 				mPlayer.removeLoadingView();
 			}
 		}
@@ -747,7 +781,8 @@ public class MediaController extends FrameLayout {
 			switch (state) {
 			case CommonGestures.SCALE_STATE_BEGIN:
 				mVideoMode = VideoView.VIDEO_LAYOUT_SCALE_ZOOM;
-				mScreenToggle.setImageResource(R.drawable.mediacontroller_sreen_size_100);
+				mScreenToggle
+						.setImageResource(R.drawable.mediacontroller_sreen_size_100);
 				mPlayer.toggleVideoMode(mVideoMode);
 				break;
 			case CommonGestures.SCALE_STATE_SCALEING:
@@ -772,12 +807,9 @@ public class MediaController extends FrameLayout {
 		if (voltmp <= 0) {
 			setOperationInfo("静音", 1500);
 		} else {
-			setOperationInfo("音量：" + String.valueOf(voltmp)
-					+ "%", 1500);
+			setOperationInfo("音量：" + String.valueOf(voltmp) + "%", 1500);
 		}
 	}
-	
-
 
 	private void setBrightness(float f) {
 		relativeLayout_brightness.setVisibility(View.VISIBLE);
@@ -788,12 +820,10 @@ public class MediaController extends FrameLayout {
 		else if (lp.screenBrightness < 0.01f)
 			lp.screenBrightness = 0.01f;
 		mContext.getWindow().setAttributes(lp);
-		int britmp = (int) ((lp.screenBrightness-0.01f)/0.99f * 100);
+		int britmp = (int) ((lp.screenBrightness - 0.01f) / 0.99f * 100);
 		brightnessProgressBar.setProgress(britmp);
 		setOperationInfo("亮度：" + String.valueOf(britmp) + "%", 1500);
 	}
-	
-	
 
 	@Override
 	public boolean onTrackballEvent(MotionEvent ev) {
@@ -804,49 +834,60 @@ public class MediaController extends FrameLayout {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		int keyCode = event.getKeyCode();
+		int keyMode = event.getAction();
 
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_VOLUME_MUTE:
-			return super.dispatchKeyEvent(event);
-		case KeyEvent.KEYCODE_VOLUME_UP:
-		case KeyEvent.KEYCODE_VOLUME_DOWN:
-			mVolume = mAM.getStreamVolume(AudioManager.STREAM_MUSIC);
-			int step = keyCode == KeyEvent.KEYCODE_VOLUME_UP ? 1 : -1;
-			setVolume(mVolume + step);
-			mHandler.removeMessages(MSG_HIDE_OPERATION_VOLLUM);
-			mHandler.sendEmptyMessageDelayed(MSG_HIDE_OPERATION_VOLLUM, 500);
-			return true;
-		}
-
-		if (isLocked()) {
-			show();
-			return true;
-		}
-
-		if (event.getRepeatCount() == 0 && (keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_SPACE)) {
-			doPauseResume();
-			show(DEFAULT_TIME_OUT);
-			return true;
-		} else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
-			if (mPlayer.isPlaying()) {
-				mPlayer.pause();
-				updatePausePlay();
+		if (keyMode == KeyEvent.ACTION_DOWN) {
+			switch (keyCode) {
+			case KeyEvent.KEYCODE_VOLUME_MUTE:
+				return super.dispatchKeyEvent(event);
+			case KeyEvent.KEYCODE_VOLUME_UP:
+			case KeyEvent.KEYCODE_VOLUME_DOWN:
+				mVolume = mAM.getStreamVolume(AudioManager.STREAM_MUSIC);
+				int step = keyCode == KeyEvent.KEYCODE_VOLUME_UP ? 1 : -1;
+				setVolume(mVolume + step);
+				mHandler.removeMessages(MSG_HIDE_OPERATION_VOLLUM);
+				mHandler.sendEmptyMessageDelayed(MSG_HIDE_OPERATION_VOLLUM, 500);
+				return true;
 			}
-			return true;
-		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
-			release();
-			mPlayer.stop();
-			return true;
+
+			if (isLocked() && keyCode != KeyEvent.KEYCODE_BACK) {
+				show();
+				return true;
+			}
+
+			if (event.getRepeatCount() == 0
+					&& (keyCode == KeyEvent.KEYCODE_HEADSETHOOK
+							|| keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_SPACE)) {
+				doPauseResume();
+				show(DEFAULT_TIME_OUT);
+				return true;
+			} else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
+				if (mPlayer.isPlaying()) {
+					mPlayer.pause();
+					updatePausePlay();
+				}
+				return true;
+			} else if (keyCode == KeyEvent.KEYCODE_BACK) {
+				pressbacktime++;
+				if (pressbacktime > 1) {
+					release();
+				}
+				mPlayer.stop(pressbacktime);
+				return true;
+			} else {
+				show(DEFAULT_TIME_OUT);
+			}
+			return super.dispatchKeyEvent(event);
 		} else {
-			show(DEFAULT_TIME_OUT);
+			return super.dispatchKeyEvent(event);
 		}
-		return super.dispatchKeyEvent(event);
 	}
 
 	@TargetApi(11)
 	private void showSystemUi(boolean visible) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			int flag = visible ? 0 : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+			int flag = visible ? 0 : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+					| View.SYSTEM_UI_FLAG_LOW_PROFILE;
 			mRoot.setSystemUiVisibility(flag);
 		}
 	}
@@ -856,7 +897,8 @@ public class MediaController extends FrameLayout {
 		WindowManager.LayoutParams layoutParams = window.getAttributes();
 		float val = showButtons ? -1 : 0;
 		try {
-			Field buttonBrightness = layoutParams.getClass().getField("buttonBrightness");
+			Field buttonBrightness = layoutParams.getClass().getField(
+					"buttonBrightness");
 			buttonBrightness.set(layoutParams, val);
 		} catch (Exception e) {
 		}
@@ -888,16 +930,15 @@ public class MediaController extends FrameLayout {
 			doPauseResume();
 		}
 	};
-	
+
 	private View.OnClickListener mMediacontroller_backListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if(mContext!=null){
+			if (mContext != null) {
 				mContext.finish();
 			}
 		}
 	};
-	
 
 	private View.OnClickListener mLockClickListener = new View.OnClickListener() {
 		@Override
@@ -924,7 +965,7 @@ public class MediaController extends FrameLayout {
 		public void onStartTrackingTouch(SeekBar bar) {
 			mDragging = true;
 			show(3600000);
-			mVideo_current_length = mPlayer.getCurrentPosition()/1000l;// 当前播放长度
+			mVideo_current_length = mPlayer.getCurrentPosition() / 1000l;// 当前播放长度
 			mHandler.removeMessages(MSG_SHOW_PROGRESS);
 			wasStopped = !mPlayer.isPlaying();
 			if (mInstantSeeking) {
@@ -936,7 +977,8 @@ public class MediaController extends FrameLayout {
 		}
 
 		@Override
-		public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
+		public void onProgressChanged(SeekBar bar, int progress,
+				boolean fromuser) {
 			if (!fromuser)
 				return;
 
@@ -944,15 +986,16 @@ public class MediaController extends FrameLayout {
 			String time = length2time(newposition);
 			if (mInstantSeeking)
 				mPlayer.seekTo(newposition);
-			int plustime=(int) (newposition/1000-mVideo_current_length);
-			String plustimestr="";
-			if(plustime>=0){
-				plustimestr="\n+"+String.valueOf(plustime)+"秒";
-			}else{
-				plustimestr="\n"+String.valueOf(plustime)+"秒";
+			int plustime = (int) (newposition / 1000 - mVideo_current_length);
+			String plustimestr = "";
+			if (plustime >= 0) {
+				plustimestr = "\n+" + String.valueOf(plustime) + "秒";
+			} else {
+				plustimestr = "\n" + String.valueOf(plustime) + "秒";
 			}
-			
-			setOperationInfo(time+"/"+length2time(mDuration)+plustimestr, 1500);
+
+			setOperationInfo(time + "/" + length2time(mDuration) + plustimestr,
+					1500);
 		}
 
 		@Override
@@ -976,10 +1019,10 @@ public class MediaController extends FrameLayout {
 
 		void pause();
 
-		void stop();
+		void stop(int pressbacktime);
 
 		void seekTo(long pos);
-		
+
 		void setVideoQuality(int quality);
 
 		boolean isPlaying();

@@ -30,7 +30,6 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -888,8 +887,20 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 	}
 
 	@Override
-	public void stop() {
-		onBackPressed();
+	public void stop(int pressbacktime) {
+		if(pressbacktime<2){
+			if (toast != null) {
+				toast.setText(R.string.anotherback_finish);
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
+			} else {
+				toast = Toast.makeText(this,R.string.anotherback_finish,
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}else{
+			onBackPressed();
+		}
 	}
 
 	@Override
@@ -944,13 +955,4 @@ public class VideoActivity extends Activity implements MediaController.MediaPlay
 			vPlayer.setVideoQuality(quality);
 	}
 	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			finish();
-			return true;
-		} else {
-			return super.onKeyDown(keyCode, event);
-		}
-	}
 }

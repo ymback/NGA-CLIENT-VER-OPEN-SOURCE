@@ -45,7 +45,7 @@ public class PlayerService extends Service implements
 	private float mSeekTo = -1f;
 	private boolean mFromNotification;
 	private String[] mSubPaths;
-    private AudioManager mAm;
+	private AudioManager mAm;
 	private boolean mInitialized;
 	private final IBinder mBinder = new LocalBinder();
 	private int mCurrentState;
@@ -77,12 +77,11 @@ public class PlayerService extends Service implements
 		mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		mTelephonyManager.listen(mPhoneListener,
 				PhoneStateListener.LISTEN_CALL_STATE);
-        mAm = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int a=mAm.requestAudioFocus(focusChangeListener, 
-                AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN);
+		mAm = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		int a = mAm.requestAudioFocus(focusChangeListener,
+				AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 	}
-    
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (VitamioInstaller.isNativeLibsInited(this)) {
@@ -127,7 +126,7 @@ public class PlayerService extends Service implements
 		super.onDestroy();
 		release(true);
 		releaseContext();
-		mAm.abandonAudioFocus(focusChangeListener);  
+		mAm.abandonAudioFocus(focusChangeListener);
 	}
 
 	public boolean isInitialized() {
@@ -583,31 +582,31 @@ public class PlayerService extends Service implements
 		else
 			return files.toArray(new String[files.size()]);
 	}
-	
-	private OnAudioFocusChangeListener focusChangeListener =
-	          new OnAudioFocusChangeListener() {
-        public void onAudioFocusChange(int focusChange) {
-          switch (focusChange) {
 
-                 case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) :
-                 // Lower the volume while ducking.
-                 setVolume(0.2f, 0.2f);
-                 break;
-                 case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) :
-                	 stop();
-                 break;
+	private OnAudioFocusChangeListener focusChangeListener = new OnAudioFocusChangeListener() {
+		public void onAudioFocusChange(int focusChange) {
+			switch (focusChange) {
 
-                 case (AudioManager.AUDIOFOCUS_LOSS) :
-                 stop();
-                 break;
+			case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK):
+				// Lower the volume while ducking.
+				setVolume(0.2f, 0.2f);
+				break;
+			case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT):
+				stop();
+				break;
 
-                 case (AudioManager.AUDIOFOCUS_GAIN) :
-                 // Return the volume to normal and resume if paused.
-                 setVolume(1f, 1f);
-                 start();
-                 break;
-                 default: break;
-}
-}
-};
+			case (AudioManager.AUDIOFOCUS_LOSS):
+				stop();
+				break;
+
+			case (AudioManager.AUDIOFOCUS_GAIN):
+				// Return the volume to normal and resume if paused.
+				setVolume(1f, 1f);
+				start();
+				break;
+			default:
+				break;
+			}
+		}
+	};
 }

@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gov.anzong.mediaplayer"
     android:installLocation="auto"
-    android:versionCode="101"
-    android:versionName="1.0.1"
+    android:versionCode="102"
+    android:versionName="1.0.2"
     android:sharedUserId="gov.anzong.androidnga" >
 
     <uses-sdk

@@ -21,6 +21,7 @@
     <string name="closing_file">退出中…</string>
     <string name="file_explorer_sdcard_not_available">你的SD卡不能读取.</string>
     <string name="subtitle_image">副标题</string>
+    <string name="anotherback_finish">再次按后退可以结束播放</string>
     
     <string-array name="videoquality">
         <item>流畅</item>
