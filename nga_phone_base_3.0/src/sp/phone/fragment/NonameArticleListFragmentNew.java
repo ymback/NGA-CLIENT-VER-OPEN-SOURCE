@@ -11,6 +11,7 @@ import sp.phone.listener.MyListenerForNonameReply;
 import sp.phone.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -22,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
@@ -34,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -60,11 +63,13 @@ public class NonameArticleListFragmentNew extends Fragment implements
 	private static Context activity;
 	NonameReadResponse mData;
 
+	WebViewClient client;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		page = getArguments().getInt("page") + 1;
 		tid = getArguments().getInt("id");
 		super.onCreate(savedInstanceState);
+		client = new ArticleListWebClient(getActivity());
 	}
 
 	@Override
@@ -346,7 +351,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
 		final Callback mActionModeCallback = (Callback) activeActionMode(data,
 				position);
 		FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
-				getActivity(), mActionModeCallback);
+				getActivity(), mActionModeCallback,client);
 		holder.articlelistrelativelayout
 				.setOnLongClickListener(new OnLongClickListener() {
 

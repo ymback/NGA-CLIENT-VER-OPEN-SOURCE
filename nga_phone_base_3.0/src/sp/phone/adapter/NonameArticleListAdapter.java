@@ -85,6 +85,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 	static String attachment = null;
 	static String comment = null;
 	static String sig = null;
+	final WebViewClient client;
 
 	public NonameArticleListAdapter(Context activity) {
 		super();
@@ -92,6 +93,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		this.viewCache = new SparseArray<SoftReference<View>>();
 		if (userDistance == null)
 			initStaticStrings(activity);
+		client = new ArticleListWebClient((FragmentActivity) activity);
 	}
 
 	@Override
@@ -311,17 +313,17 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null,client);
 				}
 			}).start();
 		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null,client);
 				}
 			});
 		} else {
-			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null);
+			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null,client);
 		}
 		if (needin) {
 			view.invalidate();

@@ -87,12 +87,15 @@ public class ArticleListAdapter extends BaseAdapter implements
 	static String comment = null;
 	static String sig = null;
 
+	final WebViewClient client;
+	
 	public ArticleListAdapter(Context activity) {
 		super();
 		this.activity = activity;
 		this.viewCache = new SparseArray<SoftReference<View>>();
 		if (userDistance == null)
 			initStaticStrings(activity);
+		client = new ArticleListWebClient((FragmentActivity) activity);
 	}
 
 	@Override
@@ -381,14 +384,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 		FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV,activity);
 
-		/*
-		 * TextView titleTV = holder.titleTV; if
-		 * (!StringUtil.isEmpty(row.getSubject()) ) {
-		 * titleTV.setText(StringUtil.unEscapeHtml(row.getSubject()));
-		 * titleTV.setTextColor(fgColor);
-		 * 
-		 * }
-		 */
 
 		final int bgColor = parent.getContext().getResources()
 				.getColor(colorId);
@@ -417,17 +412,17 @@ public class ArticleListAdapter extends BaseAdapter implements
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null,client);
 				}
 			}).start();
 		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null,client);
 				}
 			});
 		} else {
-			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null);
+			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null,client);
 		}
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());

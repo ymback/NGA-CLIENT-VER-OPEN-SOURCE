@@ -192,8 +192,7 @@ public class FunctionUtil {
 	}
 
 	public static void handleContentTV(WebView contentTV,
-			final NonameReadBody row,int position, int bgColor,final Context context, final Callback mActionModeCallback) {
-		final WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+			final NonameReadBody row,int position, int bgColor,final Context context, final Callback mActionModeCallback,WebViewClient client) {
 		contentTV.setBackgroundColor(0);
 		contentTV.setHorizontalScrollBarEnabled(false);
 		contentTV.setFocusableInTouchMode(false);
@@ -214,9 +213,6 @@ public class FunctionUtil {
 				
 			});
 		}
-		if (Build.VERSION.SDK_INT >= 11) {
-			contentTV.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
 		WebSettings setting = contentTV.getSettings();
 		setting.setUserAgentString(context.getString(R.string.clientua)+((MyApp) ((Activity) context).getApplication()).version);
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
@@ -226,13 +222,15 @@ public class FunctionUtil {
 		contentTV.setTag(row.floor);
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
-		setting.setRenderPriority(RenderPriority.HIGH);
 		setting.setJavaScriptEnabled(false);
-		
+
+		if(mActionModeCallback==null){
+			contentTV.loadUrl("about:blank");
+			contentTV.clearView();
+			}
 		contentTV.loadDataWithBaseURL(null, fillFormated_html_data(row,position,context),
 				"text/html", "utf-8", null);
 		if(mActionModeCallback==null){
-			contentTV.clearView();
 			contentTV.requestLayout();
 		}
 	}
@@ -244,7 +242,6 @@ public class FunctionUtil {
 		contentTV.setFocusableInTouchMode(false);
 		contentTV.setFocusable(false);
 		if (ActivityUtil.isGreaterThan_2_2()) {
-
 			contentTV.setLongClickable(false);
 		}
 
@@ -262,8 +259,7 @@ public class FunctionUtil {
 	}
 	
 	public static void handleContentTV(WebView contentTV, final ThreadRowInfo row,
-			final int position, int bgColor,final Context context, final Callback mActionModeCallback) {
-		final WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+			final int position, int bgColor,final Context context, final Callback mActionModeCallback,WebViewClient client) {
 		contentTV.setBackgroundColor(0);
 		contentTV.setFocusableInTouchMode(false);
 		contentTV.setFocusable(false);
@@ -284,24 +280,22 @@ public class FunctionUtil {
 				
 			});
 		}
-		if (Build.VERSION.SDK_INT >= 11) {
-			contentTV.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+//		if (Build.VERSION.SDK_INT >= 11) {
+//			contentTV.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+//		}
 		WebSettings setting = contentTV.getSettings();
-		// setting.setBlockNetworkImage(!showImage);
-		// the network image url already replaced by local icon. this should not
-		// be called and
-		// webview will not work properly in android 4.4.
 		setting.setUserAgentString(context.getString(R.string.clientua)+((MyApp) ((Activity) context).getApplication()).version);
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
-		setting.setRenderPriority(RenderPriority.HIGH);
 		setting.setJavaScriptEnabled(false);
 		contentTV.setWebViewClient(client);
+		if(mActionModeCallback==null){
+			contentTV.loadUrl("about:blank");
+			contentTV.clearView();
+			}
 		contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(),
 				"text/html", "utf-8", null);
 		if(mActionModeCallback==null){
-			contentTV.clearView();
 			contentTV.requestLayout();
 		}
 	}

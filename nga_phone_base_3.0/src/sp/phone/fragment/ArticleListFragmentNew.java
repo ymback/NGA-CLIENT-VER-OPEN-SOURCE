@@ -22,6 +22,7 @@ import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
@@ -40,6 +41,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -54,6 +56,7 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -86,6 +89,7 @@ public class ArticleListFragmentNew extends Fragment implements
 	private Toast toast;
 	private ThreadData mData;
 	private final Object lock = new Object();
+	WebViewClient client;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,7 @@ public class ArticleListFragmentNew extends Fragment implements
 			if (fatheractivityclassname.indexOf("TopicListActivity") < 0)
 				setRetainInstance(true);
 		}
+		client = new ArticleListWebClient(getActivity());
 	}
 
 	@Override
@@ -687,7 +692,7 @@ public class ArticleListFragmentNew extends Fragment implements
 		final Callback mActionModeCallback = (Callback) activeActionMode(data,
 				position);
 		FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
-				getActivity(), mActionModeCallback);
+				getActivity(), mActionModeCallback,client);
 		holder.articlelistrelativelayout
 				.setOnLongClickListener(new OnLongClickListener() {
 
