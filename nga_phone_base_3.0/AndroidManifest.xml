@@ -4,8 +4,8 @@
     android:configChanges="orientation|screenSize"
     android:installLocation="auto"
     android:largeHeap="true"
-    android:versionCode="2034"
-    android:versionName="2.0.34" >
+    android:versionCode="2035"
+    android:versionName="2.0.35" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -50,6 +50,7 @@
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name=".activity.MeiziLoginActivity"
+        	android:icon="@drawable/anzong_foot"
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name=".activity.FlexibleProfileActivity"
@@ -466,22 +467,26 @@
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name=".activity.MeiziMainActivity"
+        	android:icon="@drawable/anzong_foot"
             android:label="@string/app_dbmeizi"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name=".activity.SplitMeiziMainActivity"
+        	android:icon="@drawable/anzong_foot"
             android:label="@string/app_dbmeizi"
             android:theme="@style/AppTheme"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity
             android:name=".activity.MeiziTopicActivity"
+        	android:icon="@drawable/anzong_foot"
             android:label="@string/app_dbmeizi"
             android:theme="@style/SwipeBackTheme" >
         </activity>
         <activity
             android:name=".activity.SplitMeiziTopicActivity"
+        	android:icon="@drawable/anzong_foot"
             android:label="@string/app_dbmeizi"
             android:theme="@style/SwipeBackTheme"
             android:uiOptions="splitActionBarWhenNarrow" >
