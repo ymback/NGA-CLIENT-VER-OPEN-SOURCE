@@ -35,6 +35,7 @@ public class WebViewerActivity extends  SwipeBackAppCompatActivity {
 		wv = (WebView) findViewById(R.id.webview);
 		WebViewClient client = new ArticleListWebClient(this);
 		wv.setWebViewClient(client);
+		wv.getSettings().setUserAgentString(getString(R.string.clientua)+((MyApp) getApplication()).version);
 		if(ActivityUtil.isGreaterThan_2_3_3())
 		 wv.setWebChromeClient(new WebChromeClient() {  
              public void onProgressChanged(WebView view, int progress) {  

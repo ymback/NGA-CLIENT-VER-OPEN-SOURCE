@@ -23,6 +23,7 @@ import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -98,29 +99,6 @@ public class MessageDetialAdapter extends BaseAdapter implements
 
 
 
-	private void handleContentTV(final WebView contentTV,
-			final MessageArticlePageInfo row, int bgColor, int fgColor) {
-		contentTV.setBackgroundColor(0);
-		contentTV.setFocusableInTouchMode(false);
-		contentTV.setFocusable(false);
-		if (ActivityUtil.isGreaterThan_2_2()) {
-
-			contentTV.setLongClickable(false);
-		}
-
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| isInWifi();
-
-		WebSettings setting = contentTV.getSettings();
-		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-				.getWebSize());
-		setting.setJavaScriptEnabled(false);
-		contentTV.setWebViewClient(client);
-
-		contentTV.setTag(row.getLou());
-		contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(),
-				"text/html", "utf-8", null);
-	}
 	public Object getItem(int arg0) {
 
 		MessageArticlePageInfo entry = getEntry(arg0);
@@ -212,7 +190,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
 		holder.floor.setTextColor(res.getColor(theme.getForegroundColor()));
 		
 
-		handleNickName(entry,res.getColor(theme.getForegroundColor()),holder.nickName);
+		FunctionUtil.handleNickName(entry,res.getColor(theme.getForegroundColor()),holder.nickName,context);
 		handleAvatar(holder.avatarImage, entry);
 
 		int colorId = theme.getBackgroundColor(position+1);
@@ -225,64 +203,26 @@ public class MessageDetialAdapter extends BaseAdapter implements
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
-					handleContentTV(holder.content, entry, bgColor, fgColor);
+					FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor,context);
 				}
 			}).start();
-		} else {
+		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
-					handleContentTV(holder.content, entry, bgColor, fgColor);
+					FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor,context);
 				}
 			});
+		} else {
+			FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor,context);
 		}
-	}
-
-
-	private static String parseAvatarUrl(String js_escap_avatar) {
-		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
-		if (null == js_escap_avatar)
-			return null;
-
-		int start = js_escap_avatar.indexOf("http");
-		if (start == 0 || start == -1)
-			return js_escap_avatar;
-		int end = js_escap_avatar.indexOf("\"", start);//
-		if (end == -1)
-			end = js_escap_avatar.length();
-		String ret = null;
-		try {
-			ret = js_escap_avatar.substring(start, end);
-		} catch (Exception e) {
-			Log.e("TAG", "cann't handle avatar url " + js_escap_avatar);
-		}
-		return ret;
 	}
 	
 	
-	private void handleNickName(MessageArticlePageInfo row, int fgColor,
-			TextView nickNameTV) {
-
-		String nickName = row.getAuthor();
-		// int now = 0;
-		if ("-1".equals(row.getYz()))// nuked
-		{
-			fgColor = nickNameTV.getResources().getColor(R.color.title_red);
-			nickName += "(VIP)";
-		} else if (!StringUtil.isEmpty(row.getMute_time())
-				&& !"0".equals(row.getMute_time())) {
-			fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
-			nickName += "(" + legend + ")";
-		}
-		nickNameTV.setText(nickName);
-		TextPaint tp = nickNameTV.getPaint();
-		tp.setFakeBoldText(true);// bold for Chinese character
-		nickNameTV.setTextColor(fgColor);
-	}
 	private Bitmap defaultAvatar = null;
 	private void handleAvatar(ImageView avatarIV, MessageArticlePageInfo row) {
 
 		final int lou = row.getLou();
-		final String avatarUrl = parseAvatarUrl(row.getJs_escap_avatar());//
+		final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
 		final String userId = row.getFrom();
 		if (PhoneConfiguration.getInstance().nikeWidth < 3) {
 			avatarIV.setImageBitmap(null);

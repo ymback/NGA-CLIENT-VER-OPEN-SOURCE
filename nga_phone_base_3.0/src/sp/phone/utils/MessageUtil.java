@@ -232,13 +232,6 @@ public class MessageUtil {
 		return data;
 
 	}
-
-	public static String TimeStamp2Date(String timestampString) {
-		Long timestamp = Long.parseLong(timestampString) * 1000;
-		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(new java.util.Date(timestamp));
-		return date;
-	}
 	
 	private List<MessageArticlePageInfo> convertJSobjToList(JSONObject rowMap,
 			JSONObject userInfoMap,int page) {
@@ -254,7 +247,7 @@ public class MessageUtil {
 				row.setSubject(rowObj.getString("subject"));
 				int time = rowObj.getIntValue("time");
 				if(time>0){
-					row.setTime(TimeStamp2Date(String.valueOf(time)));
+					row.setTime(StringUtil.TimeStamp2Date(String.valueOf(time)));
 				}else{
 					row.setTime("");
 				}

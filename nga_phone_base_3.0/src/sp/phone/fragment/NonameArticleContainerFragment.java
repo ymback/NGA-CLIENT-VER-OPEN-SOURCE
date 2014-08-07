@@ -77,9 +77,15 @@ public class NonameArticleContainerFragment extends Fragment implements
 				mcontainer.setBackgroundResource(R.color.night_bg_color);
 		}
 
-		mTabsAdapter = new NonameThreadFragmentAdapter(getActivity(),
-				getChildFragmentManager(), mViewPager,
-				NonameArticleListFragment.class);
+		if(PhoneConfiguration.getInstance().kitwebview){
+			mTabsAdapter = new NonameThreadFragmentAdapter(getActivity(),
+					getChildFragmentManager(), mViewPager,
+					NonameArticleListFragment.class);
+		}else{
+			mTabsAdapter = new NonameThreadFragmentAdapter(getActivity(),
+					getChildFragmentManager(), mViewPager,
+					NonameArticleListFragment.class);
+		}
 
 		mTabsAdapter.setArgument("id", tid);
 
@@ -135,8 +141,25 @@ public class NonameArticleContainerFragment extends Fragment implements
 			mcontainer.setBackgroundResource(R.color.shit1);
 		}
 	}
-		if(mTabsAdapter!=null)
-			mTabsAdapter.notifyDataSetChangedChangeMode();
+	if (mTabsAdapter != null) {
+		if(PhoneConfiguration.getInstance().kitwebview){
+			try{
+				((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+				((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+				((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+			}catch(Exception e){
+				
+			}
+		}else{
+			try{
+				((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+				((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+				((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()-1)).modechange();
+			}catch(Exception e){
+				
+			}
+		}
+	}
 	}
 
 	@Override
@@ -276,8 +299,25 @@ public class NonameArticleContainerFragment extends Fragment implements
 			mode = ThemeManager.MODE_NIGHT;
 		}
 		ThemeManager.getInstance().setMode(mode);
+
 		if (mTabsAdapter != null) {
-			mTabsAdapter.notifyDataSetChangedChangeMode();
+			if(PhoneConfiguration.getInstance().kitwebview){
+				try{
+					((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+					((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+				}catch(Exception e){
+					
+				}
+			}else{
+				try{
+					((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+					((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()-1)).modechange();
+				}catch(Exception e){
+					
+				}
+			}
 		}
 		if (mCallback != null)
 			mCallback.onModeChanged();

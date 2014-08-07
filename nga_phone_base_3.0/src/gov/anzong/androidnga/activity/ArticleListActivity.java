@@ -1,5 +1,8 @@
 package gov.anzong.androidnga.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -41,6 +44,7 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.ArticleListFragment;
+import sp.phone.fragment.ArticleListFragmentNew;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
@@ -73,7 +77,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 	private int fromreplyactivity = 0;
 
-	ThreadData result;
 
 	PullToRefreshAttacher attacher = null;
 
@@ -117,21 +120,30 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 		}
 		View v = findViewById(android.R.id.content);// .getChildAt(0);
 		tabhost = (TabHost) findViewById(android.R.id.tabhost);
-
-		if (tabhost != null) {
-			tabhost.setup();
-			mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
-					ArticleListFragment.class);
-		} else {
-			mTabsAdapter = new ThreadFragmentAdapter(this,
-					getSupportFragmentManager(), mViewPager,
-					ArticleListFragment.class);
+		if(PhoneConfiguration.getInstance().kitwebview){
+			if (tabhost != null) {
+				tabhost.setup();
+				mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
+						ArticleListFragmentNew.class);
+			} else {
+				mTabsAdapter = new ThreadFragmentAdapter(this,
+						getSupportFragmentManager(), mViewPager,
+						ArticleListFragmentNew.class);
+			}
+		}else{
+			if (tabhost != null) {
+				tabhost.setup();
+				mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
+						ArticleListFragment.class);
+			} else {
+				mTabsAdapter = new ThreadFragmentAdapter(this,
+						getSupportFragmentManager(), mViewPager,
+						ArticleListFragment.class);
+			}
 		}
-
 		mTabsAdapter.setArgument("id", tid);
 		mTabsAdapter.setArgument("pid", pid);
 		mTabsAdapter.setArgument("authorid", authorid);
-
 		if (savedInstanceState != null) {
 			int pageCount = savedInstanceState.getInt("pageCount");
 			if (pageCount != 0) {
@@ -427,7 +439,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	 */
 
 	private void nightMode(final MenuItem menu) {
-		refresh_saying();
 		ThemeManager tm = ThemeManager.getInstance();
 		SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
 		int mode = ThemeManager.MODE_NORMAL;
@@ -446,54 +457,31 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 			mode = ThemeManager.MODE_NIGHT;
 		}
 		ThemeManager.getInstance().setMode(mode);
-		if (mTabsAdapter != null && result != null) {
-			for (int i = 0; i < result.getRowList().size(); i++) {
-				fillFormated_html_data(result.getRowList().get(i), i);
+		if (mTabsAdapter != null) {
+			refresh_saying();
+			if(PhoneConfiguration.getInstance().kitwebview){
+				((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+				try{
+					if(mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)!=null){
+						((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					}
+					if(mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()-1)!=null){
+						((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					}
+				}catch(Exception e){
+					
+				}
+			}else{
+				try{
+					((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+						((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+						((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()-1)).modechange();
+				}catch(Exception e){
+					
+				}
 			}
-			finishLoad(result);
-			mTabsAdapter.notifyDataSetChangedChangeMode();
 		}
 	}
-
-	private void fillFormated_html_data(ThreadRowInfo row, int i) {
-
-		ThemeManager theme = ThemeManager.getInstance();
-		if (row.getContent() == null) {
-			row.setContent(row.getSubject());
-			row.setSubject(null);
-		}
-		if (!StringUtil.isEmpty(row.getFromClient())) {
-			if (row.getFromClient().startsWith("103 ")
-					&& !StringUtil.isEmpty(row.getContent())) {
-				row.setContent(StringUtil.unescape(row.getContent()));
-			}
-		}
-		int bgColor = getResources().getColor(theme.getBackgroundColor(i));
-		int fgColor = getResources().getColor(theme.getForegroundColor());
-		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x", bgColor);
-
-		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x", htmlfgColor);
-
-		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
-
-		row.setFormated_html_data(formated_html_data);
-	}
-
-	private boolean isShowImage() {
-		return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
-	}
-
-	public int showImageQuality() {
-		if (isInWifi()) {
-			return 0;
-		} else {
-			return PhoneConfiguration.getInstance().imageQuality;
-		}
-	}
-
 	public boolean isInWifi() {
 		ConnectivityManager conMan = (ConnectivityManager) this
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -599,10 +587,8 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 		return sb.toString();
 	}
-
 	@Override
 	public void finishLoad(ThreadData data) {
-		result = data;
 		int exactCount = 1 + data.getThreadInfo().getReplies() / 20;
 		if (mTabsAdapter.getCount() != exactCount && this.authorid == 0) {
 			if (this.pid != 0)

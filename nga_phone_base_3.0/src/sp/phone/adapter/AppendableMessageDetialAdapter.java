@@ -17,6 +17,7 @@ import sp.phone.interfaces.NextJsonMessageListLoader;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.MessageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -76,7 +77,6 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
 	}
 	
 	public void notifyDataSetChangedWithModChange(){
-		List<MessageDetialInfo> infoListTmp;
 		for(int i=0;i<infoList.size();i++){
 			for(int j=0;j<infoList.get(i).getMessageEntryList().size();j++){
 				sethtmldata(infoList.get(i).getMessageEntryList().get(j),j);
@@ -107,28 +107,11 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
 		final String fgColorStr = String.format("%06x", htmlfgColor);
 
 		String formated_html_data = MessageDetialAdapter.convertToHtmlText(row,
-				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
+				FunctionUtil.isShowImage(context), FunctionUtil.showImageQuality(context), fgColorStr, bgcolorStr);
 
 		row.setFormated_html_data(formated_html_data);
 	}
-
-	public static int showImageQuality() {
-		if (isInWifi()) {
-			return 0;
-		} else {
-			return PhoneConfiguration.getInstance().imageQuality;
-		}
-	}
-	private boolean isShowImage() {
-		return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
-	}
-	public static boolean isInWifi() {
-		ConnectivityManager conMan = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-				.getState();
-		return wifi == State.CONNECTED;
-	}
+	
 	public int getNextPage(){
 		return infoList.size() + 1;
 	}

@@ -105,13 +105,13 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 				entry.setLast_from_username(rowObj.getString("last_from_username"));
 				int time=rowObj.getInteger("time");
 				if(time>0){
-					entry.setTime(TimeStamp2Date(String.valueOf(time)));
+					entry.setTime(StringUtil.TimeStamp2Date(String.valueOf(time)));
 				}else{
 					entry.setTime("");
 				}
 				time=rowObj.getIntValue("last_modify");
 				if(time>0){
-					entry.setLastTime(TimeStamp2Date(String.valueOf(time)));
+					entry.setLastTime(StringUtil.TimeStamp2Date(String.valueOf(time)));
 				}else{
 					entry.setLastTime("");
 				}
@@ -147,13 +147,6 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 	protected void onCancelled() {
 		ActivityUtil.getInstance().dismiss();
 		super.onCancelled();
-	}
-
-	public static String TimeStamp2Date(String timestampString) {
-		Long timestamp = Long.parseLong(timestampString) * 1000;
-		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(new java.util.Date(timestamp));
-		return date;
 	}
 	
 

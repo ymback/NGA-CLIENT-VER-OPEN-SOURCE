@@ -121,8 +121,8 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
 
 	@Override
 	protected void onPostExecute(ThreadData result) {
-		ActivityUtil.getInstance().dismiss();
 		if (result == null) {
+			ActivityUtil.getInstance().dismiss();
 			ActivityUtil.getInstance().noticeError(errorStr, context);
 		}
 		notifier.finishLoad(result);

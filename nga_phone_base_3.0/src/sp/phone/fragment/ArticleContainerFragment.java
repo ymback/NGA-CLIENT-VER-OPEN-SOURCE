@@ -29,6 +29,7 @@ import android.widget.TabWidget;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ArticleListAdapter;
+import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
@@ -39,6 +40,7 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
@@ -63,12 +65,24 @@ public class ArticleContainerFragment extends Fragment implements
 				mcontainer.setBackgroundResource(R.color.shit1);
 			}
 		}
-		if (mTabsAdapter != null && result != null) {
-			for (int i = 0; i < result.getRowList().size(); i++) {
-				fillFormated_html_data(result.getRowList().get(i), i);
+		if (mTabsAdapter != null) {
+			if(PhoneConfiguration.getInstance().kitwebview){
+				try{
+					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+				}catch(Exception e){
+					
+				}
+			}else{
+				try{
+					((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+					((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()-1)).modechange();
+				}catch(Exception e){
+					
+				}
 			}
-			finishLoad(result);
-			mTabsAdapter.notifyDataSetChangedChangeMode();
 		}
 	}
 
@@ -140,10 +154,16 @@ public class ArticleContainerFragment extends Fragment implements
 			if (mcontainer != null)
 				mcontainer.setBackgroundResource(R.color.night_bg_color);
 		}
-
-		mTabsAdapter = new ThreadFragmentAdapter(getActivity(),
-				getChildFragmentManager(), mViewPager,
-				ArticleListFragment.class);
+		
+		if(PhoneConfiguration.getInstance().kitwebview){
+			mTabsAdapter = new ThreadFragmentAdapter(getActivity(),
+					getChildFragmentManager(), mViewPager,
+					ArticleListFragmentNew.class);
+		}else{
+			mTabsAdapter = new ThreadFragmentAdapter(getActivity(),
+					getChildFragmentManager(), mViewPager,
+					ArticleListFragment.class);
+		}
 		// new TabsAdapter(getActivity(), tabhost,
 		// mViewPager,ArticleListFragment.class);
 
@@ -353,12 +373,24 @@ public class ArticleContainerFragment extends Fragment implements
 			mode = ThemeManager.MODE_NIGHT;
 		}
 		ThemeManager.getInstance().setMode(mode);
-		if (mTabsAdapter != null && result != null) {
-			for (int i = 0; i < result.getRowList().size(); i++) {
-				fillFormated_html_data(result.getRowList().get(i), i);
+		if (mTabsAdapter != null) {
+			if(PhoneConfiguration.getInstance().kitwebview){
+				try{
+					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+				}catch(Exception e){
+					
+				}
+			}else{
+				try{
+					((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+					((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					((ArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()-1)).modechange();
+				}catch(Exception e){
+					
+				}
 			}
-			finishLoad(result);
-			mTabsAdapter.notifyDataSetChangedChangeMode();
 		}
 		if (mCallback != null)
 			mCallback.onModeChanged();
@@ -414,42 +446,11 @@ public class ArticleContainerFragment extends Fragment implements
 		final String fgColorStr = String.format("%06x", htmlfgColor);
 
 		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
+				FunctionUtil.isShowImage(getActivity()), FunctionUtil.showImageQuality(getActivity()), fgColorStr, bgcolorStr);
 
 		row.setFormated_html_data(formated_html_data);
 	}
-
-	private boolean isShowImage() {
-		return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
-	}
-
-	public int showImageQuality() {
-		if (isInWifi()) {
-			return 0;
-		} else {
-			return PhoneConfiguration.getInstance().imageQuality;
-		}
-	}
-
-	public boolean isInWifi() {
-		ConnectivityManager conMan = (ConnectivityManager) getActivity()
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-				.getState();
-		return wifi == State.CONNECTED;
-	}
-
-	private ImageButton getActionItem(int id) {
-		// View actionbar_compat =
-		// getActivity().findViewById(R.id.actionbar_compat);
-		View ret = null;
-		/*
-		 * if(actionbar_compat != null) { ret =
-		 * actionbar_compat.findViewById(id); }
-		 */
-		return (ImageButton) ret;
-	}
-
+	
 	private void handleLockOrientation(MenuItem item) {
 		int preOrentation = ThemeManager.getInstance().screenOrentation;
 		int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;

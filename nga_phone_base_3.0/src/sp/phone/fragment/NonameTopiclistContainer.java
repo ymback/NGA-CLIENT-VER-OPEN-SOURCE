@@ -6,6 +6,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.AppendableNonameTopicAdapter;
 import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -58,7 +59,16 @@ public class NonameTopiclistContainer extends Fragment implements
 	AppendableNonameTopicAdapter adapter;
 	boolean canDismiss = true;
 	int category = 0;
-
+	private NonameThreadResponse mTopicListInfo;
+	private int mListPosition;
+	private int mListFirstTop;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -143,7 +153,11 @@ public class NonameTopiclistContainer extends Fragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		canDismiss = true;
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		this.refresh();
+		if (mTopicListInfo == null) {
+			refresh();
+		} else {
+			jsonfinishLoad(mTopicListInfo);
+		}
 		super.onViewCreated(view, savedInstanceState);
 	}
 
@@ -153,6 +167,19 @@ public class NonameTopiclistContainer extends Fragment implements
     public interface OnNonameTopiclistContainerListener {  
         public void onAnotherModeChanged();  
     }  
+    @Override
+    public void onResume() {
+    	 super.onResume();
+    	 listView.setSelectionFromTop(mListPosition, mListFirstTop);
+    }
+    @Override
+     public void onPause() {
+    	 super.onPause();
+    	 if (listView.getChildCount() >= 1) {
+    	mListPosition = listView.getFirstVisiblePosition();
+    	 mListFirstTop = listView.getChildAt(0).getTop();
+     }
+    	 }
     
 	@Override  
     public void onAttach(Activity activity) {  
@@ -330,28 +357,6 @@ public class NonameTopiclistContainer extends Fragment implements
 		super.onSaveInstanceState(outState);
 	}
 
-	private void handleSearch() {
-		Bundle arg = new Bundle();
-		arg.putInt("id", fid);
-		arg.putInt("authorid", authorid);
-		DialogFragment df = new SearchDialogFragment();
-		df.setArguments(arg);
-		final String dialogTag = "search_dialog";
-		FragmentManager fm = getActivity().getSupportFragmentManager();
-		FragmentTransaction ft = fm.beginTransaction();
-		Fragment prev = fm.findFragmentByTag(dialogTag);
-		if (prev != null) {
-			ft.remove(prev);
-		}
-		try {
-			df.show(ft, dialogTag);
-		} catch (Exception e) {
-			Log.e(NonameTopiclistContainer.class.getSimpleName(),
-					Log.getStackTraceString(e));
-
-		}
-	}
-
 	private int getUrlParameter(String url, String paraName) {
 		if (StringUtil.isEmpty(url)) {
 			return 0;
@@ -389,6 +394,7 @@ public class NonameTopiclistContainer extends Fragment implements
 
 		if (result == null)
 			return;
+		mTopicListInfo = result;
 		adapter.clear();
 		adapter.jsonfinishLoad(result);
 		listView.setAdapter(adapter);

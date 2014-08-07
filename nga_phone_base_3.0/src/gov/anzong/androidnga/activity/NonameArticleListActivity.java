@@ -39,6 +39,7 @@ import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.ArticleListFragment;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.fragment.NonameArticleListFragment;
+import sp.phone.fragment.NonameArticleListFragmentNew;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
@@ -94,15 +95,26 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 		}
 
 		tabhost = (TabHost) findViewById(android.R.id.tabhost);
-
-		if (tabhost != null) {
-			tabhost.setup();
-			mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
-					NonameArticleListFragment.class);
-		} else {
-			mTabsAdapter = new ThreadFragmentAdapter(this,
-					getSupportFragmentManager(), mViewPager,
-					NonameArticleListFragment.class);
+		if(PhoneConfiguration.getInstance().kitwebview){
+			if (tabhost != null) {
+				tabhost.setup();
+				mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
+						NonameArticleListFragmentNew.class);
+			} else {
+				mTabsAdapter = new ThreadFragmentAdapter(this,
+						getSupportFragmentManager(), mViewPager,
+						NonameArticleListFragmentNew.class);
+			}
+		}else{
+			if (tabhost != null) {
+				tabhost.setup();
+				mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
+						NonameArticleListFragment.class);
+			} else {
+				mTabsAdapter = new ThreadFragmentAdapter(this,
+						getSupportFragmentManager(), mViewPager,
+						NonameArticleListFragment.class);
+			}
 		}
 
 		mTabsAdapter.setArgument("id", tid);
@@ -367,9 +379,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 					mode = ThemeManager.MODE_NIGHT;
 				}
 				ThemeManager.getInstance().setMode(mode);
-				if(mTabsAdapter!=null){
-					mTabsAdapter.notifyDataSetChangedChangeMode();
-				}
 	}
 
 	private void createGotoDialog() {

@@ -104,7 +104,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private TextView picshowtitle;
 	private TextView optiontitle;
 	private TextView uishowtitle;
-	private View viewgone1, viewgone2, viewgone3, viewgone4;
+	private View viewgone1, viewgone2, viewgone3;
 
 	private ImageView avatarImage;
 	private SeekBar avatarSeekBar;
@@ -147,7 +147,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		viewgone1 = (View) findViewById(R.id.viewgone1);
 		viewgone2 = (View) findViewById(R.id.viewgone2);
 		viewgone3 = (View) findViewById(R.id.viewgone3);
-		viewgone4 = (View) findViewById(R.id.viewgone4);
 
 		checkBoxDownimgNowifi = (CompoundButton) findViewById(R.id.checkBox_down_img_no_wifi);
 		checkBoxDownimgNowifi.setChecked(config.downImgNoWifi);
@@ -350,8 +349,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 																			// 4.4
 			fullscreen.setVisibility(View.GONE);
 			viewgone3.setVisibility(View.GONE);
-			kitwebview.setVisibility(View.GONE);
-			viewgone4.setVisibility(View.GONE);
 		}
 		updateThemeUI();
 	}

@@ -119,6 +119,24 @@
             android:background="@color/night_fore_color" >
         </View>
 
+
+        
+        <CheckBox
+            android:id="@+id/checkBox_kitwebview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:text="@string/kitwebview" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:background="@color/night_fore_color" >
+        </View>
+        
         <CheckBox
             android:id="@+id/checkBox_new_weiba"
             android:layout_width="match_parent"
@@ -226,24 +244,6 @@
 
         <View
             android:id="@+id/viewgone3"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="6dp"
-            android:background="@color/night_fore_color" >
-        </View>
-
-        
-        <CheckBox
-            android:id="@+id/checkBox_kitwebview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="6dp"
-            android:text="@string/kitwebview" />
-
-        <View
-            android:id="@+id/viewgone4"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"

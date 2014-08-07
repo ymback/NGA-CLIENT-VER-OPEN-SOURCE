@@ -289,9 +289,9 @@ public class StringUtil {
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
 				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
-		
+
 		s = s.replaceAll(
-				ignoreCaseTag + "===([^=](.*?)[^=])===",
+				ignoreCaseTag + "={3,}((^=){0,}(.*?){0,}(^=){0,})={3,}",
 				"<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$1</h4>");
 
 		s = s.replaceAll(ignoreCaseTag + "\\[quote\\]", quoteStyle);
@@ -1091,4 +1091,11 @@ public class StringUtil {
 			return sset;
 			}
 		}
+	
+	public static String TimeStamp2Date(String timestampString) {
+		Long timestamp = Long.parseLong(timestampString) * 1000;
+		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				.format(new java.util.Date(timestamp));
+		return date;
+	}
 }

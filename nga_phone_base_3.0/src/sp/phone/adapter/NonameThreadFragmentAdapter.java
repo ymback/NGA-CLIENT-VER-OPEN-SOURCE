@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 public class NonameThreadFragmentAdapter extends FragmentStatePagerAdapter 
@@ -19,6 +21,7 @@ implements OnPageChangeListener {
 	private Bundle arguments = new Bundle();
 	private final Context mContext;
 	private final Class<?> clss;
+    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 	
 	public NonameThreadFragmentAdapter(FragmentActivity activity,
 			FragmentManager fm,
@@ -39,6 +42,23 @@ implements OnPageChangeListener {
 		
 		return f;
 	}
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
+    }
+    
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
 	
 	@Override
 	public int getCount() {
@@ -68,22 +88,6 @@ implements OnPageChangeListener {
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		
-	}
-	
-	boolean isnotifyDataSetChanged=false;
-	
-	public void notifyDataSetChangedChangeMode(){
-		isnotifyDataSetChanged=true;
-		super.notifyDataSetChanged();
-	}
-
-	@Override
-	public int getItemPosition(Object object) {
-		if(isnotifyDataSetChanged){
-			isnotifyDataSetChanged=false;
-		    return POSITION_NONE;
-		}
-		return super.getItemPosition(object);
 	}
 	
 	private Toast lastToast = null;

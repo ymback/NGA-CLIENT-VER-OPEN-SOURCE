@@ -70,8 +70,8 @@ public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameR
 
 	@Override
 	protected void onPostExecute(NonameReadResponse result) {
-		ActivityUtil.getInstance().dismiss();
 		if (result == null) {
+			ActivityUtil.getInstance().dismiss();
 			ActivityUtil.getInstance().noticeError(errorStr, context);
 		}
 		notifier.finishLoad(result);

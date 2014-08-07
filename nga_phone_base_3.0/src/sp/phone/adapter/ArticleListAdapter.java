@@ -19,11 +19,14 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
+import sp.phone.listener.MyListenerForClient;
+import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
 //import sp.phone.task.ForumTagDecodTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.Des;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -42,6 +45,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextPaint;
 import android.util.Log;
@@ -54,6 +58,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
@@ -61,10 +66,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ArticleListAdapter extends BaseAdapter implements
-		OnLongClickListener, AvatarLoadCompleteCallBack {
+		AvatarLoadCompleteCallBack {
 	private static final String TAG = ArticleListAdapter.class.getSimpleName();
 	private ThreadData data;
 	private Context activity;
@@ -85,7 +91,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 		super();
 		this.activity = activity;
 		this.viewCache = new SparseArray<SoftReference<View>>();
-		client = new ArticleListWebClient((FragmentActivity) activity);
 		if (userDistance == null)
 			initStaticStrings(activity);
 	}
@@ -140,6 +145,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 	}
 
 	static class ViewHolder {
+		RelativeLayout articlelistrelativelayout;
 		TextView nickNameTV;
 		ImageView avatarIV;
 		WebView contentTV;
@@ -159,14 +165,10 @@ public class ArticleListAdapter extends BaseAdapter implements
 		public View holder;
 	}
 
-	@TargetApi(11)
-	void setLayerType(WebView contentTV) {
-		contentTV.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
-	}
-
 	private static String buildHeader(ThreadRowInfo row, String fgColorStr) {
 		if (row == null
-				|| (StringUtil.isEmpty(row.getSubject()) && !row.getISANONYMOUS()))
+				|| (StringUtil.isEmpty(row.getSubject()) && !row
+						.getISANONYMOUS()))
 			return "";
 		StringBuilder sb = new StringBuilder();
 		sb.append("<h4 style='color:").append(fgColorStr).append("' >");
@@ -176,52 +178,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 			sb.append("<font style='color:#D00;font-weight: bold;'>")
 					.append("[匿名]").append("</font>");
 		sb.append("</h4>");
-		return sb.toString();
-	}
-
-	private static String buildLocation(final ThreadRowInfo row) {
-		PhoneConfiguration config = PhoneConfiguration.getInstance();
-
-		String authorid = Integer.valueOf(row.getAuthorid()).toString();
-		if (config.location == null || config.uploadLocation == false
-				|| authorid.equals(config.uid) || row.getContent() == null) {
-			return "";
-		}
-		if (!row.getContent().endsWith("[/url]")) {
-			return "";
-		}
-		int quote_pos = -1;
-		quote_pos = row.getContent().lastIndexOf("[/quote]");
-		String startTag = "https://play.google.com/store/apps/details?id=gov.anzong.androidnga&amp;";
-		int start = -1;
-		int end = -1;
-		String endStr = "ffff]----sent from my";
-		start = row.getContent().lastIndexOf(startTag);
-		end = row.getContent().lastIndexOf(endStr);
-		if (quote_pos > start || start == -1 || end == -1 || start >= end) {
-			return "";
-		}
-		String loc = row.getContent().substring(start + startTag.length(), end);
-		try {
-			loc = Des.deCrypto(loc, StringUtil.key);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "";
-		}
-		String locs[] = loc.split(",");
-		if (locs == null || locs.length != 2) {
-			return "";
-		}
-		String encodedName = "";
-		encodedName = StringUtil.encodeUrl(row.getAuthor(), "utf-8");
-		long distance = ActivityUtil.distanceBetween(config.location, locs[0],
-				locs[1]);
-		StringBuilder sb = new StringBuilder();
-		sb.append("<a href=\"https://maps.google.com.hk/?ie=UTF8&hl=zh-cn&q=")
-				.append(loc).append("(").append(encodedName).append(")\"")
-				.append(" >").append(userDistance)
-				.append(distanceString(distance)).append("</a></br>");
 		return sb.toString();
 	}
 
@@ -271,72 +227,18 @@ public class ArticleListAdapter extends BaseAdapter implements
 					+ "<font color='#"
 					+ fgColorStr
 					+ "' size='2'>"
-					+ buildLocation(row)
 					+ ngaHtml
 					+ "</font></body>";
 		}
 		return ngaHtml;
 	}
 
-	private void handleContentTV(final WebView contentTV,
-			final ThreadRowInfo row, int bgColor, int fgColor) {
-		contentTV.setBackgroundColor(0);
-		contentTV.setFocusableInTouchMode(false);
-		contentTV.setFocusable(false);
-		if (ActivityUtil.isGreaterThan_2_2()) {
-
-			contentTV.setLongClickable(false);
-		}
-
-		/*
-		 * bgColor = bgColor & 0xffffff; final String bgcolorStr =
-		 * String.format("%06x",bgColor);
-		 * 
-		 * int htmlfgColor = fgColor & 0xffffff; final String fgColorStr =
-		 * String.format("%06x",htmlfgColor); if(row.getContent()== null){
-		 * row.setContent(row.getSubject()); row.setSubject(null); }
-		 */
-
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| isInWifi();
-
-		WebSettings setting = contentTV.getSettings();
-		// setting.setBlockNetworkImage(!showImage);
-		// the network image url already replaced by local icon. this should not
-		// be called and
-		// webview will not work properly in android 4.4.
-		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-				.getWebSize());
-		setting.setJavaScriptEnabled(false);
-		contentTV.setWebViewClient(client);
-
-		contentTV.setTag(row.getLou());
-		contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(),
-				"text/html", "utf-8", null);
-
-		/*
-		 * ForumTagDecodTask task= new ForumTagDecodTask(row, showImage,
-		 * fgColorStr, bgcolorStr); if(ActivityUtil.isGreaterThan_2_3_3()){
-		 * excuteOnExcutor(task,contentTV); }else{ task.execute(contentTV); }
-		 */
-
-	}
-
-	/*
-	 * @TargetApi(11) private void excuteOnExcutor(ForumTagDecodTask task,
-	 * WebView contentTV){
-	 * task.executeOnExecutor(ForumTagDecodTask.THREAD_POOL_EXECUTOR,
-	 * contentTV); }
-	 */
-
-	private final WebViewClient client;
-
 	private Bitmap defaultAvatar = null;
 
 	private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
 
 		final int lou = row.getLou();
-		final String avatarUrl = parseAvatarUrl(row.getJs_escap_avatar());//
+		final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
 		final String userId = String.valueOf(row.getAuthorid());
 		if (PhoneConfiguration.getInstance().nikeWidth < 3) {
 			avatarIV.setImageBitmap(null);
@@ -397,6 +299,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 	private ViewHolder initHolder(final View view) {
 		final ViewHolder holder = new ViewHolder();
+		holder.articlelistrelativelayout = (RelativeLayout) view
+				.findViewById(R.id.articlelistrelativelayout);
 		holder.nickNameTV = (TextView) view.findViewById(R.id.nickName);
 		holder.avatarIV = (ImageView) view.findViewById(R.id.avatarImage);
 		holder.floorTV = (TextView) view.findViewById(R.id.floor);
@@ -405,364 +309,39 @@ public class ArticleListAdapter extends BaseAdapter implements
 		holder.contentTV.setHorizontalScrollBarEnabled(false);
 		holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
 		holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
-		/*
-		 * holder.levelTV = (TextView) view.findViewById(R.id.level);
-		 * holder.aurvrcTV= (TextView) view.findViewById(R.id.aurvrc);
-		 * holder.postnumTV = (TextView) view.findViewById(R.id.postnum);
-		 */
 		return holder;
 	}
 
-	private class MyListenerForReply implements OnClickListener {
-		int mPosition;
-		private View button;
-		private long lastTimestamp = 0;
-
-		public MyListenerForReply(int inPosition) {
-			mPosition = inPosition;
-		}
-
-		@Override
-		public void onClick(View v) {
-
-			if (System.currentTimeMillis() - this.lastTimestamp <= 3000) {
-				return;
-			} else {
-				this.lastTimestamp = System.currentTimeMillis();
-			}
-
-			this.button = v;
-			this.button.setEnabled(false);
-
-			(new AsyncTask<Void, Void, Void>() {
-
-				@Override
-				protected void onPostExecute(Void result) {
-					MyListenerForReply.this.button.setEnabled(true);
-				}
-
-				@Override
-				protected Void doInBackground(Void... params) {
-					Intent intent = new Intent();
-					StringBuffer postPrefix = new StringBuffer();
-					String mention = null;
-
-					final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
-					final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
-					ThreadRowInfo row = data.getRowList().get(mPosition);
-					String content = row.getContent();
-					final String name = row.getAuthor();
-					final String uid = String.valueOf(row.getAuthorid());
-					int page = (row.getLou() + 20) / 20;// 以楼数计算page
-					content = content.replaceAll(quote_regex, "");
-					content = content.replaceAll(replay_regex, "");
-					final String postTime = row.getPostdate();
-					final String tidStr = String.valueOf(row.getTid());
-					content = checkContent(content);
-					content = StringUtil.unEscapeHtml(content);
-					if (row.getPid() != 0) {
-						mention = name;
-						postPrefix.append("[quote][pid=");
-						postPrefix.append(row.getPid());
-						postPrefix.append(',');
-						if (tidStr != null) {
-							postPrefix.append(tidStr);
-							postPrefix.append(",");
-						}
-						if (page > 0)
-							postPrefix.append(page);
-						postPrefix.append("]");// Topic
-						postPrefix.append("Reply");
-						if (row.getISANONYMOUS()) {// 是匿名的人
-							postPrefix.append("[/pid] [b]Post by [uid=");
-							postPrefix.append("-1");
-							postPrefix.append("]");
-							postPrefix.append(name);
-							postPrefix.append("[/uid][color=gray](");
-							postPrefix.append(row.getLou());
-							postPrefix.append("楼)[/color] (");
-						} else {
-							postPrefix.append("[/pid] [b]Post by [uid=");
-							postPrefix.append(uid);
-							postPrefix.append("]");
-							postPrefix.append(name);
-							postPrefix.append("[/uid] (");
-						}
-						postPrefix.append(postTime);
-						postPrefix.append("):[/b]\n");
-						postPrefix.append(content);
-						postPrefix.append("[/quote]\n");
-					}
-					if (!StringUtil.isEmpty(mention))
-						intent.putExtra("mention", mention);
-					intent.putExtra("prefix",
-							StringUtil.removeBrTag(postPrefix.toString()));
-					if (tidStr != null)
-						intent.putExtra("tid", tidStr);
-					intent.putExtra("action", "reply");
-
-					if (!StringUtil
-							.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-						intent.setClass(
-								activity,
-								PhoneConfiguration.getInstance().postActivityClass);
-					} else {
-						intent.setClass(
-								activity,
-								PhoneConfiguration.getInstance().loginActivityClass);
-					}
-					activity.startActivity(intent);
-					if (PhoneConfiguration.getInstance().showAnimation)
-						((Activity) activity).overridePendingTransition(
-								R.anim.zoom_enter, R.anim.zoom_exit);
-					return null;
-				}
-			}).execute();
-		}
-
-	}
-
-	private class MyListenerForClient implements OnClickListener {
-		int mPosition;
-		private View button;
-		private long lastTimestamp = 0;
-		private ViewGroup parent;
-
-		public MyListenerForClient(int inPosition, ViewGroup parent) {
-			mPosition = inPosition;
-			this.parent = parent;
-		}
-
-		@Override
-		public void onClick(View v) {
-
-			ThreadRowInfo row = data.getRowList().get(mPosition);
-			String from_client = row.getFromClient();
-			String deviceinfo = null;
-			if (from_client.indexOf(" ") > 0) {
-				String clientappcode = from_client.substring(0,
-						from_client.indexOf(" "));
-				if (clientappcode.equals("1")) {
-					if (from_client.length() == 2) {
-						deviceinfo = "发送自Life Style苹果客户端 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自Life Style苹果客户端 机型及系统:"
-								+ from_client.substring(2);
-					}
-				} else if (clientappcode.equals("7")) {
-					if (from_client.length() == 2) {
-						deviceinfo = "发送自NGA苹果官方客户端 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自NGA苹果官方客户端 机型及系统:"
-								+ from_client.substring(2);
-					}
-				} else if (clientappcode.equals("8")) {
-					if (from_client.length() == 2) {
-						deviceinfo = "发送自NGA安卓客户端 机型及系统:未知";
-					} else {
-						String fromdata = from_client.substring(2);
-						if (fromdata.startsWith("[")
-								&& fromdata.indexOf("](Android") > 0) {
-							deviceinfo = "发送自NGA安卓开源版客户端 机型及系统:"
-									+ fromdata.substring(1).replace(
-											"](Android", "(Android");
-						} else {
-							deviceinfo = "发送自NGA安卓官方客户端 机型及系统:" + fromdata;
-						}
-					}
-				} else if (clientappcode.equals("9")) {
-					if (from_client.length() == 2) {
-						deviceinfo = "发送自NGA Windows Phone官方客户端 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自NGA Windows Phone官方客户端 机型及系统:"
-								+ from_client.substring(2);
-					}
-				} else if (clientappcode.equals("100")) {
-					if (from_client.length() == 4) {
-						deviceinfo = "发送自安卓浏览器 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自安卓浏览器 机型及系统:"
-								+ from_client.substring(4);
-					}
-				} else if (clientappcode.equals("101")) {
-					if (from_client.length() == 4) {
-						deviceinfo = "发送自苹果浏览器 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自苹果浏览器 机型及系统:"
-								+ from_client.substring(4);
-					}
-				} else if (clientappcode.equals("102")) {
-					if (from_client.length() == 4) {
-						deviceinfo = "发送自Blackberry浏览器 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自Blackberry浏览器 机型及系统:"
-								+ from_client.substring(4);
-					}
-				} else if (clientappcode.equals("103")) {
-					if (from_client.length() == 4) {
-						deviceinfo = "发送自Windows Phone客户端 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自Windows Phone客户端 机型及系统:"
-								+ from_client.substring(4);
-					}
-				} else {
-					if (from_client.length() == (from_client.indexOf(" ") + 1)) {
-						deviceinfo = "发送自未知浏览器 机型及系统:未知";
-					} else {
-						deviceinfo = "发送自未知浏览器 机型及系统:"
-								+ from_client.substring(from_client
-										.indexOf(" ") + 1);
-					}
-				}
-				final Dialog dialog = new Dialog(activity, R.style.ClientDialog);
-				dialog.setContentView(R.layout.client_dialog);
-				TextView textview = (TextView) dialog
-						.findViewById(R.id.client_device_dialog);
-				textview.setText(deviceinfo);
-
-				Window dialogWindow = dialog.getWindow();
-				WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-
-				WindowManager wm = (WindowManager) activity
-						.getSystemService(Context.WINDOW_SERVICE);
-				lp.width = (int) (wm.getDefaultDisplay().getWidth()); // 设置宽度
-				dialog.getWindow().setAttributes(lp);
-				dialog.show();
-				dialog.setOnCancelListener(new OnCancelListener() {
-
-					@Override
-					public void onCancel(DialogInterface arg0) {
-						// TODO Auto-generated method stub
-						if (PhoneConfiguration.getInstance().fullscreen) {
-							ActivityUtil.getInstance().setFullScreen(parent);
-						}
-						dialog.dismiss();
-					}
-
-				});
-				dialog.setCanceledOnTouchOutside(true);
-			}
-
-		}
-
-	}
-
-	private String checkContent(String content) {
-		int i;
-		boolean mode = false;
-		content = content.trim();
-		String quotekeyword[][] = {
-				{ "[customachieve]", "[/customachieve]" },// 0
-				{ "[wow", "]]" },
-				{ "[lol", "]]" },
-				{ "[cnarmory", "]" },
-				{ "[usarmory", "]" },
-				{ "[twarmory", "]" },// 5
-				{ "[euarmory", "]" },
-				{ "[url", "[/url]" },
-				{ "[color=", "[/color]" },
-				{ "[size=", "[/size]" },
-				{ "[font=", "[/font]" },// 10
-				{ "[b]", "[/b]" },
-				{ "[u]", "[/u]" },
-				{ "[i]", "[/i]" },
-				{ "[del]", "[/del]" },
-				{ "[align=", "[/align]" },// 15
-				{ "[h]", "[/h]" },
-				{ "[l]", "[/l]" },
-				{ "[r]", "[/r]" },
-				{ "[list", "[/list]" },
-				{ "[img]", "[/img]" },// 20
-				{ "[album=", "[/album]" },
-				{ "[code]", "[/code]" },
-				{ "[code=lua]", "[/code] lua" },
-				{ "[code=php]", "[/code] php" },
-				{ "[code=c]", "[/code] c" },// 25
-				{ "[code=js]", "[/code] javascript" },
-				{ "[code=xml]", "[/code] xml/html" },
-				{ "[flash]", "[/flash]" },
-				{ "[table]", "[/table]" },
-				{ "[tid", "[/tid]" },// 30
-				{ "[pid", "[/pid]" }, { "[dice]", "[/dice]" },
-				{ "[crypt]", "[/crypt]" },
-				{ "[randomblock]", "[/randomblock]" }, { "[@", "]" },
-				{ "[t.178.com/", "]" }, { "[collapse", "[/collapse]" }, };
-		while (content.startsWith("\n")) {
-			content = content.replaceFirst("\n", "");
-		}
-		if (content.length() > 100) {
-			content = content.substring(0, 99);
-			mode = true;
-		}
-		for (i = 0; i < 38; i++) {
-			while (content.toLowerCase().lastIndexOf(quotekeyword[i][0]) > content
-					.toLowerCase().lastIndexOf(quotekeyword[i][1])) {
-				content = content.substring(0, content.toLowerCase()
-						.lastIndexOf(quotekeyword[i][0]));
-			}
-		}
-		if (mode) {
-			content = content + "......";
-		}
-		return content.toString();
-	}
-
 	public View getView(int position, View view, ViewGroup parent) {
-		MyListenerForReply myListenerForReply = new MyListenerForReply(position);
-		MyListenerForClient myListenerForClient = new MyListenerForClient(
-				position, parent);
 		final ThreadRowInfo row = data.getRowList().get(position);
 
 		int lou = -1;
 		if (row != null)
 			lou = row.getLou();
 		ViewHolder holder = null;
-		PhoneConfiguration config = PhoneConfiguration.getInstance();
-
-		if (ActivityUtil.isLessThan_4_4()
-				|| PhoneConfiguration.getInstance().kitwebview == false) {
-			SoftReference<View> ref = viewCache.get(position);
-			View cachedView = null;
-			if (ref != null) {
-				cachedView = ref.get();
-			}
-			if (cachedView != null) {
+		boolean needin = false;
+		SoftReference<View> ref = viewCache.get(position);
+		View cachedView = null;
+		if (ref != null) {
+			cachedView = ref.get();
+		}
+		if (cachedView != null) {
+			if(((ViewHolder) cachedView.getTag()).position==position){
 				Log.d(TAG, "get view from cache ,floor " + lou);
 				return cachedView;
-			} else {
-				// if(ref != null)
-				Log.i(TAG, "cached view recycle by system:" + lou);
-				if (view == null || config.useViewCache) {
-					Log.d(TAG, "inflater new view ,floor " + lou);
-
+			}else{
+				if (view == null) {
 					view = LayoutInflater.from(activity).inflate(
 							R.layout.relative_aritclelist, parent, false);
 					holder = initHolder(view);
 					view.setTag(holder);
-					if (config.useViewCache)
-						viewCache.put(position, new SoftReference<View>(view));
 				} else {
 					holder = (ViewHolder) view.getTag();
-					if (holder.position == position) {
-						return view;
-					}
-					holder.contentTV.stopLoading();
-					if (holder.contentTV.getHeight() > 300) {
-						Log.d(TAG, "skip and store a tall view ,floor "
-								+ position);
-						// if (config.useViewCache)
-						viewCache.put(holder.position, new SoftReference<View>(
-								view));
-
-						view = LayoutInflater.from(activity).inflate(
-								R.layout.relative_aritclelist, parent, false);
-						holder = initHolder(view);
-						view.setTag(holder);
-
-					}
-
+					needin = true;
 				}
-
+				holder.position=position;
+				viewCache.put(position,
+						new SoftReference<View>(view));
 			}
 		} else {
 			if (view == null) {
@@ -770,15 +349,20 @@ public class ArticleListAdapter extends BaseAdapter implements
 						R.layout.relative_aritclelist, parent, false);
 				holder = initHolder(view);
 				view.setTag(holder);
+			} else {
+				holder = (ViewHolder) view.getTag();
+				needin = true;
 			}
-			holder = (ViewHolder) view.getTag();
+			holder.position=position;
+			viewCache.put(position,
+					new SoftReference<View>(view));
 		}
 		if (!PhoneConfiguration.getInstance().showReplyButton) {
 			holder.viewBtn.setVisibility(View.GONE);
 		} else {
+			MyListenerForReply myListenerForReply = new MyListenerForReply(position, data, activity);
 			holder.viewBtn.setOnClickListener(myListenerForReply);
 		}
-		holder.position = position;
 		ThemeManager theme = ThemeManager.getInstance();
 		int colorId = theme.getBackgroundColor(position);
 		view.setBackgroundResource(colorId);
@@ -795,7 +379,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		final int fgColor = parent.getContext().getResources()
 				.getColor(fgColorId);
 
-		handleNickName(row, fgColor, holder.nickNameTV);
+		FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV,activity);
 
 		/*
 		 * TextView titleTV = holder.titleTV; if
@@ -816,70 +400,42 @@ public class ArticleListAdapter extends BaseAdapter implements
 		floorTV.setText("[" + floor + " 楼]");
 		floorTV.setTextColor(fgColor);
 
-		if (row.getFromClient() != null
-				&& !row.getFromClient().trim().equals("")) {
-			String from_client = row.getFromClient();
-			if (from_client.indexOf(" ") > 0) {
-				String clientappcode = from_client.substring(0,
-						from_client.indexOf(" "));
-				if (clientappcode.equals("1") || clientappcode.equals("7")
-						|| clientappcode.equals("101")) {
-					holder.clientBtn.setImageResource(R.drawable.ios);// IOS
-				} else if (clientappcode.equals("103")
-						|| clientappcode.equals("9")) {
-					holder.clientBtn.setImageResource(R.drawable.wp);// WP
-				} else if (!clientappcode.equals("8")
-						&& !clientappcode.equals("100")) {
-					holder.clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
-				}
-				holder.clientBtn.setVisibility(View.VISIBLE);
-				holder.clientBtn.setOnClickListener(myListenerForClient);
+		if (!StringUtil.isEmpty(row.getFromClientModel())) {
+			MyListenerForClient myListenerForClient = new MyListenerForClient(
+					position, data, activity, parent);
+			String from_client_model = row.getFromClientModel();
+			if (from_client_model.equals("ios")) {
+				holder.clientBtn.setImageResource(R.drawable.ios);// IOS
+			} else if (from_client_model.equals("wp")) {
+				holder.clientBtn.setImageResource(R.drawable.wp);// WP
+			} else if (from_client_model.equals("unknown")) {
+				holder.clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
 			}
+			holder.clientBtn.setVisibility(View.VISIBLE);
+			holder.clientBtn.setOnClickListener(myListenerForClient);
 		}
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null);
 				}
 			}).start();
 		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null);
 				}
 			});
 		} else {
-			handleContentTV(contentTV, row, bgColor, fgColor);
+			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null);
 		}
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());
 		postTimeTV.setTextColor(fgColor);
-		contentTV.requestLayout();
+		if (needin) {
+			view.invalidate();
+		}
 		return view;
-	}
-
-	private void handleNickName(ThreadRowInfo row, int fgColor,
-			TextView nickNameTV) {
-
-		String nickName = row.getAuthor();
-		// int now = 0;
-		if ("-1".equals(row.getYz()))// nuked
-		{
-			fgColor = nickNameTV.getResources().getColor(R.color.title_red);
-			nickName += "(VIP)";
-		} else if (!StringUtil.isEmpty(row.getMute_time())
-				&& !"0".equals(row.getMute_time())) {
-			fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
-			nickName += "(" + legend + ")";
-		}
-		if (row.get_isInBlackList()) {
-			fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
-			nickName += "(" + blacklistban + ")";
-		}
-		nickNameTV.setText(nickName);
-		TextPaint tp = nickNameTV.getPaint();
-		tp.setFakeBoldText(true);// bold for Chinese character
-		nickNameTV.setTextColor(fgColor);
 	}
 
 	private static String buildAttachment(ThreadRowInfo row, boolean showImage,
@@ -942,26 +498,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 			return ret.toString();
 	}
 
-	private static String parseAvatarUrl(String js_escap_avatar) {
-		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
-		if (null == js_escap_avatar)
-			return null;
-
-		int start = js_escap_avatar.indexOf("http");
-		if (start == 0 || start == -1)
-			return js_escap_avatar;
-		int end = js_escap_avatar.indexOf("\"", start);//
-		if (end == -1)
-			end = js_escap_avatar.length();
-		String ret = null;
-		try {
-			ret = js_escap_avatar.substring(start, end);
-		} catch (Exception e) {
-			Log.e(TAG, "cann't handle avatar url " + js_escap_avatar);
-		}
-		return ret;
-	}
-
 	private static String buildComment(ThreadRowInfo row, String fgColor,
 			boolean showImage, int imageQuality) {
 		if (row == null || row.getComments() == null
@@ -986,7 +522,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 			ret.append(comment.getAuthor());
 			ret.append("</span><br/>");
 			ret.append("<img src='");
-			String avatarUrl = parseAvatarUrl(comment.getJs_escap_avatar());
+			String avatarUrl = FunctionUtil.parseAvatarUrl(comment.getJs_escap_avatar());
 			ret.append(avatarUrl);
 			ret.append("' style= 'max-width:32;'>");
 
@@ -1025,16 +561,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 	public void notifyDataSetChanged() {
 		this.viewCache.clear();
 		super.notifyDataSetChanged();
-	}
-
-	@Override
-	public boolean onLongClick(View v) {
-		if (v instanceof WebView) {
-			WebViewTag tag = (WebViewTag) v.getTag();
-			tag.lv.showContextMenuForChild(tag.holder);
-			return true;
-		}
-		return false;
 	}
 
 	private boolean isPending(String url) {

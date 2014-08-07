@@ -66,6 +66,7 @@ public class ThreadRowInfo {
 	
 	private String formated_html_data;
 	private String from_client;
+	private String from_client_model;
 	
 	public Map<String, Attachment> getAttachs() {
 		return attachs;
@@ -176,7 +177,13 @@ public class ThreadRowInfo {
 	public void setFromClient(String from_client) {
 		this.from_client = from_client;
 	}
-
+	public String getFromClientModel() {
+		return from_client_model;
+	}
+	public void setFromClientModel(String from_client_model) {
+		this.from_client_model = from_client_model;
+	}
+	
 
 	public String getYz() {
 		return yz;

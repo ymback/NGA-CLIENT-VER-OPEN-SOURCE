@@ -35,6 +35,7 @@ import sp.phone.task.JsonMessageListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.ArticleUtil;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MessageUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -289,35 +290,34 @@ public class MessageDetialListContainer extends Fragment implements
 			isadmin = true;
 		}
 		String content = row.getContent();
-		String signature = row.getSignature();
 		final String name = row.getAuthor();
 		final String uid = String.valueOf(row.getFrom());
 		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case R.id.signature_dialog:
 			if (isadmin) {
-				errordialog();
+				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
-				Create_Signature_Dialog(row);
+				FunctionUtil.Create_Signature_Dialog_Message(row, getActivity(), listView);
 			}
 			break;
 		case R.id.avatar_dialog:
 			if (isadmin) {
-				errordialog();
+				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
-				Create_Avatar_Dialog(row);
+				FunctionUtil.Create_Avatar_Dialog_Meaasge(row, getActivity(), listView);
 			}
 			break;
 		case R.id.send_message:
 			if (isadmin) {
-				errordialog();
+				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
 				start_send_message(row);
 			}
 			break;
 		case R.id.show_profile:
 			if (isadmin) {
-				errordialog();
+				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
 				intent.putExtra("mode", "username");
 				intent.putExtra("username", row.getAuthor());
@@ -331,7 +331,7 @@ public class MessageDetialListContainer extends Fragment implements
 			break;
 		case R.id.search_post:
 			if (isadmin) {
-				errordialog();
+				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
 				intent.putExtra("searchpost", 1);
 				intent.putExtra("authorid", row.getFrom());
@@ -345,7 +345,7 @@ public class MessageDetialListContainer extends Fragment implements
 			break;
 		case R.id.search_subject:
 			if (isadmin) {
-				errordialog();
+				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
 				intent.putExtra("authorid", row.getFrom());
 				intent.setClass(getActivity(),
@@ -357,7 +357,7 @@ public class MessageDetialListContainer extends Fragment implements
 			}
 			break;
 		case R.id.copy_to_clipboard:
-			CopyDialog(content);
+			FunctionUtil.CopyDialog(content,getActivity(),listView);
 			break;
 
 		case R.id.quote_subject:
@@ -368,7 +368,7 @@ public class MessageDetialListContainer extends Fragment implements
 			content = content.replaceAll(replay_regex, "");
 			final String postTime = row.getTime();
 
-			content = checkContent(content);
+			content = FunctionUtil.checkContent(content);
 			content = StringUtil.unEscapeHtml(content);
 			postPrefix.append("[quote]");
 			postPrefix.append(" [b]Post by [uid=");
@@ -461,176 +461,8 @@ public class MessageDetialListContainer extends Fragment implements
 			attacher.setRefreshComplete();
 	}
 
-	private void errordialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setMessage("这白痴是系统账号,神马都看不到");
-		builder.setTitle("看不到");
-		builder.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
 
-		});
-
-		final AlertDialog dialog = builder.create();
-		dialog.show();
-		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-			@Override
-			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(listView);
-				}
-			}
-
-		});
-	}
-
-	private String checkContent(String content) {
-		int i;
-		boolean mode = false;
-		content = content.trim();
-		String quotekeyword[][] = {
-				{ "[customachieve]", "[/customachieve]" },// 0
-				{ "[wow", "]]" },
-				{ "[lol", "]]" },
-				{ "[cnarmory", "]" },
-				{ "[usarmory", "]" },
-				{ "[twarmory", "]" },// 5
-				{ "[euarmory", "]" },
-				{ "[url", "[/url]" },
-				{ "[color=", "[/color]" },
-				{ "[size=", "[/size]" },
-				{ "[font=", "[/font]" },// 10
-				{ "[b]", "[/b]" },
-				{ "[u]", "[/u]" },
-				{ "[i]", "[/i]" },
-				{ "[del]", "[/del]" },
-				{ "[align=", "[/align]" },// 15
-				{ "[h]", "[/h]" },
-				{ "[l]", "[/l]" },
-				{ "[r]", "[/r]" },
-				{ "[list", "[/list]" },
-				{ "[img]", "[/img]" },// 20
-				{ "[album=", "[/album]" },
-				{ "[code]", "[/code]" },
-				{ "[code=lua]", "[/code] lua" },
-				{ "[code=php]", "[/code] php" },
-				{ "[code=c]", "[/code] c" },// 25
-				{ "[code=js]", "[/code] javascript" },
-				{ "[code=xml]", "[/code] xml/html" },
-				{ "[flash]", "[/flash]" },
-				{ "[table]", "[/table]" },
-				{ "[tid", "[/tid]" },// 30
-				{ "[pid", "[/pid]" }, { "[dice]", "[/dice]" },
-				{ "[crypt]", "[/crypt]" },
-				{ "[randomblock]", "[/randomblock]" }, { "[@", "]" },
-				{ "[t.178.com/", "]" }, { "[collapse", "[/collapse]" }, };
-		while (content.startsWith("\n")) {
-			content = content.replaceFirst("\n", "");
-		}
-		if (content.length() > 100) {
-			content = content.substring(0, 99);
-			mode = true;
-		}
-		for (i = 0; i < 38; i++) {
-			while (content.toLowerCase().lastIndexOf(quotekeyword[i][0]) > content
-					.toLowerCase().lastIndexOf(quotekeyword[i][1])) {
-				content = content.substring(0, content.toLowerCase()
-						.lastIndexOf(quotekeyword[i][0]));
-			}
-		}
-		if (mode) {
-			content = content + "......";
-		}
-		return content.toString();
-	}
-
-	private void CopyDialog(String content) {
-		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-		final View view = layoutInflater.inflate(R.layout.copy_dialog, null);
-		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-		alert.setView(view);
-		alert.setTitle(R.string.copy_hint);
-		final EditText commentdata = (EditText) view
-				.findViewById(R.id.copy_data);
-		content = content.replaceAll("(?i)" + "<img src='(.+?)'(.+?){0,}>",
-				"$1");
-		Spanned spanned = Html.fromHtml(content);
-		commentdata.setText(spanned);
-		commentdata.selectAll();
-		alert.setPositiveButton("复制", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				int start = commentdata.getSelectionStart();
-				int end = commentdata.getSelectionEnd();
-				CharSequence selectText = commentdata.getText().subSequence(
-						start, end);
-				if (selectText.length() > 0) {
-					android.text.ClipboardManager cbm = (android.text.ClipboardManager) getActivity()
-							.getSystemService(Activity.CLIPBOARD_SERVICE);
-					cbm.setText(StringUtil.removeBrTag(selectText.toString()));
-					Toast.makeText(getActivity(), R.string.copied_to_clipboard,
-							Toast.LENGTH_SHORT).show();
-					try {
-						Field field = dialog.getClass().getSuperclass()
-								.getDeclaredField("mShowing");
-						field.setAccessible(true);
-						field.set(dialog, true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} else {
-					commentdata.selectAll();
-					Toast.makeText(getActivity(), "请选择要复制的内容",
-							Toast.LENGTH_SHORT).show();
-					try {
-						Field field = dialog.getClass().getSuperclass()
-								.getDeclaredField("mShowing");
-						field.setAccessible(true);
-						field.set(dialog, false);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-		alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				try {
-					Field field = dialog.getClass().getSuperclass()
-							.getDeclaredField("mShowing");
-					field.setAccessible(true);
-					field.set(dialog, true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		final AlertDialog dialog = alert.create();
-		dialog.show();
-		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-			@Override
-			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(listView);
-				}
-			}
-
-		});
-		// TODO Auto-generated method stub
-
-	}
 
 	private void start_send_message(MessageArticlePageInfo row) {
 		Intent intent_bookmark = new Intent();
@@ -645,210 +477,6 @@ public class MessageDetialListContainer extends Fragment implements
 					PhoneConfiguration.getInstance().loginActivityClass);
 		}
 		startActivity(intent_bookmark);
-	}
-
-	private void Create_Avatar_Dialog(MessageArticlePageInfo row) {
-		// TODO Auto-generated method stub
-		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-		final View view = layoutInflater.inflate(R.layout.signature_dialog,
-				null);
-		String name = row.getAuthor();
-		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-		alert.setView(view);
-		alert.setTitle(name + "的头像");
-		// COLOR
-
-		ThemeManager theme = ThemeManager.getInstance();
-		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
-		int fgColor = getResources().getColor(theme.getForegroundColor());
-		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x", bgColor);
-
-		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x", htmlfgColor);
-
-		WebViewClient client = new ArticleListWebClient(getActivity());
-		WebView contentTV = (WebView) view.findViewById(R.id.signature);
-		contentTV.setBackgroundColor(0);
-		contentTV.setFocusableInTouchMode(false);
-		contentTV.setFocusable(false);
-		if (ActivityUtil.isGreaterThan_2_2()) {
-			contentTV.setLongClickable(false);
-		}
-		WebSettings setting = contentTV.getSettings();
-		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-				.getWebSize());
-		setting.setJavaScriptEnabled(false);
-		contentTV.setWebViewClient(client);
-		contentTV.loadDataWithBaseURL(
-				null,
-				avatarToHtmlText(row, true, MessageUtil.showImageQuality(),
-						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
-		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-
-		});
-		final AlertDialog dialog = alert.create();
-		dialog.show();
-		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-			@Override
-			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(listView);
-				}
-			}
-
-		});
-	}
-
-	public String avatarToHtmlText(final MessageArticlePageInfo row,
-			boolean showImage, int imageQuality, final String fgColorStr,
-			final String bgcolorStr) {
-		HashSet<String> imageURLSet = new HashSet<String>();
-		String ngaHtml = null;
-		if (row.getJs_escap_avatar().equals("")) {
-			ngaHtml = StringUtil
-					.decodeForumTag(
-							"这家伙是骷髅党,头像什么的没有啦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
-							showImage, imageQuality, imageURLSet);
-		} else {
-			ngaHtml = StringUtil.decodeForumTag(
-					"[img]" + parseAvatarUrl(row.getJs_escap_avatar())
-							+ "[/img]", showImage, imageQuality, imageURLSet);
-		}
-		if (imageURLSet.size() == 0) {
-			imageURLSet = null;
-		}
-		if (StringUtil.isEmpty(ngaHtml)) {
-			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide)
-					+ "]</font>";
-		}
-		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
-				+ "<body bgcolor= '#"
-				+ bgcolorStr
-				+ "'>"
-				+ "<font color='#"
-				+ fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
-
-		return ngaHtml;
-	}
-
-	private static String parseAvatarUrl(String js_escap_avatar) {
-		// "js_escap_avatar":"{ \"t\":1,\"l\":2,\"0\":{ \"0\":\"http://pic2.178.com/53/533387/month_1109/93ba4788cc8c7d6c75453fa8a74f3da6.jpg\",\"cX\":0.47,\"cY\":0.78},\"1\":{ \"0\":\"http://pic2.178.com/53/533387/month_1108/8851abc8674af3adc622a8edff731213.jpg\",\"cX\":0.49,\"cY\":0.68}}"
-		if (null == js_escap_avatar)
-			return null;
-
-		int start = js_escap_avatar.indexOf("http");
-		if (start == 0 || start == -1)
-			return js_escap_avatar;
-		int end = js_escap_avatar.indexOf("\"", start);//
-		if (end == -1)
-			end = js_escap_avatar.length();
-		String ret = null;
-		try {
-			ret = js_escap_avatar.substring(start, end);
-		} catch (Exception e) {
-			Log.e("TAG", "cann't handle avatar url " + js_escap_avatar);
-		}
-		return ret;
-	}
-
-	private void Create_Signature_Dialog(MessageArticlePageInfo row) {
-		// TODO Auto-generated method stub
-		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-		final View view = layoutInflater.inflate(R.layout.signature_dialog,
-				null);
-		String name = row.getAuthor();
-		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-		alert.setView(view);
-		alert.setTitle(name + "的签名");
-		// COLOR
-
-		ThemeManager theme = ThemeManager.getInstance();
-		int bgColor = getResources().getColor(theme.getBackgroundColor(0));
-		int fgColor = getResources().getColor(theme.getForegroundColor());
-		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x", bgColor);
-
-		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x", htmlfgColor);
-
-		WebViewClient client = new ArticleListWebClient(getActivity());
-		WebView contentTV = (WebView) view.findViewById(R.id.signature);
-		contentTV.setBackgroundColor(0);
-		contentTV.setFocusableInTouchMode(false);
-		contentTV.setFocusable(false);
-		if (ActivityUtil.isGreaterThan_2_2()) {
-			contentTV.setLongClickable(false);
-		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| MessageUtil.isInWifi();
-		WebSettings setting = contentTV.getSettings();
-		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-				.getWebSize());
-		setting.setJavaScriptEnabled(false);
-		contentTV.setWebViewClient(client);
-		contentTV
-				.loadDataWithBaseURL(
-						null,
-						signatureToHtmlText(row, showImage,
-								MessageUtil.showImageQuality(), fgColorStr,
-								bgcolorStr), "text/html", "utf-8", null);
-		alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-
-		});
-
-		final AlertDialog dialog = alert.create();
-		dialog.show();
-		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-			@Override
-			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(listView);
-				}
-			}
-
-		});
-	}
-
-	public String signatureToHtmlText(final MessageArticlePageInfo row,
-			boolean showImage, int imageQuality, final String fgColorStr,
-			final String bgcolorStr) {
-		HashSet<String> imageURLSet = new HashSet<String>();
-		String ngaHtml = StringUtil.decodeForumTag(row.getSignature(),
-				showImage, imageQuality, imageURLSet);
-		if (imageURLSet.size() == 0) {
-			imageURLSet = null;
-		}
-		if (StringUtil.isEmpty(ngaHtml)) {
-			ngaHtml = "<font color='red'>[" + this.getString(R.string.hide)
-					+ "]</font>";
-		}
-		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
-				+ "<body bgcolor= '#"
-				+ bgcolorStr
-				+ "'>"
-				+ "<font color='#"
-				+ fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
-
-		return ngaHtml;
 	}
 
 	@Override

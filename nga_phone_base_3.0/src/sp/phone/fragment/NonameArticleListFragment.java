@@ -26,6 +26,7 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.Des;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -89,6 +90,8 @@ public class NonameArticleListFragment extends Fragment implements
 	private Object mActionModeCallback = null;
 	private static Context activity;
 	NonameReadResponse result;
+	private int mListPosition;
+	private int mListFirstTop;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,12 @@ public class NonameArticleListFragment extends Fragment implements
 		tid = getArguments().getInt("id");
 		articleAdpater = new NonameArticleListAdapter(this.getActivity());
 		super.onCreate(savedInstanceState);
+		String fatheractivityclassname = getActivity().getClass()
+				.getSimpleName();
+		if (!StringUtil.isEmpty(fatheractivityclassname)) {
+			if (fatheractivityclassname.indexOf("TopicListActivity") < 0)
+				setRetainInstance(true);
+		}
 	}
 
 	@Override
@@ -193,8 +202,14 @@ public class NonameArticleListFragment extends Fragment implements
 			}
 
 		}
-		this.loadPage();
+		loadPage();
 		super.onResume();
+		if (result != null) {
+			((OnNonameThreadPageLoadFinishedListener) getActivity())
+					.finishLoad(result);
+		}
+		super.onResume();
+		listview.setSelectionFromTop(mListPosition, mListFirstTop);
 	}
 
 	@TargetApi(11)
@@ -205,6 +220,15 @@ public class NonameArticleListFragment extends Fragment implements
 	@TargetApi(11)
 	private void RunParallen(ReportTask task, String url) {
 		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		if (listview.getChildCount() >= 1) {
+			 mListPosition = listview.getFirstVisiblePosition();
+			 mListFirstTop = listview.getChildAt(0).getTop();
+		}
 	}
 
 	private void loadPage() {
@@ -236,73 +260,7 @@ public class NonameArticleListFragment extends Fragment implements
 
 
 	}
-
-	private String checkContent(String content) {
-		int i;
-		boolean mode = false;
-		content = content.trim();
-		String quotekeyword[][] = {
-				{ "[customachieve]", "[/customachieve]" },// 0
-				{ "[wow", "]]" },
-				{ "[lol", "]]" },
-				{ "[cnarmory", "]" },
-				{ "[usarmory", "]" },
-				{ "[twarmory", "]" },// 5
-				{ "[euarmory", "]" },
-				{ "[url", "[/url]" },
-				{ "[color=", "[/color]" },
-				{ "[size=", "[/size]" },
-				{ "[font=", "[/font]" },// 10
-				{ "[b]", "[/b]" },
-				{ "[u]", "[/u]" },
-				{ "[i]", "[/i]" },
-				{ "[del]", "[/del]" },
-				{ "[align=", "[/align]" },// 15
-				{ "[h]", "[/h]" },
-				{ "[l]", "[/l]" },
-				{ "[r]", "[/r]" },
-				{ "[list", "[/list]" },
-				{ "[img]", "[/img]" },// 20
-				{ "[album=", "[/album]" },
-				{ "[code]", "[/code]" },
-				{ "[code=lua]", "[/code] lua" },
-				{ "[code=php]", "[/code] php" },
-				{ "[code=c]", "[/code] c" },// 25
-				{ "[code=js]", "[/code] javascript" },
-				{ "[code=xml]", "[/code] xml/html" },
-				{ "[flash]", "[/flash]" },
-				{ "[table]", "[/table]" },
-				{ "[tid", "[/tid]" },// 30
-				{ "[pid", "[/pid]" }, { "[dice]", "[/dice]" },
-				{ "[crypt]", "[/crypt]" },
-				{ "[randomblock]", "[/randomblock]" }, { "[@", "]" },
-				{ "[t.178.com/", "]" }, { "[collapse", "[/collapse]" }, };
-		while (content.startsWith("\n")) {
-			content = content.replaceFirst("\n", "");
-		}
-		if (content.length() > 100) {
-			content = content.substring(0, 99);
-			mode = true;
-		}
-		for (i = 0; i < 38; i++) {
-			while (content.toLowerCase().lastIndexOf(quotekeyword[i][0]) > content
-					.toLowerCase().lastIndexOf(quotekeyword[i][1])) {
-				content = content.substring(0, content.toLowerCase()
-						.lastIndexOf(quotekeyword[i][0]));
-			}
-		}
-		if (mode) {
-			content = content + "......";
-		}
-		return content.toString();
-	}
-
-	public static String TimeStamp2Date(String timestampString) {
-		Long timestamp = Long.parseLong(timestampString) * 1000;
-		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(new java.util.Date(timestamp));
-		return date;
-	}
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
@@ -360,10 +318,10 @@ public class NonameArticleListFragment extends Fragment implements
 			final long longposttime = row.ptime;
 			String postTime ="";
 			if(longposttime!=0){
-				postTime = TimeStamp2Date(String.valueOf(longposttime));
+				postTime =  StringUtil.TimeStamp2Date(String.valueOf(longposttime));
 			}
 
-			content = checkContent(content);
+			content = FunctionUtil.checkContent(content);
 			content = StringUtil.unEscapeHtml(content);
 				mention = name;
 				postPrefix.append("[quote]");
@@ -391,109 +349,34 @@ public class NonameArticleListFragment extends Fragment implements
 						R.anim.zoom_exit);
 			break;
 		case R.id.copy_to_clipboard:
-			CopyDialog(content);
+			FunctionUtil.CopyDialog(content,getActivity(),listview);
 			break;
 
 		}
 		return true;
 	}
 
-
-
-
-	private void CopyDialog(String content) {
-		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-		final View view = layoutInflater.inflate(R.layout.copy_dialog, null);
-		AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-		alert.setView(view);
-		alert.setTitle(R.string.copy_hint);
-		final EditText commentdata = (EditText) view
-				.findViewById(R.id.copy_data);
-		content= content.replaceAll("(?i)"
-				+ "<img src='(.+?)'(.+?){0,}>",
-				"$1");
-		Spanned spanned = Html.fromHtml(content);
-		commentdata.setText(spanned);
-		commentdata.selectAll();
-		alert.setPositiveButton("复制", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				int start = commentdata.getSelectionStart();
-				int end = commentdata.getSelectionEnd();
-				CharSequence selectText = commentdata.getText().subSequence(
-						start, end);
-				if (selectText.length() > 0) {
-					android.text.ClipboardManager cbm = (android.text.ClipboardManager) getActivity()
-							.getSystemService(Activity.CLIPBOARD_SERVICE);
-					cbm.setText(StringUtil.removeBrTag(selectText.toString()));
-					Toast.makeText(getActivity(), R.string.copied_to_clipboard,
-							Toast.LENGTH_SHORT).show();
-					try {
-						Field field = dialog.getClass().getSuperclass()
-								.getDeclaredField("mShowing");
-						field.setAccessible(true);
-						field.set(dialog, true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} else {
-					commentdata.selectAll();
-					Toast.makeText(getActivity(), "请选择要复制的内容",
-							Toast.LENGTH_SHORT).show();
-					try {
-						Field field = dialog.getClass().getSuperclass()
-								.getDeclaredField("mShowing");
-						field.setAccessible(true);
-						field.set(dialog, false);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+	public void modechange() {
+		listview.setBackgroundResource(ThemeManager.getInstance()
+				.getBackgroundColor());
+		if (result != null) {
+			for (int i = 0; i < result.data.posts.length; i++) {
+				FunctionUtil.fillFormated_html_data(result.data.posts[i],
+						i, getActivity());
 			}
-		});
-		alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				try {
-					Field field = dialog.getClass().getSuperclass()
-							.getDeclaredField("mShowing");
-					field.setAccessible(true);
-					field.set(dialog, true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		final AlertDialog dialog = alert.create();
-		dialog.show();
-		dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-			@Override
-			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(listview);
-				}
-			}
-
-		});
-		// TODO Auto-generated method stub
-
+			finishLoad(result);
+		}
 	}
 	
 	@Override
 	public void finishLoad(NonameReadResponse data) {
 		Log.d(TAG, "finishLoad");
-		// ArticleListActivity father = (ArticleListActivity)
-		// this.getActivity();
 		if (null != data) {
+			result=data;
 			articleAdpater.setData(data);
 			articleAdpater.notifyDataSetChanged();
-
-				tid = data.data.tid;
-				title = data.data.title;
+			tid = data.data.tid;
+			title = data.data.title;
 			OnNonameThreadPageLoadFinishedListener father = null;
 			try {
 				father = (OnNonameThreadPageLoadFinishedListener) getActivity();
@@ -505,6 +388,7 @@ public class NonameArticleListFragment extends Fragment implements
 			}
 
 		}
+		ActivityUtil.getInstance().dismiss();
 		this.needLoad = false;
 
 	}

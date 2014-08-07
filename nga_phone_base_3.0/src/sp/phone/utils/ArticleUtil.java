@@ -1,5 +1,7 @@
 package sp.phone.utils;
 
+import gov.anzong.androidnga.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -246,6 +248,22 @@ public class ArticleUtil {
 				String from_client = rowObj.getString("from_client");
 				if (!StringUtil.isEmpty(from_client)) {
 					row.setFromClient(from_client.toString());
+					if (!from_client.trim().equals("")) {
+						String clientappcode = from_client.substring(0,
+								from_client.indexOf(" "));
+						if (clientappcode.equals("1") || clientappcode.equals("7")
+								|| clientappcode.equals("101")) {
+							row.setFromClientModel("ios");
+						} else if (clientappcode.equals("103")
+								|| clientappcode.equals("9")) {
+							row.setFromClientModel("wp");
+						} else if (!clientappcode.equals("8")
+								&& !clientappcode.equals("100")) {
+							row.setFromClientModel("unknown");
+						}else{
+							row.setFromClientModel("android");
+						}
+					}
 				}
 				String vote = rowObj.getString("vote");
 				if (!StringUtil.isEmpty(vote)) {

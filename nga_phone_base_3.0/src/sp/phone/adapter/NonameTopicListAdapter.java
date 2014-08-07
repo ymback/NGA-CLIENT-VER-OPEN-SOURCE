@@ -1,25 +1,15 @@
 package sp.phone.adapter;
 
-import java.math.BigInteger;
-import java.util.Locale;
-
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 
-import com.alibaba.fastjson.util.Base64;
-
 import gov.anzong.androidnga.R;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,15 +140,6 @@ public class NonameTopicListAdapter extends BaseAdapter implements
 		holder.title.setTextSize(size);
 		final TextPaint tp = holder.title.getPaint();
 		tp.setFakeBoldText(false);
-	}
-
-
-
-	public static String TimeStamp2Date(String timestampString) {
-		Long timestamp = Long.parseLong(timestampString) * 1000;
-		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(new java.util.Date(timestamp));
-		return date;
 	}
 	
 	protected NonameThreadBody getEntry(int position) {

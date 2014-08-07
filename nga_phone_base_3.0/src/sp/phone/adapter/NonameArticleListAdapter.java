@@ -22,11 +22,14 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
+import sp.phone.listener.MyListenerForNonameReply;
+import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
 //import sp.phone.task.ForumTagDecodTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.Des;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -69,7 +72,7 @@ import android.widget.TextView;
 public class NonameArticleListAdapter extends BaseAdapter implements
 		OnLongClickListener {
 	private static final String TAG = NonameArticleListAdapter.class.getSimpleName();
-	private NonameReadResponse data;
+	private NonameReadResponse mData;
 	private static Context activity;
 	private final SparseArray<SoftReference<View>> viewCache;
 	private final Object lock = new Object();
@@ -87,16 +90,15 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		super();
 		this.activity = activity;
 		this.viewCache = new SparseArray<SoftReference<View>>();
-		client = new ArticleListWebClient((FragmentActivity) activity);
 		if (userDistance == null)
 			initStaticStrings(activity);
 	}
 
 	@Override
 	public int getCount() {
-		if (null == data)
+		if (null == mData)
 			return 0;
-		return data.data.posts.length;
+		return mData.data.posts.length;
 	}
 
 	private void initStaticStrings(Context activity) {
@@ -111,19 +113,19 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 	}
 
 	public void setData(NonameReadResponse data) {
-		this.data = data;
+		this.mData = data;
 	}
 
 	public NonameReadResponse getData() {
-		return data;
+		return mData;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		if (null == data)
+		if (null == mData)
 			return null;
 
-		return data.data.posts[position];
+		return mData.data.posts[position];
 	}
 
 	@Override
@@ -139,7 +141,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		TextView postTimeTV;
 		int position = -1;
 		ImageButton viewBtn;
-
 	}
 
 	static class WebViewTag {
@@ -147,10 +148,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		public View holder;
 	}
 
-	@TargetApi(11)
-	void setLayerType(WebView contentTV) {
-		contentTV.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
-	}
 
 	private static String buildHeader(NonameReadBody row, String fgColorStr) {
 		if (row == null || StringUtil.isEmpty(row.title))
@@ -196,95 +193,8 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 
 		return ngaHtml;
 	}
-
-	private void handleContentTV(final WebView contentTV,
-			final NonameReadBody row, int bgColor, int fgColor) {
-		contentTV.setBackgroundColor(0);
-		contentTV.setFocusableInTouchMode(false);
-		contentTV.setFocusable(false);
-		if (ActivityUtil.isGreaterThan_2_2()) {
-
-			contentTV.setLongClickable(false);
-		}
-
-		/*
-		 * bgColor = bgColor & 0xffffff; final String bgcolorStr =
-		 * String.format("%06x",bgColor);
-		 * 
-		 * int htmlfgColor = fgColor & 0xffffff; final String fgColorStr =
-		 * String.format("%06x",htmlfgColor); if(row.getContent()== null){
-		 * row.setContent(row.getSubject()); row.setSubject(null); }
-		 */
-		WebSettings setting = contentTV.getSettings();
-		// setting.setBlockNetworkImage(!showImage);
-		// the network image url already replaced by local icon. this should not
-		// be called and
-		// webview will not work properly in android 4.4.
-		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-				.getWebSize());
-		setting.setJavaScriptEnabled(false);
-		contentTV.setWebViewClient(client);
-
-		contentTV.setTag(row.floor);
-		contentTV.loadDataWithBaseURL(null, fillFormated_html_data(row),
-				"text/html", "utf-8", null);
-
-		/*
-		 * ForumTagDecodTask task= new ForumTagDecodTask(row, showImage,
-		 * fgColorStr, bgcolorStr); if(ActivityUtil.isGreaterThan_2_3_3()){
-		 * excuteOnExcutor(task,contentTV); }else{ task.execute(contentTV); }
-		 */
-
-	}
-
-
-	private String fillFormated_html_data(NonameReadBody row) {
-
-		ThemeManager theme = ThemeManager.getInstance();
-		
-		int bgColor = activity.getResources().getColor(
-				theme.getBackgroundColor(row.floor%2));
-		int fgColor = activity.getResources().getColor(
-				theme.getForegroundColor());
-		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x", bgColor);
-
-		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x", htmlfgColor);
-
-		String formated_html_data = convertToHtmlText(row,
-				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
-		return formated_html_data;
-	}
 	
-	/*
-	 * @TargetApi(11) private void excuteOnExcutor(ForumTagDecodTask task,
-	 * WebView contentTV){
-	 * task.executeOnExecutor(ForumTagDecodTask.THREAD_POOL_EXECUTOR,
-	 * contentTV); }
-	 */
 
-	private boolean isShowImage() {
-		return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
-	}
-
-
-	public static int showImageQuality() {
-		if (isInWifi()) {
-			return 0;
-		} else {
-			return PhoneConfiguration.getInstance().imageQuality;
-		}
-	}
-	public static boolean isInWifi() {
-		ConnectivityManager conMan = (ConnectivityManager) activity
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-				.getState();
-		return wifi == State.CONNECTED;
-	}
-
-	private final WebViewClient client;
 	
 	private ViewHolder initHolder(final View view) {
 		final ViewHolder holder = new ViewHolder();
@@ -304,218 +214,56 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		return holder;
 	}
 
-	public static String TimeStamp2Date(String timestampString) {
-		Long timestamp = Long.parseLong(timestampString) * 1000;
-		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(new java.util.Date(timestamp));
-		return date;
-	}
-	
-	private class MyListenerForReply implements OnClickListener {
-		int mPosition;
-		private View button;
-		private long lastTimestamp = 0;
-
-		public MyListenerForReply(int inPosition) {
-			mPosition = inPosition;
-		}
-
-		@Override
-		public void onClick(View v) {
-
-			if (System.currentTimeMillis() - this.lastTimestamp <= 3000) {
-				return;
-			} else {
-				this.lastTimestamp = System.currentTimeMillis();
-			}
-
-			this.button = v;
-			this.button.setEnabled(false);
-
-			(new AsyncTask<Void, Void, Void>() {
-
-				@Override
-				protected void onPostExecute(Void result) {
-					MyListenerForReply.this.button.setEnabled(true);
-				}
-
-				@Override
-				protected Void doInBackground(Void... params) {
-					Intent intent = new Intent();
-					StringBuffer postPrefix = new StringBuffer();
-					String mention = null;
-
-					final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
-					final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
-					NonameReadBody row = data.data.posts[mPosition];
-					String content = row.content;
-					final String name = row.hip;
-					content = content.replaceAll(quote_regex, "");
-					content = content.replaceAll(replay_regex, "");
-					final long longposttime = row.ptime;
-					String postTime ="";
-					if(longposttime!=0){
-						postTime = TimeStamp2Date(String.valueOf(longposttime));
-					}
-					final String tidStr = String.valueOf(data.data.tid);
-					content = checkContent(content);
-					content = StringUtil.unEscapeHtml(content);
-					mention = name;
-					postPrefix.append("[quote]");
-					postPrefix.append("[b]Post by [hip]");
-					postPrefix.append(name);
-					postPrefix.append("[/hip] (");
-					postPrefix.append(postTime);
-					postPrefix.append("):[/b]\n");
-					postPrefix.append(content);
-					postPrefix.append("[/quote]\n");
-					if (!StringUtil.isEmpty(mention))
-						intent.putExtra("mention", mention);
-					intent.putExtra("prefix",
-							StringUtil.removeBrTag(postPrefix.toString()));
-					if (tidStr != null)
-						intent.putExtra("tid", tidStr);
-					intent.putExtra("action", "reply");
-						intent.setClass(
-								activity,
-								PhoneConfiguration.getInstance().nonamePostActivityClass);
-					activity.startActivity(intent);
-					if (PhoneConfiguration.getInstance().showAnimation)
-						((Activity) activity).overridePendingTransition(
-								R.anim.zoom_enter, R.anim.zoom_exit);
-					return null;
-				}
-			}).execute();
-		}
-
-	}
-
-	private String checkContent(String content) {
-		int i;
-		boolean mode = false;
-		content = content.trim();
-		String quotekeyword[][] = {
-				{ "[customachieve]", "[/customachieve]" },// 0
-				{ "[wow", "]]" },
-				{ "[lol", "]]" },
-				{ "[cnarmory", "]" },
-				{ "[usarmory", "]" },
-				{ "[twarmory", "]" },// 5
-				{ "[euarmory", "]" },
-				{ "[url", "[/url]" },
-				{ "[color=", "[/color]" },
-				{ "[size=", "[/size]" },
-				{ "[font=", "[/font]" },// 10
-				{ "[b]", "[/b]" },
-				{ "[u]", "[/u]" },
-				{ "[i]", "[/i]" },
-				{ "[del]", "[/del]" },
-				{ "[align=", "[/align]" },// 15
-				{ "[h]", "[/h]" },
-				{ "[l]", "[/l]" },
-				{ "[r]", "[/r]" },
-				{ "[list", "[/list]" },
-				{ "[img]", "[/img]" },// 20
-				{ "[album=", "[/album]" },
-				{ "[code]", "[/code]" },
-				{ "[code=lua]", "[/code] lua" },
-				{ "[code=php]", "[/code] php" },
-				{ "[code=c]", "[/code] c" },// 25
-				{ "[code=js]", "[/code] javascript" },
-				{ "[code=xml]", "[/code] xml/html" },
-				{ "[flash]", "[/flash]" },
-				{ "[table]", "[/table]" },
-				{ "[tid", "[/tid]" },// 30
-				{ "[pid", "[/pid]" }, { "[dice]", "[/dice]" },
-				{ "[crypt]", "[/crypt]" },
-				{ "[randomblock]", "[/randomblock]" }, { "[@", "]" },
-				{ "[t.178.com/", "]" }, { "[collapse", "[/collapse]" }, };
-		while (content.startsWith("\n")) {
-			content = content.replaceFirst("\n", "");
-		}
-		if (content.length() > 100) {
-			content = content.substring(0, 99);
-			mode = true;
-		}
-		for (i = 0; i < 38; i++) {
-			while (content.toLowerCase().lastIndexOf(quotekeyword[i][0]) > content
-					.toLowerCase().lastIndexOf(quotekeyword[i][1])) {
-				content = content.substring(0, content.toLowerCase()
-						.lastIndexOf(quotekeyword[i][0]));
-			}
-		}
-		if (mode) {
-			content = content + "......";
-		}
-		return content.toString();
-	}
-
 	public View getView(int position, View view, ViewGroup parent) {
-		MyListenerForReply myListenerForReply = new MyListenerForReply(position);
-		final NonameReadBody row = data.data.posts[position];
+		final NonameReadBody row = mData.data.posts[position];
 
 		int lou = -1;
 		if (row != null)
 			lou = row.floor;
 		ViewHolder holder = null;
-		PhoneConfiguration config = PhoneConfiguration.getInstance();
-		if (ActivityUtil.isLessThan_4_4() || PhoneConfiguration.getInstance().kitwebview==false) {
-
-			SoftReference<View> ref = viewCache.get(position);
-			View cachedView = null;
-			if (ref != null) {
-				cachedView = ref.get();
-			}
-			if (cachedView != null) {
-				// Log.d(TAG, "get view from cache ,floor " + lou);
+		boolean needin = false;
+		SoftReference<View> ref = viewCache.get(position);
+		View cachedView = null;
+		if (ref != null) {
+			cachedView = ref.get();
+		}
+		if (cachedView != null) {
+			if(((ViewHolder) cachedView.getTag()).position==position){
+				Log.d(TAG, "get view from cache ,floor " + lou);
 				return cachedView;
-			} else {
-				// if(ref != null)
-				// Log.i(TAG, "cached view recycle by system:" + lou);
-				if (view == null || config.useViewCache) {
-					// Log.d(TAG, "inflater new view ,floor " + lou);
-
+			}else{
+				if (view == null) {
 					view = LayoutInflater.from(activity).inflate(
 							R.layout.relative_nonamearitclelist, parent, false);
 					holder = initHolder(view);
 					view.setTag(holder);
-					if (config.useViewCache)
-						viewCache.put(position, new SoftReference<View>(view));
 				} else {
 					holder = (ViewHolder) view.getTag();
-					if (holder.position == position) {
-						return view;
-					}
-					holder.contentTV.stopLoading();
-					if (holder.contentTV.getHeight() > 300) {
-						// Log.d(TAG, "skip and store a tall view ,floor " + lou);
-						// if (config.useViewCache)
-						viewCache.put(holder.position,
-								new SoftReference<View>(view));
-
-						view = LayoutInflater.from(activity).inflate(
-								R.layout.relative_aritclelist, parent, false);
-						holder = initHolder(view);
-						view.setTag(holder);
-
-					}
-
+					needin = true;
 				}
-
+				holder.position=position;
+				viewCache.put(position,
+						new SoftReference<View>(view));
 			}
-		}else{
+		} else {
 			if (view == null) {
 				view = LayoutInflater.from(activity).inflate(
 						R.layout.relative_nonamearitclelist, parent, false);
 				holder = initHolder(view);
 				view.setTag(holder);
+			} else {
+				holder = (ViewHolder) view.getTag();
+				needin = true;
 			}
-			holder = (ViewHolder) view.getTag();
+			holder.position=position;
+			viewCache.put(position,
+					new SoftReference<View>(view));
 		}
 
 		if (!PhoneConfiguration.getInstance().showReplyButton) {
 			holder.viewBtn.setVisibility(View.GONE);
 		} else {
+			MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(position, activity, mData);
 			holder.viewBtn.setOnClickListener(myListenerForReply);
 		}
 		holder.position = position;
@@ -523,7 +271,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		int colorId = theme.getBackgroundColor(position);
 		view.setBackgroundResource(colorId);
 
-		// colorId = theme.getBackgroundColor(2);
 
 		if (row == null) {
 			return view;
@@ -533,7 +280,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		final int fgColor = parent.getContext().getResources()
 				.getColor(fgColorId);
 
-		handleNickName(row, fgColor, holder.nickNameTV);
+		FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV);
 
 		/*
 		 * TextView titleTV = holder.titleTV; if
@@ -553,41 +300,33 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		TextView floorTV = holder.floorTV;
 		floorTV.setText("[" + floor + " ¥]");
 		floorTV.setTextColor(fgColor);
-		
+		final long longposttime = row.ptime;
+		String postTime ="";
+		if(longposttime!=0){
+			postTime = StringUtil.TimeStamp2Date(String.valueOf(longposttime));
+		}
+		TextView postTimeTV = holder.postTimeTV;
+		postTimeTV.setText(postTime);
+		postTimeTV.setTextColor(fgColor);
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null);
 				}
 			}).start();
 		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
-					handleContentTV(contentTV, row, bgColor, fgColor);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null);
 				}
 			});
 		} else {
-			handleContentTV(contentTV, row, bgColor, fgColor);
+			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null);
 		}
-		final long longposttime = row.ptime;
-		String postTime ="";
-		if(longposttime!=0){
-			postTime = TimeStamp2Date(String.valueOf(longposttime));
+		if (needin) {
+			view.invalidate();
 		}
-		TextView postTimeTV = holder.postTimeTV;
-		postTimeTV.setText(postTime);
-		postTimeTV.setTextColor(fgColor);
 		return view;
-	}
-
-	private void handleNickName(NonameReadBody row, int fgColor,
-			TextView nickNameTV) {
-
-		String nickName = row.hip;
-		nickNameTV.setText(nickName);
-		TextPaint tp = nickNameTV.getPaint();
-		tp.setFakeBoldText(true);// bold for Chinese character
-		nickNameTV.setTextColor(fgColor);
 	}
 
 
@@ -606,14 +345,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 			return true;
 		}
 		return false;
-	}
-
-	private boolean isPending(String url) {
-		boolean ret = false;
-		synchronized (lock) {
-			ret = urlSet.contains(url);
-		}
-		return ret;
 	}
 
 

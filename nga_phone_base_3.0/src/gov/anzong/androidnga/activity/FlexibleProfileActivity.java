@@ -41,6 +41,7 @@ import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -520,8 +521,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| isInWifi();
 		WebSettings setting = contentTV.getSettings();
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
@@ -529,17 +528,9 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		contentTV.setWebViewClient(client);
 		contentTV.loadDataWithBaseURL(
 				null,
-				signatureToHtmlText(ret, showImage,
-						showImageQuality(isInWifi()), fgColorStr, bgcolorStr),
+				signatureToHtmlText(ret, FunctionUtil.isShowImage(this),
+						FunctionUtil.showImageQuality(this), fgColorStr, bgcolorStr),
 				"text/html", "utf-8", null);
-	}
-
-	public static int showImageQuality(boolean isInWifi) {
-		if (isInWifi) {
-			return 0;
-		} else {
-			return PhoneConfiguration.getInstance().imageQuality;
-		}
 	}
 
 	private void handleadminWebview(WebView contentTV, ProfileData ret) {
@@ -565,8 +556,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| isInWifi();
 		WebSettings setting = contentTV.getSettings();
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
@@ -574,7 +563,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		contentTV.setWebViewClient(client);
 		contentTV.loadDataWithBaseURL(
 				null,
-				adminToHtmlText(ret, showImage, showImageQuality(isInWifi()),
+				adminToHtmlText(ret,  FunctionUtil.isShowImage(this), FunctionUtil.showImageQuality(this),
 						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
 	}
 
@@ -601,8 +590,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
-		boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| isInWifi();
 		WebSettings setting = contentTV.getSettings();
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
@@ -610,7 +597,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		contentTV.setWebViewClient(client);
 		contentTV.loadDataWithBaseURL(
 				null,
-				fameToHtmlText(ret, showImage, showImageQuality(isInWifi()),
+				fameToHtmlText(ret,  FunctionUtil.isShowImage(this), FunctionUtil.showImageQuality(this),
 						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
 	}
 
@@ -677,7 +664,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 
 	private void handleAvatar(ImageView avatarIV, ProfileData row) {
 
-		final String avatarUrl = parseAvatarUrl(row.get_avatar());//
+		final String avatarUrl = FunctionUtil.parseAvatarUrl(row.get_avatar());//
 		final String userId = String.valueOf(row.get_uid());
 		if (PhoneConfiguration.getInstance().nikeWidth < 3) {
 			avatarIV.setImageBitmap(null);
@@ -719,11 +706,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 					}
 
 				} else {
-					final boolean downImg = isInWifi()
-							|| PhoneConfiguration.getInstance()
-									.isDownAvatarNoWifi();
-
-					new AvatarLoadTask(avatarIV, null, downImg, 0, this)
+					new AvatarLoadTask(avatarIV, null,  FunctionUtil.isShowImage(this), 0, this)
 							.execute(avatarUrl, avatarPath, userId);
 
 				}
@@ -738,33 +721,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			ret = urlSet.contains(url);
 		}
 		return ret;
-	}
-
-	private static String parseAvatarUrl(String js_escap_avatar) {
-		if (null == js_escap_avatar)
-			return null;
-
-		int start = js_escap_avatar.indexOf("http");
-		if (start == 0 || start == -1)
-			return js_escap_avatar;
-		int end = js_escap_avatar.indexOf("\"", start);//
-		if (end == -1)
-			end = js_escap_avatar.length();
-		String ret = null;
-		try {
-			ret = js_escap_avatar.substring(start, end);
-		} catch (Exception e) {
-			Log.e(TAG, "cann't handle avatar url " + js_escap_avatar);
-		}
-		return ret;
-	}
-
-	private boolean isInWifi() {
-		ConnectivityManager conMan = (ConnectivityManager) this
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-				.getState();
-		return wifi == State.CONNECTED;
 	}
 
 	@TargetApi(11)

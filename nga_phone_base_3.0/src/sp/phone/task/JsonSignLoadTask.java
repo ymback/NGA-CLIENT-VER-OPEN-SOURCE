@@ -11,6 +11,7 @@ import sp.phone.bean.SignData;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MD5Util;
 import sp.phone.utils.PhoneConfiguration;
@@ -43,7 +44,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		if (params.length == 0)
 			return null;
 		url = "http://nga.178.com/nuke.php?__lib=check_in&lite=js&noprefix&__act=check_in&action=add&__ngaClientChecksum="
-				+ getngaClientChecksum();
+				+ FunctionUtil.getngaClientChecksum(context);
 
 		Log.d(TAG, "start to load:" + url);
 
@@ -131,7 +132,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 			if (o1.getString("last_time").equals("0")) {
 				ret.set__Last_time("¥”Œ¥");
 			} else {
-				ret.set__Last_time(TimeStamp2Date(o1.getString("last_time")));
+				ret.set__Last_time(StringUtil.TimeStamp2Date(o1.getString("last_time")));
 			}
 		}
 		JSONObject o2 = null;
@@ -232,13 +233,6 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 
 	}
 
-	public static String TimeStamp2Date(String timestampString) {
-		Long timestamp = Long.parseLong(timestampString) * 1000;
-		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(new java.util.Date(timestamp));
-		return date;
-	}
-
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
@@ -278,24 +272,6 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 		notifier.jsonfinishLoad(result);
 
 		super.onPostExecute(result);
-	}
-
-	private String getngaClientChecksum() {
-		String str = null;
-		String secret = context.getResources().getString(R.string.checksecret);
-		try {
-			str = MD5Util.MD5(new StringBuilder(String
-					.valueOf(PhoneConfiguration.getInstance().getUid()))
-					.append(secret).append(System.currentTimeMillis() / 1000L)
-					.toString())
-					+ System.currentTimeMillis() / 1000L;
-			return str;
-		} catch (Exception localException) {
-			while (true)
-				str = MD5Util.MD5(new StringBuilder(secret).append(
-						System.currentTimeMillis() / 1000L).toString())
-						+ System.currentTimeMillis() / 1000L;
-		}
 	}
 
 	@Override

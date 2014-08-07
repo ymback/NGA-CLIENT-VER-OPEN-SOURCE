@@ -146,7 +146,7 @@
     <string name="replysplit">发帖按钮在下面(4.0以上)</string>
     <string name="ha">硬件加速(4.0以上)</string>
     <string name="fullscreenmode">全屏模式(4.4以上)</string>
-    <string name="kitwebview">列表卡顿修复(4.4以上,测试)</string>
+    <string name="kitwebview">列表卡顿修复(测试)</string>
     <string name="kitwebviewinfo">如果你的手机在主题帖中不卡顿,请不要启用本功能!</string>
     <string name="addreplybutton">主题页面显示回复按钮</string>
     <string name="report">举报</string>
@@ -257,7 +257,9 @@
     <string name="fontcolor">颜色</string>
     <string name="fontsize">字号</string>
     <string name="delline">删除线</string>
+    <string name="clientua">Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36 AndroidNGAOS/</string>
     <!-- string name="checksecret">4103ca8d364d2402e5e304ea07454a2a</string -->
+    <!-- string name="checksecret">0e4dc1912c6645d19ea2141205a8913a</string -->
     <string name="checksecret">3ebd769858c56bd345898154e4b44427</string>
     
     <!-- d\o.jav 查System.currentTimeMillis()-->

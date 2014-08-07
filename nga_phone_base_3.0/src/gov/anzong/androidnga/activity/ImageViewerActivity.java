@@ -34,6 +34,7 @@ public class ImageViewerActivity extends  SwipeBackAppCompatActivity {
 		View view = LayoutInflater.from(this).inflate(R.layout.webview_layout,null,false);
 		this.setContentView(view);
 		wv = (WebView) findViewById(R.id.webview);
+		wv.getSettings().setUserAgentString(getString(R.string.clientua)+((MyApp) getApplication()).version);
 		if(ActivityUtil.isGreaterThan_2_3_3())
 		 wv.setWebChromeClient(new WebChromeClient() {  
              public void onProgressChanged(WebView view, int progress) {  

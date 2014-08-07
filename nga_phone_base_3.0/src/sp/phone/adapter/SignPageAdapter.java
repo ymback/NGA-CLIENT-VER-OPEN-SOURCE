@@ -16,6 +16,7 @@ import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.ArticleUtil;
+import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -48,30 +49,10 @@ public class SignPageAdapter extends BaseAdapter implements
 	private int selected = -1;
 	protected int count = 0;
 
-	boolean showImage = false;
 	
 	public SignPageAdapter(Context context) {
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
-		this.showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-				|| isInWifi( context );
-	}
-
-	private boolean isInWifi(final Context activity) {
-		ConnectivityManager conMan = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-		State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
-		return wifi == State.CONNECTED;
-	}
-	
-	private int showImageQuality(){
-		if (isInWifi(context))
-		{
-			return 0;
-		}
-		else
-		{
-			return PhoneConfiguration.getInstance().imageQuality;
-		}
 	}
 	
 	public Object getItem(int arg0) {
@@ -210,7 +191,7 @@ public class SignPageAdapter extends BaseAdapter implements
 					.getWebSize());
 			setting.setJavaScriptEnabled(false);
 			holder.content.setWebViewClient(client);
-			holder.content.loadDataWithBaseURL(null, infoToHtmlText(info,showImage,showImageQuality(),fgColorStr,bgcolorStr),
+			holder.content.loadDataWithBaseURL(null, infoToHtmlText(info,FunctionUtil.isShowImage(context),FunctionUtil.showImageQuality(context),fgColorStr,bgcolorStr),
 					"text/html", "utf-8", null);
 			holder.missionidtitle.setText("可完成任务ID:");
 			if(entry.get__issuccessed()==true){

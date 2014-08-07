@@ -2,29 +2,22 @@ package sp.phone.task;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
-import sp.phone.bean.SignData;
-import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.adminForumsData;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
-import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.MD5Util;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import gov.anzong.androidnga.R;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 public class JsonProfileLoadTask extends
 		AsyncTask<String, Integer, ProfileData> {
@@ -32,7 +25,6 @@ public class JsonProfileLoadTask extends
 	final private Context context;
 	final private OnProfileLoadFinishedListener notifier;
 	private String error;
-	private Toast toast;
 
 	public JsonProfileLoadTask(Context context,
 			OnProfileLoadFinishedListener notifier) {
@@ -163,18 +155,18 @@ public class JsonProfileLoadTask extends
 			if(o0.getString("muteTime").equals("0")){
 				ret.set_muteTime("-1");
 			}else{
-				ret.set_muteTime("禁言至: " + TimeStamp2Date(o0.getString("muteTime")));
+				ret.set_muteTime("禁言至: " + StringUtil.TimeStamp2Date(o0.getString("muteTime")));
 			}
 		}else{
 			ret.set_muteTime("-1");
 		}
 		if (!StringUtil.isEmpty(o0.getString("regdate"))) {
-			ret.set_regdate(TimeStamp2Date(o0.getString("regdate")));
+			ret.set_regdate(StringUtil.TimeStamp2Date(o0.getString("regdate")));
 		} else {
 			ret.set_regdate("未知");
 		}
 		if (!StringUtil.isEmpty(o0.getString("lastpost"))) {
-			ret.set_lastpost(TimeStamp2Date(o0.getString("lastpost")));
+			ret.set_lastpost(StringUtil.TimeStamp2Date(o0.getString("lastpost")));
 		} else {
 			ret.set_lastpost("未知");
 		}
@@ -305,13 +297,6 @@ public class JsonProfileLoadTask extends
         IPstr = String.valueOf(ui1) + "." + String.valueOf(ui2) + "." + String.valueOf(ui3) + "." + String.valueOf(ui4);
         return IPstr;
     }
-
-	public static String TimeStamp2Date(String timestampString) {
-		Long timestamp = Long.parseLong(timestampString) * 1000;
-		String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(new java.util.Date(timestamp));
-		return date;
-	}
 
 	@Override
 	protected void onPreExecute() {
