@@ -71,7 +71,8 @@ import android.widget.TextView;
 
 public class NonameArticleListAdapter extends BaseAdapter implements
 		OnLongClickListener {
-	private static final String TAG = NonameArticleListAdapter.class.getSimpleName();
+	private static final String TAG = NonameArticleListAdapter.class
+			.getSimpleName();
 	private NonameReadResponse mData;
 	private static Context activity;
 	private final SparseArray<SoftReference<View>> viewCache;
@@ -150,7 +151,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		public View holder;
 	}
 
-
 	private static String buildHeader(NonameReadBody row, String fgColorStr) {
 		if (row == null || StringUtil.isEmpty(row.title))
 			return "";
@@ -159,7 +159,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 				.append(row.title).append("</h4>");
 		return sb.toString();
 	}
-
 
 	public static String distanceString(long distance) {
 		String ret = Long.valueOf(distance).toString() + meter;
@@ -173,8 +172,9 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 			boolean showImage, int imageQuality, final String fgColorStr,
 			final String bgcolorStr) {
 		HashSet<String> imageURLSet = new HashSet<String>();
-		String ngaHtml = StringUtil.decodeForumTag(row.content.replaceAll("\n", "<br/>"), showImage,
-				imageQuality, imageURLSet);
+		String ngaHtml = StringUtil.decodeForumTag(
+				row.content.replaceAll("\n", "<br/>"), showImage, imageQuality,
+				imageURLSet);
 		if (imageURLSet.size() == 0) {
 			imageURLSet = null;
 		}
@@ -189,15 +189,11 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 				+ "'>"
 				+ "<font color='#"
 				+ fgColorStr
-				+ "' size='2'>"
-				+ ngaHtml
-				+ "</font></body>";
+				+ "' size='2'>" + ngaHtml + "</font></body>";
 
 		return ngaHtml;
 	}
-	
 
-	
 	private ViewHolder initHolder(final View view) {
 		final ViewHolder holder = new ViewHolder();
 		holder.nickNameTV = (TextView) view.findViewById(R.id.nickName);
@@ -206,8 +202,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		holder.postTimeTV = (TextView) view.findViewById(R.id.postTime);
 		holder.contentTV = (WebView) view.findViewById(R.id.content);
 		holder.contentTV.setHorizontalScrollBarEnabled(false);
-		holder.viewBtn = (ImageButton) view
-				.findViewById(R.id.listviewreplybtn);
+		holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
 		/*
 		 * holder.levelTV = (TextView) view.findViewById(R.id.level);
 		 * holder.aurvrcTV= (TextView) view.findViewById(R.id.aurvrc);
@@ -223,56 +218,43 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		if (row != null)
 			lou = row.floor;
 		ViewHolder holder = null;
-		boolean needin = false;
 		SoftReference<View> ref = viewCache.get(position);
 		View cachedView = null;
 		if (ref != null) {
 			cachedView = ref.get();
 		}
 		if (cachedView != null) {
-			if(((ViewHolder) cachedView.getTag()).position==position){
+			if (((ViewHolder) cachedView.getTag()).position == position) {
 				Log.d(TAG, "get view from cache ,floor " + lou);
 				return cachedView;
-			}else{
-				if (view == null) {
-					view = LayoutInflater.from(activity).inflate(
-							R.layout.relative_nonamearitclelist, parent, false);
-					holder = initHolder(view);
-					view.setTag(holder);
-				} else {
-					holder = (ViewHolder) view.getTag();
-					needin = true;
-				}
-				holder.position=position;
-				viewCache.put(position,
-						new SoftReference<View>(view));
-			}
-		} else {
-			if (view == null) {
+			} else {
 				view = LayoutInflater.from(activity).inflate(
 						R.layout.relative_nonamearitclelist, parent, false);
 				holder = initHolder(view);
+				holder.position = position;
 				view.setTag(holder);
-			} else {
-				holder = (ViewHolder) view.getTag();
-				needin = true;
+				viewCache.put(position, new SoftReference<View>(view));
 			}
-			holder.position=position;
-			viewCache.put(position,
-					new SoftReference<View>(view));
+		} else {
+			view = LayoutInflater.from(activity).inflate(
+					R.layout.relative_nonamearitclelist, parent, false);
+			holder = initHolder(view);
+			holder.position = position;
+			view.setTag(holder);
+			viewCache.put(position, new SoftReference<View>(view));
 		}
 
 		if (!PhoneConfiguration.getInstance().showReplyButton) {
 			holder.viewBtn.setVisibility(View.GONE);
 		} else {
-			MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(position, activity, mData);
+			MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(
+					position, activity, mData);
 			holder.viewBtn.setOnClickListener(myListenerForReply);
 		}
 		holder.position = position;
 		ThemeManager theme = ThemeManager.getInstance();
 		int colorId = theme.getBackgroundColor(position);
 		view.setBackgroundResource(colorId);
-
 
 		if (row == null) {
 			return view;
@@ -303,8 +285,8 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		floorTV.setText("[" + floor + " ¥]");
 		floorTV.setTextColor(fgColor);
 		final long longposttime = row.ptime;
-		String postTime ="";
-		if(longposttime!=0){
+		String postTime = "";
+		if (longposttime != 0) {
 			postTime = StringUtil.TimeStamp2Date(String.valueOf(longposttime));
 		}
 		TextView postTimeTV = holder.postTimeTV;
@@ -313,25 +295,23 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null,client);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor,
+							fgColor, activity, null, client);
 				}
 			}).start();
 		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null,client);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor,
+							fgColor, activity, null, client);
 				}
 			});
 		} else {
-			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null,client);
-		}
-		if (needin) {
-			view.invalidate();
+			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
+					activity, null, client);
 		}
 		return view;
 	}
-
-
 
 	@Override
 	public void notifyDataSetChanged() {
@@ -348,7 +328,5 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 		}
 		return false;
 	}
-
-
 
 }

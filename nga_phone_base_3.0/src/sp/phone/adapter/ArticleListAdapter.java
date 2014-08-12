@@ -88,7 +88,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 	static String sig = null;
 
 	final WebViewClient client;
-	
+
 	public ArticleListAdapter(Context activity) {
 		super();
 		this.activity = activity;
@@ -229,9 +229,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 					+ "'>"
 					+ "<font color='#"
 					+ fgColorStr
-					+ "' size='2'>"
-					+ ngaHtml
-					+ "</font></body>";
+					+ "' size='2'>" + ngaHtml + "</font></body>";
 		}
 		return ngaHtml;
 	}
@@ -241,7 +239,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 	private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
 
 		final int lou = row.getLou();
-		final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
+		final String avatarUrl = FunctionUtil.parseAvatarUrl(row
+				.getJs_escap_avatar());//
 		final String userId = String.valueOf(row.getAuthorid());
 		if (PhoneConfiguration.getInstance().nikeWidth < 3) {
 			avatarIV.setImageBitmap(null);
@@ -329,41 +328,30 @@ public class ArticleListAdapter extends BaseAdapter implements
 			cachedView = ref.get();
 		}
 		if (cachedView != null) {
-			if(((ViewHolder) cachedView.getTag()).position==position){
+			if (((ViewHolder) cachedView.getTag()).position == position) {
 				Log.d(TAG, "get view from cache ,floor " + lou);
 				return cachedView;
-			}else{
-				if (view == null) {
-					view = LayoutInflater.from(activity).inflate(
-							R.layout.relative_aritclelist, parent, false);
-					holder = initHolder(view);
-					view.setTag(holder);
-				} else {
-					holder = (ViewHolder) view.getTag();
-					needin = true;
-				}
-				holder.position=position;
-				viewCache.put(position,
-						new SoftReference<View>(view));
-			}
-		} else {
-			if (view == null) {
+			} else {
 				view = LayoutInflater.from(activity).inflate(
 						R.layout.relative_aritclelist, parent, false);
 				holder = initHolder(view);
+				holder.position = position;
 				view.setTag(holder);
-			} else {
-				holder = (ViewHolder) view.getTag();
-				needin = true;
+				viewCache.put(position, new SoftReference<View>(view));
 			}
-			holder.position=position;
-			viewCache.put(position,
-					new SoftReference<View>(view));
+		} else {
+			view = LayoutInflater.from(activity).inflate(
+					R.layout.relative_aritclelist, parent, false);
+			holder = initHolder(view);
+			holder.position = position;
+			view.setTag(holder);
+			viewCache.put(position, new SoftReference<View>(view));
 		}
 		if (!PhoneConfiguration.getInstance().showReplyButton) {
 			holder.viewBtn.setVisibility(View.GONE);
 		} else {
-			MyListenerForReply myListenerForReply = new MyListenerForReply(position, data, activity);
+			MyListenerForReply myListenerForReply = new MyListenerForReply(
+					position, data, activity);
 			holder.viewBtn.setOnClickListener(myListenerForReply);
 		}
 		ThemeManager theme = ThemeManager.getInstance();
@@ -382,8 +370,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		final int fgColor = parent.getContext().getResources()
 				.getColor(fgColorId);
 
-		FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV,activity);
-
+		FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, activity);
 
 		final int bgColor = parent.getContext().getResources()
 				.getColor(colorId);
@@ -412,17 +399,20 @@ public class ArticleListAdapter extends BaseAdapter implements
 		if (ActivityUtil.isLessThan_4_3()) {
 			new Thread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null,client);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor,
+							fgColor, activity, null, client);
 				}
 			}).start();
 		} else if (ActivityUtil.isLessThan_4_4()) {
 			((Activity) parent.getContext()).runOnUiThread(new Runnable() {
 				public void run() {
-					FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null,client);
+					FunctionUtil.handleContentTV(contentTV, row, bgColor,
+							fgColor, activity, null, client);
 				}
 			});
 		} else {
-			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,activity,null,client);
+			FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
+					activity, null, client);
 		}
 		TextView postTimeTV = holder.postTimeTV;
 		postTimeTV.setText(row.getPostdate());
@@ -517,7 +507,8 @@ public class ArticleListAdapter extends BaseAdapter implements
 			ret.append(comment.getAuthor());
 			ret.append("</span><br/>");
 			ret.append("<img src='");
-			String avatarUrl = FunctionUtil.parseAvatarUrl(comment.getJs_escap_avatar());
+			String avatarUrl = FunctionUtil.parseAvatarUrl(comment
+					.getJs_escap_avatar());
 			ret.append(avatarUrl);
 			ret.append("' style= 'max-width:32;'>");
 

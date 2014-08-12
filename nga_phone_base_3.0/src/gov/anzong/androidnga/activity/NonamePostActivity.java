@@ -590,7 +590,9 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 					toast.show();
 				}
 			}
-			PhoneConfiguration.getInstance().setRefreshAfterPost(true);
+			if(PhoneConfiguration.getInstance().refresh_after_post_setting_mode){
+				PhoneConfiguration.getInstance().setRefreshAfterPost(true);
+			}
 			ActivityUtil.getInstance().dismiss();
 			if (!keepActivity)
 				NonamePostActivity.this.finish();

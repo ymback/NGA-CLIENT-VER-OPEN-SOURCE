@@ -249,8 +249,13 @@ public class ArticleUtil {
 				if (!StringUtil.isEmpty(from_client)) {
 					row.setFromClient(from_client.toString());
 					if (!from_client.trim().equals("")) {
-						String clientappcode = from_client.substring(0,
-								from_client.indexOf(" "));
+						String clientappcode = "";
+						if(from_client.indexOf(" ")>0){
+							clientappcode = from_client.substring(0,	
+										from_client.indexOf(" "));
+						}else{
+							clientappcode=from_client;
+						}
 						if (clientappcode.equals("1") || clientappcode.equals("7")
 								|| clientappcode.equals("101")) {
 							row.setFromClientModel("ios");

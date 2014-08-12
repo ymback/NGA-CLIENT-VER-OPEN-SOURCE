@@ -1098,4 +1098,24 @@ public class StringUtil {
 				.format(new java.util.Date(timestamp));
 		return date;
 	}
+	
+	/* ¿÷ ”Ω‚Œˆ”√ */
+	public static String letu_(long s){
+		long key = 773625421;
+	    long value  = let_(s, key % 13);
+	    value = value ^ key;
+	    value = let_(value, key % 17);
+		return String.valueOf(value);
+	}
+	
+	public static long let_(long value, long key)
+	{
+	    long i = 0l;
+	    while (i < key) {
+	        System.out.println((value & 1) << 31);
+		    value =  2147483647 & value >> 1 | -((value & 1) << 31);
+	        i++;
+	    }
+	    return value;
+	}
 }

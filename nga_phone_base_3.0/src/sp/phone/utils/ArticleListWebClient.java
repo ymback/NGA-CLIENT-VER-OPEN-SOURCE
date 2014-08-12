@@ -202,7 +202,7 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(YOUKU_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, YOUKU_START,
 					YOUKU_END).result;
-			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
 			try {
 				Intent intent = new Intent();
@@ -228,7 +228,7 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(YOUKUSWF_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "sid/",
 					YOUKUSWF_END).result;
-			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
 			try {
 				Intent intent = new Intent();
@@ -256,7 +256,7 @@ public class ArticleListWebClient extends WebViewClient {
 				&& StrTotalCount(url, "/") > 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "VideoIDS=",
 					"&").result;
-			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
 			try {
 				Intent intent = new Intent();
@@ -282,7 +282,7 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(YOUKUSWF3_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0,
 					YOUKUSWF3_START, "/").result;
-			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + id
+			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
 					+ "/type/mp4/video.m3u8";
 			try {
 				Intent intent = new Intent();
@@ -970,5 +970,4 @@ public class ArticleListWebClient extends WebViewClient {
 				.getState();
 		return wifi == State.CONNECTED;
 	}
-
 }

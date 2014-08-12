@@ -151,7 +151,7 @@ public class YouxiaVideoLoadTask extends AsyncTask<String, Integer, String> {
 				return add;
 			}
 		}else if(scriptdata.indexOf("\"type\":\"youku\"")>=0){
-			String htmlUrl = "http://v.youku.com/player/getM3U8/vid/" + iid
+			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + iid
 					+ "/type/mp4/video.m3u8";
 			return htmlUrl;
 		}else if(scriptdata.indexOf("\"type\":\"qq\"")>=0){

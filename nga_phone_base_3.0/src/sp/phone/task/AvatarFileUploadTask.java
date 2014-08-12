@@ -86,15 +86,15 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
-		if(values[0]<0 || values[0]>100){
-			values[0]=100;
+		if(values[0]==-101){
+			Toast.makeText(context, R.string.image_to_big2, Toast.LENGTH_SHORT)
+			 .show();
+		}else{
+			if(values[0]<0 || values[0]>100){
+				values[0]=99;
+			}
+			ActivityUtil.getInstance().noticebarsetprogress(values[0]);
 		}
-		ActivityUtil.getInstance().noticebarsetprogress(values[0]);
-	}
-
-	private void Toastsuoxiao(){
-		Toast.makeText(context, R.string.image_to_big2, Toast.LENGTH_SHORT)
-		.show();
 	}
 	
 	@Override
@@ -138,7 +138,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 			int width = opts.outWidth;
 		    int height = opts.outHeight;
 			if (width>255 || height>180) {
-				Toastsuoxiao();
+				publishProgress(-101);
 				byte[] img = ImageUtil.fitNGAImageToUpload(
 						cr.openInputStream(uri),opts);
 				contentType = "image/png";

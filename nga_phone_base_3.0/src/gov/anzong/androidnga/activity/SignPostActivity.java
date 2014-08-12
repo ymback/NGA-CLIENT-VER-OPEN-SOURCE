@@ -548,7 +548,6 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
-			PhoneConfiguration.getInstance().setRefreshAfterPost(true);
 			ActivityUtil.getInstance().dismiss();
 			if (!keepActivity) {
 				Intent intent = new Intent();

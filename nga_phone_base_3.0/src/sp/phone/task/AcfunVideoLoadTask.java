@@ -145,8 +145,6 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 		String datavid = StringUtil.getStringBetween(htmlStringstep1, 0,
 				"data-vid=\"", "\"").result;
 		if (StringUtil.isEmpty(datavid)) {
-			if(StringUtil.isEmpty(datavid))
-				return null;
 			if (htmlStringstep1.indexOf("该页面可能因为如下原因被删除") > 0) {
 				this.isdelected = true;
 			}
@@ -279,7 +277,7 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 						YOUKU_START)) {// 优酷,可以直接拿VID解析的
 					String id = StringUtil.getStringBetween(sourceUrl, 0,
 							YOUKU_START, YOUKU_END).result;
-					String htmlUrl = "http://v.youku.com/player/getM3U8/vid/"
+					String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/"
 							+ id + "/type/mp4/video.m3u8";
 					return htmlUrl;
 				}

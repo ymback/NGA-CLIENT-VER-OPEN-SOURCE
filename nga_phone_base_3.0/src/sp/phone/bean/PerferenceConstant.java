@@ -26,6 +26,7 @@ public interface PerferenceConstant {
 	final String RECENT_BOARD = "recentBoard";
 	final String ADD_FID = "addFid";
 	final String SHOW_ANIMATION = "showAnimation";
+	final String REFRESH_AFTERPOST_SETTING_MODE = "refresh_after_post_setting_mode";
 	final String SHOW_SIGNATURE = "showSignature";
     final String SHOW_STATIC = "showStatic";
     final String SHOW_REPLYBUTTON = "showReplyButton";

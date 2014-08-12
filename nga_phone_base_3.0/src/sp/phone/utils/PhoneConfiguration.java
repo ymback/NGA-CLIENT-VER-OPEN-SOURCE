@@ -77,6 +77,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 	public boolean downAvatarNoWifi;
 	public boolean downImgNoWifi;
 	public boolean iconmode;
+	public boolean refresh_after_post_setting_mode=true;
 	public int imageQuality = 0; 	//0 = original, 1 = small, 2= medium, 3 = large
 	public int playMode = 0; 	//0 = all, 1 = notacfun, 2=notbili, 3=notacbili, 4=none
 	public int HandSide = 0; 	//0 = right, 1 = left

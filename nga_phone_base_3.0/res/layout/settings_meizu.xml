@@ -118,6 +118,22 @@
             android:layout_marginLeft="6dp"
             android:background="@color/night_fore_color" >
         </View>
+        
+        <CheckBox
+            android:id="@+id/refresh_after_post_setting_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:text="@string/refresh_after_post_setting_mode" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:background="@color/night_fore_color" >
+        </View>
 
 
         

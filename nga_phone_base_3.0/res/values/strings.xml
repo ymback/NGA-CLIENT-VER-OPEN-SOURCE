@@ -196,6 +196,7 @@
     <string name="please_relogin">请重新登录</string>
     <string name="show_static">显示版主固定的渣帖子</string>
     <string name="color_txt">使用彩虹发帖模式(慎用)</string>
+    <string name="refresh_after_post_setting_mode">回帖后刷新内容</string>
     <string name="new_weiba">发送可见尾巴信息</string>
     <string name="show_lajibankuai">大漩涡中显示小版块主题</string>
     <string name="multi_reply_format">已经挨了%d发黑枪了,态君不够用了!</string>

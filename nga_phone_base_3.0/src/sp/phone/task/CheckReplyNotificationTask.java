@@ -52,7 +52,7 @@ public class CheckReplyNotificationTask extends
 				.currentTimeMillis();
 		Log.i(this.getClass().getSimpleName(), "get message:" + result);
 //		return "[truncated]window.script_muti_get_var_store={0:[{\"0\":1,\"1\":20174851,\"2\":\"\326\361\276\256\324\212\277\227\300\357\",\"3\":20174851,\"4\":\"\326\361\276\256\324\212\277\227\300\357\",\"5\":\"\277\264\262\273\265\275\316\322\",\"9\":1403393562,\"6\":71387683,\"7\":133146646,\"10\":1}] }";
-		 return result;
+		return result;
 	}
 
 	@Override

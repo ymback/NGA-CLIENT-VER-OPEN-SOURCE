@@ -71,7 +71,8 @@ import android.widget.Toast;
 
 public class NonameArticleListFragment extends Fragment implements
 		OnNonameThreadPageLoadFinishedListener, PerferenceConstant {
-	final static private String TAG = NonameArticleListFragment.class.getSimpleName();
+	final static private String TAG = NonameArticleListFragment.class
+			.getSimpleName();
 	/*
 	 * static final int QUOTE_ORDER = 0; static final int REPLY_ORDER = 1;
 	 * static final int COPY_CLIPBOARD_ORDER = 2; static final int
@@ -95,6 +96,8 @@ public class NonameArticleListFragment extends Fragment implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		PhoneConfiguration.getInstance().setRefreshAfterPost(
+				false);
 		page = getArguments().getInt("page") + 1;
 		tid = getArguments().getInt("id");
 		articleAdpater = new NonameArticleListAdapter(this.getActivity());
@@ -154,7 +157,7 @@ public class NonameArticleListFragment extends Fragment implements
 			@Override
 			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 				MenuInflater inflater = mode.getMenuInflater();
-					inflater.inflate(R.menu.nonamearticlelist_context_menu, menu);
+				inflater.inflate(R.menu.nonamearticlelist_context_menu, menu);
 
 				return true;
 			}
@@ -185,22 +188,25 @@ public class NonameArticleListFragment extends Fragment implements
 	public void onResume() {
 		Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
 		// setHasOptionsMenu(true);
-		if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
+		if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
+			if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-			PagerOwnner father = null;
-			try {
-				father = (PagerOwnner) getActivity();
-				if (father.getCurrentPage() == page) {
-					PhoneConfiguration.getInstance().setRefreshAfterPost(false);
-					// this.task = null;
-					this.needLoad = true;
+				PagerOwnner father = null;
+				try {
+					father = (PagerOwnner) getActivity();
+					if (father.getCurrentPage() == page) {
+						PhoneConfiguration.getInstance().setRefreshAfterPost(
+								false);
+						// this.task = null;
+						this.needLoad = true;
+					}
+				} catch (ClassCastException e) {
+					Log.e(TAG, "father activity does not implements interface "
+							+ PagerOwnner.class.getName());
+
 				}
-			} catch (ClassCastException e) {
-				Log.e(TAG, "father activity does not implements interface "
-						+ PagerOwnner.class.getName());
 
 			}
-
 		}
 		loadPage();
 		super.onResume();
@@ -214,20 +220,22 @@ public class NonameArticleListFragment extends Fragment implements
 
 	@TargetApi(11)
 	private void RunParallen(JsonNonameThreadLoadTask task, String url) {
-		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR,
+				url);
 	}
 
 	@TargetApi(11)
 	private void RunParallen(ReportTask task, String url) {
-		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR,
+				url);
 	}
-	
+
 	@Override
-	public void onPause(){
+	public void onPause() {
 		super.onPause();
 		if (listview.getChildCount() >= 1) {
-			 mListPosition = listview.getFirstVisiblePosition();
-			 mListFirstTop = listview.getChildAt(0).getTop();
+			mListPosition = listview.getFirstVisiblePosition();
+			mListFirstTop = listview.getChildAt(0).getTop();
 		}
 	}
 
@@ -235,7 +243,8 @@ public class NonameArticleListFragment extends Fragment implements
 		if (needLoad) {
 
 			Activity activity = getActivity();
-			JsonNonameThreadLoadTask task = new JsonNonameThreadLoadTask(activity, this);
+			JsonNonameThreadLoadTask task = new JsonNonameThreadLoadTask(
+					activity, this);
 			String url = HttpUtil.NonameServer + "/read.php?" + "&page=" + page
 					+ "&lite=js&noprefix&v2";
 			if (tid != 0)
@@ -256,11 +265,10 @@ public class NonameArticleListFragment extends Fragment implements
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getActivity().getMenuInflater();
-			inflater.inflate(R.menu.nonamearticlelist_context_menu, menu);
-
+		inflater.inflate(R.menu.nonamearticlelist_context_menu, menu);
 
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
@@ -316,22 +324,23 @@ public class NonameArticleListFragment extends Fragment implements
 			content = content.replaceAll(quote_regex, "");
 			content = content.replaceAll(replay_regex, "");
 			final long longposttime = row.ptime;
-			String postTime ="";
-			if(longposttime!=0){
-				postTime =  StringUtil.TimeStamp2Date(String.valueOf(longposttime));
+			String postTime = "";
+			if (longposttime != 0) {
+				postTime = StringUtil.TimeStamp2Date(String
+						.valueOf(longposttime));
 			}
 
 			content = FunctionUtil.checkContent(content);
 			content = StringUtil.unEscapeHtml(content);
-				mention = name;
-				postPrefix.append("[quote]");
-				postPrefix.append("[b]Post by [hip]");
-				postPrefix.append(name);
-				postPrefix.append("[/hip] (");
-				postPrefix.append(postTime);
-				postPrefix.append("):[/b]\n");
-				postPrefix.append(content);
-				postPrefix.append("[/quote]\n");
+			mention = name;
+			postPrefix.append("[quote]");
+			postPrefix.append("[b]Post by [hip]");
+			postPrefix.append(name);
+			postPrefix.append("[/hip] (");
+			postPrefix.append(postTime);
+			postPrefix.append("):[/b]\n");
+			postPrefix.append(content);
+			postPrefix.append("[/quote]\n");
 
 			// case R.id.r:
 
@@ -341,15 +350,15 @@ public class NonameArticleListFragment extends Fragment implements
 					StringUtil.removeBrTag(postPrefix.toString()));
 			intent.putExtra("tid", tidStr);
 			intent.putExtra("action", "reply");
-				intent.setClass(getActivity(),
-						PhoneConfiguration.getInstance().nonamePostActivityClass);
+			intent.setClass(getActivity(),
+					PhoneConfiguration.getInstance().nonamePostActivityClass);
 			startActivity(intent);
 			if (PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,
 						R.anim.zoom_exit);
 			break;
 		case R.id.copy_to_clipboard:
-			FunctionUtil.CopyDialog(content,getActivity(),listview);
+			FunctionUtil.CopyDialog(content, getActivity(), listview);
 			break;
 
 		}
@@ -361,18 +370,18 @@ public class NonameArticleListFragment extends Fragment implements
 				.getBackgroundColor());
 		if (result != null) {
 			for (int i = 0; i < result.data.posts.length; i++) {
-				FunctionUtil.fillFormated_html_data(result.data.posts[i],
-						i, getActivity());
+				FunctionUtil.fillFormated_html_data(result.data.posts[i], i,
+						getActivity());
 			}
 			finishLoad(result);
 		}
 	}
-	
+
 	@Override
 	public void finishLoad(NonameReadResponse data) {
 		Log.d(TAG, "finishLoad");
 		if (null != data) {
-			result=data;
+			result = data;
 			articleAdpater.setData(data);
 			articleAdpater.notifyDataSetChanged();
 			tid = data.data.tid;

@@ -84,15 +84,15 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
-		if(values[0]<0 || values[0]>100){
-			values[0]=100;
+		if(values[0]==-101){
+			Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT)
+			 .show();
+		}else{
+			if(values[0]<0 || values[0]>100){
+				values[0]=99;
+			}
+			ActivityUtil.getInstance().noticebarsetprogress(values[0]);
 		}
-		ActivityUtil.getInstance().noticebarsetprogress(values[0]);
-	}
-	
-	private void Toastsuoxiao(){
-		Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT)
-		.show();
 	}
 	
 	@Override
@@ -131,7 +131,7 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 			}
 			filesize = pfd.getStatSize();
 			if (filesize >= 1024 * 1024) {
-				Toastsuoxiao();
+				publishProgress(-101);
 				byte[] img = ImageUtil.fitImageToUpload(
 						cr.openInputStream(uri), cr.openInputStream(uri));
 				contentType = "image/png";

@@ -93,6 +93,8 @@ public class ArticleListFragmentNew extends Fragment implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		PhoneConfiguration.getInstance().setRefreshAfterPost(
+				false);
 		Log.d(TAG, "onCreate");
 		page = getArguments().getInt("page") + 1;
 		tid = getArguments().getInt("id");
@@ -118,7 +120,8 @@ public class ArticleListFragmentNew extends Fragment implements
 		scrollview.setBackgroundResource(ThemeManager.getInstance()
 				.getBackgroundColor());
 
-		scrollview.setDescendantFocusability(ScrollView.FOCUS_AFTER_DESCENDANTS);
+		scrollview
+				.setDescendantFocusability(ScrollView.FOCUS_AFTER_DESCENDANTS);
 
 		return scrollview;
 	}
@@ -501,23 +504,27 @@ public class ArticleListFragmentNew extends Fragment implements
 	@Override
 	public void onResume() {
 		Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
-		// setHasOptionsMenu(true);
-		if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-			PagerOwnner father = null;
-			try {
-				father = (PagerOwnner) getActivity();
-				if (father.getCurrentPage() == page) {
-					PhoneConfiguration.getInstance().setRefreshAfterPost(false);
-					// this.task = null;
-					this.needLoad = true;
+		if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
+			if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
+
+				PagerOwnner father = null;
+				try {
+					father = (PagerOwnner) getActivity();
+					if (father.getCurrentPage() == page) {
+						PhoneConfiguration.getInstance().setRefreshAfterPost(
+								false);
+						// this.task = null;
+						this.needLoad = true;
+						linear.removeAllViewsInLayout();
+					}
+				} catch (ClassCastException e) {
+					Log.e(TAG, "father activity does not implements interface "
+							+ PagerOwnner.class.getName());
+
 				}
-			} catch (ClassCastException e) {
-				Log.e(TAG, "father activity does not implements interface "
-						+ PagerOwnner.class.getName());
 
 			}
-
 		}
 		loadPage();
 		if (mData != null) {
@@ -632,7 +639,7 @@ public class ArticleListFragmentNew extends Fragment implements
 	}
 
 	public void create_pageview(ThreadData data) {
-		if(getActivity()!=null){
+		if (getActivity() != null) {
 			for (int i = 0; i < data.getRowList().size(); i++) {
 				View view = LayoutInflater.from(getActivity()).inflate(
 						R.layout.relative_aritclelist, null, false);
@@ -692,7 +699,7 @@ public class ArticleListFragmentNew extends Fragment implements
 		final Callback mActionModeCallback = (Callback) activeActionMode(data,
 				position);
 		FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
-				getActivity(), mActionModeCallback,client);
+				getActivity(), mActionModeCallback, client);
 		holder.articlelistrelativelayout
 				.setOnLongClickListener(new OnLongClickListener() {
 

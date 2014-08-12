@@ -71,6 +71,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton showReplyButton;
 
 	private CompoundButton showIconMode;
+	private CompoundButton refresh_after_post_setting_mode;
 
 	private CompoundButton split = null;
 	private CompoundButton replysplit = null;
@@ -108,8 +109,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
 	private ImageView avatarImage;
 	private SeekBar avatarSeekBar;
-	
-	private boolean recentlychanged=false;
+
+	private boolean recentlychanged = false;
 
 	// private MyGestureListener gestureListener;
 	@Override
@@ -194,6 +195,11 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		showIconMode = (CompoundButton) findViewById(R.id.checkBox_icon_mode);
 		showIconMode.setChecked(config.iconmode);
 		showIconMode.setOnCheckedChangeListener(new IconModeListener());
+
+		refresh_after_post_setting_mode = (CompoundButton) findViewById(R.id.refresh_after_post_setting_mode);
+		refresh_after_post_setting_mode.setChecked(config.refresh_after_post_setting_mode);
+		refresh_after_post_setting_mode
+				.setOnCheckedChangeListener(new SettingRefreshAfterPostListener());
 
 		showAnimation = (CompoundButton) findViewById(R.id.checkBox_show_animation);
 		showAnimation.setChecked(config.showAnimation);
@@ -284,7 +290,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		fullscreen = (CompoundButton) findViewById(R.id.checkBox_fullscreen);
 		fullscreen.setChecked(config.fullscreen);
 		fullscreen.setOnCheckedChangeListener(new fullscreenListener());
-		
+
 		kitwebview = (CompoundButton) findViewById(R.id.checkBox_kitwebview);
 		kitwebview.setChecked(config.kitwebview);
 		kitwebview.setOnCheckedChangeListener(new kitwebviewListener());
@@ -447,6 +453,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		showAnimation.setTextColor(fgColor);
 
 		showIconMode.setTextColor(fgColor);
+		refresh_after_post_setting_mode.setTextColor(fgColor);
 		// useViewCache.setTextColor(fgColor);
 		showSignature.setTextColor(fgColor);
 		notification.setTextColor(fgColor);
@@ -544,6 +551,24 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
+	class SettingRefreshAfterPostListener implements OnCheckedChangeListener,
+			PerferenceConstant {
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			PhoneConfiguration.getInstance().refresh_after_post_setting_mode = isChecked;
+			SharedPreferences share = getSharedPreferences(PERFERENCE,
+					MODE_PRIVATE);
+			PhoneConfiguration.getInstance().setRefreshAfterPost(false);
+			Editor editor = share.edit();
+			editor.putBoolean(REFRESH_AFTERPOST_SETTING_MODE, isChecked);
+			editor.commit();
+
+		}
+
+	}
+
 	class IconModeListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 
@@ -551,34 +576,38 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		public void onCheckedChanged(CompoundButton buttonView,
 				final boolean isChecked) {
 
-			if(recentlychanged==false){
+			if (recentlychanged == false) {
 				String alertString = getString(R.string.change_icon_string);
-				final AlertDialogFragment f = AlertDialogFragment.create(alertString);
-				f.setOkListener(new OnClickListener(){
+				final AlertDialogFragment f = AlertDialogFragment
+						.create(alertString);
+				f.setOkListener(new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						PhoneConfiguration.getInstance().iconmode = isChecked;
-						SharedPreferences share = getSharedPreferences(PERFERENCE,
-								MODE_PRIVATE);
+						SharedPreferences share = getSharedPreferences(
+								PERFERENCE, MODE_PRIVATE);
 						String addFidStr = share.getString(ADD_FID, "");
 						List<Board> addFidList = null;
 						BoardCategory addFid = new BoardCategory();
 						int iconint;
-						if(isChecked){
+						if (isChecked) {
 							iconint = R.drawable.oldpdefault;
-						}else{
+						} else {
 							iconint = R.drawable.pdefault;
 						}
 						if (!StringUtil.isEmpty(addFidStr)) {
-							addFidList = JSON.parseArray(addFidStr, Board.class);
+							addFidList = JSON
+									.parseArray(addFidStr, Board.class);
 							if (addFidList != null) {
-								int i=11;//新增大板块后此处+1
+								int i = 11;// 新增大板块后此处+1
 								for (int j = 0; j < addFidList.size(); j++) {
-									addFid.add(new Board(i, addFidList.get(j).getUrl(),
-											addFidList.get(j).getName(), iconint));
+									addFid.add(new Board(i, addFidList.get(j)
+											.getUrl(), addFidList.get(j)
+											.getName(), iconint));
 								}
-								addFidStr=JSON.toJSONString(addFid.getBoardList());
+								addFidStr = JSON.toJSONString(addFid
+										.getBoardList());
 							}
 						}
 						Editor editor = share.edit();
@@ -586,24 +615,24 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 						editor.putString(RECENT_BOARD, "");
 						editor.putString(ADD_FID, addFidStr);
 						editor.commit();
-						
+
 					}
-					
+
 				});
-				f.setCancleListener(new OnClickListener(){
+				f.setCancleListener(new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						recentlychanged=true;	
+						recentlychanged = true;
 						showIconMode.setChecked(!isChecked);
 						f.dismiss();
 					}
-					
+
 				});
 				f.show(getSupportFragmentManager(), ALERT_DIALOG_TAG);
-				
-			}else{
-				recentlychanged=false;
+
+			} else {
+				recentlychanged = false;
 			}
 		}
 
@@ -832,7 +861,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			}
 		}
 	}
-	
 
 	class kitwebviewListener implements OnCheckedChangeListener,
 			PerferenceConstant {
@@ -847,7 +875,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			Editor editor = share.edit();
 			editor.putBoolean(KITWEBVIEWMODE, isChecked);
 			editor.commit();
-			if(isChecked){
+			if (isChecked) {
 				if (toast != null) {
 					toast.setText(R.string.kitwebviewinfo);
 					toast.setDuration(Toast.LENGTH_SHORT);

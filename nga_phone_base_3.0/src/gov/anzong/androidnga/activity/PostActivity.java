@@ -633,7 +633,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 				return "发帖失败";
 			start += result_start_tag.length();
 			int end = html.indexOf(result_end_tag, start);
-			if (start == -1)
+			if (end < 0)
 				return "发帖失败";
 			return html.substring(start, end);
 
@@ -641,7 +641,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 
 		@Override
 		protected void onPostExecute(String result) {
-			String success_results[] = { "发贴完毕 ...", " @提醒每24小时不能超过50个" };
+			String success_results[] = { "发贴完毕", "@提醒每24小时不能超过50个" };
 			if (keepActivity == false) {
 				boolean success = false;
 				for (int i = 0; i < success_results.length; ++i) {
@@ -662,7 +662,9 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
-			PhoneConfiguration.getInstance().setRefreshAfterPost(true);
+			if(PhoneConfiguration.getInstance().refresh_after_post_setting_mode){
+				PhoneConfiguration.getInstance().setRefreshAfterPost(true);
+			}
 			ActivityUtil.getInstance().dismiss();
 			if (!keepActivity)
 				PostActivity.this.finish();

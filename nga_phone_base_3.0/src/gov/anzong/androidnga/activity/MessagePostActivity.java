@@ -625,7 +625,6 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
-			PhoneConfiguration.getInstance().setRefreshAfterPost(true);
 			ActivityUtil.getInstance().dismiss();
 			if (!keepActivity) {
 				if (!action.equals("new")) {

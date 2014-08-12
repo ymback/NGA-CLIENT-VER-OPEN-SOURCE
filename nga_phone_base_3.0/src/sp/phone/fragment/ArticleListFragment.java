@@ -110,6 +110,8 @@ public class ArticleListFragment extends Fragment implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		PhoneConfiguration.getInstance().setRefreshAfterPost(
+				false);
 		Log.d(TAG, "onCreate");
 		page = getArguments().getInt("page") + 1;
 		tid = getArguments().getInt("id");
@@ -138,7 +140,6 @@ public class ArticleListFragment extends Fragment implements
 		listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-			
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -230,22 +231,26 @@ public class ArticleListFragment extends Fragment implements
 	public void onResume() {
 		Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
 		// setHasOptionsMenu(true);
-		if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-			PagerOwnner father = null;
-			try {
-				father = (PagerOwnner) getActivity();
-				if (father.getCurrentPage() == page) {
-					PhoneConfiguration.getInstance().setRefreshAfterPost(false);
-					// this.task = null;
-					this.needLoad = true;
+		if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
+			if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
+
+				PagerOwnner father = null;
+				try {
+					father = (PagerOwnner) getActivity();
+					if (father.getCurrentPage() == page) {
+						PhoneConfiguration.getInstance().setRefreshAfterPost(
+								false);
+						// this.task = null;
+						this.needLoad = true;
+					}
+				} catch (ClassCastException e) {
+					Log.e(TAG, "father activity does not implements interface "
+							+ PagerOwnner.class.getName());
+
 				}
-			} catch (ClassCastException e) {
-				Log.e(TAG, "father activity does not implements interface "
-						+ PagerOwnner.class.getName());
 
 			}
-
 		}
 		loadPage();
 		if (mData != null) {
@@ -460,11 +465,13 @@ public class ArticleListFragment extends Fragment implements
 			if (isanonymous) {
 				FunctionUtil.errordialog(getActivity(), listview);
 			} else {
-				FunctionUtil.Create_Signature_Dialog(row, getActivity(), listview);
+				FunctionUtil.Create_Signature_Dialog(row, getActivity(),
+						listview);
 			}
 			break;
 		case R.id.vote_dialog:
-			FunctionUtil.Create_Vote_Dialog(row, getActivity(), listview, toast);
+			FunctionUtil
+					.Create_Vote_Dialog(row, getActivity(), listview, toast);
 			break;
 
 		case R.id.ban_thisone:
@@ -551,7 +558,7 @@ public class ArticleListFragment extends Fragment implements
 			if (isanonymous) {
 				FunctionUtil.errordialog(getActivity(), listview);
 			} else {
-				FunctionUtil.Create_Avatar_Dialog(row,getActivity(),listview);
+				FunctionUtil.Create_Avatar_Dialog(row, getActivity(), listview);
 			}
 			break;
 		case R.id.edit:
@@ -589,7 +596,8 @@ public class ArticleListFragment extends Fragment implements
 						R.anim.zoom_exit);
 			break;
 		case R.id.copy_to_clipboard:
-			FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(), listview);
+			FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(),
+					listview);
 			break;
 		case R.id.show_this_person_only:
 
@@ -651,7 +659,7 @@ public class ArticleListFragment extends Fragment implements
 			if (isanonymous) {
 				FunctionUtil.errordialog(getActivity(), listview);
 			} else {
-				FunctionUtil.start_send_message(getActivity(),row);
+				FunctionUtil.start_send_message(getActivity(), row);
 			}
 			break;
 		case R.id.post_comment:
@@ -672,7 +680,7 @@ public class ArticleListFragment extends Fragment implements
 
 			break;
 		case R.id.report:
-			FunctionUtil.handleReport(row,tid,getFragmentManager());
+			FunctionUtil.handleReport(row, tid, getFragmentManager());
 			break;
 		case R.id.search_post:
 			intent.putExtra("searchpost", 1);
@@ -708,7 +716,6 @@ public class ArticleListFragment extends Fragment implements
 		return true;
 	}
 
-
 	public void modechange() {
 		listview.setBackgroundResource(ThemeManager.getInstance()
 				.getBackgroundColor());
@@ -720,7 +727,7 @@ public class ArticleListFragment extends Fragment implements
 			finishLoad(mData);
 		}
 	}
-	
+
 	@Override
 	public void finishLoad(ThreadData data) {
 		Log.d(TAG, "finishLoad");

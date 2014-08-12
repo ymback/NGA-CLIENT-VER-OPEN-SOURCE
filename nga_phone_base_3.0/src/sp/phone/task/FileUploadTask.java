@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -71,16 +72,10 @@ AsyncTask<String, Integer, String> {
 		this.uri = uri;
 	}
 	
-	
 	@Override
 	protected void onPreExecute() {
 		ActivityUtil.getInstance().noticeSayingWithProgressBar(context);
 		super.onPreExecute();
-	}
-	
-	private void Toastsuoxiao(){
-		Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT)
-		.show();
 	}
 	
 
@@ -100,12 +95,17 @@ AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onProgressUpdate(Integer... values) {
-		Log.i(TAG,String.valueOf(values[0]));
-		if(values[0]<0 || values[0]>100){
-			values[0]=100;
+		if(values[0]==-101){
+			Toast.makeText(context, R.string.image_to_big, Toast.LENGTH_SHORT)
+			 .show();
+		}else{
+			if(values[0]<0 || values[0]>100){
+				values[0]=99;
+			}
+			ActivityUtil.getInstance().noticebarsetprogress(values[0]);
 		}
-		ActivityUtil.getInstance().noticebarsetprogress(values[0]);
 	}
+	
 
 	@Override
 	protected void onPostExecute(String result) {
@@ -113,6 +113,7 @@ AsyncTask<String, Integer, String> {
 		{
 			if(StringUtil.isEmpty(result))
 				break;
+			Log.i(TAG,result);
 			int start = result.indexOf(attachmentsStartFlag);
 			if(start == -1)
 				break;
@@ -167,7 +168,7 @@ AsyncTask<String, Integer, String> {
 			 filesize = pfd.getStatSize();
 			 if(filesize >= 1024*1024)
 			 {
-				 Toastsuoxiao();
+				 publishProgress(-101);
 				 byte[] img = ImageUtil.fitImageToUpload(cr.openInputStream(uri),cr.openInputStream(uri));
 				 contentType = "image/png";
 				 filesize = img.length;

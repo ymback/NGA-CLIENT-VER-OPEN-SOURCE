@@ -41,7 +41,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2036;
+	public final static int version = 2038;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "×î½ü·ÃÎÊ";
@@ -719,10 +719,10 @@ public class MyApp extends Application implements PerferenceConstant {
 
 		// refresh
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
-		config.setRefreshAfterPost(share.getBoolean(REFRESH_AFTER_POST, false));
 		config.setRefreshAfterPost(false);
 
 		config.showAnimation = share.getBoolean(SHOW_ANIMATION, false);
+		config.refresh_after_post_setting_mode = share.getBoolean(REFRESH_AFTERPOST_SETTING_MODE, true);
 		config.useViewCache = share.getBoolean(USE_VIEW_CACHE, true);
 		config.showSignature = share.getBoolean(SHOW_SIGNATURE, false);
 		config.uploadLocation = share.getBoolean(UPLOAD_LOCATION, false);

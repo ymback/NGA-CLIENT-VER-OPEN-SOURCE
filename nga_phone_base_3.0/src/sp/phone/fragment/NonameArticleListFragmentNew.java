@@ -1,6 +1,5 @@
 package sp.phone.fragment;
 
-
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import gov.anzong.androidnga.R;
@@ -45,7 +44,8 @@ import android.widget.TextView;
 
 public class NonameArticleListFragmentNew extends Fragment implements
 		OnNonameThreadPageLoadFinishedListener, PerferenceConstant {
-	final static private String TAG = NonameArticleListFragmentNew.class.getSimpleName();
+	final static private String TAG = NonameArticleListFragmentNew.class
+			.getSimpleName();
 	/*
 	 * static final int QUOTE_ORDER = 0; static final int REPLY_ORDER = 1;
 	 * static final int COPY_CLIPBOARD_ORDER = 2; static final int
@@ -64,8 +64,11 @@ public class NonameArticleListFragmentNew extends Fragment implements
 	NonameReadResponse mData;
 
 	WebViewClient client;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		PhoneConfiguration.getInstance().setRefreshAfterPost(
+			false);
 		page = getArguments().getInt("page") + 1;
 		tid = getArguments().getInt("id");
 		super.onCreate(savedInstanceState);
@@ -76,26 +79,27 @@ public class NonameArticleListFragmentNew extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		scrollview = new ScrollView(this.getActivity());
-		
+
 		linear = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
 				R.layout.article_scrollview, null, false);
 		scrollview.addView(linear);
 		scrollview.setBackgroundResource(ThemeManager.getInstance()
 				.getBackgroundColor());
 
-		scrollview.setDescendantFocusability(ScrollView.FOCUS_AFTER_DESCENDANTS);
+		scrollview
+				.setDescendantFocusability(ScrollView.FOCUS_AFTER_DESCENDANTS);
 
 		return scrollview;
 	}
 
-
-	private Object activeActionMode(final NonameReadResponse data, final int position) {
+	private Object activeActionMode(final NonameReadResponse data,
+			final int position) {
 		Object mActionModeCallback = new ActionMode.Callback() {
 
 			@Override
 			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 				MenuInflater inflater = mode.getMenuInflater();
-					inflater.inflate(R.menu.nonamearticlelist_context_menu, menu);
+				inflater.inflate(R.menu.nonamearticlelist_context_menu, menu);
 
 				return true;
 			}
@@ -107,8 +111,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
 
 			@Override
 			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-				onContextItemSelected(item, data.data.posts[position],
-						position);
+				onContextItemSelected(item, data.data.posts[position], position);
 				mode.finish();
 				return true;
 			}
@@ -141,22 +144,23 @@ public class NonameArticleListFragmentNew extends Fragment implements
 			content = content.replaceAll(quote_regex, "");
 			content = content.replaceAll(replay_regex, "");
 			final long longposttime = row.ptime;
-			String postTime ="";
-			if(longposttime!=0){
-				postTime =  StringUtil.TimeStamp2Date(String.valueOf(longposttime));
+			String postTime = "";
+			if (longposttime != 0) {
+				postTime = StringUtil.TimeStamp2Date(String
+						.valueOf(longposttime));
 			}
 
 			content = FunctionUtil.checkContent(content);
 			content = StringUtil.unEscapeHtml(content);
-				mention = name;
-				postPrefix.append("[quote]");
-				postPrefix.append("[b]Post by [hip]");
-				postPrefix.append(name);
-				postPrefix.append("[/hip] (");
-				postPrefix.append(postTime);
-				postPrefix.append("):[/b]\n");
-				postPrefix.append(content);
-				postPrefix.append("[/quote]\n");
+			mention = name;
+			postPrefix.append("[quote]");
+			postPrefix.append("[b]Post by [hip]");
+			postPrefix.append(name);
+			postPrefix.append("[/hip] (");
+			postPrefix.append(postTime);
+			postPrefix.append("):[/b]\n");
+			postPrefix.append(content);
+			postPrefix.append("[/quote]\n");
 
 			// case R.id.r:
 
@@ -166,41 +170,46 @@ public class NonameArticleListFragmentNew extends Fragment implements
 					StringUtil.removeBrTag(postPrefix.toString()));
 			intent.putExtra("tid", tidStr);
 			intent.putExtra("action", "reply");
-				intent.setClass(getActivity(),
-						PhoneConfiguration.getInstance().nonamePostActivityClass);
+			intent.setClass(getActivity(),
+					PhoneConfiguration.getInstance().nonamePostActivityClass);
 			startActivity(intent);
 			if (PhoneConfiguration.getInstance().showAnimation)
 				getActivity().overridePendingTransition(R.anim.zoom_enter,
 						R.anim.zoom_exit);
 			break;
 		case R.id.copy_to_clipboard:
-			FunctionUtil.CopyDialog(content,getActivity(),scrollview);
+			FunctionUtil.CopyDialog(content, getActivity(), scrollview);
 			break;
 
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void onResume() {
 		Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
 		// setHasOptionsMenu(true);
-		if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-			PagerOwnner father = null;
-			try {
-				father = (PagerOwnner) getActivity();
-				if (father.getCurrentPage() == page) {
-					PhoneConfiguration.getInstance().setRefreshAfterPost(false);
-					// this.task = null;
-					this.needLoad = true;
+		if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
+			if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
+
+				PagerOwnner father = null;
+				try {
+					father = (PagerOwnner) getActivity();
+					if (father.getCurrentPage() == page) {
+						PhoneConfiguration.getInstance().setRefreshAfterPost(
+								false);
+						// this.task = null;
+						this.needLoad = true;
+						linear.removeAllViewsInLayout();
+					}
+				} catch (ClassCastException e) {
+					Log.e(TAG, "father activity does not implements interface "
+							+ PagerOwnner.class.getName());
+
 				}
-			} catch (ClassCastException e) {
-				Log.e(TAG, "father activity does not implements interface "
-						+ PagerOwnner.class.getName());
 
 			}
-
 		}
 		this.loadPage();
 		if (mData != null) {
@@ -212,19 +221,22 @@ public class NonameArticleListFragmentNew extends Fragment implements
 
 	@TargetApi(11)
 	private void RunParallen(JsonNonameThreadLoadTask task, String url) {
-		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR,
+				url);
 	}
 
 	@TargetApi(11)
 	private void RunParallen(ReportTask task, String url) {
-		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+		task.executeOnExecutor(JsonNonameThreadLoadTask.THREAD_POOL_EXECUTOR,
+				url);
 	}
 
 	private void loadPage() {
 		if (needLoad) {
 
 			Activity activity = getActivity();
-			JsonNonameThreadLoadTask task = new JsonNonameThreadLoadTask(activity, this);
+			JsonNonameThreadLoadTask task = new JsonNonameThreadLoadTask(
+					activity, this);
 			String url = HttpUtil.NonameServer + "/read.php?" + "&page=" + page
 					+ "&lite=js&noprefix&v2";
 			if (tid != 0)
@@ -239,25 +251,27 @@ public class NonameArticleListFragmentNew extends Fragment implements
 		}
 
 	}
+
 	public void modechange() {
 		scrollview.setBackgroundResource(ThemeManager.getInstance()
 				.getBackgroundColor());
 		if (mData != null) {
 			for (int i = 0; i < mData.data.posts.length; i++) {
-				FunctionUtil.fillFormated_html_data(mData.data.posts[i],
-						i, getActivity());
+				FunctionUtil.fillFormated_html_data(mData.data.posts[i], i,
+						getActivity());
 			}
 			linear.removeAllViewsInLayout();
 			finishLoad(mData);
 		}
 	}
+
 	@Override
 	public void finishLoad(NonameReadResponse data) {
 		Log.d(TAG, "finishLoad");
 		// ArticleListActivity father = (ArticleListActivity)
 		// this.getActivity();
 		if (null != data) {
-			mData=data;
+			mData = data;
 			tid = data.data.tid;
 			title = data.data.title;
 			create_pageview(data);
@@ -276,6 +290,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
 		this.needLoad = false;
 
 	}
+
 	static class ViewHolder {
 		TextView nickNameTV;
 		WebView contentTV;
@@ -294,15 +309,14 @@ public class NonameArticleListFragmentNew extends Fragment implements
 		holder.postTimeTV = (TextView) view.findViewById(R.id.postTime);
 		holder.contentTV = (WebView) view.findViewById(R.id.content);
 		holder.contentTV.setHorizontalScrollBarEnabled(false);
-		holder.viewBtn = (ImageButton) view
-				.findViewById(R.id.listviewreplybtn);
-		holder.articlelistrelativelayout= (RelativeLayout) view
+		holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
+		holder.articlelistrelativelayout = (RelativeLayout) view
 				.findViewById(R.id.articlelistrelativelayout);
 		return holder;
 	}
 
 	public void create_pageview(NonameReadResponse data) {
-		if(getActivity()!=null){
+		if (getActivity() != null) {
 			for (int i = 0; i < data.data.posts.length; i++) {
 				View view = LayoutInflater.from(getActivity()).inflate(
 						R.layout.relative_nonamearitclelist, null, false);
@@ -310,8 +324,9 @@ public class NonameArticleListFragmentNew extends Fragment implements
 			}
 		}
 	}
-	
-	public View childview(View view, final NonameReadResponse data, final int position) {
+
+	public View childview(View view, final NonameReadResponse data,
+			final int position) {
 		ViewHolder holder = initHolder(view);
 		final NonameReadBody row = data.data.posts[position];
 		int lou = -1;
@@ -321,7 +336,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
 			holder.viewBtn.setVisibility(View.GONE);
 		} else {
 			MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(
-			position, getActivity(),mData);
+					position, getActivity(), mData);
 			holder.viewBtn.setOnClickListener(myListenerForReply);
 		}
 		ThemeManager theme = ThemeManager.getInstance();
@@ -340,8 +355,8 @@ public class NonameArticleListFragmentNew extends Fragment implements
 		floorTV.setTextColor(fgColor);
 		TextView postTimeTV = holder.postTimeTV;
 		final long longposttime = row.ptime;
-		String postTime ="";
-		if(longposttime!=0){
+		String postTime = "";
+		if (longposttime != 0) {
 			postTime = StringUtil.TimeStamp2Date(String.valueOf(longposttime));
 		}
 		postTimeTV.setText(postTime);
@@ -351,7 +366,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
 		final Callback mActionModeCallback = (Callback) activeActionMode(data,
 				position);
 		FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
-				getActivity(), mActionModeCallback,client);
+				getActivity(), mActionModeCallback, client);
 		holder.articlelistrelativelayout
 				.setOnLongClickListener(new OnLongClickListener() {
 

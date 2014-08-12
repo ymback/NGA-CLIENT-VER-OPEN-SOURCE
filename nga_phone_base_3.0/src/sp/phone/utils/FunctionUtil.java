@@ -194,7 +194,6 @@ public class FunctionUtil {
 	public static void handleContentTV(WebView contentTV,
 			final NonameReadBody row,int position, int bgColor,final Context context, final Callback mActionModeCallback,WebViewClient client) {
 		contentTV.setBackgroundColor(0);
-		contentTV.setHorizontalScrollBarEnabled(false);
 		contentTV.setFocusableInTouchMode(false);
 		contentTV.setFocusable(false);
 		if (ActivityUtil.isGreaterThan_2_2()) {
@@ -223,16 +222,8 @@ public class FunctionUtil {
 		setting.setDefaultFontSize(PhoneConfiguration.getInstance()
 				.getWebSize());
 		setting.setJavaScriptEnabled(false);
-
-		if(mActionModeCallback==null){
-			contentTV.loadUrl("about:blank");
-			contentTV.clearView();
-			}
 		contentTV.loadDataWithBaseURL(null, fillFormated_html_data(row,position,context),
 				"text/html", "utf-8", null);
-		if(mActionModeCallback==null){
-			contentTV.requestLayout();
-		}
 	}
 
 	public static void handleContentTV(final WebView contentTV,
@@ -263,7 +254,6 @@ public class FunctionUtil {
 		contentTV.setBackgroundColor(0);
 		contentTV.setFocusableInTouchMode(false);
 		contentTV.setFocusable(false);
-		contentTV.setHorizontalScrollBarEnabled(false);
 		if (ActivityUtil.isGreaterThan_2_2()) {
 			contentTV.setLongClickable(false);
 		}
@@ -289,15 +279,8 @@ public class FunctionUtil {
 				.getWebSize());
 		setting.setJavaScriptEnabled(false);
 		contentTV.setWebViewClient(client);
-		if(mActionModeCallback==null){
-			contentTV.loadUrl("about:blank");
-			contentTV.clearView();
-			}
 		contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(),
 				"text/html", "utf-8", null);
-		if(mActionModeCallback==null){
-			contentTV.requestLayout();
-		}
 	}
 
 	public static void errordialogadmin(Context context,final View listView) {

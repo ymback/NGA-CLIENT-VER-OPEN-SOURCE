@@ -474,7 +474,6 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
-			PhoneConfiguration.getInstance().setRefreshAfterPost(true);
 			ActivityUtil.getInstance().dismiss();
 			String userId = PhoneConfiguration.getInstance().uid;
 			String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId + ".jpg";
