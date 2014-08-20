@@ -109,6 +109,11 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String BILIBILI_END = "/";
 	static private final String BILIBILICID_START = "https://secure.bilibili.tv/secure,";
 	static private final String BILIBILICID_END = "&";
+	static private final String BILIBILI_SHAREACGTV_START = "http://share.acg.tv/av";
+	static private final String BILIBILI_SHAREACGTV_FLASH_START = "http://share.acg.tv/flash.swf";
+	static private final String BILIBILI_SHAREACGTV_FLASH_END = "&";
+	static private final String BILIBILI_HDSLB_FLASH_START = "http://static.hdslb.com/miniloader.swf";
+	static private final String BILIBILI_HDSLB_FLASH_END = "&";
 
 	static private final String PPS_START = "http://v.pps.tv/play_";
 	static private final String PPS_END = ".html";
@@ -652,6 +657,36 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(BILIBILINOWWW_START) && showPlayMode() < 2) {// 由设置,BILIBILI用其接口读取直接截取出视频地址
 			String id = StringUtil.getStringBetween(origurl, 0,
 					BILIBILINOWWW_START, BILIBILI_END).result;
+			BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,
+					origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforbili(loader, id);
+			} else {
+				loader.execute(id);
+			}
+		} else if (url.startsWith(BILIBILI_SHAREACGTV_START) && showPlayMode() < 2) {// SHARE.ACG.TV
+			String id = StringUtil.getStringBetween(origurl, 0, BILIBILI_SHAREACGTV_START,
+					BILIBILI_END).result;
+			BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,
+					origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforbili(loader, id);
+			} else {
+				loader.execute(id);
+			}
+		} else if (url.startsWith(BILIBILI_SHAREACGTV_FLASH_START) && showPlayMode() < 2) {// SHARE.ACG.TV
+			String id = StringUtil.getStringBetween(origurl, 0, "aid=",
+					BILIBILI_SHAREACGTV_FLASH_END).result;
+			BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,
+					origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforbili(loader, id);
+			} else {
+				loader.execute(id);
+			}
+		} else if (url.startsWith(BILIBILI_HDSLB_FLASH_START) && showPlayMode() < 2) {// SHARE.ACG.TV
+			String id = StringUtil.getStringBetween(origurl, 0, "aid=",
+					BILIBILI_HDSLB_FLASH_END).result;
 			BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,
 					origurl);
 			if (ActivityUtil.isGreaterThan_2_3_3()) {

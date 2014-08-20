@@ -446,7 +446,7 @@ public class ArticleContainerFragment extends Fragment implements
 		final String fgColorStr = String.format("%06x", htmlfgColor);
 
 		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-				FunctionUtil.isShowImage(getActivity()), FunctionUtil.showImageQuality(getActivity()), fgColorStr, bgcolorStr);
+				FunctionUtil.isShowImage(getActivity()), FunctionUtil.showImageQuality(getActivity()), fgColorStr, bgcolorStr,getActivity());
 
 		row.setFormated_html_data(formated_html_data);
 	}

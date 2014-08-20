@@ -365,7 +365,7 @@ public class ArticleUtil {
 		final String fgColorStr = String.format("%06x", htmlfgColor);
 
 		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
+				isShowImage(), showImageQuality(), fgColorStr, bgcolorStr,context);
 		
 		row.setFormated_html_data(formated_html_data);
 	}

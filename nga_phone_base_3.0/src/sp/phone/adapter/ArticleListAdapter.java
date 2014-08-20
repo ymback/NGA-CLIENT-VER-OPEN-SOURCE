@@ -105,7 +105,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		return data.getRowNum();
 	}
 
-	private void initStaticStrings(Context activity) {
+	private static void initStaticStrings(Context activity) {
 		userDistance = activity.getString(R.string.user_distance);
 		meter = activity.getString(R.string.meter);
 		kiloMeter = activity.getString(R.string.kilo_meter);
@@ -191,10 +191,13 @@ public class ArticleListAdapter extends BaseAdapter implements
 		}
 		return ret;
 	}
-
 	public static String convertToHtmlText(final ThreadRowInfo row,
 			boolean showImage, int imageQuality, final String fgColorStr,
-			final String bgcolorStr) {
+			final String bgcolorStr,Context context) {
+		if(StringUtil.isEmpty(hide)){
+			if(context!=null)
+			initStaticStrings(context);
+		}
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage,
 				imageQuality, imageURLSet);
@@ -214,7 +217,6 @@ public class ArticleListAdapter extends BaseAdapter implements
 				ngaHtml = row.getAlterinfo();
 			}
 			if (StringUtil.isEmpty(ngaHtml)) {
-
 				ngaHtml = "<font color='red'>[" + hide + "]</font>";
 			}
 			ngaHtml = ngaHtml

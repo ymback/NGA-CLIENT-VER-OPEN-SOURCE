@@ -401,6 +401,7 @@ public class FunctionUtil {
 	public static String signatureToHtmlText_Message(final MessageArticlePageInfo row,
 			boolean showImage, int imageQuality, final String fgColorStr,
 			final String bgcolorStr,Context context) {
+		initStaticStrings(context);
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = StringUtil.decodeForumTag(row.getSignature(),
 				showImage, imageQuality, imageURLSet);
@@ -809,7 +810,7 @@ public class FunctionUtil {
 		final String fgColorStr = String.format("%06x", htmlfgColor);
 
 		String formated_html_data = NonameArticleListAdapter.convertToHtmlText(row,
-				isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr);
+				isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr,context);
 		return formated_html_data;
 	}
 	
@@ -835,7 +836,7 @@ public class FunctionUtil {
 		final String fgColorStr = String.format("%06x", htmlfgColor);
 
 		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-				isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr);
+				isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr,context);
 
 		row.setFormated_html_data(formated_html_data);
 	}
@@ -862,6 +863,7 @@ public class FunctionUtil {
 	public static String signatureToHtmlText(final ThreadRowInfo row,
 			boolean showImage, int imageQuality, final String fgColorStr,
 			final String bgcolorStr,Context context) {
+		initStaticStrings(context);
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = StringUtil.decodeForumTag(row.getSignature(),
 				showImage, imageQuality, imageURLSet);
@@ -925,6 +927,7 @@ public class FunctionUtil {
 			int imageQuality, final String fgColorStr, final String bgcolorStr,Context context) {
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = null;
+		initStaticStrings(context);
 		if (row.getJs_escap_avatar().equals("")) {
 			ngaHtml = StringUtil
 					.decodeForumTag(
@@ -956,6 +959,7 @@ public class FunctionUtil {
 			int imageQuality, final String fgColorStr, final String bgcolorStr,Context context) {
 		HashSet<String> imageURLSet = new HashSet<String>();
 		String ngaHtml = null;
+		initStaticStrings(context);
 		if (row.getJs_escap_avatar().equals("")) {
 			ngaHtml = StringUtil
 					.decodeForumTag(
