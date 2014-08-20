@@ -136,6 +136,13 @@
         android:layout_marginLeft="25dp"
         android:contentDescription="@string/select_category"
         android:src="@drawable/quniang" />
+	<ImageView
+        android:id="@+id/emotion_pst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/pst" />
 	
     </LinearLayout>
 </LinearLayout>

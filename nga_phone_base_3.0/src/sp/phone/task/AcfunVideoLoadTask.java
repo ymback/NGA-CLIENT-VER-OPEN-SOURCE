@@ -10,6 +10,7 @@ import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MD5Util;
 import sp.phone.utils.StringUtil;
+import sp.phone.utils.YouKuLoadFunction;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,6 +28,7 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 	final FragmentActivity fa;
 	final String origurl;
 	boolean isdelected = false;
+	boolean isnetworkerr = false;
 	static final String dialogTag = "load_acfun";
 	static private final String TUDOU_START = "http://www.tudou.com/programs/view/";
 	static private final String TUDOU_END = "/";
@@ -54,15 +56,17 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 				R.string.load_acfun_video);
 		args.putString("content", content);
 		pd.setArguments(args);
-		pd.show(fa.getSupportFragmentManager(), dialogTag);
+		if(fa!=null)
+			pd.show(fa.getSupportFragmentManager(), dialogTag);
 		super.onPreExecute();
 	}
 
 	@Override
 	protected void onPostExecute(String result) {
 		if (!startIntent) {
-			Toast.makeText(fa.getBaseContext(), R.string.videoplay_createwindow_error,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(fa.getBaseContext(),
+					R.string.videoplay_createwindow_error, Toast.LENGTH_LONG)
+					.show();
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(origurl));
 			boolean isIntentSafe = fa.getPackageManager()
@@ -73,31 +77,19 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 		}
 
 		if (result != null) {
-		    try{
-		        Intent intent = new Intent();
-		        ComponentName comp = new ComponentName("gov.anzong.mediaplayer","gov.anzong.mediaplayer.ReceiveIntentActivity");
-		        intent.setComponent(comp);
-		        intent.putExtra("uri", result);
-		        intent.putExtra("title", "ACFUN");
+			try {
+				Intent intent = new Intent();
+				ComponentName comp = new ComponentName(
+						"gov.anzong.mediaplayer",
+						"gov.anzong.mediaplayer.ReceiveIntentActivity");
+				intent.setComponent(comp);
+				intent.putExtra("uri", result);
+				intent.putExtra("title", "ACFUN");
 				fa.startActivity(intent);
-		    }catch(Exception e){
-		    	//TODO
-		    	Toast.makeText(fa.getBaseContext(), R.string.videoplay_ngaplayernotinstall_error,
-						Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(origurl));
-				boolean isIntentSafe = fa.getPackageManager()
-						.queryIntentActivities(intent, 0).size() > 0;
-				if (isIntentSafe)
-					fa.startActivity(intent);
-		    }
-		} else {
-			if (isdelected) {
-				Toast.makeText(fa.getBaseContext(), R.string.videoplay_deleted_error,
-						Toast.LENGTH_LONG).show();
-				return;
-			} else {
-				Toast.makeText(fa.getBaseContext(), R.string.videoplay_urlgetfailed_error,
+			} catch (Exception e) {
+				// TODO
+				Toast.makeText(fa.getBaseContext(),
+						R.string.videoplay_ngaplayernotinstall_error,
 						Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(Intent.ACTION_VIEW);
 				intent.setData(Uri.parse(origurl));
@@ -106,6 +98,29 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 				if (isIntentSafe)
 					fa.startActivity(intent);
 			}
+		} else {
+			if(isnetworkerr){
+				Toast.makeText(fa.getBaseContext(),
+						R.string.network_error, Toast.LENGTH_LONG)
+						.show();
+				return;
+			}else{
+				if (isdelected) {
+					Toast.makeText(fa.getBaseContext(),
+							R.string.videoplay_deleted_error, Toast.LENGTH_LONG)
+							.show();
+					return;
+				} else {
+					Toast.makeText(fa.getBaseContext(),
+							R.string.videoplay_urlgetfailed_error,
+							Toast.LENGTH_LONG).show();
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(origurl));
+					boolean isIntentSafe = fa.getPackageManager()
+							.queryIntentActivities(intent, 0).size() > 0;
+					if (isIntentSafe)
+						fa.startActivity(intent);
+				}}
 		}
 
 		this.onCancelled();
@@ -139,44 +154,103 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 	@Override
 	protected String doInBackground(String... params) {
 		String uri = params[0];
-		uri=uri.replace("acfun.com", "acfun.tv");
-		Log.i("TAG",uri);
+		uri = uri.replace("acfun.com", "acfun.tv");
+		Log.i("TAG", uri);
 		final String htmlStringstep1 = HttpUtil.iosGetHtml(uri, null);
+		if(StringUtil.isEmpty(htmlStringstep1)){
+			this.isnetworkerr=true;
+			return null;
+		}
 		String datavid = StringUtil.getStringBetween(htmlStringstep1, 0,
 				"data-vid=\"", "\"").result;
+		String newurl="",sourceType="",sourceUrl="";
+		String htmlStringstep2 = "";
 		if (StringUtil.isEmpty(datavid)) {
 			if (htmlStringstep1.indexOf("该页面可能因为如下原因被删除") > 0) {
 				this.isdelected = true;
-			}
-			return null;
-		} else {
-			String newurl = "http://www.acfun.tv/video/getVideo.aspx?id="
-					+ datavid;
-			final String htmlStringstep2 = HttpUtil.iosGetHtml(newurl, null);
-			String sourceType = StringUtil.getStringBetween(htmlStringstep2, 0,
-					"\"sourceType\":\"", "\"").result;
-			String sourceUrl = StringUtil.getStringBetween(htmlStringstep2, 0,
-					"\"sourceUrl\":\"", "\"").result;
-			if (StringUtil.isEmpty(sourceType)) {
 				return null;
 			}
-			if (sourceType.toLowerCase(Locale.US).equals("sina")) {
-				if (StringUtil.isEmpty(sourceUrl)) {
-					return null;
+			String playerdata = StringUtil.getStringBetween(htmlStringstep1, 0,
+					"autocompletion_player(", ");").result;
+			String list[] = new String[4];
+			if(playerdata.indexOf(",")<0){
+				datavid=playerdata;
+			}else{
+				playerdata=playerdata.replaceFirst("'", "");
+				list=playerdata.split(",");
+			}
+			if(StringUtil.isEmpty(datavid) && StringUtil.isEmpty(list[0])){
+				return null;
+			}else{
+				if(!StringUtil.isEmpty(datavid)){
+					newurl = "http://www.acfun.tv/video/getVideo.aspx?id=" + datavid;
+					htmlStringstep2 = HttpUtil.iosGetHtml(newurl, null);
+					sourceType = StringUtil.getStringBetween(htmlStringstep2, 0,
+							"\"sourceType\":\"", "\"").result;
+					sourceUrl = StringUtil.getStringBetween(htmlStringstep2, 0,
+							"\"sourceUrl\":\"", "\"").result;
+				}else{
+					sourceUrl=list[0];
+					sourceType=list[1];
 				}
-				if ((sourceUrl.toLowerCase(Locale.US).startsWith(SINA_START) || sourceUrl
-						.toLowerCase(Locale.US).startsWith(SINAYOU_START))
-						&& StrTotalCount(sourceUrl, "/") >= 4) {
-					String videoid = StringUtil.getStringBetween(htmlStringstep2, 0,
-							"\"sourceId\":\"", "\"").result;
-					if(StringUtil.isEmpty(videoid)){
+			}
+		}else{
+			newurl = "http://www.acfun.tv/video/getVideo.aspx?id=" + datavid;
+			htmlStringstep2 = HttpUtil.iosGetHtml(newurl, null);
+			sourceType = StringUtil.getStringBetween(htmlStringstep2, 0,
+					"\"sourceType\":\"", "\"").result;
+			sourceUrl = StringUtil.getStringBetween(htmlStringstep2, 0,
+					"\"sourceUrl\":\"", "\"").result;
+		}
+		if (StringUtil.isEmpty(sourceType)) {
+			return null;
+		}
+		if (sourceType.toLowerCase(Locale.US).equals("sina")) {
+			if (StringUtil.isEmpty(sourceUrl)) {
+				return null;
+			}
+			if ((sourceUrl.toLowerCase(Locale.US).startsWith(SINA_START) || sourceUrl
+					.toLowerCase(Locale.US).startsWith(SINAYOU_START))
+					&& StrTotalCount(sourceUrl, "/") >= 4) {
+				String videoid = StringUtil.getStringBetween(htmlStringstep2,
+						0, "\"sourceId\":\"", "\"").result;
+				if (StringUtil.isEmpty(videoid)) {
+					final String htmlStringofsina = HttpUtil.iosGetHtml(
+							sourceUrl, null);
+					videoid = StringUtil.getStringBetween(htmlStringofsina, 0,
+							"['ipad_vid'] = \"", "\"").result;
+					if (StringUtil.isEmpty(videoid)) {// 空,抓vid
+						videoid = StringUtil.getStringBetween(htmlStringofsina,
+								0, "['vid'] = \"", "\"").result;
+						if (StringUtil.isEmpty(videoid)) {// vid空,NULL
+							return null;
+						} else {
+							if (videoid.equals("0")) {// vid空,NULL
+								return null;
+							}
+						}
+					} else {
+						if (videoid.equals("0")) {// 0，VID
+							videoid = StringUtil.getStringBetween(
+									htmlStringofsina, 0, "['vid'] = \"", "\"").result;
+							if (StringUtil.isEmpty(videoid)) {// vid空,NULL
+								return null;
+							} else {
+								if (videoid.equals("0")) {// vid空,NULL
+									return null;
+								}
+							}
+						}
+					}
+				} else {
+					if (!isNumeric(videoid)) {
 						final String htmlStringofsina = HttpUtil.iosGetHtml(
 								sourceUrl, null);
-						videoid = StringUtil.getStringBetween(
-								htmlStringofsina, 0, "['ipad_vid'] = \"", "\"").result;
+						videoid = StringUtil.getStringBetween(htmlStringofsina,
+								0, "['ipad_vid'] = \"", "\"").result;
 						if (StringUtil.isEmpty(videoid)) {// 空,抓vid
-							videoid = StringUtil.getStringBetween(htmlStringofsina,
-									0, "['vid'] = \"", "\"").result;
+							videoid = StringUtil.getStringBetween(
+									htmlStringofsina, 0, "['vid'] = \"", "\"").result;
 							if (StringUtil.isEmpty(videoid)) {// vid空,NULL
 								return null;
 							} else {
@@ -187,51 +261,34 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 						} else {
 							if (videoid.equals("0")) {// 0，VID
 								videoid = StringUtil.getStringBetween(
-										htmlStringofsina, 0, "['vid'] = \"", "\"").result;
+										htmlStringofsina, 0, "['vid'] = \"",
+										"\"").result;
 								if (StringUtil.isEmpty(videoid)) {// vid空,NULL
 									return null;
 								} else {
 									if (videoid.equals("0")) {// vid空,NULL
 										return null;
-									}
-								}
-							}
-						}
-					}else{
-						if(!isNumeric(videoid)){
-							final String htmlStringofsina = HttpUtil.iosGetHtml(
-									sourceUrl, null);
-							videoid = StringUtil.getStringBetween(
-									htmlStringofsina, 0, "['ipad_vid'] = \"", "\"").result;
-							if (StringUtil.isEmpty(videoid)) {// 空,抓vid
-								videoid = StringUtil.getStringBetween(htmlStringofsina,
-										0, "['vid'] = \"", "\"").result;
-								if (StringUtil.isEmpty(videoid)) {// vid空,NULL
-									return null;
-								} else {
-									if (videoid.equals("0")) {// vid空,NULL
-										return null;
-									}
-								}
-							} else {
-								if (videoid.equals("0")) {// 0，VID
-									videoid = StringUtil.getStringBetween(
-											htmlStringofsina, 0, "['vid'] = \"", "\"").result;
-									if (StringUtil.isEmpty(videoid)) {// vid空,NULL
-										return null;
-									} else {
-										if (videoid.equals("0")) {// vid空,NULL
-											return null;
-										}
 									}
 								}
 							}
 						}
 					}
-					String ka = videoid + "Z6prk18aWxP278cVAH" + "0" + "0";
+				}
+				String ka = videoid + "Z6prk18aWxP278cVAH" + "0" + "0";
+				String key = MD5Util.MD5(ka).substring(0, 16) + "0";
+				String xmldata = HttpUtil.iosGetHtml(
+						"http://v.iask.com/v_play.php?vid=" + videoid
+								+ "&ran=0&k=" + key, null);
+				String mp4add = StringUtil.getStringBetween(xmldata, 0,
+						"<url>", "</url>").result;
+				mp4add = StringUtil.getStringBetween(mp4add, 0, "CDATA[", "]").result;
+				return mp4add;
+			} else {
+				if (isNumeric(sourceUrl)) {
+					String ka = sourceUrl + "Z6prk18aWxP278cVAH" + "0" + "0";
 					String key = MD5Util.MD5(ka).substring(0, 16) + "0";
 					String xmldata = HttpUtil.iosGetHtml(
-							"http://v.iask.com/v_play.php?vid=" + videoid
+							"http://v.iask.com/v_play.php?vid=" + sourceUrl
 									+ "&ran=0&k=" + key, null);
 					String mp4add = StringUtil.getStringBetween(xmldata, 0,
 							"<url>", "</url>").result;
@@ -239,100 +296,83 @@ public class AcfunVideoLoadTask extends AsyncTask<String, Integer, String> {
 							"]").result;
 					return mp4add;
 				} else {
-					if (isNumeric(sourceUrl)) {
-						String ka = sourceUrl + "Z6prk18aWxP278cVAH" + "0"
-								+ "0";
-						String key = MD5Util.MD5(ka).substring(0, 16) + "0";
-						String xmldata = HttpUtil.iosGetHtml(
-								"http://v.iask.com/v_play.php?vid=" + sourceUrl
-										+ "&ran=0&k=" + key, null);
-						String mp4add = StringUtil.getStringBetween(xmldata, 0,
-								"<url>", "</url>").result;
-						mp4add = StringUtil.getStringBetween(mp4add, 0,
-								"CDATA[", "]").result;
-						return mp4add;
-					} else {
-						return null;
-					}
-				}
-			} else if (sourceType.toLowerCase(Locale.US).equals("youku")) {
-				if (StringUtil.isEmpty(sourceUrl)) {
 					return null;
 				}
-				if (sourceUrl.toLowerCase(Locale.US).startsWith(TUDOU_START)) {
-					String id = StringUtil.getStringBetween(sourceUrl, 0,
-							TUDOU_START, TUDOU_END).result;
-					final String tudouuri = "http://www.tudou.com/programs/view/"
-							+ id + "/";
-					final String htmlStringFortudou = HttpUtil.iosGetHtml(
-							tudouuri, null);
-					final String iid = StringUtil.getStringBetween(
-							htmlStringFortudou, 0, "iid: ", " ").result;
-					if (StringUtil.isEmpty(iid))
-						return null;
-					String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="
-							+ iid;
-					return m3u8Url;
-				} else if (sourceUrl.toLowerCase(Locale.US).startsWith(
-						YOUKU_START)) {// 优酷,可以直接拿VID解析的
-					String id = StringUtil.getStringBetween(sourceUrl, 0,
-							YOUKU_START, YOUKU_END).result;
-					String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/"
-							+ id + "/type/mp4/video.m3u8";
-					return htmlUrl;
-				}
-			} else if (sourceType.toLowerCase(Locale.US).equals("tudou")) {
-				if (StringUtil.isEmpty(sourceUrl)) {
+			}
+		} else if (sourceType.toLowerCase(Locale.US).equals("youku")) {
+			if (StringUtil.isEmpty(sourceUrl)) {
+				return null;
+			}
+			if (sourceUrl.toLowerCase(Locale.US).startsWith(TUDOU_START)) {
+				String id = StringUtil.getStringBetween(sourceUrl, 0,
+						TUDOU_START, TUDOU_END).result;
+				final String tudouuri = "http://www.tudou.com/programs/view/"
+						+ id + "/";
+				final String htmlStringFortudou = HttpUtil.iosGetHtml(tudouuri,
+						null);
+				final String iid = StringUtil.getStringBetween(
+						htmlStringFortudou, 0, "iid: ", " ").result;
+				if (StringUtil.isEmpty(iid))
 					return null;
-				}
-				if (sourceUrl.toLowerCase(Locale.US).startsWith(TUDOU_START)) {
-					String id = StringUtil.getStringBetween(sourceUrl, 0,
-							TUDOU_START, TUDOU_END).result;
-					final String tudouuri = "http://www.tudou.com/programs/view/"
-							+ id + "/";
-					final String htmlStringFortudou = HttpUtil.iosGetHtml(
-							tudouuri, null);
-					final String iid = StringUtil.getStringBetween(
-							htmlStringFortudou, 0, "iid: ", " ").result;
-					if (StringUtil.isEmpty(iid))
-						return null;
-					String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="
-							+ iid;
-					return m3u8Url;
-				} else {
+				String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="
+						+ iid;
+				return m3u8Url;
+			} else if (sourceUrl.toLowerCase(Locale.US).startsWith(YOUKU_START)) {// 优酷,可以直接拿VID解析的
+				String vid = StringUtil.getStringBetween(sourceUrl, 0,
+						YOUKU_START, YOUKU_END).result;
+				String URL="http://v.youku.com/player/getPlaylist/VideoIDS/"+vid+"/Pf/4/ctype/12/ev/1";
+				String HTML=HttpUtil.iosGetHtml(URL, null);
+				return YouKuLoadFunction.Load(HTML);
+			}else{
+				String URL="http://v.youku.com/player/getPlaylist/VideoIDS/"+sourceUrl+"/Pf/4/ctype/12/ev/1";
+				String HTML=HttpUtil.iosGetHtml(URL, null);
+				return YouKuLoadFunction.Load(HTML);
+			}
+		} else if (sourceType.toLowerCase(Locale.US).equals("tudou")) {
+			if (StringUtil.isEmpty(sourceUrl)) {
+				return null;
+			}
+			if (sourceUrl.toLowerCase(Locale.US).startsWith(TUDOU_START)) {
+				String id = StringUtil.getStringBetween(sourceUrl, 0,
+						TUDOU_START, TUDOU_END).result;
+				final String tudouuri = "http://www.tudou.com/programs/view/"
+						+ id + "/";
+				final String htmlStringFortudou = HttpUtil.iosGetHtml(tudouuri,
+						null);
+				final String iid = StringUtil.getStringBetween(
+						htmlStringFortudou, 0, "iid: ", " ").result;
+				if (StringUtil.isEmpty(iid))
 					return null;
-				}
-			} else if (sourceType.toLowerCase(Locale.US).equals("qq")) {
-				if (StringUtil.isEmpty(sourceUrl)) {
-					return null;
-				}
-				if (sourceUrl.toLowerCase(Locale.US).startsWith(QQ_START)) {
-					String qqurl;
-					try {
-						qqurl = URLEncoder.encode(sourceUrl, "UTF-8");
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						return null;
-					}
-					qqurl = qqurl.replaceAll("tpout.swf", "TPout.swf");
-					qqurl = "http://www.flvcd.com/parse.php?kw=" + qqurl;
-					String htmlStringofQQ = HttpUtil.iosGetHtml(qqurl, null);
-					String iid = StringUtil.getStringBetween(htmlStringofQQ, 0,
-							"clipurl = \"", "\"").result;
-					if (StringUtil.isEmpty(iid))
-						return null;
-					return iid;
-				}
+				String m3u8Url = "http://vr.tudou.com/v2proxy/v2.m3u8?debug=1&st=2&pw=&it="
+						+ iid;
+				return m3u8Url;
 			} else {
 				return null;
 			}
-
+		} else if (sourceType.toLowerCase(Locale.US).equals("qq")) {
+			if (StringUtil.isEmpty(sourceUrl)) {
+				return null;
+			}
+			if (sourceUrl.toLowerCase(Locale.US).startsWith(QQ_START)) {
+				String qqurl;
+				try {
+					qqurl = URLEncoder.encode(sourceUrl, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					return null;
+				}
+				qqurl = qqurl.replaceAll("tpout.swf", "TPout.swf");
+				qqurl = "http://www.flvcd.com/parse.php?kw=" + qqurl;
+				String htmlStringofQQ = HttpUtil.iosGetHtml(qqurl, null);
+				String iid = StringUtil.getStringBetween(htmlStringofQQ, 0,
+						"clipurl = \"", "\"").result;
+				if (StringUtil.isEmpty(iid))
+					return null;
+				return iid;
+			}
+		} else {
+			return null;
 		}
-		// String videourl = StringUtil.getStringBetween(
-		// htmlString, 0, "\"src\":\"", "\"").result;
-		// if(StringUtil.isEmpty(videourl)){
-		// return null;
-		// }
 		return null;
 	}
 

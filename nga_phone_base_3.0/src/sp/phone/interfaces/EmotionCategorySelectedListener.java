@@ -16,6 +16,7 @@ public interface EmotionCategorySelectedListener {
 	public final int CATEGORY_LINDABI= 12;
 	public final int CATEGORY_QUNIANG= 13;
 	public final int CATEGORY_NIWEIHEZHEMEDIAO= 14;
+	public final int CATEGORY_PST= 15;
 	
 	void onEmotionCategorySelected(int category);
 }

@@ -91,6 +91,7 @@
     <string name="load_56_video">载入56视频中</string>
     <string name="load_sohu_video">载入搜狐视频中</string>
     <string name="load_youxia_video">载入游侠视频中</string>
+    <string name="load_youku_video">载入优酷视频中</string>
     <string name="load_bili_video">载入BILIBILI视频中\n(无弹幕,要弹幕去设置中设置内置播放器播放类型,然后去下他们的客户端)</string>
     <string name="load_acfun_video">载入ACFUN视频中\n(无弹幕,要弹幕去设置中设置内置播放器播放类型,然后去下他们的客户端)</string>
     <string name="load_ku6_video">载入酷6视频中</string>

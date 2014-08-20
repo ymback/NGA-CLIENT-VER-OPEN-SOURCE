@@ -761,6 +761,7 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
 		case CATEGORY_LINDABI:
 		case CATEGORY_QUNIANG:
 		case CATEGORY_NIWEIHEZHEMEDIAO:
+		case CATEGORY_PST:
 			Bundle args = new Bundle();
 			args.putInt("index", category - 1);
 			newFragment = new ExtensionEmotionFragment();

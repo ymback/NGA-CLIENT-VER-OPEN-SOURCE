@@ -24,6 +24,7 @@ import sp.phone.task.SinaVideoLoadTask;
 import sp.phone.task.SohuVideoLoadTask;
 import sp.phone.task.TudouVideoLoadTask;
 import sp.phone.task.WASUVideoLoadTask;
+import sp.phone.task.YoukuVideoLoadTask;
 import sp.phone.task.YoutubeVideoLoadTask;
 import sp.phone.task.YouxiaVideoLoadTask;
 import android.annotation.TargetApi;
@@ -202,108 +203,40 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(YOUKU_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, YOUKU_START,
 					YOUKU_END).result;
-			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
-					+ "/type/mp4/video.m3u8";
-			try {
-				Intent intent = new Intent();
-				ComponentName comp = new ComponentName(
-						"gov.anzong.mediaplayer",
-						"gov.anzong.mediaplayer.ReceiveIntentActivity");
-				intent.setComponent(comp);
-				intent.putExtra("uri", htmlUrl);
-				intent.putExtra("title", "优酷视频");
-				view.getContext().startActivity(intent);
-			} catch (Exception e) {
-				// TODO
-				Toast.makeText(view.getContext(),
-						R.string.videoplay_ngaplayernotinstall_error,
-						Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(origurl));
-				boolean isIntentSafe = fa.getPackageManager()
-						.queryIntentActivities(intent, 0).size() > 0;
-				if (isIntentSafe)
-					view.getContext().startActivity(intent);
+			YoukuVideoLoadTask loader = new YoukuVideoLoadTask(fa,origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforYouku(loader, id);
+			} else {
+				loader.execute(url);
 			}
 		} else if (url.startsWith(YOUKUSWF_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "sid/",
 					YOUKUSWF_END).result;
-			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
-					+ "/type/mp4/video.m3u8";
-			try {
-				Intent intent = new Intent();
-				ComponentName comp = new ComponentName(
-						"gov.anzong.mediaplayer",
-						"gov.anzong.mediaplayer.ReceiveIntentActivity");
-				intent.setComponent(comp);
-				intent.putExtra("uri", htmlUrl);
-				intent.putExtra("title", "优酷视频");
-				view.getContext().startActivity(intent);
-			} catch (Exception e) {
-				// TODO
-				Toast.makeText(view.getContext(),
-						R.string.videoplay_ngaplayernotinstall_error,
-						Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(origurl));
-				boolean isIntentSafe = fa.getPackageManager()
-						.queryIntentActivities(intent, 0).size() > 0;
-				if (isIntentSafe)
-					view.getContext().startActivity(intent);
+			YoukuVideoLoadTask loader = new YoukuVideoLoadTask(fa,origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforYouku(loader, id);
+			} else {
+				loader.execute(url);
 			}
 		} else if (url.startsWith(YOUKUSWF2_START) && showPlayMode() != 4
 				&& url.indexOf("VideoIDS=".toLowerCase(Locale.US)) > 0
 				&& StrTotalCount(url, "/") > 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, "VideoIDS=",
 					"&").result;
-			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
-					+ "/type/mp4/video.m3u8";
-			try {
-				Intent intent = new Intent();
-				ComponentName comp = new ComponentName(
-						"gov.anzong.mediaplayer",
-						"gov.anzong.mediaplayer.ReceiveIntentActivity");
-				intent.setComponent(comp);
-				intent.putExtra("uri", htmlUrl);
-				intent.putExtra("title", "优酷视频");
-				view.getContext().startActivity(intent);
-			} catch (Exception e) {
-				// TODO
-				Toast.makeText(view.getContext(),
-						R.string.videoplay_ngaplayernotinstall_error,
-						Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(origurl));
-				boolean isIntentSafe = fa.getPackageManager()
-						.queryIntentActivities(intent, 0).size() > 0;
-				if (isIntentSafe)
-					view.getContext().startActivity(intent);
+			YoukuVideoLoadTask loader = new YoukuVideoLoadTask(fa,origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforYouku(loader, id);
+			} else {
+				loader.execute(url);
 			}
 		} else if (url.startsWith(YOUKUSWF3_START) && showPlayMode() != 4) {// 优酷,可以直接拿VID解析的
 			String id = StringUtil.getStringBetween(origurl, 0,
 					YOUKUSWF3_START, "/").result;
-			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + id
-					+ "/type/mp4/video.m3u8";
-			try {
-				Intent intent = new Intent();
-				ComponentName comp = new ComponentName(
-						"gov.anzong.mediaplayer",
-						"gov.anzong.mediaplayer.ReceiveIntentActivity");
-				intent.setComponent(comp);
-				intent.putExtra("uri", htmlUrl);
-				intent.putExtra("title", "优酷视频");
-				view.getContext().startActivity(intent);
-			} catch (Exception e) {
-				// TODO
-				Toast.makeText(view.getContext(),
-						R.string.videoplay_ngaplayernotinstall_error,
-						Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(origurl));
-				boolean isIntentSafe = fa.getPackageManager()
-						.queryIntentActivities(intent, 0).size() > 0;
-				if (isIntentSafe)
-					view.getContext().startActivity(intent);
+			YoukuVideoLoadTask loader = new YoukuVideoLoadTask(fa,origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforYouku(loader, id);
+			} else {
+				loader.execute(url);
 			}
 		} else if (url.startsWith(MYSOHU_START) && showPlayMode() != 4) {// 搜狐,可以直接拿ID解析的
 			String id = StringUtil.getStringBetween(origurl, 0, MYSOHU_START,
@@ -823,6 +756,12 @@ public class ArticleListWebClient extends WebViewClient {
 	@TargetApi(11)
 	private void runOnExcutorforSohu(SohuVideoLoadTask loader, String id) {
 		loader.executeOnExecutor(SohuVideoLoadTask.THREAD_POOL_EXECUTOR, id);
+
+	}
+
+	@TargetApi(11)
+	private void runOnExcutorforYouku(YoukuVideoLoadTask loader, String id) {
+		loader.executeOnExecutor(YoukuVideoLoadTask.THREAD_POOL_EXECUTOR, id);
 
 	}
 

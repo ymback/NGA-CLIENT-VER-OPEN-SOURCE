@@ -264,6 +264,32 @@ public class StringUtil {
 				"-1324875_50e597e9d6319.png", "-47218_5052bd27520ef.png",
 				"-47218_5052bcbe35760.png", "-1324875_50e597f190a11.png"// 0-44
 		};
+		final String pstofubbcode[] = { "¾ÙÊÖ","Ç×","ÍµÐ¦","ÍµÐ¦2","ÍµÐ¦3",
+				"ÉµÑÛ","ÉµÑÛ2","ÍÃ×Ó","·¢¹â","´ô",
+				"´ô2","´ô3","Å»","ºÇÇ·","¿Þ",
+				"¿Þ2","¿Þ3","³°Ð¦","»ù","Õ¬",
+				"°²Î¿","ÐÒ¸£","¿ªÐÄ","¿ªÐÄ2","¿ªÐÄ3",
+				"»³ÒÉ","Å­","Å­2","Ô¹","¾ªÏÅ",
+				"¾ªÏÅ2","¾ª´ô","¾ª´ô2","¾ª´ô3","²Ò",
+				"Ð±ÑÛ","ÔÎ","º¹","Àá","Àá2",
+				"Àá3","Àá4","Âú×ã","Âú×ã2","»ðÐÇ",
+				"ÑÀÌÛ","µç»÷","¿´Ï·","ÑÛ´ü","ÑÛ¾µ",
+				"Ð¦¶ø²»Óï","½ôÕÅ","ÃÀÎ¶","±³","Á³ºì",
+				"Á³ºì2","¸¯","ÃÈ","Ð»","×í",
+				"ÃÆ","ÃÆ2","ÒôÀÖ","ºÚÁ³","±ÇÑª",};// (0-64)
+		final String pstappadd[] = {"pt00.png","pt01.png","pt02.png","pt03.png","pt04.png",
+				"pt05.png","pt06.png","pt07.png","pt08.png","p09.png",
+				"pt10.png","pt11.png","pt12.png","pt13.png","pt14.png",
+				"pt15.png","pt16.png","pt17.png","pt18.png","pt19.png",
+				"pt20.png","pt21.png","pt22.png","pt23.png","pt24.png",
+				"pt25.png","pt26.png","pt27.png","pt28.png","pt29.png",
+				"pt30.png","pt31.png","pt32.png","pt33.png","pt34.png",
+				"pt35.png","pt36.png","pt37.png","pt38.png","pt39.png",
+				"pt40.png","pt41.png","pt42.png","pt43.png","pt44.png",
+				"pt45.png","pt46.png","pt47.png","pt48.png","pt49.png",
+				"pt50.png","pt51.png","pt52.png","pt53.png","pt54.png",
+				"pt55.png","pt56.png","pt57.png","pt58.png","pt59.png",
+				"pt60.png","pt61.png","pt62.png","pt63.png","pt64.png",};
 		s = decodealbum(s,quoteStyle);
 		s = s.replaceAll(ignoreCaseTag + "&amp;", "&");
 		s = s.replaceAll(ignoreCaseTag + "\\[l\\]", styleLeft);
@@ -333,6 +359,11 @@ public class StringUtil {
 			s = s.replaceAll(ignoreCaseTag + "\\[s:ac:" + acniangofubbcode[i]
 					+ "\\]", "<img src='file:///android_asset/acniang/"
 					+ acniangappadd[i] + "'>");
+		}
+		for (int i = 0; i < 65; i++) {
+			s = s.replaceAll(ignoreCaseTag + "\\[s:pst:" + pstofubbcode[i]
+					+ "\\]", "<img src='file:///android_asset/pst/"
+					+ pstappadd[i] + "'>");
 		}
 		s = s.replace(ignoreCaseTag + "<br/><br/>", "<br/>");
 		// [url][/url]
@@ -626,7 +657,7 @@ public class StringUtil {
 					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
 			s = s.replaceAll(
 					ignoreCaseTag
-							+ "\\[flash\\](http://static.acfun.tv/player/ACFlashPlayer.out.swf\\?type=page&url=http://www.acfun.com/v/ac[^\\[|\\]]+)\\[/flash\\]",
+							+ "\\[flash\\](http://static.acfun.tv/player/ACFlashPlayer.out.swf\\?type=page&url=http://www.acfun.tv/v/ac[^\\[|\\]]+)\\[/flash\\]",
 					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
 		}
 		// flash

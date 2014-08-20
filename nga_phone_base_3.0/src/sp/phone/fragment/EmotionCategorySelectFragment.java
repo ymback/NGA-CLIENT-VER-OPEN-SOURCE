@@ -85,6 +85,9 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
 					case R.id.emotion_niweihezhemediao:
 						father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_NIWEIHEZHEMEDIAO);
 						break;
+					case R.id.emotion_pst:
+						father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_PST);
+						break;
 						default:
 					}		
 						
@@ -110,6 +113,7 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
 		view.findViewById(R.id.emotion_lindabi).setOnClickListener(listener);
 		view.findViewById(R.id.emotion_quniang).setOnClickListener(listener);
 		view.findViewById(R.id.emotion_niweihezhemediao).setOnClickListener(listener);
+		view.findViewById(R.id.emotion_pst).setOnClickListener(listener);
 		super.onViewCreated(view, savedInstanceState);
 	}
 

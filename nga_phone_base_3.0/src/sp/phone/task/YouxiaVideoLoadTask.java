@@ -12,6 +12,7 @@ import sp.phone.fragment.ProgressDialogFragment;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MD5Util;
 import sp.phone.utils.StringUtil;
+import sp.phone.utils.YouKuLoadFunction;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
@@ -151,9 +152,9 @@ public class YouxiaVideoLoadTask extends AsyncTask<String, Integer, String> {
 				return add;
 			}
 		}else if(scriptdata.indexOf("\"type\":\"youku\"")>=0){
-			String htmlUrl = "http://v.youku.com/player/getrealM3U8/vid/" + iid
-					+ "/type/mp4/video.m3u8";
-			return htmlUrl;
+			String URL="http://v.youku.com/player/getPlaylist/VideoIDS/"+iid+"/Pf/4/ctype/12/ev/1";
+			String HTML=HttpUtil.iosGetHtml(URL, null);
+			return YouKuLoadFunction.Load(HTML);
 		}else if(scriptdata.indexOf("\"type\":\"qq\"")>=0){
 			String newurl="http://so.v.ali213.net/plus/qq.php?id="+iid;
 			final String htmlStringstep2 = HttpUtil.iosGetHtml(newurl, null);
