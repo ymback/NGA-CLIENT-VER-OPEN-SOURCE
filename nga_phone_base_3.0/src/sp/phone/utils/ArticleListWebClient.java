@@ -114,6 +114,9 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String BILIBILI_SHAREACGTV_FLASH_END = "&";
 	static private final String BILIBILI_HDSLB_FLASH_START = "http://static.hdslb.com/miniloader.swf";
 	static private final String BILIBILI_HDSLB_FLASH_END = "&";
+	static private final String BILIBILI_MACGTV_START = "http://m.acg.tv/video/av";
+	static private final String BILIBILI_MACGTV_END = ".html";
+	static private final String BILIBILI_SUPERLINK = "bilibili://?av=";
 
 	static private final String PPS_START = "http://v.pps.tv/play_";
 	static private final String PPS_END = ".html";
@@ -687,6 +690,26 @@ public class ArticleListWebClient extends WebViewClient {
 		} else if (url.startsWith(BILIBILI_HDSLB_FLASH_START) && showPlayMode() < 2) {// SHARE.ACG.TV
 			String id = StringUtil.getStringBetween(origurl, 0, "aid=",
 					BILIBILI_HDSLB_FLASH_END).result;
+			BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,
+					origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforbili(loader, id);
+			} else {
+				loader.execute(id);
+			}
+		} else if (url.startsWith(BILIBILI_MACGTV_START) && showPlayMode() < 2) {// M.ACG.TV
+			String id = StringUtil.getStringBetween(origurl, 0, BILIBILI_MACGTV_START,
+					BILIBILI_MACGTV_END).result;
+			BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,
+					origurl);
+			if (ActivityUtil.isGreaterThan_2_3_3()) {
+				runOnExcutorforbili(loader, id);
+			} else {
+				loader.execute(id);
+			}
+		} else if (url.startsWith(BILIBILI_SUPERLINK) && showPlayMode() < 2) {// BILI SUPERLINK
+			String id = StringUtil.getStringBetween(origurl, 0, BILIBILI_SUPERLINK,
+					"/").result;
 			BilibiliVideoLoadTask loader = new BilibiliVideoLoadTask(fa,
 					origurl);
 			if (ActivityUtil.isGreaterThan_2_3_3()) {

@@ -630,6 +630,10 @@ public class StringUtil {
 					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
 			s = s.replaceAll(
 					ignoreCaseTag
+							+ "\\[flash\\](http://m.acg.tv/video/av[^\\[|\\]]+.html)\\[/flash\\]",
+					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
+			s = s.replaceAll(
+					ignoreCaseTag
 							+ "\\[flash\\](http://share.acg.tv/av[^\\[|\\]]+)\\[/flash\\]",
 					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
 			s = s.replaceAll(
