@@ -647,11 +647,11 @@ public class StringUtil {
 			s = s.replaceAll(
 					ignoreCaseTag
 							+ "\\[flash\\](http://share.acg.tv/flash.swf[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
+					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
 			s = s.replaceAll(
 					ignoreCaseTag
 							+ "\\[flash\\](http://static.hdslb.com/miniloader.swf[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
+					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
 		}
 		// ACFUN
 		if (showPlayMode() == 0 || showPlayMode() == 2) {
