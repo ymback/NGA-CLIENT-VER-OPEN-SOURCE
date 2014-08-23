@@ -79,7 +79,6 @@ public class PhoneConfiguration implements PerferenceConstant{
 	public boolean iconmode;
 	public boolean refresh_after_post_setting_mode=true;
 	public int imageQuality = 0; 	//0 = original, 1 = small, 2= medium, 3 = large
-	public int playMode = 0; 	//0 = all, 1 = notacfun, 2=notbili, 3=notacbili, 4=none
 	public int HandSide = 0; 	//0 = right, 1 = left
 	public int blackgunsound = 0; 	//0 = right, 1 = left
 	public boolean notification;
@@ -94,6 +93,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 	public boolean uploadLocation = false;
     public boolean showStatic = false;
     public boolean showReplyButton = true;
+    public boolean swipeBack = true;
     public boolean showColortxt = false;
     public boolean showNewweiba  = false;
     public boolean showLajibankuai  = true;

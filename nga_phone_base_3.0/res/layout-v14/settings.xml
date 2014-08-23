@@ -135,6 +135,22 @@
         </View>
         
         <Switch
+            android:id="@+id/checkBox_swipeback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:text="@string/swipeback" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/night_fore_color" >
+        </View>
+        
+        <Switch
             android:id="@+id/checkBox_kitwebview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -311,50 +327,6 @@
                 android:paddingTop="5dp"
                 android:singleLine="true"
                 android:text="@string/blackgun_sound_0"
-                android:textSize="16dp" >
-            </TextView>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="6dp"
-            android:background="@color/night_fore_color" >
-        </View>
-
-        <RelativeLayout
-            android:id="@+id/mediaplayer_choose_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_weight="0.03"
-            android:layout_marginLeft="6dp"
-            android:background="@drawable/touchable"
-            android:clickable="true"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/mediaplayer_choose_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingTop="5dp"
-                android:text="@string/mediaplayer_choose_info"
-                android:textSize="16dp" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/mediaplayer_choose_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:ellipsize="end"
-                android:paddingBottom="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="5dp"
-                android:singleLine="true"
-                android:text="@string/play_all"
                 android:textSize="16dp" >
             </TextView>
         </RelativeLayout>

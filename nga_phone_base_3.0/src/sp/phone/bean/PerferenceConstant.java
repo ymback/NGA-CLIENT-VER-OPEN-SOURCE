@@ -5,7 +5,6 @@ public interface PerferenceConstant {
 	final String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
 	final String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";
 	final String DOWNLOAD_IMG_QUALITY_NO_WIFI = "download_img_quality_without_wifi";
-	final String PLAY_MODE = "play_mode";
 	final String ENABLE_NOTIFIACTION = "enableNotification";
 	final String NOTIFIACTION_SOUND = "notificationSound";
 	final String TEXT_SIZE = "textsize";
@@ -30,6 +29,7 @@ public interface PerferenceConstant {
 	final String SHOW_SIGNATURE = "showSignature";
     final String SHOW_STATIC = "showStatic";
     final String SHOW_REPLYBUTTON = "showReplyButton";
+    final String SWIPEBACK = "swipeback";
     final String SHOW_COLORTXT = "showColortxt";
     final String SHOW_NEWWEIBA = "showNewweiba";
     final String SHOW_LAJIBANKUAI = "showLajibankuai";

@@ -1,4 +1,5 @@
 package gov.anzong.androidnga.activity;
+import sp.phone.utils.PhoneConfiguration;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
@@ -17,9 +18,13 @@ public class SwipeBackAppCompatActivity extends ActionBarActivity implements Swi
         super.onCreate(savedInstanceState);
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivtyCreate();
-        final float density = getResources().getDisplayMetrics().density;//获取屏幕密度PPI
-        getSwipeBackLayout().setEdgeSize((int) (MY_EDGE_SIZE * density + 0.5f));//10dp
-        getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
+        if(PhoneConfiguration.getInstance().swipeBack){
+            final float density = getResources().getDisplayMetrics().density;//获取屏幕密度PPI
+          getSwipeBackLayout().setEdgeSize((int) (MY_EDGE_SIZE * density + 0.5f));//10dp
+          getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
+        }else{
+            getSwipeBackLayout().setEdgeSize(0);
+        }
     }
 
     @Override

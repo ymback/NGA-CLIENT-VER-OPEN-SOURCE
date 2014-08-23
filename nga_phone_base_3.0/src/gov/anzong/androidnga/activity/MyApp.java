@@ -41,7 +41,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2040;
+	public final static int version = 2041;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "×î½ü·ÃÎÊ";
@@ -741,9 +741,9 @@ public class MyApp extends Application implements PerferenceConstant {
 		config.HandSide = share.getInt(HANDSIDE, 0);
 		config.fullscreen = share.getBoolean(FULLSCREENMODE, false);
 		config.kitwebview = share.getBoolean(KITWEBVIEWMODE, false);
-		config.playMode = share.getInt(PLAY_MODE, 0);
 		config.blackgunsound = share.getInt(BLACKGUN_SOUND, 0);
 		config.iconmode = share.getBoolean(SHOW_ICON_MODE, false);
+		config.swipeBack = share.getBoolean(SWIPEBACK, true);
 
 		// font
 		final float defTextSize = 21.0f;// new TextView(this).getTextSize();

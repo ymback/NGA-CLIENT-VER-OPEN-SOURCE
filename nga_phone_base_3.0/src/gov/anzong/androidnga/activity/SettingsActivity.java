@@ -70,6 +70,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton showLajibankuai;
 	private CompoundButton showReplyButton;
 
+	private CompoundButton swipeback;
+
 	private CompoundButton showIconMode;
 	private CompoundButton refresh_after_post_setting_mode;
 
@@ -80,7 +82,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton kitwebview = null;
 
 	private RelativeLayout handsideQualityChooser;
-	private RelativeLayout playModeOptionChooser;
 	private RelativeLayout blackgunSoundChooser;
 	private Toast toast;
 	private SeekBar fontSizeBar;
@@ -92,9 +93,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private TextView avatarSizeTextView;
 	private TextView imageOptionInfoTextView;
 	private TextView imageOptionChoiceTextView;
-
-	private TextView playModeOptionTextView;
-	private TextView playModeOptionChoiceTextView;
 
 	private TextView blackgunSoundTextView;
 	private TextView blackgunSoundChoiceTextView;
@@ -161,13 +159,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		ImageQualityChooserListener imageQualityChooserListener = new ImageQualityChooserListener();
 		imageQualityChooser.setOnClickListener(imageQualityChooserListener);
 
-		playModeOptionChoiceTextView = (TextView) findViewById(R.id.mediaplayer_choose_text);
-		playModeOptionTextView = (TextView) findViewById(R.id.mediaplayer_choose_info);
-		playModeOptionChooser = (RelativeLayout) findViewById(R.id.mediaplayer_choose_layout);
-		updatePlayModeOptionChoiceText(config);
-		PlayModeChooserListener playModeChooserListener = new PlayModeChooserListener();
-		playModeOptionChooser.setOnClickListener(playModeChooserListener);
-
 		blackgunSoundChoiceTextView = (TextView) findViewById(R.id.blackgun_sound_text);
 		blackgunSoundTextView = (TextView) findViewById(R.id.blackgun_sound_info);
 		blackgunSoundChooser = (RelativeLayout) findViewById(R.id.blackgun_sound_chooser);
@@ -197,7 +188,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		showIconMode.setOnCheckedChangeListener(new IconModeListener());
 
 		refresh_after_post_setting_mode = (CompoundButton) findViewById(R.id.refresh_after_post_setting_mode);
-		refresh_after_post_setting_mode.setChecked(config.refresh_after_post_setting_mode);
+		refresh_after_post_setting_mode
+				.setChecked(config.refresh_after_post_setting_mode);
 		refresh_after_post_setting_mode
 				.setOnCheckedChangeListener(new SettingRefreshAfterPostListener());
 
@@ -243,6 +235,10 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		showReplyButton
 				.setOnCheckedChangeListener(new ShowReplyButtonListener());
 		showReplyButton.setChecked(config.showReplyButton);
+
+		swipeback = (CompoundButton) findViewById(R.id.checkBox_swipeback);
+		swipeback.setOnCheckedChangeListener(new SwipeBackButtonListener());
+		swipeback.setChecked(config.swipeBack);
 
 		showColortxt = (CompoundButton) findViewById(R.id.checkBox_color_txt);
 		showColortxt.setChecked(config.showColortxt);
@@ -359,27 +355,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		updateThemeUI();
 	}
 
-	private void updatePlayModeOptionChoiceText(PhoneConfiguration config) {
-		switch (config.playMode) {
-		case 0:
-			playModeOptionChoiceTextView.setText(R.string.play_all);
-			break;
-		case 1:
-			playModeOptionChoiceTextView.setText(R.string.play_all_not_acfun);
-			break;
-		case 2:
-			playModeOptionChoiceTextView
-					.setText(R.string.play_all_not_bilibili);
-			break;
-		case 3:
-			playModeOptionChoiceTextView.setText(R.string.play_all_not_acbili);
-			break;
-		case 4:
-			playModeOptionChoiceTextView.setText(R.string.play_none);
-			break;
-		}
-	}
-
 	private void updateImageQualityChoiceText(PhoneConfiguration config) {
 		switch (config.imageQuality) {
 		case 0:
@@ -461,6 +436,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		// uploadLocation.setTextColor(fgColor);
 		showStatic.setTextColor(fgColor);
 		showReplyButton.setTextColor(fgColor);
+		swipeback.setTextColor(fgColor);
 		showColortxt.setTextColor(fgColor);
 		showNewweiba.setTextColor(fgColor);
 		showLajibankuai.setTextColor(fgColor);
@@ -477,8 +453,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		imageOptionInfoTextView.setTextColor(fgColor);
 		handsideOptionInfoTextView.setTextColor(fgColor);
 		handsideOptionChoiceTextView.setTextColor(fgColor);
-		playModeOptionTextView.setTextColor(fgColor);
-		playModeOptionChoiceTextView.setTextColor(fgColor);
 		blackgunSoundTextView.setTextColor(fgColor);
 		blackgunSoundChoiceTextView.setTextColor(fgColor);
 		view.setBackgroundResource(ThemeManager.getInstance()
@@ -770,6 +744,24 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
+	class SwipeBackButtonListener implements OnCheckedChangeListener,
+			PerferenceConstant {
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			PhoneConfiguration.getInstance().swipeBack = isChecked;
+			SharedPreferences share = getSharedPreferences(PERFERENCE,
+					MODE_PRIVATE);
+
+			Editor editor = share.edit();
+			editor.putBoolean(SWIPEBACK, isChecked);
+			editor.commit();
+
+		}
+
+	}
+
 	class showColortxtListener implements OnCheckedChangeListener,
 			PerferenceConstant {
 
@@ -962,52 +954,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 						R.string.image_quality_claim, Toast.LENGTH_SHORT);
 				toast.show();
 			}
-		}
-
-	}
-
-	class PlayModeChooserListener implements android.view.View.OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					SettingsActivity.this);
-			String[] items = new String[] { getString(R.string.play_all),
-					getString(R.string.play_all_not_acfun),
-					getString(R.string.play_all_not_bilibili),
-					getString(R.string.play_all_not_acbili),
-					getString(R.string.play_none) };
-			builder.setTitle(R.string.media_player_chooser_prompt);
-			builder.setItems(items, new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					PhoneConfiguration.getInstance().playMode = which;
-					SharedPreferences share = getSharedPreferences(PERFERENCE,
-							MODE_PRIVATE);
-					Editor editor = share.edit();
-					editor.putInt(PLAY_MODE, which);
-					editor.commit();
-					updatePlayModeOptionChoiceText(PhoneConfiguration
-							.getInstance());
-				}
-			});
-			final AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-				@Override
-				public void onDismiss(DialogInterface arg0) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-
-					if (PhoneConfiguration.getInstance().fullscreen) {
-						ActivityUtil.getInstance().setFullScreen(view);
-					}
-				}
-
-			});
 		}
 
 	}

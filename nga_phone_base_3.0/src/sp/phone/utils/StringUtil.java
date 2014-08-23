@@ -290,6 +290,25 @@ public class StringUtil {
 				"pt50.png","pt51.png","pt52.png","pt53.png","pt54.png",
 				"pt55.png","pt56.png","pt57.png","pt58.png","pt59.png",
 				"pt60.png","pt61.png","pt62.png","pt63.png","pt64.png",};
+
+		final String dtofubbcode[] = {
+				"ROLL","上","傲娇","叉出去","发光",
+				"呵欠","哭","啃古头","嘲笑","心",
+				"怒","怒2","怨","惊","惊2",
+				"无语","星星眼","星星眼2","晕","注意",
+				"注意2","泪","泪2","烧","笑",
+				"笑2","笑3","脸红","药","衰",
+				"鄙视","闲","黑脸",//0-32
+		};
+		final String dtappadd[] = {
+				"dt01.png","dt02.png","dt03.png","dt04.png","dt05.png",
+				"dt06.png","dt07.png","dt08.png","dt09.png",
+				"dt10.png","dt11.png","dt12.png","dt13.png","dt14.png",
+				"dt15.png","dt16.png","dt17.png","dt18.png","dt19.png",
+				"dt20.png","dt21.png","dt22.png","dt23.png","dt24.png",
+				"dt25.png","dt26.png","dt27.png","dt28.png","dt29.png",
+				"dt30.png","dt31.png","dt32.png","dt33.png",//0-32
+		};
 		s = decodealbum(s,quoteStyle);
 		s = s.replaceAll(ignoreCaseTag + "&amp;", "&");
 		s = s.replaceAll(ignoreCaseTag + "\\[l\\]", styleLeft);
@@ -365,6 +384,11 @@ public class StringUtil {
 					+ "\\]", "<img src='file:///android_asset/pst/"
 					+ pstappadd[i] + "'>");
 		}
+		for (int i = 0; i < 33; i++) {
+			s = s.replaceAll(ignoreCaseTag + "\\[s:dt:" + dtofubbcode[i]
+					+ "\\]", "<img src='file:///android_asset/dt/"
+					+ dtappadd[i] + "'>");
+		}
 		s = s.replace(ignoreCaseTag + "<br/><br/>", "<br/>");
 		// [url][/url]
 		s = s.replaceAll(
@@ -396,286 +420,6 @@ public class StringUtil {
 				ignoreCaseTag
 						+ "\\[pid=(.+?)\\](.+?)\\[/pid\\]",
 				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
-		if (showPlayMode() < 4) {
-			// 优酷FLASH可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://v.youku.com/v_show/id_[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://static.youku.com/[^\\[|\\]]+/)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
-			// 优酷FLASH2可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://player.youku.com/player.php/[^\\[|\\]]+/v.swf)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
-			// 优酷FLASH2可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://player.youku.com/embed/[^\\[|\\]]+/v.swf)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youku.png' style= 'max-width:100%;' ></a>");
-			// SOHU可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://my.tv.sohu.com/us/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
-			// SOHU可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://my.tv.sohu.com/pl/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
-			// SOHU2可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://tv.sohu.com/[^\\[|\\]]+.shtml)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
-			// SOHU4可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://share.vrs.sohu.com/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
-			// SOHU5可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://share.vrs.sohu.com/my/v.swf[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sohu.png' style= 'max-width:100%;' ></a>");
-			// 56-1可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.56.com/u[^\\[|\\]]+.html)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/56.png' style= 'max-width:100%;' ></a>");
-
-			// 56-1可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://56.com/u[^\\[|\\]]+.html)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/56.png' style= 'max-width:100%;' ></a>");
-			// 56-2可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://player.56.com/v_[^\\[|\\]]+.swf)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/56.png' style= 'max-width:100%;' ></a>");
-			// 土豆1可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.tudou.com/programs/view/[^\\[|\\]]+/)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
-			// 土豆1NOWWW可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://tudou.com/programs/view/[^\\[|\\]]+/)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
-			// 土豆2可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.tudou.com/v/[^\\[|\\]]+v.swf)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
-
-			// 土豆2NOWWW可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://tudou.com/v/[^\\[|\\]]+v.swf)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/tudou.png' style= 'max-width:100%;' ></a>");
-			// ku61可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://player.ku6.com/refer/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/ku6.png' style= 'max-width:100%;' ></a>");
-			// ku62可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://v.ku6.com/show/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/ku6.png' style= 'max-width:100%;' ></a>");
-
-			// LETV1可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.letv.com/ptv/vplay/[^\\[|\\]]+.html)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.letv.com/ptv/vplay/[^\\[|\\]]+.html )\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
-			// LETV2可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://[^\\[|\\]]+letv.com/player/swfPlayer.swf\\?id=[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/letv.png' style= 'max-width:100%;' ></a>");
-
-			// NETEASE可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://v.163.com/[^\\[|\\]]+/[^\\[|\\]]+/[^\\[|\\]]+.html[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/netease.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://v.game.163.com/video/[^\\[|\\]]+.html[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/netease.png' style= 'max-width:100%;' ></a>");
-
-			// QQ1可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://v.qq.com/boke/page/[^\\[|\\]]+.html)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
-			// QQSWF可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://static.video.qq.com/TPout.swf[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
-			// QQ3可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://v.qq.com/cover/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/qq.png' style= 'max-width:100%;' ></a>");
-			// WASU可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.wasu.cn/play/show/id/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/wasu.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBE_WITH可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.youtube.com/watch\\?v=[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBENOWWW_WITH可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://youtube.com/watch\\?v=[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHARE_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://youtu.be/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBED_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.youtube.com/embed/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBEDNOWWW_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://youtube.com/embed/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBEDNOCOOKIE_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.youtube-nocookie.com/embed/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBEDNOCOOKIENOWWW_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://youtube-nocookie.com/embed/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBEDOLD_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.youtube.com/v/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBEDNOWWWOLD_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://youtube.com/v/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://youtube.com/V/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBEDNOCOOKIEOLD_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.youtube-nocookie.com/v/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");
-			// YOUTUBESHAREEMBEDNOCOOKIENOWWWOLD_START可内置播放
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://youtube-nocookie.com/v/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youtube.png' style= 'max-width:100%;' ></a>");// 蛋疼吧
-
-			// PPS
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://v.pps.tv/play_[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/pps.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://player.pps.tv/player/sid/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/pps.png' style= 'max-width:100%;' ></a>");
-			// SINA
-
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://video.sina.com.cn/[^\\[|\\]]+/[^\\[|\\]]+/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sina.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://ent.sina.com.cn/[^\\[|\\]]+/[^\\[|\\]]+/[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sina.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://you.video.sina.com.cn/api/sinawebApi/outplayrefer.php[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/sina.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+"\\[flash\\](http://v.ali213.net/video/\\d{5,}/\\d{1,}[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/youxia.png' style= 'max-width:100%;' ></a>");
-		}
-		// BILI
-		if (showPlayMode() < 2) {
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.bilibili.tv/video/av[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://m.acg.tv/video/av[^\\[|\\]]+.html)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://share.acg.tv/av[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://bilibili.tv/video/av[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://bilibili.kankanews.com/video/av[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](https://secure.bilibili.tv/secure,[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://share.acg.tv/flash.swf[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://static.hdslb.com/miniloader.swf[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/bili.png' style= 'max-width:100%;' ></a>");
-		}
-		// ACFUN
-		if (showPlayMode() == 0 || showPlayMode() == 2) {
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.acfun.com/v/ac[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://static.acfun.com/player/ACFlashPlayer.out.swf\\?type=page&url=http://www.acfun.com/v/ac[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://www.acfun.tv/v/ac[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
-			s = s.replaceAll(
-					ignoreCaseTag
-							+ "\\[flash\\](http://static.acfun.tv/player/ACFlashPlayer.out.swf\\?type=page&url=http://www.acfun.tv/v/ac[^\\[|\\]]+)\\[/flash\\]",
-					"<a href=\"$1\"><img src='file:///android_asset/acfun.png' style= 'max-width:100%;' ></a>");
-		}
 		// flash
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
@@ -1025,7 +769,7 @@ public class StringUtil {
 			"妓院都是怡红院(我怀疑是悦来集团的子公司……)。", "美女到处都是，这是最郁闷的…… ", "不要因为仅仅是意见不同就点举报",
 			"所有汉字乱码的,把接入点从wap改成net!!!", "178,准时发货,绝不坑爹!", "178,准时坑爹,绝不发货!",
 			"彩虹体累计已招致禁言210天次以上,自重!", "寻找NGA客户端开源版更新请在Google Play商店或酷安搜索并安装",
-			"内置播放器升级为播放插件,若未安装请到侧边栏关于中下载或PLAY商店搜索BambooPlayer安装",
+			"内置播放器独立为播放器APP,若未安装请到侧边栏关于中下载或PLAY商店搜索BambooPlayer安装",
 	};
 
 	public static int getNowPageNum(String link) {
@@ -1054,7 +798,7 @@ public class StringUtil {
 			+ "签到/短消息/历史被喷/匿名版/URL读取看帖/添加版面等在侧边栏,设置里选项都看下\n"
 			+ "主题列表长按楼层可以看头像签名、用户信息、屏蔽用户等,还有投票,自己的个人信息界面可以改头像和签名,收藏列表长按可删收藏\n"
 			+ "看不到的选项按菜单键或竖排三个点的按钮,很多功能都在里面,比如分享啊啥的\n"
-			+ "内置播放器升级为播放插件,若未安装请到侧边栏关于中下载或PLAY商店搜索BambooPlayer安装\n"
+			+ "内置播放器独立为播放器APP,若未安装请到侧边栏关于中下载或PLAY商店搜索BambooPlayer安装\n"
 			+ "彩蛋还有,但不知道在哪了\n"
 			+ "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n"
 			+ "查找更新请使用侧边栏关于中的新版校验功能";
@@ -1113,10 +857,6 @@ public class StringUtil {
 		return ret;
 	}
 
-	private static int showPlayMode() {
-		return PhoneConfiguration.getInstance().playMode;
-	}
-	
 
 	public static Set<Integer> blackliststringtolisttohashset(String s){
 		if(StringUtil.isEmpty(s)){

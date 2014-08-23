@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 public class ExtensionEmotionAdapter extends BaseAdapter {
 	private static final String dirs[] = { "baozou","xiongmao","taijun", "ali", "dayanmao",
-		"luoxiaohei","majianglian", "zhaiyin", "yangcongtou", "acniang", "bierde","lindabi","quniang","niweihezhemediao","pst" };
+		"luoxiaohei","majianglian", "zhaiyin", "yangcongtou", "acniang", "bierde","lindabi","quniang","niweihezhemediao","pst","dt" };
 
 
 
@@ -1167,7 +1167,8 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 			"http://pic3.178.com/2017/20174851/month_1401/047b781be4c8f7c25f11b683c48101b3.jpg",
 			"http://pic3.178.com/2017/20174851/month_1401/6c3523529136ecc744ad3f26105f290c.jpg",
 			"http://pic3.178.com/2017/20174851/month_1401/eb479bdb5e8e003fa915539fd7568c96.jpg",
-		},{
+		},//pst
+		{
 			"http://img4.nga.178.com/ngabbs/post/smile/pt00.png",
 			"http://img4.nga.178.com/ngabbs/post/smile/pt01.png",
 			"http://img4.nga.178.com/ngabbs/post/smile/pt02.png",
@@ -1233,7 +1234,41 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 			"http://img4.nga.178.com/ngabbs/post/smile/pt62.png",
 			"http://img4.nga.178.com/ngabbs/post/smile/pt63.png",
 			"http://img4.nga.178.com/ngabbs/post/smile/pt64.png",
-		},
+		},//yixia dt 外域三人组
+		{
+			"http://img4.nga.178.com/ngabbs/post/smile/dt01.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt02.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt03.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt04.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt05.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt06.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt07.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt08.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt09.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt10.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt11.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt12.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt13.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt14.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt15.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt16.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt17.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt18.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt19.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt20.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt21.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt22.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt23.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt24.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt25.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt26.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt27.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt28.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt29.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt30.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt31.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt32.png",
+			"http://img4.nga.178.com/ngabbs/post/smile/dt33.png",},
 		};
 
 	public static String getPathByURI(String uri) {

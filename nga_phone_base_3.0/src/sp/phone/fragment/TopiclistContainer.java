@@ -278,12 +278,12 @@ public class TopiclistContainer extends Fragment implements
 		if (!StringUtil.isEmpty(author)) {
 			try {
 				if (author.endsWith("&searchpost=1")) {
-					jsonUri += "key=&author="
+					jsonUri += "author="
 							+ URLEncoder.encode(
 									author.substring(0, author.length() - 13),
 									"GBK") + "&searchpost=1&";
 				} else {
-					jsonUri += "key=&author="
+					jsonUri += "author="
 							+ URLEncoder.encode(author, "GBK") + "&";
 				}
 			} catch (UnsupportedEncodingException e) {
