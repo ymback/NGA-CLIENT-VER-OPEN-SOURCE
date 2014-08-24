@@ -10,11 +10,7 @@ import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.StringUtil;
 import android.content.Context;
-import android.content.Intent;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import static android.media.MediaScannerConnection.*;

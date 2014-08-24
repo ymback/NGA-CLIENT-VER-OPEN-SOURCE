@@ -8,8 +8,6 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.ThemeManager;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,13 +16,12 @@ import android.view.View;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.support.v7.app.ActionBarActivity;
 
 public class WebViewerActivity extends  SwipeBackAppCompatActivity {
 	private WebView wv;
+	@SuppressWarnings("static-access")
 	@Override
 	protected void onCreate(Bundle arg0) {
 		if(ActivityUtil.isGreaterThan_2_3_3())

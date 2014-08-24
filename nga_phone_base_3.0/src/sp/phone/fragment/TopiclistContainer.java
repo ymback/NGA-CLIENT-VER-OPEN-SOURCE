@@ -9,7 +9,6 @@ import java.net.URLEncoder;
 import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.TopicListInfo;
-import sp.phone.fragment.MessageListContainer.OnMessagelistContainerListener;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -25,10 +24,8 @@ import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -51,7 +48,6 @@ public class TopiclistContainer extends Fragment implements
 		OnTopListLoadFinishedListener, NextJsonTopicListLoader,
 		PerferenceConstant {
 	final String TAG = TopiclistContainer.class.getSimpleName();
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 	static final int MESSAGE_SENT = 1;
 	int fid;
 	int authorid;

@@ -21,5 +21,6 @@ package com.nostra13.universalimageloader.cache.disc;
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  * @since 1.9.2
  */
+@SuppressWarnings("deprecation")
 public interface DiskCache extends DiscCacheAware {
 }

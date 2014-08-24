@@ -2,77 +2,43 @@ package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
-import android.text.style.URLSpan;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
-import android.text.style.StrikethroughSpan;
-import android.text.style.RelativeSizeSpan;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.SettingsActivity.FontSizeListener;
 
 import org.apache.commons.io.IOUtils;
 
@@ -85,7 +51,6 @@ import sp.phone.forumoperation.ThreadPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
 import sp.phone.fragment.EmotionDialogFragment;
 import sp.phone.fragment.ExtensionEmotionFragment;
-import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
@@ -370,6 +335,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 		return true;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onEmotionPicked(String emotion) {
 		final int index = bodyText.getSelectionStart();
@@ -677,6 +643,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int finishUpload(String attachments, String attachmentsCheck,
 			String picUrl, Uri uri) {

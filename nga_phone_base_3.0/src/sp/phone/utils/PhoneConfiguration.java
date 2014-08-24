@@ -61,7 +61,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import android.R.integer;
 import android.location.Location;
 import sp.phone.bean.Bookmark;
 import sp.phone.bean.PerferenceConstant;
@@ -79,6 +78,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 	public boolean iconmode;
 	public boolean refresh_after_post_setting_mode=true;
 	public int imageQuality = 0; 	//0 = original, 1 = small, 2= medium, 3 = large
+	public int swipeenablePosition = 2; 	//0 = left, 1 = right, 2= L&R, 3 = L&R&B
 	public int HandSide = 0; 	//0 = right, 1 = left
 	public int blackgunsound = 0; 	//0 = right, 1 = left
 	public boolean notification;

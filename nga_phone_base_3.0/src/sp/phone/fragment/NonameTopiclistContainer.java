@@ -6,7 +6,6 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.AppendableNonameTopicAdapter;
 import sp.phone.bean.PerferenceConstant;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -24,10 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,7 +39,6 @@ import android.widget.Toast;
 public class NonameTopiclistContainer extends Fragment implements
 	OnNonameTopListLoadFinishedListener, NextJsonNonameTopicListLoader,PerferenceConstant {
 	final String TAG = NonameTopiclistContainer.class.getSimpleName();
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 	static final int MESSAGE_SENT = 1;
 	int fid;
 	int authorid;

@@ -1,19 +1,13 @@
 package sp.phone.adapter;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.PostActivity;
-
 import java.io.File;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.ref.SoftReference;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import android.support.v4.app.Fragment;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.ThreadData;
@@ -22,47 +16,29 @@ import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.listener.MyListenerForClient;
 import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
-//import sp.phone.task.ForumTagDecodTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.Des;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
-import android.R.integer;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextPaint;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.webkit.WebSettings;
-import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -425,6 +401,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		return view;
 	}
 
+	@SuppressWarnings("static-access")
 	private static String buildAttachment(ThreadRowInfo row, boolean showImage,
 			int imageQuality, HashSet<String> imageURLSet) {
 

@@ -9,15 +9,10 @@ import java.util.Set;
 
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonMessageListLoader;
-import sp.phone.interfaces.NextJsonTopicListLoader;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;

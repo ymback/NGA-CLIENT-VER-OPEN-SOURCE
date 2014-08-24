@@ -1,18 +1,10 @@
 package gov.anzong.androidnga.activity;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import gov.anzong.androidnga.R;
@@ -38,8 +30,6 @@ public class MenuAdapter extends BaseAdapter {
 	private MenuListener mListener;
 
 	private int mActivePosition = -1;
-
-	private int mchangeposition = -1;
 
 	public MenuAdapter(Context context, List<Object> items) {
 		mContext = context;
@@ -119,6 +109,7 @@ public class MenuAdapter extends BaseAdapter {
 		return holder;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;

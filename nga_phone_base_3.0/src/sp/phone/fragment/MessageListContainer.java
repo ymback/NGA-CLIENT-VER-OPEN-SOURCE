@@ -1,18 +1,10 @@
 package sp.phone.fragment;
 
 import gov.anzong.androidnga.activity.MainActivity;
-import android.support.v7.app.ActionBarActivity;
-import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import sp.phone.adapter.AppendableMessageAdapter;
-import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.PerferenceConstant;
-import sp.phone.fragment.MessageDetialListContainer.OnMessageDetialListContainerListener;
 import sp.phone.interfaces.NextJsonMessageListLoader;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -26,16 +18,11 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,7 +43,6 @@ public class MessageListContainer extends Fragment implements
 	AppendableMessageAdapter adapter;
 	boolean canDismiss = true;
 	int category = 0;
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 	private ViewGroup mcontainer; 
 
 	@Override

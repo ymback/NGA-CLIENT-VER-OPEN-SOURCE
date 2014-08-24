@@ -5,10 +5,7 @@ import java.util.List;
 import sp.phone.bean.Bookmark;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -17,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,19 +58,7 @@ public class BookmarkActivity extends SwipeBackAppCompatActivity
         this.registerForContextMenu(view);
 		
 	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		int flags = 15;
-		/*ActionBar.DISPLAY_SHOW_HOME;
-		flags |= ActionBar.DISPLAY_USE_LOGO;
-		flags |= ActionBar.DISPLAY_SHOW_TITLE;
-		flags |= ActionBar.DISPLAY_HOME_AS_UP;
-		flags |= ActionBar.DISPLAY_SHOW_CUSTOM;*/
-		//final ActionBar bar = getActionBar();
-		//bar.setDisplayOptions(flags);
-		//ReflectionUtil.actionBar_setDisplayOption(this, flags);
-		return super.onCreateOptionsMenu(menu);
-	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch( item.getItemId())

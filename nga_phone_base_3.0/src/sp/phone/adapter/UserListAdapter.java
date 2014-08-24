@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -20,12 +21,12 @@ import com.alibaba.fastjson.JSON;
 public class UserListAdapter extends SpinnerUserListAdapter
 implements  OnClickListener{
 
-
-	public UserListAdapter(Context context){
+	public static EditText userText;
+	@SuppressWarnings("static-access")
+	public UserListAdapter(Context context,EditText userText){
 		super(context);
 		this.context = context;
-	
-		
+		this.userText=userText;
 	}
 	
 
@@ -44,6 +45,18 @@ implements  OnClickListener{
 		
 		tv.setText(userList.get(position).getNickName());
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+		tv.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(userText!=null){
+					userText.setText(((TextView)v).getText());
+					userText.selectAll();
+				}
+			}
+			
+		});
 		return convertView;
 	}
 

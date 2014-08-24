@@ -2,27 +2,16 @@ package sp.phone.adapter;
 
 import java.io.File;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.util.HashSet;
-import java.util.Locale;
-
-import com.alibaba.fastjson.util.Base64;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
-import sp.phone.bean.MessageListInfo;
-import sp.phone.bean.MessageThreadPageInfo;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.ThreadRowInfo;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -32,23 +21,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
-import android.support.v4.app.FragmentActivity;
-import android.text.TextPaint;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -72,11 +51,9 @@ public class MessageDetialAdapter extends BaseAdapter implements
 	static String sig = null;
 	private final Object lock = new Object();
 	private final HashSet<String> urlSet = new HashSet<String>();
-	private final WebViewClient client;
 
 	public MessageDetialAdapter(Context context) {
 		this.context = context;
-		client = new ArticleListWebClient((FragmentActivity) context);
 		this.inflater = LayoutInflater.from(context);
 		if(userDistance==null)
 		initStaticStrings(context);

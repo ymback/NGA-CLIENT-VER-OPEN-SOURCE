@@ -16,6 +16,7 @@
 
 package uk.co.senab.actionbarpulltorefresh.library.viewdelegates;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
@@ -29,7 +30,8 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 public class AbsListViewDelegate
         extends PullToRefreshAttacher.ViewDelegate {
 
-    public static final Class SUPPORTED_VIEW_CLASS = AbsListView.class;
+    @SuppressWarnings("rawtypes")
+	public static final Class SUPPORTED_VIEW_CLASS = AbsListView.class;
 
     @Override
     public boolean isReadyForPull(View view, final float x, final float y) {
@@ -73,6 +75,7 @@ public class AbsListViewDelegate
     }
 
     static class Compat {
+        @SuppressLint("InlinedApi") 
         static int getVerticalScrollbarPosition(AbsListView absListView) {
             return View.SCROLLBAR_POSITION_RIGHT;
         }

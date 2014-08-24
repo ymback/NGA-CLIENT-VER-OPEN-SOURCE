@@ -158,7 +158,7 @@ public class MainActivity extends ActionBarActivity implements
 					// TODO Auto-generated method stub
 					dialog.dismiss();
 					if (PhoneConfiguration.getInstance().fullscreen) {
-						ActivityUtil.getInstance().setFullScreen(view);
+						activityUtil.setFullScreen(view);
 					}
 				}
 
@@ -482,7 +482,7 @@ public class MainActivity extends ActionBarActivity implements
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
 				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(view);
+					activityUtil.setFullScreen(view);
 				}
 			}
 		});
@@ -495,7 +495,7 @@ public class MainActivity extends ActionBarActivity implements
 				// TODO Auto-generated method stub
 				dialog.dismiss();
 				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(view);
+					activityUtil.setFullScreen(view);
 				}
 			}
 
@@ -552,6 +552,7 @@ public class MainActivity extends ActionBarActivity implements
 		if (width < 800) {
 			bmp = Bitmap.createBitmap(bmp, (int) 400 - width / 2, 0, width, 55);
 		}
+		@SuppressWarnings("deprecation")
 		BitmapDrawable bd = new BitmapDrawable(bmp);
 		List<User> userList;
 		if (StringUtil.isEmpty(userListString)) {
@@ -573,6 +574,7 @@ public class MainActivity extends ActionBarActivity implements
 				.loadAnimation(this, R.anim.right_out);
 	}
 
+	@SuppressWarnings("deprecation")
 	public View getUserView(List<User> userList, int position, BitmapDrawable bd) {
 		View privateview = getLayoutInflater().inflate(
 				R.layout.drawerloginuser, null);
@@ -976,7 +978,7 @@ public class MainActivity extends ActionBarActivity implements
 					mp = new MediaPlayer();
 					dialog.dismiss();
 					if (PhoneConfiguration.getInstance().fullscreen) {
-						ActivityUtil.getInstance().setFullScreen(view);
+						activityUtil.setFullScreen(view);
 					}
 				}
 
@@ -1029,6 +1031,7 @@ public class MainActivity extends ActionBarActivity implements
 		onResume();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void useurltoactivity_dialog() {
 		LayoutInflater layoutInflater = getLayoutInflater();
 		final View view = layoutInflater
@@ -1048,6 +1051,7 @@ public class MainActivity extends ActionBarActivity implements
 			android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
 			if (clipboardManager.hasPrimaryClip()) {
+				@SuppressWarnings("unused")
 				android.content.ClipData.Item item = clipboardManager
 						.getPrimaryClip().getItemAt(0);
 				try {
@@ -1240,7 +1244,7 @@ public class MainActivity extends ActionBarActivity implements
 				// TODO Auto-generated method stub
 				dialog.dismiss();
 				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(view);
+					activityUtil.setFullScreen(view);
 				}
 			}
 
@@ -1258,6 +1262,7 @@ public class MainActivity extends ActionBarActivity implements
 		final EditText addfid_id = (EditText) view.findViewById(R.id.addfid_id);
 		alert.setPositiveButton("Ìí¼Ó", new DialogInterface.OnClickListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -1404,7 +1409,7 @@ public class MainActivity extends ActionBarActivity implements
 				// TODO Auto-generated method stub
 				dialog.dismiss();
 				if (PhoneConfiguration.getInstance().fullscreen) {
-					ActivityUtil.getInstance().setFullScreen(view);
+					activityUtil.setFullScreen(view);
 				}
 			}
 
@@ -1477,7 +1482,7 @@ public class MainActivity extends ActionBarActivity implements
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		}
 		if (PhoneConfiguration.getInstance().fullscreen) {
-			ActivityUtil.getInstance().setFullScreen(view);
+			activityUtil.setFullScreen(view);
 		}
 		Intent intent = getIntent();
 		loadConfig(intent);

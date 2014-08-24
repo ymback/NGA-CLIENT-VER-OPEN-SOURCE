@@ -5,30 +5,26 @@ import gov.anzong.androidnga.R;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
 
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.UploadCookieCollector;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
 public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
+	@SuppressWarnings("unused")
 	private static final String TAG = NonameFileUploadTask.class
 			.getSimpleName();
 	private static final String BOUNDARY = "-----------------------------7db1c5232222b";
@@ -42,6 +38,7 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 	private onFileUploaded notifier;
 
 	private String filename;
+	@SuppressWarnings("unused")
 	private String utfFilename;
 	private String contentType;
 	final private Uri uri;

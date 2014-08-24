@@ -310,6 +310,7 @@ public class CheckReplyNotificationTask extends
 	}
 
 
+	@SuppressWarnings("deprecation")
 	void showStackedNotification() {
 		String str = JSON.toJSONString(notificationList);
 		SharedPreferences share = context.getSharedPreferences(PERFERENCE,
@@ -369,6 +370,7 @@ public class CheckReplyNotificationTask extends
 		nm.notify(R.layout.topiclist_activity, notification);
 	}
 
+	@SuppressWarnings("deprecation")
 	void showNotification(String nickName, String tid, String pid, String title) {
 
 		if (StringUtil.isEmpty(tid)) {
@@ -463,6 +465,7 @@ public class CheckReplyNotificationTask extends
 	
 	
 
+	@SuppressWarnings("deprecation")
 	void showMsgNotification(int authId, int mid, String title) {
 
 		if (mid==0) {
@@ -536,6 +539,7 @@ public class CheckReplyNotificationTask extends
 		nm.notify(mid, notification);
 	}
 
+	@SuppressWarnings("deprecation")
 	void showStackedMsgNotification() {
 		NotificationManager nm = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);

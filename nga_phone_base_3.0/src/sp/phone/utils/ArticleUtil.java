@@ -1,7 +1,5 @@
 package sp.phone.utils;
 
-import gov.anzong.androidnga.R;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -150,6 +148,7 @@ public class ArticleUtil {
 
 	private static Context context;
 
+	@SuppressWarnings("static-access")
 	public ArticleUtil(Context context) {
 		super();
 		this.context = context;

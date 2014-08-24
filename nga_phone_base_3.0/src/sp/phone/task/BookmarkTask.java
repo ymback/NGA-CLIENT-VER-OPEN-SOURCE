@@ -1,7 +1,5 @@
 package sp.phone.task;
 
-import gov.anzong.androidnga.R;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

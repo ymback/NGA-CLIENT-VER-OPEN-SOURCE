@@ -21,10 +21,7 @@ import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -62,7 +59,6 @@ public class SignContainer extends Fragment implements
 	View headview;
 	LayoutInflater inflatera;
 	ThemeManager cfg;
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 	private ViewGroup mcontainer;
 
 	@Override
@@ -124,6 +120,7 @@ public class SignContainer extends Fragment implements
 		super.onPrepareOptionsMenu(menu);
 	}
 
+	@SuppressWarnings("unused")
 	public void refreshheadviewdata(View headview) {
 		Log.i("SignPageAdapter", "SignPageAdapter");
 		int colorId = R.color.shit1;

@@ -1,15 +1,9 @@
 package gov.anzong.androidnga.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
@@ -24,25 +18,18 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
-import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.ArticleListFragment;
 import sp.phone.fragment.ArticleListFragmentNew;
 import sp.phone.fragment.GotoDialogFragment;
@@ -73,7 +60,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	private static final String GOTO_TAG = "goto";
 	private int fid = 0;
 	private PullToRefreshAttacher mPullToRefreshAttacher;
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 
 	private int fromreplyactivity = 0;
 
@@ -118,7 +104,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 		if (authorid != 0) {
 			fromreplyactivity = 1;
 		}
-		View v = findViewById(android.R.id.content);// .getChildAt(0);
 		tabhost = (TabHost) findViewById(android.R.id.tabhost);
 		if(PhoneConfiguration.getInstance().kitwebview){
 			if (tabhost != null) {
@@ -388,6 +373,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void handleLockOrientation(MenuItem item) {
 		int preOrentation = ThemeManager.getInstance().screenOrentation;
 		int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;

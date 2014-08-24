@@ -53,7 +53,6 @@ public class NonameArticleContainerFragment extends Fragment implements
 	String url;
 	private static final String TAG = "NonameArticleContainerFragment";
 	private static final String GOTO_TAG = "goto";
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 	ViewGroup mcontainer;
 
 	@Override
@@ -331,6 +330,7 @@ public class NonameArticleContainerFragment extends Fragment implements
 
 	}
 
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void handleLockOrientation(MenuItem item) {
 		int preOrentation = ThemeManager.getInstance().screenOrentation;
 		int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;

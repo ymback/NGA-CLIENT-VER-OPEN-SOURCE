@@ -137,6 +137,7 @@ public class BadgeView extends TextView {
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	private void applyTo(View target) {
 		
 		LayoutParams lp = target.getLayoutParams();
@@ -254,6 +255,7 @@ public class BadgeView extends TextView {
 		toggle(true, animIn, animOut);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void show(boolean animate, Animation anim) {
 		if (getBackground() == null) {
 			if (badgeBg == null) {

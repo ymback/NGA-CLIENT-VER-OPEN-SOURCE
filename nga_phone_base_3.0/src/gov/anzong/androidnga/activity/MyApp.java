@@ -31,17 +31,15 @@ import android.graphics.Bitmap;
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2041;
+	public final static int version = 2042;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "最近访问";
@@ -68,6 +66,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		super.onCreate();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void initImageLoader() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.loading)
@@ -313,8 +312,6 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "-8627585", "牛头人酋长乐队", R.drawable.oldpdefault));
 		boards.addCategoryName(i, "个人版面");
 
-		SharedPreferences shareaddFid = getSharedPreferences(PERFERENCE,
-				MODE_PRIVATE);
 		String addFidStr = share.getString(ADD_FID, "");
 		List<Board> addFidList = null;
 		if (!StringUtil.isEmpty(addFidStr)) {
@@ -540,8 +537,6 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.addCategoryName(i, "个人版面");
 		// i++;
 
-		SharedPreferences shareaddFid = getSharedPreferences(PERFERENCE,
-				MODE_PRIVATE);
 		String addFidStr = share.getString(ADD_FID, "");
 		List<Board> addFidList = null;
 		if (!StringUtil.isEmpty(addFidStr)) {
@@ -744,6 +739,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		config.blackgunsound = share.getInt(BLACKGUN_SOUND, 0);
 		config.iconmode = share.getBoolean(SHOW_ICON_MODE, false);
 		config.swipeBack = share.getBoolean(SWIPEBACK, true);
+		config.swipeenablePosition = share.getInt(SWIPEBACKPOSITION, 2);
 
 		// font
 		final float defTextSize = 21.0f;// new TextView(this).getTextSize();

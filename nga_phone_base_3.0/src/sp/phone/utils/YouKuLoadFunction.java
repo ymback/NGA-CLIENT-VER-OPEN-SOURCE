@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 public class YouKuLoadFunction {
+	@SuppressWarnings("static-access")
 	public static String Load(String HTML) {
 		if(StringUtil.isEmpty(HTML))
 			return null;

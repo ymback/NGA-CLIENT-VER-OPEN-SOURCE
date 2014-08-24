@@ -41,7 +41,6 @@ public abstract class MyAbstractActivity extends Activity {
 			MenuInflater inflater = getMenuInflater();
 			inflater.inflate(this.getOptionMenuId(), menu);
 		}
-		final int flags = ThemeManager.ACTION_BAR_FLAG;
 	
 
 		int actionNum = ThemeManager.ACTION_IF_ROOM;//SHOW_AS_ACTION_IF_ROOM

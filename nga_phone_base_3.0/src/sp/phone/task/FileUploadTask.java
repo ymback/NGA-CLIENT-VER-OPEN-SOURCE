@@ -5,10 +5,8 @@ import gov.anzong.androidnga.R;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.apache.commons.io.IOUtils;
 
@@ -21,9 +19,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Looper;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -41,6 +37,7 @@ AsyncTask<String, Integer, String> {
 	private onFileUploaded notifier;
 	
 	private String filename ;
+	@SuppressWarnings("unused")
 	private String utfFilename;
 	private String contentType ;
 	final private Uri uri;

@@ -1,16 +1,13 @@
-
 package sp.phone.fragment;
 
 import java.util.List;
 
 import sp.phone.adapter.MeiziCategoryAdapter;
-import sp.phone.bean.MeiziTopicMData;
 import sp.phone.bean.MeiziUrlData;
 import sp.phone.bean.MeiziCategory.MeiziCategoryItem;
 import sp.phone.interfaces.OnMeiziCategoryLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.HTMLMeiziCategoryLoadTask;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.task.MeiziLoadingFooterTask;
 import sp.phone.task.MeiziLoadingFooterTask.ReloadListener;
 import sp.phone.utils.ActivityUtil;
@@ -32,10 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MeiziLoginActivity;
@@ -84,7 +78,8 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
 	private MultiColumnPullToRefreshListView mAdapterView = null;
 	PullToRefreshAttacher attacher = null;
 	HTMLMeiziCategoryLoadTask task;
-    private static Context mcontext;
+    @SuppressWarnings("unused")
+	private static Context mcontext;
     public MeiziCategoryFragment(){
     	
     }

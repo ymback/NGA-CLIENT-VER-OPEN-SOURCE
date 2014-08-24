@@ -2,20 +2,11 @@ package sp.phone.task;
 
 import gov.anzong.androidnga.R;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
-import sp.phone.bean.MessageListInfo;
-import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
-import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MessageUtil;
@@ -30,6 +21,7 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
 	private final Context context;
 	final private OnMessageDetialLoadFinishedListener notifier;
 	private String error;
+	@SuppressWarnings("unused")
 	private String table;
 	
 	

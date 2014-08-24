@@ -6,7 +6,6 @@ import noname.gson.parse.NonameThreadResponse;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.NonameTopicListAdapter;
 import sp.phone.bean.ThreadPageInfo;
-import sp.phone.fragment.MessageDetialListContainer;
 import sp.phone.fragment.NonameArticleContainerFragment;
 import sp.phone.fragment.NonameTopiclistContainer;
 import sp.phone.interfaces.EnterJsonNonameArticle;

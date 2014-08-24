@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
@@ -57,9 +56,11 @@ public class NonameArticleListFragmentNew extends Fragment implements
 	private LinearLayout linear = null;
 	private int page = 0;
 	private int tid;
+	@SuppressWarnings("unused")
 	private String title;
 	private int pid;
 	private boolean needLoad = true;
+	@SuppressWarnings("unused")
 	private static Context activity;
 	NonameReadResponse mData;
 

@@ -141,6 +141,40 @@
             android:layout_marginTop="6dp"
             android:layout_marginLeft="6dp"
             android:text="@string/swipeback" />
+        <RelativeLayout
+            android:id="@+id/swiperback_chooser"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:background="@drawable/touchable"
+            android:clickable="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/swipe_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="5dp"
+                android:text="@string/swipeback_hand"
+                android:textSize="16dp" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/swipeback_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ellipsize="end"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:singleLine="true"
+                android:text="@string/swipeback_left_right"
+                android:textSize="16dp" >
+            </TextView>
+        </RelativeLayout>
 
         <View
             android:layout_width="fill_parent"

@@ -1,9 +1,6 @@
 package sp.phone.forumoperation;
-import java.io.UnsupportedEncodingException;
-import java.lang.StringBuffer;
-import java.net.URLEncoder;
 
-import android.util.Log;
+import java.lang.StringBuffer;
 import sp.phone.utils.StringUtil;
 
 

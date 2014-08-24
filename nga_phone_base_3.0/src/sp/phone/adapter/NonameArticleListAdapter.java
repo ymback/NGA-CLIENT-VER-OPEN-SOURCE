@@ -1,71 +1,32 @@
 package sp.phone.adapter;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.PostActivity;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.ref.SoftReference;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import android.support.v4.app.Fragment;
-import sp.phone.adapter.ArticleListAdapter.ViewHolder;
-import sp.phone.bean.Attachment;
-import sp.phone.bean.AvatarTag;
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
-import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.listener.MyListenerForNonameReply;
-import sp.phone.listener.MyListenerForReply;
-import sp.phone.task.AvatarLoadTask;
-//import sp.phone.task.ForumTagDecodTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.Des;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
-import android.R.integer;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
-import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextPaint;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -76,8 +37,6 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 	private NonameReadResponse mData;
 	private static Context activity;
 	private final SparseArray<SoftReference<View>> viewCache;
-	private final Object lock = new Object();
-	private final HashSet<String> urlSet = new HashSet<String>();
 	static String userDistance = null;
 	static String meter = null;
 	static String kiloMeter = null;
@@ -88,6 +47,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 	static String sig = null;
 	final WebViewClient client;
 
+	@SuppressWarnings("static-access")
 	public NonameArticleListAdapter(Context activity) {
 		super();
 		this.activity = activity;

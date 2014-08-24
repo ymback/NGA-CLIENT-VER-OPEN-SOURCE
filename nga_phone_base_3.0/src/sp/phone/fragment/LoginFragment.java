@@ -1,7 +1,5 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.activity.LoginActivity;
-import gov.anzong.androidnga.activity.MainActivity;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.R;
 
@@ -63,8 +61,7 @@ PerferenceConstant{
 		userText = (EditText) view.findViewById(R.id.login_user_edittext);
 		passwordText = (EditText) view.findViewById(R.id.login_password_edittext);
 		userList = (ListView) view.findViewById(R.id.user_list);
-		userList.setAdapter(new UserListAdapter(getActivity()));
-		
+		userList.setAdapter(new UserListAdapter(getActivity(),userText));
 		String postUrl = "http://account.178.com/q_account.php?_act=login";
 
 
@@ -130,12 +127,10 @@ PerferenceConstant{
 
 
 		private class LoginTask extends AsyncTask<String, Integer,  Boolean>{
-			final View v;
 			private String uid=null;
 			private String cid=null;
 			public LoginTask(View v) {
 				super();
-				this.v = v;
 			}
 			@Override
 			protected  Boolean doInBackground(String... params) {

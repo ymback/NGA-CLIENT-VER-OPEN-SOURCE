@@ -2,24 +2,17 @@ package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ActionBarUserListAdapter;
-import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.adapter.MessageListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
-import sp.phone.bean.MessageDetialInfo;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
-import sp.phone.bean.ThreadData;
 import sp.phone.bean.User;
-import sp.phone.fragment.ArticleContainerFragment;
 import sp.phone.fragment.MessageDetialListContainer;
 import sp.phone.fragment.MessageListContainer;
-import sp.phone.fragment.SignContainer;
 import sp.phone.fragment.TopiclistContainer;
 import sp.phone.interfaces.EnterJsonMessageThread;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
-import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtil;
@@ -47,17 +40,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.support.v7.app.ActionBarActivity;
 
 public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 		implements OnMessageListLoadFinishedListener, OnItemClickListener,

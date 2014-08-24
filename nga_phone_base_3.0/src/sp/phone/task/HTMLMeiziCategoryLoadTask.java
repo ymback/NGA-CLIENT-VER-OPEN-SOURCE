@@ -1,7 +1,5 @@
 package sp.phone.task;
 
-import gov.anzong.androidnga.R;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -21,13 +19,14 @@ import sp.phone.utils.PhoneConfiguration;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 import sp.phone.utils.StringUtil;
 
 public class HTMLMeiziCategoryLoadTask extends
 		AsyncTask<String, Integer, List<MeiziUrlData>> {
+	@SuppressWarnings("unused")
 	private final static String TAG = HTMLMeiziCategoryLoadTask.class
 			.getSimpleName();
+	@SuppressWarnings("unused")
 	private final Context context;
 	final private OnMeiziCategoryLoadFinishedListener notifier;
 	private static String sHost = "http://www.dbmeizi.com";

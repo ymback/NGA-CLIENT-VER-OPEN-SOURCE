@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 public class BoardActivity extends FragmentActivity {
 
+	@SuppressWarnings("unused")
 	private boolean dualScreen;
 
 	@Override

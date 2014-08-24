@@ -1,10 +1,6 @@
 package sp.phone.task;
 
-import gov.anzong.androidnga.R;
-
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import org.jsoup.Jsoup;
@@ -13,7 +9,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import sp.phone.bean.MeiziTopicMData;
-import sp.phone.bean.MeiziUrlData;
 import sp.phone.bean.MeiziTopicMData.ContentItemType;
 import sp.phone.bean.MeiziTopicMData.TopicContentItem;
 import sp.phone.interfaces.OnMeiziTopicLoadFinishedListener;
@@ -21,7 +16,6 @@ import sp.phone.proxy.MeiziHtmlDecoderBase;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MeiziDateUtil;
-import sp.phone.utils.MeiziStringUtils;
 import sp.phone.utils.PhoneConfiguration;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -30,10 +24,13 @@ import android.text.TextUtils;
 import sp.phone.utils.StringUtil;
 
 public class HTMLMeiziTopicLoadTask extends AsyncTask<String, Integer, MeiziTopicMData> {
+	@SuppressWarnings("unused")
 	private final static String TAG = HTMLMeiziTopicLoadTask.class.getSimpleName();
+	@SuppressWarnings("unused")
 	private final Context context;
 	final private OnMeiziTopicLoadFinishedListener notifier;
-    private static String sHost = "http://www.dbmeizi.com";
+    @SuppressWarnings("unused")
+	private static String sHost = "http://www.dbmeizi.com";
 
 	
 	public HTMLMeiziTopicLoadTask(Context context,

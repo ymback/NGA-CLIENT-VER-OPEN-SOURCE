@@ -19,6 +19,7 @@ package com.huewu.pla.lib.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -942,6 +943,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 	 * 
 	 * @return A view displaying the data associated with the specified position
 	 */
+	@SuppressWarnings("deprecation")
 	View obtainView(int position, boolean[] isScrap) {
 		isScrap[0] = false;
 		View scrapView;
@@ -1465,7 +1467,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 		}
 	}
 
-	@Override
+	@SuppressLint("InlinedApi") @Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (!isEnabled()) {
 			// A disabled view that is clickable still consumes the touch
@@ -1751,7 +1753,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 		return true;
 	}
 
-	@Override
+	@SuppressLint("InlinedApi") @Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		int action = ev.getAction();
 		View v;
@@ -1813,6 +1815,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 		return false;
 	}
 
+	@SuppressLint("InlinedApi") 
 	private void onSecondaryPointerUp(MotionEvent ev) {
 		final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
 		final int pointerId = ev.getPointerId(pointerIndex);
@@ -2349,6 +2352,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 	 * @return true if we're already at the beginning/end of the list and have
 	 *         nothing to do.
 	 */
+	@SuppressWarnings("deprecation")
 	boolean trackMotionScroll(int deltaY, int incrementalDeltaY) {
 		// incrementalDeltaY = (int) (incrementalDeltaY * 2);
 		final int childCount = getChildCount();
@@ -3176,6 +3180,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 		/**
 		 * Move all views remaining in mActiveViews to mScrapViews.
 		 */
+		@SuppressWarnings("deprecation")
 		void scrapActiveViews() {
 			final View[] activeViews = mActiveViews;
 			final boolean hasListener = mRecyclerListener != null;

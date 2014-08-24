@@ -2,8 +2,6 @@ package sp.phone.utils;
 
 import gov.anzong.androidnga.activity.MyApp;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,10 +20,7 @@ import javax.net.ssl.SSLSession;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
 
@@ -75,6 +70,7 @@ public class HttpUtil {
 	public static String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);
 	//	public static final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("([Xiaomi MI 2S];Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 	//	public static final String USER_AGENT = new StringBuilder().append("Mozilla/5.0 (Linux; U; Android 2.3.3; zh-cn; SH12C Build/S4040) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1").toString();
+	@SuppressWarnings("unused")
 	public static void selectServer2() {
 		for (String host : host_arr) {
 			HttpURLConnection conn = null;
@@ -224,6 +220,7 @@ public class HttpUtil {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static String getHtml(String uri, String cookie) {
 		InputStream is = null;
 		String machine="";
@@ -270,6 +267,7 @@ public class HttpUtil {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static String getHtmlForDbmeizi(String uri, String cookie) {
 		InputStream is = null;
 		String machine="";
@@ -317,6 +315,7 @@ public class HttpUtil {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	public static String iosGetHtml(String uri, String cookie) {
 		InputStream is = null;
 		final String ios_ua = "Mozilla/5.0 (iPad; CPU OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3";
@@ -444,7 +443,6 @@ public class HttpUtil {
 	public static ArticlePage getArticlePageByJson(String uri) {
 		//TODO
 		String json = getHtml(uri,"");
-		long t = System.currentTimeMillis();
 		ArticlePage ap = JSON.parseObject(json, ArticlePage.class);
 		return ap;
 	}

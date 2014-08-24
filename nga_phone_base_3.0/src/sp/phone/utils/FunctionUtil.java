@@ -1,7 +1,6 @@
 package sp.phone.utils;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MessagePostActivity;
 import gov.anzong.androidnga.activity.MyApp;
 
 import java.lang.reflect.Field;
@@ -15,6 +14,7 @@ import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.fragment.ReportDialogFragment;
 import sp.phone.proxy.ProxyBridge;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -61,7 +61,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebSettings.RenderPriority;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -73,7 +72,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FunctionUtil {
+@SuppressLint("DefaultLocale") public class FunctionUtil {
 	static String userDistance = null;
 	static String meter = null;
 	static String kiloMeter = null;
@@ -114,6 +113,7 @@ public class FunctionUtil {
 		commentdata.setText(spanned);
 		commentdata.selectAll();
 		alert.setPositiveButton("∏¥÷∆", new DialogInterface.OnClickListener() {
+			@SuppressWarnings({ "unused", "deprecation" })
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				int start = commentdata.getSelectionStart();
@@ -191,6 +191,7 @@ public class FunctionUtil {
 		});
 	}
 
+	@SuppressWarnings("static-access")
 	public static void handleContentTV(WebView contentTV,
 			final NonameReadBody row,int position, int bgColor,final Context context, final Callback mActionModeCallback,WebViewClient client) {
 		contentTV.setBackgroundColor(0);
@@ -226,6 +227,7 @@ public class FunctionUtil {
 				"text/html", "utf-8", null);
 	}
 
+	@SuppressWarnings("static-access")
 	public static void handleContentTV(final WebView contentTV,
 			final MessageArticlePageInfo row, int bgColor, int fgColor,Context context) {
 		final WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
@@ -249,6 +251,7 @@ public class FunctionUtil {
 				"text/html", "utf-8", null);
 	}
 	
+	@SuppressWarnings("static-access")
 	public static void handleContentTV(WebView contentTV, final ThreadRowInfo row,
 			final int position, int bgColor,final Context context, final Callback mActionModeCallback,WebViewClient client) {
 		contentTV.setBackgroundColor(0);
@@ -482,6 +485,7 @@ public class FunctionUtil {
 		});
 	}
 
+	@SuppressWarnings("unused")
 	public static void Create_Vote_Dialog(ThreadRowInfo row,final Context context,final View scrollview,Toast toast) {
 		LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
 		final View view = layoutInflater.inflate(R.layout.vote_dialog, null);
@@ -533,7 +537,7 @@ public class FunctionUtil {
 				super.onProgressChanged(view, newProgress);
                 view.requestFocus(View.FOCUS_DOWN);
                 view.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
+                    @SuppressLint("ClickableViewAccessibility") @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
@@ -1087,6 +1091,7 @@ public class FunctionUtil {
 	
 	
 
+	@SuppressWarnings("unused")
 	public static String ColorTxt(String bodyString)
 	{
 		while(bodyString.startsWith("\n")){
@@ -1615,6 +1620,7 @@ public class FunctionUtil {
 				});
 
 		alert.setPositiveButton("»∑»œ", new DialogInterface.OnClickListener() {
+			@SuppressWarnings("unused")
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				String inputdata = input.getText().toString();

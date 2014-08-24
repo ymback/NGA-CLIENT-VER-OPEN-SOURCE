@@ -17,10 +17,10 @@ import java.util.regex.Pattern;
 
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.bean.StringFindResult;
-import android.R.integer;
+import android.annotation.SuppressLint;
 import android.util.Log;
 
-public class StringUtil {
+@SuppressLint("SimpleDateFormat") public class StringUtil {
 	public final static String key = "asdfasdf";
 	private final static String HOST = "http://nga.178.com/";
 	private static final String lesserNukeStyle = "<div style='border:1px solid #B63F32;margin:10px 10px 10px 10px;padding:10px' > <span style='color:#EE8A9E'>用户因此贴被暂时禁言，此效果不会累加</span><br/>";
@@ -153,7 +153,7 @@ public class StringUtil {
 
 	public static Long sDateToLong(String sDate, String dateFormat) {
 		DateFormat df = new SimpleDateFormat(dateFormat);
-		Date date = null;
+		Date date = new Date();
 		try {
 			date = df.parse(sDate);
 		} catch (ParseException e) {

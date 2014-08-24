@@ -32,6 +32,7 @@ public final class DiscCacheUtils {
 	}
 
 	/** Returns {@link File} of cached image or <b>null</b> if image was not cached in disk cache */
+	@SuppressWarnings("deprecation")
 	public static File findInCache(String imageUri, DiskCache diskCache) {
 		File image = diskCache.get(imageUri);
 		return image != null && image.exists() ? image : null;
@@ -42,6 +43,7 @@ public final class DiscCacheUtils {
 	 *
 	 * @return <b>true</b> - if cached image file existed and was deleted; <b>false</b> - otherwise.
 	 */
+	@SuppressWarnings("deprecation")
 	public static boolean removeFromCache(String imageUri, DiskCache diskCache) {
 		File image = diskCache.get(imageUri);
 		return image != null && image.exists() && image.delete();

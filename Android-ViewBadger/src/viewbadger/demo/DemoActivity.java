@@ -1,13 +1,12 @@
 package viewbadger.demo;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 
+import android.annotation.SuppressLint;
 import android.app.TabActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 import com.readystatesoftware.viewbadger.BadgeView;
 import com.readystatesoftware.viewbadger.R;
 
+@SuppressWarnings("deprecation")
 public class DemoActivity extends TabActivity {
     
 	private static final String[] DATA = Cheeses.sCheeseStrings;
@@ -221,6 +221,7 @@ public class DemoActivity extends TabActivity {
 	        sb.append((bytes[i / Byte.SIZE] << i % Byte.SIZE & 0x80) == 0 ? '0' : '1');
 	    return sb.toString();
 	}
+	@SuppressLint("InlinedApi") @SuppressWarnings("unused")
 	@Override
 	protected void onResume() {
 		
@@ -329,6 +330,7 @@ public class DemoActivity extends TabActivity {
             return position;
         }
 
+        @SuppressLint("InflateParams") 
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
 

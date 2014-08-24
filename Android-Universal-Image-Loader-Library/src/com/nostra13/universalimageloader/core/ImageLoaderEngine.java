@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.core;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.FlushedInputStream;
@@ -45,6 +46,7 @@ class ImageLoaderEngine {
 	private Executor taskExecutorForCachedImages;
 	private Executor taskDistributor;
 
+	@SuppressLint("UseSparseArrays") 
 	private final Map<Integer, String> cacheKeysForImageAwares = Collections
 			.synchronizedMap(new HashMap<Integer, String>());
 	private final Map<String, ReentrantLock> uriLocks = new WeakHashMap<String, ReentrantLock>();
@@ -67,6 +69,7 @@ class ImageLoaderEngine {
 	/** Submits task to execution pool */
 	void submit(final LoadAndDisplayImageTask task) {
 		taskDistributor.execute(new Runnable() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void run() {
 				File image = configuration.diskCache.get(task.getLoadingUri());

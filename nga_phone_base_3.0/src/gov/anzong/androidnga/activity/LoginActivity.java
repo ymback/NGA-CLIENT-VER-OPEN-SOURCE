@@ -7,7 +7,6 @@ import java.net.URLEncoder;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +16,8 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -95,7 +91,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 		userText = (EditText) findViewById(R.id.login_user_edittext);
 		passwordText = (EditText) findViewById(R.id.login_password_edittext);
 		userList = (ListView) findViewById(R.id.user_list);
-		userList.setAdapter(new UserListAdapter(this));
+		userList.setAdapter(new UserListAdapter(this,userText));
 
 		String postUrl = "http://account.178.com/q_account.php?_act=login";
 
@@ -167,6 +163,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void setbackgroundbitmap() {
 		if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) { // ÊúÆÁ
 			BitmapFactory.Options bfoOptions = new BitmapFactory.Options();

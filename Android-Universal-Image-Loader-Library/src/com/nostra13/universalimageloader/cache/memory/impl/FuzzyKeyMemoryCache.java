@@ -41,6 +41,7 @@ public class FuzzyKeyMemoryCache implements MemoryCache {
 		this.keyComparator = keyComparator;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean put(String key, Bitmap value) {
 		// Search equal key and remove this entry
@@ -59,21 +60,25 @@ public class FuzzyKeyMemoryCache implements MemoryCache {
 		return cache.put(key, value);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Bitmap get(String key) {
 		return cache.get(key);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void remove(String key) {
 		cache.remove(key);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void clear() {
 		cache.clear();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Collection<String> keys() {
 		return cache.keys();

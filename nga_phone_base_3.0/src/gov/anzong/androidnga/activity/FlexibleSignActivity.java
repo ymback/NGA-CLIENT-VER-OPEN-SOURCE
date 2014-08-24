@@ -27,10 +27,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 		OnSignPageLoadFinishedListener,
@@ -39,7 +36,6 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 	private String TAG = FlexibleTopicListActivity.class.getSimpleName();
 	boolean dualScreen = true;
 	int flags = 7;
-	private Spinner userList;
 	ArrayAdapter<String> categoryAdapter;
 	private PullToRefreshAttacher mPullToRefreshAttacher;
 

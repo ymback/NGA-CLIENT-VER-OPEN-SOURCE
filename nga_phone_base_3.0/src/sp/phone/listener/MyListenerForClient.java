@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 public class MyListenerForClient implements OnClickListener {
 	int mPosition;
-	private View button;
-	private long lastTimestamp = 0;
 	ThreadData mdata = new ThreadData();
 	Context mcontext;
 	View mscrollview;
@@ -31,6 +29,7 @@ public class MyListenerForClient implements OnClickListener {
 		mscrollview=scrollview;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 

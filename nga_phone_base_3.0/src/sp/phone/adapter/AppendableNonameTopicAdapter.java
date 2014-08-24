@@ -9,15 +9,10 @@ import java.util.Set;
 
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
-import sp.phone.interfaces.NextJsonTopicListLoader;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -30,7 +25,6 @@ public class AppendableNonameTopicAdapter extends NonameTopicListAdapter {
     private boolean isEndOfList = false;
     private boolean isPrompted = false;
 	Set<Integer> tidSet;
-	private int table;
 	public AppendableNonameTopicAdapter(Context context,PullToRefreshAttacher attacher,NextJsonNonameTopicListLoader loader ) {
 		super(context);
 		infoList = new ArrayList<NonameThreadResponse>();

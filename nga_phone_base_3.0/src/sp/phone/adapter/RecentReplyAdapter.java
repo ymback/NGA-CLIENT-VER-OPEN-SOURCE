@@ -20,7 +20,6 @@ import sp.phone.utils.StringUtil;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import sp.phone.bean.PerferenceConstant;
@@ -48,7 +47,7 @@ PerferenceConstant {
 
 	@Override
 	public Object getItem(int position) {
-		return list.get(position);
+		return list.get(list.size()-1-position);
 	}
 
 	@Override
@@ -62,6 +61,8 @@ PerferenceConstant {
 		public TextView titleTv;
 		public ImageView avatarIv;
 	};
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
@@ -78,10 +79,10 @@ PerferenceConstant {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		holder.nickTv.setText(list.get(position).getNickName());
+		holder.nickTv.setText(list.get(list.size()-1-position).getNickName());
 		
-		holder.titleTv.setText(list.get(position).getTitle());
-		handleAvatar(holder.avatarIv,list.get(position).getAuthorId());
+		holder.titleTv.setText(list.get(list.size()-1-position).getTitle());
+		handleAvatar(holder.avatarIv,list.get(list.size()-1-position).getAuthorId());
 
 		return convertView;
 	}
@@ -120,7 +121,7 @@ PerferenceConstant {
 
 	public void remove(int position) {
 		// TODO Auto-generated method stub
-		list.remove(position);
+		list.remove(list.size()-1-position);
 
 		SharedPreferences share = mcontext.getSharedPreferences(PERFERENCE,
 				Context.MODE_PRIVATE);

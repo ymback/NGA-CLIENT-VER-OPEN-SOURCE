@@ -8,12 +8,10 @@ import com.alibaba.fastjson.JSONObject;
 
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
-import sp.phone.bean.ThreadPageInfo;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.MD5Util;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import gov.anzong.androidnga.R;

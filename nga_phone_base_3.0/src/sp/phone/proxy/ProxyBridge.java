@@ -14,7 +14,6 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;

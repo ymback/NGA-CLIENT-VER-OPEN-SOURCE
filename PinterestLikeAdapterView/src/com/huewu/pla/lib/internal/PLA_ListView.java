@@ -18,6 +18,7 @@ package com.huewu.pla.lib.internal;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -1212,6 +1213,7 @@ public class PLA_ListView extends PLA_AbsListView {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void layoutChildren() {
 		final boolean blockLayoutRequests = mBlockLayoutRequests;
@@ -1440,6 +1442,7 @@ public class PLA_ListView extends PLA_AbsListView {
 	 *            Is this position selected?
 	 * @return View that was added
 	 */
+	@SuppressWarnings("deprecation")
 	private View makeAndAddView(int position, int childrenBottomOrTop,
 			boolean flow, boolean selected) {
 		View child;
@@ -2358,6 +2361,7 @@ public class PLA_ListView extends PLA_AbsListView {
 		}
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (mItemsCanFocus && ev.getAction() == MotionEvent.ACTION_DOWN

@@ -13,7 +13,6 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.HeaderViewListAdapter;
 import android.widget.Toast;

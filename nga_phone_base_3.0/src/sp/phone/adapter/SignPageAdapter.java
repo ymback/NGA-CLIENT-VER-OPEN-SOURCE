@@ -1,35 +1,20 @@
 package sp.phone.adapter;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.SignData;
-import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.ImageUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextPaint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +22,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SignPageAdapter extends BaseAdapter implements

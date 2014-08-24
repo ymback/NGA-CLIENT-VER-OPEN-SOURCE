@@ -17,15 +17,13 @@ import android.view.View;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import android.support.v7.app.ActionBarActivity;
 
 public class ImageViewerActivity extends  SwipeBackAppCompatActivity {
 	private WebView wv;
 	//private final String IPHONE_UA = "Mozilla/5.0 (iPad; CPU OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B176 Safari/7534.48.3";
+	@SuppressWarnings("static-access")
 	@Override
 	protected void onCreate(Bundle arg0) {
 		if(ActivityUtil.isGreaterThan_2_3_3())

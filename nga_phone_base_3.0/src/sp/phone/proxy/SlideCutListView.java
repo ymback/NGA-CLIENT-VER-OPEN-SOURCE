@@ -1,5 +1,6 @@
 package sp.phone.proxy;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -78,6 +79,7 @@ public class SlideCutListView extends ListView {
 		this(context, attrs, 0);
 	}
 
+	@SuppressWarnings("deprecation")
 	public SlideCutListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		screenWidth = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
@@ -179,7 +181,7 @@ public class SlideCutListView extends ListView {
 	/**
 	 * 处理我们拖动ListView item的逻辑
 	 */
-	@Override
+	@SuppressLint("ClickableViewAccessibility") @Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (isSlide && slidePosition != AdapterView.INVALID_POSITION) {
 			addVelocityTracker(ev);

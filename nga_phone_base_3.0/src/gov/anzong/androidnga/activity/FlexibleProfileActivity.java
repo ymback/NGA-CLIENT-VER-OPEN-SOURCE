@@ -6,13 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.text.Html;
@@ -58,11 +55,13 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 	private View view;
 	private final Object lock = new Object();
 	private final HashSet<String> urlSet = new HashSet<String>();
+	@SuppressWarnings("unused")
 	private Object mActionModeCallback = null;
 	private TextView basedata_title, user_id, user_name, user_email_title,
 			user_email, user_tel_title, user_tel, user_group, user_posttotal,message_title;
 	private TextView user_money_gold, user_money_silver, user_money_copper,
 			user_title, user_state, user_registertime, user_lastlogintime;
+	@SuppressWarnings("unused")
 	private ImageView avatargold, avatarsilver, avatarcopper, avatarImage;
 	private TextView avatar_title, sign_title, admin_title, fame_title,
 			search_title, admin2_title, fame2_title, user_shutup_title,

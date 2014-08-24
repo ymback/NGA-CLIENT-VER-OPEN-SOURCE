@@ -49,6 +49,7 @@ public class LimitedAgeMemoryCache implements MemoryCache {
 		this.maxAge = maxAge * 1000; // to milliseconds
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean put(String key, Bitmap value) {
 		boolean putSuccesfully = cache.put(key, value);
@@ -58,6 +59,7 @@ public class LimitedAgeMemoryCache implements MemoryCache {
 		return putSuccesfully;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Bitmap get(String key) {
 		Long loadingDate = loadingDates.get(key);
@@ -69,17 +71,20 @@ public class LimitedAgeMemoryCache implements MemoryCache {
 		return cache.get(key);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void remove(String key) {
 		cache.remove(key);
 		loadingDates.remove(key);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Collection<String> keys() {
 		return cache.keys();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void clear() {
 		cache.clear();

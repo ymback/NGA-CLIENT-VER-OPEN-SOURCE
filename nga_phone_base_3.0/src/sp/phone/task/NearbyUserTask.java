@@ -5,9 +5,7 @@ import java.net.URLEncoder;
 
 import sp.phone.interfaces.OnNearbyLoadComplete;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import android.location.Location;
 import android.os.AsyncTask;
 
 public 	class NearbyUserTask extends AsyncTask<String,Integer,String>{

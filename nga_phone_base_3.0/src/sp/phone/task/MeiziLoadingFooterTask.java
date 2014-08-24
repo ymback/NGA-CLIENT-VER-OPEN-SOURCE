@@ -1,4 +1,3 @@
-
 package sp.phone.task;
 
 import android.content.Context;
@@ -21,7 +20,8 @@ public class MeiziLoadingFooterTask {
 
     private Button mRetryButton;
 
-    private long mAnimationDuration;
+    @SuppressWarnings("unused")
+	private long mAnimationDuration;
 
     private ReloadListener mReloadListener;
 

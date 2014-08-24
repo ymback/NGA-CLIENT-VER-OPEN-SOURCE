@@ -1,9 +1,7 @@
 package sp.phone.interfaces;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MessageDetialActivity;
 import sp.phone.adapter.MessageListAdapter;
-import sp.phone.adapter.TopicListAdapter;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import android.app.Activity;

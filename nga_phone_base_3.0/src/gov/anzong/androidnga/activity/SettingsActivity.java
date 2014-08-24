@@ -1,15 +1,15 @@
 package gov.anzong.androidnga.activity;
 
-import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.List;
+
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 
 import com.alibaba.fastjson.JSON;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
-import sp.phone.bean.BoardHolder;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.utils.ActivityUtil;
@@ -21,24 +21,20 @@ import sp.phone.utils.ThemeManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,6 +67,9 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 	private CompoundButton showReplyButton;
 
 	private CompoundButton swipeback;
+	private RelativeLayout swipebackChooer;
+	private TextView swipebackOptionInfoTextView;
+	private TextView swipebackOptionChoiceTextView;
 
 	private CompoundButton showIconMode;
 	private CompoundButton refresh_after_post_setting_mode;
@@ -236,9 +235,17 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 				.setOnCheckedChangeListener(new ShowReplyButtonListener());
 		showReplyButton.setChecked(config.showReplyButton);
 
+		swipebackOptionChoiceTextView = (TextView) findViewById(R.id.swipe_textview);
+		swipebackOptionInfoTextView = (TextView) findViewById(R.id.swipeback_position);
+		swipebackChooer = (RelativeLayout) findViewById(R.id.swiperback_chooser);
 		swipeback = (CompoundButton) findViewById(R.id.checkBox_swipeback);
 		swipeback.setOnCheckedChangeListener(new SwipeBackButtonListener());
 		swipeback.setChecked(config.swipeBack);
+		updateSwipeBackChoiceText(config);
+		SwipeBackChooserListener swipebackChooserListener = new SwipeBackChooserListener();
+		swipebackChooer.setOnClickListener(swipebackChooserListener);
+		
+
 
 		showColortxt = (CompoundButton) findViewById(R.id.checkBox_color_txt);
 		showColortxt.setChecked(config.showColortxt);
@@ -331,6 +338,9 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		if (!checkBoxDownimgNowifi.isChecked()) {
 			imageQualityChooser.setVisibility(View.GONE);
 		}
+		if(!swipeback.isChecked()){
+			swipebackChooer.setVisibility(View.GONE);
+		}
 		if (!notificationSound.isChecked() || !notification.isChecked()) {
 			blackgunSoundChooser.setVisibility(View.GONE);
 		}
@@ -372,6 +382,27 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		case 3:
 			imageOptionChoiceTextView
 					.setText(R.string.image_quality_option_large);
+			break;
+		}
+	}
+	
+	private void updateSwipeBackChoiceText(PhoneConfiguration config) {
+		switch (config.swipeenablePosition) {
+		case 0:
+			swipebackOptionInfoTextView
+					.setText(R.string.swipeback_left);
+			break;
+		case 1:
+			swipebackOptionInfoTextView
+					.setText(R.string.swipeback_right);
+			break;
+		case 2:
+			swipebackOptionInfoTextView
+					.setText(R.string.swipeback_left_right);
+			break;
+		default:
+			swipebackOptionInfoTextView
+					.setText(R.string.swipeback_left_right_bottom);
 			break;
 		}
 	}
@@ -455,6 +486,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 		handsideOptionChoiceTextView.setTextColor(fgColor);
 		blackgunSoundTextView.setTextColor(fgColor);
 		blackgunSoundChoiceTextView.setTextColor(fgColor);
+		swipebackOptionInfoTextView.setTextColor(fgColor);
+		swipebackOptionChoiceTextView.setTextColor(fgColor);
 		view.setBackgroundResource(ThemeManager.getInstance()
 				.getBackgroundColor());
 
@@ -757,7 +790,31 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			Editor editor = share.edit();
 			editor.putBoolean(SWIPEBACK, isChecked);
 			editor.commit();
-
+			if (isChecked) {
+				swipebackChooer.setVisibility(View.VISIBLE);
+				final float density = getResources().getDisplayMetrics().density;// ªÒ»°∆¡ƒª√‹∂»PPI
+				getSwipeBackLayout().setEdgeSize(
+						(int) (MY_EDGE_SIZE * density + 0.5f));// 10dp
+				int pos= SwipeBackLayout.EDGE_ALL;
+				switch(PhoneConfiguration.getInstance().swipeenablePosition){
+				case 0:
+					pos=SwipeBackLayout.EDGE_LEFT;
+					break;
+				case 1:
+					pos=SwipeBackLayout.EDGE_RIGHT;
+					break;
+				case 2:
+					pos=SwipeBackLayout.EDGE_LEFT|SwipeBackLayout.EDGE_RIGHT;
+					break;
+				default:
+					pos = SwipeBackLayout.EDGE_ALL;
+					break;
+				}
+				getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+			} else {
+				swipebackChooer.setVisibility(View.GONE);
+				getSwipeBackLayout().setEdgeSize(0);
+			}
 		}
 
 	}
@@ -1104,6 +1161,67 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
 	}
 
+	class SwipeBackChooserListener implements android.view.View.OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					SettingsActivity.this);
+			String[] items = new String[] {
+					getString(R.string.swipeback_left),
+					getString(R.string.swipeback_right),
+					getString(R.string.swipeback_left_right),
+					getString(R.string.swipeback_left_right_bottom)};
+			builder.setTitle(R.string.swipeback_chooser_prompt);
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					PhoneConfiguration.getInstance().swipeenablePosition = which;
+					SharedPreferences share = getSharedPreferences(PERFERENCE,
+							MODE_PRIVATE);
+					Editor editor = share.edit();
+					editor.putInt(SWIPEBACKPOSITION, which);
+					editor.commit();
+					int pos = SwipeBackLayout.EDGE_ALL;
+					switch(which){
+					case 0:
+						pos=SwipeBackLayout.EDGE_LEFT;
+						break;
+					case 1:
+						pos=SwipeBackLayout.EDGE_RIGHT;
+						break;
+					case 2:
+						pos=SwipeBackLayout.EDGE_LEFT|SwipeBackLayout.EDGE_RIGHT;
+						break;
+					default:
+						pos = SwipeBackLayout.EDGE_ALL;
+						break;
+					}
+					getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+					updateSwipeBackChoiceText(PhoneConfiguration.getInstance());
+				}
+			});
+			final AlertDialog dialog = builder.create();
+			dialog.show();
+			dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface arg0) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+
+					if (PhoneConfiguration.getInstance().fullscreen) {
+						ActivityUtil.getInstance().setFullScreen(view);
+					}
+				}
+
+			});
+		}
+
+	}
+	
 	class HandSideChooserListener implements android.view.View.OnClickListener {
 
 		@Override

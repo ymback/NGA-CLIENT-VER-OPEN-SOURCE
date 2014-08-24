@@ -1,15 +1,10 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -22,25 +17,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TabWidget;
-import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.ArticleListAdapter;
-import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
-import sp.phone.fragment.NonameArticleContainerFragment.OnNonameArticleContainerFragmentListener;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
@@ -119,7 +107,6 @@ public class ArticleContainerFragment extends Fragment implements
 	String url;
 	private static final String TAG = "ArticleContainerFragment";
 	private static final String GOTO_TAG = "goto";
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 
 	ViewGroup mcontainer;
 	ThreadData result;
@@ -421,36 +408,8 @@ public class ArticleContainerFragment extends Fragment implements
 		} catch (ClassCastException e) {
 		}
 	}
-
-	private void fillFormated_html_data(ThreadRowInfo row, int i) {
-
-		ThemeManager theme = ThemeManager.getInstance();
-		if (row.getContent() == null) {
-			row.setContent(row.getSubject());
-			row.setSubject(null);
-		}
-		if (!StringUtil.isEmpty(row.getFromClient())) {
-			if (row.getFromClient().startsWith("103 ")
-					&& !StringUtil.isEmpty(row.getContent())) {
-				row.setContent(StringUtil.unescape(row.getContent()));
-			}
-		}
-		int bgColor = getActivity().getResources().getColor(
-				theme.getBackgroundColor(i));
-		int fgColor = getActivity().getResources().getColor(
-				theme.getForegroundColor());
-		bgColor = bgColor & 0xffffff;
-		final String bgcolorStr = String.format("%06x", bgColor);
-
-		int htmlfgColor = fgColor & 0xffffff;
-		final String fgColorStr = String.format("%06x", htmlfgColor);
-
-		String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-				FunctionUtil.isShowImage(getActivity()), FunctionUtil.showImageQuality(getActivity()), fgColorStr, bgcolorStr,getActivity());
-
-		row.setFormated_html_data(formated_html_data);
-	}
 	
+	@SuppressWarnings({ "deprecation", "unused" })
 	private void handleLockOrientation(MenuItem item) {
 		int preOrentation = ThemeManager.getInstance().screenOrentation;
 		int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;

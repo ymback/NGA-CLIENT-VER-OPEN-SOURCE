@@ -32,6 +32,7 @@ public class AvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
 	}
 
 
+	@SuppressWarnings("resource")
 	@Override
 	protected Bitmap doInBackground(String... params) {
 		

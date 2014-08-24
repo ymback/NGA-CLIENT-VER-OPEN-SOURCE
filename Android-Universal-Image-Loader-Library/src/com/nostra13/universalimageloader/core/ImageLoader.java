@@ -203,6 +203,7 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageAware</b> is null
 	 */
+	@SuppressWarnings("deprecation")
 	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options,
 			ImageLoadingListener listener, ImageLoadingProgressListener progressListener) {
 		checkConfiguration();
@@ -584,6 +585,7 @@ public class ImageLoader {
 	 *
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
+	@SuppressWarnings("deprecation")
 	public void clearMemoryCache() {
 		checkConfiguration();
 		configuration.memoryCache.clear();
@@ -626,6 +628,7 @@ public class ImageLoader {
 	 *
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
+	@SuppressWarnings("deprecation")
 	public void clearDiskCache() {
 		checkConfiguration();
 		configuration.diskCache.clear();
@@ -723,6 +726,7 @@ public class ImageLoader {
 	 * You can {@linkplain #init(ImageLoaderConfiguration) init} ImageLoader with new configuration after calling this
 	 * method.
 	 */
+	@SuppressWarnings("deprecation")
 	public void destroy() {
 		if (configuration != null) L.d(LOG_DESTROY);
 		stop();

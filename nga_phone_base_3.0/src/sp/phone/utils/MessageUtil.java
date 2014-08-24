@@ -3,22 +3,14 @@ package sp.phone.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.adapter.MessageDetialAdapter;
 import sp.phone.bean.ArticlePage;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
-import sp.phone.bean.MessageThreadPageInfo;
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.ThreadRowInfo;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.util.Log;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -154,6 +146,7 @@ public class MessageUtil {
 
 	private static Context context;
 
+	@SuppressWarnings("static-access")
 	public MessageUtil(Context context) {
 		super();
 		this.context = context;
@@ -273,6 +266,7 @@ public class MessageUtil {
 		row.setSignature(userInfo.getString("signature"));
 	}
 
+	@SuppressWarnings("unused")
 	private List<MessageArticlePageInfo> convertJSobjToList(JSONObject rowMap,
 			JSONObject userInfoMap) {
 

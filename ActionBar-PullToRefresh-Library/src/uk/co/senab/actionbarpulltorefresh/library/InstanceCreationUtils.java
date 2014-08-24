@@ -29,6 +29,7 @@ import uk.co.senab.actionbarpulltorefresh.library.viewdelegates.AbsListViewDeleg
 import uk.co.senab.actionbarpulltorefresh.library.viewdelegates.ScrollYDelegate;
 import uk.co.senab.actionbarpulltorefresh.library.viewdelegates.WebViewDelegate;
 
+@SuppressWarnings("rawtypes")
 class InstanceCreationUtils {
 
     private static final String LOG_TAG = "InstanceCreationUtils";
@@ -77,7 +78,8 @@ class InstanceCreationUtils {
         return null;
     }
 
-    private static <T> T newInstance(Context context, Class clazz, Class[] constructorSig,
+    @SuppressWarnings("unchecked")
+	private static <T> T newInstance(Context context, Class clazz, Class[] constructorSig,
             Object[] arguments) {
         try {
             Constructor<?> constructor = clazz.getConstructor(constructorSig);

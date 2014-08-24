@@ -11,6 +11,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -47,7 +48,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
 	
 	
 	
-	@Override
+	@SuppressLint("SimpleDateFormat") @Override
 	protected String doInBackground(String... params) {
 		Log.d(TAG, "start to check new app version");
 		ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -133,6 +134,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
 		
 		return apkId;
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onPostExecute(String result) {
 		if(result == null)

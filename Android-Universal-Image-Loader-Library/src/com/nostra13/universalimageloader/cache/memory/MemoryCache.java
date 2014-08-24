@@ -23,5 +23,6 @@ import android.graphics.Bitmap;
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  * @since 1.9.2
  */
+@SuppressWarnings("deprecation")
 public interface MemoryCache extends MemoryCacheAware<String, Bitmap> {
 }

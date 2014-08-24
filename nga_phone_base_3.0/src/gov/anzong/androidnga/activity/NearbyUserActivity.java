@@ -20,7 +20,6 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -92,31 +91,6 @@ implements PerferenceConstant,OnNearbyLoadComplete,PullToRefreshAttacherOnwer{
 			Log.e("NEARBYUSERACTIVITY",
 					"father activity should implement PullToRefreshAttacherOnwer");
 		}
-	}
-
-	private void refresh_saying() {
-		DefaultHeaderTransformer transformer = null;
-
-		if (attacher != null) {
-			uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
-			headerTransformer = attacher.getHeaderTransformer();
-			if (headerTransformer != null
-					&& headerTransformer instanceof DefaultHeaderTransformer)
-				transformer = (DefaultHeaderTransformer) headerTransformer;
-		}else{
-		}
-
-		if (transformer == null){
-			if(PhoneConfiguration.getInstance().fullscreen){ 
-				refresh_saying();
-			}else{
-				ActivityUtil.getInstance().noticeSaying(this);
-			}
-			}
-		else
-			transformer.setRefreshingText(ActivityUtil.getSaying());
-		if (attacher != null)
-			attacher.setRefreshing(true);
 	}
 	
 	void initLocation()

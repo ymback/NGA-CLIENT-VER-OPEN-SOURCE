@@ -3,6 +3,7 @@ package com.huewu.pla.lib;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -41,7 +42,7 @@ import android.widget.TextView;
  * @author Erik Wallentinsen <dev+ptr@erikw.eu>
  * @version 1.0.0
  */
-public class MultiColumnPullToRefreshListView extends MultiColumnListView {
+@SuppressLint("ClickableViewAccessibility") public class MultiColumnPullToRefreshListView extends MultiColumnListView {
 
 	private static final float PULL_RESISTANCE                 = 1.7f;
 	private static final int   BOUNCE_ANIMATION_DURATION       = 200;
@@ -77,6 +78,7 @@ public class MultiColumnPullToRefreshListView extends MultiColumnListView {
 	private String  releaseToRefreshText;
 	private String  refreshingText;
 	private String  lastUpdatedText;
+	@SuppressLint("SimpleDateFormat") 
 	private SimpleDateFormat lastUpdatedDateFormat = new SimpleDateFormat("dd/MM HH:mm");
 
 	private float                  previousY;
@@ -218,6 +220,7 @@ public class MultiColumnPullToRefreshListView extends MultiColumnListView {
 		}
 	}
 
+	@SuppressLint("InflateParams") 
 	private void init(){
 		setVerticalFadingEdgeEnabled(false);
 
@@ -519,6 +522,7 @@ public class MultiColumnPullToRefreshListView extends MultiColumnListView {
 
 	private class PTROnGlobalLayoutListener implements OnGlobalLayoutListener{
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onGlobalLayout(){
 			int initialHeaderHeight = header.getHeight();

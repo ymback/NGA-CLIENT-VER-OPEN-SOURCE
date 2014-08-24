@@ -3,30 +3,16 @@ package sp.phone.adapter;
 import gov.anzong.androidnga.R;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
-import sp.phone.bean.MessageListInfo;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
-import sp.phone.interfaces.NextJsonMessageListLoader;
-import sp.phone.interfaces.NextJsonTopicListLoader;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.MessageUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -39,6 +25,7 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
     private boolean isEndOfList = false;
 	Toast toast=null;
 	static Context context;
+	@SuppressWarnings("static-access")
 	public AppendableMessageDetialAdapter(Context context,PullToRefreshAttacher attacher,NextJsonMessageDetialLoader loader ) {
 		super(context);
 		this.context=context;
@@ -125,7 +112,8 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
 		return count;
 	}
 	
-    @Override
+    @SuppressWarnings("static-access")
+	@Override
     public View getView(int position, View view, ViewGroup parent) {
         View ret = super.getView(position, view, parent);
         if( position +1 == this.getCount() && !isLoading){

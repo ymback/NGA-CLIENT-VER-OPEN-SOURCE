@@ -1,24 +1,14 @@
 package sp.phone.adapter;
 
-import java.math.BigInteger;
-import java.util.Locale;
-
-import com.alibaba.fastjson.util.Base64;
-
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;

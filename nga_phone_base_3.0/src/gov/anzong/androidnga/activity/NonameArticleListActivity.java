@@ -1,51 +1,32 @@
 package gov.anzong.androidnga.activity;
 
 import noname.gson.parse.NonameReadResponse;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.nfc.NfcAdapter.CreateNdefMessageCallback;
-import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
 import sp.phone.bean.PerferenceConstant;
-import sp.phone.bean.ThreadData;
-import sp.phone.fragment.AlertDialogFragment;
-import sp.phone.fragment.ArticleListFragment;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.fragment.NonameArticleListFragment;
 import sp.phone.fragment.NonameArticleListFragmentNew;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.interfaces.ResetableArticle;
-import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -65,7 +46,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 	private static final String TAG = "ArticleListActivity";
 	private static final String GOTO_TAG = "goto";
 	private PullToRefreshAttacher mPullToRefreshAttacher;
-	final private String ALERT_DIALOG_TAG = "alertdialog";
 
 	PullToRefreshAttacher attacher = null;
 
@@ -308,6 +288,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 
 	}
 
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void handleLockOrientation(MenuItem item) {
 		int preOrentation = ThemeManager.getInstance().screenOrentation;
 		int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;

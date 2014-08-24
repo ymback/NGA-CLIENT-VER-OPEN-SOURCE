@@ -1,19 +1,10 @@
 package sp.phone.utils;
 
-import org.apache.commons.io.Charsets;
-
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.spi.CharsetProvider;
-import java.util.ServiceLoader;
-
 /**
  * Created by Administrator on 13-12-3.
  */
 public class UriEncoderWithCharset {
-    private static final  String DEFAULT_ENCODING = "UTF-8";
     public static String encode(String s,String allow, String charset) {
         if (s == null) {
             return null;

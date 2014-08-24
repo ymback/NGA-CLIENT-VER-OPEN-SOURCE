@@ -1,4 +1,3 @@
-
 package sp.phone.adapter;
 
 import java.util.ArrayList;
@@ -10,8 +9,6 @@ import sp.phone.utils.ThemeManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,16 +28,9 @@ public class MeiziTopicAdapter extends BaseAdapter {
 
     private LayoutInflater mLayoutInflater;
 
-    private Drawable mLoadingImageDrawable;
-
-    private Drawable mFailedImageDrawable;
-
     public MeiziTopicAdapter(Activity activity) {
         mLayoutInflater = activity.getLayoutInflater();
         mData = new ArrayList<MeiziTopicMData.TopicContentItem>();
-
-        mLoadingImageDrawable = activity.getResources().getDrawable(R.drawable.loading);
-        mFailedImageDrawable = activity.getResources().getDrawable(R.drawable.loading_fail);
     }
 
     public void setData(List<TopicContentItem> data) {

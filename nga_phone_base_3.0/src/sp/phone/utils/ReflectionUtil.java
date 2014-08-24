@@ -1,11 +1,9 @@
 package sp.phone.utils;
 
-import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.MainActivity;
 
 import java.lang.reflect.Method;
 
-import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;

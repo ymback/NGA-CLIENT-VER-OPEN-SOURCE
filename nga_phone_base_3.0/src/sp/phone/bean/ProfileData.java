@@ -1,7 +1,6 @@
 package sp.phone.bean;
 
 import java.util.List;
-import java.util.Map;
 
 public class ProfileData {
 	private String uid;

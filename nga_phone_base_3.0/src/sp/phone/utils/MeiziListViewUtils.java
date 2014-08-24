@@ -1,10 +1,8 @@
-
 package sp.phone.utils;
 
 import com.huewu.pla.lib.MultiColumnListView;
 
 import android.os.Build.VERSION;
-import android.widget.ListView;
 
 public class MeiziListViewUtils {
     private MeiziListViewUtils() {

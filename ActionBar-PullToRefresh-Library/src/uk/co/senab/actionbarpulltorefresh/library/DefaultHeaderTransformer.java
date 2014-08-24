@@ -20,6 +20,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -65,7 +66,7 @@ public class DefaultHeaderTransformer extends PullToRefreshAttacher.HeaderTransf
         }
     }
 
-    @Override
+    @SuppressLint("InlinedApi") @Override
     public void onViewCreated(Activity activity, View headerView) {
         mHeaderView = headerView;
 
@@ -260,7 +261,8 @@ public class DefaultHeaderTransformer extends PullToRefreshAttacher.HeaderTransf
         mReleaseLabel = releaseText;
     }
 
-    private void setupViewsFromStyles(Activity activity, View headerView) {
+    @SuppressWarnings("deprecation")
+	private void setupViewsFromStyles(Activity activity, View headerView) {
         final TypedArray styleAttrs = obtainStyledAttrsFromThemeAttr(activity,
                 R.attr.ptrHeaderStyle, R.styleable.PullToRefreshHeader);
 
@@ -331,6 +333,7 @@ public class DefaultHeaderTransformer extends PullToRefreshAttacher.HeaderTransf
         }
     }
 
+    @SuppressLint("InlinedApi") 
     protected Drawable getActionBarBackground(Context context) {
         int[] android_styleable_ActionBar = {android.R.attr.background};
 
@@ -345,6 +348,7 @@ public class DefaultHeaderTransformer extends PullToRefreshAttacher.HeaderTransf
         }
     }
 
+    @SuppressLint("InlinedApi") 
     protected int getActionBarSize(Context context) {
         int[] attrs = {android.R.attr.actionBarSize};
         TypedArray values = context.getTheme().obtainStyledAttributes(attrs);
@@ -355,6 +359,7 @@ public class DefaultHeaderTransformer extends PullToRefreshAttacher.HeaderTransf
         }
     }
 
+    @SuppressLint("InlinedApi") 
     protected int getActionBarTitleStyle(Context context) {
         int[] android_styleable_ActionBar = {android.R.attr.titleTextStyle};
 

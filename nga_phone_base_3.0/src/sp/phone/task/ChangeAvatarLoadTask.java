@@ -3,10 +3,6 @@ package sp.phone.task;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.zip.ZipFile;
-
-import sp.phone.bean.AvatarTag;
-import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
@@ -31,6 +27,7 @@ public class ChangeAvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
 	}
 
 
+	@SuppressWarnings("resource")
 	@Override
 	protected Bitmap doInBackground(String... params) {
 		

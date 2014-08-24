@@ -1,11 +1,7 @@
 package sp.phone.forumoperation;
-import java.io.UnsupportedEncodingException;
+
 import java.lang.StringBuffer;
-import java.net.URLEncoder;
-
-import android.util.Log;
 import sp.phone.utils.StringUtil;
-
 
 public class SignPostAction {
 		private String func_;

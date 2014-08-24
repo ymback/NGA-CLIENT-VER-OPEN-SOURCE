@@ -1,16 +1,10 @@
 package sp.phone.adapter;
 
 import sp.phone.fragment.BoardPagerFragment;
-import sp.phone.fragment.TopiclistContainer;
 import sp.phone.interfaces.PageCategoryOwnner;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 public class BoardPagerAdapter extends FragmentStatePagerAdapter {

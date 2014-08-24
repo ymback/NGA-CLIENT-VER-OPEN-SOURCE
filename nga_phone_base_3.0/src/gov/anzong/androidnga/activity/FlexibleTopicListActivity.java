@@ -9,8 +9,6 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.fragment.ArticleContainerFragment;
-import sp.phone.fragment.MessageDetialListContainer;
-import sp.phone.fragment.MessageListContainer;
 import sp.phone.fragment.TopiclistContainer;
 import sp.phone.interfaces.EnterJsonArticle;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;

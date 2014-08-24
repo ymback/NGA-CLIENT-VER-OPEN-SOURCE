@@ -114,6 +114,7 @@ final class LoadAndDisplayImageTask implements Runnable, IoUtils.CopyListener {
 		syncLoading = options.isSyncLoading();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 		if (waitIfPaused()) return;
@@ -210,6 +211,7 @@ final class LoadAndDisplayImageTask implements Runnable, IoUtils.CopyListener {
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	private Bitmap tryLoadBitmap() throws TaskCancelledException {
 		Bitmap bitmap = null;
 		try {
@@ -286,12 +288,14 @@ final class LoadAndDisplayImageTask implements Runnable, IoUtils.CopyListener {
 		return loaded;
 	}
 
+	@SuppressWarnings("deprecation")
 	private boolean downloadImage() throws IOException {
 		InputStream is = getDownloader().getStream(uri, options.getExtraForDownloader());
 		return configuration.diskCache.save(uri, is, this);
 	}
 
 	/** Decodes image file into Bitmap, resize it and save it back */
+	@SuppressWarnings("deprecation")
 	private boolean resizeAndSaveImage(int maxWidth, int maxHeight) throws IOException {
 		// Decode image file, compress and re-save it
 		boolean saved = false;
@@ -467,6 +471,7 @@ final class LoadAndDisplayImageTask implements Runnable, IoUtils.CopyListener {
 	 * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
 	 * @since 1.9.1
 	 */
+	@SuppressWarnings("serial")
 	class TaskCancelledException extends Exception {
 	}
 }

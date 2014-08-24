@@ -1,13 +1,9 @@
 package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.ActionBarUserListAdapter;
-import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.SignData;
-import sp.phone.bean.User;
 import android.widget.AdapterView.OnItemClickListener;
 import sp.phone.fragment.MessageDetialListContainer;
-import sp.phone.fragment.SignContainer;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwnner;
@@ -18,24 +14,18 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 		OnSignPageLoadFinishedListener,PagerOwnner,OnItemClickListener, 
@@ -44,9 +34,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 	private String TAG = MessageDetialActivity.class.getSimpleName();
 	boolean dualScreen = true;
 	int flags = ThemeManager.ACTION_BAR_FLAG;
-	private Object mActionModeCallback = null;
 	int mid;
-	private Spinner userList;
 	ArrayAdapter<String> categoryAdapter;
 	int nightmode;
 	private PullToRefreshAttacher mPullToRefreshAttacher;

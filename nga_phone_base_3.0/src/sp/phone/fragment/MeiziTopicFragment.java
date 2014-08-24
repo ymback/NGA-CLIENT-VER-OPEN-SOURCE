@@ -4,15 +4,12 @@ import sp.phone.adapter.MeiziTopicAdapter;
 import sp.phone.bean.MeiziTopicMData;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMeiziTopicLoadFinishedListener;
-import sp.phone.task.HTMLMeiziCategoryLoadTask;
 import sp.phone.task.HTMLMeiziTopicLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.MeiziDateUtil;
 import sp.phone.utils.MeiziNavigationUtil;
-import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,6 +24,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import gov.anzong.androidnga.R;
+
 public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFinishedListener{
 
 	private static final String TAG = MeiziTopicFragment.class.getSimpleName();
