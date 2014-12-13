@@ -40,31 +40,6 @@
                 android:paddingRight="3dp"
                 android:text=""
                 android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/poster_ori"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/poster"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:paddingRight="3dp"
-                android:text="@string/btn_poster"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/topic_ori"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/topic"
-                android:drawablePadding="3dp"
-                android:gravity="center"
-                android:text="@string/btn_topic"
-                android:textSize="13sp" />
         </LinearLayout>
 
         <View

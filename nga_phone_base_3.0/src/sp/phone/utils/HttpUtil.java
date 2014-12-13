@@ -1,6 +1,5 @@
 package sp.phone.utils;
 
-import gov.anzong.androidnga.activity.MyApp;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,7 +50,7 @@ public class HttpUtil {
 	public static String Server = "http://nga.178.com";
 
 	public static String NonameServer = "http://ngac.sinaapp.com/nganoname";
-	public static final String NGA_ATTACHMENT_HOST = "img6.nga.178.com";
+	public static final String NGA_ATTACHMENT_HOST = "img.nga.178.com";
 	private static final String servers[] = {"http://nga.178.com","http://nga.178.com"};
 	private static final String TAG = HttpUtil.class.getSimpleName();
 	/*private static String[] host_arr = { "http://aa121077313.gicp.net:8099",
@@ -267,52 +266,6 @@ public class HttpUtil {
 		return null;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static String getHtmlForDbmeizi(String uri, String cookie) {
-		InputStream is = null;
-		String machine="";
-		if(MODEL.indexOf(MANUFACTURER)>=0){
-			machine=android.os.Build.MODEL;
-		}else{
-			machine=android.os.Build.MANUFACTURER+" "+android.os.Build.MODEL;
-		}
-		if(machine.length()<19){
-			machine="["+machine+"]";
-		}
-		final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(573).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
-		
-		try {
-			URL url = new URL(uri);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			if(!StringUtil.isEmpty(cookie))
-				conn.setRequestProperty("Cookie", cookie);
-			conn.setRequestProperty("User-Agent", USER_AGENT);
-			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
-		        System.setProperty("http.keepAlive", "false");
-		    }else{
-				conn.setRequestProperty("Connection", "close");
-		    }
-			conn.setConnectTimeout(5000);
-			conn.setReadTimeout(10000);
-			conn.connect();
-            if(conn.getResponseCode() == 200)
-			    is = conn.getInputStream();
-            else
-                is = conn.getErrorStream();
-			if( "gzip".equals(conn.getHeaderField("Content-Encoding")) )
-				is = new GZIPInputStream(is);
-			String encoding =  getCharset( conn, "utf-8");
-			return IOUtils.toString(is, encoding);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			IOUtils.closeQuietly(is);
-		}
-		return null;
-	}
 	
 	
 	@SuppressWarnings("deprecation")
@@ -404,7 +357,7 @@ public class HttpUtil {
 		}
 		return null;
 	}
-	private static String getCharset(HttpURLConnection conn, String defaultValue){
+	public static String getCharset(HttpURLConnection conn, String defaultValue){
 		if(conn== null)
 			return defaultValue;
 		String contentType = conn.getHeaderField("Content-Type");

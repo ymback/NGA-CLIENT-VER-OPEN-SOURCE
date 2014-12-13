@@ -28,7 +28,7 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
 	private static final String TAG = NonameFileUploadTask.class
 			.getSimpleName();
 	private static final String BOUNDARY = "-----------------------------7db1c5232222b";
-	private static final String ATTACHMENT_SERVER = "http://ngac.sinaapp.com/nganoname/attach.php?";
+	private static final String ATTACHMENT_SERVER = "http://app.myauth.us/api/attach.php?";
 	private static final String LOG_TAG = NonameFileUploadTask.class
 			.getSimpleName();
 

@@ -6,7 +6,7 @@ import java.util.Map;
 public class ThreadRowInfo {
 	
 	private int tid;
-	//private String fid;
+	private int fid;
 	// private int quote_from;
 	 //private String quote_to;
 	// private String icon;
@@ -118,6 +118,9 @@ public class ThreadRowInfo {
 	}
 	public int getPid() {
 		return pid;
+	}
+	public int getFid() {
+		return fid;
 	}
 	public void setPid(int pid) {
 		this.pid = pid;

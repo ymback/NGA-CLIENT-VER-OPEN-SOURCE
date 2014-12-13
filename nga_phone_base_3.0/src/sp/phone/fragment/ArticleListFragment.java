@@ -627,6 +627,43 @@ public class ArticleListFragment extends Fragment implements
 			}
 			break;
 		case R.id.post_comment:
+
+			final String quote_regex1 = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
+			final String replay_regex1 = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
+			content = content.replaceAll(quote_regex1, "");
+			content = content.replaceAll(replay_regex1, "");
+			final String postTime1 = row.getPostdate();
+
+			content = FunctionUtil.checkContent(content);
+			content = StringUtil.unEscapeHtml(content);
+			if (row.getPid() != 0) {
+				mention = name;
+				postPrefix.append("[quote][pid=");
+				postPrefix.append(row.getPid());
+				postPrefix.append(',').append(tidStr).append(",").append(page);
+				postPrefix.append("]");// Topic
+				postPrefix.append("Reply");
+				if (row.getISANONYMOUS()) {// 是匿名的人
+					postPrefix.append("[/pid] [b]Post by [uid=");
+					postPrefix.append("-1");
+					postPrefix.append("]");
+					postPrefix.append(name);
+					postPrefix.append("[/uid][color=gray](");
+					postPrefix.append(row.getLou());
+					postPrefix.append("楼)[/color] (");
+				} else {
+					postPrefix.append("[/pid] [b]Post by [uid=");
+					postPrefix.append(uid);
+					postPrefix.append("]");
+					postPrefix.append(name);
+					postPrefix.append("[/uid] (");
+				}
+				postPrefix.append(postTime1);
+				postPrefix.append("):[/b]\n");
+				postPrefix.append(content);
+				postPrefix.append("[/quote]\n");
+			}
+
 			final String dialog_tag = "post comment";
 			FragmentTransaction ft = getActivity().getSupportFragmentManager()
 					.beginTransaction();
@@ -638,7 +675,14 @@ public class ArticleListFragment extends Fragment implements
 			DialogFragment df = new PostCommentDialogFragment();
 			Bundle b = new Bundle();
 			b.putInt("pid", row.getPid());
+			b.putInt("fid", row.getFid());
 			b.putInt("tid", this.tid);
+			String prefix=StringUtil.removeBrTag(postPrefix.toString());
+			if(!StringUtil.isEmpty(prefix)){
+				prefix=prefix+"\n";
+			}
+			intent.putExtra("prefix",prefix
+					);
 			df.setArguments(b);
 			df.show(ft, dialog_tag);
 

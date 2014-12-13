@@ -5,29 +5,49 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import org.apache.commons.io.IOUtils;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import sp.phone.forumoperation.HttpPostClient;
+import sp.phone.interfaces.OnPostCommentFinishedListener;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 public class PostCommentTask extends AsyncTask<String, Integer, String> {
 	private final int pid;
 	private final int tid;
-	private static final String postCommentUri = "http://nga.178.com/nuke.php?func=comment";
+	private final int fid;
+	private final String prefix;
+	int anonymode;
+	boolean success;
+	private static final String postCommentUri = "http://nga.178.com/post.php";
 	final private FragmentActivity fragmentActivity;
-	public PostCommentTask(int pid, int tid, FragmentActivity fragmentActivity) {
+	OnPostCommentFinishedListener notifier;
 
+	public PostCommentTask(int fid, int pid, int tid, int anonymode,
+			String prefix, FragmentActivity fragmentActivity,
+			OnPostCommentFinishedListener notifier) {
+		this.fid = fid;
 		this.pid = pid;
 		this.tid = tid;
+		this.prefix = prefix;
 		this.fragmentActivity = fragmentActivity;
+		this.notifier = notifier;
+		this.anonymode = anonymode;
 	}
 
 	@Override
 	protected String doInBackground(String... params) {
 		String comment = params[0];
-		HttpPostClient c =  new HttpPostClient(postCommentUri);
+		if (!StringUtil.isEmpty(prefix)) {
+			comment = prefix + comment;
+		}
+		HttpPostClient c = new HttpPostClient(postCommentUri);
 		String cookie = PhoneConfiguration.getInstance().getCookie();
 		c.setCookie(cookie);
 		final String body = this.buildBody(comment);
@@ -35,53 +55,81 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 		try {
 			InputStream input = null;
 			HttpURLConnection conn = c.post_body(body);
-			if(conn!=null)
+			if (conn != null)
 				input = conn.getInputStream();
-			
-			if(input != null)
-			{
+
+			if (input != null) {
 				String html = IOUtils.toString(input, "gbk");
 				ret = getPostResult(html);
 
 			}
-			
-			}catch(IOException e){
-				
-			}
+
+		} catch (IOException e) {
+
+		}
 		return ret;
 	}
-	
-	private String buildBody(String comment){
-		StringBuilder sb = new StringBuilder();
-		sb.append("info=");
 
-		sb.append(StringUtil.encodeUrl(comment,"GBK"));
-		
+	private String buildBody(String comment) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("post_content=");
+
+		sb.append(StringUtil.encodeUrl(comment, "GBK"));
+
 		sb.append("&tid=");
 		sb.append(tid);
-		
+
 		sb.append("&pid=");
 		sb.append(pid);
-		
-		
+		sb.append("&fid=");
+		sb.append(fid);
+		sb.append("&nojump=");
+		sb.append("1");
+		sb.append("&step=");
+		sb.append("2");
+		sb.append("&action=");
+		sb.append("reply");
+		sb.append("&comment=");
+		sb.append("1");
+		sb.append("&lite=");
+		sb.append("htmljs");
+		if (anonymode == 1) {
+			sb.append("&anony=");
+			sb.append("1");
+		}
+
 		return sb.toString();
 	}
-	
+
 	protected String getPostResult(String html) {
-		final String startTag = "<body>";
-		final String EndTag = "</body>";
-		String BodyString=StringUtil.getStringBetween(html, 0, startTag, EndTag).result;
-		BodyString=BodyString.trim();
-		BodyString=BodyString.replaceAll("\\n", "");
-		if(BodyString.indexOf("func=view_privilege")>=0){
-			BodyString=BodyString.substring(0, BodyString.lastIndexOf("</a>"));
-			BodyString=BodyString.substring(BodyString.lastIndexOf(">")+1);
+		String js = StringUtil.getStringBetween(html, 0,
+				"window.script_muti_get_var_store=", "</script>").result;
+		if (StringUtil.isEmpty(js)) {
+			return "未知错误";
 		}
-		if(BodyString.indexOf("/")>=0){
-			BodyString="发帖或被贴条者方可贴条";
+		try {
+			JSONObject o = (JSONObject) JSON.parseObject(js);
+			o = (JSONObject) o.get("data");
+			o = (JSONObject) o.get("__MESSAGE");
+			String result = o.getString("1");
+			if (StringUtil.isEmpty(result)) {
+				return "大概没权限,二哥滚粗";
+			} else {
+				if (o.getInteger("3") == 200) {
+					if(result.indexOf("发贴完毕")>=0){
+						success = true;
+					}
+					return result.replace("发贴完毕", "贴条成功").trim();
+				} else {
+					return result;
+				}
+			}
+		} catch (Exception e) {
+
 		}
-		return BodyString;
+		return "未知错误";
 	}
+
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
@@ -90,19 +138,17 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		if(fragmentActivity != null)
-			Toast.makeText(fragmentActivity, result, Toast.LENGTH_SHORT).show();
-
+		if (success) {
+			Log.i("TSG", "DS");
+		}
+		notifier.OnPostCommentFinished(result, success);
+		super.onPostExecute(result);
 	}
-
-
 
 	@Override
 	protected void onCancelled() {
 		// TODO Auto-generated method stub
 		super.onCancelled();
 	}
-	
-	
 
 }

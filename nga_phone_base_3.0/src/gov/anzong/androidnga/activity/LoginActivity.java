@@ -29,12 +29,16 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.UserListAdapter;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.forumoperation.HttpPostClient;
+import sp.phone.interfaces.OnAuthcodeLoadFinishedListener;
+import sp.phone.task.AccountAuthcodeImageReloadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -42,10 +46,12 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class LoginActivity extends SwipeBackAppCompatActivity implements
-		PerferenceConstant {
+		PerferenceConstant,OnAuthcodeLoadFinishedListener {
 
 	EditText userText;
 	EditText passwordText;
+	EditText authcodeText;
+	ImageView authcodeImg;
 	View view;
 	ListView userList;
 	private String action, messagemode;
@@ -57,12 +63,15 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 	private String title;
 	private int mid;
 	private boolean alreadylogin = false;
+	private String authcode_cookie;
 
 	Object commit_lock = new Object();
 	private boolean loading = false;
 	private Toast toast = null;
 	String name;
-
+	Button button_login;
+	ImageButton authcodeimg_refresh;
+	AccountAuthcodeImageReloadTask loadauthcodetask;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -87,13 +96,18 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 		view = LayoutInflater.from(this).inflate(R.layout.login, null);
 		this.setContentView(view);
 		this.setTitle("登录");
-		Button button_login = (Button) findViewById(R.id.login_button);
+		button_login = (Button) findViewById(R.id.login_button);
+		authcodeImg = (ImageView) view.findViewById(R.id.authcode_img);
+		authcodeimg_refresh = (ImageButton) findViewById(R.id.authcode_refresh);
 		userText = (EditText) findViewById(R.id.login_user_edittext);
 		passwordText = (EditText) findViewById(R.id.login_password_edittext);
+		authcodeText = (EditText) findViewById(R.id.login_authcode_edittext);
 		userList = (ListView) findViewById(R.id.user_list);
 		userList.setAdapter(new UserListAdapter(this,userText));
-
-		String postUrl = "http://account.178.com/q_account.php?_act=login";
+		
+		
+		
+		String postUrl = "http://account.178.com/q_account.php?_act=login&print=login";
 
 		String userName = PhoneConfiguration.getInstance().userName;
 		if (userName != "") {
@@ -151,6 +165,50 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 				}
 			}
 		}
+		authcodeimg_refresh.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				reloadauthcode();
+			}
+			
+		});
+		authcodeImg.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				reloadauthcode();
+			}
+
+		});
+		reloadauthcode();
+	}
+	
+	private void reloadauthcode(){
+		authcode_cookie="";
+		authcodeText.setText("");
+		if(loadauthcodetask!=null){
+			loadauthcodetask.cancel(true);
+		}
+		authcodeImg.setImageDrawable(getResources().getDrawable(R.drawable.q_vcode));
+		loadauthcodetask=new AccountAuthcodeImageReloadTask(this,this);
+		loadauthcodetask.execute();
+	}
+	private void reloadauthcode(String error){
+		if(!StringUtil.isEmpty(error)){
+			if (toast != null) {
+				toast.setText(error);
+				toast.setDuration(Toast.LENGTH_SHORT);
+				toast.show();
+			} else {
+				toast = Toast.makeText(this, error, 
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}
+		reloadauthcode();
 	}
 
 	private void updateThemeUI() {
@@ -279,13 +337,44 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 					return;
 				} else {
 					StringBuffer bodyBuffer = new StringBuffer();
-					bodyBuffer.append("type=username&email=");
+					bodyBuffer.append("email=");
+					if(StringUtil.isEmpty(authcode_cookie)){
+						if (toast != null) {
+							toast.setText("验证码信息错误，请重试");
+							toast.setDuration(Toast.LENGTH_SHORT);
+							toast.show();
+						} else {
+							toast = Toast.makeText(LoginActivity.this,
+									"验证码信息错误，请重试", Toast.LENGTH_SHORT);
+							toast.show();
+						}
+						reloadauthcode();
+						return;
+					}
 					name = userText.getText().toString();
+					if(StringUtil.isEmpty(name)||
+							StringUtil.isEmpty(passwordText.getText().toString())||
+									StringUtil.isEmpty(authcodeText.getText().toString())){
+						if (toast != null) {
+							toast.setText("内容缺少，请检查后再试");
+							toast.setDuration(Toast.LENGTH_SHORT);
+							toast.show();
+						} else {
+							toast = Toast.makeText(LoginActivity.this,
+									"内容缺少，请检查后再试", Toast.LENGTH_SHORT);
+							toast.show();
+						}
+						reloadauthcode();
+						return;
+					}
 					try {
 						bodyBuffer.append(URLEncoder.encode(userText.getText()
 								.toString(), "utf-8"));
 						bodyBuffer.append("&password=");
 						bodyBuffer.append(URLEncoder.encode(passwordText
+								.getText().toString(), "utf-8"));
+						bodyBuffer.append("&vcode=");
+						bodyBuffer.append(URLEncoder.encode(authcodeText
 								.getText().toString(), "utf-8"));
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
@@ -302,6 +391,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 			final View v;
 			private String uid = null;
 			private String cid = null;
+			private String errorstr="";
 
 			public LoginTask(View v) {
 				super();
@@ -312,8 +402,8 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 			protected Boolean doInBackground(String... params) {
 				String url = params[0];
 				String body = params[1];
-				HttpURLConnection conn = new HttpPostClient(url)
-						.post_body(body);
+				String cookie="reg_vcode="+authcode_cookie;
+				HttpURLConnection conn = new HttpPostClient(url,cookie).post_body(body);
 				return validate(conn);
 
 			}
@@ -333,6 +423,19 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 					Log.d(LOG_TAG,
 							conn.getHeaderFieldKey(i) + ":"
 									+ conn.getHeaderField(i));
+					if(key.equalsIgnoreCase("location")){
+						String re301location = conn.getHeaderField(i);
+						if(re301location.indexOf("login_failed")>0){
+							if (re301location.indexOf("error_vcode") > 0) {
+								errorstr = ("验证码错误");
+							}
+							if (re301location.indexOf("e_login") > 0) {
+								errorstr = ("用户名或密码错误");
+							}
+							errorstr="未知错误";
+							return false;
+						}
+					}
 					if (key.equalsIgnoreCase("set-cookie")) {
 						cookieVal = conn.getHeaderField(i);
 						cookieVal = cookieVal.substring(0,
@@ -381,6 +484,10 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 				synchronized (commit_lock) {
 					loading = false;
 				}
+				if (!StringUtil.isEmpty(errorstr)) {
+					reloadauthcode(errorstr);
+					super.onPostExecute(result);
+				} else {
 				if (result.booleanValue()) {
 					if (toast != null) {
 						toast.setText(R.string.login_successfully);
@@ -488,11 +595,36 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 								R.string.login_failed, Toast.LENGTH_SHORT);
 						toast.show();
 					}
-				}
+				}}
 			}
 
 		}
 
+	}
+
+	@Override
+	public void authcodefinishLoad(Bitmap authimg, String authcode) {
+		// TODO Auto-generated method stub
+		this.authcode_cookie=authcode;
+		authcodeImg.setImageBitmap(authimg);
+	}
+
+	@Override
+	public void authcodefinishLoadError() {
+		// TODO Auto-generated method stub
+		if (toast != null) {
+			toast.setText("载入验证码失败，请点击刷新重新加载");
+			toast.setDuration(Toast.LENGTH_SHORT);
+			toast.show();
+		} else {
+			toast = Toast.makeText(LoginActivity.this,
+					"载入验证码失败，请点击刷新重新加载", Toast.LENGTH_SHORT);
+			toast.show();
+		}
+		authcodeImg.setImageDrawable(getResources().getDrawable(R.drawable.q_vcode_retry));
+		authcode_cookie="";
+		authcodeText.setText("");
+		authcodeText.setSelected(true);
 	}
 
 }

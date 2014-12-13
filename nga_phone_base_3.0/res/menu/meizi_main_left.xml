@@ -2,6 +2,6 @@
     xmlns:androidnga="http://schemas.android.com/apk/res-auto" >
     <item android:id="@+id/meizi_back"  android:title="@string/close" android:icon="@drawable/ic_exit" androidnga:showAsAction="ifRoom" android:showAsAction="ifRoom"></item>
     <item android:id="@+id/meizi_refresh"  android:title="@string/refresh" android:icon="@drawable/ic_refresh" androidnga:showAsAction="always" android:showAsAction="always"></item>
-    <item android:id="@+id/meizi_login"  android:title="@string/login" android:icon="@drawable/ic_login" androidnga:showAsAction="always" android:showAsAction="always"></item>
+    <!--item android:id="@+id/meizi_login"  android:title="@string/login" android:icon="@drawable/ic_login" androidnga:showAsAction="always" android:showAsAction="always"></item>  -->
     
 </menu>

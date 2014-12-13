@@ -334,7 +334,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		long now = System.currentTimeMillis();
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
 		if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30√Î≤≈À¨∞°‹≥
-			// if(1==1){
+//			 if(1==1){
 			Log.d(TAG, "start to check Reply Notification");
 			asynTask = new CheckReplyNotificationTask(this);
 			asynTask.execute(config.getCookie());

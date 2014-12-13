@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/post_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/anony"
+        android:hint="@string/profile_search_dialog_hint" />
+
+    <CheckBox
+        android:id="@+id/anony"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/post_data"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/post_data"
+        android:layout_marginLeft="5dp"
+        android:text="@string/anony"
+        android:textColor="@color/white"
+        android:layout_marginRight="5dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

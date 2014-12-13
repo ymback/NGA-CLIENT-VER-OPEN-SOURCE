@@ -233,7 +233,15 @@ public class ArticleUtil {
 			return null;
 
 		for (int i = 0; i < count; i++) {
-			JSONObject rowObj = (JSONObject) rowMap.get(String.valueOf(i));
+			Object obj = rowMap.get(String.valueOf(i));
+			 JSONObject rowObj = null;
+			 if (obj instanceof JSONObject)
+			 {
+			 rowObj = (JSONObject) obj;
+			 }
+			 else {
+				continue;
+			 }
 			ThreadRowInfo row = null;
 			if (rowObj != null) {
 

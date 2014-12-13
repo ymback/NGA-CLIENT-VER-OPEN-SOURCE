@@ -5,6 +5,7 @@ import gov.anzong.androidnga.activity.MyApp;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -31,7 +32,7 @@ import android.widget.TextView;
 public class RecentReplyAdapter extends BaseAdapter implements
 PerferenceConstant {
 
-	private final List<NotificationObject> list;
+	private List<NotificationObject> list;
 
 	private Context mcontext;
 	public RecentReplyAdapter(List<NotificationObject> list,Context context) {
@@ -45,6 +46,12 @@ PerferenceConstant {
 		return list.size();
 	}
 
+	public void clean(){
+		List list = new ArrayList();
+		this.list= list;
+		this.notifyDataSetChanged();
+	}
+	
 	@Override
 	public Object getItem(int position) {
 		return list.get(list.size()-1-position);

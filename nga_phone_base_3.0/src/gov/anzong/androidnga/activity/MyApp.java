@@ -39,7 +39,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2042;
+	public final static int version = 2046;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "最近访问";
@@ -158,6 +158,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "431", "风暴英雄", R.drawable.oldp431));
 		boards.add(new Board(i, "436", "消费电子 IT新闻", R.drawable.oldpdefault));
 		boards.add(new Board(i, "340", "无聊图", R.drawable.oldpdefault));
+		boards.add(new Board(i, "456", "冲水区", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-187579", "大漩涡历史博物馆", R.drawable.oldpdefault));
 		boards.addCategoryName(i, "大漩涡系列");
 		i++;
@@ -185,12 +186,16 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "191", "地精商会", R.drawable.oldp191));
 		boards.add(new Board(i, "200", "插件研究", R.drawable.oldp200));
 		boards.add(new Board(i, "240", "BigFoot", R.drawable.oldp240));
+		boards.add(new Board(i, "460", "大脚综合", R.drawable.oldpdefault));
+		boards.add(new Board(i, "461", "大脚水区", R.drawable.oldpdefault));
+		boards.add(new Board(i, "458", "大脚LOL", R.drawable.oldpdefault));
 		boards.add(new Board(i, "274", "插件发布", R.drawable.oldp274));
 		boards.add(new Board(i, "315", "战斗统计", R.drawable.oldp315));
 		boards.add(new Board(i, "333", "DKP系统", R.drawable.oldp333));
 		boards.add(new Board(i, "327", "成就讨论", R.drawable.oldp327));
 		boards.add(new Board(i, "388", "幻化讨论", R.drawable.oldp388));
 		boards.add(new Board(i, "411", "宠物讨论", R.drawable.oldp411));
+		boards.add(new Board(i, "463", "要塞讨论", R.drawable.oldpdefault));
 		boards.add(new Board(i, "255", "公会管理", R.drawable.oldp10));
 		boards.add(new Board(i, "306", "人员招募", R.drawable.oldp10));
 		boards.addCategoryName(i, "冒险心得");
@@ -276,7 +281,10 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "422", "炉石传说", R.drawable.oldp422));
 		boards.add(new Board(i, "429", "战术讨论", R.drawable.oldpdefault));
 		boards.add(new Board(i, "450", "文章存档", R.drawable.oldpdefault));
-		boards.addCategoryName(i, "炉石传说");
+		boards.add(new Board(i, "431", "风暴英雄", R.drawable.oldp431));
+		boards.add(new Board(i, "457", "视频资料", R.drawable.oldpdefault));
+		boards.add(new Board(i, "459", "守望先锋", R.drawable.oldp459));
+		boards.addCategoryName(i, "暴雪游戏");
 		i++;
 
 		boards.add(new Board(i, "-152678", "英雄联盟", R.drawable.oldp152678));
@@ -382,6 +390,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "431", "风暴英雄", R.drawable.p431));
 		boards.add(new Board(i, "436", "消费电子 IT新闻", R.drawable.p436));
 		boards.add(new Board(i, "340", "无聊图", R.drawable.p340));
+		boards.add(new Board(i, "456", "冲水区", R.drawable.p456));
 		boards.add(new Board(i, "-187579", "大漩涡历史博物馆", R.drawable.p187579));
 		boards.addCategoryName(i, "大漩涡系列");
 		i++;
@@ -409,12 +418,16 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "191", "地精商会", R.drawable.p191));
 		boards.add(new Board(i, "200", "插件研究", R.drawable.p200));
 		boards.add(new Board(i, "240", "BigFoot", R.drawable.p240));
+		boards.add(new Board(i, "460", "大脚综合", R.drawable.p460));
+		boards.add(new Board(i, "461", "大脚水区", R.drawable.p461));
+		boards.add(new Board(i, "458", "大脚LOL", R.drawable.p458));
 		boards.add(new Board(i, "274", "插件发布", R.drawable.p274));
 		boards.add(new Board(i, "315", "战斗统计", R.drawable.p315));
 		boards.add(new Board(i, "333", "DKP系统", R.drawable.p333));
 		boards.add(new Board(i, "327", "成就讨论", R.drawable.p327));
 		boards.add(new Board(i, "388", "幻化讨论", R.drawable.p388));
 		boards.add(new Board(i, "411", "宠物讨论", R.drawable.p411));
+		boards.add(new Board(i, "463", "要塞讨论", R.drawable.p463));
 		boards.add(new Board(i, "255", "公会管理", R.drawable.p255));
 		boards.add(new Board(i, "306", "人员招募", R.drawable.p306));
 		boards.addCategoryName(i, "冒险心得");
@@ -500,7 +513,10 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.add(new Board(i, "422", "炉石传说", R.drawable.p422));
 		boards.add(new Board(i, "429", "战术讨论", R.drawable.p429));
 		boards.add(new Board(i, "450", "文章存档", R.drawable.p450));
-		boards.addCategoryName(i, "炉石传说");
+		boards.add(new Board(i, "431", "风暴英雄", R.drawable.p431));
+		boards.add(new Board(i, "457", "视频资料", R.drawable.p457));
+		boards.add(new Board(i, "459", "守望先锋", R.drawable.p459));
+		boards.addCategoryName(i, "暴雪游戏");
 		i++;
 
 		boards.add(new Board(i, "-152678", "英雄联盟", R.drawable.p152678));

@@ -30,11 +30,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 public class CheckReplyNotificationTask extends
 		AsyncTask<String, Integer, String> implements PerferenceConstant {
-	final String url = "http://nga.178.com/nuke.php?func=noti&__notpl&__nodb&__nolib";
+	final String url = "http://nga.178.com/nuke.php?__lib=noti&raw=3&__act=get_all";
 	final Context context;
+	final String TAG = getClass().getSimpleName();
 
 	public CheckReplyNotificationTask(Context context) {
 		this.context = context;
@@ -51,8 +54,10 @@ public class CheckReplyNotificationTask extends
 		PhoneConfiguration.getInstance().lastMessageCheck = System
 				.currentTimeMillis();
 		Log.i(this.getClass().getSimpleName(), "get message:" + result);
-//		return "[truncated]window.script_muti_get_var_store={0:[{\"0\":1,\"1\":20174851,\"2\":\"\326\361\276\256\324\212\277\227\300\357\",\"3\":20174851,\"4\":\"\326\361\276\256\324\212\277\227\300\357\",\"5\":\"\277\264\262\273\265\275\316\322\",\"9\":1403393562,\"6\":71387683,\"7\":133146646,\"10\":1}] }";
-		return result;
+		// return
+		// "[truncated]window.script_muti_get_var_store={0:[{\"0\":1,\"1\":20174851,\"2\":\"\326\361\276\256\324\212\277\227\300\357\",\"3\":20174851,\"4\":\"\326\361\276\256\324\212\277\227\300\357\",\"5\":\"\277\264\262\273\265\275\316\322\",\"9\":1403393562,\"6\":71387683,\"7\":133146646,\"10\":1}] }";
+//		return "get message:<html><head><meta http-equiv='Content-Type' content='text/html; charset=GBK'></head><body><script>window.script_muti_get_var_store={\"data\":{\"0\":{\"0\":[{\"9\":1418355735 ,\"0\":1,\"1\":20174851,\"2\":\"竹井詩織里\",\"3\":20174851,\"4\":\"竹井詩織里\",\"5\":\"我喜欢测试\",\"6\":7638703,\"7\":143928028,\"10\":1}],\"unread\":0}},\"time\":1418357357}</script></body></html>";
+		 return result;
 	}
 
 	@Override
@@ -61,198 +66,153 @@ public class CheckReplyNotificationTask extends
 		if (StringUtil.isEmpty(totalresult)) {
 			return;
 		}
+		totalresult = StringUtil.getStringBetween(totalresult, 0,
+				"window.script_muti_get_var_store=", "</script>").result;
 		String notiresult = "";
 		String msgresult = "";
-
-		if (totalresult.indexOf("1:[") > 0) {
-			if (totalresult.indexOf("0:[") < 0) {
-				msgresult = totalresult;
-			} else {
-				msgresult = "{"
-						+ totalresult.substring(totalresult.indexOf("1:["));
-			}
-		}// msg信息
-		if (totalresult.indexOf("0:[") > 0) {
-			if (totalresult.indexOf("1:[") < 0) {
-				notiresult = totalresult;
-			} else {
-				notiresult = totalresult.substring(0,
-						totalresult.indexOf("1:[") - 1)
-						+ "}";
-			}
-		}// 回复信息
-		
-		if (StringUtil.isEmpty(msgresult) && StringUtil.isEmpty(notiresult)) {
+		JSONObject ojson = new JSONObject();
+		JSONArray ojsonnoti = new JSONArray();
+		JSONArray ojsonmsg = new JSONArray();
+		int unread=0;
+		try {
+			ojson = (JSONObject) JSON.parseObject(totalresult);
+			ojson = (JSONObject) ojson.get("data");
+			ojson = (JSONObject) ojson.get("0");
+			unread = ojson.getIntValue("unread");
+		} catch (Exception e) {
+		}
+		if (ojson == null) {
 			return;
-		} else {
-			if (!StringUtil.isEmpty(notiresult)) {
-				int start = 0;
-				while (true) {
-					
-					StringFindResult ret = StringUtil.getStringBetween(
-							notiresult, start, ",\"1\":", ",\"2\"");
-					start = ret.position;
-					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
-						break;
-					String authorId = ret.result;
-
-
-					ret = StringUtil.getStringBetween(notiresult, start, ":\"",
-							"\",\"3\":");
-					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
-						break;
-					String nickName = ret.result;
-					start = ret.position;
-
-					/*
-					 * start = result.indexOf(",5:\"", start)+4; end =
-					 * result.indexOf("\",9:",start); String title =
-					 * result.substring(start, end); start = end;
-					 */
-
-					ret = StringUtil.getStringBetween(notiresult, start,
-							",\"5\":\"", "\",\"9\":");
-					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
-						break;
-
-					String title = ret.result;
-					start = ret.position;
-
-					/*
-					 * start = result.indexOf(",6:", start)+3; end =
-					 * result.indexOf(",7:",start); String tid =
-					 * result.substring(start, end); start = end;
-					 */
-					ret = StringUtil.getStringBetween(notiresult, start, ",\"6\":",
-							",\"7\"");
-					if (StringUtil.isEmpty(ret.result) || ret.position == -1)
-						break;
-
-					String tid = ret.result;
-					if (tid.indexOf('}') > 0) {
-						tid = tid.substring(0, tid.indexOf('}'));
-					}
-					start = ret.position;
-
-					/*
-					 * start = result.indexOf(",7:", start)+3; end =
-					 * result.indexOf("}",start); String pid =
-					 * result.substring(start, end); start = end;
-					 */
-
-					ret = StringUtil.getStringBetween(notiresult, start, ":",
-							",\"10\":");
-					String pid = ret.result;
-					if (!StringUtil.isEmpty(ret.result))
-						start = ret.position;
-					else
-						pid = "0";
-
-					title = StringUtil.unEscapeHtml(title);
-					addNotification(authorId, nickName, tid, pid, title);
-				}
-
-				if (notificationList.size() == 1) {
-					NotificationObject o = notificationList.get(0);
-					showNotification(o.getNickName(),
-							String.valueOf(o.getTid()),
-							String.valueOf(o.getPid()), o.getTitle());
-				} else if (notificationList.size() > 1) {
-					showStackedNotification();
-				}
-				if (notificationList.size() > 0) {
-					SharedPreferences share = context.getSharedPreferences(
-							PERFERENCE, Context.MODE_PRIVATE);
-					String strold = share.getString(PENDING_REPLYS, "");
-
-					List<NotificationObject> list = new ArrayList<NotificationObject>();
-					if (!StringUtil.isEmpty(strold)) {
-						list = JSON
-								.parseArray(strold, NotificationObject.class);
-						list.addAll(notificationList);
-					} else {
-						list = notificationList;
-					}
-					String recentstr = JSON.toJSONString(list);
-					PhoneConfiguration.getInstance().setReplyString(recentstr);
-					PhoneConfiguration.getInstance().setReplyTotalNum(
-							list.size());
-					String userListString = share.getString(USER_LIST, "");
-					List<User> userList = null;
-					if (!StringUtil.isEmpty(userListString)) {
-						userList = JSON.parseArray(userListString, User.class);
-						for (User u : userList) {
-							if (u.getUserId().equals(
-									PhoneConfiguration.getInstance().uid)) {
-								MyApp app = (MyApp) ((Activity) context)
-										.getApplication();
-								app.addToUserList(u.getUserId(), u.getCid(),
-										u.getNickName(), recentstr, list.size(),u.getBlackList());
-								break;
+		}
+		try {
+			ojsonnoti = (JSONArray) ojson.get("0");
+			ojsonmsg = (JSONArray) ojson.get("1");
+		} catch (Exception e) {
+			Log.i(TAG, "JSON DATA ERROR");
+		}
+		if(unread<1){//都读了，顺便刷新一次数据
+			if (ojsonnoti != null) {
+				if (ojsonnoti.size() > 0) {
+					for (int i = 0; i < ojsonnoti.size(); i++) {
+						try {
+							JSONObject ojsonnotidata = (JSONObject) ojsonnoti
+									.get(i);
+							String authorId = ojsonnotidata.getString("1");
+							String nickName = ojsonnotidata.getString("2");
+							String tid = ojsonnotidata.getString("6");
+							String pid = ojsonnotidata.getString("7");
+							String title = ojsonnotidata.getString("5");
+							if (!StringUtil.isEmpty(authorId)
+									&& !StringUtil.isEmpty(nickName)
+									&& !StringUtil.isEmpty(tid)
+									&& !StringUtil.isEmpty(pid)
+									&& !StringUtil.isEmpty(title)) {
+								title = StringUtil.unEscapeHtml(title);
+								addNotification(authorId, nickName, tid, pid, title);
 							}
+						} catch (Exception e) {
+
 						}
-					} else {
-						PhoneConfiguration.getInstance().setReplyString(
-								recentstr);
-						PhoneConfiguration.getInstance().setReplyTotalNum(
-								list.size());
-						Editor editor = share.edit();
-						editor.putString(PENDING_REPLYS, recentstr);
-						editor.putString(REPLYTOTALNUM,
-								String.valueOf(list.size()));
-						editor.commit();
 					}
 				}
-			}//处理喷人
-			
-			if(!StringUtil.isEmpty(msgresult)){
-				int starta = 0;
+			}
+		if (notificationList.size() > 0) {
+			SharedPreferences share = context.getSharedPreferences(PERFERENCE,
+					Context.MODE_PRIVATE);
+			String strold = share.getString(PENDING_REPLYS, "");
 
-				while (true) {
-					/*
-					 * start = result.indexOf(",2:\"", start)+4; int end =
-					 * result.indexOf("\",3:",start); String nickName =
-					 * result.substring(start, end); start = end;
-					 */
-					StringFindResult ret = StringUtil.getStringBetween(msgresult, starta,
-							",\"1\":", ",\"2\"");
-					starta = ret.position-4;
-					if (StringUtil.isEmpty(ret.result) || ret.position == -1){
+			List<NotificationObject> list = new ArrayList<NotificationObject>();
+			list = notificationList;
+			String recentstr = JSON.toJSONString(list);
+			PhoneConfiguration.getInstance().setReplyString(recentstr);
+			PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
+			String userListString = share.getString(USER_LIST, "");
+			List<User> userList = null;
+			if (!StringUtil.isEmpty(userListString)) {
+				userList = JSON.parseArray(userListString, User.class);
+				for (User u : userList) {
+					if (u.getUserId().equals(
+							PhoneConfiguration.getInstance().uid)) {
+						MyApp app = (MyApp) ((Activity) context)
+								.getApplication();
+						app.addToUserList(u.getUserId(), u.getCid(),
+								u.getNickName(), recentstr, list.size(),
+								u.getBlackList());
 						break;
 					}
-					String authorId = ret.result;
-
-					ret = StringUtil.getStringBetween(msgresult, starta, ",\"2\":\"", "\",");
-					if (StringUtil.isEmpty(ret.result) || ret.position == -1){
-						break;
-					}
-					String title = ret.result;
-					starta = ret.position;
-
-					ret = StringUtil.getStringBetween(msgresult, starta, ",\"6\":", "}");
-					if (StringUtil.isEmpty(ret.result) || ret.position == -1){
-						break;
-					}
-
-					String mid = ret.result;
-					starta = ret.position;
-
-					title = StringUtil.unEscapeHtml(title);
-					addMsgNotification(authorId, mid, title);
 				}
-
-				if (msgnotificationlist.size() == 1) {
-					MsgNotificationObject o = msgnotificationlist.get(0);
-					showMsgNotification(o.getAuthorId(),o.getMid(), o.getTitle());
-				} else if (msgnotificationlist.size() > 1) {
-					showStackedMsgNotification();
-				}
-			}//处理短消息
+			} else {
+				PhoneConfiguration.getInstance().setReplyString(recentstr);
+				PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
+				Editor editor = share.edit();
+				editor.putString(PENDING_REPLYS, recentstr);
+				editor.putString(REPLYTOTALNUM, String.valueOf(list.size()));
+				editor.commit();
+			}
 		}
 
+			return;
+		}
+		
+		if (ojsonnoti != null) {
+			if (ojsonnoti.size() > 0) {
+				for (int i = 0; i < ojsonnoti.size(); i++) {
+					try {
+						JSONObject ojsonnotidata = (JSONObject) ojsonnoti
+								.get(i);
+						String authorId = ojsonnotidata.getString("1");
+						String nickName = ojsonnotidata.getString("2");
+						String tid = ojsonnotidata.getString("6");
+						String pid = ojsonnotidata.getString("7");
+						String title = ojsonnotidata.getString("5");
+						if (!StringUtil.isEmpty(authorId)
+								&& !StringUtil.isEmpty(nickName)
+								&& !StringUtil.isEmpty(tid)
+								&& !StringUtil.isEmpty(pid)
+								&& !StringUtil.isEmpty(title)) {
+							title = StringUtil.unEscapeHtml(title);
+							addNotification(authorId, nickName, tid, pid, title);
+						}
+					} catch (Exception e) {
+
+					}
+				}
+			}
+		}
+		if (ojsonmsg != null) {
+			if (ojsonmsg.size() > 0) {
+				for (int i = 0; i < ojsonmsg.size(); i++) {
+					JSONObject ojsonmsgdata = (JSONObject) ojsonmsg.get(i);
+					String authorId = ojsonmsgdata.getString("1");
+					String mid = ojsonmsgdata.getString("6");
+					String title = ojsonmsgdata.getString("2");
+					if (!StringUtil.isEmpty(authorId)
+							&& !StringUtil.isEmpty(mid)
+							&& !StringUtil.isEmpty(title)) {
+						title = StringUtil.unEscapeHtml(title);
+						addMsgNotification(authorId, mid, title);
+					}
+				}
+			}
+		}
+		if (msgnotificationlist.size() == 1) {
+			MsgNotificationObject o = msgnotificationlist.get(0);
+			showMsgNotification(o.getAuthorId(), o.getMid(), o.getTitle());
+		} else if (msgnotificationlist.size() > 1) {
+			showStackedMsgNotification();
+		}
+
+		if (notificationList.size() == 1) {
+			NotificationObject o = notificationList.get(0);
+			showNotification(o.getNickName(), String.valueOf(o.getTid()),
+					String.valueOf(o.getPid()), o.getTitle());
+		} else if (notificationList.size() > 1) {
+			showStackedNotification();
+		}
 	}
 
 	List<NotificationObject> notificationList = new ArrayList<NotificationObject>();
+
 	void addNotification(String authorid, String nickName, String tid,
 			String pid, String title) {
 		if (StringUtil.isEmpty(tid)) {
@@ -285,10 +245,10 @@ public class CheckReplyNotificationTask extends
 		notificationList.add(o);
 
 	}
-	List<MsgNotificationObject> msgnotificationlist = new ArrayList<MsgNotificationObject>();
-	void addMsgNotification(String authorid,
-			String mid, String title) {
 
+	List<MsgNotificationObject> msgnotificationlist = new ArrayList<MsgNotificationObject>();
+
+	void addMsgNotification(String authorid, String mid, String title) {
 
 		if (StringUtil.isEmpty(mid)) {
 			return;
@@ -308,7 +268,6 @@ public class CheckReplyNotificationTask extends
 		msgnotificationlist.add(o);
 
 	}
-
 
 	@SuppressWarnings("deprecation")
 	void showStackedNotification() {
@@ -462,13 +421,11 @@ public class CheckReplyNotificationTask extends
 		notification.setLatestEventInfo(context, nickName, title, pending);
 		nm.notify(id, notification);
 	}
-	
-	
 
 	@SuppressWarnings("deprecation")
 	void showMsgNotification(int authId, int mid, String title) {
 
-		if (mid==0) {
+		if (mid == 0) {
 			return;
 		}
 
@@ -477,11 +434,11 @@ public class CheckReplyNotificationTask extends
 
 		Intent intent = new Intent(context,
 				PhoneConfiguration.getInstance().messageDetialActivity);
-		
 
 		Resources res = context.getResources();// .getString(R.string.myscheme)
 		String url = res.getString(R.string.myscheme) + "://"
-				+ res.getString(R.string.myhost) + "/nuke.php?func=message&mid=" + mid;
+				+ res.getString(R.string.myhost)
+				+ "/nuke.php?func=message&mid=" + mid;
 		intent.setData(Uri.parse(url));
 
 		// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -492,8 +449,7 @@ public class CheckReplyNotificationTask extends
 				.getActivity(context, 0, intent, 0);
 
 		String tickerText = String.format(
-				context.getString(R.string.message_to_you),
-				title);
+				context.getString(R.string.message_to_you), title);
 
 		Notification notification = new Notification();
 		notification.icon = R.drawable.nga_bg;
@@ -535,7 +491,8 @@ public class CheckReplyNotificationTask extends
 		// System.currentTimeMillis());
 		notification.tickerText = tickerText;
 		notification.when = System.currentTimeMillis();
-		notification.setLatestEventInfo(context, title, title+"("+String.valueOf(authId)+")向你发送了短消息", pending);
+		notification.setLatestEventInfo(context, title,
+				title + "(" + String.valueOf(authId) + ")向你发送了短消息", pending);
 		nm.notify(mid, notification);
 	}
 
@@ -545,7 +502,7 @@ public class CheckReplyNotificationTask extends
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		Intent intent = new Intent();
 		// intent.setFlags(Intent.flag)
-		intent.setClass(context, 
+		intent.setClass(context,
 				PhoneConfiguration.getInstance().messageActivityClass);
 		PendingIntent pending = PendingIntent
 				.getActivity(context, 0, intent, 0);
@@ -589,8 +546,10 @@ public class CheckReplyNotificationTask extends
 		notification.number = msgnotificationlist.size();
 
 		MsgNotificationObject o = msgnotificationlist.get(0);
-		notification.setLatestEventInfo(context, o.getTitle(), o.getTitle()+"("+String.valueOf(o.getAuthorId())+")等向你发送了短消息",
-				pending);
+		notification
+				.setLatestEventInfo(context, o.getTitle(), o.getTitle() + "("
+						+ String.valueOf(o.getAuthorId()) + ")等向你发送了短消息",
+						pending);
 		nm.notify(R.layout.messagelist_activity, notification);
 	}
 }

@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.meizi.MeiziMainActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -524,7 +525,7 @@ public class MainActivity extends ActionBarActivity implements
 		items.add(new Item("登录账号", R.drawable.ic_login));
 		items.add(new Category("论坛功能"));
 		items.add(new Item("短消息", R.drawable.ic_action_email));
-		items.add(new Item("签到任务", R.drawable.ic_action_go_to_today));
+//		items.add(new Item("签到任务", R.drawable.ic_action_go_to_today));
 		items.add(new Item("搜索用户", R.drawable.action_search));
 		items.add(new Item("由URL读取", R.drawable.ic_action_forward));
 		items.add(new Item("添加版面", R.drawable.ic_action_add_to_queue));
@@ -1665,7 +1666,7 @@ public class MainActivity extends ActionBarActivity implements
 							Editor editor = share.edit();
 							editor.putString(CAN_SHOW_FULI, "1");
 							editor.commit();
-							setLocItem(12,
+							setLocItem(11,
 									"我要龙珠~撸~", R.drawable.ic_action_dragon_ball);
 							if (toast != null) {
 								toast.setText("你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");

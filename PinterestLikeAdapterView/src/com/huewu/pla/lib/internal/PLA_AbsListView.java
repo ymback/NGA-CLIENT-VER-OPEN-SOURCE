@@ -506,7 +506,7 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 		setTranscriptMode(transcriptMode);
 
 		int color = a.getColor(R.styleable.AbsListView_cacheColorHint, 0);
-		setCacheColorHint(color);
+		setCacheColorHint(color); 
 
 		boolean smoothScrollbar = a.getBoolean(
 				R.styleable.AbsListView_smoothScrollbar, true);

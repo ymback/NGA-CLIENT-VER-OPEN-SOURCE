@@ -58,7 +58,7 @@ public class ArticleContainerFragment extends Fragment implements
 				try{
 					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
 					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
-					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()+1)).modechange();
+					((ArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem()-1)).modechange();
 				}catch(Exception e){
 					
 				}

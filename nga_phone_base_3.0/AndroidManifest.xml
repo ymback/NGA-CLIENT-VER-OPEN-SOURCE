@@ -4,8 +4,8 @@
     android:configChanges="orientation|screenSize"
     android:installLocation="auto"
     android:largeHeap="true"
-    android:versionCode="2042"
-    android:versionName="2.0.42" >
+    android:versionCode="2046"
+    android:versionName="2.0.46" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -49,7 +49,7 @@
             android:name=".activity.LoginActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
-            android:name=".activity.MeiziLoginActivity"
+            android:name="gov.anzong.meizi.MeiziLoginActivity"
         	android:icon="@drawable/anzong_foot"
             android:theme="@style/SwipeBackTheme" />
         <activity
@@ -466,28 +466,28 @@
             android:theme="@style/SwipeBackTheme"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-            android:name=".activity.MeiziMainActivity"
+            android:name="gov.anzong.meizi.MeiziMainActivity"
         	android:icon="@drawable/anzong_foot"
-            android:label="@string/app_dbmeizi"
+            android:label="@string/app_meizi"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name=".activity.SplitMeiziMainActivity"
+            android:name="gov.anzong.meizi.SplitMeiziMainActivity"
         	android:icon="@drawable/anzong_foot"
-            android:label="@string/app_dbmeizi"
+            android:label="@string/app_meizi"
             android:theme="@style/AppTheme"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity
-            android:name=".activity.MeiziTopicActivity"
+            android:name="gov.anzong.meizi.MeiziTopicActivity"
         	android:icon="@drawable/anzong_foot"
-            android:label="@string/app_dbmeizi"
+            android:label="@string/app_meizi"
             android:theme="@style/SwipeBackTheme" >
         </activity>
         <activity
-            android:name=".activity.SplitMeiziTopicActivity"
+            android:name="gov.anzong.meizi.SplitMeiziTopicActivity"
         	android:icon="@drawable/anzong_foot"
-            android:label="@string/app_dbmeizi"
+            android:label="@string/app_meizi"
             android:theme="@style/SwipeBackTheme"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>

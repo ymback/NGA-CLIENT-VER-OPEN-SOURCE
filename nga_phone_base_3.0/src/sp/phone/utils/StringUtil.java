@@ -34,9 +34,9 @@ import android.util.Log;
 
 	/** ÑéÖ¤ÊÇ·ñÊÇÓÊÏä */
 	public static boolean isEmail(String email) {
-		if(isEmpty(email))
+		if (isEmpty(email))
 			return false;
-		String pattern1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+		String pattern1 = "^([a-z0-9A-Z]+[-_|\\.]?)+[a-z0-9A-Z_]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 		Pattern pattern = Pattern.compile(pattern1);
 		Matcher mat = pattern.matcher(email);
 		if (!mat.find()) {
@@ -275,10 +275,10 @@ import android.util.Log;
 				"Àá3","Àá4","Âú×ã","Âú×ã2","»ðÐÇ",
 				"ÑÀÌÛ","µç»÷","¿´Ï·","ÑÛ´ü","ÑÛ¾µ",
 				"Ð¦¶ø²»Óï","½ôÕÅ","ÃÀÎ¶","±³","Á³ºì",
-				"Á³ºì2","¸¯","ÃÈ","Ð»","×í",
+				"Á³ºì2","¸¯","ÐÇÐÇÑÛ","Ð»","×í",
 				"ÃÆ","ÃÆ2","ÒôÀÖ","ºÚÁ³","±ÇÑª",};// (0-64)
 		final String pstappadd[] = {"pt00.png","pt01.png","pt02.png","pt03.png","pt04.png",
-				"pt05.png","pt06.png","pt07.png","pt08.png","p09.png",
+				"pt05.png","pt06.png","pt07.png","pt08.png","pt09.png",
 				"pt10.png","pt11.png","pt12.png","pt13.png","pt14.png",
 				"pt15.png","pt16.png","pt17.png","pt18.png","pt19.png",
 				"pt20.png","pt21.png","pt22.png","pt23.png","pt24.png",
@@ -808,7 +808,7 @@ import android.util.Log;
 		return tips;
 
 	}
-
+	
 	public static StringFindResult getStringBetween(String data,
 			int begPosition, String startStr, String endStr) {
 		StringFindResult ret = new StringFindResult();

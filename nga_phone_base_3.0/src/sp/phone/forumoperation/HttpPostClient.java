@@ -14,6 +14,11 @@ public class HttpPostClient {
 		this.urlString = urlString;
 		cookie = null;
 	}
+	public HttpPostClient(String urlString,String cookie) 
+	{
+		this.urlString = urlString;
+		this.cookie = cookie;
+	}
 
 	private static final String LOG_TAG = HttpPostClient.class
 			.getSimpleName();

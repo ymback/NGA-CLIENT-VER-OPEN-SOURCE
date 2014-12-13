@@ -11,6 +11,8 @@
     <string name="login_user_hint">输入邮箱或者NGA昵称</string>
     <string name="db_login_user_hint">输入豆瓣妹子网站的邮箱账号</string>
     <string name="password">密码</string>
+    <string name="authcode">验证码</string>
+    <string name="authcodewithmaohao">验证码:</string>
     <string name="login">登录</string>
     <string name="submit">提交</string>
     <string name="selectpic">选择图片</string>
@@ -292,7 +294,7 @@
 
     <!-- 豆瓣妹子 -->
 
-    <string name="app_dbmeizi">开源版福利:豆瓣妹子</string>
+    <string name="app_meizi">开源版福利:萌爱自拍</string>
     <string name="action_refresh">刷新</string>
 
     <!-- time format -->
