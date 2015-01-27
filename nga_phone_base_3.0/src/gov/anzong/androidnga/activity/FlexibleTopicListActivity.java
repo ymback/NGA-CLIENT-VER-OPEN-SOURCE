@@ -79,8 +79,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 	int authorid;
 	int searchpost;
 	int favor;
+	int content;
 	String key;
-	String table;
+//	String table;
 	String fidgroup;
 	String author;
 	boolean fromreplyactivity = false;
@@ -141,11 +142,13 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			favor = getUrlParameter(url, "favor");
 			key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
 			author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
-			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
+//			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
 			fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+			content = getUrlParameter(url, "content");
 		} else {
 			if (null != getIntent().getExtras()) {
 				authorid = getIntent().getExtras().getInt("authorid", 0);
+				content = getIntent().getExtras().getInt("content", 0);
 				searchpost = getIntent().getExtras().getInt("searchpost", 0);
 				favor = getIntent().getExtras().getInt("favor", 0);
 				key = getIntent().getExtras().getString("key");
@@ -155,13 +158,13 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 						author=author.replace("&searchpost=1", "");
 						searchpost=1;
 				}
-				table = getIntent().getExtras().getString("table");
+//				table = getIntent().getExtras().getString("table");
 				fidgroup = getIntent().getExtras().getString("fidgroup");
 			}
 		}
 		if (authorid > 0 || searchpost > 0 || favor > 0
 				|| !StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)
-				|| !StringUtil.isEmpty(table) || !StringUtil.isEmpty(fidgroup)) {
+				||  !StringUtil.isEmpty(fidgroup)) {//!StringUtil.isEmpty(table) ||
 			fromreplyactivity = true;
 		}
 		if (f1 == null) {
@@ -212,12 +215,22 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		if (!StringUtil.isEmpty(key)) {
 			flags = ThemeManager.ACTION_BAR_FLAG;
-			if (!StringUtil.isEmpty(fidgroup)) {
-				final String title = "ËÑË÷È«Õ¾:" + key;
-				getSupportActionBar().setTitle(title);
-			} else {
-				final String title = "ËÑË÷:" + key;
-				getSupportActionBar().setTitle(title);
+			if(content==1){
+				if (!StringUtil.isEmpty(fidgroup)) {
+					final String title = "ËÑË÷È«Õ¾(°üº¬ÕýÎÄ):" + key;
+					getSupportActionBar().setTitle(title);
+				} else {
+					final String title = "ËÑË÷(°üº¬ÕýÎÄ):" + key;
+					getSupportActionBar().setTitle(title);
+				}
+			}else{
+				if (!StringUtil.isEmpty(fidgroup)) {
+					final String title = "ËÑË÷È«Õ¾:" + key;
+					getSupportActionBar().setTitle(title);
+				} else {
+					final String title = "ËÑË÷:" + key;
+					getSupportActionBar().setTitle(title);
+				}
 			}
 		} else {
 			if (!StringUtil.isEmpty(author)) {

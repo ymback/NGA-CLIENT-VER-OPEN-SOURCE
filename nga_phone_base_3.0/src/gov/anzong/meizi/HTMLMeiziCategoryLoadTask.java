@@ -142,7 +142,7 @@ public class HTMLMeiziCategoryLoadTask extends
 						meiziM.TopicUrl = topicUrl;
 					}
 					if (!topicUrl.toLowerCase(Locale.US).equals(
-							"http://www.52moe.net/?p=2473"))
+							"http://www.52moe.net/?p=2473") && !StringUtil.isEmpty(meiziM.smallPicUrl))
 						result.add(meiziM);
 				}
 			}

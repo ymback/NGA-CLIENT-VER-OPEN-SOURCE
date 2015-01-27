@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,6 +25,7 @@ public class SearchDialogFragment extends DialogFragment {
 	RadioButton search_alltopic_button;
 	RadioButton search_user_topic_button;
 	RadioButton search_user_apply_button;
+	CheckBox withcontent;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		//this.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
@@ -40,6 +42,8 @@ public class SearchDialogFragment extends DialogFragment {
 		alert.setPositiveButton("搜索", new PositiveOnClickListener());
 		search_topic_button=(RadioButton) view.findViewById(R.id.search_topic);
 		search_topic_button.setChecked(true);
+		withcontent=(CheckBox) view.findViewById(R.id.withcontent);
+		withcontent.setChecked(false);
 		search_alltopic_button=(RadioButton) view.findViewById(R.id.search_alltopic);
 		search_user_topic_button=(RadioButton) view.findViewById(R.id.search_user_topic);
 		search_user_apply_button=(RadioButton) view.findViewById(R.id.search_user_apply);
@@ -51,17 +55,21 @@ public class SearchDialogFragment extends DialogFragment {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				// TODO Auto-generated method stub
 				switch (checkedId) {
-					case R.id.search_topic://搜索发帖
+					case R.id.search_topic://搜索本版面主题
 						input.setHint(R.string.search_dialog_hint);
+						withcontent.setVisibility(View.VISIBLE);
 				break;
-					case R.id.search_alltopic://搜索主题
+					case R.id.search_alltopic://搜索全部主题
 						input.setHint(R.string.search_dialog_hint);
+						withcontent.setVisibility(View.VISIBLE);
 				break ;
-					case R.id.search_user_topic://搜索主题
+					case R.id.search_user_topic://搜索用户主题
 						input.setHint(R.string.search_dialog_hint_topic_reply_byself);
+						withcontent.setVisibility(View.GONE);
 				break ;
-					case R.id.search_user_apply://搜索回复
+					case R.id.search_user_apply://搜索用户回复
 						input.setHint(R.string.search_dialog_hint_reply_byself);
+						withcontent.setVisibility(View.GONE);
 				}
 			}
 			
@@ -133,6 +141,9 @@ public class SearchDialogFragment extends DialogFragment {
 		    }else if(searchradio.getCheckedRadioButtonId() == search_topic_button.getId()) {
 		    	if(!StringUtil.isEmpty(inputString))
 		    	{
+		    		if(withcontent.isChecked()){
+			    		intent_search.putExtra("content",1);
+		    		}
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
 		    		intent_search.putExtra("key", inputString);
 		    		intent_search.putExtra("table", view.getContext().getString(
@@ -146,6 +157,9 @@ public class SearchDialogFragment extends DialogFragment {
 		    }else{
 		    	if(!StringUtil.isEmpty(inputString))
 		    	{
+		    		if(withcontent.isChecked()){
+			    		intent_search.putExtra("content",1);
+		    		}
 		    		intent_search.putExtra("key", inputString);
 		    		intent_search.putExtra("fidgroup", "user");
 		    		intent_search.putExtra("table", view.getContext().getString(

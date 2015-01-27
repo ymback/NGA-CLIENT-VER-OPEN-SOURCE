@@ -26,7 +26,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 	private final Context context;
 	final private OnTopListLoadFinishedListener notifier;
 	private String error;
-	private String table;
+//	private String table;
 	
 	
 	public JsonTopicListLoadTask(Context context,
@@ -53,17 +53,17 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 		if(StringUtil.isEmpty(page)){
 			page = "1";
 		}
-        if(uri.indexOf("table=")>0){
-        	table = StringUtil.getStringBetween(uri, 0, "table=", "&").result.trim();
-        	if(context!=null){
-            	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//判断是否是搜索
-        		Pattern pattern = Pattern.compile(pattern1);
-        		Matcher mat = pattern.matcher(table);
-            	if(!mat.find()){
-            		table=null;
-            	}
-        	}
-        }
+//        if(uri.indexOf("table=")>0){
+//        	table = StringUtil.getStringBetween(uri, 0, "table=", "&").result.trim();
+//        	if(context!=null){
+//            	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//判断是否是搜索
+//        		Pattern pattern = Pattern.compile(pattern1);
+//        		Matcher mat = pattern.matcher(table);
+//            	if(!mat.find()){
+//            		table=null;
+//            	}
+//        	}
+//        }
 		if(js == null){
 			if(context!=null)
 				error = context.getResources().getString(R.string.network_error);
@@ -97,9 +97,9 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 			if(otmp.get("fid")!=null){
 			topiclistfid=(Integer)otmp.get("fid");
 			}
-			if(table!=null && otmp.get("extra_html")!=null){
-				ret.set__TABLE(Integer.parseInt(table)+1);
-			}
+//			if(table!=null && otmp.get("extra_html")!=null){
+//				ret.set__TABLE(Integer.parseInt(table)+1);
+//			}
 		}/**
 		 * 再见垃圾板结束
 		 * **/
@@ -142,12 +142,12 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 			 
 			 }
 			 if(error.trim().endsWith("中没有符合条件的结果")){
-				 ret.set__TABLE(Integer.parseInt(table));
+//				 ret.set__TABLE(Integer.parseInt(table));
 				 ret.set__SEARCHNORESULT(true);
 				 return ret;
 			 }else{
 				 ret.set__SEARCHNORESULT(false);
-				 ret.set__TABLE(-999);//NOT SEARCHING IN TABLE X
+//				 ret.set__TABLE(-999);//NOT SEARCHING IN TABLE X
 					return null;
 			 }
 		}

@@ -1,4 +1,3 @@
-
 package gov.anzong.meizi;
 
 import java.util.ArrayList;
@@ -7,6 +6,7 @@ import java.util.List;
 import sp.phone.utils.ThemeManager;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,91 +20,99 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 public class MeiziCategoryAdapter extends BaseAdapter {
-	
-	
-    private List<MeiziUrlData> mData;
 
-    private LayoutInflater mLayoutInflater;
+	private List<MeiziUrlData> mData;
 
-    private MultiColumnListView mListView;
-    
-    Activity mactivity;
+	private LayoutInflater mLayoutInflater;
 
-    public MeiziCategoryAdapter(Activity activity, MultiColumnListView listView) {
-        mLayoutInflater = activity.getLayoutInflater();
-        mData = new ArrayList<MeiziUrlData>();
-        mListView = listView;
-        mactivity=activity;
-    }
+	private MultiColumnListView mListView;
 
-    public void addData(List<MeiziUrlData> data) {
-        mData.addAll(data);
-        notifyDataSetChanged();
-    }
+	Activity mactivity;
 
-    public void clearData() {
-        mData.clear();
-        notifyDataSetChanged();
-    }
+	public MeiziCategoryAdapter(Activity activity, MultiColumnListView listView) {
+		mLayoutInflater = activity.getLayoutInflater();
+		mData = new ArrayList<MeiziUrlData>();
+		mListView = listView;
+		mactivity = activity;
+	}
 
-    @Override
-    public int getCount() {
-        return mData.size();
-    }
+	public void addData(List<MeiziUrlData> data) {
+		mData.addAll(data);
+		notifyDataSetChanged();
+	}
 
-    @Override
-    public Object getItem(int position) {
-        return mData.get(position);
-    }
+	public void clearData() {
+		mData.clear();
+		notifyDataSetChanged();
+	}
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+	@Override
+	public int getCount() {
+		return mData.size();
+	}
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        Holder holder;
-        if (view != null && view.getTag() != null) {
-            holder = (Holder) convertView.getTag();
-        } else {
-    		if(ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT){
-                view = mLayoutInflater.inflate(R.layout.listitem_category_night, null);
-    		}else{
-                view = mLayoutInflater.inflate(R.layout.listitem_category, null);
-    		}
-            holder = new Holder(view);
-            view.setTag(holder);
-        }
+	@Override
+	public Object getItem(int position) {
+		return mData.get(position);
+	}
 
-        view.setEnabled(!mListView.isItemChecked(position + mListView.getHeaderViewsCount()));
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
-        MeiziUrlData meiziM = mData.get(position);
-        ImageLoader.getInstance().displayImage(meiziM.smallPicUrl, holder.image,new SimpleImageLoadingListener(){
-
-			@Override
-			public void onLoadingComplete(String imageUri, View view,
-					Bitmap loadedImage) {
-				// TODO Auto-generated method stub
-				((ImageView) view).setImageBitmap(loadedImage);
-				int bitmapWidth = loadedImage.getWidth();
-                int bitmapHeight = loadedImage.getHeight();
-                LayoutParams params = view.getLayoutParams();
-                params.height = (int) ((float) view.getWidth() / (float) bitmapWidth * (float) bitmapHeight);
-                view.requestLayout();
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View view = convertView;
+		Holder holder;
+		if (view != null && view.getTag() != null) {
+			holder = (Holder) convertView.getTag();
+		} else {
+			if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+				view = mLayoutInflater.inflate(
+						R.layout.listitem_category_night, null);
+			} else {
+				view = mLayoutInflater
+						.inflate(R.layout.listitem_category, null);
 			}
-        	 
-        });
+			holder = new Holder(view);
+			view.setTag(holder);
+		}
 
-        return view;
-    }
+		view.setEnabled(!mListView.isItemChecked(position
+				+ mListView.getHeaderViewsCount()));
 
-    private class Holder {
-        public ImageView image;
+		MeiziUrlData meiziM = mData.get(position);
+		ImageLoader.getInstance().displayImage(meiziM.smallPicUrl,
+				holder.image, new SimpleImageLoadingListener() {
 
-        public Holder(View view) {
-            image = (ImageView) view.findViewById(R.id.image);
-        }
-    }
+					@Override
+					public void onLoadingComplete(String imageUri, View view,
+							Bitmap loadedImage) {
+						// TODO Auto-generated method stub
+						if (loadedImage != null) {
+							((ImageView) view).setImageBitmap(loadedImage);
+							int bitmapWidth = loadedImage.getWidth();
+							int bitmapHeight = loadedImage.getHeight();
+							LayoutParams params = view.getLayoutParams();
+							params.height = (int) ((float) view.getWidth()
+									/ (float) bitmapWidth * (float) bitmapHeight);
+							view.requestLayout();
+						}else{
+							Log.i("ds-img-null",imageUri);
+						}
+					}
+
+				});
+
+		return view;
+	}
+
+	private class Holder {
+		public ImageView image;
+
+		public Holder(View view) {
+			image = (ImageView) view.findViewById(R.id.image);
+		}
+	}
 }

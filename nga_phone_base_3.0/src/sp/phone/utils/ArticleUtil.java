@@ -165,6 +165,10 @@ public class ArticleUtil {
 	private boolean isShowImage() {
 		return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
 	}
+	
+	private boolean isShowAvatar(){
+		return PhoneConfiguration.getInstance().isDownAvatarNoWifi() || isInWifi();
+	}
 
 	public ThreadData parseJsonThreadPage(String js) {
 		js = js.replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",");

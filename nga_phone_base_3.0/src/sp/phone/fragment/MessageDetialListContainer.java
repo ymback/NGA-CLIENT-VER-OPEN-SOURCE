@@ -300,7 +300,11 @@ public class MessageDetialListContainer extends Fragment implements
 				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
 				intent.putExtra("searchpost", 1);
-				intent.putExtra("authorid", row.getFrom());
+				try{
+				intent.putExtra("authorid", Integer.parseInt(row.getFrom()));
+				}catch(Exception e){
+					
+				}
 				intent.setClass(getActivity(),
 						PhoneConfiguration.getInstance().topicActivityClass);
 				startActivity(intent);
@@ -313,7 +317,11 @@ public class MessageDetialListContainer extends Fragment implements
 			if (isadmin) {
 				FunctionUtil.errordialogadmin(getActivity(),listView);
 			} else {
-				intent.putExtra("authorid", row.getFrom());
+				try{
+				intent.putExtra("authorid", Integer.parseInt(row.getFrom()));
+				}catch(Exception e){
+					
+				}
 				intent.setClass(getActivity(),
 						PhoneConfiguration.getInstance().topicActivityClass);
 				startActivity(intent);

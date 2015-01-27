@@ -53,8 +53,9 @@ public class TopiclistContainer extends Fragment implements
 	int authorid;
 	int searchpost;
 	int favor;
+	int content;
 	String key;
-	String table;
+//	String table;
 	String fidgroup;
 	String author;
 
@@ -145,17 +146,19 @@ public class TopiclistContainer extends Fragment implements
 			favor = getUrlParameter(url, "favor");
 			key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
 			author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
-			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
+//			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
 			fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
 			searchmode=false;
+			content=getUrlParameter(url, "content");
 		} else {
 			fid = getArguments().getInt("fid", 0);
 			authorid = getArguments().getInt("authorid", 0);
+			content = getArguments().getInt("content", 0);
 			searchpost = getArguments().getInt("searchpost", 0);
 			favor = getArguments().getInt("favor", 0);
 			key = getArguments().getString("key");
 			author = getArguments().getString("author");
-			table = getArguments().getString("table");
+//			table = getArguments().getString("table");
 			fidgroup = getArguments().getString("fidgroup");
 			if(!StringUtil.isEmpty(getArguments().getString("searchmode"))){
 				if(getArguments().getString("searchmode").equals("true"))
@@ -172,8 +175,8 @@ public class TopiclistContainer extends Fragment implements
 			}
 		}
 		if (!StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)
-				|| !StringUtil.isEmpty(fidgroup) || !StringUtil.isEmpty(table)
-				|| searchpost != 0 || authorid != 0 || favor != 0) {
+				|| !StringUtil.isEmpty(fidgroup) 
+				|| searchpost != 0 || authorid != 0 || favor != 0) {//|| !StringUtil.isEmpty(table)
 			fromreplyactivity = 1;
 		}
 
@@ -258,6 +261,12 @@ public class TopiclistContainer extends Fragment implements
 			sb.append(searchpost);
 			sb.append('&');
 		}
+		if (this.content != 0) {
+			sb.append("content=");
+			sb.append(searchpost);
+			sb.append('&');
+		}
+		
 
 		return sb.toString();
 	}
@@ -271,6 +280,9 @@ public class TopiclistContainer extends Fragment implements
 			jsonUri += "searchpost=" + searchpost + "&";
 		if (favor != 0)
 			jsonUri += "favor=" + favor + "&";
+		if (content != 0)
+			jsonUri += "content=" + content + "&";
+		
 		if (!StringUtil.isEmpty(author)) {
 			try {
 				if (author.endsWith("&searchpost=1")) {
@@ -289,24 +301,24 @@ public class TopiclistContainer extends Fragment implements
 			if (0 != fid)
 				jsonUri += "fid=" + fid + "&";
 			if (!StringUtil.isEmpty(key)) {
-				jsonUri += "key=" + StringUtil.encodeUrl(key, "GBK") + "&";
+				jsonUri += "key=" + StringUtil.encodeUrl(key, "UTF-8") + "&";
 			}
 			if (!StringUtil.isEmpty(fidgroup)) {
 				jsonUri += "fidgroup=" + fidgroup + "&";
 			}
 		}
-		if (table != null && !table.equals("")) {
-			if (isend) {
-				if (restart) {
-					table = this.getActivity().getString(
-							R.string.largesttablenum);
-				} else {
-					table = String.valueOf(Integer.parseInt(table) - 1);
-				}
-				page = 1;
-			}
-			jsonUri += "table=" + table + "&";
-		}
+//		if (table != null && !table.equals("")) {
+//			if (isend) {
+//				if (restart) {
+//					table = this.getActivity().getString(
+//							R.string.largesttablenum);
+//				} else {
+//					table = String.valueOf(Integer.parseInt(table) - 1);
+//				}
+//				page = 1;
+//			}
+//			jsonUri += "table=" + table + "&";
+//		}
 		jsonUri += "page=" + page + "&lite=js&noprefix";
 		switch (category) {
 		case 2:
@@ -527,30 +539,31 @@ public class TopiclistContainer extends Fragment implements
 		
 		mTopicListInfo = result;
 		if (result.get__SEARCHNORESULT()) {
-			JsonTopicListLoadTask task = new JsonTopicListLoadTask(
-					getActivity(), this);
-			refresh_saying();
-			if (result.get__TABLE() > 0) {
+//			JsonTopicListLoadTask task = new JsonTopicListLoadTask(
+//					getActivity(), this);
+//			refresh_saying();
+//			if (result.get__TABLE() > 0) {
+//				if (getActivity() != null) {
+//					Toast.makeText(
+//							getActivity(),
+//							"库" + String.valueOf(result.get__TABLE())
+//									+ "中的结果已搜索完毕,正在搜索库"
+//									+ String.valueOf(result.get__TABLE() - 1)
+//									+ "中的结果", Toast.LENGTH_SHORT).show();
+//				}
+//				if (ActivityUtil.isGreaterThan_2_3_3())
+//					task.executeOnExecutor(
+//							JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
+//							getUrl(1, true, false));
+//				else
+//					task.execute(getUrl(1, true, false));
+//			} else
+//			{
 				if (getActivity() != null) {
-					Toast.makeText(
-							getActivity(),
-							"库" + String.valueOf(result.get__TABLE())
-									+ "中的结果已搜索完毕,正在搜索库"
-									+ String.valueOf(result.get__TABLE() - 1)
-									+ "中的结果", Toast.LENGTH_SHORT).show();
-				}
-				if (ActivityUtil.isGreaterThan_2_3_3())
-					task.executeOnExecutor(
-							JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
-							getUrl(1, true, false));
-				else
-					task.execute(getUrl(1, true, false));
-			} else {
-				if (getActivity() != null) {
-					Toast.makeText(getActivity(), "所有数据库结果已搜索完毕",
+					Toast.makeText(getActivity(), "结果已搜索完毕",
 							Toast.LENGTH_SHORT).show();
 				}
-			}
+//			}
 			return;
 		}
 		int lines = 35;

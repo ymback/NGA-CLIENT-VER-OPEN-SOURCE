@@ -145,6 +145,8 @@ public class MainActivity extends ActionBarActivity implements
 		checknewversion();
 	}
 	
+	
+	//OK
 	private void checknewversion(){
 		if (app.isNewVersion()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);

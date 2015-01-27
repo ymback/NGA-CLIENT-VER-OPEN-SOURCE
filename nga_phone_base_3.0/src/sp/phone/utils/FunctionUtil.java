@@ -927,6 +927,11 @@ import android.widget.Toast;
 		}
 		return ret;
 	}
+	
+//	public static String findimgonphone(String avatarlocalurl){
+//		
+//	}
+	
 	public static String avatarToHtmlText_Message(final MessageArticlePageInfo row, boolean showImage,
 			int imageQuality, final String fgColorStr, final String bgcolorStr,Context context) {
 		HashSet<String> imageURLSet = new HashSet<String>();

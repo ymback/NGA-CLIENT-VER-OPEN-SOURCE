@@ -49,7 +49,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		AvatarLoadCompleteCallBack {
 	private static final String TAG = ArticleListAdapter.class.getSimpleName();
 	private ThreadData data;
-	private Context activity;
+	private static Context activity;
 	private final SparseArray<SoftReference<View>> viewCache;
 	private final Object lock = new Object();
 	private final HashSet<String> urlSet = new HashSet<String>();
@@ -196,7 +196,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 				ngaHtml = "<font color='red'>[" + hide + "]</font>";
 			}
 			ngaHtml = ngaHtml
-					+ buildComment(row, fgColorStr, showImage, imageQuality)
+					+ buildComment(row, fgColorStr, showImage, imageQuality,context)
 					+ buildAttachment(row, showImage, imageQuality, imageURLSet)
 					+ buildSignature(row, showImage, imageQuality)
 					+ buildVote(row);
@@ -463,7 +463,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 	}
 
 	private static String buildComment(ThreadRowInfo row, String fgColor,
-			boolean showImage, int imageQuality) {
+			boolean showImage, int imageQuality, Context context) {
 		if (row == null || row.getComments() == null
 				|| row.getComments().size() == 0) {
 			return "";
@@ -479,6 +479,10 @@ public class ArticleListAdapter extends BaseAdapter implements
 		ret.append("<tbody>");
 
 		Iterator<ThreadRowInfo> it = row.getComments().iterator();
+		final boolean downImg = FunctionUtil
+				.isInWifi(context)
+				|| PhoneConfiguration.getInstance()
+						.isDownAvatarNoWifi();
 		while (it.hasNext()) {
 			ThreadRowInfo comment = it.next();
 			ret.append("<tr><td>");
@@ -488,7 +492,30 @@ public class ArticleListAdapter extends BaseAdapter implements
 			ret.append("<img src='");
 			String avatarUrl = FunctionUtil.parseAvatarUrl(comment
 					.getJs_escap_avatar());
-			ret.append(avatarUrl);
+			String avatarPath = ImageUtil.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
+			if(downImg){
+				if(StringUtil.isEmpty(avatarPath)){
+					ret.append(avatarUrl);
+				}else{
+					File f = new File(avatarPath);
+					if(f.exists()){
+						ret.append("file://"+avatarPath);
+					}else{
+						ret.append(avatarUrl);
+					}
+				}
+			}else{
+				if(StringUtil.isEmpty(avatarPath)){
+					ret.append("file:///android_asset/default_avatar.png");
+				}else{
+					File f = new File(avatarPath);
+					if(f.exists()){
+						ret.append(avatarPath);
+					}else{
+						ret.append("file:///android_asset/default_avatar.png");;
+					}
+				}
+			}
 			ret.append("' style= 'max-width:32;'>");
 
 			ret.append("</td><td>");
@@ -498,6 +525,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 		}
 		ret.append("</tbody></table>");
+		Log.i(TAG,ret.toString());
 		return ret.toString();
 	}
 

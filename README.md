@@ -1,15 +1,14 @@
 NGA-CLIENT-VER-OPEN-SOURCE
 ==========================
 
-NGAå®¢æˆ·ç«¯å¼€æºç‰ˆä»£ç ä»“åº“
+NGA¿Í»§¶Ë¿ªÔ´°æ´úÂë²Ö¿â
 
-å¯ç›´æŽ¥å¯¼å…¥eclipseã€‚
+¿ÉÖ±½Óµ¼Èëeclipse¡£
 
 - - -
-æ›´æ–°å†…å®¹åŽ»ä¸‹é¢é“¾æŽ¥æ‰¾
+¸üÐÂÄÚÈÝÈ¥ÏÂÃæÁ´½ÓÕÒ
 - - -
 <https://play.google.com/store/apps/details?id=gov.anzong.androidnga><br>
 The APP in Google Play Based on our project!
-
 
 

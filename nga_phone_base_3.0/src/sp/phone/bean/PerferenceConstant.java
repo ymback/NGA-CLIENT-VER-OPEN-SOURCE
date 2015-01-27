@@ -1,6 +1,6 @@
 package sp.phone.bean;
 
-public interface PerferenceConstant {
+public interface PerferenceConstant  {
 	final String PERFERENCE = "perference";
 	final String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
 	final String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";

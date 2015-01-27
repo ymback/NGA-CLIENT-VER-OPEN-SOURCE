@@ -39,7 +39,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2046;
+	public final static int version = 2048;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "×î½ü·ÃÎÊ";
@@ -670,6 +670,7 @@ public class MyApp extends Application implements PerferenceConstant {
 				.putString(USER_LIST, userListString).putString(BLACK_LIST, blacklist).commit();
 	}
 
+	
 	public void upgradeUserdata(String blacklist){
 		SharedPreferences share = this.getSharedPreferences(PERFERENCE,
 				MODE_PRIVATE);

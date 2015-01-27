@@ -4,18 +4,34 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" >
+        android:orientation="vertical"
+        android:layout_gravity="right">
 
+        <CheckBox
+            android:id="@+id/withcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/search_data"
+            android:layout_alignBottom="@+id/search_data"
+            android:text="@string/withcontent"
+            android:textStyle="bold" />
+        
         <EditText
             android:id="@+id/search_data"
-            android:layout_width="0dip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/withcontent"
+            android:cursorVisible="true"
+            android:inputType="textNoSuggestions"
             android:hint="@string/search_dialog_hint" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"

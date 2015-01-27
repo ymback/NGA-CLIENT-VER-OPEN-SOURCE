@@ -238,6 +238,7 @@
     <string name="wenzichuli">字体美化</string>
     <string name="bold">加粗</string>
     <string name="anony">匿名</string>
+    <string name="withcontent">包括正文</string>
     <string name="avataradd">头像地址</string>
     <string name="avatarpreview">头像预览</string>
     <string name="italic">斜体</string>
