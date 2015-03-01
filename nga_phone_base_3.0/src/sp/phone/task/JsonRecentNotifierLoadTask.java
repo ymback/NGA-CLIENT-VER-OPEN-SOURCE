@@ -34,7 +34,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
 	final private Context context;
 	private String errorStr;
 	final private OnRecentNotifierFinishedListener notifier;
-	final String url = "http://nga.178.com/nuke.php?__lib=noti&raw=3&__act=get_all";
+	final String url = "http://bbs.ngacn.cc/nuke.php?__lib=noti&raw=3&__act=get_all";
 
 	public JsonRecentNotifierLoadTask(Context context,
 			OnRecentNotifierFinishedListener notifier) {

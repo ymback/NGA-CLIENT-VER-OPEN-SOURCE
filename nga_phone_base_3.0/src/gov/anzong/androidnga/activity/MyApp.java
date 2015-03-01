@@ -39,7 +39,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
-	public final static int version = 2048;
+	public final static int version = 2049;
 	private PhoneConfiguration config = null;
 	boolean newVersion = false;
 	static final String RECENT = "ื๎ฝüทรฮส";

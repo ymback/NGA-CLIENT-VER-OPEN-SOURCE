@@ -32,7 +32,7 @@ import android.util.Log;
 public class JsonCleanRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PerferenceConstant {
 	static final String TAG = JsonCleanRecentNotifierLoadTask.class.getSimpleName();
 	final private Context context;
-	final String url = "http://nga.178.com/nuke.php?__lib=noti&raw=3&__act=del";
+	final String url = "http://bbs.ngacn.cc/nuke.php?__lib=noti&raw=3&__act=del";
 
 	public JsonCleanRecentNotifierLoadTask(Context context) {
 		super();

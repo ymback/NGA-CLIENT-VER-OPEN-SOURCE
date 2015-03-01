@@ -21,7 +21,7 @@ public class ArticleListWebClient extends WebViewClient {
 	static private final String NGA178_BOARD_PREFIX_NOHTTP = "nga.178.com/thread.php?";
 	static private final String NGACN_THREAD_PREFIX_NOHTTP = "bbs.ngacn.cc/read.php?";
 	static private final String NGA178_THREAD_PREFIX_NOHTTP = "nga.178.com/read.php?";
-	static private final String ANDROIDNGAUSERNAME_START = "http://nga.178.com/nuke.php?func=ucp&username=";
+	static private final String ANDROIDNGAUSERNAME_START = "http://bbs.ngacn.cc/nuke.php?func=ucp&username=";
 	static private final String ANDROIDNGAUSERNAME_END = "&";
 
 	

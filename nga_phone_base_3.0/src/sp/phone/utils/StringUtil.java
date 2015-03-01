@@ -22,7 +22,7 @@ import android.util.Log;
 
 @SuppressLint("SimpleDateFormat") public class StringUtil {
 	public final static String key = "asdfasdf";
-	private final static String HOST = "http://nga.178.com/";
+	private final static String HOST = "http://bbs.ngacn.cc/";
 	private static final String lesserNukeStyle = "<div style='border:1px solid #B63F32;margin:10px 10px 10px 10px;padding:10px' > <span style='color:#EE8A9E'>用户因此贴被暂时禁言，此效果不会累加</span><br/>";
 	private static final String styleAlignRight = "<div style='text-align:right' >";
 	private static final String styleAlignLeft = "<div style='text-align:left' >";
@@ -329,11 +329,11 @@ import android.util.Log;
 		s = s.replaceAll(
 				ignoreCaseTag
 						+ "\\[b\\]Reply to \\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\] (.+?)\\[/b\\]",
-				"[quote]Reply to [b]<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a> $4[/b][/quote]");
+				"[quote]Reply to [b]<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a> $4[/b][/quote]");
 
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
-				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
+				"<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
 
 		s = s.replaceAll(
 				ignoreCaseTag + "={3,}((^=){0,}(.*?){0,}(^=){0,})={3,}",
@@ -355,7 +355,7 @@ import android.util.Log;
 		s = s.replaceAll(ignoreCaseTag + "\\[tid=\\d+\\]Topic\\[/pid\\]",
 				"Topic");
 		s = s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\]Topic\\[/tid\\]",
-				"<a href='http://nga.178.com/read.php?tid=$1' style='font-weight: bold;'>[Topic]</a>");
+				"<a href='http://bbs.ngacn.cc/read.php?tid=$1' style='font-weight: bold;'>[Topic]</a>");
 		// reply
 		// s =
 		// s.replaceAll("\\[b\\]Reply to \\[pid=\\d+\\]Reply\\[/pid\\] (Post by .+ \\(\\d{4,4}-\\d\\d-\\d\\d \\d\\d:\\d\\d\\))\\[/b\\]"
@@ -401,25 +401,25 @@ import android.util.Log;
 				+ "\\[uid=?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
 		s = s.replaceAll(
 				ignoreCaseTag + "Post by\\s{0,}([^\\[\\s]{1,})\\s{0,}\\(",
-				"Post by <a href='http://nga.178.com/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
+				"Post by <a href='http://bbs.ngacn.cc/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[@(.{2,20}?)\\]",
-				"<a href='http://nga.178.com/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
+				"<a href='http://bbs.ngacn.cc/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
 		s = s.replaceAll(ignoreCaseTag 
 				+ "\\[uid=-?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
 		s = s.replaceAll(ignoreCaseTag
 				+ "\\[hip\\](.+?)\\[\\/hip\\]",
 				"$1");
 		s= s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\](.+?)\\[/tid\\]",
-				"<a href='http://nga.178.com/read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
+				"<a href='http://bbs.ngacn.cc/read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
 		s = s.replaceAll(
 				ignoreCaseTag
 						+ "\\[pid=(.+?)\\]\\[/pid\\]",
-				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
+				"<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
 		s = s.replaceAll(
 				ignoreCaseTag
 						+ "\\[pid=(.+?)\\](.+?)\\[/pid\\]",
-				"<a href='http://nga.178.com/read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
+				"<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
 		// flash
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
@@ -773,7 +773,7 @@ import android.util.Log;
 	};
 
 	public static int getNowPageNum(String link) {
-		// link: http://nga.178.com/thread.php?fid=7&page=1&rss=1&OOXX=
+		// link: http://bbs.ngacn.cc/thread.php?fid=7&page=1&rss=1&OOXX=
 		int ret = 1;
 		if (link.indexOf("\n") != -1) {
 			link = link.substring(0, link.length() - 1);
@@ -801,7 +801,8 @@ import android.util.Log;
 			+ "内置播放器独立为播放器APP,若未安装请到侧边栏关于中下载或PLAY商店搜索BambooPlayer安装\n"
 			+ "彩蛋还有,但不知道在哪了\n"
 			+ "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n"
-			+ "查找更新请使用侧边栏关于中的新版校验功能";
+			+ "查找更新请使用侧边栏关于中的新版校验功能\n"
+			+ "PS:我已经叛变了,IOS的没有第三方客户端,还有健健";
 
 	public static String getTips() {
 

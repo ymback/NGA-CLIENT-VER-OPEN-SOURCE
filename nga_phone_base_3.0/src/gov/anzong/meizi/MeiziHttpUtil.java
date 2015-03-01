@@ -43,12 +43,12 @@ public class MeiziHttpUtil {
 
 	public static final String PATH_ZIP = "";
 
-	public static String Server = "http://nga.178.com";
+	public static String Server = "http://bbs.ngacn.cc";
 
 	public static String NonameServer = "http://ngac.sinaapp.com/nganoname";
 	public static final String NGA_ATTACHMENT_HOST = "img.nga.178.com";
-	private static final String servers[] = { "http://nga.178.com",
-			"http://nga.178.com" };
+	private static final String servers[] = { "http://bbs.ngacn.cc",
+			"http://bbs.ngacn.cc" };
 	private static final String TAG = MeiziHttpUtil.class.getSimpleName();
 	/*
 	 * private static String[] host_arr = { "http://aa121077313.gicp.net:8099",

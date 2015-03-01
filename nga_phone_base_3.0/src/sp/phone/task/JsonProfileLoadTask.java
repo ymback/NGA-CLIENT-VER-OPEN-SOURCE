@@ -39,7 +39,7 @@ public class JsonProfileLoadTask extends
 	protected ProfileData doInBackground(String... params) {
 		if (params.length == 0)
 			return null;
-		url = "http://nga.178.com/nuke.php?__lib=ucp&__act=get&lite=js&noprefix&"
+		url = "http://bbs.ngacn.cc/nuke.php?__lib=ucp&__act=get&lite=js&noprefix&"
 				+ params[0];
 
 		Log.d(TAG, "start to load:" + url);

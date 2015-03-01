@@ -59,7 +59,7 @@ public final class ProxyBridge {
 			protected String doInBackground(String... params) {
 				if(StringUtil.isEmpty(params[0]))
 					return "Ñ¡Ôñ´íÎó";
-				String url="http://nga.178.com/nuke.php?"+params[0];
+				String url="http://bbs.ngacn.cc/nuke.php?"+params[0];
 				HttpPostClient c =  new HttpPostClient(url);
 				String cookie = PhoneConfiguration.getInstance().getCookie();
 				c.setCookie(cookie);

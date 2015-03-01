@@ -245,7 +245,7 @@ public class TopiclistContainer extends Fragment implements
 	public String getNfcUrl() {
 		final String scheme = getResources().getString(R.string.myscheme);
 		final StringBuilder sb = new StringBuilder(scheme);
-		sb.append("://nga.178.com/thread.php?");
+		sb.append("://bbs.ngacn.cc/thread.php?");
 		if (fid != 0) {
 			sb.append("fid=");
 			sb.append(fid);

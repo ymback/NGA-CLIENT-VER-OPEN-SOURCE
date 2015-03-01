@@ -343,7 +343,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
-			String shareUrl = "http://nga.178.com/read.php?";
+			String shareUrl = "http://bbs.ngacn.cc/read.php?";
 			if (this.pid != 0) {
 				shareUrl = shareUrl + "pid=" + this.pid + " (分享自NGA安卓客户端开源版)";
 			} else {
@@ -549,7 +549,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	public String getUrl() {
 		final String scheme = getResources().getString(R.string.myscheme);
 		final StringBuilder sb = new StringBuilder(scheme);
-		sb.append("://nga.178.com/read.php?");
+		sb.append("://bbs.ngacn.cc/read.php?");
 		if (tid != 0) {
 			sb.append("tid=");
 			sb.append(tid);

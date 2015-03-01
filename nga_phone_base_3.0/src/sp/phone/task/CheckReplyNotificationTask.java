@@ -35,7 +35,7 @@ import com.alibaba.fastjson.JSONObject;
 
 public class CheckReplyNotificationTask extends
 		AsyncTask<String, Integer, String> implements PerferenceConstant {
-	final String url = "http://nga.178.com/nuke.php?__lib=noti&raw=3&__act=get_all";
+	final String url = "http://bbs.ngacn.cc/nuke.php?__lib=noti&raw=3&__act=get_all";
 	final Context context;
 	final String TAG = getClass().getSimpleName();
 

@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 
 public class DeleteBookmarkTask extends AsyncTask<String, Integer, String> {
-//	String url = "http://nga.178.com/nuke.php?__lib=topic_favor&__act=topic_favor&raw=3&action=del&";
+//	String url = "http://bbs.ngacn.cc/nuke.php?__lib=topic_favor&__act=topic_favor&raw=3&action=del&";
 	//post tidarray:3092111
 	private Context context;
-	private final String url = "http://nga.178.com/nuke.php?nuke.php?__lib=topic_favor&__act=topic_favor&raw=3&lite=js&action=del&";
+	private final String url = "http://bbs.ngacn.cc/nuke.php?nuke.php?__lib=topic_favor&__act=topic_favor&raw=3&lite=js&action=del&";
 	private AdapterView<?> parent;
 	private int position;
 	

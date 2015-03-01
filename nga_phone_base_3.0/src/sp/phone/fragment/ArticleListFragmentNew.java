@@ -524,7 +524,7 @@ public class ArticleListFragmentNew extends Fragment implements
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
-			String shareUrl = "http://nga.178.com/read.php?";
+			String shareUrl = "http://bbs.ngacn.cc/read.php?";
 			if (pid == 0) {
 				shareUrl = shareUrl + "pid=" + row.getPid()
 						+ " (分享自NGA安卓客户端开源版)";

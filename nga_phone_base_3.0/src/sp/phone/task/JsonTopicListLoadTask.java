@@ -45,7 +45,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 		String uri = params[0];
 		String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
         boolean filter = false;
-        final  String greatSeaUri = "http://nga.178.com/thread.php?fid=-7&page=1&lite=js&noprefix";
+        final  String greatSeaUri = "http://bbs.ngacn.cc/thread.php?fid=-7&page=1&lite=js&noprefix";
         if(greatSeaUri.equals(uri)){
             filter = true;
         }

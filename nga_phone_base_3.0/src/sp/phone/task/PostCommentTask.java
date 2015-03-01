@@ -25,7 +25,7 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 	private final String prefix;
 	int anonymode;
 	boolean success;
-	private static final String postCommentUri = "http://nga.178.com/post.php";
+	private static final String postCommentUri = "http://bbs.ngacn.cc/post.php";
 	final private FragmentActivity fragmentActivity;
 	OnPostCommentFinishedListener notifier;
 

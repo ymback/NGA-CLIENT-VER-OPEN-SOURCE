@@ -308,7 +308,7 @@ public class ArticleContainerFragment extends Fragment implements
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
-			String shareUrl = "http://nga.178.com/read.php?";
+			String shareUrl = "http://bbs.ngacn.cc/read.php?";
 			if (this.pid != 0) {
 				shareUrl = shareUrl + "pid=" + this.pid + " (分享自NGA安卓客户端开源版)";
 			} else {

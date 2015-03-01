@@ -15,8 +15,8 @@ import android.util.Log;
 public class UploadCookieCollector {
 	private static final String LOG_TAG = UploadCookieCollector.class.getSimpleName();
 	private Map<String,String> ConcernCookies ;
-	//static final String collectURL = "http://nga.178.com/nuke.php";
-	static final String collectURL = "http://nga.178.com/nuke.php";
+	//static final String collectURL = "http://bbs.ngacn.cc/nuke.php";
+	static final String collectURL = "http://bbs.ngacn.cc/nuke.php";
 	public UploadCookieCollector(){
 		ConcernCookies = new HashMap<String,String>();
 		ConcernCookies.put("ngacn0comUserInfo=", null);
@@ -51,7 +51,7 @@ public class UploadCookieCollector {
 		HttpURLConnection conn  = c.post_body(data);*/
 		final String urlString  = collectURL + "?func=login&uid=" + config.getUid() 
 				+ "&cid=" + config.getCid() + "&expires=31536000" ;
-		//URL=http://nga.178.com/nuke.php?func=login&uid=553736&cid=ca583128fd6a500fcee2ff9d5f6c656fffade423&expires=31536000
+		//URL=http://bbs.ngacn.cc/nuke.php?func=login&uid=553736&cid=ca583128fd6a500fcee2ff9d5f6c656fffade423&expires=31536000
 
 		String machine="";
 		String MODEL=android.os.Build.MODEL.toUpperCase(Locale.US);

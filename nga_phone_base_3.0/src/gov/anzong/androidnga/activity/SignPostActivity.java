@@ -68,7 +68,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 	// private ImageButton button_upload;
 	// private ImageButton button_emotion;
 	Object commit_lock = new Object();
-	private String REPLY_URL = "http://nga.178.com/nuke.php?";
+	private String REPLY_URL = "http://bbs.ngacn.cc/nuke.php?";
 	final int REQUEST_CODE_SELECT_PIC = 1;
 	private View v;
 	private boolean loading;
