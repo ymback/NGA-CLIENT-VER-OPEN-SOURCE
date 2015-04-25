@@ -355,6 +355,21 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			viewgone1.setVisibility(View.GONE);
 			viewgone2.setVisibility(View.GONE);
 		}
+		
+		if(android.os.Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+			handsideQualityChooser.setVisibility(View.GONE);
+			viewgone2.setVisibility(View.GONE);
+			if ((config.getUiFlag() & UI_FLAG_HA) != 0){
+				int flag = PhoneConfiguration.getInstance().getUiFlag();
+				flag = flag & ~UI_FLAG_HA;
+				PhoneConfiguration.getInstance().setUiFlag(flag);
+				SharedPreferences share = getSharedPreferences(PERFERENCE,
+						MODE_PRIVATE);
+				Editor editor = share.edit();
+				editor.putInt(UI_FLAG, flag);
+				editor.commit();
+			}
+		}
 
 		if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {// less
 																			// than

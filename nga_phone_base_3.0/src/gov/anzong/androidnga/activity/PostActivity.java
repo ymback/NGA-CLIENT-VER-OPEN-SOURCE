@@ -275,6 +275,8 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 		actionBar.setListNavigationCallbacks(categoryAdapter, callback);
 	}
 
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand

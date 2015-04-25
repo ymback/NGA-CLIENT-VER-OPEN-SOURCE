@@ -24,8 +24,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.graphics.Bitmap;
 
 import com.alibaba.fastjson.JSON;
@@ -775,8 +777,19 @@ public class MyApp extends Application implements PerferenceConstant {
 
 		config.nikeWidth = share.getInt(NICK_WIDTH, 100);
 
-		int uiFlag = share.getInt(UI_FLAG, 0);
-		config.setUiFlag(uiFlag);
+		if(android.os.Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+			if ((config.getUiFlag() & UI_FLAG_HA) != 0){
+				int flag = share.getInt(UI_FLAG, 0);
+				flag = flag & ~UI_FLAG_HA;
+				PhoneConfiguration.getInstance().setUiFlag(flag);
+				Editor editor = share.edit();
+				editor.putInt(UI_FLAG, flag);
+				editor.commit();
+			}
+		}else{
+			int uiFlag = share.getInt(UI_FLAG, 0);
+			config.setUiFlag(uiFlag);
+		}
 
 		// bookmarks
 		String bookmarkJson = share.getString(BOOKMARKS, "");
