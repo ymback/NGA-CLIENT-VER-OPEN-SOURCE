@@ -10,3 +10,7 @@
 /PagerSlidingTabStrip/bin
 /PinterestLikeAdapterView/bin
 /PinterestLikeAdapterView/gen
+/.gradle
+/.idea
+build
+*.iml

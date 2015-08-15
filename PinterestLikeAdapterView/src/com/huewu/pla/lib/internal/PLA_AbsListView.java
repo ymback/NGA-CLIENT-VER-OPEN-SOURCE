@@ -474,6 +474,10 @@ public abstract class PLA_AbsListView extends PLA_AdapterView<ListAdapter>
 		a.recycle();
 	}
 
+	private void initializeScrollbars(TypedArray a) {
+
+	}
+
 	public PLA_AbsListView(Context context, AttributeSet attrs) {
 		this(context, attrs, R.attr.absListViewStyle);
 	}

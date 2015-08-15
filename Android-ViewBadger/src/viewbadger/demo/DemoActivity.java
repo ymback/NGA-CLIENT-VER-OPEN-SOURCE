@@ -206,10 +206,10 @@ public class DemoActivity extends TabActivity {
 
 	public static int byteArrayToInt(byte[] bytes) {
 	       int value= 0;
-	       //ÓÉ¸ßÎ»µ½µÍÎ»
+	       //ç”±é«˜ä½åˆ°ä½ä½
 	       for (int i = 0; i < 4; i++) {
 	           int shift= (4 - 1 - i) * 8;
-	           value +=(bytes[i] & 0x000000FF) << shift;//Íù¸ßÎ»ÓÎ
+	           value +=(bytes[i] & 0x000000FF) << shift;//å¾€é«˜ä½æ¸¸
 	       }
 	       return value;
 	 }
@@ -233,11 +233,11 @@ public class DemoActivity extends TabActivity {
         Log.i("111",String.valueOf(b.length));
         s=toBinary(b);
         String sa=s.substring(0,8);
-        BigInteger src1= new BigInteger(sa,2);//×ª»»ÎªBigIntegerÀàĞÍ
+        BigInteger src1= new BigInteger(sa,2);//è½¬æ¢ä¸ºBigIntegerç±»å‹
         Log.i("TAG",String.valueOf(src1));
         String sb=s.substring(8,s.length());
         Log.i("TAG",sb);
-        BigInteger src2= new BigInteger(sb,2);//×ª»»ÎªBigIntegerÀàĞÍ
+        BigInteger src2= new BigInteger(sb,2);//è½¬æ¢ä¸ºBigIntegerç±»å‹
         int d = src2.intValue();
         if((d & _FONT_BLUE)==_FONT_BLUE){
             Log.i("TAG",String.valueOf(src2));
