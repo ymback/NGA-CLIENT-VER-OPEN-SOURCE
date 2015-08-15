@@ -20,52 +20,52 @@ import android.widget.Scroller;
  */
 public class SlideCutListView extends ListView {
 	/**
-	 * µ±Ç°»¬¶¯µÄListView¡¡position
+	 * å½“å‰æ»‘åŠ¨çš„ListViewã€€position
 	 */
 	private int slidePosition;
 	/**
-	 * ÊÖÖ¸°´ÏÂXµÄ×ø±ê
+	 * æ‰‹æŒ‡æŒ‰ä¸‹Xçš„åæ ‡
 	 */
 	private int downY;
 	/**
-	 * ÊÖÖ¸°´ÏÂYµÄ×ø±ê
+	 * æ‰‹æŒ‡æŒ‰ä¸‹Yçš„åæ ‡
 	 */
 	private int downX;
 	/**
-	 * ÆÁÄ»¿í¶È
+	 * å±å¹•å®½åº¦
 	 */
 	private int screenWidth;
 	/**
-	 * ListViewµÄitem
+	 * ListViewçš„item
 	 */
 	private View itemView;
 	/**
-	 * »¬¶¯Àà
+	 * æ»‘åŠ¨ç±»
 	 */
 	private Scroller scroller;
 	private static final int SNAP_VELOCITY = 600;
 	/**
-	 * ËÙ¶È×·×Ù¶ÔÏó
+	 * é€Ÿåº¦è¿½è¸ªå¯¹è±¡
 	 */
 	private VelocityTracker velocityTracker;
 	/**
-	 * ÊÇ·ñÏìÓ¦»¬¶¯£¬Ä¬ÈÏÎª²»ÏìÓ¦
+	 * æ˜¯å¦å“åº”æ»‘åŠ¨ï¼Œé»˜è®¤ä¸ºä¸å“åº”
 	 */
 	private boolean isSlide = false;
 	/**
-	 * ÈÏÎªÊÇÓÃ»§»¬¶¯µÄ×îÐ¡¾àÀë
+	 * è®¤ä¸ºæ˜¯ç”¨æˆ·æ»‘åŠ¨çš„æœ€å°è·ç¦»
 	 */
 	private int mTouchSlop;
 	/**
-	 *  ÒÆ³ýitemºóµÄ»Øµ÷½Ó¿Ú
+	 *  ç§»é™¤itemåŽçš„å›žè°ƒæŽ¥å£
 	 */
 	private RemoveListener mRemoveListener;
 	/**
-	 * ÓÃÀ´Ö¸Ê¾item»¬³öÆÁÄ»µÄ·½Ïò,Ïò×ó»òÕßÏòÓÒ,ÓÃÒ»¸öÃ¶¾ÙÖµÀ´±ê¼Ç
+	 * ç”¨æ¥æŒ‡ç¤ºitemæ»‘å‡ºå±å¹•çš„æ–¹å‘,å‘å·¦æˆ–è€…å‘å³,ç”¨ä¸€ä¸ªæžšä¸¾å€¼æ¥æ ‡è®°
 	 */
 	private RemoveDirection removeDirection;
 
-	// »¬¶¯É¾³ý·½ÏòµÄÃ¶¾ÙÖµ
+	// æ»‘åŠ¨åˆ é™¤æ–¹å‘çš„æžšä¸¾å€¼
 	public enum RemoveDirection {
 		RIGHT, LEFT;
 	}
@@ -88,7 +88,7 @@ public class SlideCutListView extends ListView {
 	}
 	
 	/**
-	 * ÉèÖÃ»¬¶¯É¾³ýµÄ»Øµ÷½Ó¿Ú
+	 * è®¾ç½®æ»‘åŠ¨åˆ é™¤çš„å›žè°ƒæŽ¥å£
 	 * @param removeListener
 	 */
 	public void setRemoveListener(RemoveListener removeListener) {
@@ -96,7 +96,7 @@ public class SlideCutListView extends ListView {
 	}
 
 	/**
-	 * ·Ö·¢ÊÂ¼þ£¬Ö÷Òª×öµÄÊÇÅÐ¶Ïµã»÷µÄÊÇÄÇ¸öitem, ÒÔ¼°Í¨¹ýpostDelayedÀ´ÉèÖÃÏìÓ¦×óÓÒ»¬¶¯ÊÂ¼þ
+	 * åˆ†å‘äº‹ä»¶ï¼Œä¸»è¦åšçš„æ˜¯åˆ¤æ–­ç‚¹å‡»çš„æ˜¯é‚£ä¸ªitem, ä»¥åŠé€šè¿‡postDelayedæ¥è®¾ç½®å“åº”å·¦å³æ»‘åŠ¨äº‹ä»¶
 	 */
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
@@ -104,7 +104,7 @@ public class SlideCutListView extends ListView {
 		case MotionEvent.ACTION_DOWN: {
 			addVelocityTracker(event);
 
-			// ¼ÙÈçscroller¹ö¶¯»¹Ã»ÓÐ½áÊø£¬ÎÒÃÇÖ±½Ó·µ»Ø
+			// å‡å¦‚scrolleræ»šåŠ¨è¿˜æ²¡æœ‰ç»“æŸï¼Œæˆ‘ä»¬ç›´æŽ¥è¿”å›ž
 			if (!scroller.isFinished()) {
 				return super.dispatchTouchEvent(event);
 			}
@@ -113,12 +113,12 @@ public class SlideCutListView extends ListView {
 
 			slidePosition = pointToPosition(downX, downY);
 
-			// ÎÞÐ§µÄposition, ²»×öÈÎºÎ´¦Àí
+			// æ— æ•ˆçš„position, ä¸åšä»»ä½•å¤„ç†
 			if (slidePosition == AdapterView.INVALID_POSITION) {
 				return super.dispatchTouchEvent(event);
 			}
 
-			// »ñÈ¡ÎÒÃÇµã»÷µÄitem view
+			// èŽ·å–æˆ‘ä»¬ç‚¹å‡»çš„item view
 			itemView = getChildAt(slidePosition - getFirstVisiblePosition());
 			break;
 		}
@@ -139,47 +139,47 @@ public class SlideCutListView extends ListView {
 	}
 
 	/**
-	 * ÍùÓÒ»¬¶¯£¬getScrollX()·µ»ØµÄÊÇ×ó±ßÔµµÄ¾àÀë£¬¾ÍÊÇÒÔView×ó±ßÔµÎªÔ­µãµ½¿ªÊ¼»¬¶¯µÄ¾àÀë£¬ËùÒÔÏòÓÒ±ß»¬¶¯Îª¸ºÖµ
+	 * å¾€å³æ»‘åŠ¨ï¼ŒgetScrollX()è¿”å›žçš„æ˜¯å·¦è¾¹ç¼˜çš„è·ç¦»ï¼Œå°±æ˜¯ä»¥Viewå·¦è¾¹ç¼˜ä¸ºåŽŸç‚¹åˆ°å¼€å§‹æ»‘åŠ¨çš„è·ç¦»ï¼Œæ‰€ä»¥å‘å³è¾¹æ»‘åŠ¨ä¸ºè´Ÿå€¼
 	 */
 	private void scrollRight() {
 		removeDirection = RemoveDirection.RIGHT;
 		final int delta = (screenWidth + itemView.getScrollX());
-		// µ÷ÓÃstartScroll·½·¨À´ÉèÖÃÒ»Ð©¹ö¶¯µÄ²ÎÊý£¬ÎÒÃÇÔÚcomputeScroll()·½·¨ÖÐµ÷ÓÃscrollToÀ´¹ö¶¯item
+		// è°ƒç”¨startScrollæ–¹æ³•æ¥è®¾ç½®ä¸€äº›æ»šåŠ¨çš„å‚æ•°ï¼Œæˆ‘ä»¬åœ¨computeScroll()æ–¹æ³•ä¸­è°ƒç”¨scrollToæ¥æ»šåŠ¨item
 		scroller.startScroll(itemView.getScrollX(), 0, -delta, 0,
 				Math.abs(delta));
-		postInvalidate(); // Ë¢ÐÂitemView
+		postInvalidate(); // åˆ·æ–°itemView
 	}
 
 	/**
-	 * Ïò×ó»¬¶¯£¬¸ù¾ÝÉÏÃæÎÒÃÇÖªµÀÏò×ó»¬¶¯ÎªÕýÖµ
+	 * å‘å·¦æ»‘åŠ¨ï¼Œæ ¹æ®ä¸Šé¢æˆ‘ä»¬çŸ¥é“å‘å·¦æ»‘åŠ¨ä¸ºæ­£å€¼
 	 */
 	private void scrollLeft() {
 		removeDirection = RemoveDirection.LEFT;
 		final int delta = (screenWidth - itemView.getScrollX());
-		// µ÷ÓÃstartScroll·½·¨À´ÉèÖÃÒ»Ð©¹ö¶¯µÄ²ÎÊý£¬ÎÒÃÇÔÚcomputeScroll()·½·¨ÖÐµ÷ÓÃscrollToÀ´¹ö¶¯item
+		// è°ƒç”¨startScrollæ–¹æ³•æ¥è®¾ç½®ä¸€äº›æ»šåŠ¨çš„å‚æ•°ï¼Œæˆ‘ä»¬åœ¨computeScroll()æ–¹æ³•ä¸­è°ƒç”¨scrollToæ¥æ»šåŠ¨item
 		scroller.startScroll(itemView.getScrollX(), 0, delta, 0,
 				Math.abs(delta));
-		postInvalidate(); // Ë¢ÐÂitemView
+		postInvalidate(); // åˆ·æ–°itemView
 	}
 
 	/**
-	 * ¸ù¾ÝÊÖÖ¸¹ö¶¯itemViewµÄ¾àÀëÀ´ÅÐ¶ÏÊÇ¹ö¶¯µ½¿ªÊ¼Î»ÖÃ»¹ÊÇÏò×ó»òÕßÏòÓÒ¹ö¶¯
+	 * æ ¹æ®æ‰‹æŒ‡æ»šåŠ¨itemViewçš„è·ç¦»æ¥åˆ¤æ–­æ˜¯æ»šåŠ¨åˆ°å¼€å§‹ä½ç½®è¿˜æ˜¯å‘å·¦æˆ–è€…å‘å³æ»šåŠ¨
 	 */
 	private void scrollByDistanceX() {
-		// Èç¹ûÏò×ó¹ö¶¯µÄ¾àÀë´óÓÚÆÁÄ»µÄÈý·ÖÖ®Ò»£¬¾ÍÈÃÆäÉ¾³ý
+		// å¦‚æžœå‘å·¦æ»šåŠ¨çš„è·ç¦»å¤§äºŽå±å¹•çš„ä¸‰åˆ†ä¹‹ä¸€ï¼Œå°±è®©å…¶åˆ é™¤
 		if (itemView.getScrollX() >= screenWidth / 3) {
 			scrollLeft();
 		} else if (itemView.getScrollX() <= -screenWidth / 3) {
 			scrollRight();
 		} else {
-			// ¹ö»Øµ½Ô­Ê¼Î»ÖÃ,ÎªÁËÍµÏÂÀÁÕâÀïÊÇÖ±½Óµ÷ÓÃscrollTo¹ö¶¯
+			// æ»šå›žåˆ°åŽŸå§‹ä½ç½®,ä¸ºäº†å·ä¸‹æ‡’è¿™é‡Œæ˜¯ç›´æŽ¥è°ƒç”¨scrollToæ»šåŠ¨
 			itemView.scrollTo(0, 0);
 		}
 
 	}
 
 	/**
-	 * ´¦ÀíÎÒÃÇÍÏ¶¯ListView itemµÄÂß¼­
+	 * å¤„ç†æˆ‘ä»¬æ‹–åŠ¨ListView itemçš„é€»è¾‘
 	 */
 	@SuppressLint("ClickableViewAccessibility") @Override
 	public boolean onTouchEvent(MotionEvent ev) {
@@ -192,7 +192,7 @@ public class SlideCutListView extends ListView {
 				int deltaX = downX - x;
 				downX = x;
 
-				// ÊÖÖ¸ÍÏ¶¯itemView¹ö¶¯, deltaX´óÓÚ0Ïò×ó¹ö¶¯£¬Ð¡ÓÚ0ÏòÓÒ¹ö
+				// æ‰‹æŒ‡æ‹–åŠ¨itemViewæ»šåŠ¨, deltaXå¤§äºŽ0å‘å·¦æ»šåŠ¨ï¼Œå°äºŽ0å‘å³æ»š
 				itemView.scrollBy(deltaX, 0);
 				break;
 			case MotionEvent.ACTION_UP:
@@ -206,28 +206,28 @@ public class SlideCutListView extends ListView {
 				}
 
 				recycleVelocityTracker();
-				// ÊÖÖ¸Àë¿ªµÄÊ±ºò¾Í²»ÏìÓ¦×óÓÒ¹ö¶¯
+				// æ‰‹æŒ‡ç¦»å¼€çš„æ—¶å€™å°±ä¸å“åº”å·¦å³æ»šåŠ¨
 				isSlide = false;
 				break;
 			}
 
-			return true; // ÍÏ¶¯µÄÊ±ºòListView²»¹ö¶¯
+			return true; // æ‹–åŠ¨çš„æ—¶å€™ListViewä¸æ»šåŠ¨
 		}
 
-		//·ñÔòÖ±½Ó½»¸øListViewÀ´´¦ÀíonTouchEventÊÂ¼þ
+		//å¦åˆ™ç›´æŽ¥äº¤ç»™ListViewæ¥å¤„ç†onTouchEventäº‹ä»¶
 		return super.onTouchEvent(ev);
 	}
 
 	@Override
 	public void computeScroll() {
-		// µ÷ÓÃstartScrollµÄÊ±ºòscroller.computeScrollOffset()·µ»Øtrue£¬
+		// è°ƒç”¨startScrollçš„æ—¶å€™scroller.computeScrollOffset()è¿”å›žtrueï¼Œ
 		if (scroller.computeScrollOffset()) {
-			// ÈÃListView item¸ù¾Ýµ±Ç°µÄ¹ö¶¯Æ«ÒÆÁ¿½øÐÐ¹ö¶¯
+			// è®©ListView itemæ ¹æ®å½“å‰çš„æ»šåŠ¨åç§»é‡è¿›è¡Œæ»šåŠ¨
 			itemView.scrollTo(scroller.getCurrX(), scroller.getCurrY());
 			
 			postInvalidate();
 
-			// ¹ö¶¯¶¯»­½áÊøµÄÊ±ºòµ÷ÓÃ»Øµ÷½Ó¿Ú
+			// æ»šåŠ¨åŠ¨ç”»ç»“æŸçš„æ—¶å€™è°ƒç”¨å›žè°ƒæŽ¥å£
 			if (scroller.isFinished()) {
 				if (mRemoveListener == null) {
 					throw new NullPointerException("RemoveListener is null, we should called setRemoveListener()");
@@ -240,7 +240,7 @@ public class SlideCutListView extends ListView {
 	}
 
 	/**
-	 * Ìí¼ÓÓÃ»§µÄËÙ¶È¸ú×ÙÆ÷
+	 * æ·»åŠ ç”¨æˆ·çš„é€Ÿåº¦è·Ÿè¸ªå™¨
 	 * 
 	 * @param event
 	 */
@@ -253,7 +253,7 @@ public class SlideCutListView extends ListView {
 	}
 
 	/**
-	 * ÒÆ³ýÓÃ»§ËÙ¶È¸ú×ÙÆ÷
+	 * ç§»é™¤ç”¨æˆ·é€Ÿåº¦è·Ÿè¸ªå™¨
 	 */
 	private void recycleVelocityTracker() {
 		if (velocityTracker != null) {
@@ -263,7 +263,7 @@ public class SlideCutListView extends ListView {
 	}
 
 	/**
-	 * »ñÈ¡X·½ÏòµÄ»¬¶¯ËÙ¶È,´óÓÚ0ÏòÓÒ»¬¶¯£¬·´Ö®Ïò×ó
+	 * èŽ·å–Xæ–¹å‘çš„æ»‘åŠ¨é€Ÿåº¦,å¤§äºŽ0å‘å³æ»‘åŠ¨ï¼Œåä¹‹å‘å·¦
 	 * 
 	 * @return
 	 */
@@ -275,8 +275,8 @@ public class SlideCutListView extends ListView {
 
 	/**
 	 * 
-	 * µ±ListView item»¬³öÆÁÄ»£¬»Øµ÷Õâ¸ö½Ó¿Ú
-	 * ÎÒÃÇÐèÒªÔÚ»Øµ÷·½·¨removeItem()ÖÐÒÆ³ý¸ÃItem,È»ºóË¢ÐÂListView
+	 * å½“ListView itemæ»‘å‡ºå±å¹•ï¼Œå›žè°ƒè¿™ä¸ªæŽ¥å£
+	 * æˆ‘ä»¬éœ€è¦åœ¨å›žè°ƒæ–¹æ³•removeItem()ä¸­ç§»é™¤è¯¥Item,ç„¶åŽåˆ·æ–°ListView
 	 * 
 	 * @author xiaanming
 	 *

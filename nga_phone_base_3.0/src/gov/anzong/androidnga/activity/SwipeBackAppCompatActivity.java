@@ -1,12 +1,13 @@
 package gov.anzong.androidnga.activity;
 
-import sp.phone.utils.PhoneConfiguration;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
+import sp.phone.utils.PhoneConfiguration;
 
 /**
  * Created by Administrator on 13-9-29.
@@ -22,7 +23,7 @@ public class SwipeBackAppCompatActivity extends ActionBarActivity implements
 		mHelper = new SwipeBackActivityHelper(this);
 		mHelper.onActivtyCreate();
 		if (PhoneConfiguration.getInstance().swipeBack) {
-			final float density = getResources().getDisplayMetrics().density;// ªÒ»°∆¡ƒª√‹∂»PPI
+			final float density = getResources().getDisplayMetrics().density;// Ëé∑ÂèñÂ±èÂπïÂØÜÂ∫¶PPI
 			getSwipeBackLayout().setEdgeSize(
 					(int) (MY_EDGE_SIZE * density + 0.5f));// 10dp
 			int pos = SwipeBackLayout.EDGE_ALL;

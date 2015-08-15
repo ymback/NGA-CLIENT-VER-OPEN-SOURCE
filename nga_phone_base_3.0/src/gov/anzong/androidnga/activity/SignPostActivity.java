@@ -134,7 +134,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 					tm.getForegroundColor());
 			bodyText.setTextColor(textColor);
 		}
-		getSupportActionBar().setTitle("¸ü¸ÄÇ©Ãû");
+		getSupportActionBar().setTitle("æ›´æ”¹ç­¾å");
 	}
 
 
@@ -142,7 +142,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag >= 4) {// ´óÓÚµÈÓÚ4¿Ï¶¨ÓĞ
+			if (flag >= 4) {// å¤§äºç­‰äº4è‚¯å®šæœ‰
 				getMenuInflater().inflate(R.menu.messagepost_menu_left, menu);
 			} else {
 				getMenuInflater().inflate(R.menu.messagepost_menu, menu);
@@ -189,11 +189,11 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 		case R.id.send:
 			if (StringUtil.isEmpty(bodyText.getText().toString())) {
 				if (toast != null) {
-					toast.setText("ÇëÊäÈëÄÚÈİ");
+					toast.setText("è¯·è¾“å…¥å†…å®¹");
 					toast.setDuration(Toast.LENGTH_SHORT);
 					toast.show();
 				} else {
-					toast = Toast.makeText(SignPostActivity.this, "ÇëÊäÈëÄÚÈİ",
+					toast = Toast.makeText(SignPostActivity.this, "è¯·è¾“å…¥å†…å®¹",
 							Toast.LENGTH_SHORT);
 					toast.show();
 				}
@@ -409,7 +409,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 		protected String doInBackground(String... params) {
 			if (params.length < 2)
 				return "parameter error";
-			String ret = "ÍøÂç´íÎó";
+			String ret = "ç½‘ç»œé”™è¯¯";
 			String url = params[0];
 			String body = params[1];
 
@@ -423,7 +423,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 					if (conn.getResponseCode() >= 500) {
 						input = null;
 						keepActivity = true;
-						ret = "¶ş¸çÔÚÓÃ·şÎñÆ÷ÏÂÃ«Æ¬";
+						ret = "äºŒå“¥åœ¨ç”¨æœåŠ¡å™¨ä¸‹æ¯›ç‰‡";
 					} else {
 						if (conn.getResponseCode() >= 400) {
 							input = conn.getErrorStream();
@@ -449,7 +449,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 
 		private String getReplyResult(String js) {
 			if (null == js) {
-				return "·¢ËÍÊ§°Ü";
+				return "å‘é€å¤±è´¥";
 			}
 			js = js.replaceAll("window.script_muti_get_var_store=", "");
 			if (js.indexOf("/*error fill content") > 0)
@@ -470,7 +470,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 					Log.e("TAG", "can not parse :\n" + js);
 				}
 				if (o == null) {
-					return "·¢ËÍÊ§°Ü";
+					return "å‘é€å¤±è´¥";
 				}
 				return o.getString("0");
 			}
@@ -479,7 +479,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 
 		@Override
 		protected void onPostExecute(String result) {
-			String success_results[] = { "²Ù×÷³É¹¦" };
+			String success_results[] = { "æ“ä½œæˆåŠŸ" };
 			if (keepActivity == false) {
 				boolean success = false;
 				for (int i = 0; i < success_results.length; ++i) {
@@ -527,7 +527,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inJustDecodeBounds = true;
 			Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2,
-					options); // ´ËÊ±·µ»Ø bm Îª¿Õ
+					options); // æ­¤æ—¶è¿”å› bm ä¸ºç©º
 			options.inJustDecodeBounds = false;
 			DisplayMetrics dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -537,7 +537,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 			int height = options.outHeight;
 			float scaleWidth = ((float) screenwidth) / width;
 			float scaleHeight = ((float) screenheigth) / height;
-			if (scaleWidth < scaleHeight && scaleWidth < 1f) {// ²»ÄÜ·Å´ó°¡,È»ºóÖ÷ÒªÊÇÄÄ¸öĞ¡Ëõ·Åµ½ÄÄ¸ö¾ÍĞĞÁË
+			if (scaleWidth < scaleHeight && scaleWidth < 1f) {// ä¸èƒ½æ”¾å¤§å•Š,ç„¶åä¸»è¦æ˜¯å“ªä¸ªå°ç¼©æ”¾åˆ°å“ªä¸ªå°±è¡Œäº†
 				options.inSampleSize = (int) (1 / scaleWidth);
 			} else if (scaleWidth >= scaleHeight && scaleHeight < 1f) {
 				options.inSampleSize = (int) (1 / scaleHeight);

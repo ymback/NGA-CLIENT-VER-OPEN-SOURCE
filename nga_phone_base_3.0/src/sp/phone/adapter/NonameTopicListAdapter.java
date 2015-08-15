@@ -129,7 +129,7 @@ public class NonameTopicListAdapter extends BaseAdapter implements
 
 		String titile = entry.title;
 		if (StringUtil.isEmpty(titile)) {
-			titile = "ÎÞÌâ";
+			titile = "æ— é¢˜";
 			holder.title.setText(StringUtil.unEscapeHtml(titile));
 
 		} else {

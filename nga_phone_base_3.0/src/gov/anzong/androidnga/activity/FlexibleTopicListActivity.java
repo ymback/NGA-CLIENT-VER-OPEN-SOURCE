@@ -66,7 +66,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 	private String TAG = FlexibleTopicListActivity.class.getSimpleName();
 	boolean dualScreen = true;
 	private CheckReplyNotificationTask asynTask;
-	String strs[] = { "È«²¿", "¾«»ª", "ÍÆ¼ö" };
+	String strs[] = { "å…¨éƒ¨", "ç²¾å", "æ¨è" };
 	ArrayAdapter<String> categoryAdapter;
 	int flags = 7;
 	int toDeleteTid = 0;
@@ -184,7 +184,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		if (null == f2) {
 				f1.setHasOptionsMenu(true);
 		} else if (!dualScreen) {
-			getSupportActionBar().setTitle("Ö÷ÌâÁĞ±í");
+			getSupportActionBar().setTitle("ä¸»é¢˜åˆ—è¡¨");
 			fm.beginTransaction().remove(f2).commit();
 			f1.setHasOptionsMenu(true);
 		} else {
@@ -217,18 +217,18 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			flags = ThemeManager.ACTION_BAR_FLAG;
 			if(content==1){
 				if (!StringUtil.isEmpty(fidgroup)) {
-					final String title = "ËÑË÷È«Õ¾(°üº¬ÕıÎÄ):" + key;
+					final String title = "æœç´¢å…¨ç«™(åŒ…å«æ­£æ–‡):" + key;
 					getSupportActionBar().setTitle(title);
 				} else {
-					final String title = "ËÑË÷(°üº¬ÕıÎÄ):" + key;
+					final String title = "æœç´¢(åŒ…å«æ­£æ–‡):" + key;
 					getSupportActionBar().setTitle(title);
 				}
 			}else{
 				if (!StringUtil.isEmpty(fidgroup)) {
-					final String title = "ËÑË÷È«Õ¾:" + key;
+					final String title = "æœç´¢å…¨ç«™:" + key;
 					getSupportActionBar().setTitle(title);
 				} else {
-					final String title = "ËÑË÷:" + key;
+					final String title = "æœç´¢:" + key;
 					getSupportActionBar().setTitle(title);
 				}
 			}
@@ -236,10 +236,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			if (!StringUtil.isEmpty(author)) {
 				flags = ThemeManager.ACTION_BAR_FLAG;
 				if (searchpost > 0) {
-					final String title = "ËÑË÷" + author + "µÄ»Ø¸´";
+					final String title = "æœç´¢" + author + "çš„å›å¤";
 					getSupportActionBar().setTitle(title);
 				} else {
-					final String title = "ËÑË÷" + author + "µÄÖ÷Ìâ";
+					final String title = "æœç´¢" + author + "çš„ä¸»é¢˜";
 					getSupportActionBar().setTitle(title);
 				}
 			}
@@ -346,7 +346,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		}
 		long now = System.currentTimeMillis();
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
-		if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30Ãë²ÅË¬°¡Ü³
+		if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30ç§’æ‰çˆ½å•Šè‰¹
 //			 if(1==1){
 			Log.d(TAG, "start to check Reply Notification");
 			asynTask = new CheckReplyNotificationTask(this);
@@ -382,7 +382,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 
-		if (!dualScreen) {// ·ÇÆ½°å
+		if (!dualScreen) {// éå¹³æ¿
 			if (null == onItemClickNewActivity) {
 				onItemClickNewActivity = new EnterJsonArticle(this,
 						fromreplyactivity);
@@ -501,7 +501,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 			FragmentManager fm = getSupportFragmentManager();
 			Fragment f1 = fm.findFragmentById(R.id.item_list);
 			f1.setHasOptionsMenu(true);
-			getSupportActionBar().setTitle("Ö÷ÌâÁĞ±í");
+			getSupportActionBar().setTitle("ä¸»é¢˜åˆ—è¡¨");
 			guidtmp = "";
 		}
 

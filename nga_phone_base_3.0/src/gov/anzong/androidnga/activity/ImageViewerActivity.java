@@ -70,7 +70,7 @@ public class ImageViewerActivity extends  SwipeBackAppCompatActivity {
 			//settings.setPluginState(PluginState.ON);
 			wv.loadUrl(uri);
 
-			getSupportActionBar().setTitle("查看视频");
+			getSupportActionBar().setTitle("鏌ョ湅瑙嗛");
 		}else{//images
 
 			settings.setSupportZoom(true);
@@ -89,7 +89,7 @@ public class ImageViewerActivity extends  SwipeBackAppCompatActivity {
 				
 			});
 			wv.loadUrl(uri);
-			getSupportActionBar().setTitle("查看图片");
+			getSupportActionBar().setTitle("鏌ョ湅鍥剧墖");
 		}
 		
 	}

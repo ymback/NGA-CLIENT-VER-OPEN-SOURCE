@@ -1,7 +1,7 @@
 package sp.phone.bean;
 
 
-public class adminForumsData {//¸øÈÎÎñ¾ßÌåĞÅÏ¢ÔØÈëÓÃµÄ
+public class adminForumsData {//ç»™ä»»åŠ¡å…·ä½“ä¿¡æ¯è½½å…¥ç”¨çš„
 	private String fid,fname;
 	public void Set_Data(String fid,String fname){
 		this.fid=fid;

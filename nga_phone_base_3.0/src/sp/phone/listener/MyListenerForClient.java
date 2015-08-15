@@ -47,75 +47,75 @@ public class MyListenerForClient implements OnClickListener {
 			} 
 			if (clientappcode.equals("1")) {
 				if (from_client.length() <= 2) {
-					deviceinfo = "·¢ËÍ×ÔLife StyleÆ»¹û¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªLife Styleè‹¹æœå®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
-					deviceinfo = "·¢ËÍ×ÔLife StyleÆ»¹û¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:"
+					deviceinfo = "å‘é€è‡ªLife Styleè‹¹æœå®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:"
 							+ from_client.substring(2);
 				}
 			} else if (clientappcode.equals("7")) {
 				if (from_client.length() <= 2) {
-					deviceinfo = "·¢ËÍ×ÔNGAÆ»¹û¹Ù·½¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªNGAè‹¹æœå®˜æ–¹å®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
-					deviceinfo = "·¢ËÍ×ÔNGAÆ»¹û¹Ù·½¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:"
+					deviceinfo = "å‘é€è‡ªNGAè‹¹æœå®˜æ–¹å®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:"
 							+ from_client.substring(2);
 				}
 			} else if (clientappcode.equals("8")) {
 				if (from_client.length() <= 2) {
-					deviceinfo = "·¢ËÍ×ÔNGA°²×¿¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªNGAå®‰å“å®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
 					String fromdata = from_client.substring(2);
 					if (fromdata.startsWith("[")
 							&& fromdata.indexOf("](Android") > 0) {
-						deviceinfo = "·¢ËÍ×ÔNGA°²×¿¿ªÔ´°æ¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:"
+						deviceinfo = "å‘é€è‡ªNGAå®‰å“å¼€æºç‰ˆå®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:"
 								+ fromdata.substring(1).replace(
 										"](Android", "(Android");
 					} else {
-						deviceinfo = "·¢ËÍ×ÔNGA°²×¿¹Ù·½¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:" + fromdata;
+						deviceinfo = "å‘é€è‡ªNGAå®‰å“å®˜æ–¹å®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:" + fromdata;
 					}
 				}
 			} else if (clientappcode.equals("9")) {
 				if (from_client.length() <= 2) {
-					deviceinfo = "·¢ËÍ×ÔNGA Windows Phone¹Ù·½¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªNGA Windows Phoneå®˜æ–¹å®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
-					deviceinfo = "·¢ËÍ×ÔNGA Windows Phone¹Ù·½¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:"
+					deviceinfo = "å‘é€è‡ªNGA Windows Phoneå®˜æ–¹å®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:"
 							+ from_client.substring(2);
 				}
 			} else if (clientappcode.equals("100")) {
 				if (from_client.length() <= 4) {
-					deviceinfo = "·¢ËÍ×Ô°²×¿ä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªå®‰å“æµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
-					deviceinfo = "·¢ËÍ×Ô°²×¿ä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:"
+					deviceinfo = "å‘é€è‡ªå®‰å“æµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:"
 							+ from_client.substring(4);
 				}
 			} else if (clientappcode.equals("101")) {
 				if (from_client.length() <= 4) {
-					deviceinfo = "·¢ËÍ×ÔÆ»¹ûä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªè‹¹æœæµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
-					deviceinfo = "·¢ËÍ×ÔÆ»¹ûä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:"
+					deviceinfo = "å‘é€è‡ªè‹¹æœæµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:"
 							+ from_client.substring(4);
 				}
 			} else if (clientappcode.equals("102")) {
 				if (from_client.length() <= 4) {
-					deviceinfo = "·¢ËÍ×ÔBlackberryä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªBlackberryæµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
-					deviceinfo = "·¢ËÍ×ÔBlackberryä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:"
+					deviceinfo = "å‘é€è‡ªBlackberryæµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:"
 							+ from_client.substring(4);
 				}
 			} else if (clientappcode.equals("103")) {
 				if (from_client.length() <=4) {
-					deviceinfo = "·¢ËÍ×ÔWindows Phone¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªWindows Phoneå®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				} else {
-					deviceinfo = "·¢ËÍ×ÔWindows Phone¿Í»§¶Ë »úĞÍ¼°ÏµÍ³:"
+					deviceinfo = "å‘é€è‡ªWindows Phoneå®¢æˆ·ç«¯ æœºå‹åŠç³»ç»Ÿ:"
 							+ from_client.substring(4);
 				}
 			} else {
 				if(from_client.indexOf(" ")<0){
-					deviceinfo = "·¢ËÍ×ÔÎ´Öªä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:Î´Öª";
+					deviceinfo = "å‘é€è‡ªæœªçŸ¥æµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 				}else{
 					if (from_client.length() == (from_client.indexOf(" ") + 1)) {
-						deviceinfo = "·¢ËÍ×ÔÎ´Öªä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:Î´Öª";
+						deviceinfo = "å‘é€è‡ªæœªçŸ¥æµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:æœªçŸ¥";
 					} else {
-						deviceinfo = "·¢ËÍ×ÔÎ´Öªä¯ÀÀÆ÷ »úĞÍ¼°ÏµÍ³:"
+						deviceinfo = "å‘é€è‡ªæœªçŸ¥æµè§ˆå™¨ æœºå‹åŠç³»ç»Ÿ:"
 								+ from_client.substring(from_client
 										.indexOf(" ") + 1);
 					}
@@ -133,7 +133,7 @@ public class MyListenerForClient implements OnClickListener {
 
 			WindowManager wm = (WindowManager) mcontext
 					.getSystemService(Context.WINDOW_SERVICE);
-			lp.width = (int) (wm.getDefaultDisplay().getWidth()); // ÉèÖÃ¿í¶È
+			lp.width = (int) (wm.getDefaultDisplay().getWidth()); // è®¾ç½®å®½åº¦
 			dialog.getWindow().setAttributes(lp);
 			dialog.show();
 			dialog.setOnCancelListener(new OnCancelListener() {

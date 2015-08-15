@@ -56,7 +56,7 @@ public class CheckReplyNotificationTask extends
 		Log.i(this.getClass().getSimpleName(), "get message:" + result);
 		// return
 		// "[truncated]window.script_muti_get_var_store={0:[{\"0\":1,\"1\":20174851,\"2\":\"\326\361\276\256\324\212\277\227\300\357\",\"3\":20174851,\"4\":\"\326\361\276\256\324\212\277\227\300\357\",\"5\":\"\277\264\262\273\265\275\316\322\",\"9\":1403393562,\"6\":71387683,\"7\":133146646,\"10\":1}] }";
-//		return "get message:<html><head><meta http-equiv='Content-Type' content='text/html; charset=GBK'></head><body><script>window.script_muti_get_var_store={\"data\":{\"0\":{\"0\":[{\"9\":1418355735 ,\"0\":1,\"1\":20174851,\"2\":\"Öñ¾®ÔŠ¿—Àï\",\"3\":20174851,\"4\":\"Öñ¾®ÔŠ¿—Àï\",\"5\":\"ÎÒÏ²»¶²âÊÔ\",\"6\":7638703,\"7\":143928028,\"10\":1}],\"unread\":0}},\"time\":1418357357}</script></body></html>";
+//		return "get message:<html><head><meta http-equiv='Content-Type' content='text/html; charset=GBK'></head><body><script>window.script_muti_get_var_store={\"data\":{\"0\":{\"0\":[{\"9\":1418355735 ,\"0\":1,\"1\":20174851,\"2\":\"ç«¹äº•è©©ç¹”é‡Œ\",\"3\":20174851,\"4\":\"ç«¹äº•è©©ç¹”é‡Œ\",\"5\":\"æˆ‘å–œæ¬¢æµ‹è¯•\",\"6\":7638703,\"7\":143928028,\"10\":1}],\"unread\":0}},\"time\":1418357357}</script></body></html>";
 		 return result;
 	}
 
@@ -90,7 +90,7 @@ public class CheckReplyNotificationTask extends
 		} catch (Exception e) {
 			Log.i(TAG, "JSON DATA ERROR");
 		}
-		if(unread<1){//¶¼¶ÁÁË£¬Ë³±ãË¢ÐÂÒ»´ÎÊý¾Ý
+		if(unread<1){//éƒ½è¯»äº†ï¼Œé¡ºä¾¿åˆ·æ–°ä¸€æ¬¡æ•°æ®
 			if (ojsonnoti != null) {
 				if (ojsonnoti.size() > 0) {
 					for (int i = 0; i < ojsonnoti.size(); i++) {
@@ -492,7 +492,7 @@ public class CheckReplyNotificationTask extends
 		notification.tickerText = tickerText;
 		notification.when = System.currentTimeMillis();
 		notification.setLatestEventInfo(context, title,
-				title + "(" + String.valueOf(authId) + ")ÏòÄã·¢ËÍÁË¶ÌÏûÏ¢", pending);
+				title + "(" + String.valueOf(authId) + ")å‘ä½ å‘é€äº†çŸ­æ¶ˆæ¯", pending);
 		nm.notify(mid, notification);
 	}
 
@@ -548,7 +548,7 @@ public class CheckReplyNotificationTask extends
 		MsgNotificationObject o = msgnotificationlist.get(0);
 		notification
 				.setLatestEventInfo(context, o.getTitle(), o.getTitle() + "("
-						+ String.valueOf(o.getAuthorId()) + ")µÈÏòÄã·¢ËÍÁË¶ÌÏûÏ¢",
+						+ String.valueOf(o.getAuthorId()) + ")ç­‰å‘ä½ å‘é€äº†çŸ­æ¶ˆæ¯",
 						pending);
 		nm.notify(R.layout.messagelist_activity, notification);
 	}

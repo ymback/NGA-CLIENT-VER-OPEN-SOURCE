@@ -72,7 +72,7 @@ public class NearbyUsersAdapter extends BaseAdapter {
 
 		text = text +"(" + 
 				u.getJuli() +
-				"Ã×)";
+				"ç±³)";
 		TextView tv = (TextView)ret.findViewById(R.id.nickname);
 		tv.setText(text);
 		final ImageView iv = (ImageView)ret.findViewById(R.id.avatarimg);

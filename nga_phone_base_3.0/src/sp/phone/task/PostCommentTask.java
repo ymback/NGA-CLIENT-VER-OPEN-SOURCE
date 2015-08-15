@@ -105,7 +105,7 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 		String js = StringUtil.getStringBetween(html, 0,
 				"window.script_muti_get_var_store=", "</script>").result;
 		if (StringUtil.isEmpty(js)) {
-			return "Î´Öª´íÎó";
+			return "æœªçŸ¥é”™è¯¯";
 		}
 		try {
 			JSONObject o = (JSONObject) JSON.parseObject(js);
@@ -113,13 +113,13 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 			o = (JSONObject) o.get("__MESSAGE");
 			String result = o.getString("1");
 			if (StringUtil.isEmpty(result)) {
-				return "´ó¸ÅÃ»È¨ÏŞ,¶ş¸ç¹ö´Ö";
+				return "å¤§æ¦‚æ²¡æƒé™,äºŒå“¥æ»šç²—";
 			} else {
 				if (o.getInteger("3") == 200) {
-					if(result.indexOf("·¢ÌùÍê±Ï")>=0){
+					if(result.indexOf("å‘è´´å®Œæ¯•")>=0){
 						success = true;
 					}
-					return result.replace("·¢ÌùÍê±Ï", "ÌùÌõ³É¹¦").trim();
+					return result.replace("å‘è´´å®Œæ¯•", "è´´æ¡æˆåŠŸ").trim();
 				} else {
 					return result;
 				}
@@ -127,7 +127,7 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 		} catch (Exception e) {
 
 		}
-		return "Î´Öª´íÎó";
+		return "æœªçŸ¥é”™è¯¯";
 	}
 
 	@Override

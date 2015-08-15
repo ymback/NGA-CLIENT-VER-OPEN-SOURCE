@@ -63,7 +63,7 @@ public class HttpUtil {
 	public static final String Servlet_timer = "/servlet/TimerServlet";
 
 	public static String HOST_PORT = "";
-	//Èí¼şÃû/°æ±¾ (Ó²¼şĞÅÏ¢; ²Ù×÷ÏµÍ³ĞÅÏ¢)
+	//è½¯ä»¶å/ç‰ˆæœ¬ (ç¡¬ä»¶ä¿¡æ¯; æ“ä½œç³»ç»Ÿä¿¡æ¯)
 	//AndroidNga/571 (Xiaomi MI 2S; Android 4.1.1)
 	public static String MODEL=android.os.Build.MODEL.toUpperCase(Locale.US);
 	public static String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);

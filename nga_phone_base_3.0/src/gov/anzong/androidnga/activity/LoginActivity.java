@@ -95,7 +95,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 
 		view = LayoutInflater.from(this).inflate(R.layout.login, null);
 		this.setContentView(view);
-		this.setTitle("µÇÂ¼");
+		this.setTitle("ç™»å½•");
 		button_login = (Button) findViewById(R.id.login_button);
 		authcodeImg = (ImageView) view.findViewById(R.id.authcode_img);
 		authcodeimg_refresh = (ImageButton) findViewById(R.id.authcode_refresh);
@@ -134,11 +134,11 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 		messagemode = intent.getStringExtra("messagemode");
 		if (!StringUtil.isEmpty(action)) {
 			if (toast != null) {
-				toast.setText("ÄãĞèÒªµÇÂ¼²ÅÄÜ½øĞĞÏÂÒ»²½²Ù×÷");
+				toast.setText("ä½ éœ€è¦ç™»å½•æ‰èƒ½è¿›è¡Œä¸‹ä¸€æ­¥æ“ä½œ");
 				toast.setDuration(Toast.LENGTH_SHORT);
 				toast.show();
 			} else {
-				toast = Toast.makeText(LoginActivity.this, "ÄãĞèÒªµÇÂ¼²ÅÄÜ½øĞĞÏÂÒ»²½²Ù×÷",
+				toast = Toast.makeText(LoginActivity.this, "ä½ éœ€è¦ç™»å½•æ‰èƒ½è¿›è¡Œä¸‹ä¸€æ­¥æ“ä½œ",
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
@@ -223,7 +223,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 
 	@SuppressWarnings("deprecation")
 	private void setbackgroundbitmap() {
-		if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) { // ÊúÆÁ
+		if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) { // ç«–å±
 			BitmapFactory.Options bfoOptions = new BitmapFactory.Options();
 			bfoOptions.inScaled = false;
 			Bitmap bmp = BitmapFactory.decodeResource(getResources(),
@@ -340,12 +340,12 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 					bodyBuffer.append("email=");
 					if(StringUtil.isEmpty(authcode_cookie)){
 						if (toast != null) {
-							toast.setText("ÑéÖ¤ÂëĞÅÏ¢´íÎó£¬ÇëÖØÊÔ");
+							toast.setText("éªŒè¯ç ä¿¡æ¯é”™è¯¯ï¼Œè¯·é‡è¯•");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast.makeText(LoginActivity.this,
-									"ÑéÖ¤ÂëĞÅÏ¢´íÎó£¬ÇëÖØÊÔ", Toast.LENGTH_SHORT);
+									"éªŒè¯ç ä¿¡æ¯é”™è¯¯ï¼Œè¯·é‡è¯•", Toast.LENGTH_SHORT);
 							toast.show();
 						}
 						reloadauthcode();
@@ -356,12 +356,12 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 							StringUtil.isEmpty(passwordText.getText().toString())||
 									StringUtil.isEmpty(authcodeText.getText().toString())){
 						if (toast != null) {
-							toast.setText("ÄÚÈİÈ±ÉÙ£¬Çë¼ì²éºóÔÙÊÔ");
+							toast.setText("å†…å®¹ç¼ºå°‘ï¼Œè¯·æ£€æŸ¥åå†è¯•");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast.makeText(LoginActivity.this,
-									"ÄÚÈİÈ±ÉÙ£¬Çë¼ì²éºóÔÙÊÔ", Toast.LENGTH_SHORT);
+									"å†…å®¹ç¼ºå°‘ï¼Œè¯·æ£€æŸ¥åå†è¯•", Toast.LENGTH_SHORT);
 							toast.show();
 						}
 						reloadauthcode();
@@ -427,12 +427,12 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 						String re301location = conn.getHeaderField(i);
 						if(re301location.indexOf("login_failed")>0){
 							if (re301location.indexOf("error_vcode") > 0) {
-								errorstr = ("ÑéÖ¤Âë´íÎó");
+								errorstr = ("éªŒè¯ç é”™è¯¯");
 							}
 							if (re301location.indexOf("e_login") > 0) {
-								errorstr = ("ÓÃ»§Ãû»òÃÜÂë´íÎó");
+								errorstr = ("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯");
 							}
-							errorstr="Î´Öª´íÎó";
+							errorstr="æœªçŸ¥é”™è¯¯";
 							return false;
 						}
 					}
@@ -613,12 +613,12 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 	public void authcodefinishLoadError() {
 		// TODO Auto-generated method stub
 		if (toast != null) {
-			toast.setText("ÔØÈëÑéÖ¤ÂëÊ§°Ü£¬Çëµã»÷Ë¢ĞÂÖØĞÂ¼ÓÔØ");
+			toast.setText("è½½å…¥éªŒè¯ç å¤±è´¥ï¼Œè¯·ç‚¹å‡»åˆ·æ–°é‡æ–°åŠ è½½");
 			toast.setDuration(Toast.LENGTH_SHORT);
 			toast.show();
 		} else {
 			toast = Toast.makeText(LoginActivity.this,
-					"ÔØÈëÑéÖ¤ÂëÊ§°Ü£¬Çëµã»÷Ë¢ĞÂÖØĞÂ¼ÓÔØ", Toast.LENGTH_SHORT);
+					"è½½å…¥éªŒè¯ç å¤±è´¥ï¼Œè¯·ç‚¹å‡»åˆ·æ–°é‡æ–°åŠ è½½", Toast.LENGTH_SHORT);
 			toast.show();
 		}
 		authcodeImg.setImageDrawable(getResources().getDrawable(R.drawable.q_vcode_retry));

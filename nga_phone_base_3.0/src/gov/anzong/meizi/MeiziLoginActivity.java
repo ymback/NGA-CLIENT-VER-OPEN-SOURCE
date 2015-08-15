@@ -65,7 +65,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 
 		view = LayoutInflater.from(this).inflate(R.layout.dbmeizi_login, null);
 		this.setContentView(view);
-		this.setTitle("¶¹°êÃÃ×Ó:µÇÂ¼");
+		this.setTitle("è±†ç“£å¦¹å­:ç™»å½•");
 		Button button_login = (Button) findViewById(R.id.login_button);
 		userText = (EditText) findViewById(R.id.login_user_edittext);
 		passwordText = (EditText) findViewById(R.id.login_password_edittext);
@@ -82,7 +82,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 
 	private void updateThemeUI() {
 		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().db_cookie)) {
-			login_state.setText("ÒÑ¾­µÇÂ½,Äã¾ÍÊÇÉñ");
+			login_state.setText("å·²ç»ç™»é™†,ä½ å°±æ˜¯ç¥");
 		}
 		ThemeManager tm = ThemeManager.getInstance();
 		if (tm.getMode() == ThemeManager.MODE_NIGHT) {

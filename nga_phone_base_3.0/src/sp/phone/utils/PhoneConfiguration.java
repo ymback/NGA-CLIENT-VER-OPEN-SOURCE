@@ -280,7 +280,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 		this.uiFlag = uiFlag;
 		switch (uiFlag) {
 		
-		case UI_FLAG_SPLIT:/*½ö¿ªÆô²Ëµ¥ÔÚÏÂ·½£¬ÔòÎÄÕÂºÍÖ÷ÌâÓÃsplit£¬·¢»¹ÊÇÆÕÍ¨µÄ*/
+		case UI_FLAG_SPLIT:/*ä»…å¼€å¯èœå•åœ¨ä¸‹æ–¹ï¼Œåˆ™æ–‡ç« å’Œä¸»é¢˜ç”¨splitï¼Œå‘è¿˜æ˜¯æ™®é€šçš„*/
 			topicActivityClass = SplitFlexibleTopicListActivity.class;
 			messageActivityClass = SplitFlexibleMessageListActivity.class;
 			nonameActivityClass = SplitFlexibleNonameTopicListActivity.class;
@@ -297,7 +297,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			MeiziMainActivityClass = SplitMeiziMainActivity.class;
 			MeiziTopicActivityClass = SplitMeiziTopicActivity.class;
 			break;
-		case UI_FLAG_HA:/*½ö¿ªÆôÓ²¼ş¼ÓËÙ£¬È«²¿¶¼Òª¼ÓËÙ£¬ËùÒÔ·¢µÄÒ²ÒªÓ²¼ş¼ÓËÙµÄ*/
+		case UI_FLAG_HA:/*ä»…å¼€å¯ç¡¬ä»¶åŠ é€Ÿï¼Œå…¨éƒ¨éƒ½è¦åŠ é€Ÿï¼Œæ‰€ä»¥å‘çš„ä¹Ÿè¦ç¡¬ä»¶åŠ é€Ÿçš„*/
 			topicActivityClass = HaFlexibleTopicListActivity.class;
 			articleActivityClass = HaArticleListActivity.class;
 			nonameArticleActivityClass = HaNonameArticleListActivity.class;
@@ -314,7 +314,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			MeiziMainActivityClass = MeiziMainActivity.class;
 			MeiziTopicActivityClass = MeiziTopicActivity.class;
 			break;
-		case UI_FLAG_REPLYSPLIT:/*½ö¿ªÆô·¢ÔÚÏÂÃæ£¬Ôò²Ëµ¥ºÍÓ²¼ş¼ÓËÙ¶¼ÓÃÆÕÍ¨µÄ£¬·¢ÓÃSplit°æ±¾µÄ*/
+		case UI_FLAG_REPLYSPLIT:/*ä»…å¼€å¯å‘åœ¨ä¸‹é¢ï¼Œåˆ™èœå•å’Œç¡¬ä»¶åŠ é€Ÿéƒ½ç”¨æ™®é€šçš„ï¼Œå‘ç”¨Splitç‰ˆæœ¬çš„*/
 			topicActivityClass = FlexibleTopicListActivity.class;
 			messageActivityClass = FlexibleMessageListActivity.class;
 			nonameActivityClass = FlexibleNonameTopicListActivity.class;
@@ -331,7 +331,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			MeiziMainActivityClass = MeiziMainActivity.class;
 			MeiziTopicActivityClass = MeiziTopicActivity.class;
 			break;
-		case (UI_FLAG_SPLIT + UI_FLAG_HA):/*¿ªÆôÓ²¼ş¼ÓËÙºÍÆÕÍ¨²Ëµ¥ÔÚÏÂÃæ£¬ÔòÆÕÍ¨ĞèÒªÏÂÃæºÍ¼ÓËÙ£¬¼ÓËÙĞèÒªÆÕÍ¨ºÍ¼ÓËÙ£¬²Ëµ¥Ö»Òª¼ÓËÙ*/
+		case (UI_FLAG_SPLIT + UI_FLAG_HA):/*å¼€å¯ç¡¬ä»¶åŠ é€Ÿå’Œæ™®é€šèœå•åœ¨ä¸‹é¢ï¼Œåˆ™æ™®é€šéœ€è¦ä¸‹é¢å’ŒåŠ é€Ÿï¼ŒåŠ é€Ÿéœ€è¦æ™®é€šå’ŒåŠ é€Ÿï¼Œèœå•åªè¦åŠ é€Ÿ*/
 			topicActivityClass = HaSplitFlexibleTopicListActivity.class;
 			messageActivityClass = HaSplitFlexibleMessageListActivity.class;
 			nonameActivityClass = HaSplitFlexibleNonameTopicListActivity.class;
@@ -348,7 +348,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			MeiziMainActivityClass = SplitMeiziMainActivity.class;
 			MeiziTopicActivityClass = SplitMeiziTopicActivity.class;
 			break;
-		case (UI_FLAG_SPLIT + UI_FLAG_REPLYSPLIT):/*¿ªÆô2¸öÏÂÃæ£¬Ôò¾ÍÊÇËùÓĞsplit²»ÓÃha*/
+		case (UI_FLAG_SPLIT + UI_FLAG_REPLYSPLIT):/*å¼€å¯2ä¸ªä¸‹é¢ï¼Œåˆ™å°±æ˜¯æ‰€æœ‰splitä¸ç”¨ha*/
 			topicActivityClass = SplitFlexibleTopicListActivity.class;
 			messageActivityClass = SplitFlexibleMessageListActivity.class;
 			nonameActivityClass = SplitFlexibleNonameTopicListActivity.class;
@@ -365,7 +365,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			MeiziMainActivityClass = SplitMeiziMainActivity.class;
 			MeiziTopicActivityClass = SplitMeiziTopicActivity.class;
 			break;
-		case (UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*¿ªÆô¼ÓËÙºÍÏÂÃæ£¬ÔòÆÕÍ¨Ö»Òª¼ÓËÙ£¬¼ÓËÙÒ²Ö»Òª¼ÓËÙ£¬²Ëµ¥ĞèÒª¼ÓËÙºÍsplit*/
+		case (UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*å¼€å¯åŠ é€Ÿå’Œä¸‹é¢ï¼Œåˆ™æ™®é€šåªè¦åŠ é€Ÿï¼ŒåŠ é€Ÿä¹Ÿåªè¦åŠ é€Ÿï¼Œèœå•éœ€è¦åŠ é€Ÿå’Œsplit*/
 			topicActivityClass = HaFlexibleTopicListActivity.class;
 			messageActivityClass = HaFlexibleMessageListActivity.class;
 			nonameActivityClass = HaFlexibleNonameTopicListActivity.class;
@@ -382,7 +382,7 @@ public class PhoneConfiguration implements PerferenceConstant{
 			MeiziMainActivityClass = MeiziMainActivity.class;
 			MeiziTopicActivityClass = MeiziTopicActivity.class;
 			break;
-		case (UI_FLAG_SPLIT + UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*È«¿ª¾ÍÈ«¿ª*/
+		case (UI_FLAG_SPLIT + UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*å…¨å¼€å°±å…¨å¼€*/
 			topicActivityClass = HaSplitFlexibleTopicListActivity.class;
 			messageActivityClass = HaSplitFlexibleMessageListActivity.class;
 			nonameActivityClass = HaSplitFlexibleNonameTopicListActivity.class;

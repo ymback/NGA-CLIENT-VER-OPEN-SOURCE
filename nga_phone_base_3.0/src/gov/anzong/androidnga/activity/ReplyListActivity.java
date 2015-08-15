@@ -14,7 +14,7 @@ public class ReplyListActivity extends SwipeBackAppCompatActivity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		getSupportActionBar().setTitle("ÎÒµÄ±»Åç");
+		getSupportActionBar().setTitle("æˆ‘çš„è¢«å–·");
 		this.setContentView(R.layout.topiclist_activity);
 		FragmentManager fm  = this.getSupportFragmentManager();
 		Fragment f = fm.findFragmentById(R.id.item_list);

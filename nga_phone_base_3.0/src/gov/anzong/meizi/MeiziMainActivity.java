@@ -63,7 +63,7 @@ public class MeiziMainActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initView();
-		Toast.makeText(this, "±¾Èí¼şÊÇä¯ÀÀÆ÷,ËùÓĞÄÚÈİ¾ùÀ´×ÔÍøÂç,ºÍ±¾Èí¼şÎŞ¹Ø,Ò²²»´ú±í¿ª·¢ÕßÖ§³Ö¸ÃÄÚÈİ,",
+		Toast.makeText(this, "æœ¬è½¯ä»¶æ˜¯æµè§ˆå™¨,æ‰€æœ‰å†…å®¹å‡æ¥è‡ªç½‘ç»œ,å’Œæœ¬è½¯ä»¶æ— å…³,ä¹Ÿä¸ä»£è¡¨å¼€å‘è€…æ”¯æŒè¯¥å†…å®¹,",
 							Toast.LENGTH_LONG).show();
 	}
 
@@ -98,7 +98,7 @@ public class MeiziMainActivity extends ActionBarActivity implements
 		if (null == mTopicFragment) {
 			mCategoryFragment.setHasOptionsMenu(true);
 		} else if (!dualScreen) {
-			getSupportActionBar().setTitle("Ö÷ÌâÁĞ±í");
+			getSupportActionBar().setTitle("ä¸»é¢˜åˆ—è¡¨");
 			fm.beginTransaction().remove(mTopicFragment).commit();
 			mCategoryFragment.setHasOptionsMenu(true);
 		} else {
@@ -129,7 +129,7 @@ public class MeiziMainActivity extends ActionBarActivity implements
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				getSupportActionBar().setTitle("ÔŞÃÀJJMIMMYS");
+				getSupportActionBar().setTitle("èµç¾JJMIMMYS");
 				if (ActivityUtil.isLessThan_3_0())
 					supportInvalidateOptionsMenu();
 				else
@@ -217,7 +217,7 @@ public class MeiziMainActivity extends ActionBarActivity implements
 		// TODO Auto-generated method stub
 		if (meiziM != null) {
 			String topicUrl = meiziM.TopicUrl;
-			if (!dualScreen) {// ·ÇÆ½°å
+			if (!dualScreen) {// éå¹³æ¿
 				MeiziNavigationUtil.startTopicActivity(this, topicUrl);
 			} else {
 				mTopicFragment = new MeiziTopicFragment();

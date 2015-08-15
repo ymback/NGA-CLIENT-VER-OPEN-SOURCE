@@ -134,7 +134,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			layoutId = R.layout.settings_meizu;
 		view = getLayoutInflater().inflate(layoutId, null);
 
-		getSupportActionBar().setTitle("设置");
+		getSupportActionBar().setTitle("璁剧疆");
 
 		this.setContentView(view);
 		PhoneConfiguration config = PhoneConfiguration.getInstance();
@@ -622,7 +622,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 							addFidList = JSON
 									.parseArray(addFidStr, Board.class);
 							if (addFidList != null) {
-								int i = 11;// 新增大板块后此处+1
+								int i = 11;// 鏂板澶ф澘鍧楀悗姝ゅ+1
 								for (int j = 0; j < addFidList.size(); j++) {
 									addFid.add(new Board(i, addFidList.get(j)
 											.getUrl(), addFidList.get(j)
@@ -807,7 +807,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 			editor.commit();
 			if (isChecked) {
 				swipebackChooer.setVisibility(View.VISIBLE);
-				final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
+				final float density = getResources().getDisplayMetrics().density;// 鑾峰彇灞忓箷瀵嗗害PPI
 				getSwipeBackLayout().setEdgeSize(
 						(int) (MY_EDGE_SIZE * density + 0.5f));// 10dp
 				int pos= SwipeBackLayout.EDGE_ALL;

@@ -69,11 +69,11 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 				Log.e(TAG, "can not parse :\n" +js );
 			}
 			if(o == null){
-				error = "ÇëÖØÐÂµÇÂ¼";
+				error = "è¯·é‡æ–°ç™»å½•";
 			}else{
 				error=o.getString("0");
 				if(StringUtil.isEmpty(error))
-					error = "ÇëÖØÐÂµÇÂ¼";
+					error = "è¯·é‡æ–°ç™»å½•";
 			}
 			return null;
 		}
@@ -82,7 +82,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 		JSONObject o1 = (JSONObject) o.get("0");
 		if( o1 == null)
 		{
-			error = "ÇëÖØÐÂµÇÂ¼";
+			error = "è¯·é‡æ–°ç™»å½•";
 			return null;
 		}
 		ret.set__nextPage(o1.getIntValue("nextPage"));

@@ -62,7 +62,7 @@ public class JsonProfileLoadTask extends
 		}
 		js = js.replaceAll("window.script_muti_get_var_store=", "");
 		if (js.indexOf("/*error fill content") > 0)
-			js = js.substring(0, js.indexOf("/*error fill content"));// ¶þ¸ç²»»áÄÇÃ´ÎÞÁÄÁË,²»¹ý»¹ÊÇÁô×Å°É
+			js = js.substring(0, js.indexOf("/*error fill content"));// äºŒå“¥ä¸ä¼šé‚£ä¹ˆæ— èŠäº†,ä¸è¿‡è¿˜æ˜¯ç•™ç€å§
 		js = js.replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",");
 		js = js.replaceAll("\"subject\":\\+(\\d+),", "\"subject\":\"+$1\",");
 		js = js.replaceAll("/\\*\\$js\\$\\*/", "");
@@ -76,7 +76,7 @@ public class JsonProfileLoadTask extends
 		ProfileData ret = new ProfileData();
 		if (o == null) {
 			if (null == oerror) {
-				error = "¶þ¸çÍæ»µÁË»òÕßÄãÐèÒªÖØÐÂµÇÂ¼";
+				error = "äºŒå“¥çŽ©åäº†æˆ–è€…ä½ éœ€è¦é‡æ–°ç™»å½•";
 				return null;
 			} else {
 				error = oerror.getString("0");
@@ -92,19 +92,19 @@ public class JsonProfileLoadTask extends
 			Log.e(TAG, "can not parse :\n" + js);
 		}
 		if (null == o0) {
-			error = "ÇëÖØÐÂµÇÂ¼";
+			error = "è¯·é‡æ–°ç™»å½•";
 			return null;
 		}
 
 		if (!StringUtil.isEmpty(o0.getString("uid"))) {
 			ret.set_uid(o0.getString("uid"));
 		} else {
-			ret.set_uid("Î´Öª");
+			ret.set_uid("æœªçŸ¥");
 		}
 		if (!StringUtil.isEmpty(o0.getString("username"))) {
 			ret.set_username(o0.getString("username"));
 		} else {
-			ret.set_uid("Î´Öª");
+			ret.set_uid("æœªçŸ¥");
 		}
 		if (!StringUtil.isEmpty(o0.getString("email"))) {
 			ret.set_hasemail(true, o0.getString("email"));
@@ -127,7 +127,7 @@ public class JsonProfileLoadTask extends
 		if (!StringUtil.isEmpty(group)) {
 			ret.set_group(group);
 		} else {
-			ret.set_group("Î´Öª");
+			ret.set_group("æœªçŸ¥");
 		}
 		if (!StringUtil.isEmpty(o0.getString("posts"))) {
 			ret.set_posts(o0.getString("posts"));
@@ -144,7 +144,7 @@ public class JsonProfileLoadTask extends
 			title = title.substring(title.lastIndexOf(" ") + 1, title.length());
 			ret.set_title(title);
 		} else {
-			ret.set_title("ÎÞ");
+			ret.set_title("æ— ");
 		}
 		if (!StringUtil.isEmpty(o0.getString("verified"))) {
 			ret.set_verified(o0.getString("verified"));
@@ -155,7 +155,7 @@ public class JsonProfileLoadTask extends
 			if(o0.getString("muteTime").equals("0")){
 				ret.set_muteTime("-1");
 			}else{
-				ret.set_muteTime("½ûÑÔÖÁ: " + StringUtil.TimeStamp2Date(o0.getString("muteTime")));
+				ret.set_muteTime("ç¦è¨€è‡³: " + StringUtil.TimeStamp2Date(o0.getString("muteTime")));
 			}
 		}else{
 			ret.set_muteTime("-1");
@@ -163,17 +163,17 @@ public class JsonProfileLoadTask extends
 		if (!StringUtil.isEmpty(o0.getString("regdate"))) {
 			ret.set_regdate(StringUtil.TimeStamp2Date(o0.getString("regdate")));
 		} else {
-			ret.set_regdate("Î´Öª");
+			ret.set_regdate("æœªçŸ¥");
 		}
 		if (!StringUtil.isEmpty(o0.getString("lastpost"))) {
 			ret.set_lastpost(StringUtil.TimeStamp2Date(o0.getString("lastpost")));
 		} else {
-			ret.set_lastpost("Î´Öª");
+			ret.set_lastpost("æœªçŸ¥");
 		}
 		if (!StringUtil.isEmpty(o0.getString("sign"))) {
 			ret.set_sign(o0.getString("sign"));
 		}else{
-			ret.set_sign("ÎÞÇ©Ãû");
+			ret.set_sign("æ— ç­¾å");
 		}
 		if (!StringUtil.isEmpty(o0.getString("avatar"))) {
 			ret.set_avatar(o0.getString("avatar"));
@@ -191,7 +191,7 @@ public class JsonProfileLoadTask extends
 					if(!StringUtil.isEmpty(oreputationdata.getString("0"))){
 						entry.set_name(oreputationdata.getString("0"));
 					}else{
-						entry.set_name("Î´Öª");
+						entry.set_name("æœªçŸ¥");
 					}
 					if(!StringUtil.isEmpty(oreputationdata.getString("1"))){
 						entry.set_data(oreputationdata.getString("1"));
@@ -201,7 +201,7 @@ public class JsonProfileLoadTask extends
 					if(!StringUtil.isEmpty(oreputationdata.getString("2"))){
 						entry.set_detail(oreputationdata.getString("2"));
 					}else{
-						entry.set_detail("Î´Öª");
+						entry.set_detail("æœªçŸ¥");
 					}
 					EntryList.add(entry);
 					if (oreputation.get(String.valueOf(i)) != null) {
@@ -255,7 +255,7 @@ public class JsonProfileLoadTask extends
 					jsondate=oipLogdata.getLongValue("1");
 					jsonip=oipLogdata.getLongValue("0");
 					if(jsondate>0l && jsonip>0l){
-						iplogestring +=TimeStamp2Day(jsondate)+"¡ú"+IntToIP(jsonip)+"<br/>";
+						iplogestring +=TimeStamp2Day(jsondate)+"â†’"+IntToIP(jsonip)+"<br/>";
 					}
 					if (oipLog.get(String.valueOf(i)) != null) {
 						oipLogdata = (JSONObject) oipLog.get(String

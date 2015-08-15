@@ -167,7 +167,7 @@ public class TopiclistContainer extends Fragment implements
 		}
 
 		if (favor != 0) {
-			Toast.makeText(getActivity(), "³¤°´¿ÉÉ¾³ıÊÕ²ØµÄÌû×Ó", Toast.LENGTH_SHORT)
+			Toast.makeText(getActivity(), "é•¿æŒ‰å¯åˆ é™¤æ”¶è—çš„å¸–å­", Toast.LENGTH_SHORT)
 					.show();
 			if (getActivity() instanceof OnItemLongClickListener) {
 				listView.setLongClickable(true);
@@ -339,7 +339,7 @@ public class TopiclistContainer extends Fragment implements
 		int menuId;
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// Ö÷ÌâÁĞ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// ä¸»é¢˜åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				menuId = R.menu.threadlist_menu_left;
 			} else {
 				menuId = R.menu.threadlist_menu;
@@ -402,7 +402,7 @@ public class TopiclistContainer extends Fragment implements
 			Intent intentsearch = new Intent();
 			intentsearch.putExtra("fid", fid);
 			intentsearch.putExtra("action", "search");
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 				handleSearch();
 			} else {
 				intentsearch.setClass(getActivity(),
@@ -430,7 +430,7 @@ public class TopiclistContainer extends Fragment implements
 				SharedPreferences share = getActivity().getSharedPreferences(
 						PERFERENCE, Activity.MODE_PRIVATE);
 				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// ÊÇÍíÉÏÄ£Ê½£¬¸Ä°×ÌìµÄ
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// æ˜¯æ™šä¸Šæ¨¡å¼ï¼Œæ”¹ç™½å¤©çš„
 					menu.setIcon(R.drawable.ic_action_bightness_low);
 					menu.setTitle(R.string.change_night_mode);
 					Editor editor = share.edit();
@@ -455,7 +455,7 @@ public class TopiclistContainer extends Fragment implements
 		Intent intent = new Intent();
 		intent.putExtra("fid", fid);
 		intent.putExtra("action", "new");
-		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 			intent.setClass(getActivity(),
 					PhoneConfiguration.getInstance().postActivityClass);
 		} else {
@@ -546,10 +546,10 @@ public class TopiclistContainer extends Fragment implements
 //				if (getActivity() != null) {
 //					Toast.makeText(
 //							getActivity(),
-//							"¿â" + String.valueOf(result.get__TABLE())
-//									+ "ÖĞµÄ½á¹ûÒÑËÑË÷Íê±Ï,ÕıÔÚËÑË÷¿â"
+//							"åº“" + String.valueOf(result.get__TABLE())
+//									+ "ä¸­çš„ç»“æœå·²æœç´¢å®Œæ¯•,æ­£åœ¨æœç´¢åº“"
 //									+ String.valueOf(result.get__TABLE() - 1)
-//									+ "ÖĞµÄ½á¹û", Toast.LENGTH_SHORT).show();
+//									+ "ä¸­çš„ç»“æœ", Toast.LENGTH_SHORT).show();
 //				}
 //				if (ActivityUtil.isGreaterThan_2_3_3())
 //					task.executeOnExecutor(
@@ -560,7 +560,7 @@ public class TopiclistContainer extends Fragment implements
 //			} else
 //			{
 				if (getActivity() != null) {
-					Toast.makeText(getActivity(), "½á¹ûÒÑËÑË÷Íê±Ï",
+					Toast.makeText(getActivity(), "ç»“æœå·²æœç´¢å®Œæ¯•",
 							Toast.LENGTH_SHORT).show();
 				}
 //			}

@@ -199,7 +199,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 		MenuInflater inflater = getMenuInflater();
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// ÎÄÕÂÁĞ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// æ–‡ç« åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				inflater.inflate(R.menu.nonamearticlelist_menu_left, menu);
 			} else {
 				inflater.inflate(R.menu.nonamearticlelist_menu, menu);
@@ -345,7 +345,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 				SharedPreferences share = getSharedPreferences(PERFERENCE,
 						MODE_PRIVATE);
 				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// ÊÇÍíÉÏÄ£Ê½£¬¸Ä°×ÌìµÄ
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {// æ˜¯æ™šä¸Šæ¨¡å¼ï¼Œæ”¹ç™½å¤©çš„
 					menu.setIcon(R.drawable.ic_action_bightness_low);
 					menu.setTitle(R.string.change_night_mode);
 					Editor editor = share.edit();
@@ -437,7 +437,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 		if (!StringUtil.isEmpty(title)) {
 			getSupportActionBar().setTitle(StringUtil.unEscapeHtml(title));
 		} else {
-			getSupportActionBar().setTitle("ÎŞÌâ");
+			getSupportActionBar().setTitle("æ— é¢˜");
 
 		}
 

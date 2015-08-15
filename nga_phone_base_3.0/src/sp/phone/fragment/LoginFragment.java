@@ -176,12 +176,12 @@ public class LoginFragment extends DialogFragment implements
 					bodyBuffer.append("email=");
 					if (StringUtil.isEmpty(authcode_cookie)) {
 						if (toast != null) {
-							toast.setText("ÑéÖ¤ÂëĞÅÏ¢´íÎó£¬ÇëÖØÊÔ");
+							toast.setText("éªŒè¯ç ä¿¡æ¯é”™è¯¯ï¼Œè¯·é‡è¯•");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast.makeText(getActivity(),
-									"ÑéÖ¤ÂëĞÅÏ¢´íÎó£¬ÇëÖØÊÔ", Toast.LENGTH_SHORT);
+									"éªŒè¯ç ä¿¡æ¯é”™è¯¯ï¼Œè¯·é‡è¯•", Toast.LENGTH_SHORT);
 							toast.show();
 						}
 						reloadauthcode();
@@ -194,12 +194,12 @@ public class LoginFragment extends DialogFragment implements
 							|| StringUtil.isEmpty(authcodeText.getText()
 									.toString())) {
 						if (toast != null) {
-							toast.setText("ÄÚÈİÈ±ÉÙ£¬Çë¼ì²éºóÔÙÊÔ");
+							toast.setText("å†…å®¹ç¼ºå°‘ï¼Œè¯·æ£€æŸ¥åå†è¯•");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast.makeText(getActivity(),
-									"ÄÚÈİÈ±ÉÙ£¬Çë¼ì²éºóÔÙÊÔ", Toast.LENGTH_SHORT);
+									"å†…å®¹ç¼ºå°‘ï¼Œè¯·æ£€æŸ¥åå†è¯•", Toast.LENGTH_SHORT);
 							toast.show();
 						}
 						reloadauthcode();
@@ -263,12 +263,12 @@ public class LoginFragment extends DialogFragment implements
 						String re301location = conn.getHeaderField(i);
 						if (re301location.indexOf("login_failed") > 0) {
 							if (re301location.indexOf("error_vcode") > 0) {
-								errorstr = ("ÑéÖ¤Âë´íÎó");
+								errorstr = ("éªŒè¯ç é”™è¯¯");
 							}else
 							if (re301location.indexOf("e_login") > 0) {
-								errorstr = ("ÓÃ»§Ãû»òÃÜÂë´íÎó");
+								errorstr = ("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯");
 							}else{
-								errorstr="Î´Öª´íÎó";
+								errorstr="æœªçŸ¥é”™è¯¯";
 							}
 							return false;
 						}
@@ -399,11 +399,11 @@ public class LoginFragment extends DialogFragment implements
 	public void authcodefinishLoadError() {
 		// TODO Auto-generated method stub
 		if (toast != null) {
-			toast.setText("ÔØÈëÑéÖ¤ÂëÊ§°Ü£¬Çëµã»÷Ë¢ĞÂÖØĞÂ¼ÓÔØ");
+			toast.setText("è½½å…¥éªŒè¯ç å¤±è´¥ï¼Œè¯·ç‚¹å‡»åˆ·æ–°é‡æ–°åŠ è½½");
 			toast.setDuration(Toast.LENGTH_SHORT);
 			toast.show();
 		} else {
-			toast = Toast.makeText(getActivity(), "ÔØÈëÑéÖ¤ÂëÊ§°Ü£¬Çëµã»÷Ë¢ĞÂÖØĞÂ¼ÓÔØ",
+			toast = Toast.makeText(getActivity(), "è½½å…¥éªŒè¯ç å¤±è´¥ï¼Œè¯·ç‚¹å‡»åˆ·æ–°é‡æ–°åŠ è½½",
 					Toast.LENGTH_SHORT);
 			toast.show();
 		}

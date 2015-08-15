@@ -126,7 +126,7 @@ public class NonameTopiclistContainer extends Fragment implements
 		if (favor != 0) {
 			Toast.makeText(
 					getActivity(),
-					"³¤°´¿ÉÉ¾³ıÊÕ²ØµÄÌû×Ó", Toast.LENGTH_SHORT).show();
+					"é•¿æŒ‰å¯åˆ é™¤æ”¶è—çš„å¸–å­", Toast.LENGTH_SHORT).show();
 			if (getActivity() instanceof OnItemLongClickListener) {
 			 listView.setLongClickable(true);
 			 listView.setOnItemLongClickListener((OnItemLongClickListener)
@@ -250,7 +250,7 @@ public class NonameTopiclistContainer extends Fragment implements
 		int menuId;
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// Ö÷ÌâÁĞ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// ä¸»é¢˜åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				menuId = R.menu.nonamethreadlist_menu_left;
 			} else {
 				menuId = R.menu.nonamethreadlist_menu;
@@ -306,7 +306,7 @@ public class NonameTopiclistContainer extends Fragment implements
 				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
 						Activity.MODE_PRIVATE);
 				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//ÊÇÍíÉÏÄ£Ê½£¬¸Ä°×ÌìµÄ
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//æ˜¯æ™šä¸Šæ¨¡å¼ï¼Œæ”¹ç™½å¤©çš„
 					menu.setIcon(  
 		                    R.drawable.ic_action_bightness_low); 
 					menu.setTitle(R.string.change_night_mode);

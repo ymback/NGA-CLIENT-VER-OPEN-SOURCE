@@ -134,17 +134,17 @@ public class SignPageAdapter extends BaseAdapter implements
 			String info;
 			missionid = String.valueOf(entry.get__id());
 			if (StringUtil.isEmpty(entry.get__name())) {
-				missionname = "Î´Öª";
+				missionname = "æœªçŸ¥";
 			} else {
 				missionname = entry.get__name();
 			}
 			if (StringUtil.isEmpty(entry.get__detail())) {
-				missiondetial = "Î´Öª";
+				missiondetial = "æœªçŸ¥";
 			} else {
 				missiondetial = entry.get__detail();
 			}
 			if (StringUtil.isEmpty(entry.get__stat())) {
-				missionstat = "Î´Öª";
+				missionstat = "æœªçŸ¥";
 			} else {
 				missionstat = entry.get__stat();
 			}
@@ -177,11 +177,11 @@ public class SignPageAdapter extends BaseAdapter implements
 			holder.content.setWebViewClient(client);
 			holder.content.loadDataWithBaseURL(null, infoToHtmlText(info,FunctionUtil.isShowImage(context),FunctionUtil.showImageQuality(context),fgColorStr,bgcolorStr),
 					"text/html", "utf-8", null);
-			holder.missionidtitle.setText("¿ÉÍê³ÉÈÎÎñID:");
+			holder.missionidtitle.setText("å¯å®Œæˆä»»åŠ¡ID:");
 			if(entry.get__issuccessed()==true){
-				holder.missionidtitle.setText("ÒÑÍê³ÉÈÎÎñID:");
+				holder.missionidtitle.setText("å·²å®Œæˆä»»åŠ¡ID:");
 			}
-			holder.missionid.setText(missionid);//Õâ±ßÓĞÎÊÌâ
+			holder.missionid.setText(missionid);//è¿™è¾¹æœ‰é—®é¢˜
 			holder.missionname.setText(missionname);
 			holder.missiondetial.setText(missiondetial);
 			holder.missionstat.setText(missionstat);
@@ -198,7 +198,7 @@ public class SignPageAdapter extends BaseAdapter implements
 			imageURLSet = null;
 		}
 		if (StringUtil.isEmpty(ngaHtml)) {
-			ngaHtml = "<font color='red'>[¶ş¸çÑ¹¸ù²»¸øÎÒÈÎÎñĞÅÏ¢°¡]</font>";
+			ngaHtml = "<font color='red'>[äºŒå“¥å‹æ ¹ä¸ç»™æˆ‘ä»»åŠ¡ä¿¡æ¯å•Š]</font>";
 		}
 		ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
 				+ "<body bgcolor= '#"

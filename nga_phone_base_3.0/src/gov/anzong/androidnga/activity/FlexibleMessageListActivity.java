@@ -131,7 +131,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 
 		 ActionBar actionBar = getSupportActionBar();
 		 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		 actionBar.setTitle("¶ÌÏûÏ¢");
+		 actionBar.setTitle("çŸ­æ¶ˆæ¯");
 		 final SpinnerUserListAdapter categoryAdapter = new ActionBarUserListAdapter(this);
 		
 		 OnNavigationListener callback = new OnNavigationListener(){
@@ -165,7 +165,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 		};
 		actionBar.setListNavigationCallbacks(categoryAdapter, callback);
 
-	}//ÉèÖÃÍ·ÉÏÒ»¶ÑÈË
+	}//è®¾ç½®å¤´ä¸Šä¸€å †äºº
 
 	@TargetApi(14)
 	void setNfcCallBack() {
@@ -252,7 +252,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 
-		if (!dualScreen) {// ·ÇÆ½°å
+		if (!dualScreen) {// éå¹³æ¿
 			if (null == onItemClickNewActivity) {
 				onItemClickNewActivity = new EnterJsonMessageThread(this);
 			}
@@ -339,7 +339,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 			FragmentManager fm = getSupportFragmentManager();
 			Fragment f1 = fm.findFragmentById(R.id.item_list);
 			f1.setHasOptionsMenu(true);
-			getSupportActionBar().setTitle("¶ÌÏûÏ¢");
+			getSupportActionBar().setTitle("çŸ­æ¶ˆæ¯");
 		}
 
 	}

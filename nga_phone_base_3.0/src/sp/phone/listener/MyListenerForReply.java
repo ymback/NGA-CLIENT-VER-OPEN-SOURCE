@@ -57,7 +57,7 @@ public class MyListenerForReply implements OnClickListener {
 				String content = row.getContent();
 				final String name = row.getAuthor();
 				final String uid = String.valueOf(row.getAuthorid());
-				int page = (row.getLou() + 20) / 20;// ÒÔÂ¥Êı¼ÆËãpage
+				int page = (row.getLou() + 20) / 20;// ä»¥æ¥¼æ•°è®¡ç®—page
 				content = content.replaceAll(quote_regex, "");
 				content = content.replaceAll(replay_regex, "");
 				final String postTime = row.getPostdate();
@@ -77,14 +77,14 @@ public class MyListenerForReply implements OnClickListener {
 						postPrefix.append(page);
 					postPrefix.append("]");// Topic
 					postPrefix.append("Reply");
-					if (row.getISANONYMOUS()) {// ÊÇÄäÃûµÄÈË
+					if (row.getISANONYMOUS()) {// æ˜¯åŒ¿åçš„äºº
 						postPrefix.append("[/pid] [b]Post by [uid=");
 						postPrefix.append("-1");
 						postPrefix.append("]");
 						postPrefix.append(name);
 						postPrefix.append("[/uid][color=gray](");
 						postPrefix.append(row.getLou());
-						postPrefix.append("Â¥)[/color] (");
+						postPrefix.append("æ¥¼)[/color] (");
 					} else {
 						postPrefix.append("[/pid] [b]Post by [uid=");
 						postPrefix.append(uid);
@@ -106,7 +106,7 @@ public class MyListenerForReply implements OnClickListener {
 				intent.putExtra("action", "reply");
 
 				if (!StringUtil
-						.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+						.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 					intent.setClass(
 							mcontext,
 							PhoneConfiguration.getInstance().postActivityClass);

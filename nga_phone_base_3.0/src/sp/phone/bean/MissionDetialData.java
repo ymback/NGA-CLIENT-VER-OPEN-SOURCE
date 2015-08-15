@@ -1,7 +1,7 @@
 package sp.phone.bean;
 
 
-public class MissionDetialData {//¸øÈÎÎñ¾ßÌåĞÅÏ¢ÔØÈëÓÃµÄ
+public class MissionDetialData {//ç»™ä»»åŠ¡å…·ä½“ä¿¡æ¯è½½å…¥ç”¨çš„
 	private String detail;
 	private int id;
 	private String info;

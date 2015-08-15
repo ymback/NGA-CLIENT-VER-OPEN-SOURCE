@@ -155,7 +155,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 			sb.append(row.getSubject());
 		if (row.getISANONYMOUS())
 			sb.append("<font style='color:#D00;font-weight: bold;'>")
-					.append("[ÄäÃû]").append("</font>");
+					.append("[åŒ¿å]").append("</font>");
 		sb.append("</h4>");
 		return sb.toString();
 	}
@@ -357,7 +357,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 
 		final String floor = String.valueOf(lou);
 		TextView floorTV = holder.floorTV;
-		floorTV.setText("[" + floor + " Â¥]");
+		floorTV.setText("[" + floor + " æ¥¼]");
 		floorTV.setTextColor(fgColor);
 
 		if (!StringUtil.isEmpty(row.getFromClientModel())) {
@@ -369,7 +369,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 			} else if (from_client_model.equals("wp")) {
 				holder.clientBtn.setImageResource(R.drawable.wp);// WP
 			} else if (from_client_model.equals("unknown")) {
-				holder.clientBtn.setImageResource(R.drawable.unkonwn);// Î´ÖªorBB
+				holder.clientBtn.setImageResource(R.drawable.unkonwn);// æœªçŸ¥orBB
 			}
 			holder.clientBtn.setVisibility(View.VISIBLE);
 			holder.clientBtn.setOnClickListener(myListenerForClient);
@@ -547,7 +547,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 		if (row == null || StringUtil.isEmpty(row.getVote())) {
 			return "";
 		}
-		return "<br/><hr/>" + "±¾Â¥ÓĞÍ¶Æ±/Í¶×¢ÄÚÈİ,³¤°´±¾Â¥ÔÚ²Ëµ¥ÖĞµã»÷Í¶Æ±/Í¶×¢°´Å¥";
+		return "<br/><hr/>" + "æœ¬æ¥¼æœ‰æŠ•ç¥¨/æŠ•æ³¨å†…å®¹,é•¿æŒ‰æœ¬æ¥¼åœ¨èœå•ä¸­ç‚¹å‡»æŠ•ç¥¨/æŠ•æ³¨æŒ‰é’®";
 	}
 
 	@Override

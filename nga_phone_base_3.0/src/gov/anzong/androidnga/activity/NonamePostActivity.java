@@ -111,10 +111,10 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 		// }
 		action = intent.getStringExtra("action");
 		if (action.equals("new")) {
-			getSupportActionBar().setTitle("·¢ĞÂÄäÃûÌû");
+			getSupportActionBar().setTitle("å‘æ–°åŒ¿åå¸–");
 			tid = "-1";
 		} else if (action.equals("reply")) {
-			getSupportActionBar().setTitle("»Ø¸´ÄäÃûÌû");
+			getSupportActionBar().setTitle("å›å¤åŒ¿åå¸–");
 			tid = intent.getStringExtra("tid");
 		}
 		String title = intent.getStringExtra("title");
@@ -164,7 +164,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag >= 4) {// ´óÓÚµÈÓÚ4¿Ï¶¨ÓĞ
+			if (flag >= 4) {// å¤§äºç­‰äº4è‚¯å®šæœ‰
 				getMenuInflater().inflate(R.menu.post_menu_left, menu);
 			} else {
 				getMenuInflater().inflate(R.menu.post_menu, menu);
@@ -381,12 +381,12 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 					handleReply(v);
 				} else {
 					if (toast != null) {
-						toast.setText("ÕıÎÄÄÚÈİÖÁÉÙ3¸ö×Ö·û");
+						toast.setText("æ­£æ–‡å†…å®¹è‡³å°‘3ä¸ªå­—ç¬¦");
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
 						toast = Toast.makeText(NonamePostActivity.this,
-								"ÕıÎÄÄÚÈİÖÁÉÙ3¸ö×Ö·û", Toast.LENGTH_SHORT);
+								"æ­£æ–‡å†…å®¹è‡³å°‘3ä¸ªå­—ç¬¦", Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				}
@@ -413,12 +413,12 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 					handleNewThread(v);
 				} else {
 					if (toast != null) {
-						toast.setText("ÇëÊäÈëÕıÈ·µÄ±êÌâºÍÕıÎÄÄÚÈİ£¬ÕıÎÄÄÚÈİÖÁÉÙ3¸ö×Ö·û");
+						toast.setText("è¯·è¾“å…¥æ­£ç¡®çš„æ ‡é¢˜å’Œæ­£æ–‡å†…å®¹ï¼Œæ­£æ–‡å†…å®¹è‡³å°‘3ä¸ªå­—ç¬¦");
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
 						toast = Toast.makeText(NonamePostActivity.this,
-								"ÇëÊäÈëÕıÈ·µÄ±êÌâºÍÕıÎÄÄÚÈİ£¬ÕıÎÄÄÚÈİÖÁÉÙ3¸ö×Ö·û", Toast.LENGTH_SHORT);
+								"è¯·è¾“å…¥æ­£ç¡®çš„æ ‡é¢˜å’Œæ­£æ–‡å†…å®¹ï¼Œæ­£æ–‡å†…å®¹è‡³å°‘3ä¸ªå­—ç¬¦", Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				}
@@ -482,7 +482,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 		protected String doInBackground(String... params) {
 			if (params.length < 2)
 				return "parameter error";
-			String ret = "{\"error\":true,\"errorinfo\":\"\u7f51\u7edc\u9519\u8bef\"}";// ÍøÂç´íÎó
+			String ret = "{\"error\":true,\"errorinfo\":\"\u7f51\u7edc\u9519\u8bef\"}";// ç½‘ç»œé”™è¯¯
 			String url = params[0];
 			String body = params[1];
 
@@ -495,7 +495,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 					if (conn.getResponseCode() != 200) {
 						input = null;
 						keepActivity = true;
-						ret = "{\"error\":true,\"errorinfo\":\"\u533f\u540d\u670d\u52a1\u5668\u51fa\u9519\u4e86\"}";// ÄäÃû·şÎñÆ÷³ö´í
+						ret = "{\"error\":true,\"errorinfo\":\"\u533f\u540d\u670d\u52a1\u5668\u51fa\u9519\u4e86\"}";// åŒ¿åæœåŠ¡å™¨å‡ºé”™
 					} else {
 						input = conn.getInputStream();
 					}
@@ -522,7 +522,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 				if (!success)
 					keepActivity = true;
 			}
-			if (s.error) {// ³ö´í
+			if (s.error) {// å‡ºé”™
 				if (toast != null) {
 					toast.setText(s.errorinfo);
 					toast.setDuration(Toast.LENGTH_SHORT);
@@ -624,7 +624,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inJustDecodeBounds = true;
 			Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2,
-					options); // ´ËÊ±·µ»Ø bm Îª¿Õ
+					options); // æ­¤æ—¶è¿”å› bm ä¸ºç©º
 			options.inJustDecodeBounds = false;
 			DisplayMetrics dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -634,7 +634,7 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
 			int height = options.outHeight;
 			float scaleWidth = ((float) screenwidth) / width;
 			float scaleHeight = ((float) screenheigth) / height;
-			if (scaleWidth < scaleHeight && scaleWidth < 1f) {// ²»ÄÜ·Å´ó°¡,È»ºóÖ÷ÒªÊÇÄÄ¸öĞ¡Ëõ·Åµ½ÄÄ¸ö¾ÍĞĞÁË
+			if (scaleWidth < scaleHeight && scaleWidth < 1f) {// ä¸èƒ½æ”¾å¤§å•Š,ç„¶åä¸»è¦æ˜¯å“ªä¸ªå°ç¼©æ”¾åˆ°å“ªä¸ªå°±è¡Œäº†
 				options.inSampleSize = (int) (1 / scaleWidth);
 			} else if (scaleWidth >= scaleHeight && scaleHeight < 1f) {
 				options.inSampleSize = (int) (1 / scaleHeight);

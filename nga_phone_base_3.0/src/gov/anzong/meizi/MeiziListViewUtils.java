@@ -10,7 +10,7 @@ public class MeiziListViewUtils {
     }
 
     /**
-     * ¹ö¶¯ÁÐ±íµ½¶¥¶Ë
+     * æ»šåŠ¨åˆ—è¡¨åˆ°é¡¶ç«¯
      * 
      * @param listView
      */
@@ -29,7 +29,7 @@ public class MeiziListViewUtils {
     }
 
     /**
-     * ¹ö¶¯ÁÐ±íµ½position
+     * æ»šåŠ¨åˆ—è¡¨åˆ°position
      * 
      * @param listView
      * @param position

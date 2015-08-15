@@ -92,7 +92,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
 			}
 		}else{
 			Toast.makeText(getActivity(),
-					"Ã»ÓÐ×î½ü±»ÅçÄÚÈÝ",
+					"æ²¡æœ‰æœ€è¿‘è¢«å–·å†…å®¹",
 					Toast.LENGTH_SHORT).show();
 			if(adapter!=null){
 				adapter.clean();
@@ -273,7 +273,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
 			}
 		}else{
 			Toast.makeText(getActivity(),
-					"Ã»ÓÐ×î½ü±»ÅçÄÚÈÝ",
+					"æ²¡æœ‰æœ€è¿‘è¢«å–·å†…å®¹",
 					Toast.LENGTH_SHORT).show();
 			if(adapter!=null){
 				adapter.clean();
@@ -285,7 +285,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
 		int menuId;
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// Ö÷ÌâÁÐ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// ä¸»é¢˜åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				menuId = R.menu.recent_reply_menu;
 			} else {
 				menuId = R.menu.recent_reply_menu;

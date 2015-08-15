@@ -153,7 +153,7 @@ public class MenuAdapter extends BaseAdapter {
 			}
 			holder.text1.setText(((Item) item).mTitle);
 
-			if (((Item) item).mTitle.equals("×î½ü±»Åç")) {
+			if (((Item) item).mTitle.equals("æœ€è¿‘è¢«å–·")) {
 				holder.badge.setText(String.valueOf(PhoneConfiguration
 						.getInstance().getReplyTotalNum()));
 				holder.text2.setVisibility(View.VISIBLE);

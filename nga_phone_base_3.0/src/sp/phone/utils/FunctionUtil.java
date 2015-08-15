@@ -112,7 +112,7 @@ import android.widget.Toast;
 		Spanned spanned = Html.fromHtml(content);
 		commentdata.setText(spanned);
 		commentdata.selectAll();
-		alert.setPositiveButton("¸´ÖÆ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("å¤åˆ¶", new DialogInterface.OnClickListener() {
 			@SuppressWarnings({ "unused", "deprecation" })
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -146,11 +146,11 @@ import android.widget.Toast;
 				} else {
 					commentdata.selectAll();
 					if (toast != null) {
-						toast.setText("ÇëÑ¡ÔñÒª¸´ÖÆµÄÄÚÈİ");
+						toast.setText("è¯·é€‰æ‹©è¦å¤åˆ¶çš„å†…å®¹");
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
-						toast = Toast.makeText(context, "ÇëÑ¡ÔñÒª¸´ÖÆµÄÄÚÈİ",
+						toast = Toast.makeText(context, "è¯·é€‰æ‹©è¦å¤åˆ¶çš„å†…å®¹",
 								Toast.LENGTH_SHORT);
 						toast.show();
 					}
@@ -165,7 +165,7 @@ import android.widget.Toast;
 				}
 			}
 		});
-		alert.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				try {
 					Field field = dialog.getClass().getSuperclass()
@@ -288,9 +288,9 @@ import android.widget.Toast;
 
 	public static void errordialogadmin(Context context,final View listView) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setMessage("Õâ°×³ÕÊÇÏµÍ³ÕËºÅ,ÉñÂí¶¼¿´²»µ½");
-		builder.setTitle("¿´²»µ½");
-		builder.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+		builder.setMessage("è¿™ç™½ç—´æ˜¯ç³»ç»Ÿè´¦å·,ç¥é©¬éƒ½çœ‹ä¸åˆ°");
+		builder.setTitle("çœ‹ä¸åˆ°");
+		builder.setPositiveButton("å…³é—­", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -318,9 +318,9 @@ import android.widget.Toast;
 	
 	public static void errordialog(Context context,final View listview) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setMessage("Õâ°×³ÕÄäÃûÁË,ÉñÂí¶¼¿´²»µ½");
-		builder.setTitle("¿´²»µ½");
-		builder.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+		builder.setMessage("è¿™ç™½ç—´åŒ¿åäº†,ç¥é©¬éƒ½çœ‹ä¸åˆ°");
+		builder.setTitle("çœ‹ä¸åˆ°");
+		builder.setPositiveButton("å…³é—­", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -348,7 +348,7 @@ import android.widget.Toast;
 		String name = row.getAuthor();
 		AlertDialog.Builder alert = new AlertDialog.Builder(context);
 		alert.setView(view);
-		alert.setTitle(name + "µÄÇ©Ãû");
+		alert.setTitle(name + "çš„ç­¾å");
 		// COLOR
 
 		ThemeManager theme = ThemeManager.getInstance();
@@ -381,7 +381,7 @@ import android.widget.Toast;
 						FunctionUtil.signatureToHtmlText_Message(row, showImage,
 								ArticleUtil.showImageQuality(), fgColorStr,
 								bgcolorStr,context), "text/html", "utf-8", null);
-		alert.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("å…³é—­", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -432,7 +432,7 @@ import android.widget.Toast;
 		String name = row.getAuthor();
 		AlertDialog.Builder alert = new AlertDialog.Builder(context);
 		alert.setView(view);
-		alert.setTitle(name + "µÄÇ©Ãû");
+		alert.setTitle(name + "çš„ç­¾å");
 		// COLOR
 
 		ThemeManager theme = ThemeManager.getInstance();
@@ -465,7 +465,7 @@ import android.widget.Toast;
 						FunctionUtil.signatureToHtmlText(row, showImage,
 								ArticleUtil.showImageQuality(), fgColorStr,
 								bgcolorStr,context), "text/html", "utf-8", null);
-		alert.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("å…³é—­", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -492,7 +492,7 @@ import android.widget.Toast;
 		String name = row.getAuthor();
 		AlertDialog.Builder alert = new AlertDialog.Builder(context);
 		alert.setView(view);
-		alert.setTitle("Í¶Æ±/Í¶×¢");
+		alert.setTitle("æŠ•ç¥¨/æŠ•æ³¨");
 		// COLOR
 
 		ThemeManager theme = ThemeManager.getInstance();
@@ -556,7 +556,7 @@ import android.widget.Toast;
 					final android.webkit.JsResult result) {
 				final AlertDialog.Builder b2 = new AlertDialog.Builder(context)
 						.setMessage(message)
-						.setPositiveButton("È·¶¨",
+						.setPositiveButton("ç¡®å®š",
 								new AlertDialog.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog,
@@ -577,7 +577,7 @@ import android.widget.Toast;
 				final AlertDialog.Builder b1 = new AlertDialog.Builder(
 						context)
 						.setMessage(message)
-						.setPositiveButton("È·¶¨",
+						.setPositiveButton("ç¡®å®š",
 								new AlertDialog.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog,
@@ -585,7 +585,7 @@ import android.widget.Toast;
 										result.confirm();
 									}
 								})
-						.setNeutralButton("È¡Ïû",
+						.setNeutralButton("å–æ¶ˆ",
 								new AlertDialog.OnClickListener() {
 									@Override
 									public void onClick(DialogInterface dialog,
@@ -611,7 +611,7 @@ import android.widget.Toast;
 				FunctionUtil.VoteToHtmlText(row, showImage, ArticleUtil.showImageQuality(),
 						fgColorStr, bgcolorStr), "text/html", "utf-8", null);
 		contentTV.requestLayout();
-		alert.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("å…³é—­", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -639,7 +639,7 @@ import android.widget.Toast;
 		String name = row.getAuthor();
 		AlertDialog.Builder alert = new AlertDialog.Builder(context);
 		alert.setView(view);
-		alert.setTitle(name + "µÄÍ·Ïñ");
+		alert.setTitle(name + "çš„å¤´åƒ");
 		// COLOR
 
 		ThemeManager theme = ThemeManager.getInstance();
@@ -668,7 +668,7 @@ import android.widget.Toast;
 				null,
 				FunctionUtil.avatarToHtmlText_Message(row, true, ArticleUtil.showImageQuality(),
 						fgColorStr, bgcolorStr,context), "text/html", "utf-8", null);
-		alert.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("å…³é—­", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -695,7 +695,7 @@ import android.widget.Toast;
 		String name = row.getAuthor();
 		AlertDialog.Builder alert = new AlertDialog.Builder(context);
 		alert.setView(view);
-		alert.setTitle(name + "µÄÍ·Ïñ");
+		alert.setTitle(name + "çš„å¤´åƒ");
 		// COLOR
 
 		ThemeManager theme = ThemeManager.getInstance();
@@ -724,7 +724,7 @@ import android.widget.Toast;
 				null,
 				FunctionUtil.avatarToHtmlText(row, true, ArticleUtil.showImageQuality(),
 						fgColorStr, bgcolorStr,context), "text/html", "utf-8", null);
-		alert.setPositiveButton("¹Ø±Õ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("å…³é—­", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -894,7 +894,7 @@ import android.widget.Toast;
 	public static String VoteToHtmlText(final ThreadRowInfo row, boolean showImage,
 			int imageQuality, final String fgColorStr, final String bgcolorStr) {
 		if (StringUtil.isEmpty(row.getVote()))
-			return "±¾Â¥Ã»ÓĞÍ¶Æ±/Í¶×¢ÄÚÈİ";
+			return "æœ¬æ¥¼æ²¡æœ‰æŠ•ç¥¨/æŠ•æ³¨å†…å®¹";
 		String ngaHtml = String.valueOf(row.getTid()) + ",'" + row.getVote()
 				+ "'";
 		ngaHtml = "<!DOCTYPE html><html><head><meta http-equiv=Content-Type content=\"text/html;charset=utf-8\">"
@@ -940,7 +940,7 @@ import android.widget.Toast;
 		if (row.getJs_escap_avatar().equals("")) {
 			ngaHtml = StringUtil
 					.decodeForumTag(
-							"Õâ¼Ò»ïÊÇ÷¼÷Ãµ³,Í·ÏñÊ²Ã´µÄÃ»ÓĞÀ²~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
+							"è¿™å®¶ä¼™æ˜¯éª·é«…å…š,å¤´åƒä»€ä¹ˆçš„æ²¡æœ‰å•¦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
 							showImage, imageQuality, imageURLSet);
 		} else {
 			ngaHtml = StringUtil.decodeForumTag(
@@ -972,7 +972,7 @@ import android.widget.Toast;
 		if (row.getJs_escap_avatar().equals("")) {
 			ngaHtml = StringUtil
 					.decodeForumTag(
-							"Õâ¼Ò»ïÊÇ÷¼÷Ãµ³,Í·ÏñÊ²Ã´µÄÃ»ÓĞÀ²~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
+							"è¿™å®¶ä¼™æ˜¯éª·é«…å…š,å¤´åƒä»€ä¹ˆçš„æ²¡æœ‰å•¦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
 							showImage, imageQuality, imageURLSet);
 		} else {
 			ngaHtml = StringUtil.decodeForumTag(
@@ -1023,7 +1023,7 @@ import android.widget.Toast;
 		intent_bookmark.putExtra("to", row.getAuthor());
 		intent_bookmark.putExtra("action", "new");
 		intent_bookmark.putExtra("messagemode", "yes");
-		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 			intent_bookmark.setClass(context,
 					PhoneConfiguration.getInstance().messagePostActivityClass);
 		} else {
@@ -1175,12 +1175,12 @@ import android.widget.Toast;
 		for(i=0;i<bslenth;i++)
 			{
 				if(Character.toString(arrtxtchar[i]).equals("\n")==false && Character.toString(arrtxtchar[i]).equals("[")==false && Character.toString(arrtxtchar[i]).equals(" ")==false){
-					txtsendout += arrtxtchar[i]+"[/color]"+scolor[(int)(Math.random()*23)];/*¿ªÊ¼¾ÍÊÇÆÕÍ¨ÎÄ×ÖµÄ»°¾ÍÖ±½Ó¼Ó²ÊÉ«×ÖÌåÁË*/
-				}else if(Character.toString(arrtxtchar[i]).equals("[")){//Ê××Ö·ûÊÇ[ÒªÅĞ¶Ï
-					if(bodyString.toLowerCase().indexOf("[quote]",i-1)==i){//ÊÇÒıÓÃµÄ»°
-		    			if(bodyString.toLowerCase().indexOf("[quote]",i-1)>bodyString.toLowerCase().indexOf("[/quote]",i-1)){//Õâ¸öËûÂèµÄÒıÓÃÃ»Íê
+					txtsendout += arrtxtchar[i]+"[/color]"+scolor[(int)(Math.random()*23)];/*å¼€å§‹å°±æ˜¯æ™®é€šæ–‡å­—çš„è¯å°±ç›´æ¥åŠ å½©è‰²å­—ä½“äº†*/
+				}else if(Character.toString(arrtxtchar[i]).equals("[")){//é¦–å­—ç¬¦æ˜¯[è¦åˆ¤æ–­
+					if(bodyString.toLowerCase().indexOf("[quote]",i-1)==i){//æ˜¯å¼•ç”¨çš„è¯
+		    			if(bodyString.toLowerCase().indexOf("[quote]",i-1)>bodyString.toLowerCase().indexOf("[/quote]",i-1)){//è¿™ä¸ªä»–å¦ˆçš„å¼•ç”¨æ²¡å®Œ
 		    				quotetxt=bodyString.substring(i+7);
-			    			if(quotetxt.toLowerCase().lastIndexOf("[")>=0){//×îºó»¹ÓĞµãÁôÏÂÀ´
+			    			if(quotetxt.toLowerCase().lastIndexOf("[")>=0){//æœ€åè¿˜æœ‰ç‚¹ç•™ä¸‹æ¥
 			    				quotetxt=quotetxt.substring(0,quotetxt.toLowerCase().lastIndexOf("["));
 			    			}
 			    			while(quotetxt.endsWith(".")){
@@ -1361,9 +1361,9 @@ import android.widget.Toast;
 		final RadioButton atsomeone_button;
 		final RadioButton urladd_button;
 		final RadioButton quoteadd_button;
-		final CheckBox bold_checkbox;// ¼Ó´Ö
-		final CheckBox italic_checkbox;// Ğ±Ìå
-		final CheckBox underline_checkbox;// ÏÂ»®Ïß
+		final CheckBox bold_checkbox;// åŠ ç²—
+		final CheckBox italic_checkbox;// æ–œä½“
+		final CheckBox underline_checkbox;// ä¸‹åˆ’çº¿
 		final CheckBox fontcolor_checkbox;
 		final CheckBox fontsize_checkbox;
 		final CheckBox delline_checkbox;
@@ -1378,12 +1378,12 @@ import android.widget.Toast;
 		italic_checkbox = (CheckBox) view.findViewById(R.id.italic);
 		underline_checkbox = (CheckBox) view.findViewById(R.id.underline);
 		underline_checkbox.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-		underline_checkbox.getPaint().setAntiAlias(true);// ¿¹¾â³İ
+		underline_checkbox.getPaint().setAntiAlias(true);// æŠ—é”¯é½¿
 		fontcolor_checkbox = (CheckBox) view.findViewById(R.id.fontcolor);
 		fontsize_checkbox = (CheckBox) view.findViewById(R.id.fontsize);
 		delline_checkbox = (CheckBox) view.findViewById(R.id.delline);
 		delline_checkbox.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-		delline_checkbox.getPaint().setAntiAlias(true);// ¿¹¾â³İ
+		delline_checkbox.getPaint().setAntiAlias(true);// æŠ—é”¯é½¿
 
 		final float defaultFontSize = font_size.getTextSize();
 
@@ -1418,7 +1418,7 @@ import android.widget.Toast;
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				return view.getResources().getStringArray(R.array.colorchoose).length; // Ñ¡Ïî×Ü¸öÊı
+				return view.getResources().getStringArray(R.array.colorchoose).length; // é€‰é¡¹æ€»ä¸ªæ•°
 			}
 
 			@Override
@@ -1437,12 +1437,12 @@ import android.widget.Toast;
 			public View getView(int arg0, View arg1, ViewGroup arg2) {
 				// TODO Auto-generated method stub
 				LinearLayout ll = new LinearLayout(context);
-				ll.setOrientation(LinearLayout.HORIZONTAL); // ÉèÖÃ³¯Ïò
+				ll.setOrientation(LinearLayout.HORIZONTAL); // è®¾ç½®æœå‘
 				TextView tv = new TextView(context);
 				tv.setText(view.getResources().getStringArray(
-						R.array.colorchoose)[arg0]);// ÉèÖÃÄÚÈİ
-				tv.setTextColor(scolorspan[arg0]);// ÉèÖÃ×ÖÌåÑÕÉ«
-				ll.addView(tv); // Ìí¼Óµ½LinearLayoutÖĞ
+						R.array.colorchoose)[arg0]);// è®¾ç½®å†…å®¹
+				tv.setTextColor(scolorspan[arg0]);// è®¾ç½®å­—ä½“é¢œè‰²
+				ll.addView(tv); // æ·»åŠ åˆ°LinearLayoutä¸­
 				return ll;
 			}
 		};
@@ -1455,7 +1455,7 @@ import android.widget.Toast;
 			public int getCount() {
 				// TODO Auto-generated method stub
 				return view.getResources().getStringArray(
-						R.array.fontsizechoose).length; // Ñ¡Ïî×Ü¸öÊı
+						R.array.fontsizechoose).length; // é€‰é¡¹æ€»ä¸ªæ•°
 			}
 
 			@Override
@@ -1474,24 +1474,24 @@ import android.widget.Toast;
 			public View getView(int arg0, View arg1, ViewGroup arg2) {
 				// TODO Auto-generated method stub
 				LinearLayout ll = new LinearLayout(context);
-				ll.setOrientation(LinearLayout.HORIZONTAL); // ÉèÖÃ³¯Ïò
+				ll.setOrientation(LinearLayout.HORIZONTAL); // è®¾ç½®æœå‘
 				TextView tv = new TextView(context);
 				tv.setText(view.getResources().getStringArray(
-						R.array.fontsizechoose)[arg0]);// ÉèÖÃÄÚÈİ
-				tv.setTextSize(ssizespan[arg0] * defaultFontSize);// ÉèÖÃ×ÖÌå´óĞ¡
-				ll.addView(tv); // Ìí¼Óµ½LinearLayoutÖĞ
+						R.array.fontsizechoose)[arg0]);// è®¾ç½®å†…å®¹
+				tv.setTextSize(ssizespan[arg0] * defaultFontSize);// è®¾ç½®å­—ä½“å¤§å°
+				ll.addView(tv); // æ·»åŠ åˆ°LinearLayoutä¸­
 				return ll;
 			}
 		};
 		fontsizeSpinner.setAdapter(adapterfontsize);
 		fontsizeSpinner.setSelection(0);
 
-		// ¿ªÊ¼ÏÂÃæÁ½¸öÑ¡ÏîÃ»ÓĞµÄ
+		// å¼€å§‹ä¸‹é¢ä¸¤ä¸ªé€‰é¡¹æ²¡æœ‰çš„
 		font_size.setVisibility(View.GONE);
 		font_color.setVisibility(View.GONE);
 		fontsizeSpinner.setVisibility(View.GONE);
 		fontcolorSpinner.setVisibility(View.GONE);
-		// Ñ¡ÖĞÉÏÃæÄÇÅÅ£¬ÏÂÃæµÄ¾Í²»ÄÜÑ¡
+		// é€‰ä¸­ä¸Šé¢é‚£æ’ï¼Œä¸‹é¢çš„å°±ä¸èƒ½é€‰
 		selectradio
 				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -1512,7 +1512,7 @@ import android.widget.Toast;
 
 				});
 
-		// Ñ¡ÖĞÏÂÃæÄÇÅÅ£¬ÉÏÃæµÄ±ğÑ¡ÁË,¼Ó´Ö
+		// é€‰ä¸­ä¸‹é¢é‚£æ’ï¼Œä¸Šé¢çš„åˆ«é€‰äº†,åŠ ç²—
 		bold_checkbox
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -1529,7 +1529,7 @@ import android.widget.Toast;
 
 				});
 
-		// Ñ¡ÖĞÏÂÃæÄÇÅÅ£¬ÉÏÃæµÄ±ğÑ¡ÁË£¬Ğ±Ìå
+		// é€‰ä¸­ä¸‹é¢é‚£æ’ï¼Œä¸Šé¢çš„åˆ«é€‰äº†ï¼Œæ–œä½“
 		italic_checkbox
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -1546,7 +1546,7 @@ import android.widget.Toast;
 
 				});
 
-		// Ñ¡ÖĞÏÂÃæÄÇÅÅ£¬ÉÏÃæµÄ±ğÑ¡ÁË£¬ÏÂ»®Ïß
+		// é€‰ä¸­ä¸‹é¢é‚£æ’ï¼Œä¸Šé¢çš„åˆ«é€‰äº†ï¼Œä¸‹åˆ’çº¿
 		underline_checkbox
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -1563,7 +1563,7 @@ import android.widget.Toast;
 
 				});
 
-		// Ñ¡ÖĞÏÂÃæÄÇÅÅ£¬ÉÏÃæµÄ±ğÑ¡ÁË£¬ÑÕÉ«
+		// é€‰ä¸­ä¸‹é¢é‚£æ’ï¼Œä¸Šé¢çš„åˆ«é€‰äº†ï¼Œé¢œè‰²
 		fontcolor_checkbox
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -1585,7 +1585,7 @@ import android.widget.Toast;
 
 				});
 
-		// Ñ¡ÖĞÏÂÃæÄÇÅÅ£¬ÉÏÃæµÄ±ğÑ¡ÁË£¬×ÖºÅ
+		// é€‰ä¸­ä¸‹é¢é‚£æ’ï¼Œä¸Šé¢çš„åˆ«é€‰äº†ï¼Œå­—å·
 		fontsize_checkbox
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -1607,7 +1607,7 @@ import android.widget.Toast;
 
 				});
 
-		// Ñ¡ÖĞÏÂÃæÄÇÅÅ£¬ÉÏÃæµÄ±ğÑ¡ÁË£¬É¾³ıÏß
+		// é€‰ä¸­ä¸‹é¢é‚£æ’ï¼Œä¸Šé¢çš„åˆ«é€‰äº†ï¼Œåˆ é™¤çº¿
 		delline_checkbox
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -1624,7 +1624,7 @@ import android.widget.Toast;
 
 				});
 
-		alert.setPositiveButton("È·ÈÏ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("ç¡®è®¤", new DialogInterface.OnClickListener() {
 			@SuppressWarnings("unused")
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -1647,14 +1647,14 @@ import android.widget.Toast;
 						} else {
 
 							if (toast != null) {
-								toast.setText("URLĞèÒÔhttp|https|ftp|gopher|news|telnet|mms|rtsp¿ªÍ·");
+								toast.setText("URLéœ€ä»¥http|https|ftp|gopher|news|telnet|mms|rtspå¼€å¤´");
 								toast.setDuration(Toast.LENGTH_SHORT);
 								toast.show();
 							} else {
 								toast = Toast
 										.makeText(
 												context,
-												"URLĞèÒÔhttp|https|ftp|gopher|news|telnet|mms|rtsp¿ªÍ·",
+												"URLéœ€ä»¥http|https|ftp|gopher|news|telnet|mms|rtspå¼€å¤´",
 												Toast.LENGTH_SHORT);
 								toast.show();
 							}
@@ -1800,7 +1800,7 @@ import android.widget.Toast;
 				}
 			}
 		});
-		alert.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				InputMethodManager imm = (InputMethodManager) bodyText
 						.getContext().getSystemService(

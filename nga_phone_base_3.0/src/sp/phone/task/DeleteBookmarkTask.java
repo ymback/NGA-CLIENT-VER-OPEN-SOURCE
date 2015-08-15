@@ -77,7 +77,7 @@ public class DeleteBookmarkTask extends AsyncTask<String, Integer, String> {
 		//android.R.drawable.ic_search_category_default
 		if(!StringUtil.isEmpty(msg)){
 			Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
-			if(msg.trim().equals("²Ù×÷³É¹¦")){
+			if(msg.trim().equals("æ“ä½œæˆåŠŸ")){
 				Object a = parent.getAdapter();
 				AppendableTopicAdapter adapter = null;
 				if (a instanceof AppendableTopicAdapter) {

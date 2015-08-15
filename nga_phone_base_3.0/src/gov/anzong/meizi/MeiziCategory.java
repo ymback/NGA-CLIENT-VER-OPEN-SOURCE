@@ -4,8 +4,8 @@ package gov.anzong.meizi;
 public class MeiziCategory {
 
     public static final MeiziCategoryItem[] ITEMS = new MeiziCategory.MeiziCategoryItem[] {
-        new MeiziCategoryItem("ROSIĞ´Õæ", 2),
-            new MeiziCategoryItem("ÃÈ°®×ÔÅÄ", 1),
+        new MeiziCategoryItem("ROSIå†™çœŸ", 2),
+            new MeiziCategoryItem("èŒçˆ±è‡ªæ‹", 1),
     };
 
     public static int getCount(){

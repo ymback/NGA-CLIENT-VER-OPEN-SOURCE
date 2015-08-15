@@ -100,7 +100,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		} else {
 			this.setContentView(R.layout.profile);
 		}
-		getSupportActionBar().setTitle("ÓÃ»§ĞÅÏ¢");
+		getSupportActionBar().setTitle("ç”¨æˆ·ä¿¡æ¯");
 		view = findViewById(R.id.scroll_profile);
 		view.setVisibility(View.GONE);
 		basedata_title = (TextView) view.findViewById(R.id.basedata_title);
@@ -175,7 +175,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			ActivityUtil.getInstance().noticeSaying(this);
 		}
 		task.execute(params);
-	}// ¶ÁÈ¡JSONÁË
+	}// è¯»å–JSONäº†
 
 	private void refresh_saying() {
 		DefaultHeaderTransformer transformer = null;
@@ -202,17 +202,17 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		final String username = ret.get_username();
 		final String iplogdata = ret.get_iplog();
 		trueusername=username;
-		getSupportActionBar().setTitle(username + "µÄÓÃ»§ĞÅÏ¢");
-		basedata_title.setText(":: " + username + " µÄ»ù´¡ĞÅÏ¢ ::");
-		avatar_title.setText(":: " + username + " µÄÍ·Ïñ ::");
-		sign_title.setText(":: " + username + " µÄÇ©Ãû ::");
-		admin_title.setText(":: " + username + " µÄ¹ÜÀíÈ¨ÏŞ ::");
-		admin2_title.setText(username + " ÓµÓĞ¹ÜÀíÔ±È¨ÏŞ ËùÊô°æÃæµÄÖ÷Ìâ¹ÜÀíÈ¨ÏŞ ÔÚÒÔÏÂ°æÃæµ£ÈÎ°æÖ÷ ");
-		fame_title.setText(":: " + username + " µÄÉùÍû ::");
-		fame2_title.setText("±íÊ¾ ÂÛÌ³/Ä³°æÃæ/Ä³ÓÃ»§ ¶Ô " + username + " µÄ¹ØÏµ");
-		search_title.setText(":: " + username + " ·¢²¼µÄÌù×Ó  ::");
-		topic_button.setText("[ËÑË÷ " + username + " ·¢²¼µÄÖ÷Ìâ]");
-		reply_button.setText("[ËÑË÷ " + username + " ·¢²¼µÄ»Ø¸´]");
+		getSupportActionBar().setTitle(username + "çš„ç”¨æˆ·ä¿¡æ¯");
+		basedata_title.setText(":: " + username + " çš„åŸºç¡€ä¿¡æ¯ ::");
+		avatar_title.setText(":: " + username + " çš„å¤´åƒ ::");
+		sign_title.setText(":: " + username + " çš„ç­¾å ::");
+		admin_title.setText(":: " + username + " çš„ç®¡ç†æƒé™ ::");
+		admin2_title.setText(username + " æ‹¥æœ‰ç®¡ç†å‘˜æƒé™ æ‰€å±ç‰ˆé¢çš„ä¸»é¢˜ç®¡ç†æƒé™ åœ¨ä»¥ä¸‹ç‰ˆé¢æ‹…ä»»ç‰ˆä¸» ");
+		fame_title.setText(":: " + username + " çš„å£°æœ› ::");
+		fame2_title.setText("è¡¨ç¤º è®ºå›/æŸç‰ˆé¢/æŸç”¨æˆ· å¯¹ " + username + " çš„å…³ç³»");
+		search_title.setText(":: " + username + " å‘å¸ƒçš„è´´å­  ::");
+		topic_button.setText("[æœç´¢ " + username + " å‘å¸ƒçš„ä¸»é¢˜]");
+		reply_button.setText("[æœç´¢ " + username + " å‘å¸ƒçš„å›å¤]");
 		if(StringUtil.isEmpty(iplogdata)){
 			iplog_title.setVisibility(View.GONE);
 			iplog.setVisibility(View.GONE);
@@ -221,14 +221,14 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			iplog_title.setVisibility(View.VISIBLE);
 			iplog.setVisibility(View.VISIBLE);
 			iplogrelativelayout.setVisibility(View.VISIBLE);
-			iplog_title.setText(":: " + username + " µÄIP ::");
+			iplog_title.setText(":: " + username + " çš„IP ::");
 			iplog.setText(Html.fromHtml(iplogdata));
 		}
 		if(PhoneConfiguration.getInstance().userName==null){
 			PhoneConfiguration.getInstance().userName="";
 		}
 		if(!PhoneConfiguration.getInstance().userName.equals(username)){
-			message_button.setText("[Ïò " + username + " ·¢ËÍÂÛÌ³¶ÌÏûÏ¢]");
+			message_button.setText("[å‘ " + username + " å‘é€è®ºå›çŸ­æ¶ˆæ¯]");
 			message_button.setOnClickListener(new OnClickListener() {
 				
 
@@ -240,7 +240,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 					intent_bookmark.putExtra("to", username);
 					intent_bookmark.putExtra("action", "new");
 					intent_bookmark.putExtra("messagemode", "yes");
-					if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+					if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 						intent_bookmark
 								.setClass(view.getContext(),
 										PhoneConfiguration.getInstance().messagePostActivityClass);
@@ -340,7 +340,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 			if (ret.get_muteTime().equals("-1")) {
 				user_shutup_title.setVisibility(View.GONE);
 				user_shutup.setVisibility(View.GONE);
-				user_state.setText("ÒÑ¼¤»î");
+				user_state.setText("å·²æ¿€æ´»");
 				if (tm.getMode() != ThemeManager.MODE_NIGHT) {
 					user_state.setTextColor(this.getResources().getColor(
 							R.color.activecolor));
@@ -350,14 +350,14 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 				if(tm.getMode() != ThemeManager.MODE_NIGHT){
 				user_shutup.setTextColor(this.getResources().getColor(
 						R.color.mutedcolor));}
-				user_state.setText("ÒÑ½ûÑÔ");
+				user_state.setText("å·²ç¦è¨€");
 				if (tm.getMode() != ThemeManager.MODE_NIGHT) {
 					user_state.setTextColor(this.getResources().getColor(
 							R.color.mutedcolor));
 				}
 			}
 		} else if (verified == 0) {
-			user_state.setText("Î´¼¤»î(?)");
+			user_state.setText("æœªæ¿€æ´»(?)");
 			if (tm.getMode() != ThemeManager.MODE_NIGHT) {
 				user_state.setTextColor(this.getResources().getColor(
 						R.color.unactivecolor));
@@ -381,7 +381,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 				}
 			}
 		} else {
-			user_state.setText("ÒÑ½ûÑÔ");
+			user_state.setText("å·²ç¦è¨€");
 			if (tm.getMode() != ThemeManager.MODE_NIGHT) {
 				user_state.setTextColor(this.getResources().getColor(
 						R.color.mutedcolor));
@@ -453,7 +453,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 					+ adminForumsEntryList.get(i).get_fname() + "]</a>&nbsp;";
 		}
 		if (rest == "") {
-			return "ÎŞ¹ÜÀí°å¿é";
+			return "æ— ç®¡ç†æ¿å—";
 		} else {
 			return rest + "<br>";
 		}
@@ -465,7 +465,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 		String fame = ret.get_fame();
 		double famenum = (double) Double.parseDouble(fame) / 10;
 		rest += "<li style=\"display: block;float: left;width: 33%;\">"
-				+ "<label style=\"float: left;color: "+color+";\">ÍşÍû</label>"
+				+ "<label style=\"float: left;color: "+color+";\">å¨æœ›</label>"
 				+ "<span style=\"float: left; color: #808080;\">:</span>"
 				+ "<span style=\"float: left; color: #808080;\">"
 				+ Double.toString(famenum) + "</span></li>";

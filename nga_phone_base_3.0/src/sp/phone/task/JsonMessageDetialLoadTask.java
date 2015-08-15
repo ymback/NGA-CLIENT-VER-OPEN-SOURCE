@@ -72,11 +72,11 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
 				Log.e(TAG, "can not parse :\n" +js );
 			}
 			if(o == null){
-				error = "ÇëÖØÐÂµÇÂ¼";
+				error = "è¯·é‡æ–°ç™»å½•";
 			}else{
 				error=o.getString("0");
 				if(StringUtil.isEmpty(error))
-					error = "ÇëÖØÐÂµÇÂ¼";
+					error = "è¯·é‡æ–°ç™»å½•";
 			}
 			return null;
 		}

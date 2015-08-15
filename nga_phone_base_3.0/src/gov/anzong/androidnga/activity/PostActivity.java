@@ -227,12 +227,12 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 				// TODO Auto-generated method stub
 				if (isChecked) {
 					if (toast != null) {
-						toast.setText("ÄäÃû·¢Ìû/»Ø¸´Ã¿´Î½«¿Û³ıÒ»°ÙÍ­±Ò,É÷ÖØ");
+						toast.setText("åŒ¿åå‘å¸–/å›å¤æ¯æ¬¡å°†æ‰£é™¤ä¸€ç™¾é“œå¸,æ…é‡");
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
 						toast = Toast.makeText(PostActivity.this,
-								"ÄäÃû·¢Ìû/»Ø¸´Ã¿´Î½«¿Û³ıÒ»°ÙÍ­±Ò,É÷ÖØ", Toast.LENGTH_SHORT);
+								"åŒ¿åå‘å¸–/å›å¤æ¯æ¬¡å°†æ‰£é™¤ä¸€ç™¾é“œå¸,æ…é‡", Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				}
@@ -281,7 +281,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag >= 4) {// ´óÓÚµÈÓÚ4¿Ï¶¨ÓĞ
+			if (flag >= 4) {// å¤§äºç­‰äº4è‚¯å®šæœ‰
 				getMenuInflater().inflate(R.menu.post_menu_left, menu);
 			} else {
 				getMenuInflater().inflate(R.menu.post_menu, menu);
@@ -557,7 +557,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 		protected String doInBackground(String... params) {
 			if (params.length < 2)
 				return "parameter error";
-			String ret = "ÍøÂç´íÎó";
+			String ret = "ç½‘ç»œé”™è¯¯";
 			String url = params[0];
 			String body = params[1];
 
@@ -571,7 +571,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 					if (conn.getResponseCode() >= 500) {
 						input = null;
 						keepActivity = true;
-						ret = "¶ş¸çÔÚÓÃ·şÎñÆ÷ÏÂÃ«Æ¬";
+						ret = "äºŒå“¥åœ¨ç”¨æœåŠ¡å™¨ä¸‹æ¯›ç‰‡";
 					} else {
 						if (conn.getResponseCode() >= 400) {
 							input = conn.getErrorStream();
@@ -598,18 +598,18 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 		private String getReplyResult(String html) {
 			int start = html.indexOf(result_start_tag);
 			if (start == -1)
-				return "·¢ÌûÊ§°Ü";
+				return "å‘å¸–å¤±è´¥";
 			start += result_start_tag.length();
 			int end = html.indexOf(result_end_tag, start);
 			if (end < 0)
-				return "·¢ÌûÊ§°Ü";
+				return "å‘å¸–å¤±è´¥";
 			return html.substring(start, end);
 
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			String success_results[] = { "·¢ÌùÍê±Ï", "@ÌáĞÑÃ¿24Ğ¡Ê±²»ÄÜ³¬¹ı50¸ö" };
+			String success_results[] = { "å‘è´´å®Œæ¯•", "@æé†’æ¯24å°æ—¶ä¸èƒ½è¶…è¿‡50ä¸ª" };
 			if (keepActivity == false) {
 				boolean success = false;
 				for (int i = 0; i < success_results.length; ++i) {
@@ -658,7 +658,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inJustDecodeBounds = true;
 			Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2,
-					options); // ´ËÊ±·µ»Ø bm Îª¿Õ
+					options); // æ­¤æ—¶è¿”å› bm ä¸ºç©º
 			options.inJustDecodeBounds = false;
 			DisplayMetrics dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -668,7 +668,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 			int height = options.outHeight;
 			float scaleWidth = ((float) screenwidth) / width;
 			float scaleHeight = ((float) screenheigth) / height;
-			if (scaleWidth < scaleHeight && scaleWidth < 1f) {// ²»ÄÜ·Å´ó°¡,È»ºóÖ÷ÒªÊÇÄÄ¸öĞ¡Ëõ·Åµ½ÄÄ¸ö¾ÍĞĞÁË
+			if (scaleWidth < scaleHeight && scaleWidth < 1f) {// ä¸èƒ½æ”¾å¤§å•Š,ç„¶åä¸»è¦æ˜¯å“ªä¸ªå°ç¼©æ”¾åˆ°å“ªä¸ªå°±è¡Œäº†
 				options.inSampleSize = (int) (1 / scaleWidth);
 			} else if (scaleWidth >= scaleHeight && scaleHeight < 1f) {
 				options.inSampleSize = (int) (1 / scaleHeight);

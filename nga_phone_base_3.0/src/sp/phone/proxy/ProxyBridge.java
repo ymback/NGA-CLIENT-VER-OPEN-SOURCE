@@ -34,15 +34,15 @@ public final class ProxyBridge {
 	
 	@JavascriptInterface
 	public void postURL(String url) {
-		ActivityUtil.getInstance().noticeSaying("ÕıÔÚÌá½»...", context);
+		ActivityUtil.getInstance().noticeSaying("æ­£åœ¨æäº¤...", context);
 		(new AsyncTask<String, Integer, String>() {
 			@Override
 			protected void onPostExecute(String result) {
 				ActivityUtil.getInstance().dismiss();
 				if(StringUtil.isEmpty(result))
-					result="Î´Öª´íÎó,ÇëÖØÊÔ";
-				if(result.startsWith("²Ù×÷³É¹¦"))
-					result="²Ù×÷³É¹¦";
+					result="æœªçŸ¥é”™è¯¯,è¯·é‡è¯•";
+				if(result.startsWith("æ“ä½œæˆåŠŸ"))
+					result="æ“ä½œæˆåŠŸ";
 				if (toast != null) {
 					toast.setText(result);
 					toast.setDuration(Toast.LENGTH_SHORT);
@@ -58,7 +58,7 @@ public final class ProxyBridge {
 			@Override
 			protected String doInBackground(String... params) {
 				if(StringUtil.isEmpty(params[0]))
-					return "Ñ¡Ôñ´íÎó";
+					return "é€‰æ‹©é”™è¯¯";
 				String url="http://bbs.ngacn.cc/nuke.php?"+params[0];
 				HttpPostClient c =  new HttpPostClient(url);
 				String cookie = PhoneConfiguration.getInstance().getCookie();
@@ -80,7 +80,7 @@ public final class ProxyBridge {
 								input = conn.getInputStream();
 						}
 					}else{
-						return "ÍøÂç´íÎó";
+						return "ç½‘ç»œé”™è¯¯";
 					}
 
 					if(input != null)
@@ -99,23 +99,23 @@ public final class ProxyBridge {
 					}
 					if (o == null) {
 						if (oerror == null) {
-							return "ÇëÖØĞÂµÇÂ¼";
+							return "è¯·é‡æ–°ç™»å½•";
 						}else {
 							if (!StringUtil.isEmpty(oerror.getString("0"))) {
 								return oerror.getString("0");
 							}else{
-								return "¶ş¸çÓÖ¿ªÊ¼ÂÒ¸ãÁË";
+								return "äºŒå“¥åˆå¼€å§‹ä¹±æäº†";
 							}
 						}
 					}else{
 						if (!StringUtil.isEmpty(o.getString("0"))) {
 						return o.getString("0");
 						}else{
-						return "¶ş¸çÓÖ¿ªÊ¼ÂÒ¸ãÁË";
+						return "äºŒå“¥åˆå¼€å§‹ä¹±æäº†";
 						}
 					}
 					}else{
-						return "¶ş¸çÔÚÓÃ·şÎñÆ÷ÏÂÃ«Æ¬";
+						return "äºŒå“¥åœ¨ç”¨æœåŠ¡å™¨ä¸‹æ¯›ç‰‡";
 					}
 				} catch (IOException e) {
 				}

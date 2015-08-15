@@ -1,7 +1,7 @@
 package sp.phone.bean;
 
 
-public class ReputationData {//¸øÈÎÎñ¾ßÌåĞÅÏ¢ÔØÈëÓÃµÄ
+public class ReputationData {//ç»™ä»»åŠ¡å…·ä½“ä¿¡æ¯è½½å…¥ç”¨çš„
 	private String name,data,detail;
 	public void set_name(String name){
 		this.name=name;

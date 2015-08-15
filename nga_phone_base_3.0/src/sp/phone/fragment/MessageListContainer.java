@@ -163,7 +163,7 @@ public class MessageListContainer extends Fragment implements
 		int menuId;
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// Ö÷ÌâÁĞ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// ä¸»é¢˜åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				menuId = R.menu.messagelist_menu_left;
 			} else {
 				menuId = R.menu.messagelist_menu;
@@ -202,7 +202,7 @@ public class MessageListContainer extends Fragment implements
 			Intent intent_bookmark = new Intent();
 			intent_bookmark.putExtra("action", "new");
 			intent_bookmark.putExtra("messagemode", "yes");
-		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 			intent_bookmark.setClass(getActivity(),
 					PhoneConfiguration.getInstance().messagePostActivityClass);
 		} else {
@@ -233,7 +233,7 @@ public class MessageListContainer extends Fragment implements
 				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
 						Activity.MODE_PRIVATE);
 				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//ÊÇÍíÉÏÄ£Ê½£¬¸Ä°×ÌìµÄ
+				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//æ˜¯æ™šä¸Šæ¨¡å¼ï¼Œæ”¹ç™½å¤©çš„
 					menu.setIcon(  
 		                    R.drawable.ic_action_bightness_low); 
 					menu.setTitle(R.string.change_night_mode);

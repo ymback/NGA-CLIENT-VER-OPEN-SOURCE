@@ -58,7 +58,7 @@ PerferenceConstant,PullToRefreshAttacherOnwer {
 			f = new RecentReplyListFragment();
 			fm.beginTransaction().add(R.id.item_list,f ).commit();
 		}
-		getSupportActionBar().setTitle("ÎÒµÄ±»Åç");
+		getSupportActionBar().setTitle("æˆ‘çš„è¢«å–·");
 		
 	}
 

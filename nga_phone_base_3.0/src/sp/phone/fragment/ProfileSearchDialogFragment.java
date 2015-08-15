@@ -34,11 +34,11 @@ public class ProfileSearchDialogFragment extends DialogFragment {
 		view = inflater.inflate(R.layout.profilesearch_dialog, null);
         alert.setView(view);
 		alert.setTitle(R.string.profile_search_hint);
-		alert.setPositiveButton("≤Èø¥", new PositiveOnClickListener());
+		alert.setPositiveButton("Êü•Áúã", new PositiveOnClickListener());
 		profilesearch_name=(RadioButton) view.findViewById(R.id.profilesearch_name);
 		profilesearch_id=(RadioButton) view.findViewById(R.id.profilesearch_id);
 		searchradio = (RadioGroup) view.findViewById(R.id.radioGroup);
-		alert.setNegativeButton("»°œ˚", new DialogInterface.OnClickListener() {  
+		alert.setNegativeButton("ÂèñÊ∂à", new DialogInterface.OnClickListener() {  
             public void onClick(DialogInterface dialog, int whichButton) {  
                 dialog.dismiss();
             }
@@ -55,7 +55,7 @@ public class ProfileSearchDialogFragment extends DialogFragment {
 			String inputStringtp = input.getText().toString().trim();
 			final String inputString=inputStringtp.replaceAll("\\n", "");
     		Intent intent_search = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
-			if(searchradio.getCheckedRadioButtonId() == profilesearch_name.getId()){//”√ªß√˚
+			if(searchradio.getCheckedRadioButtonId() == profilesearch_name.getId()){//Áî®Êà∑Âêç
 				if(!StringUtil.isEmpty(inputString))
 		    	{
 		    		intent_search.putExtra("mode", "username" );

@@ -160,7 +160,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
 		PendingIntent pending=
 				PendingIntent.getActivity(context, 0, intent, 0); 
 		
-		 String tickerText = "有新版本";
+		 String tickerText = "鏈夋柊鐗堟湰";
 
 
 		 Notification notification = new Notification(); 
@@ -177,7 +177,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
         notification.tickerText = tickerText;
         notification.when = System.currentTimeMillis();
         
-		 notification.setLatestEventInfo(context, "更新内容", content, pending);
+		 notification.setLatestEventInfo(context, "鏇存柊鍐呭", content, pending);
 		 nm.notify( gov.anzong.androidnga.R.layout.pagerview_article_list, notification);
 		super.onPostExecute(result);
 	}

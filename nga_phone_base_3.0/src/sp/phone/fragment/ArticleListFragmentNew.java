@@ -141,7 +141,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
 				MenuItem mi = (MenuItem) menu.findItem(R.id.ban_thisone);
 				if (mi != null && row != null) {
-					if (row.get_isInBlackList()) {// ´¦ÓÚÆÁ±ÎÁĞ±í£¬ĞèÒªÈ¥µô
+					if (row.get_isInBlackList()) {// å¤„äºå±è”½åˆ—è¡¨ï¼Œéœ€è¦å»æ‰
 						mi.setTitle(R.string.cancel_ban_thisone);
 					} else {
 						mi.setTitle(R.string.ban_thisone);
@@ -207,14 +207,14 @@ public class ArticleListFragmentNew extends Fragment implements
 				postPrefix.append(',').append(tidStr).append(",").append(page);
 				postPrefix.append("]");// Topic
 				postPrefix.append("Reply");
-				if (row.getISANONYMOUS()) {// ÊÇÄäÃûµÄÈË
+				if (row.getISANONYMOUS()) {// æ˜¯åŒ¿åçš„äºº
 					postPrefix.append("[/pid] [b]Post by [uid=");
 					postPrefix.append("-1");
 					postPrefix.append("]");
 					postPrefix.append(name);
 					postPrefix.append("[/uid][color=gray](");
 					postPrefix.append(row.getLou());
-					postPrefix.append("Â¥)[/color] (");
+					postPrefix.append("æ¥¼)[/color] (");
 				} else {
 					postPrefix.append("[/pid] [b]Post by [uid=");
 					postPrefix.append(uid);
@@ -236,7 +236,7 @@ public class ArticleListFragmentNew extends Fragment implements
 					StringUtil.removeBrTag(postPrefix.toString()));
 			intent.putExtra("tid", tidStr);
 			intent.putExtra("action", "reply");
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 				intent.setClass(getActivity(),
 						PhoneConfiguration.getInstance().postActivityClass);
 			} else {
@@ -275,7 +275,7 @@ public class ArticleListFragmentNew extends Fragment implements
 			} else {
 				Set<Integer> blacklist = PhoneConfiguration.getInstance().blacklist;
 				String blickliststring = "";
-				if (row.get_isInBlackList()) {// ÔÚÆÁ±ÎÁĞ±íÖĞ£¬ĞèÒªÈ¥³ı
+				if (row.get_isInBlackList()) {// åœ¨å±è”½åˆ—è¡¨ä¸­ï¼Œéœ€è¦å»é™¤
 					row.set_IsInBlackList(false);
 					blacklist.remove(row.getAuthorid());
 					if (toast != null) {
@@ -370,7 +370,7 @@ public class ArticleListFragmentNew extends Fragment implements
 			intentModify.putExtra("title",
 					StringUtil.unEscapeHtml(row.getSubject()));
 			intentModify.putExtra("action", "modify");
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 				intentModify.setClass(getActivity(),
 						PhoneConfiguration.getInstance().postActivityClass);
 			} else {
@@ -462,14 +462,14 @@ public class ArticleListFragmentNew extends Fragment implements
 				postPrefix.append(',').append(tidStr).append(",").append(page);
 				postPrefix.append("]");// Topic
 				postPrefix.append("Reply");
-				if (row.getISANONYMOUS()) {// ÊÇÄäÃûµÄÈË
+				if (row.getISANONYMOUS()) {// æ˜¯åŒ¿åçš„äºº
 					postPrefix.append("[/pid] [b]Post by [uid=");
 					postPrefix.append("-1");
 					postPrefix.append("]");
 					postPrefix.append(name);
 					postPrefix.append("[/uid][color=gray](");
 					postPrefix.append(row.getLou());
-					postPrefix.append("Â¥)[/color] (");
+					postPrefix.append("æ¥¼)[/color] (");
 				} else {
 					postPrefix.append("[/pid] [b]Post by [uid=");
 					postPrefix.append(uid);
@@ -527,12 +527,12 @@ public class ArticleListFragmentNew extends Fragment implements
 			String shareUrl = "http://bbs.ngacn.cc/read.php?";
 			if (pid == 0) {
 				shareUrl = shareUrl + "pid=" + row.getPid()
-						+ " (·ÖÏí×ÔNGA°²×¿¿Í»§¶Ë¿ªÔ´°æ)";
+						+ " (åˆ†äº«è‡ªNGAå®‰å“å®¢æˆ·ç«¯å¼€æºç‰ˆ)";
 			} else {
-				shareUrl = shareUrl + "tid=" + tid + " (·ÖÏí×ÔNGA°²×¿¿Í»§¶Ë¿ªÔ´°æ)";
+				shareUrl = shareUrl + "tid=" + tid + " (åˆ†äº«è‡ªNGAå®‰å“å®¢æˆ·ç«¯å¼€æºç‰ˆ)";
 			}
 			if (!StringUtil.isEmpty(row.getSubject())) {
-				shareUrl = "¡¶" + row.getSubject() + "¡· - °¬ÔóÀ­Ë¹¹ú¼ÒµØÀíÂÛÌ³£¬µØÖ·£º"
+				shareUrl = "ã€Š" + row.getSubject() + "ã€‹ - è‰¾æ³½æ‹‰æ–¯å›½å®¶åœ°ç†è®ºå›ï¼Œåœ°å€ï¼š"
 						+ shareUrl;
 			}
 			intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
@@ -718,7 +718,7 @@ public class ArticleListFragmentNew extends Fragment implements
 				getActivity());
 		final String floor = String.valueOf(lou);
 		TextView floorTV = holder.floorTV;
-		floorTV.setText("[" + floor + " Â¥]");
+		floorTV.setText("[" + floor + " æ¥¼]");
 		floorTV.setTextColor(fgColor);
 		if (!StringUtil.isEmpty(row.getFromClientModel())) {
 			MyListenerForClient myListenerForClient = new MyListenerForClient(
@@ -729,7 +729,7 @@ public class ArticleListFragmentNew extends Fragment implements
 			} else if (from_client_model.equals("wp")) {
 				holder.clientBtn.setImageResource(R.drawable.wp);// WP
 			} else if (from_client_model.equals("unknown")) {
-				holder.clientBtn.setImageResource(R.drawable.unkonwn);// Î´ÖªorBB
+				holder.clientBtn.setImageResource(R.drawable.unkonwn);// æœªçŸ¥orBB
 			}
 			holder.clientBtn.setVisibility(View.VISIBLE);
 			holder.clientBtn.setOnClickListener(myListenerForClient);
@@ -758,7 +758,7 @@ public class ArticleListFragmentNew extends Fragment implements
 		return view;
 	}
 
-	/** Í·Ïñ´¦Àí¿ªÊ¼ **/
+	/** å¤´åƒå¤„ç†å¼€å§‹ **/
 	private Bitmap defaultAvatar = null;
 
 	private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
@@ -847,5 +847,5 @@ public class ArticleListFragmentNew extends Fragment implements
 		}
 	}
 
-	/** Í·Ïñ´¦Àí½áÊø **/
+	/** å¤´åƒå¤„ç†ç»“æŸ **/
 }

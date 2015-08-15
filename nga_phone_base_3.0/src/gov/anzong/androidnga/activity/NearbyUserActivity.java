@@ -188,12 +188,12 @@ implements PerferenceConstant,OnNearbyLoadComplete,PullToRefreshAttacherOnwer{
 						if(StringUtil.isEmail(texta)){
 							if (toast != null)
 				        	{
-				        		toast.setText("用户名为邮箱,无法通过邮箱获取论坛用户信息");
+				        		toast.setText("鐢ㄦ埛鍚嶄负閭,鏃犳硶閫氳繃閭鑾峰彇璁哄潧鐢ㄦ埛淇℃伅");
 				        		toast.setDuration(Toast.LENGTH_SHORT);
 				        		toast.show();
 				        	} else
 				        	{
-				        		toast = Toast.makeText(lv.getContext(), "用户名为邮箱,无法通过邮箱获取论坛用户信息", Toast.LENGTH_SHORT);
+				        		toast = Toast.makeText(lv.getContext(), "鐢ㄦ埛鍚嶄负閭,鏃犳硶閫氳繃閭鑾峰彇璁哄潧鐢ㄦ埛淇℃伅", Toast.LENGTH_SHORT);
 				        		toast.show();
 				        	}
 						}else{

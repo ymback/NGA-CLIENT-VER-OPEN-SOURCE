@@ -1234,7 +1234,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 			"http://img4.nga.178.com/ngabbs/post/smile/pt62.png",
 			"http://img4.nga.178.com/ngabbs/post/smile/pt63.png",
 			"http://img4.nga.178.com/ngabbs/post/smile/pt64.png",
-		},//yixia dt ÍâÓòÈıÈË×é
+		},//yixia dt å¤–åŸŸä¸‰äººç»„
 		{
 			"http://img4.nga.178.com/ngabbs/post/smile/dt01.png",
 			"http://img4.nga.178.com/ngabbs/post/smile/dt02.png",

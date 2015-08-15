@@ -56,7 +56,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 //        if(uri.indexOf("table=")>0){
 //        	table = StringUtil.getStringBetween(uri, 0, "table=", "&").result.trim();
 //        	if(context!=null){
-//            	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//ÅĞ¶ÏÊÇ·ñÊÇËÑË÷
+//            	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//åˆ¤æ–­æ˜¯å¦æ˜¯æœç´¢
 //        		Pattern pattern = Pattern.compile(pattern1);
 //        		Matcher mat = pattern.matcher(table);
 //            	if(!mat.find()){
@@ -81,14 +81,14 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 			Log.e(TAG, "can not parse :\n" +js );
 		}
 		if(o == null){
-			error = "ÇëÖØĞÂµÇÂ¼";
+			error = "è¯·é‡æ–°ç™»å½•";
 			return null;
 		}
 		
 		TopicListInfo ret = new TopicListInfo();
 
 		/**
-		 * ÔÙ¼ûÀ¬»ø°å¿ªÊ¼
+		 * å†è§åƒåœ¾æ¿å¼€å§‹
 		 * **/
 		Object topiclistftmp=o.get("__F");
 		int topiclistfid=0;
@@ -101,7 +101,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 //				ret.set__TABLE(Integer.parseInt(table)+1);
 //			}
 		}/**
-		 * ÔÙ¼ûÀ¬»ø°å½áÊø
+		 * å†è§åƒåœ¾æ¿ç»“æŸ
 		 * **/
 		
 		
@@ -130,7 +130,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
                     message = (String)o.get("0");
                 }
             }else {
-                error = "¶ş¸çÍæ»µÁË»òÕßÄãĞèÒªÖØĞÂµÇÂ¼";
+                error = "äºŒå“¥ç©åäº†æˆ–è€…ä½ éœ€è¦é‡æ–°ç™»å½•";
             }
 			 if(message !=null)
              {
@@ -141,7 +141,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 				 error = message.replace("<br/>", "");
 			 
 			 }
-			 if(error.trim().endsWith("ÖĞÃ»ÓĞ·ûºÏÌõ¼şµÄ½á¹û")){
+			 if(error.trim().endsWith("ä¸­æ²¡æœ‰ç¬¦åˆæ¡ä»¶çš„ç»“æœ")){
 //				 ret.set__TABLE(Integer.parseInt(table));
 				 ret.set__SEARCHNORESULT(true);
 				 return ret;
@@ -162,14 +162,14 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 		
 		if( o1 == null)
 		{
-			error = "ÇëÖØĞÂµÇÂ¼";
+			error = "è¯·é‡æ–°ç™»å½•";
 			return null;
 		}
 			
 			
 		List<ThreadPageInfo> articleEntryList = new  ArrayList<ThreadPageInfo>();
-		String t1="¼×ÒÒ±û¶¡Îì¼º¸ıĞÁÈÉ¹ï×Ó³óÒúÃ®³½ËÈÎçÎ´ÉêÓÏĞçº¥";
-		String t2="ÍõÀîÕÅÁõ³ÂÑî»ÆÎâÕÔÖÜĞìËïÂíÖìºúÁÖ¹ùºÎ¸ßÂŞÖ£ÁºĞ»ËÎÌÆĞíµË·ëº«²ÜÔøÅíÏô²ÌÅËÌï¶­Ô¬ÓÚÓàÒ¶½¯¶ÅËÕÎº³ÌÂÀ¶¡ÉòÈÎÒ¦Â¬¸µÖÓ½ª´ŞÌ·ÁÎ·¶ÍôÂ½½ğÊ¯´÷¼ÖÎ¤ÏÄÇñ·½ºî×ŞĞÜÃÏÇØ°×½­ÑÖÑ¦Òü¶ÎÀ×ÀèÊ·ÁúÌÕºØ¹ËÃ«ºÂ¹¨ÉÛÍòÇ®ÑÏÀµñûºéÎäÄª¿×ÌÀÏò³£ÎÂ¿µÊ©ÎÄÅ£·®¸ğĞÏ°²ÆëÒ×ÇÇÎéÅÓÑÕÄß×¯ÄôÕÂÂ³ÔÀµÔÒóÕ²ÉêÅ·¹¢¹ØÀ¼½¹Óá×óÁø¸Ê×£°üÄşÉĞ·ûÊæÈî¿Â¼ÍÃ·Í¯Áè±Ïµ¥¼¾Åá»ôÍ¿³ÉÃç¹ÈÊ¢ÇúÎÌÈ½ÂæÀ¶Â·ÓÎĞÁ½ù¹Ü²ñÃÉ±«»ªÓ÷ÆîÆÑ·¿ëøÇüÈÄ½âÄ²°¬ÓÈÑôÊ±ÄÂÅ©Ë¾×¿¹Å¼ªçÑ¼ò³µÏîÁ¬Â«ÂóñÒÂ¦ñ¼Æİá¯¾°µ³¹¬·Ñ²·ÀäêÌÏ¯ÎÀÃ×°Ø×ÚöÄ¹ğÈ«Ù¡Ó¦ê°ãÉ¹¶Úù±ß±å¼§Ê¦ºÍ³ğèïËåÉÌµóÉ³ÈÙÎ×¿ÜÉ£ÀÉÕç´ÔÖÙÓİ°½¹®Ã÷ÙÜ³Ø²éÂéÔ·³ÙÚ÷";
+		String t1="ç”²ä¹™ä¸™ä¸æˆŠå·±åºšè¾›å£¬ç™¸å­ä¸‘å¯…å¯è¾°å·³åˆæœªç”³é…‰æˆŒäº¥";
+		String t2="ç‹æå¼ åˆ˜é™ˆæ¨é»„å´èµµå‘¨å¾å­™é©¬æœ±èƒ¡æ—éƒ­ä½•é«˜ç½—éƒ‘æ¢è°¢å®‹å”è®¸é‚“å†¯éŸ©æ›¹æ›¾å½­è§è”¡æ½˜ç”°è‘£è¢äºä½™å¶è’‹æœè‹é­ç¨‹å•ä¸æ²ˆä»»å§šå¢å‚…é’Ÿå§œå´”è°­å»–èŒƒæ±ªé™†é‡‘çŸ³æˆ´è´¾éŸ¦å¤é‚±æ–¹ä¾¯é‚¹ç†Šå­Ÿç§¦ç™½æ±Ÿé˜è–›å°¹æ®µé›·é»å²é¾™é™¶è´ºé¡¾æ¯›éƒé¾šé‚µä¸‡é’±ä¸¥èµ–è¦ƒæ´ªæ­¦è«å­”æ±¤å‘å¸¸æ¸©åº·æ–½æ–‡ç‰›æ¨Šè‘›é‚¢å®‰é½æ˜“ä¹”ä¼åºé¢œå€ªåº„è‚ç« é²å²³ç¿Ÿæ®·è©¹ç”³æ¬§è€¿å…³å…°ç„¦ä¿å·¦æŸ³ç”˜ç¥åŒ…å®å°šç¬¦èˆ’é˜®æŸ¯çºªæ¢…ç«¥å‡Œæ¯•å•å­£è£´éœæ¶‚æˆè‹—è°·ç››æ›²ç¿å†‰éª†è“è·¯æ¸¸è¾›é³ç®¡æŸ´è’™é²åå–»ç¥è’²æˆ¿æ»•å±ˆé¥¶è§£ç‰Ÿè‰¾å°¤é˜³æ—¶ç©†å†œå¸å“å¤å‰ç¼ªç®€è½¦é¡¹è¿èŠ¦éº¦è¤šå¨„çª¦æˆšå²‘æ™¯å…šå®«è´¹åœå†·æ™å¸­å«ç±³æŸå®—ç¿æ¡‚å…¨ä½Ÿåº”è‡§é—µè‹Ÿé‚¬è¾¹åå§¬å¸ˆå’Œä»‡æ ¾éš‹å•†åˆæ²™è£å·«å¯‡æ¡‘éƒç”„ä¸›ä»²è™æ•–å·©æ˜ä½˜æ± æŸ¥éº»è‹‘è¿Ÿé‚";
 		for(int i = 0; i <ret.get__T__ROWS(); i++){
 			JSONObject rowObj  = (JSONObject) o1.get(String.valueOf(i));
 			try{
@@ -255,9 +255,9 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
                         (StringUtil.isEmpty(entry.getTop_level()) && StringUtil.isEmpty(entry.getStatic_topic())) )
 			    {
             	if(PhoneConfiguration.getInstance().showLajibankuai){
-				    	articleEntryList.add(entry);//ÏÔÊ¾µÄ»°£¬²»ÓÃ¹ÜÖ±½Ó¼Ó
+				    	articleEntryList.add(entry);//æ˜¾ç¤ºçš„è¯ï¼Œä¸ç”¨ç®¡ç›´æ¥åŠ 
 			    }else{
-	            	if(topiclistfid==-7){//²»ÏÔÊ¾µÄ»°£¬ÅĞ¶ÏÊÇ·ñ²»ÒªÀ¬»ø°æ
+	            	if(topiclistfid==-7){//ä¸æ˜¾ç¤ºçš„è¯ï¼Œåˆ¤æ–­æ˜¯å¦ä¸è¦åƒåœ¾ç‰ˆ
 	            		if(entry.getFid()==-7)
 			    	articleEntryList.add(entry);
 			    	}

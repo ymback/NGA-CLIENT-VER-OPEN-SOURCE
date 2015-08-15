@@ -16,7 +16,7 @@ public class TopicListInfo {
 	public void set__ROWS(int __ROWS) {
 		this.__ROWS = __ROWS;
 	}
-	public void set__SEARCHNORESULT(boolean __SEARCHNORESULT){//ÊÇ²»ÊÇÃ»ÓĞ½á¹û
+	public void set__SEARCHNORESULT(boolean __SEARCHNORESULT){//æ˜¯ä¸æ˜¯æ²¡æœ‰ç»“æœ
 		this.__SEARCHNORESULT=__SEARCHNORESULT;
 	}
 //	public void set__TABLE(int __TABLE) {

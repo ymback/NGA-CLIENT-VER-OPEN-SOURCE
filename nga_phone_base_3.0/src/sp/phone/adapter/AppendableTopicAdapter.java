@@ -66,12 +66,12 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 //    			TableList__ROWS=count;
 //    			if (toast != null)
 //            	{
-//            		toast.setText("¿â"+String.valueOf(table)+"ÖĞµÄ½á¹ûÒÑËÑË÷Íê±Ï,ÕıÔÚËÑË÷¿â"+String.valueOf(table-1)+"ÖĞµÄ½á¹û");
+//            		toast.setText("åº“"+String.valueOf(table)+"ä¸­çš„ç»“æœå·²æœç´¢å®Œæ¯•,æ­£åœ¨æœç´¢åº“"+String.valueOf(table-1)+"ä¸­çš„ç»“æœ");
 //            		toast.setDuration(Toast.LENGTH_SHORT);
 //            		toast.show();
 //            	} else
 //            	{
-//            		toast = Toast.makeText(this.context, "¿â"+String.valueOf(table)+"ÖĞµÄ½á¹ûÒÑËÑË÷Íê±Ï,ÕıÔÚËÑË÷¿â"+String.valueOf(table-1)+"ÖĞµÄ½á¹û", Toast.LENGTH_SHORT);
+//            		toast = Toast.makeText(this.context, "åº“"+String.valueOf(table)+"ä¸­çš„ç»“æœå·²æœç´¢å®Œæ¯•,æ­£åœ¨æœç´¢åº“"+String.valueOf(table-1)+"ä¸­çš„ç»“æœ", Toast.LENGTH_SHORT);
 //            		toast.show();
 //            	}
 //        		isLoading = true;
@@ -80,12 +80,12 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 //
     			if (toast != null)
             	{
-            		toast.setText("½á¹ûÒÑËÑË÷Íê±Ï");
+            		toast.setText("ç»“æœå·²æœç´¢å®Œæ¯•");
             		toast.setDuration(Toast.LENGTH_SHORT);
             		toast.show();
             	} else
             	{
-            		toast = Toast.makeText(this.context, "½á¹ûÒÑËÑË÷Íê±Ï", Toast.LENGTH_SHORT);
+            		toast = Toast.makeText(this.context, "ç»“æœå·²æœç´¢å®Œæ¯•", Toast.LENGTH_SHORT);
             		toast.show();
             	}
                 isLoading = false;
@@ -165,7 +165,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         if( position +1 == this.getCount() && !isLoading){
         	if (isEndOfList == true)
         	{
-//        		if(table<2||table>(Integer.parseInt(context.getString(R.string.largesttablenum))+1)){//Êı¾İ¿âÃ»ÓĞ»òÕß¼ÓÔØÍêÁË
+//        		if(table<2||table>(Integer.parseInt(context.getString(R.string.largesttablenum))+1)){//æ•°æ®åº“æ²¡æœ‰æˆ–è€…åŠ è½½å®Œäº†
         		if (isPrompted == false) {
 					if (toast != null)
 	            	{
@@ -186,12 +186,12 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 //
 //        			if (toast != null)
 //                	{
-//                		toast.setText("¿â"+String.valueOf(table-1)+"ÖĞµÄ½á¹ûÒÑËÑË÷Íê±Ï,ÕıÔÚËÑË÷¿â"+String.valueOf(table-2)+"ÖĞµÄ½á¹û");
+//                		toast.setText("åº“"+String.valueOf(table-1)+"ä¸­çš„ç»“æœå·²æœç´¢å®Œæ¯•,æ­£åœ¨æœç´¢åº“"+String.valueOf(table-2)+"ä¸­çš„ç»“æœ");
 //                		toast.setDuration(Toast.LENGTH_SHORT);
 //                		toast.show();
 //                	} else
 //                	{
-//                		toast = Toast.makeText(this.context, "¿â"+String.valueOf(table-1)+"ÖĞµÄ½á¹ûÒÑËÑË÷Íê±Ï,ÕıÔÚËÑË÷¿â"+String.valueOf(table-2)+"ÖĞµÄ½á¹û", Toast.LENGTH_SHORT);
+//                		toast = Toast.makeText(this.context, "åº“"+String.valueOf(table-1)+"ä¸­çš„ç»“æœå·²æœç´¢å®Œæ¯•,æ­£åœ¨æœç´¢åº“"+String.valueOf(table-2)+"ä¸­çš„ç»“æœ", Toast.LENGTH_SHORT);
 //                		toast.show();
 //                	}
 //                    isLoading = true;

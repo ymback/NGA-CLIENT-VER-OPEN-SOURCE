@@ -189,7 +189,7 @@ public class ArticleContainerFragment extends Fragment implements
 
 		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// ÎÄÕÂÁĞ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// æ–‡ç« åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				inflater.inflate(R.menu.articlelist_menu_left, menu);
 			} else {
 				inflater.inflate(R.menu.articlelist_menu, menu);
@@ -258,13 +258,13 @@ public class ArticleContainerFragment extends Fragment implements
 		case R.id.article_menuitem_reply:
 			// if(articleAdpater.getData() == null)
 			// return false;
-			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+			if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 				String tid = String.valueOf(this.tid);
 				intent.putExtra("prefix", "");
 				intent.putExtra("tid", tid);
 				intent.putExtra("action", "reply");
 				if (!StringUtil
-						.isEmpty(PhoneConfiguration.getInstance().userName)) {// µÇÈëÁË²ÅÄÜ·¢
+						.isEmpty(PhoneConfiguration.getInstance().userName)) {// ç™»å…¥äº†æ‰èƒ½å‘
 					intent.setClass(getActivity(),
 							PhoneConfiguration.getInstance().postActivityClass);
 				} else {
@@ -310,12 +310,12 @@ public class ArticleContainerFragment extends Fragment implements
 			intent.setType("text/plain");
 			String shareUrl = "http://bbs.ngacn.cc/read.php?";
 			if (this.pid != 0) {
-				shareUrl = shareUrl + "pid=" + this.pid + " (·ÖÏí×ÔNGA°²×¿¿Í»§¶Ë¿ªÔ´°æ)";
+				shareUrl = shareUrl + "pid=" + this.pid + " (åˆ†äº«è‡ªNGAå®‰å“å®¢æˆ·ç«¯å¼€æºç‰ˆ)";
 			} else {
-				shareUrl = shareUrl + "tid=" + this.tid + " (·ÖÏí×ÔNGA°²×¿¿Í»§¶Ë¿ªÔ´°æ)";
+				shareUrl = shareUrl + "tid=" + this.tid + " (åˆ†äº«è‡ªNGAå®‰å“å®¢æˆ·ç«¯å¼€æºç‰ˆ)";
 			}
 			if (!StringUtil.isEmpty(this.title)) {
-				shareUrl = "¡¶" + this.title + "¡· - °¬ÔóÀ­Ë¹¹ú¼ÒµØÀíÂÛÌ³£¬µØÖ·£º" + shareUrl;
+				shareUrl = "ã€Š" + this.title + "ã€‹ - è‰¾æ³½æ‹‰æ–¯å›½å®¶åœ°ç†è®ºå›ï¼Œåœ°å€ï¼š" + shareUrl;
 			}
 			intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
 			String text = getResources().getString(R.string.share);
@@ -345,7 +345,7 @@ public class ArticleContainerFragment extends Fragment implements
 		SharedPreferences share = getActivity().getSharedPreferences(
 				PERFERENCE, Activity.MODE_PRIVATE);
 		int mode = ThemeManager.MODE_NORMAL;
-		if (tm.getMode() == ThemeManager.MODE_NIGHT) {// ÊÇÍíÉÏÄ£Ê½£¬¸Ä°×ÌìµÄ
+		if (tm.getMode() == ThemeManager.MODE_NIGHT) {// æ˜¯æ™šä¸Šæ¨¡å¼ï¼Œæ”¹ç™½å¤©çš„
 			menu.setIcon(R.drawable.ic_action_bightness_low);
 			menu.setTitle(R.string.change_night_mode);
 			Editor editor = share.edit();

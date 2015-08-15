@@ -139,7 +139,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 
 		 final int flags = ThemeManager.ACTION_BAR_FLAG;
 		 ReflectionUtil.actionBar_setDisplayOption(this, flags);
-		 getSupportActionBar().setTitle("¸ü¸ÄÍ·Ïñ");
+		 getSupportActionBar().setTitle("æ›´æ”¹å¤´åƒ");
 	}
 
 
@@ -223,23 +223,23 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 					handleReply(v);
 					}else{
 						if (toast != null) {
-							toast.setText("ÇëÊäÈëÕıÈ·µÄÍ·ÏñURLµØÖ·");
+							toast.setText("è¯·è¾“å…¥æ­£ç¡®çš„å¤´åƒURLåœ°å€");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast.makeText(AvatarPostActivity.this,
-									"ÇëÊäÈëÕıÈ·µÄÍ·ÏñURLµØÖ·", Toast.LENGTH_SHORT);
+									"è¯·è¾“å…¥æ­£ç¡®çš„å¤´åƒURLåœ°å€", Toast.LENGTH_SHORT);
 							toast.show();
 						}
 					}
 				} else {
 					if (toast != null) {
-						toast.setText("ÇëÊäÈëÕıÈ·µÄÍ·ÏñURLµØÖ·");
+						toast.setText("è¯·è¾“å…¥æ­£ç¡®çš„å¤´åƒURLåœ°å€");
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
 						toast = Toast.makeText(AvatarPostActivity.this,
-								"ÇëÊäÈëÕıÈ·µÄÍ·ÏñURLµØÖ·", Toast.LENGTH_SHORT);
+								"è¯·è¾“å…¥æ­£ç¡®çš„å¤´åƒURLåœ°å€", Toast.LENGTH_SHORT);
 						toast.show();
 					}
 				}
@@ -294,7 +294,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 		protected String doInBackground(String... params) {
 			if(params.length<2)
 				return "parameter error";
-			String ret = "ÍøÂç´íÎó";
+			String ret = "ç½‘ç»œé”™è¯¯";
 			String url = params[0];
 			String body = params[1];
 			
@@ -309,7 +309,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 					{
 						input = null;
                         keepActivity = true;
-						ret = "¶ş¸çÔÚÓÃ·şÎñÆ÷ÏÂÃ«Æ¬";
+						ret = "äºŒå“¥åœ¨ç”¨æœåŠ¡å™¨ä¸‹æ¯›ç‰‡";
 					}
 					else{
 						if(conn.getResponseCode() >= 400)
@@ -342,7 +342,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 		
 		private String getReplyResult(String js){
 			if (null == js) {
-				return "·¢ËÍÊ§°Ü";
+				return "å‘é€å¤±è´¥";
 			}
 			js = js.replaceAll("window.script_muti_get_var_store=", "");
 			if(js.indexOf("/*error fill content")>0)
@@ -363,7 +363,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 					Log.e("TAG", "can not parse :\n" +js );
 				}
 				if(o == null){
-					return "·¢ËÍÊ§°Ü";
+					return "å‘é€å¤±è´¥";
 				}
 				return o.getString("0");
 			}
@@ -372,7 +372,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 
 		@Override
 		protected void onPostExecute(String result) {
-			String success_results[] = {"²Ù×÷³É¹¦ Äã¿ÉÄÜĞèÒªÖØĞÂµÇÂ¼ÒÔÏÔÊ¾ĞÂµÄÍ·Ïñ"};
+			String success_results[] = {"æ“ä½œæˆåŠŸ ä½ å¯èƒ½éœ€è¦é‡æ–°ç™»å½•ä»¥æ˜¾ç¤ºæ–°çš„å¤´åƒ"};
 			if(keepActivity == false)
 			{
 				boolean success = false;
@@ -387,11 +387,11 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 					keepActivity = true;
 			}
 			if (toast != null) {
-				toast.setText("²Ù×÷³É¹¦");
+				toast.setText("æ“ä½œæˆåŠŸ");
 				toast.setDuration(Toast.LENGTH_SHORT);
 				toast.show();
 			} else {
-				toast = Toast.makeText(AvatarPostActivity.this, "²Ù×÷³É¹¦", 
+				toast = Toast.makeText(AvatarPostActivity.this, "æ“ä½œæˆåŠŸ", 
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}

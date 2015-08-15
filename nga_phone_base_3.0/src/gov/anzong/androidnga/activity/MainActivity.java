@@ -168,12 +168,12 @@ public class MainActivity extends ActionBarActivity implements
 			});
 			app.setNewVersion(false);
 			if (toast != null) {
-				toast.setText("²¥·ÅÆ÷ÏÖÒÑ²å¼ş»¯,Çëµ½¹ØÓÚÖĞÏÂÔØ»òPLAYÉÌµêËÑË÷BambooPlayer°²×°");
+				toast.setText("æ’­æ”¾å™¨ç°å·²æ’ä»¶åŒ–,è¯·åˆ°å…³äºä¸­ä¸‹è½½æˆ–PLAYå•†åº—æœç´¢BambooPlayerå®‰è£…");
 				toast.setDuration(Toast.LENGTH_SHORT);
 				toast.show();
 			} else {
 				toast = Toast.makeText(MainActivity.this,
-						"²¥·ÅÆ÷ÏÖÒÑ²å¼ş»¯,Çëµ½¹ØÓÚÖĞÏÂÔØ»òPLAYÉÌµêËÑË÷BambooPlayer°²×°",
+						"æ’­æ”¾å™¨ç°å·²æ’ä»¶åŒ–,è¯·åˆ°å…³äºä¸­ä¸‹è½½æˆ–PLAYå•†åº—æœç´¢BambooPlayerå®‰è£…",
 						Toast.LENGTH_SHORT);
 
 				toast.show();
@@ -216,7 +216,7 @@ public class MainActivity extends ActionBarActivity implements
 					refreshheadview();
 					tabletloginfragmentshowed = false;
 				}
-				getSupportActionBar().setTitle("ÔŞÃÀÆ¬×Ü");
+				getSupportActionBar().setTitle("èµç¾ç‰‡æ€»");
 				if (ActivityUtil.isLessThan_3_0())
 					supportInvalidateOptionsMenu();
 				else
@@ -335,33 +335,33 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	private void selectItem(int position, Item item) {
-		if (item.mTitle.equals("µÇÂ¼ÕËºÅ")) {
+		if (item.mTitle.equals("ç™»å½•è´¦å·")) {
 			jumpToLogin();
 		} else if (item.mTitle.equals("Yoooo~")) {
 			jumpToNearby();
-		} else if (item.mTitle.equals("×î½ü±»Åç")) {
+		} else if (item.mTitle.equals("æœ€è¿‘è¢«å–·")) {
 			jumpToRecentReply();
-		}  else if (item.mTitle.equals("Ç©µ½ÈÎÎñ")) {
+		}  else if (item.mTitle.equals("ç­¾åˆ°ä»»åŠ¡")) {
 			signmission();
-		} else if (item.mTitle.equals("¶ÌÏûÏ¢")) {
+		} else if (item.mTitle.equals("çŸ­æ¶ˆæ¯")) {
 			mymessage();
-		} else if (item.mTitle.equals("´óäöÎĞÄäÃû°æ")) {
+		} else if (item.mTitle.equals("å¤§æ¼©æ¶¡åŒ¿åç‰ˆ")) {
 			noname();
-		} else if (item.mTitle.equals("ËÑË÷ÓÃ»§")) {
+		} else if (item.mTitle.equals("æœç´¢ç”¨æˆ·")) {
 			search_profile();
-		} else if (item.mTitle.equals("Ìí¼Ó°æÃæ")) {
+		} else if (item.mTitle.equals("æ·»åŠ ç‰ˆé¢")) {
 			add_fid_dialog();
-		} else if (item.mTitle.equals("ÓÉURL¶ÁÈ¡")) {
+		} else if (item.mTitle.equals("ç”±URLè¯»å–")) {
 			useurltoactivity_dialog();
-		} else if (item.mTitle.equals("Çå¿Õ×î½ü·ÃÎÊ")) {
+		} else if (item.mTitle.equals("æ¸…ç©ºæœ€è¿‘è®¿é—®")) {
 			clear_recent_board();
-		} else if (item.mTitle.equals("ÎÒÒªÁúÖé~ß£~")) {
+		} else if (item.mTitle.equals("æˆ‘è¦é¾™ç ~æ’¸~")) {
 			collect_dragon_ball();
-		} else if (item.mTitle.equals("¹ØÓÚ")) {
+		} else if (item.mTitle.equals("å…³äº")) {
 			about_ngaclient();
 		} 
 		mDrawerList.setItemChecked(position, true);
-		if (!item.mTitle.equals("ÎÒÒªÁúÖé~ß£~")) {
+		if (!item.mTitle.equals("æˆ‘è¦é¾™ç ~æ’¸~")) {
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 		mActivePosition=position;
@@ -443,7 +443,7 @@ public class MainActivity extends ActionBarActivity implements
 		final View view = layoutInflater.inflate(R.layout.client_dialog, null);
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setView(view);
-		alert.setTitle("¹ØÓÚ");
+		alert.setTitle("å…³äº");
 		String versionName = null;
 		int versionvalue=0;
 		TextView textview = (TextView) view
@@ -479,7 +479,7 @@ public class MainActivity extends ActionBarActivity implements
 			}
 			textview.setText(style);
 		}
-		alert.setPositiveButton("ÖªµÀÁË", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("çŸ¥é“äº†", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -524,22 +524,22 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	public void setitem() {
-		items.add(new Item("µÇÂ¼ÕËºÅ", R.drawable.ic_login));
-		items.add(new Category("ÂÛÌ³¹¦ÄÜ"));
-		items.add(new Item("¶ÌÏûÏ¢", R.drawable.ic_action_email));
-//		items.add(new Item("Ç©µ½ÈÎÎñ", R.drawable.ic_action_go_to_today));
-		items.add(new Item("ËÑË÷ÓÃ»§", R.drawable.action_search));
-		items.add(new Item("ÓÉURL¶ÁÈ¡", R.drawable.ic_action_forward));
-		items.add(new Item("Ìí¼Ó°æÃæ", R.drawable.ic_action_add_to_queue));
-		items.add(new Item("Çå¿Õ×î½ü·ÃÎÊ", R.drawable.ic_action_warning));
-		items.add(new Item("×î½ü±»Åç", R.drawable.ic_action_gun));
-		items.add(new Category("Ë½»õ"));
+		items.add(new Item("ç™»å½•è´¦å·", R.drawable.ic_login));
+		items.add(new Category("è®ºå›åŠŸèƒ½"));
+		items.add(new Item("çŸ­æ¶ˆæ¯", R.drawable.ic_action_email));
+//		items.add(new Item("ç­¾åˆ°ä»»åŠ¡", R.drawable.ic_action_go_to_today));
+		items.add(new Item("æœç´¢ç”¨æˆ·", R.drawable.action_search));
+		items.add(new Item("ç”±URLè¯»å–", R.drawable.ic_action_forward));
+		items.add(new Item("æ·»åŠ ç‰ˆé¢", R.drawable.ic_action_add_to_queue));
+		items.add(new Item("æ¸…ç©ºæœ€è¿‘è®¿é—®", R.drawable.ic_action_warning));
+		items.add(new Item("æœ€è¿‘è¢«å–·", R.drawable.ic_action_gun));
+		items.add(new Category("ç§è´§"));
 		items.add(new Item("Yoooo~", R.drawable.ic_menu_mylocation));
-		items.add(new Item("´óäöÎĞÄäÃû°æ", R.drawable.ic_action_noname));
+		items.add(new Item("å¤§æ¼©æ¶¡åŒ¿åç‰ˆ", R.drawable.ic_action_noname));
 		if (!fulimode.equals("0")) {
-			items.add(new Item("ÎÒÒªÁúÖé~ß£~", R.drawable.ic_action_dragon_ball));
+			items.add(new Item("æˆ‘è¦é¾™ç ~æ’¸~", R.drawable.ic_action_dragon_ball));
 		}
-		items.add(new Item("¹ØÓÚ", R.drawable.ic_action_about));
+		items.add(new Item("å…³äº", R.drawable.ic_action_about));
 	}
 
 	void updateflipper(String userListString) {
@@ -559,19 +559,19 @@ public class MainActivity extends ActionBarActivity implements
 		BitmapDrawable bd = new BitmapDrawable(bmp);
 		List<User> userList;
 		if (StringUtil.isEmpty(userListString)) {
-			flipper.addView(getUserView(null, 0, bd));// ´«µİ»ØÒ»¸öÎ´µÇÈëµÄ
+			flipper.addView(getUserView(null, 0, bd));// ä¼ é€’å›ä¸€ä¸ªæœªç™»å…¥çš„
 		} else {
 			userList = JSON.parseArray(userListString, User.class);
 			if (userList.size() == 0) {
-				flipper.addView(getUserView(null, 0, bd));// ´«µİ»ØÒ»¸öÎ´µÇÈëµÄ
+				flipper.addView(getUserView(null, 0, bd));// ä¼ é€’å›ä¸€ä¸ªæœªç™»å…¥çš„
 			} else {
 				for (int i = 1; i <= userList.size(); i++) {
-					flipper.addView(getUserView(userList, i - 1, bd));// ´«µİ»ØÒ»¸öÎ´µÇÈëµÄ
+					flipper.addView(getUserView(userList, i - 1, bd));// ä¼ é€’å›ä¸€ä¸ªæœªç™»å…¥çš„
 				}
 			}
 		}
 
-		// ¶¯»­Ğ§¹û
+		// åŠ¨ç”»æ•ˆæœ
 		rightInAnimation = AnimationUtils.loadAnimation(this, R.anim.right_in);
 		rightOutAnimation = AnimationUtils
 				.loadAnimation(this, R.anim.right_out);
@@ -593,8 +593,8 @@ public class MainActivity extends ActionBarActivity implements
 		ImageView nextImage = (ImageView) privateview
 				.findViewById(R.id.nextImage);
 		if (userList == null) {
-			loginstate.setText("Î´µÇÂ¼");
-			loginnameandid.setText("µã»÷ÏÂÃæµÄµÇÂ¼ÕËºÅµÇÂ¼");
+			loginstate.setText("æœªç™»å½•");
+			loginnameandid.setText("ç‚¹å‡»ä¸‹é¢çš„ç™»å½•è´¦å·ç™»å½•");
 			avatarImage.setImageDrawable(getResources().getDrawable(
 					R.drawable.drawerdefaulticon));
 			nextImage.setVisibility(View.GONE);
@@ -603,14 +603,14 @@ public class MainActivity extends ActionBarActivity implements
 				nextImage.setVisibility(View.GONE);
 			}
 			if (userList.size() == 1) {
-				loginstate.setText("ÒÑµÇÂ¼1¸öÕË»§");
+				loginstate.setText("å·²ç™»å½•1ä¸ªè´¦æˆ·");
 			} else {
-				loginstate.setText("ÒÑµÇÂ¼"
-						+ String.valueOf(userList.size() + "¸öÕË»§,µã»÷ÇĞ»»"));
+				loginstate.setText("å·²ç™»å½•"
+						+ String.valueOf(userList.size() + "ä¸ªè´¦æˆ·,ç‚¹å‡»åˆ‡æ¢"));
 			}
 			if (userList.size() > 0) {
 				User user = userList.get(position);
-				loginnameandid.setText("µ±Ç°:" + user.getNickName() + "("
+				loginnameandid.setText("å½“å‰:" + user.getNickName() + "("
 						+ user.getUserId() + ")");
 				handleUserAvatat(avatarImage, user.getUserId());
 			}
@@ -668,12 +668,12 @@ public class MainActivity extends ActionBarActivity implements
 					PhoneConfiguration.getInstance().blacklist = StringUtil
 							.blackliststringtolisttohashset(u.getBlackList());
 					if (toast != null) {
-						toast.setText("ÇĞ»»ÕË»§³É¹¦,µ±Ç°ÕË»§Ãû:" + u.getNickName());
+						toast.setText("åˆ‡æ¢è´¦æˆ·æˆåŠŸ,å½“å‰è´¦æˆ·å:" + u.getNickName());
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
 						toast = Toast.makeText(MainActivity.this,
-								"ÇĞ»»ÕË»§³É¹¦,µ±Ç°ÕË»§Ãû:" + u.getNickName(),
+								"åˆ‡æ¢è´¦æˆ·æˆåŠŸ,å½“å‰è´¦æˆ·å:" + u.getNickName(),
 								Toast.LENGTH_SHORT);
 
 						toast.show();
@@ -686,7 +686,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	}
 
-	public void handleUserAvatat(ImageView avatarIV, String userId) {// ¾øÎŞÎÊÌâ
+	public void handleUserAvatat(ImageView avatarIV, String userId) {// ç»æ— é—®é¢˜
 		Bitmap defaultAvatar = null, bitmap = null;
 		if (PhoneConfiguration.getInstance().nikeWidth < 3) {
 			return;
@@ -737,7 +737,7 @@ public class MainActivity extends ActionBarActivity implements
 
 	}
 
-	public static Bitmap toRoundCorner(Bitmap bitmap, float ratio) { // ¾øÎŞÎÊÌâ
+	public static Bitmap toRoundCorner(Bitmap bitmap, float ratio) { // ç»æ— é—®é¢˜
 		if (bitmap.getWidth() > bitmap.getHeight()) {
 			bitmap = Bitmap.createBitmap(bitmap,
 					(int) (bitmap.getWidth() - bitmap.getHeight()) / 2, 0,
@@ -868,23 +868,23 @@ public class MainActivity extends ActionBarActivity implements
 			editor.putString(DRAGON_BALL, String.valueOf(dragonballnum));
 			editor.commit();
 			if (toast != null) {
-				toast.setText("ÄãÊÕ¼¯µ½ÁË" + String.valueOf(dragonballnum) + "¿ÅÁúÖé");
+				toast.setText("ä½ æ”¶é›†åˆ°äº†" + String.valueOf(dragonballnum) + "é¢—é¾™ç ");
 				toast.setDuration(Toast.LENGTH_SHORT);
 				toast.show();
 			} else {
 				toast = Toast.makeText(MainActivity.this,
-						"ÄãÊÕ¼¯µ½ÁË" + String.valueOf(dragonballnum) + "¿ÅÁúÖé",
+						"ä½ æ”¶é›†åˆ°äº†" + String.valueOf(dragonballnum) + "é¢—é¾™ç ",
 						Toast.LENGTH_SHORT);
 
 				toast.show();
 			}
 		} else if (dragonballnum == 6) {
 			if (toast != null) {
-				toast.setText("ÄãÊÕ¼¯µ½ÁË7¿ÅÁúÖé");
+				toast.setText("ä½ æ”¶é›†åˆ°äº†7é¢—é¾™ç ");
 				toast.setDuration(Toast.LENGTH_SHORT);
 				toast.show();
 			} else {
-				toast = Toast.makeText(MainActivity.this, "ÄãÊÕ¼¯µ½ÁË7¿ÅÁúÖé",
+				toast = Toast.makeText(MainActivity.this, "ä½ æ”¶é›†åˆ°äº†7é¢—é¾™ç ",
 						Toast.LENGTH_SHORT);
 
 				toast.show();
@@ -943,12 +943,12 @@ public class MainActivity extends ActionBarActivity implements
 								String.valueOf(dragonballnum));
 						editor.commit();
 						if (toast != null) {
-							toast.setText("ÄãÑ¡ÔñÁË²»Ê¹ÓÃ,ÁúÖéÓÖÉ¢ÂäËÄ·½ÁË");
+							toast.setText("ä½ é€‰æ‹©äº†ä¸ä½¿ç”¨,é¾™ç åˆæ•£è½å››æ–¹äº†");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast.makeText(MainActivity.this,
-									"ÄãÑ¡ÔñÁË²»Ê¹ÓÃ,ÁúÖéÓÖÉ¢ÂäËÄ·½ÁË", Toast.LENGTH_SHORT);
+									"ä½ é€‰æ‹©äº†ä¸ä½¿ç”¨,é¾™ç åˆæ•£è½å››æ–¹äº†", Toast.LENGTH_SHORT);
 
 							toast.show();
 						}
@@ -1071,19 +1071,19 @@ public class MainActivity extends ActionBarActivity implements
 			urladd.selectAll();
 		}
 
-		alert.setPositiveButton("½øÈë", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("è¿›å…¥", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
 				String url = urladd.getText().toString().trim();
-				if (StringUtil.isEmpty(url)) {// ¿Õ
+				if (StringUtil.isEmpty(url)) {// ç©º
 					if (toast != null) {
-						toast.setText("ÇëÊäÈëURLµØÖ·");
+						toast.setText("è¯·è¾“å…¥URLåœ°å€");
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
-						toast = Toast.makeText(MainActivity.this, "ÇëÊäÈëURLµØÖ·",
+						toast = Toast.makeText(MainActivity.this, "è¯·è¾“å…¥URLåœ°å€",
 								Toast.LENGTH_SHORT);
 
 						toast.show();
@@ -1099,16 +1099,16 @@ public class MainActivity extends ActionBarActivity implements
 					}
 				} else {
 					if (url.toLowerCase(Locale.US).indexOf("dbmeizi.com") >= 0
-							|| url.indexOf("¶¹°êÃÃ×Ó") >= 0 || url.equals("1024")) {
+							|| url.indexOf("è±†ç“£å¦¹å­") >= 0 || url.equals("1024")) {
 						if (toast != null) {
-							toast.setText("¹§Ï²ÄãÕÒµ½ÁËÒ»ÖÖ·½·¨,ÖªµÀ¾ÍÊÇÖªµÀÁË,²»ÒªÈ¥ÂÛÌ³Ğû´«,×Ô¼ºÓÃ¾ÍĞĞÁË,ÎªÁË¿ª·¢ÕßµÄ°²È«");
+							toast.setText("æ­å–œä½ æ‰¾åˆ°äº†ä¸€ç§æ–¹æ³•,çŸ¥é“å°±æ˜¯çŸ¥é“äº†,ä¸è¦å»è®ºå›å®£ä¼ ,è‡ªå·±ç”¨å°±è¡Œäº†,ä¸ºäº†å¼€å‘è€…çš„å®‰å…¨");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast
 									.makeText(
 											MainActivity.this,
-											"¹§Ï²ÄãÕÒµ½ÁËÒ»ÖÖ·½·¨,ÖªµÀ¾ÍÊÇÖªµÀÁË,²»ÒªÈ¥ÂÛÌ³Ğû´«,×Ô¼ºÓÃ¾ÍĞĞÁË,ÎªÁË¿ª·¢ÕßµÄ°²È«",
+											"æ­å–œä½ æ‰¾åˆ°äº†ä¸€ç§æ–¹æ³•,çŸ¥é“å°±æ˜¯çŸ¥é“äº†,ä¸è¦å»è®ºå›å®£ä¼ ,è‡ªå·±ç”¨å°±è¡Œäº†,ä¸ºäº†å¼€å‘è€…çš„å®‰å…¨",
 											Toast.LENGTH_SHORT);
 
 							toast.show();
@@ -1168,14 +1168,14 @@ public class MainActivity extends ActionBarActivity implements
 							view.getContext().startActivity(intent);
 						} else {
 							if (toast != null) {
-								toast.setText("ÊäÈëµÄµØÖ·²¢·ÇNGAµÄ°å¿éµØÖ·»òÌû×ÓµØÖ·,»òÈ±ÉÙfid/pid/tidĞÅÏ¢,Çë¼ì²éºóÔÙÊÔ");
+								toast.setText("è¾“å…¥çš„åœ°å€å¹¶éNGAçš„æ¿å—åœ°å€æˆ–å¸–å­åœ°å€,æˆ–ç¼ºå°‘fid/pid/tidä¿¡æ¯,è¯·æ£€æŸ¥åå†è¯•");
 								toast.setDuration(Toast.LENGTH_SHORT);
 								toast.show();
 							} else {
 								toast = Toast
 										.makeText(
 												MainActivity.this,
-												"ÊäÈëµÄµØÖ·²¢·ÇNGAµÄ°å¿éµØÖ·»òÌû×ÓµØÖ·,»òÈ±ÉÙfid/pid/tidĞÅÏ¢,Çë¼ì²éºóÔÙÊÔ",
+												"è¾“å…¥çš„åœ°å€å¹¶éNGAçš„æ¿å—åœ°å€æˆ–å¸–å­åœ°å€,æˆ–ç¼ºå°‘fid/pid/tidä¿¡æ¯,è¯·æ£€æŸ¥åå†è¯•",
 												Toast.LENGTH_SHORT);
 
 								toast.show();
@@ -1195,7 +1195,7 @@ public class MainActivity extends ActionBarActivity implements
 			}
 		});
 
-		alert.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -1220,9 +1220,9 @@ public class MainActivity extends ActionBarActivity implements
 			if (showtextbool) {
 				showtextbool = new Random().nextBoolean();
 				if (showtextbool) {
-					toastdata = "MENU¡Á7";
+					toastdata = "MENUÃ—7";
 				} else {
-					toastdata = "¶¹°êÃÃ×Ó";
+					toastdata = "è±†ç“£å¦¹å­";
 				}
 			} else {
 				showtextbool = new Random().nextBoolean();
@@ -1263,7 +1263,7 @@ public class MainActivity extends ActionBarActivity implements
 		final EditText addfid_name = (EditText) view
 				.findViewById(R.id.addfid_name);
 		final EditText addfid_id = (EditText) view.findViewById(R.id.addfid_id);
-		alert.setPositiveButton("Ìí¼Ó", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("æ·»åŠ ", new DialogInterface.OnClickListener() {
 
 			@SuppressWarnings("unused")
 			@Override
@@ -1273,11 +1273,11 @@ public class MainActivity extends ActionBarActivity implements
 				String fid = addfid_id.getText().toString();
 				if (name.equals("")) {
 					if (toast != null) {
-						toast.setText("ÇëÊäÈë°æÃæÃû³Æ");
+						toast.setText("è¯·è¾“å…¥ç‰ˆé¢åç§°");
 						toast.setDuration(Toast.LENGTH_SHORT);
 						toast.show();
 					} else {
-						toast = Toast.makeText(MainActivity.this, "ÇëÊäÈë°æÃæÃû³Æ",
+						toast = Toast.makeText(MainActivity.this, "è¯·è¾“å…¥ç‰ˆé¢åç§°",
 								Toast.LENGTH_SHORT);
 
 						toast.show();
@@ -1305,12 +1305,12 @@ public class MainActivity extends ActionBarActivity implements
 						addfid_id.setText("");
 						addfid_id.setFocusable(true);
 						if (toast != null) {
-							toast.setText("ÇëÊäÈëÕıÈ·µÄ°æÃæID(¸öÈË°æÃæÒª¼Ó¸ººÅ)");
+							toast.setText("è¯·è¾“å…¥æ­£ç¡®çš„ç‰ˆé¢ID(ä¸ªäººç‰ˆé¢è¦åŠ è´Ÿå·)");
 							toast.setDuration(Toast.LENGTH_SHORT);
 							toast.show();
 						} else {
 							toast = Toast.makeText(MainActivity.this,
-									"ÇëÊäÈëÕıÈ·µÄ°æÃæID(¸öÈË°æÃæÒª¼Ó¸ººÅ)", Toast.LENGTH_SHORT);
+									"è¯·è¾“å…¥æ­£ç¡®çš„ç‰ˆé¢ID(ä¸ªäººç‰ˆé¢è¦åŠ è´Ÿå·)", Toast.LENGTH_SHORT);
 
 							toast.show();
 						}
@@ -1334,16 +1334,16 @@ public class MainActivity extends ActionBarActivity implements
 									addfid_id.setText("");
 									addfid_id.setFocusable(true);
 									if (toast != null) {
-										toast.setText("¸Ã°æÃæÒÑ¾­´æÔÚÓÚÁĞ±í");
+										toast.setText("è¯¥ç‰ˆé¢å·²ç»å­˜åœ¨äºåˆ—è¡¨");
 										toast.setDuration(Toast.LENGTH_SHORT);
 										toast.show();
 									} else {
 										toast = Toast.makeText(
 												MainActivity.this,
-												"¸Ã°æÃæÒÑ¾­´æÔÚÓÚÁĞ±í"
+												"è¯¥ç‰ˆé¢å·²ç»å­˜åœ¨äºåˆ—è¡¨"
 														+ boardInfo
 																.getCategoryName(i)
-														+ "ÖĞ",
+														+ "ä¸­",
 												Toast.LENGTH_SHORT);
 
 										toast.show();
@@ -1364,13 +1364,13 @@ public class MainActivity extends ActionBarActivity implements
 						if (!FidAllreadyExist) {
 							addToaddFid(name, fid);
 							if (toast != null) {
-								toast.setText("Ìí¼Ó³É¹¦");
+								toast.setText("æ·»åŠ æˆåŠŸ");
 								toast.setDuration(Toast.LENGTH_SHORT);
 								toast.show();
 							} else {
 								toast = Toast.makeText(MainActivity.this,
-										"Ìí¼Ó³É¹¦" + boardInfo.getCategoryName(i)
-												+ "ÖĞ", Toast.LENGTH_SHORT);
+										"æ·»åŠ æˆåŠŸ" + boardInfo.getCategoryName(i)
+												+ "ä¸­", Toast.LENGTH_SHORT);
 
 								toast.show();
 							}
@@ -1388,7 +1388,7 @@ public class MainActivity extends ActionBarActivity implements
 
 			}
 		});
-		alert.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -1431,7 +1431,7 @@ public class MainActivity extends ActionBarActivity implements
 			}
 			;
 		}
-		if (!addFidAlreadExist) {// Ã»ÓĞ
+		if (!addFidAlreadExist) {// æ²¡æœ‰
 			List<Board> boardList = new ArrayList<Board>();
 			Board b;
 			if (PhoneConfiguration.getInstance().iconmode) {
@@ -1443,7 +1443,7 @@ public class MainActivity extends ActionBarActivity implements
 			saveaddFid(boardList);
 			onResume();
 			pager.setCurrentItem(i+1);
-		} else {// ÓĞÁË
+		} else {// æœ‰äº†
 			Board b;
 			if (PhoneConfiguration.getInstance().iconmode) {
 				b = new Board(i, Fid, Name, R.drawable.oldpdefault);
@@ -1546,7 +1546,7 @@ public class MainActivity extends ActionBarActivity implements
 				Log.e(tag, "invalid fid " + fidString);
 			}
 			if (fid == 0) {
-				String tip = fidString + "¾ø¶Ô²»´æÔÚ";
+				String tip = fidString + "ç»å¯¹ä¸å­˜åœ¨";
 				if (toast != null) {
 					toast.setText(tip);
 					toast.setDuration(Toast.LENGTH_SHORT);
@@ -1669,16 +1669,16 @@ public class MainActivity extends ActionBarActivity implements
 							editor.putString(CAN_SHOW_FULI, "1");
 							editor.commit();
 							setLocItem(11,
-									"ÎÒÒªÁúÖé~ß£~", R.drawable.ic_action_dragon_ball);
+									"æˆ‘è¦é¾™ç ~æ’¸~", R.drawable.ic_action_dragon_ball);
 							if (toast != null) {
-								toast.setText("Äã¸ù±¾²»ÖªµÀ·¢ÉúÁËÊ²Ã´\nÈç¹ûÄãÖªµÀÁË,²»ÒªÈ¥ÂÛÌ³Ğû´«,×Ô¼ºÓÃ¾ÍĞĞÁË,ÎªÁË¿ª·¢ÕßµÄ°²È«");
+								toast.setText("ä½ æ ¹æœ¬ä¸çŸ¥é“å‘ç”Ÿäº†ä»€ä¹ˆ\nå¦‚æœä½ çŸ¥é“äº†,ä¸è¦å»è®ºå›å®£ä¼ ,è‡ªå·±ç”¨å°±è¡Œäº†,ä¸ºäº†å¼€å‘è€…çš„å®‰å…¨");
 								toast.setDuration(Toast.LENGTH_SHORT);
 								toast.show();
 							} else {
 								toast = Toast
 										.makeText(
 												MainActivity.this,
-												"Äã¸ù±¾²»ÖªµÀ·¢ÉúÁËÊ²Ã´\nÈç¹ûÄãÖªµÀÁË,²»ÒªÈ¥ÂÛÌ³Ğû´«,×Ô¼ºÓÃ¾ÍĞĞÁË,ÎªÁË¿ª·¢ÕßµÄ°²È«",
+												"ä½ æ ¹æœ¬ä¸çŸ¥é“å‘ç”Ÿäº†ä»€ä¹ˆ\nå¦‚æœä½ çŸ¥é“äº†,ä¸è¦å»è®ºå›å®£ä¼ ,è‡ªå·±ç”¨å°±è¡Œäº†,ä¸ºäº†å¼€å‘è€…çš„å®‰å…¨",
 												Toast.LENGTH_SHORT);
 
 								toast.show();

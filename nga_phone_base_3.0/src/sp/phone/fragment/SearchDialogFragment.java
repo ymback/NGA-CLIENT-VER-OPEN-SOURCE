@@ -39,7 +39,7 @@ public class SearchDialogFragment extends DialogFragment {
 		view = inflater.inflate(R.layout.search_dialog, null);
         alert.setView(view);  
 		alert.setTitle(R.string.search_hint);
-		alert.setPositiveButton("ËÑË÷", new PositiveOnClickListener());
+		alert.setPositiveButton("æœç´¢", new PositiveOnClickListener());
 		search_topic_button=(RadioButton) view.findViewById(R.id.search_topic);
 		search_topic_button.setChecked(true);
 		withcontent=(CheckBox) view.findViewById(R.id.withcontent);
@@ -55,26 +55,26 @@ public class SearchDialogFragment extends DialogFragment {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				// TODO Auto-generated method stub
 				switch (checkedId) {
-					case R.id.search_topic://ËÑË÷±¾°æÃæÖ÷Ìâ
+					case R.id.search_topic://æœç´¢æœ¬ç‰ˆé¢ä¸»é¢˜
 						input.setHint(R.string.search_dialog_hint);
 						withcontent.setVisibility(View.VISIBLE);
 				break;
-					case R.id.search_alltopic://ËÑË÷È«²¿Ö÷Ìâ
+					case R.id.search_alltopic://æœç´¢å…¨éƒ¨ä¸»é¢˜
 						input.setHint(R.string.search_dialog_hint);
 						withcontent.setVisibility(View.VISIBLE);
 				break ;
-					case R.id.search_user_topic://ËÑË÷ÓÃ»§Ö÷Ìâ
+					case R.id.search_user_topic://æœç´¢ç”¨æˆ·ä¸»é¢˜
 						input.setHint(R.string.search_dialog_hint_topic_reply_byself);
 						withcontent.setVisibility(View.GONE);
 				break ;
-					case R.id.search_user_apply://ËÑË÷ÓÃ»§»Ø¸´
+					case R.id.search_user_apply://æœç´¢ç”¨æˆ·å›å¤
 						input.setHint(R.string.search_dialog_hint_reply_byself);
 						withcontent.setVisibility(View.GONE);
 				}
 			}
 			
 		});
-		alert.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {  
+		alert.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {  
             public void onClick(DialogInterface dialog, int whichButton) {  
                 dialog.dismiss();
             }
@@ -93,7 +93,7 @@ public class SearchDialogFragment extends DialogFragment {
     		if (PhoneConfiguration.getInstance().fullscreen) {
     			intent_search.putExtra("isFullScreen", true);
     		}
-			if(searchradio.getCheckedRadioButtonId() == search_user_topic_button.getId()){//ÓÃ»§Ö÷Ìâ
+			if(searchradio.getCheckedRadioButtonId() == search_user_topic_button.getId()){//ç”¨æˆ·ä¸»é¢˜
 				if(!StringUtil.isEmpty(inputString))
 		    	{
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));
@@ -116,7 +116,7 @@ public class SearchDialogFragment extends DialogFragment {
 		    		}
 		    	}
 	        	
-			} else if(searchradio.getCheckedRadioButtonId() == search_user_apply_button.getId()){//ÓÃ»§»Ø¸´
+			} else if(searchradio.getCheckedRadioButtonId() == search_user_apply_button.getId()){//ç”¨æˆ·å›å¤
 				if(!StringUtil.isEmpty(inputString))
 		    	{
 		    		intent_search.putExtra("fid",getArguments().getInt("id",-7));

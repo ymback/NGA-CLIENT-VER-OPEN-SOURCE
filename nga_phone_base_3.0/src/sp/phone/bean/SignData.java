@@ -4,10 +4,10 @@ import java.util.List;
 
 public class SignData {
 	private String SignResult;
-	private int Uid;//签到ID
-	private int Continued;//连续签到天数
-	private int Sum;//总计签到时间
-	private String Last_time;//上次签到时间
+	private int Uid;//绛惧埌ID
+	private int Continued;//杩炵画绛惧埌澶╂暟
+	private int Sum;//鎬昏绛惧埌鏃堕棿
+	private String Last_time;//涓婃绛惧埌鏃堕棿
 	private int Successrows;
 	private int Availablerows;
 	private int Totalrows;

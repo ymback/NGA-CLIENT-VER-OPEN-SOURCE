@@ -61,7 +61,7 @@ public class WebViewerActivity extends  SwipeBackAppCompatActivity {
 	private void load(){
 		final String uri = getPath();
 		final WebSettings  settings = wv.getSettings(); 
-		getSupportActionBar().setTitle("²é¿´ÄÚÈÝ");
+		getSupportActionBar().setTitle("æŸ¥çœ‹å†…å®¹");
 		
 		if(uri.endsWith(".swf")
 				&& ActivityUtil.isGreaterThan_2_1() )//android 2.2

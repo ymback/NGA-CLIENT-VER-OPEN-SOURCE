@@ -159,7 +159,7 @@ public class TopicListAdapter extends BaseAdapter implements
 		int type=entry.getType();
 		String needadd="";
 		if((type&1024)==1024){
-			needadd+=" [锁定]";
+			needadd+=" [閿佸畾]";
 		}
 		if((type&8192)==8192){
 			needadd+=" +";
@@ -187,12 +187,12 @@ public class TopicListAdapter extends BaseAdapter implements
 
 		SpannableStringBuilder builder = new SpannableStringBuilder(titile);
 		int totallength=titile.length();
-		if((type&8192)==8192&&(type&1024)==1024 && totallength>=6){//均有
+		if((type&8192)==8192&&(type&1024)==1024 && totallength>=6){//鍧囨湁
 			builder.setSpan(picorangeSpan, totallength-1, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
 			builder.setSpan(lockredSpan, totallength-6, totallength-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
-		}else if((type&8192)==8192 && totallength>0){//只有+
+		}else if((type&8192)==8192 && totallength>0){//鍙湁+
 			builder.setSpan(picorangeSpan, totallength-1,totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
-		}else if((type&1024)==1024 && totallength>=4){//只有锁定
+		}else if((type&1024)==1024 && totallength>=4){//鍙湁閿佸畾
 			builder.setSpan(lockredSpan, totallength-4, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); 
 		}
 		if (!StringUtil.isEmpty(entry.getTopicMisc())) {
@@ -233,11 +233,11 @@ public class TopicListAdapter extends BaseAdapter implements
 					if(b.length==5){
 						String miscstring=toBinary(b);
 						String miscstringstart=miscstring.substring(0,8);
-				        BigInteger src1= new BigInteger(miscstringstart,2);//转换为BigInteger类型
+				        BigInteger src1= new BigInteger(miscstringstart,2);//杞崲涓築igInteger绫诲瀷
 				        int d1 = src1.intValue();
 				        if(d1==1){
 				        	String miscstringend=miscstring.substring(8,miscstring.length());
-				            BigInteger src2= new BigInteger(miscstringend,2);//转换为BigInteger类型
+				            BigInteger src2= new BigInteger(miscstringend,2);//杞崲涓築igInteger绫诲瀷
 				            int d2 = src2.intValue();
 				            if ((d2 & _FONT_GREEN)==_FONT_GREEN) {
 								builder.setSpan(greenSpan, 0, titlelength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

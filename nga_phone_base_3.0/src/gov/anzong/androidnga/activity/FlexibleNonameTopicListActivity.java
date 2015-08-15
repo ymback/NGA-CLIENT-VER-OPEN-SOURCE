@@ -62,7 +62,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
 		super.onCreate(arg0);
 		view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity,
 				null);
-		getSupportActionBar().setTitle("´óäöÎĞÄäÃû°æ");
+		getSupportActionBar().setTitle("å¤§æ¼©æ¶¡åŒ¿åç‰ˆ");
 		Intent intent = getIntent();
 		boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
 		if (isfullScreen) {
@@ -176,7 +176,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 
-		if (!dualScreen) {// ·ÇÆ½°å
+		if (!dualScreen) {// éå¹³æ¿
 			if (null == onItemClickNewActivity) {
 				onItemClickNewActivity = new EnterJsonNonameArticle(this);
 			}
@@ -275,7 +275,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
 			FragmentManager fm = getSupportFragmentManager();
 			Fragment f1 = fm.findFragmentById(R.id.item_list);
 			f1.setHasOptionsMenu(true);
-			getSupportActionBar().setTitle("´óäöÎĞÄäÃû°æ");
+			getSupportActionBar().setTitle("å¤§æ¼©æ¶¡åŒ¿åç‰ˆ");
 			guidtmp = "";
 		}
 

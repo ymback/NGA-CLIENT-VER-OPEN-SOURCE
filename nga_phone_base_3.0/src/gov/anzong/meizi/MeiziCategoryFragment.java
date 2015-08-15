@@ -209,7 +209,7 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		if(PhoneConfiguration.getInstance().HandSide==1){//lefthand
 			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if(flag==1 || flag==3||flag==5||flag==7){//ÎÄÕÂÁÐ±í£¬UIFLAGÎª1»òÕß1+2»òÕß1+4»òÕß1+2+4
+			if(flag==1 || flag==3||flag==5||flag==7){//æ–‡ç« åˆ—è¡¨ï¼ŒUIFLAGä¸º1æˆ–è€…1+2æˆ–è€…1+4æˆ–è€…1+2+4
 				inflater.inflate(R.menu.meizi_main_left, menu);
 				}
 			else{
@@ -313,7 +313,7 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
 			transformer.setRefreshingText(ActivityUtil.getSaying());
 		if (attacher != null)
 			attacher.setRefreshing(true);
-	}// ÓÐÐ§
+	}// æœ‰æ•ˆ
 
 	
 	@Override

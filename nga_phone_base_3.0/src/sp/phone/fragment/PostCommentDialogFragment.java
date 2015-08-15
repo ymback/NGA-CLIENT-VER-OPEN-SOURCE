@@ -34,7 +34,7 @@ public class PostCommentDialogFragment extends DialogFragment implements
 		anony = (CheckBox) view.findViewById(R.id.anony);
 		input = (EditText) view.findViewById(R.id.post_data);
 		alert.setTitle(R.string.post_comment);
-		alert.setPositiveButton("·¢ËÍ", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("å‘é€", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				int length = input.getText().toString().length();
 				if (length > 5 && length < 651) {
@@ -50,7 +50,7 @@ public class PostCommentDialogFragment extends DialogFragment implements
 							getActivity(), PostCommentDialogFragment.this)
 							.execute(input.getText().toString());
 				} else {
-					Toast.makeText(getActivity(), "ÌùÌõÄÚÈÝ³¤¶È±ØÐëÔÚ6~650×Ö½Ú·¶Î§ÄÚ",
+					Toast.makeText(getActivity(), "è´´æ¡å†…å®¹é•¿åº¦å¿…é¡»åœ¨6~650å­—èŠ‚èŒƒå›´å†…",
 							Toast.LENGTH_SHORT).show();
 				}
 				try {

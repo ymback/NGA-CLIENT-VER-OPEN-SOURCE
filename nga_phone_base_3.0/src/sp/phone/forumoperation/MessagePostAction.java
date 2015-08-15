@@ -29,7 +29,7 @@ public class MessagePostAction {
 			action_ = action;
 		}
 		public void setTo_(String to){
-			to=to.replaceAll("£¬", ",");
+			to=to.replaceAll("ï¼Œ", ",");
 			to=StringUtil.encodeUrl(to,"GBK");
 			this.to_=to;
 		}

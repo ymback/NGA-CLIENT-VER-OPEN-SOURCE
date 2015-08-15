@@ -63,12 +63,12 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 					f1);
 			// .add(R.id.item_detail_container, f);
 			ft.commit();
-		}// Éú³É×ó±ß
+		}// ç”Ÿæˆå·¦è¾¹
 		Fragment f2 = fm.findFragmentById(R.id.item_mission_container);
 		if (null == f2) {
 			f1.setHasOptionsMenu(true);
 		} else if (!dualScreen) {
-			getSupportActionBar().setTitle("Ç©µ½ÈÎÎñ");
+			getSupportActionBar().setTitle("ç­¾åˆ°ä»»åŠ¡");
 			fm.beginTransaction().remove(f2).commit();
 			f1.setHasOptionsMenu(true);
 		} else {
@@ -129,7 +129,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
-			finish();// ¹Ø±Õactivity
+			finish();// å…³é—­activity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -164,13 +164,13 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
 			FragmentManager fm = getSupportFragmentManager();
 			Fragment f1 = fm.findFragmentById(R.id.sign_list);
 			f1.setHasOptionsMenu(true);
-			getSupportActionBar().setTitle("Ç©µ½ÈÎÎñ");
+			getSupportActionBar().setTitle("ç­¾åˆ°ä»»åŠ¡");
 		}
 
-	}// ÊúÆÁ±äºáÆÁ¾Í¸ÉÕâ¸ö
+	}// ç«–å±å˜æ¨ªå±å°±å¹²è¿™ä¸ª
 
 	@Override
-	public void jsonfinishLoad(SignData result) {// ¸ø×ó±ßSIGNĞÅÏ¢ÓÃµÄ
+	public void jsonfinishLoad(SignData result) {// ç»™å·¦è¾¹SIGNä¿¡æ¯ç”¨çš„
 		Fragment SignContainer = getSupportFragmentManager().findFragmentById(
 				R.id.sign_list);
 
