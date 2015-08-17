@@ -1,12 +1,32 @@
 package gov.anzong.androidnga.activity;
 
-import gov.anzong.androidnga.R;
+import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Environment;
+import android.util.Log;
+
+import com.alibaba.fastjson.JSON;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import gov.anzong.androidnga.R;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.Bookmark;
@@ -17,27 +37,6 @@ import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
-import android.annotation.TargetApi;
-import android.app.ActivityManager;
-import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.ActivityInfo;
-import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
-import android.view.View;
-import android.graphics.Bitmap;
-
-import com.alibaba.fastjson.JSON;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 public class MyApp extends Application implements PerferenceConstant {
 	final private static String TAG = MyApp.class.getSimpleName();
@@ -97,7 +96,7 @@ public class MyApp extends Application implements PerferenceConstant {
 					.defaultDisplayImageOptions(options)
 					.memoryCache(new LruMemoryCache(MEM_CACHE_SIZE))
 					.memoryCacheSize(MEM_CACHE_SIZE)
-					.discCache(new UnlimitedDiscCache(sdCardDir)).build();
+					.discCache(new UnlimitedDiskCache(sdCardDir)).build();
 			ImageLoader.getInstance().init(config);
 		} else {
 			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(

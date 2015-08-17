@@ -1,6 +1,4 @@
-include ':Android-ViewBadger'
 include ':PinterestLikeAdapterView'
-include ':Android-Universal-Image-Loader-Library'
 include ':ActionBar-PullToRefresh'
 include ':Test'
 include ':Appcompat'
