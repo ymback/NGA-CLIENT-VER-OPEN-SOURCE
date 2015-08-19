@@ -2,12 +2,15 @@ apply plugin: 'com.android.library'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.android.support:appcompat-v7:22.2.1'
 }
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
+    defaultConfig {
+        minSdkVersion 10
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'

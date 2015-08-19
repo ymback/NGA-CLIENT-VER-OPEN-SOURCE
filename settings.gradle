@@ -1,7 +1,6 @@
 include ':PinterestLikeAdapterView'
 include ':ActionBar-PullToRefresh'
 include ':Test'
-include ':Appcompat'
 include ':TestSoLibrary'
 include ':PagerSlidingTabStrip'
 include ':SwipeBackLayoutLibrary'

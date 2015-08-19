@@ -11,12 +11,12 @@ buildscript {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':Appcompat')
     compile project(':SwipeBackLayoutLibrary')
     compile project(':PagerSlidingTabStrip')
     compile project(':ActionBar-PullToRefresh')
     compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
+    compile 'com.android.support:support-v4:22.2.1'
 }
 
 android {
