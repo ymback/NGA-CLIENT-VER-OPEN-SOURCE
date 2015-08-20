@@ -21,7 +21,7 @@ public class SwipeBackAppCompatActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mHelper = new SwipeBackActivityHelper(this);
-		mHelper.onActivtyCreate();
+		mHelper.onActivityCreate();
 		if (PhoneConfiguration.getInstance().swipeBack) {
 			final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
 			getSwipeBackLayout().setEdgeSize(

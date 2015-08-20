@@ -1,19 +1,21 @@
 
 package me.imid.swipebacklayout.lib.app;
 
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-public class SwipeBackActivity extends FragmentActivity implements SwipeBackActivityBase{
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.Utils;
+
+public class SwipeBackActivity extends FragmentActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHelper = new SwipeBackActivityHelper(this);
-        mHelper.onActivtyCreate();
+        mHelper.onActivityCreate();
     }
 
     @Override
@@ -29,11 +31,12 @@ public class SwipeBackActivity extends FragmentActivity implements SwipeBackActi
             return mHelper.findViewById(id);
         return v;
     }
-    
+
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
         return mHelper.getSwipeBackLayout();
     }
+
     @Override
     public void setSwipeBackEnable(boolean enable) {
         getSwipeBackLayout().setEnableGesture(enable);
@@ -41,6 +44,7 @@ public class SwipeBackActivity extends FragmentActivity implements SwipeBackActi
 
     @Override
     public void scrollToFinishActivity() {
+        Utils.convertActivityToTranslucent(this);
         getSwipeBackLayout().scrollToFinishActivity();
     }
 }

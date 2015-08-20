@@ -1,4 +1,3 @@
-
 package me.imid.swipebacklayout.lib;
 
 import android.app.Activity;
@@ -14,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SwipeBackLayout extends FrameLayout {
     /**
      * Minimum velocity that will be detected as a fling
@@ -21,6 +23,8 @@ public class SwipeBackLayout extends FrameLayout {
     private static final int MIN_FLING_VELOCITY = 400; // dips per second
 
     private static final int DEFAULT_SCRIM_COLOR = 0x99000000;
+
+    private static final int FULL_ALPHA = 255;
 
     /**
      * Edge flag indicating that the left edge should be affected.
@@ -67,10 +71,12 @@ public class SwipeBackLayout extends FrameLayout {
 
     private static final int OVERSCROLL_DISTANCE = 10;
 
-    private static final int[] EDGE_FLAGS = {EDGE_LEFT, EDGE_RIGHT, EDGE_BOTTOM, EDGE_ALL};
-    
+    private static final int[] EDGE_FLAGS = {
+            EDGE_LEFT, EDGE_RIGHT, EDGE_BOTTOM, EDGE_ALL
+    };
+
     private int mEdgeFlag;
-    
+
     /**
      * Threshold of scroll, we will close the activity, when scrollPercent over
      * this value;
@@ -91,7 +97,10 @@ public class SwipeBackLayout extends FrameLayout {
 
     private int mContentTop;
 
-    private SwipeListener mSwipeListener;
+    /**
+     * The set of listeners to be sent events through.
+     */
+    private List<SwipeListener> mListeners;
 
     private Drawable mShadowLeft;
 
@@ -119,22 +128,26 @@ public class SwipeBackLayout extends FrameLayout {
     public SwipeBackLayout(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.SwipeBackLayoutStyle);
     }
-    
+
     public SwipeBackLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs);
         mDragHelper = ViewDragHelper.create(this, new ViewDragCallback());
-        
-        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.SwipeBackLayout,defStyle,R.style.SwipeBackLayout);
-        
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeBackLayout, defStyle,
+                R.style.SwipeBackLayout);
+
         int edgeSize = a.getDimensionPixelSize(R.styleable.SwipeBackLayout_edge_size, -1);
-        if(edgeSize >0 )
+        if (edgeSize > 0)
             setEdgeSize(edgeSize);
         int mode = EDGE_FLAGS[a.getInt(R.styleable.SwipeBackLayout_edge_flag, 0)];
         setEdgeTrackingEnabled(mode);
-        
-        int shadowLeft = a.getResourceId(R.styleable.SwipeBackLayout_shadow_left, R.drawable.shadow_left);
-        int shadowRight = a.getResourceId(R.styleable.SwipeBackLayout_shadow_right, R.drawable.shadow_right);
-        int shadowBottom = a.getResourceId(R.styleable.SwipeBackLayout_shadow_bottom, R.drawable.shadow_bottom);
+
+        int shadowLeft = a.getResourceId(R.styleable.SwipeBackLayout_shadow_left,
+                R.drawable.shadow_left);
+        int shadowRight = a.getResourceId(R.styleable.SwipeBackLayout_shadow_right,
+                R.drawable.shadow_right);
+        int shadowBottom = a.getResourceId(R.styleable.SwipeBackLayout_shadow_bottom,
+                R.drawable.shadow_bottom);
         setShadow(shadowLeft, EDGE_LEFT);
         setShadow(shadowRight, EDGE_RIGHT);
         setShadow(shadowBottom, EDGE_BOTTOM);
@@ -142,12 +155,23 @@ public class SwipeBackLayout extends FrameLayout {
         final float density = getResources().getDisplayMetrics().density;
         final float minVel = MIN_FLING_VELOCITY * density;
         mDragHelper.setMinVelocity(minVel);
+        mDragHelper.setMaxVelocity(minVel * 2f);
+    }
 
+    /**
+     * Sets the sensitivity of the NavigationLayout.
+     *
+     * @param context     The application context.
+     * @param sensitivity value between 0 and 1, the final value for touchSlop =
+     *                    ViewConfiguration.getScaledTouchSlop * (1 / s);
+     */
+    public void setSensitivity(Context context, float sensitivity) {
+        mDragHelper.setSensitivity(context, sensitivity);
     }
 
     /**
      * Set up contentView which will be moved by user gesture
-     * 
+     *
      * @param view
      */
     private void setContentView(View view) {
@@ -166,7 +190,7 @@ public class SwipeBackLayout extends FrameLayout {
      * {@link me.imid.swipebacklayout.lib.ViewDragHelper.Callback#onEdgeDragStarted(int, int)}
      * methods will only be invoked for edges for which edge tracking has been
      * enabled.
-     * 
+     *
      * @param edgeFlags Combination of edge flags describing the edges to watch
      * @see #EDGE_LEFT
      * @see #EDGE_RIGHT
@@ -180,7 +204,7 @@ public class SwipeBackLayout extends FrameLayout {
     /**
      * Set a color to use for the scrim that obscures primary content while a
      * drawer is open.
-     * 
+     *
      * @param color Color to use in 0xAARRGGBB format.
      */
     public void setScrimColor(int color) {
@@ -192,7 +216,7 @@ public class SwipeBackLayout extends FrameLayout {
      * Set the size of an edge. This is the range in pixels along the edges of
      * this view that will actively detect edge touches or drags if edge
      * tracking is enabled.
-     * 
+     *
      * @param size The size of an edge in pixels
      */
     public void setEdgeSize(int size) {
@@ -202,28 +226,54 @@ public class SwipeBackLayout extends FrameLayout {
     /**
      * Register a callback to be invoked when a swipe event is sent to this
      * view.
-     * 
+     *
+     * @param listener the swipe listener to attach to this view
+     * @deprecated use {@link #addSwipeListener} instead
+     */
+    @Deprecated
+    public void setSwipeListener(SwipeListener listener) {
+        addSwipeListener(listener);
+    }
+
+    /**
+     * Add a callback to be invoked when a swipe event is sent to this view.
+     *
      * @param listener the swipe listener to attach to this view
      */
-    public void setSwipeListener(SwipeListener listener) {
-        mSwipeListener = listener;
+    public void addSwipeListener(SwipeListener listener) {
+        if (mListeners == null) {
+            mListeners = new ArrayList<SwipeListener>();
+        }
+        mListeners.add(listener);
+    }
+
+    /**
+     * Removes a listener from the set of listeners
+     *
+     * @param listener
+     */
+    public void removeSwipeListener(SwipeListener listener) {
+        if (mListeners == null) {
+            return;
+        }
+        mListeners.remove(listener);
     }
 
     public static interface SwipeListener {
         /**
          * Invoke when state change
-         * 
-         * @param state flag to describe scroll state
+         *
+         * @param state         flag to describe scroll state
+         * @param scrollPercent scroll percent of this view
          * @see #STATE_IDLE
          * @see #STATE_DRAGGING
          * @see #STATE_SETTLING
-         * @param scrollPercent scroll percent of this view
          */
         public void onScrollStateChange(int state, float scrollPercent);
 
         /**
          * Invoke when edge touched
-         * 
+         *
          * @param edgeFlag edge flag describing the edge being touched
          * @see #EDGE_LEFT
          * @see #EDGE_RIGHT
@@ -240,7 +290,7 @@ public class SwipeBackLayout extends FrameLayout {
     /**
      * Set scroll threshold, we will close the activity, when scrollPercent over
      * this value
-     * 
+     *
      * @param threshold
      */
     public void setScrollThresHold(float threshold) {
@@ -252,8 +302,8 @@ public class SwipeBackLayout extends FrameLayout {
 
     /**
      * Set a drawable used for edge shadow.
-     * 
-     * @param shadow Drawable to use
+     *
+     * @param shadow    Drawable to use
      * @param edgeFlags Combination of edge flags describing the edge to set
      * @see #EDGE_LEFT
      * @see #EDGE_RIGHT
@@ -272,8 +322,8 @@ public class SwipeBackLayout extends FrameLayout {
 
     /**
      * Set a drawable used for edge shadow.
-     * 
-     * @param resId Resource of drawable to use
+     *
+     * @param resId     Resource of drawable to use
      * @param edgeFlags Combination of edge flags describing the edge to set
      * @see #EDGE_LEFT
      * @see #EDGE_RIGHT
@@ -311,9 +361,9 @@ public class SwipeBackLayout extends FrameLayout {
         if (!mEnable) {
             return false;
         }
-        try{
+        try {
             return mDragHelper.shouldInterceptTouchEvent(event);
-        }catch(ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             // FIXME: handle exception
             // issues #9
             return false;
@@ -332,10 +382,10 @@ public class SwipeBackLayout extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         mInLayout = true;
-        if(mContentView != null)
-        mContentView.layout(mContentLeft, mContentTop,
-                mContentLeft + mContentView.getMeasuredWidth(),
-                mContentTop + mContentView.getMeasuredHeight());
+        if (mContentView != null)
+            mContentView.layout(mContentLeft, mContentTop,
+                    mContentLeft + mContentView.getMeasuredWidth(),
+                    mContentTop + mContentView.getMeasuredHeight());
         mInLayout = false;
     }
 
@@ -349,11 +399,11 @@ public class SwipeBackLayout extends FrameLayout {
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         final boolean drawContent = child == mContentView;
-        drawShadow(canvas, child);
 
         boolean ret = super.drawChild(canvas, child, drawingTime);
         if (mScrimOpacity > 0 && drawContent
                 && mDragHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
+            drawShadow(canvas, child);
             drawScrim(canvas, child);
         }
         return ret;
@@ -381,26 +431,29 @@ public class SwipeBackLayout extends FrameLayout {
         if ((mEdgeFlag & EDGE_LEFT) != 0) {
             mShadowLeft.setBounds(childRect.left - mShadowLeft.getIntrinsicWidth(), childRect.top,
                     childRect.left, childRect.bottom);
+            mShadowLeft.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
             mShadowLeft.draw(canvas);
         }
 
         if ((mEdgeFlag & EDGE_RIGHT) != 0) {
             mShadowRight.setBounds(childRect.right, childRect.top,
                     childRect.right + mShadowRight.getIntrinsicWidth(), childRect.bottom);
+            mShadowRight.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
             mShadowRight.draw(canvas);
         }
 
         if ((mEdgeFlag & EDGE_BOTTOM) != 0) {
             mShadowBottom.setBounds(childRect.left, childRect.bottom, childRect.right,
                     childRect.bottom + mShadowBottom.getIntrinsicHeight());
+            mShadowBottom.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
             mShadowBottom.draw(canvas);
         }
     }
 
     public void attachToActivity(Activity activity) {
         mActivity = activity;
-        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[] {
-            android.R.attr.windowBackground
+        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{
+                android.R.attr.windowBackground
         });
         int background = a.getResourceId(0, 0);
         a.recycle();
@@ -436,8 +489,10 @@ public class SwipeBackLayout extends FrameLayout {
                 } else if (mDragHelper.isEdgeTouched(EDGE_BOTTOM, i)) {
                     mTrackingEdge = EDGE_BOTTOM;
                 }
-                if (mSwipeListener != null) {
-                    mSwipeListener.onEdgeTouch(mTrackingEdge);
+                if (mListeners != null && !mListeners.isEmpty()) {
+                    for (SwipeListener listener : mListeners) {
+                        listener.onEdgeTouch(mTrackingEdge);
+                    }
                 }
                 mIsScrollOverValid = true;
             }
@@ -446,18 +501,21 @@ public class SwipeBackLayout extends FrameLayout {
 
         @Override
         public int getViewHorizontalDragRange(View child) {
-            return 1;
+            return mEdgeFlag & (EDGE_LEFT | EDGE_RIGHT);
         }
 
         @Override
         public int getViewVerticalDragRange(View child) {
-            return 1;
+            return mEdgeFlag & EDGE_BOTTOM;
         }
 
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            if ((mTrackingEdge & (EDGE_LEFT | EDGE_RIGHT)) != 0) {
+            if ((mTrackingEdge & EDGE_LEFT) != 0) {
+                mScrollPercent = Math.abs((float) left
+                        / (mContentView.getWidth() + mShadowLeft.getIntrinsicWidth()));
+            } else if ((mTrackingEdge & EDGE_RIGHT) != 0) {
                 mScrollPercent = Math.abs((float) left
                         / (mContentView.getWidth() + mShadowRight.getIntrinsicWidth()));
             } else if ((mTrackingEdge & EDGE_BOTTOM) != 0) {
@@ -470,15 +528,18 @@ public class SwipeBackLayout extends FrameLayout {
             if (mScrollPercent < mScrollThreshold && !mIsScrollOverValid) {
                 mIsScrollOverValid = true;
             }
-            if (mSwipeListener != null && mDragHelper.getViewDragState() == STATE_DRAGGING
+            if (mListeners != null && !mListeners.isEmpty()
+                    && mDragHelper.getViewDragState() == STATE_DRAGGING
                     && mScrollPercent >= mScrollThreshold && mIsScrollOverValid) {
                 mIsScrollOverValid = false;
-                mSwipeListener.onScrollOverThreshold();
+                for (SwipeListener listener : mListeners) {
+                    listener.onScrollOverThreshold();
+                }
             }
 
             if (mScrollPercent >= 1) {
-                if(!mActivity.isFinishing())
-                mActivity.finish();
+                if (!mActivity.isFinishing())
+                    mActivity.finish();
             }
         }
 
@@ -526,8 +587,10 @@ public class SwipeBackLayout extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
-            if (mSwipeListener != null) {
-                mSwipeListener.onScrollStateChange(state, mScrollPercent);
+            if (mListeners != null && !mListeners.isEmpty()) {
+                for (SwipeListener listener : mListeners) {
+                    listener.onScrollStateChange(state, mScrollPercent);
+                }
             }
         }
     }
