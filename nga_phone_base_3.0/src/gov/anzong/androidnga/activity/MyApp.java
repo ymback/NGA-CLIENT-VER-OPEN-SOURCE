@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import gov.anzong.androidnga.CrashHandler;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
@@ -64,6 +65,11 @@ public class MyApp extends Application implements PerferenceConstant {
 		} else {
 			loadDefaultBoard();
 		}
+
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		// 注册crashHandler
+		crashHandler.init(getApplicationContext());
+
 		super.onCreate();
 	}
 
