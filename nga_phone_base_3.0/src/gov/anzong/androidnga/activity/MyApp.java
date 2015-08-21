@@ -148,7 +148,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.addCategoryName(i, "综合讨论");
 		i++;
 
-		boards.add(new Board(i, "-7", "大漩涡", R.drawable.oldp354));
+		boards.add(new Board(i, "478", "玩家生活", R.drawable.oldp354));
 		boards.add(new Board(i, "-343809", "汽车俱乐部", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-81981", "生命之杯", R.drawable.oldpdefault));
 		boards.add(new Board(i, "-576177", "影音讨论区", R.drawable.oldpdefault));
@@ -381,7 +381,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.addCategoryName(i, "综合讨论");
 		i++;
 
-		boards.add(new Board(i, "-7", "大漩涡", R.drawable.p354));
+		boards.add(new Board(i, "478", "玩家生活", R.drawable.p354));
 		boards.add(new Board(i, "-343809", "汽车俱乐部", R.drawable.p343809));
 		boards.add(new Board(i, "-81981", "生命之杯", R.drawable.p81981));
 		boards.add(new Board(i, "-576177", "影音讨论区", R.drawable.p576177));
