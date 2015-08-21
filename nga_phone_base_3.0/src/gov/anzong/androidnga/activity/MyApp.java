@@ -164,6 +164,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.addCategoryName(i, "大漩涡系列");
 		i++;
 
+		boards.add(new Board(i, "477", "伊利达雷", R.drawable.oldp477));
 		boards.add(new Board(i, "390", "五晨寺", R.drawable.oldp390));
 		boards.add(new Board(i, "320", "黑锋要塞", R.drawable.oldp320));
 		boards.add(new Board(i, "181", "铁血沙场", R.drawable.oldp181));
@@ -396,6 +397,7 @@ public class MyApp extends Application implements PerferenceConstant {
 		boards.addCategoryName(i, "大漩涡系列");
 		i++;
 
+		boards.add(new Board(i, "477", "伊利达雷", R.drawable.oldp477));
 		boards.add(new Board(i, "390", "五晨寺", R.drawable.p390));
 		boards.add(new Board(i, "320", "黑锋要塞", R.drawable.p320));
 		boards.add(new Board(i, "181", "铁血沙场", R.drawable.p181));
