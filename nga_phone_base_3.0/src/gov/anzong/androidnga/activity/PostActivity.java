@@ -42,6 +42,7 @@ import gov.anzong.androidnga.R;
 
 import org.apache.commons.io.IOUtils;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
@@ -81,7 +82,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
 	// private ImageButton button_emotion;
 	Object commit_lock = new Object();
 	private Spinner userList;
-	private String REPLY_URL = "http://bbs.ngacn.cc/post.php?";
+	private String REPLY_URL = Utils.getNGAHost() + "post.php?";
 	final int REQUEST_CODE_SELECT_PIC = 1;
 	private View v;
 	private boolean loading;

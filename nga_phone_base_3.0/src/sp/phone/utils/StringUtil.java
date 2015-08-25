@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.bean.StringFindResult;
 import android.annotation.SuppressLint;
@@ -22,7 +23,6 @@ import android.util.Log;
 
 @SuppressLint("SimpleDateFormat") public class StringUtil {
 	public final static String key = "asdfasdf";
-	private final static String HOST = "http://bbs.ngacn.cc/";
 	private static final String lesserNukeStyle = "<div style='border:1px solid #B63F32;margin:10px 10px 10px 10px;padding:10px' > <span style='color:#EE8A9E'>用户因此贴被暂时禁言，此效果不会累加</span><br/>";
 	private static final String styleAlignRight = "<div style='text-align:right' >";
 	private static final String styleAlignLeft = "<div style='text-align:left' >";
@@ -329,11 +329,11 @@ import android.util.Log;
 		s = s.replaceAll(
 				ignoreCaseTag
 						+ "\\[b\\]Reply to \\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\] (.+?)\\[/b\\]",
-				"[quote]Reply to [b]<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a> $4[/b][/quote]");
+				"[quote]Reply to [b]<a href='"+Utils.getNGAHost()+"read.php?pid=$1' style='font-weight: bold;'>[Reply]</a> $4[/b][/quote]");
 
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
-				"<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
+				"<a href='"+Utils.getNGAHost()+"read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
 
 		s = s.replaceAll(
 				ignoreCaseTag + "={3,}((^=){0,}(.*?){0,}(^=){0,})={3,}",
@@ -355,7 +355,7 @@ import android.util.Log;
 		s = s.replaceAll(ignoreCaseTag + "\\[tid=\\d+\\]Topic\\[/pid\\]",
 				"Topic");
 		s = s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\]Topic\\[/tid\\]",
-				"<a href='http://bbs.ngacn.cc/read.php?tid=$1' style='font-weight: bold;'>[Topic]</a>");
+				"<a href='"+Utils.getNGAHost()+"read.php?tid=$1' style='font-weight: bold;'>[Topic]</a>");
 		// reply
 		// s =
 		// s.replaceAll("\\[b\\]Reply to \\[pid=\\d+\\]Reply\\[/pid\\] (Post by .+ \\(\\d{4,4}-\\d\\d-\\d\\d \\d\\d:\\d\\d\\))\\[/b\\]"
@@ -401,25 +401,25 @@ import android.util.Log;
 				+ "\\[uid=?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
 		s = s.replaceAll(
 				ignoreCaseTag + "Post by\\s{0,}([^\\[\\s]{1,})\\s{0,}\\(",
-				"Post by <a href='http://bbs.ngacn.cc/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
+				"Post by <a href='"+Utils.getNGAHost()+"nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[@(.{2,20}?)\\]",
-				"<a href='http://bbs.ngacn.cc/nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
+				"<a href='"+Utils.getNGAHost()+"nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
 		s = s.replaceAll(ignoreCaseTag 
 				+ "\\[uid=-?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
 		s = s.replaceAll(ignoreCaseTag
 				+ "\\[hip\\](.+?)\\[\\/hip\\]",
 				"$1");
 		s= s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\](.+?)\\[/tid\\]",
-				"<a href='http://bbs.ngacn.cc/read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
+				"<a href='"+Utils.getNGAHost()+"read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
 		s = s.replaceAll(
 				ignoreCaseTag
 						+ "\\[pid=(.+?)\\]\\[/pid\\]",
-				"<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
+				"<a href='"+Utils.getNGAHost()+"read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
 		s = s.replaceAll(
 				ignoreCaseTag
 						+ "\\[pid=(.+?)\\](.+?)\\[/pid\\]",
-				"<a href='http://bbs.ngacn.cc/read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
+				"<a href='"+Utils.getNGAHost()+"read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
 		// flash
 		s = s.replaceAll(
 				ignoreCaseTag + "\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
@@ -604,20 +604,6 @@ import android.util.Log;
 		s = s.replaceAll("<br/><br/>", "\n");
 		s = s.replaceAll("<br/>", "\n");
 		return s;
-	}
-
-	/**
-	 * 处理URL
-	 * 
-	 * @param url
-	 * @return
-	 */
-	public static String doURL(String url) {
-		if (!url.startsWith(HOST)) {
-			return HOST + url;
-		} else {
-			return url;
-		}
 	}
 
 	public static String getSaying() {

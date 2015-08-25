@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
 import sp.phone.bean.PerferenceConstant;
@@ -343,7 +344,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
-			String shareUrl = "http://bbs.ngacn.cc/read.php?";
+			String shareUrl = Utils.getNGAHost() + "read.php?";
 			if (this.pid != 0) {
 				shareUrl = shareUrl + "pid=" + this.pid + " (分享自NGA安卓客户端开源版)";
 			} else {

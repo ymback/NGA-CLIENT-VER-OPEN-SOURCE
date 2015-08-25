@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnPostCommentFinishedListener;
 import sp.phone.utils.PhoneConfiguration;
@@ -25,7 +26,7 @@ public class PostCommentTask extends AsyncTask<String, Integer, String> {
 	private final String prefix;
 	int anonymode;
 	boolean success;
-	private static final String postCommentUri = "http://bbs.ngacn.cc/post.php";
+	private static final String postCommentUri = Utils.getNGAHost() + "post.php";
 	final private FragmentActivity fragmentActivity;
 	OnPostCommentFinishedListener notifier;
 

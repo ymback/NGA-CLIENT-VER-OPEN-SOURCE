@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
@@ -45,7 +46,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 		String uri = params[0];
 		String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
         boolean filter = false;
-        final  String greatSeaUri = "http://bbs.ngacn.cc/thread.php?fid=-7&page=1&lite=js&noprefix";
+        final  String greatSeaUri = Utils.getNGAHost() + "thread.php?fid=-7&page=1&lite=js&noprefix";
         if(greatSeaUri.equals(uri)){
             filter = true;
         }

@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 
 import org.apache.commons.io.IOUtils;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -59,7 +60,7 @@ public final class ProxyBridge {
 			protected String doInBackground(String... params) {
 				if(StringUtil.isEmpty(params[0]))
 					return "选择错误";
-				String url="http://bbs.ngacn.cc/nuke.php?"+params[0];
+				String url= Utils.getNGAHost() + "nuke.php?"+params[0];
 				HttpPostClient c =  new HttpPostClient(url);
 				String cookie = PhoneConfiguration.getInstance().getCookie();
 				c.setCookie(cookie);

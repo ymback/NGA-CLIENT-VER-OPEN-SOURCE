@@ -38,6 +38,7 @@ import org.apache.commons.io.IOUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.SignPostAction;
@@ -68,7 +69,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
 	// private ImageButton button_upload;
 	// private ImageButton button_emotion;
 	Object commit_lock = new Object();
-	private String REPLY_URL = "http://bbs.ngacn.cc/nuke.php?";
+	private String REPLY_URL = Utils.getNGAHost() + "nuke.php?";
 	final int REQUEST_CODE_SELECT_PIC = 1;
 	private View v;
 	private boolean loading;

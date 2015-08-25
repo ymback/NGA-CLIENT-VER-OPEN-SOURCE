@@ -1,5 +1,6 @@
 package sp.phone.utils;
 
+import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class UploadCookieCollector {
 	private static final String LOG_TAG = UploadCookieCollector.class.getSimpleName();
 	private Map<String,String> ConcernCookies ;
 	//static final String collectURL = "http://bbs.ngacn.cc/nuke.php";
-	static final String collectURL = "http://bbs.ngacn.cc/nuke.php";
+	static final String collectURL = Utils.getNGAHost() + "nuke.php";
 	public UploadCookieCollector(){
 		ConcernCookies = new HashMap<String,String>();
 		ConcernCookies.put("ngacn0comUserInfo=", null);

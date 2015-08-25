@@ -6,6 +6,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
@@ -39,7 +40,7 @@ public class JsonProfileLoadTask extends
 	protected ProfileData doInBackground(String... params) {
 		if (params.length == 0)
 			return null;
-		url = "http://bbs.ngacn.cc/nuke.php?__lib=ucp&__act=get&lite=js&noprefix&"
+		url = Utils.getNGAHost() + "nuke.php?__lib=ucp&__act=get&lite=js&noprefix&"
 				+ params[0];
 
 		Log.d(TAG, "start to load:" + url);

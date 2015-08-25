@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
 import gov.anzong.meizi.MeiziMainActivity;
 
 import java.io.File;
@@ -1129,7 +1130,7 @@ public class MainActivity extends ActionBarActivity implements
 							url = url
 									.replaceAll(
 											"(?i)[^\\[|\\]]+fid=(-{0,1}\\d+)[^\\[|\\]]{0,}",
-											"http://bbs.ngacn.cc/thread.php?fid=$1");
+											Utils.getNGAHost() + "thread.php?fid=$1");
 							Intent intent = new Intent();
 							intent.setData(Uri.parse(url));
 							intent.setClass(view.getContext(),
@@ -1142,24 +1143,24 @@ public class MainActivity extends ActionBarActivity implements
 									url = url
 											.replaceAll(
 													"(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}",
-													"http://bbs.ngacn.cc/read.php?pid=$2&tid=$1");
+													Utils.getNGAHost() + "read.php?pid=$2&tid=$1");
 								else
 									url = url
 											.replaceAll(
 													"(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}",
-													"http://bbs.ngacn.cc/read.php?pid=$1&tid=$2");
+													Utils.getNGAHost() + "read.php?pid=$1&tid=$2");
 							} else if (url.indexOf("tid") > 0
 									&& url.indexOf("pid") <= 0) {
 								url = url
 										.replaceAll(
 												"(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}",
-												"http://bbs.ngacn.cc/read.php?tid=$1");
+												Utils.getNGAHost() + "read.php?tid=$1");
 							} else if (url.indexOf("pid") > 0
 									&& url.indexOf("tid") <= 0) {
 								url = url
 										.replaceAll(
 												"(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}",
-												"http://bbs.ngacn.cc/read.php?pid=$1");
+												Utils.getNGAHost() + "read.php?pid=$1");
 							}
 							Intent intent = new Intent();
 							intent.setData(Uri.parse(url));

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import gov.anzong.androidnga.Utils;
 import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonameReadResponse;
 
@@ -32,7 +33,7 @@ import android.util.Log;
 public class JsonCleanRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PerferenceConstant {
 	static final String TAG = JsonCleanRecentNotifierLoadTask.class.getSimpleName();
 	final private Context context;
-	final String url = "http://bbs.ngacn.cc/nuke.php?__lib=noti&raw=3&__act=del";
+	final String url = Utils.getNGAHost() + "nuke.php?__lib=noti&raw=3&__act=del";
 
 	public JsonCleanRecentNotifierLoadTask(Context context) {
 		super();

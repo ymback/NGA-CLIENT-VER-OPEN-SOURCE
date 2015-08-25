@@ -1,6 +1,8 @@
 package sp.phone.fragment;
 
 import java.util.Set;
+
+import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ArticleListAdapter;
@@ -705,7 +707,7 @@ public class ArticleListFragment extends Fragment implements
 		case R.id.item_share:
 			intent.setAction(Intent.ACTION_SEND);
 			intent.setType("text/plain");
-			String shareUrl = "http://bbs.ngacn.cc/read.php?";
+			String shareUrl = Utils.getNGAHost() + "read.php?";
 			if (row.getPid() != 0) {
 				shareUrl = shareUrl + "pid=" + row.getPid()
 						+ " (分享自NGA安卓客户端开源版)";

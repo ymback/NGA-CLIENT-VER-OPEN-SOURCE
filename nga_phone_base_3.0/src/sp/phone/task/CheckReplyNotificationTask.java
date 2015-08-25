@@ -1,5 +1,6 @@
 package sp.phone.task;
 
+import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.ReplyListActivity;
 import gov.anzong.androidnga.R;
@@ -35,7 +36,7 @@ import com.alibaba.fastjson.JSONObject;
 
 public class CheckReplyNotificationTask extends
 		AsyncTask<String, Integer, String> implements PerferenceConstant {
-	final String url = "http://bbs.ngacn.cc/nuke.php?__lib=noti&raw=3&__act=get_all";
+	final String url = Utils.getNGAHost() + "nuke.php?__lib=noti&raw=3&__act=get_all";
 	final Context context;
 	final String TAG = getClass().getSimpleName();
 

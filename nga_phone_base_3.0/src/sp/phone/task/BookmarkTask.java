@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 
 import org.apache.commons.io.IOUtils;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -15,10 +16,10 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 public class BookmarkTask extends AsyncTask<String, Integer, String> {
-	//String url = "http://bbs.ngacn.cc/nuke.php?func=topicfavor&action=del";
+	//String url = Utils.getNGAHost() + "nuke.php?func=topicfavor&action=del";
 	//post tidarray:3092111
 	private Context context;
-	private final String url = "http://bbs.ngacn.cc/nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=add&tid=";
+	private final String url = Utils.getNGAHost() + "nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=add&tid=";
 	
 	
 	
