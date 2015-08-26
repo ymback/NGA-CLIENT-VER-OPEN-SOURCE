@@ -12,34 +12,35 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class ThreadFragmentAdapter extends FragmentStatePagerAdapter 
-implements OnPageChangeListener {
+public class ThreadFragmentAdapter extends FragmentStatePagerAdapter
+        implements OnPageChangeListener {
 
-	private int pageCount=1;
-	private Bundle arguments = new Bundle();
-	private final Context mContext;
-	private final Class<?> clss;
+    private final Context mContext;
+    private final Class<?> clss;
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-	
-	public ThreadFragmentAdapter(FragmentActivity activity,
-			FragmentManager fm,
-			ViewPager pager,
-			Class<?> FragmentClass) {
-		super(fm);
-		mContext = activity;
-		this.clss = FragmentClass;
-		pager.setOnPageChangeListener(this);
-		pager.setAdapter(this);
-	}
+    private int pageCount = 1;
+    private Bundle arguments = new Bundle();
+    private Toast lastToast = null;
 
-	@Override
-	public Fragment getItem(int position) {
-		Bundle args = new Bundle(arguments);
-		args.putInt("page", position);
-		Fragment f = Fragment.instantiate(mContext, clss.getName(), args);
-		
-		return f;
-	}
+    public ThreadFragmentAdapter(FragmentActivity activity,
+                                 FragmentManager fm,
+                                 ViewPager pager,
+                                 Class<?> FragmentClass) {
+        super(fm);
+        mContext = activity;
+        this.clss = FragmentClass;
+        pager.setOnPageChangeListener(this);
+        pager.setAdapter(this);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        Bundle args = new Bundle(arguments);
+        args.putInt("page", position);
+        Fragment f = Fragment.instantiate(mContext, clss.getName(), args);
+
+        return f;
+    }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
@@ -50,7 +51,7 @@ implements OnPageChangeListener {
     public Fragment getRegisteredFragment(int position) {
         return registeredFragments.get(position);
     }
-    
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
@@ -58,47 +59,45 @@ implements OnPageChangeListener {
         return fragment;
     }
 
-	@Override
-	public int getCount() {
+    @Override
+    public int getCount() {
 
-		return pageCount;
-	}
-	
-	public void setCount(int pageCount){
-		this.pageCount = pageCount;
-		this.notifyDataSetChanged();
-	}
-	
-	public void setArgument(String key, int value){
-		arguments.putInt(key, value);
-	}
-	
-	public void setArgument(String key, String value){
-		arguments.putString(key, value);
-	}
+        return pageCount;
+    }
 
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
+    public void setCount(int pageCount) {
+        this.pageCount = pageCount;
+        this.notifyDataSetChanged();
+    }
 
-		
-	}
+    public void setArgument(String key, int value) {
+        arguments.putInt(key, value);
+    }
 
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		
-	}
+    public void setArgument(String key, String value) {
+        arguments.putString(key, value);
+    }
 
-	private Toast lastToast = null;
-	@Override
-	public void onPageSelected(int arg0) {
-		if(lastToast != null)
-			lastToast.cancel();
-		lastToast = 
-		Toast.makeText(mContext, ""+ (arg0+1) + "/" + pageCount, Toast.LENGTH_SHORT);
-		lastToast.show();
-		
-	}
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
 
+
+    }
+
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+    }
+
+    @Override
+    public void onPageSelected(int arg0) {
+        if (lastToast != null)
+            lastToast.cancel();
+        lastToast =
+                Toast.makeText(mContext, "" + (arg0 + 1) + "/" + pageCount, Toast.LENGTH_SHORT);
+        lastToast.show();
+
+    }
 
 
 }

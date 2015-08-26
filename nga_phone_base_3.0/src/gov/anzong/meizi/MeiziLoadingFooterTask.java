@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import gov.anzong.androidnga.R;
 
 public class MeiziLoadingFooterTask {
@@ -21,13 +22,9 @@ public class MeiziLoadingFooterTask {
     private Button mRetryButton;
 
     @SuppressWarnings("unused")
-	private long mAnimationDuration;
+    private long mAnimationDuration;
 
     private ReloadListener mReloadListener;
-
-    public static enum State {
-        Idle, TheEnd, Loading, Error
-    }
 
     public MeiziLoadingFooterTask(Context context, ReloadListener listener) {
         mLoadingFooter = LayoutInflater.from(context).inflate(R.layout.loading_footer, null);
@@ -53,16 +50,6 @@ public class MeiziLoadingFooterTask {
 
     public State getState() {
         return mState;
-    }
-
-    public void setState(final State state, long delay) {
-        mLoadingFooter.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                setState(state);
-            }
-        }, delay);
     }
 
     public void setState(State status) {
@@ -96,6 +83,16 @@ public class MeiziLoadingFooterTask {
         }
     }
 
+    public void setState(final State state, long delay) {
+        mLoadingFooter.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                setState(state);
+            }
+        }, delay);
+    }
+
     public void registerReloadListener(ReloadListener listener) {
         mReloadListener = listener;
         mRetryButton.setOnClickListener(new OnClickListener() {
@@ -107,6 +104,10 @@ public class MeiziLoadingFooterTask {
                 }
             }
         });
+    }
+
+    public static enum State {
+        Idle, TheEnd, Loading, Error
     }
 
     public static interface ReloadListener {

@@ -1,11 +1,10 @@
-
 package gov.anzong.meizi;
 
 /**
  * Every single topic(or a single pic in the main page) should be regarded as a
  * MeiziM. Based on the field doubanPosterurl, different MeiziM could be of the
  * same DoubanPoster. But right now, I haven't taken care of this yet.
- * 
+ *
  * @author Norman
  */
 public class MeiziUrlData {

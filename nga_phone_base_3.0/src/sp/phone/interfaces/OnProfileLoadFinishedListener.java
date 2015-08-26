@@ -4,7 +4,7 @@ import sp.phone.bean.ProfileData;
 
 public interface OnProfileLoadFinishedListener {
 
-	void jsonfinishLoad(ProfileData result);
+    void jsonfinishLoad(ProfileData result);
 
 
 }

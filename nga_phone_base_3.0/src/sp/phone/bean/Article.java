@@ -2,14 +2,14 @@ package sp.phone.bean;
 
 public class Article {
 
-//	private int id;
-	private String title;//
-	private String content;//
-	private int floor;//
-	private String lastTime;//
-	private String url;//
-//	private int isTopic;//
-	private User user;//
+    //	private int id;
+    private String title;//
+    private String content;//
+    private int floor;//
+    private String lastTime;//
+    private String url;//
+    //	private int isTopic;//
+    private User user;//
 
 //	public int getId() {
 //		return id;
@@ -19,53 +19,53 @@ public class Article {
 //		this.id = id;
 //	}
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public int getFloor() {
-		return floor;
-	}
+    public int getFloor() {
+        return floor;
+    }
 
-	public void setFloor(int floor) {
-		this.floor = floor;
-	}
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
 
-	public String getLastTime() {
-		return lastTime;
-	}
+    public String getLastTime() {
+        return lastTime;
+    }
 
-	public void setLastTime(String lastTime) {
-		this.lastTime = lastTime;
-	}
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }
 

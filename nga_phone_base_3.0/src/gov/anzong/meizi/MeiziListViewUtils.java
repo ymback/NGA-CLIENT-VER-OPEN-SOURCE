@@ -1,8 +1,8 @@
 package gov.anzong.meizi;
 
-import com.huewu.pla.lib.MultiColumnListView;
-
 import android.os.Build.VERSION;
+
+import com.huewu.pla.lib.MultiColumnListView;
 
 public class MeiziListViewUtils {
     private MeiziListViewUtils() {
@@ -11,7 +11,7 @@ public class MeiziListViewUtils {
 
     /**
      * 滚动列表到顶端
-     * 
+     *
      * @param listView
      */
     public static void smoothScrollListViewToTop(final MultiColumnListView listView) {
@@ -30,7 +30,7 @@ public class MeiziListViewUtils {
 
     /**
      * 滚动列表到position
-     * 
+     *
      * @param listView
      * @param position
      * @param offset

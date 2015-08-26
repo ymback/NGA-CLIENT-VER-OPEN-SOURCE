@@ -1,4 +1,3 @@
-
 package gov.anzong.meizi;
 
 import java.text.ParseException;
@@ -13,7 +12,7 @@ public class MeiziDateUtil {
 
     /**
      * should be yyyy-MM-dd HH:mm:ss, or throws exception
-     * 
+     *
      * @param dateString
      * @return
      * @throws ParseException

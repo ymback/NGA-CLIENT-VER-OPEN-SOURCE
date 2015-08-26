@@ -1,4 +1,3 @@
-
 package gov.anzong.meizi;
 
 public abstract class MeiziHtmlDecoderBase<T> {

@@ -1,10 +1,5 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.R;
-import sp.phone.adapter.BoardCatagoryAdapter;
-import sp.phone.interfaces.PageCategoryOwnner;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,85 +12,91 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
+import gov.anzong.androidnga.R;
+import sp.phone.adapter.BoardCatagoryAdapter;
+import sp.phone.interfaces.PageCategoryOwnner;
+import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ThemeManager;
+
 public class BoardPagerFragment extends Fragment {
-	private static final String TAG = BoardPagerFragment.class.getSimpleName();
-	int category;
-	GridView listview;
-	BaseAdapter adapter;
+    private static final String TAG = BoardPagerFragment.class.getSimpleName();
+    int category;
+    GridView listview;
+    BaseAdapter adapter;
 
-	// View v;
-	public static Fragment newInstance(int category) {
-		Fragment f = new BoardPagerFragment();
-		Bundle args = new Bundle();
-		args.putInt("category", category);
-		f.setArguments(args);
-		return f;
+    // View v;
+    public static Fragment newInstance(int category) {
+        Fragment f = new BoardPagerFragment();
+        Bundle args = new Bundle();
+        args.putInt("category", category);
+        f.setArguments(args);
+        return f;
 
-	}
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-		category = getArguments() != null ? getArguments().getInt("category")
-				: 0;
-	}
+        super.onCreate(savedInstanceState);
+        category = getArguments() != null ? getArguments().getInt("category")
+                : 0;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		
-		listview = (GridView) inflater.inflate(R.layout.category_grid,
-				container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		if (PhoneConfiguration.getInstance().showAnimation) {
-			LayoutAnimationController anim = AnimationUtils
-					.loadLayoutAnimation(this.getActivity(),
-							R.anim.grid_wave_scale);
-			listview.setLayoutAnimation(anim);
-		}
-		listview.setBackgroundResource(ThemeManager.getInstance()
-				.getBackgroundColor());
+        listview = (GridView) inflater.inflate(R.layout.category_grid,
+                container, false);
 
-		return listview;
-	}
+        if (PhoneConfiguration.getInstance().showAnimation) {
+            LayoutAnimationController anim = AnimationUtils
+                    .loadLayoutAnimation(this.getActivity(),
+                            R.anim.grid_wave_scale);
+            listview.setLayoutAnimation(anim);
+        }
+        listview.setBackgroundResource(ThemeManager.getInstance()
+                .getBackgroundColor());
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		OnItemClickListener listener = null;
-		try {
-			listener = (OnItemClickListener) getActivity();
-		} catch (ClassCastException e) {
-			Log.e(TAG,
-					"activty should implements "
-							+ OnItemClickListener.class.getSimpleName());
-		}
+        return listview;
+    }
 
-		listview.setOnItemClickListener(listener);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        OnItemClickListener listener = null;
+        try {
+            listener = (OnItemClickListener) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG,
+                    "activty should implements "
+                            + OnItemClickListener.class.getSimpleName());
+        }
 
-		PageCategoryOwnner pageCategoryOwnner = null;
-		try {
+        listview.setOnItemClickListener(listener);
 
-			pageCategoryOwnner = (PageCategoryOwnner) getActivity();
-		} catch (ClassCastException e) {
-			Log.e(TAG, "father activity does not implements interface "
-					+ PageCategoryOwnner.class.getName());
+        PageCategoryOwnner pageCategoryOwnner = null;
+        try {
 
-		}
+            pageCategoryOwnner = (PageCategoryOwnner) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "father activity does not implements interface "
+                    + PageCategoryOwnner.class.getName());
 
-		adapter = new BoardCatagoryAdapter(getResources(), getActivity()
-				.getLayoutInflater(), pageCategoryOwnner.getCategory(category));
+        }
 
-		listview.setAdapter(adapter);
+        adapter = new BoardCatagoryAdapter(getResources(), getActivity()
+                .getLayoutInflater(), pageCategoryOwnner.getCategory(category));
 
-	}
+        listview.setAdapter(adapter);
 
-	@Override
-	public void onResume() {
-		listview.setBackgroundResource(ThemeManager.getInstance()
-				.getBackgroundColor());
-		super.onResume();
-	}
+    }
+
+    @Override
+    public void onResume() {
+        listview.setBackgroundResource(ThemeManager.getInstance()
+                .getBackgroundColor());
+        super.onResume();
+    }
 
 }

@@ -1,6 +1,6 @@
 package sp.phone.interfaces;
 
 public interface ResetableMessageArticle {
-	void reset(int mid);
+    void reset(int mid);
 
 }

@@ -1,11 +1,15 @@
 package sp.phone.utils;
 
 import java.io.UnsupportedEncodingException;
+
 /**
  * Created by Administrator on 13-12-3.
  */
 public class UriEncoderWithCharset {
-    public static String encode(String s,String allow, String charset) {
+    private final static int NOT_FOUND = -1;
+    private static final char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
+
+    public static String encode(String s, String allow, String charset) {
         if (s == null) {
             return null;
         }
@@ -66,12 +70,12 @@ public class UriEncoderWithCharset {
             // '%'-escaped octets.
             String toEncode = s.substring(current, nextAllowed);
 
-           try {
-               toEncode = toEncode + "[[[[";// getBytes("gbk") will return incorrect value if end with chinese character
-               //confirmed by google employee and will be fixed in android 4.4.2
-               byte[] bytes = toEncode.getBytes(charset);
-               int bytesLength = bytes.length;
-               bytesLength -= 4;
+            try {
+                toEncode = toEncode + "[[[[";// getBytes("gbk") will return incorrect value if end with chinese character
+                //confirmed by google employee and will be fixed in android 4.4.2
+                byte[] bytes = toEncode.getBytes(charset);
+                int bytesLength = bytes.length;
+                bytesLength -= 4;
                 for (int i = 0; i < bytesLength; i++) {
                     encoded.append('%');
                     encoded.append(HEX_DIGITS[(bytes[i] & 0xf0) >> 4]);
@@ -87,8 +91,7 @@ public class UriEncoderWithCharset {
         // Encoded could still be null at this point if s is empty.
         return encoded == null ? s : encoded.toString();
     }
-    private final static int NOT_FOUND = -1;
-    private static final char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
+
     private static boolean isAllowed(char c, String allow) {
         return (c >= 'A' && c <= 'Z')
                 || (c >= 'a' && c <= 'z')

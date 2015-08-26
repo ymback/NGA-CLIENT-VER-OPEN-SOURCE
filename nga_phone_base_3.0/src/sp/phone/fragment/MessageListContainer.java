@@ -1,21 +1,5 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.activity.MainActivity;
-import gov.anzong.androidnga.R;
-import sp.phone.adapter.AppendableMessageAdapter;
-import sp.phone.bean.MessageListInfo;
-import sp.phone.bean.PerferenceConstant;
-import sp.phone.interfaces.NextJsonMessageListLoader;
-import sp.phone.interfaces.OnMessageListLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.task.JsonMessageListLoadTask;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -33,289 +17,300 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.MainActivity;
+import sp.phone.adapter.AppendableMessageAdapter;
+import sp.phone.bean.MessageListInfo;
+import sp.phone.bean.PerferenceConstant;
+import sp.phone.interfaces.NextJsonMessageListLoader;
+import sp.phone.interfaces.OnMessageListLoadFinishedListener;
+import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.task.JsonMessageListLoadTask;
+import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.HttpUtil;
+import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.StringUtil;
+import sp.phone.utils.ThemeManager;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
+
 public class MessageListContainer extends Fragment implements
-		OnMessageListLoadFinishedListener, NextJsonMessageListLoader,PerferenceConstant {
-	final String TAG = MessageListContainer.class.getSimpleName();
-	static final int MESSAGE_SENT = 1;
+        OnMessageListLoadFinishedListener, NextJsonMessageListLoader, PerferenceConstant {
+    static final int MESSAGE_SENT = 1;
+    final String TAG = MessageListContainer.class.getSimpleName();
+    PullToRefreshAttacher attacher = null;
+    AppendableMessageAdapter adapter;
+    boolean canDismiss = true;
+    int category = 0;
+    OnMessagelistContainerListener mCallback;
+    private ListView listView;
+    private ViewGroup mcontainer;
 
-	PullToRefreshAttacher attacher = null;
-	private ListView listView;
-	AppendableMessageAdapter adapter;
-	boolean canDismiss = true;
-	int category = 0;
-	private ViewGroup mcontainer; 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            category = savedInstanceState.getInt("category", 0);
+        }
+        mcontainer = container;
+        if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+            if (mcontainer != null)
+                mcontainer.setBackgroundResource(R.color.night_bg_color);
+        }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			category = savedInstanceState.getInt("category", 0);
-		}
-		mcontainer = container;
-		if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-		if(mcontainer!=null)
-			mcontainer.setBackgroundResource(R.color.night_bg_color);
-		}
+        try {
+            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
+            attacher = attacherOnwer.getAttacher();
 
-		try {
-			PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
-			attacher = attacherOnwer.getAttacher();
+        } catch (ClassCastException e) {
+            Log.e(TAG,
+                    "father activity should implement PullToRefreshAttacherOnwer");
+        }
 
-		} catch (ClassCastException e) {
-			Log.e(TAG,
-					"father activity should implement PullToRefreshAttacherOnwer");
-		}
+        listView = new ListView(getActivity());
+        listView.setDivider(null);
+        adapter = new AppendableMessageAdapter(this.getActivity(), attacher, this);
+        listView.setAdapter(adapter);
+        // mPullRefreshListView.setAdapter(adapter);
+        try {
+            OnItemClickListener listener = (OnItemClickListener) getActivity();
+            // mPullRefreshListView.setOnItemClickListener(listener);
+            listView.setOnItemClickListener(listener);
+        } catch (ClassCastException e) {
+            Log.e(TAG, "father activity should implenent OnItemClickListener");
+        }
 
-		listView = new ListView(getActivity());
-		listView.setDivider(null);
-		adapter = new AppendableMessageAdapter(this.getActivity(), attacher, this);
-		listView.setAdapter(adapter);
-		// mPullRefreshListView.setAdapter(adapter);
-		try {
-			OnItemClickListener listener = (OnItemClickListener) getActivity();
-			// mPullRefreshListView.setOnItemClickListener(listener);
-			listView.setOnItemClickListener(listener);
-		} catch (ClassCastException e) {
-			Log.e(TAG, "father activity should implenent OnItemClickListener");
-		}
+        // mPullRefreshListView.setOnRefreshListener(new
+        // ListRefreshListener());\
+        if (attacher != null)
+            attacher.addRefreshableView(listView, new ListRefreshListener());
 
-		// mPullRefreshListView.setOnRefreshListener(new
-		// ListRefreshListener());\
-		if (attacher != null)
-			attacher.addRefreshableView(listView, new ListRefreshListener());
+        // JsonTopicListLoadTask task = new
+        // JsonTopicListLoadTask(getActivity(),this);
+        // task.execute(getUrl(1));
 
-		// JsonTopicListLoadTask task = new
-		// JsonTopicListLoadTask(getActivity(),this);
-		// task.execute(getUrl(1));
+        return listView;
+    }
 
-		return listView;
-	}
-	
-	public void changedmode(){
-		if(adapter!=null)
-			adapter.notifyDataSetChanged();
-	}
+    public void changedmode() {
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
 
-	OnMessagelistContainerListener mCallback;  
-    
-    // Container Activity must implement this interface  
-    public interface OnMessagelistContainerListener {  
-        public void onAnotherModeChanged();  
-    }  
-    
-	@Override  
-    public void onAttach(Activity activity) {  
-        super.onAttach(activity);  
-          
-        // This makes sure that the container activity has implemented  
-        // the callback interface. If not, it throws an exception  
-        try {  
-            mCallback = (OnMessagelistContainerListener) activity;  
-        } catch (ClassCastException e) {  
-        }  
-    }  
-	
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		canDismiss = true;
-		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		this.refresh();
-		super.onViewCreated(view, savedInstanceState);
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
-	private void refresh_saying() {
-		DefaultHeaderTransformer transformer = null;
-		if (attacher != null) {
-			uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
-			headerTransformer = attacher.getHeaderTransformer();
-			if (headerTransformer != null
-					&& headerTransformer instanceof DefaultHeaderTransformer)
-				transformer = (DefaultHeaderTransformer) headerTransformer;
-		}
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnMessagelistContainerListener) activity;
+        } catch (ClassCastException e) {
+        }
+    }
 
-		if (transformer == null)
-			ActivityUtil.getInstance().noticeSaying(this.getActivity());
-		else
-			transformer.setRefreshingText(ActivityUtil.getSaying());
-		if (attacher != null)
-			attacher.setRefreshing(true);
-	}
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        canDismiss = true;
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        this.refresh();
+        super.onViewCreated(view, savedInstanceState);
+    }
 
-	void refresh() {
-		JsonMessageListLoadTask task = new JsonMessageListLoadTask(getActivity(),
-				this);
-		// ActivityUtil.getInstance().noticeSaying(this.getActivity());
-		refresh_saying();
-		task.execute(getUrl(1, true, true));
-	}
+    private void refresh_saying() {
+        DefaultHeaderTransformer transformer = null;
+        if (attacher != null) {
+            uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
+            headerTransformer = attacher.getHeaderTransformer();
+            if (headerTransformer != null
+                    && headerTransformer instanceof DefaultHeaderTransformer)
+                transformer = (DefaultHeaderTransformer) headerTransformer;
+        }
 
-	public String getUrl(int page, boolean isend, boolean restart) {
+        if (transformer == null)
+            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        else
+            transformer.setRefreshingText(ActivityUtil.getSaying());
+        if (attacher != null)
+            attacher.setRefreshing(true);
+    }
 
-		String jsonUri = HttpUtil.Server + "/nuke.php?__lib=message&__act=message&act=list&";
-		
-		jsonUri += "page=" + page + "&lite=js&noprefix";
+    void refresh() {
+        JsonMessageListLoadTask task = new JsonMessageListLoadTask(getActivity(),
+                this);
+        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        refresh_saying();
+        task.execute(getUrl(1, true, true));
+    }
 
-		return jsonUri;
-	}
+    public String getUrl(int page, boolean isend, boolean restart) {
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		int menuId;
-		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
-			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 主题列表，UIFLAG为1或者1+2或者1+4或者1+2+4
-				menuId = R.menu.messagelist_menu_left;
-			} else {
-				menuId = R.menu.messagelist_menu;
-			}
-		} else {
-			menuId = R.menu.messagelist_menu;
-		}
-		inflater.inflate(menuId, menu);
+        String jsonUri = HttpUtil.Server + "/nuke.php?__lib=message&__act=message&act=list&";
 
-	}
-	
-    @Override  
-    public void onPrepareOptionsMenu(Menu menu) {  
-        if( menu.findItem(R.id.night_mode)!=null){
-            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_brightness_high);    
+        jsonUri += "page=" + page + "&lite=js&noprefix";
+
+        return jsonUri;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        int menuId;
+        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
+            int flag = PhoneConfiguration.getInstance().getUiFlag();
+            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 主题列表，UIFLAG为1或者1+2或者1+4或者1+2+4
+                menuId = R.menu.messagelist_menu_left;
+            } else {
+                menuId = R.menu.messagelist_menu;
+            }
+        } else {
+            menuId = R.menu.messagelist_menu;
+        }
+        inflater.inflate(menuId, menu);
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (menu.findItem(R.id.night_mode) != null) {
+            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+                menu.findItem(R.id.night_mode).setIcon(
+                        R.drawable.ic_action_brightness_high);
                 menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
-            }else{
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_bightness_low);    
+            } else {
+                menu.findItem(R.id.night_mode).setIcon(
+                        R.drawable.ic_action_bightness_low);
                 menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
             }
         }
-        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);  
-        super.onPrepareOptionsMenu(menu);  
-    }  
+        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);
+        super.onPrepareOptionsMenu(menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.threadlist_menu_item2:
-			this.refresh();
-			break;
-		case R.id.threadlist_menu_newthread:
-			Intent intent_bookmark = new Intent();
-			intent_bookmark.putExtra("action", "new");
-			intent_bookmark.putExtra("messagemode", "yes");
-		if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-			intent_bookmark.setClass(getActivity(),
-					PhoneConfiguration.getInstance().messagePostActivityClass);
-		} else {
-			intent_bookmark.setClass(getActivity(),
-					PhoneConfiguration.getInstance().loginActivityClass);
-		}
-		startActivityForResult(intent_bookmark,321);
-			break;
-		case R.id.night_mode://OK
-			nightMode(item);
-			break;
-		case R.id.threadlist_menu_item3:
-		default:
-			// case android.R.id.home:
-			Intent intent = new Intent(getActivity(), MainActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			break;
-		}
-		return true;
-	}
-	
-	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.threadlist_menu_item2:
+                this.refresh();
+                break;
+            case R.id.threadlist_menu_newthread:
+                Intent intent_bookmark = new Intent();
+                intent_bookmark.putExtra("action", "new");
+                intent_bookmark.putExtra("messagemode", "yes");
+                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                    intent_bookmark.setClass(getActivity(),
+                            PhoneConfiguration.getInstance().messagePostActivityClass);
+                } else {
+                    intent_bookmark.setClass(getActivity(),
+                            PhoneConfiguration.getInstance().loginActivityClass);
+                }
+                startActivityForResult(intent_bookmark, 321);
+                break;
+            case R.id.night_mode://OK
+                nightMode(item);
+                break;
+            case R.id.threadlist_menu_item3:
+            default:
+                // case android.R.id.home:
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return true;
+    }
 
+    private void nightMode(final MenuItem menu) {
+        ThemeManager tm = ThemeManager.getInstance();
+        SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
+                Activity.MODE_PRIVATE);
+        int mode = ThemeManager.MODE_NORMAL;
+        if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
+            menu.setIcon(
+                    R.drawable.ic_action_bightness_low);
+            menu.setTitle(R.string.change_night_mode);
+            Editor editor = share.edit();
+            editor.putBoolean(NIGHT_MODE, false);
+            editor.commit();
+        } else {
+            menu.setIcon(
+                    R.drawable.ic_action_brightness_high);
+            menu.setTitle(R.string.change_daily_mode);
+            Editor editor = share.edit();
+            editor.putBoolean(NIGHT_MODE, true);
+            editor.commit();
+            mode = ThemeManager.MODE_NIGHT;
+        }
+        ThemeManager.getInstance().setMode(mode);
+        if (mcontainer != null) {
+            if (mode == ThemeManager.MODE_NIGHT) {
+                mcontainer.setBackgroundResource(R.color.night_bg_color);
+            } else {
+                mcontainer.setBackgroundResource(R.color.shit1);
+            }
+        }
+        if (mCallback != null)
+            mCallback.onAnotherModeChanged();
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
 
-	private void nightMode(final MenuItem menu) {
-				ThemeManager tm = ThemeManager.getInstance();
-				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
-						Activity.MODE_PRIVATE);
-				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
-					menu.setIcon(  
-		                    R.drawable.ic_action_bightness_low); 
-					menu.setTitle(R.string.change_night_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, false);
-					editor.commit();
-				}else{
-					menu.setIcon(  
-		                    R.drawable.ic_action_brightness_high); 
-					menu.setTitle(R.string.change_daily_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, true);
-					editor.commit();
-					mode = ThemeManager.MODE_NIGHT;
-				}
-		ThemeManager.getInstance().setMode(mode);
-		if (mcontainer != null) {
-			if (mode == ThemeManager.MODE_NIGHT) {
-				mcontainer.setBackgroundResource(R.color.night_bg_color);
-			} else {
-				mcontainer.setBackgroundResource(R.color.shit1);
-			}
-		}
-				if(mCallback!=null)
-					mCallback.onAnotherModeChanged();
-				if(adapter!=null)
-					adapter.notifyDataSetChanged();
-	}
-	
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putInt("category", category);
-		canDismiss = false;
-		super.onSaveInstanceState(outState);
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("category", category);
+        canDismiss = false;
+        super.onSaveInstanceState(outState);
+    }
 
-	public void onCategoryChanged(int position) {
-		if (position != category) {
-			category = position;
-			refresh();
-		}
-	}
+    public void onCategoryChanged(int position) {
+        if (position != category) {
+            category = position;
+            refresh();
+        }
+    }
 
-	@Override
-	public void jsonfinishLoad(MessageListInfo result) {
-		if (attacher != null)
-			attacher.setRefreshComplete();
+    @Override
+    public void jsonfinishLoad(MessageListInfo result) {
+        if (attacher != null)
+            attacher.setRefreshComplete();
 
-		if (result == null)
-			return;
+        if (result == null)
+            return;
 
-		adapter.clear();
-		adapter.jsonfinishLoad(result);
-		listView.setAdapter(adapter);
-		if (canDismiss)
-			ActivityUtil.getInstance().dismiss();
-	}
+        adapter.clear();
+        adapter.jsonfinishLoad(result);
+        listView.setAdapter(adapter);
+        if (canDismiss)
+            ActivityUtil.getInstance().dismiss();
+    }
 
-	@TargetApi(11)
-	private void RunParallen(JsonMessageListLoadTask task) {
-		task.executeOnExecutor(JsonMessageListLoadTask.THREAD_POOL_EXECUTOR,
-				getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
-	}
+    @TargetApi(11)
+    private void RunParallen(JsonMessageListLoadTask task) {
+        task.executeOnExecutor(JsonMessageListLoadTask.THREAD_POOL_EXECUTOR,
+                getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
+    }
 
-	@Override
-	public void loadNextPage(OnMessageListLoadFinishedListener callback) {
-		JsonMessageListLoadTask task = new JsonMessageListLoadTask(getActivity(),
-				callback);
-		refresh_saying();
-		if (ActivityUtil.isGreaterThan_2_3_3())
-			RunParallen(task);
-		else
-			task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(),
-					false));
-	}
+    @Override
+    public void loadNextPage(OnMessageListLoadFinishedListener callback) {
+        JsonMessageListLoadTask task = new JsonMessageListLoadTask(getActivity(),
+                callback);
+        refresh_saying();
+        if (ActivityUtil.isGreaterThan_2_3_3())
+            RunParallen(task);
+        else
+            task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(),
+                    false));
+    }
 
-	class ListRefreshListener implements
-			PullToRefreshAttacher.OnRefreshListener {
+    // Container Activity must implement this interface
+    public interface OnMessagelistContainerListener {
+        public void onAnotherModeChanged();
+    }
+
+    class ListRefreshListener implements
+            PullToRefreshAttacher.OnRefreshListener {
 
 		/*
-		 * @Override public void onPullDownToRefresh(
+         * @Override public void onPullDownToRefresh(
 		 * PullToRefreshBase<ListView> refreshView) { refresh();
 		 * 
 		 * }
@@ -337,10 +332,10 @@ public class MessageListContainer extends Fragment implements
 		 * }
 		 */
 
-		@Override
-		public void onRefreshStarted(View view) {
+        @Override
+        public void onRefreshStarted(View view) {
 
-			refresh();
-		}
-	}
+            refresh();
+        }
+    }
 }

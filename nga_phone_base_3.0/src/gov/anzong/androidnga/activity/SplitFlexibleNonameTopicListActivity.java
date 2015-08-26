@@ -1,13 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 
-
-
-
-public class SplitFlexibleNonameTopicListActivity extends FlexibleNonameTopicListActivity 
-{
-
-
+public class SplitFlexibleNonameTopicListActivity extends FlexibleNonameTopicListActivity {
 
 
 }

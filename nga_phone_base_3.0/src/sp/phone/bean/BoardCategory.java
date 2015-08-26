@@ -3,63 +3,60 @@ package sp.phone.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardCategory{
-	private List<Board> boardList;
-	
-	public BoardCategory(){
-		boardList = new ArrayList<Board>();
-	}
-	
-	
+public class BoardCategory {
+    private List<Board> boardList;
 
-	/**
-	 * @return the boardList
-	 */
-	public List<Board> getBoardList() {
-		return boardList;
-	}
+    public BoardCategory() {
+        boardList = new ArrayList<Board>();
+    }
 
 
-
-	/**
-	 * @param boardList the boardList to set
-	 */
-	public void setBoardList(List<Board> boardList) {
-		this.boardList = boardList;
-	}
-
+    /**
+     * @return the boardList
+     */
+    public List<Board> getBoardList() {
+        return boardList;
+    }
 
 
-	public Board get(int index) {
-		// TODO Auto-generated method stub
-		return (Board) boardList.get(index);
-	}
+    /**
+     * @param boardList the boardList to set
+     */
+    public void setBoardList(List<Board> boardList) {
+        this.boardList = boardList;
+    }
 
-	public int size() {
-		return boardList.size();
-	}
 
-	public void remove(String fid) {
-		for( Board b : ((List<Board>)boardList)){
-			if(b.getUrl().equals(fid)){
-				boardList.remove(b);
-				break;
-			}
-		}
-		
-	}
+    public Board get(int index) {
+        // TODO Auto-generated method stub
+        return (Board) boardList.get(index);
+    }
 
-	public void add(Board board) {
-		boardList.add(board);
-		
-		
-	}
-	
-	public void addFront(Board board) {
-		boardList.add(0,board);
-		
-		
-	}
-	
+    public int size() {
+        return boardList.size();
+    }
+
+    public void remove(String fid) {
+        for (Board b : ((List<Board>) boardList)) {
+            if (b.getUrl().equals(fid)) {
+                boardList.remove(b);
+                break;
+            }
+        }
+
+    }
+
+    public void add(Board board) {
+        boardList.add(board);
+
+
+    }
+
+    public void addFront(Board board) {
+        boardList.add(0, board);
+
+
+    }
+
 
 }

@@ -3,45 +3,51 @@ package sp.phone.bean;
 import java.util.List;
 
 public class MessageDetialInfo {
-	int nextPage;
-	int currentPage;
-	String alluser;
-	String title;
-	List<MessageArticlePageInfo> messageEntryList;
-	
-	public int get__nextPage() {
-		return nextPage;
-	}
-	public void set__nextPage(int nextPage) {
-		this.nextPage = nextPage;
-	}
-	public String get_Alluser(){
-		return alluser;
-	}
-	public void set_Alluser(String alluser){
-		this.alluser=alluser;
-	}
-	public String get_Title(){
-		return title;
-	}
-	public void set_Title(String title){
-		this.title=title;
-	}
-	public int get__currentPage() {
-		return currentPage;
-	}
+    int nextPage;
+    int currentPage;
+    String alluser;
+    String title;
+    List<MessageArticlePageInfo> messageEntryList;
 
-	public void set__currentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
+    public int get__nextPage() {
+        return nextPage;
+    }
 
-	public List<MessageArticlePageInfo> getMessageEntryList() {
-		return messageEntryList;
-	}
+    public void set__nextPage(int nextPage) {
+        this.nextPage = nextPage;
+    }
 
-	public void setMessageEntryList(List<MessageArticlePageInfo> messageEntryList) {
-		this.messageEntryList = messageEntryList;
-	}
+    public String get_Alluser() {
+        return alluser;
+    }
 
-	
+    public void set_Alluser(String alluser) {
+        this.alluser = alluser;
+    }
+
+    public String get_Title() {
+        return title;
+    }
+
+    public void set_Title(String title) {
+        this.title = title;
+    }
+
+    public int get__currentPage() {
+        return currentPage;
+    }
+
+    public void set__currentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public List<MessageArticlePageInfo> getMessageEntryList() {
+        return messageEntryList;
+    }
+
+    public void setMessageEntryList(List<MessageArticlePageInfo> messageEntryList) {
+        this.messageEntryList = messageEntryList;
+    }
+
+
 }

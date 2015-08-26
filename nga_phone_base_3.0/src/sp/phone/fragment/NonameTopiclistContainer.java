@@ -1,23 +1,5 @@
 package sp.phone.fragment;
 
-import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MainActivity;
-import gov.anzong.androidnga.R;
-
-import noname.gson.parse.NonameThreadResponse;
-import sp.phone.adapter.AppendableNonameTopicAdapter;
-import sp.phone.bean.PerferenceConstant;
-import sp.phone.interfaces.NextJsonNonameTopicListLoader;
-import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.task.JsonNonameTopicListLoadTask;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -37,395 +19,416 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.activity.MainActivity;
+import noname.gson.parse.NonameThreadResponse;
+import sp.phone.adapter.AppendableNonameTopicAdapter;
+import sp.phone.bean.PerferenceConstant;
+import sp.phone.interfaces.NextJsonNonameTopicListLoader;
+import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
+import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.task.JsonNonameTopicListLoadTask;
+import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.HttpUtil;
+import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.StringUtil;
+import sp.phone.utils.ThemeManager;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
+
 public class NonameTopiclistContainer extends Fragment implements
-	OnNonameTopListLoadFinishedListener, NextJsonNonameTopicListLoader,PerferenceConstant {
-	final String TAG = NonameTopiclistContainer.class.getSimpleName();
-	static final int MESSAGE_SENT = 1;
-	int fid;
-	int authorid;
-	int searchpost;
-	int favor;
-	String key;
-	String table;
-	String fidgroup;
-	String author;
+        OnNonameTopListLoadFinishedListener, NextJsonNonameTopicListLoader, PerferenceConstant {
+    static final int MESSAGE_SENT = 1;
+    final String TAG = NonameTopiclistContainer.class.getSimpleName();
+    int fid;
+    int authorid;
+    int searchpost;
+    int favor;
+    String key;
+    String table;
+    String fidgroup;
+    String author;
 
-	PullToRefreshAttacher attacher = null;
-	private ListView listView;
-	AppendableNonameTopicAdapter adapter;
-	boolean canDismiss = true;
-	int category = 0;
-	private NonameThreadResponse mTopicListInfo;
-	private int mListPosition;
-	private int mListFirstTop;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			category = savedInstanceState.getInt("category", 0);
-		}
+    PullToRefreshAttacher attacher = null;
+    AppendableNonameTopicAdapter adapter;
+    boolean canDismiss = true;
+    int category = 0;
+    OnNonameTopiclistContainerListener mCallback;
+    private ListView listView;
+    private NonameThreadResponse mTopicListInfo;
+    private int mListPosition;
+    private int mListFirstTop;
 
-		try {
-			PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
-			attacher = attacherOnwer.getAttacher();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
-		} catch (ClassCastException e) {
-			Log.e(TAG,
-					"father activity should implement PullToRefreshAttacherOnwer");
-		}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            category = savedInstanceState.getInt("category", 0);
+        }
 
-		listView = new ListView(getActivity());
-		listView.setDivider(null);
-		adapter = new AppendableNonameTopicAdapter(this.getActivity(), attacher, this);
-		listView.setAdapter(adapter);
-		// mPullRefreshListView.setAdapter(adapter);
-		try {
-			OnItemClickListener listener = (OnItemClickListener) getActivity();
-			// mPullRefreshListView.setOnItemClickListener(listener);
-			listView.setOnItemClickListener(listener);
-		} catch (ClassCastException e) {
-			Log.e(TAG, "father activity should implenent OnItemClickListener");
-		}
+        try {
+            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
+            attacher = attacherOnwer.getAttacher();
 
-		// mPullRefreshListView.setOnRefreshListener(new
-		// ListRefreshListener());\
-		if (attacher != null)
-			attacher.addRefreshableView(listView, new ListRefreshListener());
+        } catch (ClassCastException e) {
+            Log.e(TAG,
+                    "father activity should implement PullToRefreshAttacherOnwer");
+        }
 
-		fid = 0;
-		authorid = 0;
-		String url = getArguments().getString("url");
+        listView = new ListView(getActivity());
+        listView.setDivider(null);
+        adapter = new AppendableNonameTopicAdapter(this.getActivity(), attacher, this);
+        listView.setAdapter(adapter);
+        // mPullRefreshListView.setAdapter(adapter);
+        try {
+            OnItemClickListener listener = (OnItemClickListener) getActivity();
+            // mPullRefreshListView.setOnItemClickListener(listener);
+            listView.setOnItemClickListener(listener);
+        } catch (ClassCastException e) {
+            Log.e(TAG, "father activity should implenent OnItemClickListener");
+        }
 
-		if (url != null) {
+        // mPullRefreshListView.setOnRefreshListener(new
+        // ListRefreshListener());\
+        if (attacher != null)
+            attacher.addRefreshableView(listView, new ListRefreshListener());
 
-			fid = getUrlParameter(url, "fid");
-			authorid = getUrlParameter(url, "authorid");
-			searchpost = getUrlParameter(url, "searchpost");
-			favor = getUrlParameter(url, "favor");
-			key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
-			author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
-			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
-			fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
-		} else {
-			fid = getArguments().getInt("fid", 0);
-			authorid = getArguments().getInt("authorid", 0);
-			searchpost = getArguments().getInt("searchpost", 0);
-			favor = getArguments().getInt("favor", 0);
-			key = getArguments().getString("key");
-			author = getArguments().getString("author");
-			table = getArguments().getString("table");
-			fidgroup = getArguments().getString("fidgroup");
-		}
+        fid = 0;
+        authorid = 0;
+        String url = getArguments().getString("url");
 
-		if (favor != 0) {
-			Toast.makeText(
-					getActivity(),
-					"长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
-			if (getActivity() instanceof OnItemLongClickListener) {
-			 listView.setLongClickable(true);
-			 listView.setOnItemLongClickListener((OnItemLongClickListener)
-			 getActivity()); }
-		}
+        if (url != null) {
 
-		// JsonTopicListLoadTask task = new
-		// JsonTopicListLoadTask(getActivity(),this);
-		// task.execute(getUrl(1));
-		return listView;
-	}
+            fid = getUrlParameter(url, "fid");
+            authorid = getUrlParameter(url, "authorid");
+            searchpost = getUrlParameter(url, "searchpost");
+            favor = getUrlParameter(url, "favor");
+            key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
+            author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
+            table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
+            fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+        } else {
+            fid = getArguments().getInt("fid", 0);
+            authorid = getArguments().getInt("authorid", 0);
+            searchpost = getArguments().getInt("searchpost", 0);
+            favor = getArguments().getInt("favor", 0);
+            key = getArguments().getString("key");
+            author = getArguments().getString("author");
+            table = getArguments().getString("table");
+            fidgroup = getArguments().getString("fidgroup");
+        }
 
-	public void changedmode(){
-		if(adapter!=null)
-			adapter.notifyDataSetChanged();
-	}
+        if (favor != 0) {
+            Toast.makeText(
+                    getActivity(),
+                    "长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
+            if (getActivity() instanceof OnItemLongClickListener) {
+                listView.setLongClickable(true);
+                listView.setOnItemLongClickListener((OnItemLongClickListener)
+                        getActivity());
+            }
+        }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		canDismiss = true;
-		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		if (mTopicListInfo == null) {
-			refresh();
-		} else {
-			jsonfinishLoad(mTopicListInfo);
-		}
-		super.onViewCreated(view, savedInstanceState);
-	}
+        // JsonTopicListLoadTask task = new
+        // JsonTopicListLoadTask(getActivity(),this);
+        // task.execute(getUrl(1));
+        return listView;
+    }
 
-	OnNonameTopiclistContainerListener mCallback;  
-    
-    // Container Activity must implement this interface  
-    public interface OnNonameTopiclistContainerListener {  
-        public void onAnotherModeChanged();  
-    }  
+    public void changedmode() {
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        canDismiss = true;
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        if (mTopicListInfo == null) {
+            refresh();
+        } else {
+            jsonfinishLoad(mTopicListInfo);
+        }
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     @Override
     public void onResume() {
-    	 super.onResume();
-    	 listView.setSelectionFromTop(mListPosition, mListFirstTop);
+        super.onResume();
+        listView.setSelectionFromTop(mListPosition, mListFirstTop);
     }
+
     @Override
-     public void onPause() {
-    	 super.onPause();
-    	 if (listView.getChildCount() >= 1) {
-    	mListPosition = listView.getFirstVisiblePosition();
-    	 mListFirstTop = listView.getChildAt(0).getTop();
-     }
-    	 }
-    
-	@Override  
-    public void onAttach(Activity activity) {  
-        super.onAttach(activity);  
-          
-        // This makes sure that the container activity has implemented  
-        // the callback interface. If not, it throws an exception  
-        try {  
-            mCallback = (OnNonameTopiclistContainerListener) activity;  
-        } catch (ClassCastException e) {  
-        }  
-    }  
-	private void refresh_saying() {
-		DefaultHeaderTransformer transformer = null;
+    public void onPause() {
+        super.onPause();
+        if (listView.getChildCount() >= 1) {
+            mListPosition = listView.getFirstVisiblePosition();
+            mListFirstTop = listView.getChildAt(0).getTop();
+        }
+    }
 
-		if (attacher != null) {
-			uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
-			headerTransformer = attacher.getHeaderTransformer();
-			if (headerTransformer != null
-					&& headerTransformer instanceof DefaultHeaderTransformer)
-				transformer = (DefaultHeaderTransformer) headerTransformer;
-		}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
-		if (transformer == null)
-			ActivityUtil.getInstance().noticeSaying(this.getActivity());
-		else
-			transformer.setRefreshingText(ActivityUtil.getSaying());
-		if (attacher != null)
-			attacher.setRefreshing(true);
-	}
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnNonameTopiclistContainerListener) activity;
+        } catch (ClassCastException e) {
+        }
+    }
 
-	void refresh() {
-		JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
-				this);
-		// ActivityUtil.getInstance().noticeSaying(this.getActivity());
-		refresh_saying();
-		task.execute(getUrl(1, true, true));
-	}
+    private void refresh_saying() {
+        DefaultHeaderTransformer transformer = null;
 
-	public String getNfcUrl() {
-		final String scheme = getResources().getString(R.string.myscheme);
-		final StringBuilder sb = new StringBuilder(scheme);
-		sb.append("://"+Utils.getNGADomain()+"/thread.php?");
-		if (fid != 0) {
-			sb.append("fid=");
-			sb.append(fid);
-			sb.append('&');
-		}
-		if (authorid != 0) {
-			sb.append("authorid=");
-			sb.append(authorid);
-			sb.append('&');
-		}
-		if (this.searchpost != 0) {
-			sb.append("searchpost=");
-			sb.append(searchpost);
-			sb.append('&');
-		}
+        if (attacher != null) {
+            uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
+            headerTransformer = attacher.getHeaderTransformer();
+            if (headerTransformer != null
+                    && headerTransformer instanceof DefaultHeaderTransformer)
+                transformer = (DefaultHeaderTransformer) headerTransformer;
+        }
 
-		return sb.toString();
-	}
+        if (transformer == null)
+            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        else
+            transformer.setRefreshingText(ActivityUtil.getSaying());
+        if (attacher != null)
+            attacher.setRefreshing(true);
+    }
 
-	public String getUrl(int page, boolean isend, boolean restart) {
+    void refresh() {
+        JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
+                this);
+        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        refresh_saying();
+        task.execute(getUrl(1, true, true));
+    }
 
-		String jsonUri = HttpUtil.NonameServer + "/thread.php?";
-		jsonUri += "page=" + page;
+    public String getNfcUrl() {
+        final String scheme = getResources().getString(R.string.myscheme);
+        final StringBuilder sb = new StringBuilder(scheme);
+        sb.append("://" + Utils.getNGADomain() + "/thread.php?");
+        if (fid != 0) {
+            sb.append("fid=");
+            sb.append(fid);
+            sb.append('&');
+        }
+        if (authorid != 0) {
+            sb.append("authorid=");
+            sb.append(authorid);
+            sb.append('&');
+        }
+        if (this.searchpost != 0) {
+            sb.append("searchpost=");
+            sb.append(searchpost);
+            sb.append('&');
+        }
 
-		return jsonUri;
-	}
+        return sb.toString();
+    }
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		int menuId;
-		if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
-			int flag = PhoneConfiguration.getInstance().getUiFlag();
-			if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 主题列表，UIFLAG为1或者1+2或者1+4或者1+2+4
-				menuId = R.menu.nonamethreadlist_menu_left;
-			} else {
-				menuId = R.menu.nonamethreadlist_menu;
-			}
-		} else {
-			menuId = R.menu.nonamethreadlist_menu;
-		}
-		inflater.inflate(menuId, menu);
+    public String getUrl(int page, boolean isend, boolean restart) {
 
-	}
+        String jsonUri = HttpUtil.NonameServer + "/thread.php?";
+        jsonUri += "page=" + page;
 
-    @Override  
+        return jsonUri;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        int menuId;
+        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
+            int flag = PhoneConfiguration.getInstance().getUiFlag();
+            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 主题列表，UIFLAG为1或者1+2或者1+4或者1+2+4
+                menuId = R.menu.nonamethreadlist_menu_left;
+            } else {
+                menuId = R.menu.nonamethreadlist_menu;
+            }
+        } else {
+            menuId = R.menu.nonamethreadlist_menu;
+        }
+        inflater.inflate(menuId, menu);
+
+    }
+
+    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if( menu.findItem(R.id.night_mode)!=null){
-            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {  
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_brightness_high);    
+        if (menu.findItem(R.id.night_mode) != null) {
+            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
+                menu.findItem(R.id.night_mode).setIcon(
+                        R.drawable.ic_action_brightness_high);
                 menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
-            }else{
-                menu.findItem(R.id.night_mode).setIcon(  
-                        R.drawable.ic_action_bightness_low);    
+            } else {
+                menu.findItem(R.id.night_mode).setIcon(
+                        R.drawable.ic_action_bightness_low);
                 menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
             }
-        } 
-        super.onPrepareOptionsMenu(menu);  
-    }  
-    
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.threadlist_menu_newthread:
-			handlePostThread(item);
-			break;
-		case R.id.threadlist_menu_item2:
-			this.refresh();
-			break;
-		case R.id.night_mode://OK
-			nightMode(item);
-			break;
-		case R.id.threadlist_menu_item3:
-		default:
-			Intent intent = new Intent(getActivity(), MainActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			break;
-		}
-		return true;
-	}
+        }
+        super.onPrepareOptionsMenu(menu);
+    }
 
-	private void nightMode(final MenuItem menu) {
-				
-				ThemeManager tm = ThemeManager.getInstance();
-				SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
-						Activity.MODE_PRIVATE);
-				int mode = ThemeManager.MODE_NORMAL;
-				if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
-					menu.setIcon(  
-		                    R.drawable.ic_action_bightness_low); 
-					menu.setTitle(R.string.change_night_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, false);
-					editor.commit();
-				}else{
-					menu.setIcon(  
-		                    R.drawable.ic_action_brightness_high); 
-					menu.setTitle(R.string.change_daily_mode);
-					Editor editor = share.edit();
-					editor.putBoolean(NIGHT_MODE, true);
-					editor.commit();
-					mode = ThemeManager.MODE_NIGHT;
-				}
-				ThemeManager.getInstance().setMode(mode);
-				if(adapter!=null){
-					adapter.notifyDataSetChanged();
-				}
-				if(mCallback!=null){
-					mCallback.onAnotherModeChanged();
-				}
-	}
-	
-	private boolean handlePostThread(MenuItem item) {
-		Intent intent = new Intent();
-		intent.putExtra("fid", fid);
-		intent.putExtra("action", "new");
-			intent.setClass(getActivity(),
-					PhoneConfiguration.getInstance().nonamePostActivityClass);
-		startActivity(intent);
-		if (PhoneConfiguration.getInstance().showAnimation) {
-			getActivity().overridePendingTransition(R.anim.zoom_enter,
-					R.anim.zoom_exit);
-		}
-		return true;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.threadlist_menu_newthread:
+                handlePostThread(item);
+                break;
+            case R.id.threadlist_menu_item2:
+                this.refresh();
+                break;
+            case R.id.night_mode://OK
+                nightMode(item);
+                break;
+            case R.id.threadlist_menu_item3:
+            default:
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return true;
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putInt("category", category);
-		canDismiss = false;
-		super.onSaveInstanceState(outState);
-	}
+    private void nightMode(final MenuItem menu) {
 
-	private int getUrlParameter(String url, String paraName) {
-		if (StringUtil.isEmpty(url)) {
-			return 0;
-		}
-		final String pattern = paraName + "=";
-		int start = url.indexOf(pattern);
-		if (start == -1)
-			return 0;
-		start += pattern.length();
-		int end = url.indexOf("&", start);
-		if (end == -1)
-			end = url.length();
-		String value = url.substring(start, end);
-		int ret = 0;
-		try {
-			ret = Integer.parseInt(value);
-		} catch (Exception e) {
-			Log.e(TAG, "invalid url:" + url);
-		}
+        ThemeManager tm = ThemeManager.getInstance();
+        SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
+                Activity.MODE_PRIVATE);
+        int mode = ThemeManager.MODE_NORMAL;
+        if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
+            menu.setIcon(
+                    R.drawable.ic_action_bightness_low);
+            menu.setTitle(R.string.change_night_mode);
+            Editor editor = share.edit();
+            editor.putBoolean(NIGHT_MODE, false);
+            editor.commit();
+        } else {
+            menu.setIcon(
+                    R.drawable.ic_action_brightness_high);
+            menu.setTitle(R.string.change_daily_mode);
+            Editor editor = share.edit();
+            editor.putBoolean(NIGHT_MODE, true);
+            editor.commit();
+            mode = ThemeManager.MODE_NIGHT;
+        }
+        ThemeManager.getInstance().setMode(mode);
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+        if (mCallback != null) {
+            mCallback.onAnotherModeChanged();
+        }
+    }
 
-		return ret;
-	}
+    private boolean handlePostThread(MenuItem item) {
+        Intent intent = new Intent();
+        intent.putExtra("fid", fid);
+        intent.putExtra("action", "new");
+        intent.setClass(getActivity(),
+                PhoneConfiguration.getInstance().nonamePostActivityClass);
+        startActivity(intent);
+        if (PhoneConfiguration.getInstance().showAnimation) {
+            getActivity().overridePendingTransition(R.anim.zoom_enter,
+                    R.anim.zoom_exit);
+        }
+        return true;
+    }
 
-	public void onCategoryChanged(int position) {
-		if (position != category) {
-			category = position;
-			refresh();
-		}
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("category", category);
+        canDismiss = false;
+        super.onSaveInstanceState(outState);
+    }
 
-	@Override
-	public void jsonfinishLoad(NonameThreadResponse result) {
-		if (attacher != null)
-			attacher.setRefreshComplete();
+    private int getUrlParameter(String url, String paraName) {
+        if (StringUtil.isEmpty(url)) {
+            return 0;
+        }
+        final String pattern = paraName + "=";
+        int start = url.indexOf(pattern);
+        if (start == -1)
+            return 0;
+        start += pattern.length();
+        int end = url.indexOf("&", start);
+        if (end == -1)
+            end = url.length();
+        String value = url.substring(start, end);
+        int ret = 0;
+        try {
+            ret = Integer.parseInt(value);
+        } catch (Exception e) {
+            Log.e(TAG, "invalid url:" + url);
+        }
 
-		if (result == null)
-			return;
-		mTopicListInfo = result;
-		adapter.clear();
-		adapter.jsonfinishLoad(result);
-		listView.setAdapter(adapter);
-		if (canDismiss)
-			ActivityUtil.getInstance().dismiss();
+        return ret;
+    }
 
-	}
+    public void onCategoryChanged(int position) {
+        if (position != category) {
+            category = position;
+            refresh();
+        }
+    }
 
-	@TargetApi(11)
-	private void RunParallen(JsonNonameTopicListLoadTask task) {
-		task.executeOnExecutor(JsonNonameTopicListLoadTask.THREAD_POOL_EXECUTOR,
-				getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
-	}
+    @Override
+    public void jsonfinishLoad(NonameThreadResponse result) {
+        if (attacher != null)
+            attacher.setRefreshComplete();
 
-	@Override
-	public void loadNextPage(OnNonameTopListLoadFinishedListener callback) {
-		JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
-				callback);
-		refresh_saying();
-		if (ActivityUtil.isGreaterThan_2_3_3())
-			RunParallen(task);
-		else
-			task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(),
-					false));
-	}
+        if (result == null)
+            return;
+        mTopicListInfo = result;
+        adapter.clear();
+        adapter.jsonfinishLoad(result);
+        listView.setAdapter(adapter);
+        if (canDismiss)
+            ActivityUtil.getInstance().dismiss();
 
-	class ListRefreshListener implements
-			PullToRefreshAttacher.OnRefreshListener {
+    }
 
-		@Override
-		public void onRefreshStarted(View view) {
+    @TargetApi(11)
+    private void RunParallen(JsonNonameTopicListLoadTask task) {
+        task.executeOnExecutor(JsonNonameTopicListLoadTask.THREAD_POOL_EXECUTOR,
+                getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
+    }
 
-			refresh();
-		}
-	}
+    @Override
+    public void loadNextPage(OnNonameTopListLoadFinishedListener callback) {
+        JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
+                callback);
+        refresh_saying();
+        if (ActivityUtil.isGreaterThan_2_3_3())
+            RunParallen(task);
+        else
+            task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(),
+                    false));
+    }
+
+    // Container Activity must implement this interface
+    public interface OnNonameTopiclistContainerListener {
+        public void onAnotherModeChanged();
+    }
+
+    class ListRefreshListener implements
+            PullToRefreshAttacher.OnRefreshListener {
+
+        @Override
+        public void onRefreshStarted(View view) {
+
+            refresh();
+        }
+    }
 
 
 }

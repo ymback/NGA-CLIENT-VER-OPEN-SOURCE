@@ -1,13 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 
-
-
-
-public class SplitFlexibleMessageListActivity extends FlexibleMessageListActivity 
-{
-
-
+public class SplitFlexibleMessageListActivity extends FlexibleMessageListActivity {
 
 
 }

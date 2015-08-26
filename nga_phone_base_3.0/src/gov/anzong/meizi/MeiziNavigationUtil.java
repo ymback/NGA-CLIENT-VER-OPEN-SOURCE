@@ -1,11 +1,11 @@
-
 package gov.anzong.meizi;
 
-import sp.phone.utils.PhoneConfiguration;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
+import sp.phone.utils.PhoneConfiguration;
 
 public class MeiziNavigationUtil {
 

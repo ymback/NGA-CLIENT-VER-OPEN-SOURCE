@@ -1,11 +1,10 @@
-
 package gov.anzong.meizi;
 
 public class MeiziStringUtils {
 
     /**
      * If the input string is null, make it a empty string.
-     * 
+     *
      * @param str
      * @return
      */
@@ -16,7 +15,7 @@ public class MeiziStringUtils {
     /**
      * Util to do the job of "StringA" + "StringB", but with the benifit of
      * avoiding the NullPointer trouble
-     * 
+     *
      * @param args
      * @return
      */

@@ -1,8 +1,6 @@
-
 package gov.anzong.meizi;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MeiziTopicMData {
@@ -15,8 +13,13 @@ public class MeiziTopicMData {
     public String date;
 
     public MeiziTopicMData() {
-        date="";
+        date = "";
         content = new ArrayList<MeiziTopicMData.TopicContentItem>();
+    }
+
+    public enum ContentItemType {
+        MSG,
+        IMAGE
     }
 
     public static class TopicContentItem {
@@ -25,10 +28,5 @@ public class MeiziTopicMData {
         public String imgUrl;
 
         public String msg;
-    }
-
-    public enum ContentItemType {
-        MSG,
-        IMAGE
     }
 }

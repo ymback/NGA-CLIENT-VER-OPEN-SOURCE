@@ -33,13 +33,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 在Release状态下关闭以提示程序性能
      * */
     /**
-     * 系统默认的UncaughtException处理类
-     */
-    private UncaughtExceptionHandler mDefaultHandler;
-    /**
      * CrashHandler实例
      */
     private static CrashHandler INSTANCE;
+    /**
+     * 系统默认的UncaughtException处理类
+     */
+    private UncaughtExceptionHandler mDefaultHandler;
     /**
      * 程序的Context对象
      */
@@ -84,19 +84,19 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //        handleException(ex);
 //        if (mDefaultHandler != null)
 //            mDefaultHandler.uncaughtException(thread, ex);
-		if (!handleException(ex) && mDefaultHandler != null) {
-			//如果用户没有处理则让系统默认的异常处理器来处理
-			mDefaultHandler.uncaughtException(thread, ex);
-		} else {
-			//Sleep一会后结束程序
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				Log.e(TAG, "Error : ", e);
-			}
-			android.os.Process.killProcess(android.os.Process.myPid());
-			System.exit(10);
-		}
+        if (!handleException(ex) && mDefaultHandler != null) {
+            //如果用户没有处理则让系统默认的异常处理器来处理
+            mDefaultHandler.uncaughtException(thread, ex);
+        } else {
+            //Sleep一会后结束程序
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                Log.e(TAG, "Error : ", e);
+            }
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(10);
+        }
     }
 
     public void setCouseName(String name) {
