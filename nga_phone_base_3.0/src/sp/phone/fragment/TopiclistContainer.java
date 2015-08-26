@@ -1,5 +1,6 @@
 package sp.phone.fragment;
 
+import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import gov.anzong.androidnga.R;
 
@@ -245,7 +246,7 @@ public class TopiclistContainer extends Fragment implements
 	public String getNfcUrl() {
 		final String scheme = getResources().getString(R.string.myscheme);
 		final StringBuilder sb = new StringBuilder(scheme);
-		sb.append("://bbs.ngacn.cc/thread.php?");
+		sb.append("://"+ Utils.getNGADomain()+"/thread.php?");
 		if (fid != 0) {
 			sb.append("fid=");
 			sb.append(fid);

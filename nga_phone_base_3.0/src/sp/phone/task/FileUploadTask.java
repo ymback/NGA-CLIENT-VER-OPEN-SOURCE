@@ -10,6 +10,7 @@ import java.net.URL;
 
 import org.apache.commons.io.IOUtils;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
@@ -247,7 +248,7 @@ AsyncTask<String, Integer, String> {
                 "attachment_file1_img","origin_domain",
                 "lite"};
         final String values[] = {"1","","",filename,"-7","upload",
-                "1","bbs.ngacn.cc","js"
+                "1", Utils.getNGADomain(),"js"
         };
 
         for(int i=0; i< keys.length; ++i)
