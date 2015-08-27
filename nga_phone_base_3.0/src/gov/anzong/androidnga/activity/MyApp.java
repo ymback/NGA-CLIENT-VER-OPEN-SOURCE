@@ -785,14 +785,14 @@ public class MyApp extends Application implements PerferenceConstant {
         config.nikeWidth = share.getInt(NICK_WIDTH, 100);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int flag = share.getInt(UI_FLAG, 0);
             if ((config.getUiFlag() & UI_FLAG_HA) != 0) {
-                int flag = share.getInt(UI_FLAG, 0);
                 flag = flag & ~UI_FLAG_HA;
-                PhoneConfiguration.getInstance().setUiFlag(flag);
                 Editor editor = share.edit();
                 editor.putInt(UI_FLAG, flag);
                 editor.commit();
             }
+            PhoneConfiguration.getInstance().setUiFlag(flag);
         } else {
             int uiFlag = share.getInt(UI_FLAG, 0);
             config.setUiFlag(uiFlag);

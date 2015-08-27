@@ -599,7 +599,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
     @Override
     public PullToRefreshAttacher getAttacher() {
-        // TODO Auto-generated method stub
         return mPullToRefreshAttacher;
     }
 

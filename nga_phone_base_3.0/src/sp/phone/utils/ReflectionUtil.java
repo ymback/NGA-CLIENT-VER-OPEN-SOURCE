@@ -34,29 +34,6 @@ public class ReflectionUtil {
 
     }
 
-    public static boolean actionBar_setmDisplayOption(MainActivity mainActivity,
-                                                      int flags) {
-        boolean ret = true;
-		 /*Method setDisplayMethod;
-		 Method getActionBarMethod;
-		try {//
-			getActionBarMethod = activity.getClass().
-			 	getMethod("getActionBar");
-			Object actionBar = getActionBarMethod.invoke(activity);
-			
-			//setDisplayMethod= Class.forName("android.app.ActionBar")
-			//		.getMethod("setDisplayOptions", int.class);
-			setDisplayMethod = actionBar.getClass().getMethod("setDisplayOptions", int.class);
-			 setDisplayMethod.invoke(actionBar, flags);
-		} catch (Exception e){
-			Log.i(activity.getClass().getSimpleName(),"fail to set actionBar");
-			ret = false;
-		}*/
-        mainActivity.getActionBar().setDisplayOptions(flags);
-        return ret;
-
-    }
-
     public static boolean view_setGravity(View v,
                                           int flags) {
         boolean ret = true;
