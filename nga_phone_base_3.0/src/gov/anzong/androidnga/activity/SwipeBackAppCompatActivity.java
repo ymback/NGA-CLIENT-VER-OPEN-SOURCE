@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -12,7 +13,7 @@ import sp.phone.utils.PhoneConfiguration;
 /**
  * Created by Administrator on 13-9-29.
  */
-public class SwipeBackAppCompatActivity extends AppCompatActivity implements
+public class SwipeBackAppCompatActivity extends ActionBarActivity implements
         SwipeBackActivityBase {
     final int MY_EDGE_SIZE = 10;
     private SwipeBackActivityHelper mHelper;

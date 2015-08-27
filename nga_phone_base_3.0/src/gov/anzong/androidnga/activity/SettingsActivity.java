@@ -275,8 +275,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                 checked = false;
             }
             replysplit.setChecked(checked);
-            replysplit
-                    .setOnCheckedChangeListener(new ReplySplitChangedListener());
+            replysplit.setOnCheckedChangeListener(new ReplySplitChangedListener());
         }
 
         ha = (CompoundButton) findViewById(R.id.checkBox_ha);
@@ -1555,8 +1554,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             PhoneConfiguration.getInstance().setUiFlag(flag);
 
-            SharedPreferences share = getSharedPreferences(PERFERENCE,
-                    MODE_PRIVATE);
+            SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
 
             Editor editor = share.edit();
             editor.putInt(UI_FLAG, flag);

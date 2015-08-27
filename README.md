@@ -3,7 +3,7 @@ NGA-CLIENT-VER-OPEN-SOURCE
 
 NGA客户端开源版代码仓库
 
-可直接导入eclipse。
+可直接导入Android Studio。
 
 - - -
 更新内容去下面链接找

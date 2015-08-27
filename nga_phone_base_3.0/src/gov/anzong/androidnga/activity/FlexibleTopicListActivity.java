@@ -555,7 +555,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
             @Override
             public void onDismiss(DialogInterface arg0) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
                     ActivityUtil.getInstance().setFullScreen(view);
@@ -568,7 +567,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public void onModeChanged() {
-        // TODO Auto-generated method stub
         Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.item_list);
         if (f1 != null) {
             ((TopiclistContainer) f1).changedmode();
@@ -577,8 +575,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public void onAnotherModeChanged() {
-        // TODO Auto-generated method stub
-
         nightmode = ThemeManager.getInstance().getMode();
         Fragment f2 = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
         if (f2 != null) {
