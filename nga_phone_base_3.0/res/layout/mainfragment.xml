@@ -3,36 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_linearlayout"
         android:layout_width="fill_parent"
-    	android:id="@+id/drawer_linearlayout"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:background="@color/shit2"
+        android:orientation="vertical">
 
-        <com.astuetz.PagerSlidingTabStrip
-    		xmlns:app="http://schemas.android.com/apk/res-auto"
-    		xmlns:tools="http://schemas.android.com/tools"
+        <com.astuetz.PagerSlidingTabStrip xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/pagerslidingtab"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
-            app:pstsIndicatorColor="@color/profilefcolor"
-            app:pstsUnderlineColor="@color/profilefcolor"
-            app:pstsDividerPadding="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/profilefcolor"
+            android:background="@color/shit2"
             android:fadingEdge="horizontal"
-        	app:pstsDividerColor="#bdbdbd"
             android:fadingEdgeLength="10dp"
-            app:pstsTabPaddingLeftRight="8dip" />
+            android:textColor="@color/profilefcolor"
+            android:textSize="18sp"
+            app:pstsDividerColor="#bdbdbd"
+            app:pstsDividerPadding="10dp"
+            app:pstsIndicatorColor="@color/profilefcolor"
+            app:pstsTabPaddingLeftRight="8dip"
+            app:pstsUnderlineColor="@color/profilefcolor" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
-            android:paddingTop="0dp"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:paddingTop="0dp" />
     </LinearLayout>
 
     <ListView
@@ -41,9 +39,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#111"
-        android:choiceMode="singleChoice"    
+        android:choiceMode="singleChoice"
         android:divider="#FFFFFF"
-    	android:dividerHeight="1dp"
+        android:dividerHeight="1dp"
         android:scrollbars="none" />
 
 </android.support.v4.widget.DrawerLayout>

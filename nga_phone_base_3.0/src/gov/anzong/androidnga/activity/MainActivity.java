@@ -211,9 +211,6 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     private void initView() {
-        // TODO Auto-generated method stub
-
-
         view = LayoutInflater.from(this).inflate(R.layout.mainfragment, null);
 
         setContentView(view);
