@@ -2,7 +2,6 @@ package gov.anzong.androidnga.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -21,6 +20,10 @@ public class SwipeBackAppCompatActivity extends ActionBarActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSwipeBack();
+    }
+
+    private void setSwipeBack() {
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
         if (PhoneConfiguration.getInstance().swipeBack) {

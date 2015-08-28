@@ -98,8 +98,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
             authorid = this.getIntent().getIntExtra("authorid", 0);
         }
 
-        fromreplyactivity = this.getIntent()
-                .getIntExtra("fromreplyactivity", 0);
+        fromreplyactivity = this.getIntent().getIntExtra("fromreplyactivity", 0);
         if (authorid != 0) {
             fromreplyactivity = 1;
         }
@@ -257,7 +256,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
         } else {
             inflater.inflate(R.menu.articlelist_menu, menu);
         }
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
 
         MenuItem lock = menu.findItem(R.id.article_menuitem_lock);
         int orentation = ThemeManager.getInstance().screenOrentation;
@@ -268,8 +266,8 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
         }
 
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
-        return super.onCreateOptionsMenu(menu);
+        ReflectionUtil.actionBar_setDisplayOption(this, ThemeManager.ACTION_BAR_FLAG);
+        return true;
     }
 
     @Override

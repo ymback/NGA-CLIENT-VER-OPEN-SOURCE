@@ -15,25 +15,22 @@
   -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="style/Theme.AppCompat" >
-    	<item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+    <style name="AppTheme" parent="style/Theme.AppCompat">
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
-    
-    <style name="AppThemeNight" parent="style/Theme.AppCompat" >
-    	<item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-    </style>
-	<style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
-    	<item name="android:src">@drawable/ic_menu_moreoverflow_normal_holo_light</item>
-	</style>
-	
-    <style name="SwipeBackBaseTheme" parent="AppTheme">
+
+    <style name="SwipeBackTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="SwipeBackTheme" parent="SwipeBackBaseTheme">
+    <style name="AppThemeNight" parent="style/Theme.AppCompat">
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
-    
+    <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_moreoverflow_normal_holo_light</item>
+    </style>
+
     <style name="Samples" />
 
     <style name="Samples.Category">
@@ -86,14 +83,14 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="ClientDialog" parent="android:style/Theme.Dialog"> 
-    <item name="android:windowFrame">@null</item>  
-    <item name="android:windowIsFloating">true</item>  
-    <item name="android:windowIsTranslucent">false</item>  
-    <item name="android:windowNoTitle">true</item>  
-    <item name="android:background">@android:color/black</item>  
-    <item name="android:windowBackground">@null</item>  
-    <item name="android:backgroundDimEnabled">true</item> 
-    </style>  
-    
+    <style name="ClientDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/black</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
 </resources>
