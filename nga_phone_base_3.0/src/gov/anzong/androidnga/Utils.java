@@ -5,7 +5,7 @@ package gov.anzong.androidnga;
  */
 public class Utils {
 
-    private static final String DOMAIN = "club.178.com";
+    private static final String DOMAIN = "bbs.ngacn.cc";
 
     public static String getNGAHost() {
         return "http://" + getNGADomain() + "/";
