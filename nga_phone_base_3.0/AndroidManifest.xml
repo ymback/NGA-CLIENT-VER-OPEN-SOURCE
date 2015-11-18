@@ -273,6 +273,9 @@
             android:name=".activity.ImageViewerActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
+            android:name=".util.ImageZoomActivity"
+            android:theme="@style/SwipeBackTheme" />
+        <activity
             android:name=".activity.WebViewerActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
