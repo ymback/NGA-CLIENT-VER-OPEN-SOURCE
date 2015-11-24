@@ -56,7 +56,9 @@ public class ImageViewerActivity extends SwipeBackAppCompatActivity {
     }
 
     private String getPath() {
-        return getIntent().getStringExtra("path");
+        String ret = getIntent().getStringExtra("path");
+        ret = ret.replaceAll("img.nga.178.com", "img.ngacn.cc");
+        return ret;
     }
 
     @TargetApi(8)
