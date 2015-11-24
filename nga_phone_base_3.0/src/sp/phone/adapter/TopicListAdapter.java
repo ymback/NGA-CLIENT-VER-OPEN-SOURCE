@@ -317,7 +317,6 @@ public class TopicListAdapter extends BaseAdapter implements
             count = topicListInfo.get__T__ROWS();
             this.notifyDataSetChanged();
         }
-
     }
 
     class ViewHolder {

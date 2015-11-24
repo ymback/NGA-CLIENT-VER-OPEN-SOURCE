@@ -33,10 +33,10 @@ public class HttpUtil {
             .getExternalStorageDirectory().getPath()
             + "/nga_cache";
     public static final String PATH_ZIP = "";
-    public static final String NGA_ATTACHMENT_HOST = "img.nga.178.com";
+    public static final String NGA_ATTACHMENT_HOST = "img.ngacn.cc";
     public static final String Servlet_phone = "/servlet/PhoneServlet";
     public static final String Servlet_timer = "/servlet/TimerServlet";
-    private static final String servers[] = {"http://nga.178.com", "http://nga.178.com"};
+    private static final String servers[] = {"http://nga.178.com", "http://bbs.ngacn.cc"};
     private static final String TAG = HttpUtil.class.getSimpleName();
     /*private static String[] host_arr = { "http://aa121077313.gicp.net:8099",
             "http://aa121077313.gicp.net:8098", "http://10.0.2.2:8099",
