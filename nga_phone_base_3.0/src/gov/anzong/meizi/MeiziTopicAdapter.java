@@ -3,6 +3,7 @@ package gov.anzong.meizi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.ImageViewerActivity;
+import gov.anzong.androidnga.gallery.ImageZoomActivity;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
 import sp.phone.utils.ThemeManager;
 
@@ -58,7 +59,7 @@ public class MeiziTopicAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
         View view = convertView;
-        Holder holder;
+        final Holder holder;
         if (view != null && view.getTag() != null) {
             holder = (Holder) convertView.getTag();
         } else {
@@ -90,11 +91,14 @@ public class MeiziTopicAdapter extends BaseAdapter {
                 holder.image.setOnClickListener(new OnClickListener() {
 
                     @Override
-                    public void onClick(View arg0) {
-                        // TODO Auto-generated method stub
+                    public void onClick(View view) {
                         Intent intent = new Intent();
-                        intent.putExtra("path", item.imgUrl);
-                        intent.setClass(parent.getContext(), ImageViewerActivity.class);
+                        intent.putExtra(ImageZoomActivity.KEY_GALLERY_URLS, new String[]{item.imgUrl});
+                        Rect rect = new Rect();
+                        view.getGlobalVisibleRect(rect);
+                        intent.putExtra(ImageZoomActivity.KEY_GALLERY_RECT, rect);
+                        intent.putExtra(ImageZoomActivity.KEY_GALLERY_CUR_URL, item.imgUrl);
+                        intent.setClass(parent.getContext(), ImageZoomActivity.class);
                         parent.getContext().startActivity(intent);
                     }
 

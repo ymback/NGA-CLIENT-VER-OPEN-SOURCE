@@ -235,10 +235,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.ImageViewerActivity"
-            android:theme="@style/SwipeBackTheme" />
-        <activity
-            android:name=".util.ImageZoomActivity"
+            android:name=".gallery.ImageZoomActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name=".activity.WebViewerActivity"

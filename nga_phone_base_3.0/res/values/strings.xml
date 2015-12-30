@@ -324,4 +324,5 @@
     <string name="setting_option">功能设置</string>
 
     <string name="swipeback">启用侧滑返回</string>
+    <string name="file_saved">图片已保存在：</string>
 </resources>

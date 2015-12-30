@@ -10,8 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Locale;
 
-import gov.anzong.androidnga.activity.ImageViewerActivity;
-import gov.anzong.androidnga.util.ImageZoomActivity;
+import gov.anzong.androidnga.gallery.ImageZoomActivity;
 
 public class ArticleListWebClient extends WebViewClient {
     static private final String NGACN_BOARD_PREFIX = "http://bbs.ngacn.cc/thread.php?";
@@ -55,7 +54,9 @@ public class ArticleListWebClient extends WebViewClient {
             } else if (url.endsWith(".gif") || url.endsWith(".jpg")
                     || url.endsWith(".png") || url.endsWith(".jpeg")
                     || url.endsWith(".bmp")) {
-                intent.putExtra("path", "http://" + origurl);
+                String imgUrl = "http://" + origurl;
+                intent.putExtra(ImageZoomActivity.KEY_GALLERY_URLS, new String[] {imgUrl});
+                intent.putExtra(ImageZoomActivity.KEY_GALLERY_CUR_URL, imgUrl);
                 intent.setClass(view.getContext(), ImageZoomActivity.class);
                 view.getContext().startActivity(intent);
                 return true;
@@ -79,7 +80,8 @@ public class ArticleListWebClient extends WebViewClient {
                 || url.endsWith(".png") || url.endsWith(".jpeg")
                 || url.endsWith(".bmp")) {
             Intent intent = new Intent();
-            intent.putExtra("path", origurl);
+            intent.putExtra(ImageZoomActivity.KEY_GALLERY_URLS, new String[] {origurl});
+            intent.putExtra(ImageZoomActivity.KEY_GALLERY_CUR_URL, origurl);
             intent.setClass(view.getContext(), ImageZoomActivity.class);
             view.getContext().startActivity(intent);
         } else if (url.startsWith(ANDROIDNGAUSERNAME_START)) {
