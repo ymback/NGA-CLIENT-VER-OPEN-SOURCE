@@ -18,6 +18,7 @@ import android.widget.Scroller;
 
 import java.util.LinkedList;
 
+import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.UiUtil;
 
 public class CommonGestureControlGalleryView extends ViewGroup implements ClockCallback {
@@ -234,14 +235,13 @@ public class CommonGestureControlGalleryView extends ViewGroup implements ClockC
             int childCount = getChildCount();
             for (int i = 0; i < childCount; i++) {
                 View child = getChildAt(i);
-                int index = (Integer) child.getTag();
+                int index = (Integer) child.getTag(R.id.tag_1);
                 canvas.save();
                 mMatrix.reset();
                 if (index == mCurrentPage) {
                     mMatrix.postScale(mScale, mScale, mWidth / 2, mHeight / 2);
                     mMatrix.postTranslate(mTranslateX, mTranslateY);
-                    mMatrix.postRotate(mRotation, mCurrentMidPoint.x,
-                            mCurrentMidPoint.y);
+                    //mMatrix.postRotate(mRotation, mCurrentMidPoint.x, mCurrentMidPoint.y);
                 }
                 canvas.setMatrix(mMatrix);
                 drawChild(canvas, child, getDrawingTime());
@@ -601,7 +601,7 @@ public class CommonGestureControlGalleryView extends ViewGroup implements ClockC
             for (int i = 0; i < count; i++) {
                 final View child = getChildAt(i);
                 if (child.getVisibility() != View.GONE) {
-                    int tag = (Integer) child.getTag();
+                    int tag = (Integer) child.getTag(R.id.tag_1);
                     child.layout(-mScrollX + mWidth * tag, 0, -mScrollX
                             + mWidth * tag + mWidth, mHeight);
                 }
@@ -650,7 +650,7 @@ public class CommonGestureControlGalleryView extends ViewGroup implements ClockC
         for (int i = 0; i < childCount; i++) {
             ImageView child = (ImageView) getChildAt(i);
             if (child != null) {
-                int tag = (Integer) child.getTag();
+                int tag = (Integer) child.getTag(R.id.tag_1);
                 if (tag == Page) {
                     imageView = child;
                     break;
@@ -666,7 +666,7 @@ public class CommonGestureControlGalleryView extends ViewGroup implements ClockC
         for (int i = 0; i < childCount; i++) {
             ImageView imageView = (ImageView) getChildAt(i);
             if (imageView != null) {
-                int position = (Integer) imageView.getTag();
+                int position = (Integer) imageView.getTag(R.id.tag_1);
                 if (position != page && position != page - 1
                         && position != page + 1) {
                     removeViewInLayout(imageView);
@@ -801,7 +801,7 @@ public class CommonGestureControlGalleryView extends ViewGroup implements ClockC
         mDistScale = FIT_SCREEN_SCALE;
         mTouchState = TOUCH_STATE_REST;
         if (mIsExit || mMode == MODE_ORIGINAL) {
-            ((Activity) getContext()).finish();
+            //((Activity) getContext()).finish();
         }
     }
 

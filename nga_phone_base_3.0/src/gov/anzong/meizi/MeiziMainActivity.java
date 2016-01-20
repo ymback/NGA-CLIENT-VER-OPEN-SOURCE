@@ -17,7 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
@@ -160,7 +160,7 @@ public class MeiziMainActivity extends ActionBarActivity implements
 
     @Override
     protected void onDestroy() {
-        ImageLoader.getInstance().clearMemoryCache();
+        Glide.get(this).clearMemory();
         super.onDestroy();
     }
 

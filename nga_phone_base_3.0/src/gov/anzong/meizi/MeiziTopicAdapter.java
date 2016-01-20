@@ -2,19 +2,16 @@ package gov.anzong.meizi;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +24,12 @@ import sp.phone.utils.ThemeManager;
 public class MeiziTopicAdapter extends BaseAdapter {
 
     private List<TopicContentItem> mData;
+    private Activity mactivity;
 
     private LayoutInflater mLayoutInflater;
 
     public MeiziTopicAdapter(Activity activity) {
+        mactivity = activity;
         mLayoutInflater = activity.getLayoutInflater();
         mData = new ArrayList<MeiziTopicMData.TopicContentItem>();
     }
@@ -73,21 +72,7 @@ public class MeiziTopicAdapter extends BaseAdapter {
             case IMAGE:
                 holder.image.setVisibility(View.VISIBLE);
                 holder.text.setVisibility(View.GONE);
-                ImageLoader.getInstance().displayImage(item.imgUrl, holder.image, new SimpleImageLoadingListener() {
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view,
-                                                  Bitmap loadedImage) {
-                        // TODO Auto-generated method stub
-                        ((ImageView) view).setImageBitmap(loadedImage);
-                        int bitmapWidth = loadedImage.getWidth();
-                        int bitmapHeight = loadedImage.getHeight();
-                        LayoutParams params = view.getLayoutParams();
-                        params.height = (int) ((float) view.getWidth() / (float) bitmapWidth * (float) bitmapHeight);
-                        view.requestLayout();
-                    }
-
-                });
+                Glide.with(mactivity).load(item.imgUrl).into(holder.image);
                 holder.image.setOnClickListener(new OnClickListener() {
 
                     @Override

@@ -457,5 +457,7 @@
             android:name="gov.anzong.mediaplayer.PlayerService"
             android:process=":vitamio" />
     </application>
-
+    <meta-data
+        android:name="gov.anzong.androidnga.util.MyGlideModule"
+        android:value="GlideModule" />
 </manifest>

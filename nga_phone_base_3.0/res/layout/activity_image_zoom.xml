@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:contentDescription="下载保存"
+            android:layout_marginRight="10dp"
             android:scaleType="center"
             android:src="@drawable/ic_menu_save"
             android:visibility="visible" />

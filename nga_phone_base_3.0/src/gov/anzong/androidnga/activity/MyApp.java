@@ -1,25 +1,15 @@
 package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
-import android.app.ActivityManager;
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +49,6 @@ public class MyApp extends Application implements PerferenceConstant {
         initUserInfo();
         if (ActivityUtil.isGreaterThan_2_1())
             initPath();
-        initImageLoader();
         if (config.iconmode == true) {// laotubiao
             loadDefaultBoardOld();
         } else {
@@ -72,49 +61,6 @@ public class MyApp extends Application implements PerferenceConstant {
 
         super.onCreate();
     }
-
-    @SuppressWarnings("deprecation")
-    public void initImageLoader() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.loading)
-                .showImageForEmptyUri(R.drawable.loading_null)
-                .showImageOnFail(R.drawable.loading_fail).cacheInMemory(true)
-                .bitmapConfig(Bitmap.Config.RGB_565).cacheOnDisk(true)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-                .considerExifParams(true)
-                .displayer(new RoundedBitmapDisplayer(20)).build();
-        int MEM_CACHE_SIZE = 1024 * 1024 * ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE))
-                .getMemoryClass() / 3;
-        if (ActivityUtil.isGreaterThan_2_1()) {
-            File baseDir = getExternalCacheDir();
-            File sdCardDir;
-            if (baseDir != null)
-                sdCardDir = new File(baseDir.getAbsolutePath()
-                        + "/dbmeizi_cache");
-            else
-                sdCardDir = new File(
-                        android.os.Environment.getExternalStorageDirectory()
-                                .getPath()
-                                + "/Android/data/gov.anzong.androidnga/cache/dbmeizi_cache");
-            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                    getApplicationContext())
-                    .denyCacheImageMultipleSizesInMemory()
-                    .defaultDisplayImageOptions(options)
-                    .memoryCache(new LruMemoryCache(MEM_CACHE_SIZE))
-                    .memoryCacheSize(MEM_CACHE_SIZE)
-                    .discCache(new UnlimitedDiskCache(sdCardDir)).build();
-            ImageLoader.getInstance().init(config);
-        } else {
-            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                    getApplicationContext())
-                    .denyCacheImageMultipleSizesInMemory()
-                    .defaultDisplayImageOptions(options)
-                    .memoryCache(new LruMemoryCache(MEM_CACHE_SIZE))
-                    .memoryCacheSize(MEM_CACHE_SIZE).writeDebugLogs().build();
-            ImageLoader.getInstance().init(config);
-        }
-    }
-
 
     public BoardHolder loadDefaultBoardOld() {
 

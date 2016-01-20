@@ -1,23 +1,25 @@
 package gov.anzong.androidnga.gallery;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
 
 import java.util.List;
+
+import gov.anzong.androidnga.R;
 
 public class CommonGalleryViewAdapter extends BaseAdapter {
     private List<String> list;
     private Context context;
-    private SimpleImageLoadingListener imageLoadingListener;
+    private RequestListener<String, GifDrawable> gifListener;
+    private RequestListener<String, GlideDrawable> listener;
 
     public CommonGalleryViewAdapter(Context context, List<String> list) {
         this.context = context;
@@ -47,17 +49,17 @@ public class CommonGalleryViewAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        imageView.setTag(position);
+        imageView.setTag(R.id.tag_1, position);
         String url = list.get(position);
         loadImage(imageView, url, position);
         return imageView;
     }
 
     private void loadImage(ImageView imageView, String url, int index) {
-        DisplayImageOptions imageOptions = (new com.nostra13.universalimageloader.core.DisplayImageOptions.Builder())
-                .cacheInMemory(true).cacheOnDisk(true).considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
-                .imageScaleType(ImageScaleType.EXACTLY).build();
-        ImageLoader.getInstance().displayImage(url, imageView, imageOptions, imageLoadingListener);
+        if (url.endsWith(".gif"))
+            Glide.with(context).load(url).asGif().listener(gifListener).into(imageView);
+        else
+            Glide.with(context).load(url).listener(listener).into(imageView);
     }
 
     public void clear() {
@@ -66,7 +68,8 @@ public class CommonGalleryViewAdapter extends BaseAdapter {
         }
     }
 
-    public void setImageLoadingListener(SimpleImageLoadingListener imageLoadingListener) {
-        this.imageLoadingListener = imageLoadingListener;
+    public void setListener(RequestListener<String, GlideDrawable> listener, RequestListener<String, GifDrawable> gifListener) {
+        this.listener = listener;
+        this.gifListener = gifListener;
     }
 }

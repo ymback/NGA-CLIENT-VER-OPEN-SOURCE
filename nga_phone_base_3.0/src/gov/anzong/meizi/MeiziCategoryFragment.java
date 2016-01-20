@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.MultiColumnPullToRefreshListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -274,7 +274,7 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
     }
 
     public void loadFirstPageAndScrollToTop() {
-        ImageLoader.getInstance().clearMemoryCache();
+        Glide.get(getContext()).clearMemory();
         MeiziListViewUtils.smoothScrollListViewToTop(mAdapterView);
         loadFirstPage();
     }

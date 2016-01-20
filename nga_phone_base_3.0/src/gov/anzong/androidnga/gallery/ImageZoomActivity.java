@@ -1,7 +1,6 @@
 package gov.anzong.androidnga.gallery;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -18,17 +17,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Arrays;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
-import gov.anzong.androidnga.util.UiUtil;
 
 /**
  * Created by Elrond on 2015/11/18.
@@ -37,12 +34,10 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
     public static final String KEY_GALLERY_URLS = "keyGalleryUrl";
     public static final String KEY_GALLERY_RECT = "keyGalleryRect";
     public static final String KEY_GALLERY_CUR_URL = "keyGalleryCurUrl";
-    private final String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()
-            + "/Pictures/";
+    private final String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/";
     private CommonGestureControlGalleryView mGalleryView;
     private String[] galleryUrls;
     private Rect mRect;
-    private Bitmap mCurBitmap;
     private int mPageIndex;
     private int mInitPageIndex;
     private ViewGroup mBottomLayout;
@@ -68,8 +63,8 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
             DisplayMetrics dm = new DisplayMetrics();
             Display d = getWindowManager().getDefaultDisplay();
             d.getMetrics(dm);
-            mRect = new Rect((int) (0.25 * dm.widthPixels), (int) (0.25 * dm.heightPixels), (int) (0.75 * dm.widthPixels)
-                    , (int) (0.75 * dm.heightPixels));
+            //mRect = new Rect((int) (0.25 * dm.widthPixels), (int) (0.25 * dm.heightPixels), (int) (0.75 * dm.widthPixels), (int) (0.75 * dm.heightPixels));
+            mRect = new Rect(0, 0, dm.widthPixels, dm.heightPixels);
         }
         String curUrl = intent.getStringExtra(KEY_GALLERY_CUR_URL);
         mInitPageIndex = mPageIndex = Arrays.asList(galleryUrls).indexOf(curUrl);
@@ -84,11 +79,7 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String path = PATH_IMAGES + File.separator + System.currentTimeMillis() + ".png";
-                saveBitmap(path);
-                String toast = getString(R.string.file_saved) + path;
-                Utils.updateSystemGallery(ImageZoomActivity.this, new File(path));
-                UiUtil.showToast(ImageZoomActivity.this, toast);
+                saveBitmap();
             }
         });
     }
@@ -117,40 +108,17 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
         });
         mGalleryView.setOnScaleModeChangeListener(mOnScaleModeChangeListener);
         mGalleryView.setGalleryPageChangeListener(mOnGalleryPageChangeListener);
-        adapter.setImageLoadingListener(mImageLoadingListener);
+        adapter.setListener(listener, gifListener);
         mGalleryView.scrollToPage(mPageIndex);
 
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void saveBitmap(String filePath) {
-        if (mCurBitmap == null) {
-            return;
-        }
-        File f = new File(filePath);
-        FileOutputStream fOut = null;
-        try {
-            if (f.exists()) {
-                f.delete();
-            }
-            File dir = f.getParentFile();
-            if (!dir.exists())
-                dir.mkdirs();
-            f.createNewFile();
-            fOut = new FileOutputStream(f);
-            mCurBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-            fOut.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fOut != null) {
-                    fOut.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    private void saveBitmap() {
+        String path = PATH_IMAGES + System.currentTimeMillis() + ".png";
+        SaveImageTask task = new SaveImageTask(this, path);
+        task.execute(galleryUrls[mPageIndex]);
     }
 
     @Override
@@ -186,7 +154,7 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
     private CommonGestureControlGalleryView.OnScaleModeChangeListener mOnScaleModeChangeListener = new CommonGestureControlGalleryView.OnScaleModeChangeListener() {
         @Override
         public void onScaleModeChange(int mode) {
-            if (mode == CommonGestureControlGalleryView.MODE_FIT_WIDTH) {
+            if (mode == CommonGestureControlGalleryView.MODE_FIT_WIDTH || mode == CommonGestureControlGalleryView.MODE_ORIGINAL) {
                 mBottomLayout.setVisibility(ViewGroup.VISIBLE);
             } else {
                 mBottomLayout.setVisibility(ViewGroup.INVISIBLE);
@@ -198,29 +166,34 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
         public void onPageChange(GalleryData galleryData, int pageIndex) {
             mPageIndex = pageIndex;
             mTxtView.setText(String.valueOf(pageIndex + 1) + " / " + String.valueOf(galleryUrls.length));
+            mProgressBar.setVisibility(View.VISIBLE);
         }
     };
 
-    private SimpleImageLoadingListener mImageLoadingListener = new SimpleImageLoadingListener() {
+    private RequestListener<String, GlideDrawable> listener = new RequestListener<String, GlideDrawable>() {
+
         @Override
-        public void onLoadingStarted(String s, View view) {
-            mProgressBar.setVisibility(View.VISIBLE);
+        public boolean onException(Exception e, String s, Target<GlideDrawable> target, boolean b) {
+            return false;
         }
 
         @Override
-        public void onLoadingFailed(String s, View view, FailReason failReason) {
-
-        }
-
-        @Override
-        public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+        public boolean onResourceReady(GlideDrawable glideDrawable, String s, Target<GlideDrawable> target, boolean b, boolean b1) {
             mProgressBar.setVisibility(View.GONE);
-            mCurBitmap = bitmap;
+            return false;
+        }
+    };
+
+    private RequestListener<String, GifDrawable> gifListener = new RequestListener<String, GifDrawable>() {
+        @Override
+        public boolean onException(Exception e, String s, Target<GifDrawable> target, boolean b) {
+            return false;
         }
 
         @Override
-        public void onLoadingCancelled(String s, View view) {
-
+        public boolean onResourceReady(GifDrawable gifDrawable, String s, Target<GifDrawable> target, boolean b, boolean b1) {
+            mProgressBar.setVisibility(View.GONE);
+            return false;
         }
     };
 }

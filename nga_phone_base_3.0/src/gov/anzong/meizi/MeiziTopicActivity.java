@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
@@ -77,7 +77,7 @@ public class MeiziTopicActivity extends SwipeBackAppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        ImageLoader.getInstance().clearMemoryCache();
+        Glide.get(this).clearMemory();
         super.onDestroy();
     }
 

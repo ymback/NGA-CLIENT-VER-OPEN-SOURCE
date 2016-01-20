@@ -1,18 +1,14 @@
 package gov.anzong.meizi;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.huewu.pla.lib.MultiColumnListView;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,28 +77,7 @@ public class MeiziCategoryAdapter extends BaseAdapter {
                 + mListView.getHeaderViewsCount()));
 
         MeiziUrlData meiziM = mData.get(position);
-        ImageLoader.getInstance().displayImage(meiziM.smallPicUrl,
-                holder.image, new SimpleImageLoadingListener() {
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view,
-                                                  Bitmap loadedImage) {
-                        // TODO Auto-generated method stub
-                        if (loadedImage != null) {
-                            ((ImageView) view).setImageBitmap(loadedImage);
-                            int bitmapWidth = loadedImage.getWidth();
-                            int bitmapHeight = loadedImage.getHeight();
-                            LayoutParams params = view.getLayoutParams();
-                            params.height = (int) ((float) view.getWidth()
-                                    / (float) bitmapWidth * (float) bitmapHeight);
-                            view.requestLayout();
-                        } else {
-                            Log.i("ds-img-null", imageUri);
-                        }
-                    }
-
-                });
-
+        Glide.with(mactivity).load(meiziM.smallPicUrl).into(holder.image);
         return view;
     }
 
