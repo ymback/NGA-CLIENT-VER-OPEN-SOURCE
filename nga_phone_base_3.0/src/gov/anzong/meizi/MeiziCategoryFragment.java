@@ -274,7 +274,7 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
     }
 
     public void loadFirstPageAndScrollToTop() {
-        Glide.get(getContext()).clearMemory();
+        Glide.get(getActivity()).clearMemory();
         MeiziListViewUtils.smoothScrollListViewToTop(mAdapterView);
         loadFirstPage();
     }
