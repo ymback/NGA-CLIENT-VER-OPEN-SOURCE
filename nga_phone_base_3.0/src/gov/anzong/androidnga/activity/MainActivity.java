@@ -130,6 +130,7 @@ public class MainActivity extends ActionBarActivity implements
     private String fulimode = "0";
     private ThemeManager tm = ThemeManager.getInstance();
     private OnItemClickListener onItemClickListenerlistener = new EnterToplistLintener();
+    private boolean mIsItemClicked;
 
     public static Bitmap toRoundCorner(Bitmap bitmap, float ratio) { // 绝无问题
         if (bitmap.getWidth() > bitmap.getHeight()) {
@@ -231,6 +232,10 @@ public class MainActivity extends ActionBarActivity implements
                 R.string.drawer_close /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
+            	if (mIsItemClicked){
+                    selectItem(mActivePosition, (Item) mAdapter.getItem(mActivePosition - 1));
+                    mIsItemClicked = false;
+                }
                 getSupportActionBar().setTitle(R.string.start_title);
                 if (ActivityUtil.isLessThan_3_0())
                     supportInvalidateOptionsMenu();
@@ -1503,7 +1508,8 @@ public class MainActivity extends ActionBarActivity implements
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
             mActivePosition = position;
-            selectItem(position, (Item) mAdapter.getItem(position - 1));
+            mIsItemClicked = true;
+            mDrawerLayout.closeDrawers();
         }
     }
 
