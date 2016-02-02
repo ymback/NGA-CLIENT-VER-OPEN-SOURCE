@@ -23,6 +23,8 @@ public class ThemeManager {
     //static final public int Theme_Holo = 16973931;//android.R$style.class
     //public static final int Theme = 16973829;//android.R$style.class
     int backgroundColor[] = {R.color.shit2, R.color.night_bg_color};
+    
+    int[] mSwitchBackground = {R.color.switch_bg_selector,R.color.switch_bg_selector};
 
     public static ThemeManager getInstance() {
         if (instance == null) {
@@ -47,6 +49,10 @@ public class ThemeManager {
 
     public int getBackgroundColor() {
         return getBackgroundColor(0);
+    }
+    
+    public int getSwitchBackground(){
+        return mSwitchBackground[mode];
     }
 
     public int getBackgroundColor(int position) {
