@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.ColorStateList;
+import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -16,6 +18,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +37,8 @@ import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
 import java.util.List;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import gov.anzong.androidnga.R;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -128,7 +134,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
-        ThemeManager.SetContextTheme(this);
+      //  ThemeManager.SetContextTheme(this);
         int layoutId = R.layout.settings;
         if (ActivityUtil.isMeizu())
             layoutId = R.layout.settings_meizu;
@@ -507,6 +513,40 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         picshowtitle.setTextColor(fgColor);
         optiontitle.setTextColor(fgColor);
         uishowtitle.setTextColor(fgColor);
+        if (checkBoxDownimgNowifi instanceof Switch){
+        	XmlResourceParser xrp = getResources().getXml(ThemeManager.getInstance().getSwitchBackground());
+			try {
+				ColorStateList list = ColorStateList.createFromXml(getResources(), xrp);
+				((Switch)checkBoxDownimgNowifi).getTrackDrawable().setTintList(list);
+				((Switch)checkBoxDownAvatarNowifi).getTrackDrawable().setTintList(list);
+				((Switch)showReplyButton).getTrackDrawable().setTintList(list);
+				((Switch)nightMode).getTrackDrawable().setTintList(list);
+				((Switch)swipeback).getTrackDrawable().setTintList(list);
+				((Switch)showAnimation).getTrackDrawable().setTintList(list);
+				((Switch)showSignature).getTrackDrawable().setTintList(list);
+				((Switch)notification).getTrackDrawable().setTintList(list);
+				((Switch)notificationSound).getTrackDrawable().setTintList(list);
+				((Switch)showStatic).getTrackDrawable().setTintList(list);
+				((Switch)showColortxt).getTrackDrawable().setTintList(list);
+				((Switch)showLajibankuai).getTrackDrawable().setTintList(list);
+				((Switch)showNewweiba).getTrackDrawable().setTintList(list);
+				((Switch)showIconMode).getTrackDrawable().setTintList(list);
+				((Switch)refresh_after_post_setting_mode).getTrackDrawable().setTintList(list);
+				((Switch)split).getTrackDrawable().setTintList(list);
+				((Switch)replysplit).getTrackDrawable().setTintList(list);
+				((Switch)ha).getTrackDrawable().setTintList(list);
+				((Switch)fullscreen).getTrackDrawable().setTintList(list);
+				((Switch)kitwebview).getTrackDrawable().setTintList(list);
+			} catch (XmlPullParserException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	xrp.close();
+        	
+        }
     }
 
     @Override
