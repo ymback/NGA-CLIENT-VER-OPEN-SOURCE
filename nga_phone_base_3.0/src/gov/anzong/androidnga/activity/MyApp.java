@@ -30,7 +30,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class MyApp extends Application implements PerferenceConstant {
-    public final static int version = 2053;
+    public final static int version = 2054;
     public static final int fddicon[][] = {};
     static final String RECENT = "最近访问";
     static final String ADDFID = "用户自定义";
@@ -63,7 +63,7 @@ public class MyApp extends Application implements PerferenceConstant {
     }
 
     public BoardHolder loadDefaultBoardOld() {
-
+        long currentTimeSeconds = System.currentTimeMillis() / 1000;
         BoardHolder boards = new BoardHolder();
 
         int i = 0;
@@ -104,20 +104,24 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "-343809", "汽车俱乐部", R.drawable.oldpdefault));
         boards.add(new Board(i, "-81981", "生命之杯", R.drawable.oldpdefault));
         boards.add(new Board(i, "-576177", "影音讨论区", R.drawable.oldpdefault));
+        if (currentTimeSeconds > 1464710400 && currentTimeSeconds < 1472659200) {
+            boards.add(new Board(i, "497", "魔兽世界电影", R.drawable.oldpdefault));
+        }//WOW MOVIE 彩蛋
         boards.add(new Board(i, "-43", "军事历史", R.drawable.oldpdefault));
         boards.add(new Board(i, "414", "游戏综合讨论", R.drawable.oldp414));
         boards.add(new Board(i, "415", "主机游戏综合讨论", R.drawable.oldpdefault));
         boards.add(new Board(i, "427", "怪物猎人", R.drawable.oldp427));
         boards.add(new Board(i, "431", "风暴英雄", R.drawable.oldp431));
         boards.add(new Board(i, "436", "消费电子 IT新闻", R.drawable.oldpdefault));
+        boards.add(new Board(i, "498", "二手交易", R.drawable.oldpdefault));
         boards.add(new Board(i, "340", "无聊图", R.drawable.oldpdefault));
         boards.add(new Board(i, "456", "冲水区", R.drawable.oldpdefault));
         boards.add(new Board(i, "-187579", "大漩涡历史博物馆", R.drawable.oldpdefault));
         boards.add(new Board(i, "485", "篮球", R.drawable.oldpdefault));
+        boards.add(new Board(i, "491", "议会", R.drawable.oldpdefault));
         boards.addCategoryName(i, "大漩涡系列");
         i++;
 
-        boards.add(new Board(i, "477", "伊利达雷", R.drawable.oldp477));
         boards.add(new Board(i, "390", "五晨寺", R.drawable.oldp390));
         boards.add(new Board(i, "320", "黑锋要塞", R.drawable.oldp320));
         boards.add(new Board(i, "181", "铁血沙场", R.drawable.oldp181));
@@ -129,6 +133,7 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "184", "圣光之力", R.drawable.oldp184));
         boards.add(new Board(i, "188", "恶魔深渊", R.drawable.oldp188));
         boards.add(new Board(i, "189", "暗影裂口", R.drawable.oldp189));
+        boards.add(new Board(i, "477", "伊利达雷", R.drawable.oldp477));
         boards.addCategoryName(i, "职业讨论区");
         i++;
 
@@ -178,7 +183,8 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "431", "风暴英雄", R.drawable.oldp431));
         boards.add(new Board(i, "-452227", "口袋妖怪", R.drawable.oldp452227));
         boards.add(new Board(i, "426", "智龙迷城", R.drawable.oldp426));
-        boards.add(new Board(i, "-51095", "部落战争", R.drawable.oldp51095));
+        boards.add(new Board(i, "-51095", "部落冲突", R.drawable.oldp51095));
+        boards.add(new Board(i, "492", "部落冲突:皇室战争", R.drawable.oldp492));
         boards.add(new Board(i, "-362960", "最终幻想14", R.drawable.oldp362960));
         boards.add(new Board(i, "-6194253", "战争雷霆", R.drawable.oldp6194253));
         boards.add(new Board(i, "427", "怪物猎人", R.drawable.oldp427));
@@ -189,7 +195,8 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "412", "巫师之怒", R.drawable.oldp412));
         boards.add(new Board(i, "-235147", "激战2", R.drawable.oldp235147));
         boards.add(new Board(i, "442", "逆战", R.drawable.oldp442));
-        boards.add(new Board(i, "-46468", "坦克世界", R.drawable.oldp46468));
+        boards.add(new Board(i, "-46468", "洛拉斯的战争世界", R.drawable.oldp46468));
+        boards.add(new Board(i, "483", "洛拉斯的战争世界:插件", R.drawable.oldp46468));
         boards.add(new Board(i, "432", "战机世界", R.drawable.oldp432));
         boards.add(new Board(i, "441", "战舰世界", R.drawable.oldpdefault));
         boards.add(new Board(i, "321", "DotA", R.drawable.oldp321));
@@ -217,6 +224,17 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "453", "魔力宝贝", R.drawable.oldpdefault));
         boards.add(new Board(i, "454", "神之浩劫", R.drawable.oldpdefault));
         boards.add(new Board(i, "455", "鬼武者 魂", R.drawable.oldpdefault));
+        boards.add(new Board(i, "480", "百万亚瑟王", R.drawable.oldpdefault));
+        boards.add(new Board(i, "481", "Minecraft", R.drawable.oldpdefault));
+        boards.add(new Board(i, "482", "CS", R.drawable.oldpdefault));
+        boards.add(new Board(i, "484", "热血江湖传", R.drawable.oldpdefault));
+        boards.add(new Board(i, "486", "辐射", R.drawable.oldpdefault));
+        boards.add(new Board(i, "487", "刀剑魔药2", R.drawable.oldpdefault));
+        boards.add(new Board(i, "488", "村长打天下", R.drawable.oldpdefault));
+        boards.add(new Board(i, "493", "刀塔战纪", R.drawable.oldpdefault));
+        boards.add(new Board(i, "494", "魔龙之魂", R.drawable.oldpdefault));
+        boards.add(new Board(i, "495", "光荣三国志系列", R.drawable.oldpdefault));
+        boards.add(new Board(i, "496", "九十九姬", R.drawable.oldpdefault));
         boards.addCategoryName(i, "其他游戏");
         i++;
 
@@ -239,11 +257,13 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "431", "风暴英雄", R.drawable.oldp431));
         boards.add(new Board(i, "457", "视频资料", R.drawable.oldpdefault));
         boards.add(new Board(i, "459", "守望先锋", R.drawable.oldp459));
+        boards.add(new Board(i, "490", "魔兽争霸", R.drawable.oldpdefault));
         boards.addCategoryName(i, "暴雪游戏");
         i++;
 
         boards.add(new Board(i, "-152678", "英雄联盟", R.drawable.oldp152678));
         boards.add(new Board(i, "418", "游戏视频", R.drawable.oldpdefault));
+        boards.add(new Board(i, "479", "赛事讨论", R.drawable.oldpdefault));
         boards.addCategoryName(i, "英雄联盟");
         i++;
 
@@ -297,7 +317,7 @@ public class MyApp extends Application implements PerferenceConstant {
     }
 
     public BoardHolder loadDefaultBoard() {
-
+        long currentTimeSeconds = System.currentTimeMillis() / 1000;
         BoardHolder boards = new BoardHolder();
 
         int i = 0;
@@ -338,20 +358,24 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "-343809", "汽车俱乐部", R.drawable.p343809));
         boards.add(new Board(i, "-81981", "生命之杯", R.drawable.p81981));
         boards.add(new Board(i, "-576177", "影音讨论区", R.drawable.p576177));
+        if (currentTimeSeconds > 1464710400 && currentTimeSeconds < 1472659200) {
+            boards.add(new Board(i, "497", "魔兽世界电影", R.drawable.p497));
+        }//WOW MOVIE 彩蛋
         boards.add(new Board(i, "-43", "军事历史", R.drawable.p43));
         boards.add(new Board(i, "414", "游戏综合讨论", R.drawable.p414));
         boards.add(new Board(i, "415", "主机游戏综合讨论", R.drawable.p415));
         boards.add(new Board(i, "427", "怪物猎人", R.drawable.p427));
         boards.add(new Board(i, "431", "风暴英雄", R.drawable.p431));
         boards.add(new Board(i, "436", "消费电子 IT新闻", R.drawable.p436));
+        boards.add(new Board(i, "498", "二手交易", R.drawable.p498));
         boards.add(new Board(i, "340", "无聊图", R.drawable.p340));
         boards.add(new Board(i, "456", "冲水区", R.drawable.p456));
         boards.add(new Board(i, "-187579", "大漩涡历史博物馆", R.drawable.p187579));
-        boards.add(new Board(i, "485", "篮球", R.drawable.oldpdefault));
+        boards.add(new Board(i, "485", "篮球", R.drawable.p485));
+        boards.add(new Board(i, "491", "议会", R.drawable.p491));
         boards.addCategoryName(i, "大漩涡系列");
         i++;
 
-        boards.add(new Board(i, "477", "伊利达雷", R.drawable.oldp477));
         boards.add(new Board(i, "390", "五晨寺", R.drawable.p390));
         boards.add(new Board(i, "320", "黑锋要塞", R.drawable.p320));
         boards.add(new Board(i, "181", "铁血沙场", R.drawable.p181));
@@ -363,6 +387,7 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "184", "圣光之力", R.drawable.p184));
         boards.add(new Board(i, "188", "恶魔深渊", R.drawable.p188));
         boards.add(new Board(i, "189", "暗影裂口", R.drawable.p189));
+        boards.add(new Board(i, "477", "伊利达雷", R.drawable.p477));
         boards.addCategoryName(i, "职业讨论区");
         i++;
 
@@ -412,7 +437,8 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "431", "风暴英雄", R.drawable.p431));
         boards.add(new Board(i, "-452227", "口袋妖怪", R.drawable.p452227));
         boards.add(new Board(i, "426", "智龙迷城", R.drawable.p426));
-        boards.add(new Board(i, "-51095", "部落战争", R.drawable.p51095));
+        boards.add(new Board(i, "-51095", "部落冲突", R.drawable.p51095));
+        boards.add(new Board(i, "492", "部落冲突:皇室战争", R.drawable.p492));
         boards.add(new Board(i, "-362960", "最终幻想14", R.drawable.p362960));
         boards.add(new Board(i, "-6194253", "战争雷霆", R.drawable.p6194253));
         boards.add(new Board(i, "427", "怪物猎人", R.drawable.p427));
@@ -423,7 +449,8 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "412", "巫师之怒", R.drawable.p412));
         boards.add(new Board(i, "-235147", "激战2", R.drawable.p235147));
         boards.add(new Board(i, "442", "逆战", R.drawable.p442));
-        boards.add(new Board(i, "-46468", "坦克世界", R.drawable.p46468));
+        boards.add(new Board(i, "-46468", "洛拉斯的战争世界", R.drawable.p46468));
+        boards.add(new Board(i, "483", "洛拉斯的战争世界:插件", R.drawable.p46468));
         boards.add(new Board(i, "432", "战机世界", R.drawable.p432));
         boards.add(new Board(i, "441", "战舰世界", R.drawable.p441));
         boards.add(new Board(i, "321", "DotA", R.drawable.p321));
@@ -451,6 +478,17 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "453", "魔力宝贝", R.drawable.p453));
         boards.add(new Board(i, "454", "神之浩劫", R.drawable.p454));
         boards.add(new Board(i, "455", "鬼武者 魂", R.drawable.p455));
+        boards.add(new Board(i, "480", "百万亚瑟王", R.drawable.p480));
+        boards.add(new Board(i, "481", "Minecraft", R.drawable.p481));
+        boards.add(new Board(i, "482", "CS", R.drawable.p482));
+        boards.add(new Board(i, "484", "热血江湖传", R.drawable.p484));
+        boards.add(new Board(i, "486", "辐射", R.drawable.p486));
+        boards.add(new Board(i, "487", "刀剑魔药2", R.drawable.p487));
+        boards.add(new Board(i, "488", "村长打天下", R.drawable.p488));
+        boards.add(new Board(i, "493", "刀塔战纪", R.drawable.p493));
+        boards.add(new Board(i, "494", "魔龙之魂", R.drawable.p494));
+        boards.add(new Board(i, "495", "光荣三国志系列", R.drawable.p495));
+        boards.add(new Board(i, "496", "九十九姬", R.drawable.p496));
         boards.addCategoryName(i, "其他游戏");
         i++;
 
@@ -473,11 +511,13 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "431", "风暴英雄", R.drawable.p431));
         boards.add(new Board(i, "457", "视频资料", R.drawable.p457));
         boards.add(new Board(i, "459", "守望先锋", R.drawable.p459));
+        boards.add(new Board(i, "490", "魔兽争霸", R.drawable.p490));
         boards.addCategoryName(i, "暴雪游戏");
         i++;
 
         boards.add(new Board(i, "-152678", "英雄联盟", R.drawable.p152678));
         boards.add(new Board(i, "418", "游戏视频", R.drawable.p418));
+        boards.add(new Board(i, "479", "赛事讨论", R.drawable.p152678));
         boards.addCategoryName(i, "英雄联盟");
         i++;
 
