@@ -262,9 +262,7 @@ public class FunctionUtil {
 
                 @Override
                 public boolean onLongClick(View v) {
-                    // TODO Auto-generated method stub
-                    ((ActionBarActivity) context)
-                            .startSupportActionMode(mActionModeCallback);
+                    ((ActionBarActivity) context).startSupportActionMode(mActionModeCallback);
                     return true;
                 }
 
@@ -275,12 +273,10 @@ public class FunctionUtil {
 //		}
         WebSettings setting = contentTV.getSettings();
         setting.setUserAgentString(context.getString(R.string.clientua) + ((MyApp) ((Activity) context).getApplication()).version);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
-        contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(),
-                "text/html", "utf-8", null);
+        contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(), "text/html", "utf-8", null);
     }
 
     public static void errordialogadmin(Context context, final View listView) {

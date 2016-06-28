@@ -49,6 +49,9 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
+/**
+ * 帖子详情分页
+ */
 public class ArticleListFragment extends BaseFragment implements
         OnThreadPageLoadFinishedListener, PerferenceConstant {
     final static private String TAG = ArticleListFragment.class.getSimpleName();
@@ -94,12 +97,10 @@ public class ArticleListFragment extends BaseFragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         listview = new ListView(this.getActivity());
 
-        listview.setBackgroundResource(ThemeManager.getInstance()
-                .getBackgroundColor());
+        listview.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor());
         listview.setDivider(null);
 
         activeActionMode();
@@ -107,13 +108,11 @@ public class ArticleListFragment extends BaseFragment implements
         listview.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                           int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView lv = (ListView) parent;
                 lv.setItemChecked(position, true);
                 if (mActionModeCallback != null) {
-                    ((ActionBarActivity) getActivity())
-                            .startSupportActionMode((Callback) mActionModeCallback);
+                    ((ActionBarActivity) getActivity()).startSupportActionMode((Callback) mActionModeCallback);
                     return true;
                 }
                 return false;
@@ -122,14 +121,12 @@ public class ArticleListFragment extends BaseFragment implements
         });
 
         listview.setDescendantFocusability(ListView.FOCUS_AFTER_DESCENDANTS);
-
         return listview;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
@@ -633,8 +630,7 @@ public class ArticleListFragment extends BaseFragment implements
                 intent.setType("text/plain");
                 String shareUrl = Utils.getNGAHost() + "read.php?";
                 if (row.getPid() != 0) {
-                    shareUrl = shareUrl + "pid=" + row.getPid()
-                            + " (分享自NGA安卓客户端开源版)";
+                    shareUrl = shareUrl + "pid=" + row.getPid() + " (分享自NGA安卓客户端开源版)";
                 } else {
                     shareUrl = shareUrl + "tid=" + tid + " (分享自NGA安卓客户端开源版)";
                 }
@@ -651,12 +647,10 @@ public class ArticleListFragment extends BaseFragment implements
     }
 
     public void modechange() {
-        listview.setBackgroundResource(ThemeManager.getInstance()
-                .getBackgroundColor());
+        listview.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor());
         if (mData != null) {
             for (int i = 0; i < mData.getRowList().size(); i++) {
-                FunctionUtil.fillFormated_html_data(mData.getRowList().get(i),
-                        i, getActivity());
+                FunctionUtil.fillFormated_html_data(mData.getRowList().get(i), i, getActivity());
             }
             finishLoad(mData);
         }
@@ -681,13 +675,11 @@ public class ArticleListFragment extends BaseFragment implements
                 if (father != null)
                     father.finishLoad(data);
             } catch (ClassCastException e) {
-                Log.e(TAG,
-                        "father activity should implements OnThreadPageLoadFinishedListener");
+                Log.e(TAG, "father activity should implements OnThreadPageLoadFinishedListener");
             }
 
         }
         ActivityUtil.getInstance().dismiss();
         this.needLoad = false;
-
     }
 }

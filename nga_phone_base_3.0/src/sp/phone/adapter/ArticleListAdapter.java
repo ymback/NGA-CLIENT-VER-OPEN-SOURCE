@@ -46,6 +46,9 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
+/**
+ * 帖子详情列表Adapter
+ */
 public class ArticleListAdapter extends BaseAdapter implements
         AvatarLoadCompleteCallBack {
     private static final String TAG = ArticleListAdapter.class.getSimpleName();
@@ -58,7 +61,7 @@ public class ArticleListAdapter extends BaseAdapter implements
     static String attachment = null;
     static String comment = null;
     static String sig = null;
-    private static Context activity;
+    private Context activity;
     final WebViewClient client;
     private final SparseArray<SoftReference<View>> viewCache;
     private final Object lock = new Object();
@@ -88,27 +91,16 @@ public class ArticleListAdapter extends BaseAdapter implements
     }
 
     private static String buildHeader(ThreadRowInfo row, String fgColorStr) {
-        if (row == null
-                || (StringUtil.isEmpty(row.getSubject()) && !row
-                .getISANONYMOUS()))
+        if (row == null || (StringUtil.isEmpty(row.getSubject()) && !row.getISANONYMOUS()))
             return "";
         StringBuilder sb = new StringBuilder();
         sb.append("<h4 style='color:").append(fgColorStr).append("' >");
         if (!StringUtil.isEmpty(row.getSubject()))
             sb.append(row.getSubject());
         if (row.getISANONYMOUS())
-            sb.append("<font style='color:#D00;font-weight: bold;'>")
-                    .append("[匿名]").append("</font>");
+            sb.append("<font style='color:#D00;font-weight: bold;'>").append("[匿名]").append("</font>");
         sb.append("</h4>");
         return sb.toString();
-    }
-
-    public static String distanceString(long distance) {
-        String ret = Long.valueOf(distance).toString() + meter;
-        if (distance > 1000) {
-            ret = Long.valueOf(distance / 1000).toString() + kiloMeter;
-        }
-        return ret;
     }
 
     public static String convertToHtmlText(final ThreadRowInfo row,
@@ -157,9 +149,7 @@ public class ArticleListAdapter extends BaseAdapter implements
     }
 
     @SuppressWarnings("static-access")
-    private static String buildAttachment(ThreadRowInfo row, boolean showImage,
-                                          int imageQuality, HashSet<String> imageURLSet) {
-
+    private static String buildAttachment(ThreadRowInfo row, boolean showImage, int imageQuality, HashSet<String> imageURLSet) {
         if (row == null || row.getAttachs() == null
                 || row.getAttachs().size() == 0) {
             return "";
@@ -179,14 +169,12 @@ public class ArticleListAdapter extends BaseAdapter implements
         int attachmentCount = 0;
         while (it.hasNext()) {
             Entry<String, Attachment> entry = it.next();
-            if (imageURLSet != null && imageURLSet.size() > 0
-                    && imageURLSet.contains(entry.getValue().getAttachurl())) {
+            if (imageURLSet != null && imageURLSet.size() > 0 && imageURLSet.contains(entry.getValue().getAttachurl())) {
                 continue;
             }
             // String url = "http://img.nga.178.com/attachments/" +
             // entry.getValue().getAttachurl();
-            ret.append("<tr><td><a href='http://"
-                    + HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/");
+            ret.append("<tr><td><a href='http://" + HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/");
             ret.append(entry.getValue().getAttachurl());
             ret.append("'>");
             if (showImage) {
@@ -196,8 +184,7 @@ public class ArticleListAdapter extends BaseAdapter implements
                     attachURL = attachURL + ".thumb.jpg";
                     // ret.append(entry.getValue().getExt());
                 } else {
-                    attachURL = StringUtil.buildOptimizedImageURL(attachURL,
-                            imageQuality);
+                    attachURL = StringUtil.buildOptimizedImageURL(attachURL, imageQuality);
                 }
                 ret.append("<img src='");
                 ret.append(attachURL);
@@ -217,10 +204,8 @@ public class ArticleListAdapter extends BaseAdapter implements
             return ret.toString();
     }
 
-    private static String buildComment(ThreadRowInfo row, String fgColor,
-                                       boolean showImage, int imageQuality, Context context) {
-        if (row == null || row.getComments() == null
-                || row.getComments().size() == 0) {
+    private static String buildComment(ThreadRowInfo row, String fgColor, boolean showImage, int imageQuality, Context context) {
+        if (row == null || row.getComments() == null || row.getComments().size() == 0) {
             return "";
         }
 
@@ -234,10 +219,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         ret.append("<tbody>");
 
         Iterator<ThreadRowInfo> it = row.getComments().iterator();
-        final boolean downImg = FunctionUtil
-                .isInWifi(context)
-                || PhoneConfiguration.getInstance()
-                .isDownAvatarNoWifi();
+        final boolean downImg = FunctionUtil.isInWifi(context) || PhoneConfiguration.getInstance().isDownAvatarNoWifi();
         while (it.hasNext()) {
             ThreadRowInfo comment = it.next();
             ret.append("<tr><td>");
@@ -245,8 +227,7 @@ public class ArticleListAdapter extends BaseAdapter implements
             ret.append(comment.getAuthor());
             ret.append("</span><br/>");
             ret.append("<img src='");
-            String avatarUrl = FunctionUtil.parseAvatarUrl(comment
-                    .getJs_escap_avatar());
+            String avatarUrl = FunctionUtil.parseAvatarUrl(comment.getJs_escap_avatar());
             String avatarPath = ImageUtil.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
             if (downImg) {
                 if (StringUtil.isEmpty(avatarPath)) {
@@ -268,15 +249,13 @@ public class ArticleListAdapter extends BaseAdapter implements
                         ret.append(avatarPath);
                     } else {
                         ret.append("file:///android_asset/default_avatar.png");
-                        ;
                     }
                 }
             }
             ret.append("' style= 'max-width:32;'>");
 
             ret.append("</td><td>");
-            ret.append(StringUtil.decodeForumTag(comment.getContent(),
-                    showImage, imageQuality, null));
+            ret.append(StringUtil.decodeForumTag(comment.getContent(), showImage, imageQuality, null));
             ret.append("</td></tr>");
 
         }
@@ -325,36 +304,29 @@ public class ArticleListAdapter extends BaseAdapter implements
     public Object getItem(int position) {
         if (null == data)
             return null;
-
         return data.getRowList().get(position);
     }
 
     @Override
     public long getItemId(int position) {
-
         return position;
     }
 
     private boolean isInWifi() {
-        ConnectivityManager conMan = (ConnectivityManager) activity
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
+        ConnectivityManager conMan = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
         return wifi == State.CONNECTED;
     }
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
-
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row
-                .getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
             return;
         }
-        if (defaultAvatar == null
-                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
+        if (defaultAvatar == null || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
             Resources res = avatarIV.getContext().getResources();
             InputStream is = res.openRawResource(R.drawable.default_avatar);
             InputStream is2 = res.openRawResource(R.drawable.default_avatar);
@@ -364,7 +336,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
                 // Log.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
@@ -397,9 +369,7 @@ public class ArticleListAdapter extends BaseAdapter implements
                             || PhoneConfiguration.getInstance()
                             .isDownAvatarNoWifi();
 
-                    new AvatarLoadTask(avatarIV, null, downImg, lou, this)
-                            .execute(avatarUrl, avatarPath, userId);
-
+                    new AvatarLoadTask(avatarIV, null, downImg, lou, this).execute(avatarUrl, avatarPath, userId);
                 }
             }
         }
@@ -408,8 +378,7 @@ public class ArticleListAdapter extends BaseAdapter implements
 
     private ViewHolder initHolder(final View view) {
         final ViewHolder holder = new ViewHolder();
-        holder.articlelistrelativelayout = (RelativeLayout) view
-                .findViewById(R.id.articlelistrelativelayout);
+        holder.articlelistrelativelayout = (RelativeLayout) view.findViewById(R.id.articlelistrelativelayout);
         holder.nickNameTV = (TextView) view.findViewById(R.id.nickName);
         holder.avatarIV = (ImageView) view.findViewById(R.id.avatarImage);
         holder.floorTV = (TextView) view.findViewById(R.id.floor);
@@ -439,16 +408,14 @@ public class ArticleListAdapter extends BaseAdapter implements
                 Log.d(TAG, "get view from cache ,floor " + lou);
                 return cachedView;
             } else {
-                view = LayoutInflater.from(activity).inflate(
-                        R.layout.relative_aritclelist, parent, false);
+                view = LayoutInflater.from(activity).inflate(R.layout.relative_aritclelist, parent, false);
                 holder = initHolder(view);
                 holder.position = position;
                 view.setTag(holder);
                 viewCache.put(position, new SoftReference<View>(view));
             }
         } else {
-            view = LayoutInflater.from(activity).inflate(
-                    R.layout.relative_aritclelist, parent, false);
+            view = LayoutInflater.from(activity).inflate(R.layout.relative_aritclelist, parent, false);
             holder = initHolder(view);
             holder.position = position;
             view.setTag(holder);
@@ -457,8 +424,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         if (!PhoneConfiguration.getInstance().showReplyButton) {
             holder.viewBtn.setVisibility(View.GONE);
         } else {
-            MyListenerForReply myListenerForReply = new MyListenerForReply(
-                    position, data, activity);
+            MyListenerForReply myListenerForReply = new MyListenerForReply(position, data, activity);
             holder.viewBtn.setOnClickListener(myListenerForReply);
         }
         ThemeManager theme = ThemeManager.getInstance();
@@ -474,13 +440,11 @@ public class ArticleListAdapter extends BaseAdapter implements
         handleAvatar(holder.avatarIV, row);
 
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
-        final int fgColor = parent.getContext().getResources()
-                .getColor(fgColorId);
+        final int fgColor = parent.getContext().getResources().getColor(fgColorId);
 
         FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, activity);
 
-        final int bgColor = parent.getContext().getResources()
-                .getColor(colorId);
+        final int bgColor = parent.getContext().getResources().getColor(colorId);
 
         final WebView contentTV = holder.contentTV;
 
@@ -490,8 +454,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         floorTV.setTextColor(fgColor);
 
         if (!StringUtil.isEmpty(row.getFromClientModel())) {
-            MyListenerForClient myListenerForClient = new MyListenerForClient(
-                    position, data, activity, parent);
+            MyListenerForClient myListenerForClient = new MyListenerForClient(position, data, activity, parent);
             String from_client_model = row.getFromClientModel();
             if (from_client_model.equals("ios")) {
                 holder.clientBtn.setImageResource(R.drawable.ios);// IOS
@@ -506,20 +469,17 @@ public class ArticleListAdapter extends BaseAdapter implements
         if (ActivityUtil.isLessThan_4_3()) {
             new Thread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor,
-                            fgColor, activity, null, client);
+                    FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
                 }
             }).start();
         } else if (ActivityUtil.isLessThan_4_4()) {
             ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor,
-                            fgColor, activity, null, client);
+                    FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
                 }
             });
         } else {
-            FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
-                    activity, null, client);
+            FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
         }
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());
@@ -549,7 +509,6 @@ public class ArticleListAdapter extends BaseAdapter implements
         synchronized (lock) {
             this.urlSet.add(url);
         }
-
     }
 
     @Override
@@ -557,7 +516,6 @@ public class ArticleListAdapter extends BaseAdapter implements
         synchronized (lock) {
             this.urlSet.remove(url);
         }
-
     }
 
     static class ViewHolder {
@@ -573,7 +531,6 @@ public class ArticleListAdapter extends BaseAdapter implements
         int position = -1;
         ImageButton viewBtn;
         ImageButton clientBtn;
-
     }
 
     static class WebViewTag {

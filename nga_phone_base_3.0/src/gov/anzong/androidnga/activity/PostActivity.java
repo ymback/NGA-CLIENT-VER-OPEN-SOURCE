@@ -341,7 +341,6 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             try {
                 is = getResources().getAssets().open(sourcefile);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             if (is != null) {
@@ -379,21 +378,15 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                     try {
                         is = getResources().getAssets().open(sourcefile);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     if (is != null) {
                         Bitmap bitmap = BitmapFactory.decodeStream(is);
                         BitmapDrawable bd = new BitmapDrawable(bitmap);
-                        Drawable drawable = (Drawable) bd;
-                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                                drawable.getIntrinsicHeight());
-                        SpannableString spanString = new SpannableString(
-                                emotion);
-                        ImageSpan span = new ImageSpan(drawable,
-                                ImageSpan.ALIGN_BASELINE);
-                        spanString.setSpan(span, 0, emotion.length(),
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
+                        SpannableString spanString = new SpannableString( emotion);
+                        ImageSpan span = new ImageSpan(bd, ImageSpan.ALIGN_BASELINE);
+                        spanString.setSpan(span, 0, emotion.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         if (index <= 0 || index >= bodyText.length()) {// pos @
                             // begin
                             // / end
@@ -464,8 +457,6 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         if (!StringUtil.isEmpty(selectedImagePath2)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2,
-                    options); // 此时返回 bm 为空
             options.inJustDecodeBounds = false;
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -482,15 +473,12 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             } else {
                 options.inSampleSize = 1;
             }
-            bitmap = BitmapFactory.decodeFile(selectedImagePath2, options);
+            Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2, options);
             BitmapDrawable bd = new BitmapDrawable(bitmap);
-            Drawable drawable = (Drawable) bd;
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight());
+            bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
             SpannableString spanStringS = new SpannableString(spantmp);
-            ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-            spanStringS.setSpan(span, 0, spantmp.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ImageSpan span = new ImageSpan(bd, ImageSpan.ALIGN_BASELINE);
+            spanStringS.setSpan(span, 0, spantmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             if (bodyText.getText().toString().replaceAll("\\n", "").trim()
                     .equals("")) {// NO INPUT DATA

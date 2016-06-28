@@ -55,7 +55,6 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
         MessageDetialListContainer.OnMessageDetialListContainerListener, MessageListContainer.OnMessagelistContainerListener {
 
     boolean dualScreen = true;
-    ArrayAdapter<String> categoryAdapter;
     int flags = ThemeManager.ACTION_BAR_FLAG;
     MessageListInfo result = null;
     View view;

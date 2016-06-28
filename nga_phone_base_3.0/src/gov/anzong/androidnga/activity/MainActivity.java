@@ -356,6 +356,8 @@ public class MainActivity extends BaseActivity implements
             jumpToMyPost(false);
         } else if (item.mTitle.equals("我的回复")) {
             jumpToMyPost(true);
+        } else if (item.mTitle.equals("收藏夹")) {
+            jumpToBookmark();
         } else if (item.mTitle.equals("签到任务")) {
             signmission();
         } else if (item.mTitle.equals("短消息")) {
@@ -405,7 +407,6 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void signmission() {
-        // TODO Auto-generated method stub
         Intent intent = new Intent();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
         intent.setClass(MainActivity.this, config.signActivityClass);
@@ -453,7 +454,6 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void about_ngaclient() {
-        // TODO Auto-generated method stub
         LayoutInflater layoutInflater = getLayoutInflater();
         final View view = layoutInflater.inflate(R.layout.client_dialog, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -498,7 +498,6 @@ public class MainActivity extends BaseActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 if (PhoneConfiguration.getInstance().fullscreen) {
                     activityUtil.setFullScreen(view);
                 }
@@ -510,7 +509,6 @@ public class MainActivity extends BaseActivity implements
 
             @Override
             public void onDismiss(DialogInterface arg0) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
                     activityUtil.setFullScreen(view);
@@ -530,8 +528,10 @@ public class MainActivity extends BaseActivity implements
         items.add(new Item("添加版面", R.drawable.ic_action_add_to_queue));
         items.add(new Item("清空最近访问", R.drawable.ic_action_warning));
         items.add(new Item("最近被喷", R.drawable.ic_action_gun));
+        items.add(new Category("我的"));
         items.add(new Item("我的主题", R.drawable.action_search));
         items.add(new Item("我的回复", R.drawable.action_search));
+        items.add(new Item("收藏夹", R.drawable.action_search));
         items.add(new Category("私货"));
         items.add(new Item("Yoooo~", R.drawable.ic_menu_mylocation));
         items.add(new Item("大漩涡匿名版", R.drawable.ic_action_noname));
@@ -851,7 +851,6 @@ public class MainActivity extends BaseActivity implements
 
                 @Override
                 public void onDismiss(DialogInterface arg0) {
-                    // TODO Auto-generated method stub
                     mp.release();
                     mp = new MediaPlayer();
                     dialog.dismiss();
@@ -917,6 +916,12 @@ public class MainActivity extends BaseActivity implements
         startActivity(intent);
         if (PhoneConfiguration.getInstance().showAnimation)
             overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    }
+
+    private void jumpToBookmark() {
+        Intent intent_bookmark = new Intent(this, PhoneConfiguration.getInstance().topicActivityClass);
+        intent_bookmark.putExtra("favor", 1);
+        startActivity(intent_bookmark);
     }
 
     private void clear_recent_board() {
