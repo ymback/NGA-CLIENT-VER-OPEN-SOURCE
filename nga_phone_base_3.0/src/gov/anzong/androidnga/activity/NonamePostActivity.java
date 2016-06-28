@@ -501,65 +501,29 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
             if (action.equals("reply")) {
                 if (bodyText.getText().toString().length() > 2) {
                     synchronized (commit_lock) {
-                        if (loading == true) {
-                            String avoidWindfury = NonamePostActivity.this
-                                    .getString(R.string.avoidWindfury);
-                            if (toast != null) {
-                                toast.setText(avoidWindfury);
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(NonamePostActivity.this,
-                                        avoidWindfury, Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
+                        if (loading) {
+                            showToast(R.string.avoidWindfury);
                             return;
                         }
                         loading = true;
                     }
                     handleReply(v);
                 } else {
-                    if (toast != null) {
-                        toast.setText("正文内容至少3个字符");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(NonamePostActivity.this,
-                                "正文内容至少3个字符", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("正文内容至少3个字符");
                 }
             } else if (action.equals("new")) {
                 if (titleText.getText().toString().length() > 0
                         && bodyText.getText().toString().length() > 2) {
                     synchronized (commit_lock) {
-                        if (loading == true) {
-                            String avoidWindfury = NonamePostActivity.this
-                                    .getString(R.string.avoidWindfury);
-                            if (toast != null) {
-                                toast.setText(avoidWindfury);
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(NonamePostActivity.this,
-                                        avoidWindfury, Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
+                        if (loading) {
+                            showToast(R.string.avoidWindfury);
                             return;
                         }
                         loading = true;
                     }
                     handleNewThread(v);
                 } else {
-                    if (toast != null) {
-                        toast.setText("请输入正确的标题和正文内容，正文内容至少3个字符");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(NonamePostActivity.this,
-                                "请输入正确的标题和正文内容，正文内容至少3个字符", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入正确的标题和正文内容，正文内容至少3个字符");
                 }
             }
         }
@@ -662,25 +626,9 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
                     keepActivity = true;
             }
             if (s.error) {// 出错
-                if (toast != null) {
-                    toast.setText(s.errorinfo);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(NonamePostActivity.this,
-                            s.errorinfo, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast(s.errorinfo);
             } else {
-                if (toast != null) {
-                    toast.setText(s.data);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(NonamePostActivity.this, s.data,
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast(s.data);
             }
             if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
                 PhoneConfiguration.getInstance().setRefreshAfterPost(true);

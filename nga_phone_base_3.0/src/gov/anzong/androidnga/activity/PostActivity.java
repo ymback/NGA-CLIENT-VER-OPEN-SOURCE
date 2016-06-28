@@ -231,17 +231,8 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                // TODO Auto-generated method stub
                 if (isChecked) {
-                    if (toast != null) {
-                        toast.setText("匿名发帖/回复每次将扣除一百铜币,慎重");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(PostActivity.this,
-                                "匿名发帖/回复每次将扣除一百铜币,慎重", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("匿名发帖/回复每次将扣除一百铜币,慎重");
                 }
             }
 
@@ -612,18 +603,8 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onClick(View v) {
             synchronized (commit_lock) {
-                if (loading == true) {
-                    String avoidWindfury = PostActivity.this
-                            .getString(R.string.avoidWindfury);
-                    if (toast != null) {
-                        toast.setText(avoidWindfury);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(PostActivity.this,
-                                avoidWindfury, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                if (loading) {
+                    showToast(R.string.avoidWindfury);
                     return;
                 }
                 loading = true;
@@ -762,15 +743,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            if (toast != null) {
-                toast.setText(result);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(PostActivity.this, result,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(result);
             if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
                 PhoneConfiguration.getInstance().setRefreshAfterPost(true);
             }

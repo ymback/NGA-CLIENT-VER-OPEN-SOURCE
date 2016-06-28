@@ -293,6 +293,7 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "-3432136", "飘落的诗章", R.drawable.oldpdefault));
         boards.add(new Board(i, "-187628", "家居 装修", R.drawable.oldpdefault));
         boards.add(new Board(i, "-8627585", "牛头人酋长乐队", R.drawable.oldpdefault));
+        boards.add(new Board(i, "-17100", "全民健身中心", R.drawable.oldpdefault));
         boards.addCategoryName(i, "个人版面");
 
         String addFidStr = share.getString(ADD_FID, "");
@@ -547,6 +548,7 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "-3432136", "飘落的诗章", R.drawable.p3432136));
         boards.add(new Board(i, "-187628", "家居 装修", R.drawable.p187628));
         boards.add(new Board(i, "-8627585", "牛头人酋长乐队", R.drawable.p8627585));
+        boards.add(new Board(i, "-17100", "全民健身中心", R.drawable.p395));
         boards.addCategoryName(i, "个人版面");
         // i++;
 

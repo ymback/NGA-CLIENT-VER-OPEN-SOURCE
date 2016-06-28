@@ -27,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.Set;
 
@@ -50,7 +49,7 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class ArticleListFragment extends Fragment implements
+public class ArticleListFragment extends BaseFragment implements
         OnThreadPageLoadFinishedListener, PerferenceConstant {
     final static private String TAG = ArticleListFragment.class.getSimpleName();
     /*
@@ -70,7 +69,7 @@ public class ArticleListFragment extends Fragment implements
     private int authorid;
     private boolean needLoad = true;
     private Object mActionModeCallback = null;
-    private Toast toast;
+
     private ThreadData mData;
     private int mListPosition;
     private int mListFirstTop;
@@ -331,15 +330,7 @@ public class ArticleListFragment extends Fragment implements
             position = info.position;
         }
         if (position < 0 || position >= listview.getAdapter().getCount()) {
-            if (toast != null) {
-                toast.setText(R.string.floor_error);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(getActivity(), R.string.floor_error,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(R.string.floor_error);
             position = 0;
         }
         StringBuffer postPrefix = new StringBuffer();
@@ -348,16 +339,7 @@ public class ArticleListFragment extends Fragment implements
         ThreadRowInfo row = (ThreadRowInfo) listview
                 .getItemAtPosition(position);
         if (row == null) {
-
-            if (toast != null) {
-                toast.setText(R.string.unknow_error);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(getActivity(), R.string.unknow_error,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(R.string.unknow_error);
             return true;
         }
         String content = row.getContent();
@@ -411,21 +393,17 @@ public class ArticleListFragment extends Fragment implements
 
                 if (!StringUtil.isEmpty(mention))
                     intent.putExtra("mention", mention);
-                intent.putExtra("prefix",
-                        StringUtil.removeBrTag(postPrefix.toString()));
+                intent.putExtra("prefix", StringUtil.removeBrTag(postPrefix.toString()));
                 intent.putExtra("tid", tidStr);
                 intent.putExtra("action", "reply");
                 if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-                    intent.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().postActivityClass);
+                    intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
                 } else {
-                    intent.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().loginActivityClass);
+                    intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
                 }
                 startActivity(intent);
                 if (PhoneConfiguration.getInstance().showAnimation)
-                    getActivity().overridePendingTransition(R.anim.zoom_enter,
-                            R.anim.zoom_exit);
+                    getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 break;
 
             case R.id.signature_dialog:
@@ -437,51 +415,23 @@ public class ArticleListFragment extends Fragment implements
                 }
                 break;
             case R.id.vote_dialog:
-                FunctionUtil
-                        .Create_Vote_Dialog(row, getActivity(), listview, toast);
+                FunctionUtil.Create_Vote_Dialog(row, getActivity(), listview, toast);
                 break;
 
             case R.id.ban_thisone:
                 if (isanonymous) {
-                    if (toast != null) {
-                        toast.setText(R.string.cannot_add_to_blacklist_cause_anony);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(getActivity(),
-                                R.string.cannot_add_to_blacklist_cause_anony,
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast(R.string.cannot_add_to_blacklist_cause_anony);
                 } else {
                     Set<Integer> blacklist = PhoneConfiguration.getInstance().blacklist;
                     String blickliststring = "";
                     if (row.get_isInBlackList()) {// 在屏蔽列表中，需要去除
                         row.set_IsInBlackList(false);
                         blacklist.remove(row.getAuthorid());
-                        if (toast != null) {
-                            toast.setText(R.string.remove_from_blacklist_success);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(getActivity(),
-                                    R.string.remove_from_blacklist_success,
-                                    Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                        showToast(R.string.remove_from_blacklist_success);
                     } else {
                         row.set_IsInBlackList(true);
                         blacklist.add(row.getAuthorid());
-                        if (toast != null) {
-                            toast.setText(R.string.add_to_blacklist_success);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(getActivity(),
-                                    R.string.add_to_blacklist_success,
-                                    Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                        showToast(R.string.add_to_blacklist_success);
                     }
                     PhoneConfiguration.getInstance().blacklist = blacklist;
                     blickliststring = blacklist.toString();
@@ -494,16 +444,7 @@ public class ArticleListFragment extends Fragment implements
                         MyApp app = (MyApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
                     } else {
-                        if (toast != null) {
-                            toast.setText(R.string.cannot_add_to_blacklist_cause_logout);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(getActivity(),
-                                    R.string.cannot_add_to_blacklist_cause_logout,
-                                    Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                        showToast(R.string.cannot_add_to_blacklist_cause_logout);
                     }
                 }
                 break;
@@ -513,12 +454,10 @@ public class ArticleListFragment extends Fragment implements
                 } else {
                     intent.putExtra("mode", "username");
                     intent.putExtra("username", row.getAuthor());
-                    intent.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().profileActivityClass);
+                    intent.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
                     startActivity(intent);
                     if (PhoneConfiguration.getInstance().showAnimation)
-                        getActivity().overridePendingTransition(R.anim.zoom_enter,
-                                R.anim.zoom_exit);
+                        getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 }
                 break;
             case R.id.avatar_dialog:
@@ -530,41 +469,27 @@ public class ArticleListFragment extends Fragment implements
                 break;
             case R.id.edit:
                 if (FunctionUtil.isComment(row)) {
-                    if (toast != null) {
-                        toast.setText(R.string.cannot_eidt_comment);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(getActivity(),
-                                R.string.cannot_eidt_comment, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast(R.string.cannot_eidt_comment);
                     break;
                 }
                 Intent intentModify = new Intent();
-                intentModify.putExtra("prefix",
-                        StringUtil.unEscapeHtml(StringUtil.removeBrTag(content)));
+                intentModify.putExtra("prefix", StringUtil.unEscapeHtml(StringUtil.removeBrTag(content)));
                 intentModify.putExtra("tid", tidStr);
                 String pid = String.valueOf(row.getPid());// getPid(map.get("url"));
                 intentModify.putExtra("pid", pid);
-                intentModify.putExtra("title",
-                        StringUtil.unEscapeHtml(row.getSubject()));
+                intentModify.putExtra("title", StringUtil.unEscapeHtml(row.getSubject()));
                 intentModify.putExtra("action", "modify");
                 if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-                    intentModify.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().postActivityClass);
+                    intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
                 } else {
-                    intentModify.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().loginActivityClass);
+                    intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
                 }
                 startActivity(intentModify);
                 if (PhoneConfiguration.getInstance().showAnimation)
-                    getActivity().overridePendingTransition(R.anim.zoom_enter,
-                            R.anim.zoom_exit);
+                    getActivity().overridePendingTransition(R.anim.zoom_enter,  R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
-                FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(),
-                        listview);
+                FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(), listview);
                 break;
             case R.id.show_this_person_only:
 
@@ -574,12 +499,10 @@ public class ArticleListFragment extends Fragment implements
                     intentThis.putExtra("tid", tid);
                     intentThis.putExtra("authorid", row.getAuthorid());
                     intentThis.putExtra("fromreplyactivity", 1);
-                    intentThis.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().articleActivityClass);
+                    intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
                     startActivity(intentThis);
                     if (PhoneConfiguration.getInstance().showAnimation)
-                        getActivity().overridePendingTransition(R.anim.zoom_enter,
-                                R.anim.zoom_exit);
+                        getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                 } else {
                     int tid1 = tid;
                     int authorid1 = row.getAuthorid();
@@ -767,5 +690,4 @@ public class ArticleListFragment extends Fragment implements
         this.needLoad = false;
 
     }
-
 }

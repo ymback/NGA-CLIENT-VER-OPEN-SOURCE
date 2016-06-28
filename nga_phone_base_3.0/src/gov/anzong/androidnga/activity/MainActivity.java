@@ -99,7 +99,7 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends BaseActivity implements
         PerferenceConstant, PageCategoryOwnner, OnItemClickListener {
     static final String TAG = MainActivity.class.getSimpleName();
     private ActivityUtil activityUtil = ActivityUtil.getInstance();
@@ -197,17 +197,7 @@ public class MainActivity extends ActionBarActivity implements
 
             });
             app.setNewVersion(false);
-            if (toast != null) {
-                toast.setText("播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(MainActivity.this,
-                        "播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
-            }
+            showToast("播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装");
         }
     }
 
@@ -709,16 +699,7 @@ public class MainActivity extends ActionBarActivity implements
 
             @Override
             public void run() {
-                if (toast != null) {
-                    toast.setText(msg);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(MainActivity.this, msg,
-                            Toast.LENGTH_SHORT);
-
-                    toast.show();
-                }
+                showToast(msg);
             }
 
         });
@@ -789,29 +770,10 @@ public class MainActivity extends ActionBarActivity implements
             dragonballnum++;
             Editor editor = share.edit();
             editor.putString(DRAGON_BALL, String.valueOf(dragonballnum));
-            editor.commit();
-            if (toast != null) {
-                toast.setText("你收集到了" + String.valueOf(dragonballnum) + "颗龙珠");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(MainActivity.this,
-                        "你收集到了" + String.valueOf(dragonballnum) + "颗龙珠",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
-            }
+            editor.apply();
+            showToast("你收集到了" + String.valueOf(dragonballnum) + "颗龙珠");
         } else if (dragonballnum == 6) {
-            if (toast != null) {
-                toast.setText("你收集到了7颗龙珠");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(MainActivity.this, "你收集到了7颗龙珠",
-                        Toast.LENGTH_SHORT);
-
-                toast.show();
-            }
+            showToast("你收集到了7颗龙珠");
             AudioManager audioManager = (AudioManager) view.getContext()
                     .getSystemService(Context.AUDIO_SERVICE);
             if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
@@ -823,14 +785,7 @@ public class MainActivity extends ActionBarActivity implements
                             afd.getStartOffset(), afd.getLength());
                     mp.prepare();
                     mp.start();
-                } catch (IllegalArgumentException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IllegalStateException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -864,17 +819,8 @@ public class MainActivity extends ActionBarActivity implements
                             dragonballnum = 0;
                             editor.putString(DRAGON_BALL,
                                     String.valueOf(dragonballnum));
-                            editor.commit();
-                            if (toast != null) {
-                                toast.setText("你选择了不使用,龙珠又散落四方了");
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(MainActivity.this,
-                                        "你选择了不使用,龙珠又散落四方了", Toast.LENGTH_SHORT);
-
-                                toast.show();
-                            }
+                            editor.apply();
+                            showToast("你选择了不使用,龙珠又散落四方了");
                             break;
                     }
                 }
@@ -998,19 +944,9 @@ public class MainActivity extends ActionBarActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 String url = urladd.getText().toString().trim();
                 if (StringUtil.isEmpty(url)) {// 空
-                    if (toast != null) {
-                        toast.setText("请输入URL地址");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MainActivity.this, "请输入URL地址",
-                                Toast.LENGTH_SHORT);
-
-                        toast.show();
-                    }
+                    showToast("请输入URL地址");
                     urladd.setFocusable(true);
                     try {
                         Field field = dialog.getClass().getSuperclass()
@@ -1023,19 +959,7 @@ public class MainActivity extends ActionBarActivity implements
                 } else {
                     if (url.toLowerCase(Locale.US).indexOf("dbmeizi.com") >= 0
                             || url.indexOf("豆瓣妹子") >= 0 || url.equals("1024")) {
-                        if (toast != null) {
-                            toast.setText("恭喜你找到了一种方法,知道就是知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast
-                                    .makeText(
-                                            MainActivity.this,
-                                            "恭喜你找到了一种方法,知道就是知道了,不要去论坛宣传,自己用就行了,为了开发者的安全",
-                                            Toast.LENGTH_SHORT);
-
-                            toast.show();
-                        }
+                        showToast("恭喜你找到了一种方法,知道就是知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
                         Intent intent = new Intent();
                         intent.setClass(
                                 MainActivity.this,
@@ -1090,19 +1014,7 @@ public class MainActivity extends ActionBarActivity implements
                                     conf.articleActivityClass);
                             view.getContext().startActivity(intent);
                         } else {
-                            if (toast != null) {
-                                toast.setText("输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试");
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast
-                                        .makeText(
-                                                MainActivity.this,
-                                                "输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试",
-                                                Toast.LENGTH_SHORT);
-
-                                toast.show();
-                            }
+                            showToast("输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试");
                             urladd.setFocusable(true);
                             try {
                                 Field field = dialog.getClass().getSuperclass()
@@ -1153,21 +1065,12 @@ public class MainActivity extends ActionBarActivity implements
                     toastdata = "dbmeizi.com";
                 }
             }
-            if (toast != null) {
-                toast.setText(toastdata);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(MainActivity.this, toastdata,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(toastdata);
         }
         dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
 
             @Override
             public void onDismiss(DialogInterface arg0) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
                     activityUtil.setFullScreen(view);
@@ -1195,16 +1098,7 @@ public class MainActivity extends ActionBarActivity implements
                 String name = addfid_name.getText().toString();
                 String fid = addfid_id.getText().toString();
                 if (name.equals("")) {
-                    if (toast != null) {
-                        toast.setText("请输入版面名称");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MainActivity.this, "请输入版面名称",
-                                Toast.LENGTH_SHORT);
-
-                        toast.show();
-                    }
+                    showToast("请输入版面名称");
                     addfid_name.setFocusable(true);
                     try {
                         Field field = dialog.getClass().getSuperclass()
@@ -1227,16 +1121,7 @@ public class MainActivity extends ActionBarActivity implements
                     if (match.matches() == false || fid.equals("") || fidisnotint) {
                         addfid_id.setText("");
                         addfid_id.setFocusable(true);
-                        if (toast != null) {
-                            toast.setText("请输入正确的版面ID(个人版面要加负号)");
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(MainActivity.this,
-                                    "请输入正确的版面ID(个人版面要加负号)", Toast.LENGTH_SHORT);
-
-                            toast.show();
-                        }
+                        showToast("请输入正确的版面ID(个人版面要加负号)");
                         try {
                             Field field = dialog.getClass().getSuperclass()
                                     .getDeclaredField("mShowing");
@@ -1256,21 +1141,7 @@ public class MainActivity extends ActionBarActivity implements
                                     FidAllreadyExist = true;
                                     addfid_id.setText("");
                                     addfid_id.setFocusable(true);
-                                    if (toast != null) {
-                                        toast.setText("该版面已经存在于列表");
-                                        toast.setDuration(Toast.LENGTH_SHORT);
-                                        toast.show();
-                                    } else {
-                                        toast = Toast.makeText(
-                                                MainActivity.this,
-                                                "该版面已经存在于列表"
-                                                        + boardInfo
-                                                        .getCategoryName(i)
-                                                        + "中",
-                                                Toast.LENGTH_SHORT);
-
-                                        toast.show();
-                                    }
+                                    showToast("该版面已经存在于列表" + boardInfo.getCategoryName(i) + "中");
                                     try {
                                         Field field = dialog.getClass()
                                                 .getSuperclass()
@@ -1286,17 +1157,7 @@ public class MainActivity extends ActionBarActivity implements
                         }// for i
                         if (!FidAllreadyExist) {
                             addToaddFid(name, fid);
-                            if (toast != null) {
-                                toast.setText("添加成功");
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(MainActivity.this,
-                                        "添加成功" + boardInfo.getCategoryName(i)
-                                                + "中", Toast.LENGTH_SHORT);
-
-                                toast.show();
-                            }
+                            showToast("添加成功" + boardInfo.getCategoryName(i) + "中");
                             try {
                                 Field field = dialog.getClass().getSuperclass()
                                         .getDeclaredField("mShowing");
@@ -1472,19 +1333,7 @@ public class MainActivity extends ActionBarActivity implements
                             editor.commit();
                             setLocItem(11,
                                     "我要龙珠~撸~", R.drawable.ic_action_dragon_ball);
-                            if (toast != null) {
-                                toast.setText("你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast
-                                        .makeText(
-                                                MainActivity.this,
-                                                "你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全",
-                                                Toast.LENGTH_SHORT);
-
-                                toast.show();
-                            }
+                            showToast("你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
                             fulimode = "1";
                             menucishu = 0;
                         }
@@ -1563,17 +1412,7 @@ public class MainActivity extends ActionBarActivity implements
                             u.getReplyTotalNum());
                     PhoneConfiguration.getInstance().blacklist = StringUtil
                             .blackliststringtolisttohashset(u.getBlackList());
-                    if (toast != null) {
-                        toast.setText("切换账户成功,当前账户名:" + u.getNickName());
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MainActivity.this,
-                                "切换账户成功,当前账户名:" + u.getNickName(),
-                                Toast.LENGTH_SHORT);
-
-                        toast.show();
-                    }
+                    showToast("切换账户成功,当前账户名:" + u.getNickName());
                 }
                 updateView(5);
             }
@@ -1610,16 +1449,7 @@ public class MainActivity extends ActionBarActivity implements
             }
             if (fid == 0) {
                 String tip = fidString + "绝对不存在";
-                if (toast != null) {
-                    toast.setText(tip);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(MainActivity.this, tip,
-                            Toast.LENGTH_SHORT);
-
-                    toast.show();
-                }
+                showToast(tip);
                 return;
             }
 
