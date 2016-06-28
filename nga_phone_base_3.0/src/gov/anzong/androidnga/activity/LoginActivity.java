@@ -71,7 +71,6 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
     private boolean alreadylogin = false;
     private String authcode_cookie;
     private boolean loading = false;
-    private Toast toast = null;
 
     /*
      * (non-Javadoc)

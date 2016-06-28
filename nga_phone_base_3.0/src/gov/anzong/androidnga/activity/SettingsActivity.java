@@ -88,7 +88,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
     private RelativeLayout handsideQualityChooser;
     private RelativeLayout blackgunSoundChooser;
-    private Toast toast;
     private SeekBar fontSizeBar;
     private float defaultFontSize;
     private TextView fontTextView;

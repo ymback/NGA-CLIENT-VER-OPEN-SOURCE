@@ -39,6 +39,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
@@ -117,7 +118,6 @@ public class MainActivity extends BaseActivity implements
     private View view;
     private LinearLayout mLinearLayout;
     private boolean tabletloginfragmentshowed = false;
-    private Toast toast = null;
     private ViewFlipper flipper;
     private SharedPreferences share;
     private int dragonballnum = 0;
@@ -222,7 +222,7 @@ public class MainActivity extends BaseActivity implements
                 R.string.drawer_close /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
-            	if (mIsItemClicked){
+                if (mIsItemClicked) {
                     selectItem(mActivePosition, (Item) mAdapter.getItem(mActivePosition - 1));
                     mIsItemClicked = false;
                 }
@@ -352,6 +352,10 @@ public class MainActivity extends BaseActivity implements
             jumpToNearby();
         } else if (item.mTitle.equals("最近被喷")) {
             jumpToRecentReply();
+        } else if (item.mTitle.equals("我的主题")) {
+            jumpToMyPost(false);
+        } else if (item.mTitle.equals("我的回复")) {
+            jumpToMyPost(true);
         } else if (item.mTitle.equals("签到任务")) {
             signmission();
         } else if (item.mTitle.equals("短消息")) {
@@ -526,6 +530,8 @@ public class MainActivity extends BaseActivity implements
         items.add(new Item("添加版面", R.drawable.ic_action_add_to_queue));
         items.add(new Item("清空最近访问", R.drawable.ic_action_warning));
         items.add(new Item("最近被喷", R.drawable.ic_action_gun));
+        items.add(new Item("我的主题", R.drawable.action_search));
+        items.add(new Item("我的回复", R.drawable.action_search));
         items.add(new Category("私货"));
         items.add(new Item("Yoooo~", R.drawable.ic_menu_mylocation));
         items.add(new Item("大漩涡匿名版", R.drawable.ic_action_noname));
@@ -884,22 +890,39 @@ public class MainActivity extends BaseActivity implements
 
     }
 
-    void jumpToRecentReply() {
+    private void jumpToRecentReply() {
         Intent intent = new Intent();
         intent.putExtra("recentmode", "recentmode");
-        intent.setClass(MainActivity.this,
-                PhoneConfiguration.getInstance().recentReplyListActivityClass);
+        intent.setClass(MainActivity.this, PhoneConfiguration.getInstance().recentReplyListActivityClass);
 
         startActivity(intent);
         if (PhoneConfiguration.getInstance().showAnimation)
             overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    }
 
+    private void jumpToMyPost(boolean isReply) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, PhoneConfiguration.getInstance().topicActivityClass);
+        String userName = PhoneConfiguration.getInstance().userName;
+        if (TextUtils.isEmpty(userName)) {
+            showToast("你还没有登录");
+            return;
+        }
+
+        if (isReply) {
+            intent.putExtra("author", userName + "&searchpost=1");
+        } else {
+            intent.putExtra("author", userName);
+        }
+        startActivity(intent);
+        if (PhoneConfiguration.getInstance().showAnimation)
+            overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     }
 
     private void clear_recent_board() {
         Editor editor = share.edit();
         editor.putString(RECENT_BOARD, "");
-        editor.commit();
+        editor.apply();
         onResume();
     }
 

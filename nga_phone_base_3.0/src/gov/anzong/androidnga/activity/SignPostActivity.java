@@ -79,7 +79,6 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
     private View v;
     private boolean loading;
     private FileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /*
