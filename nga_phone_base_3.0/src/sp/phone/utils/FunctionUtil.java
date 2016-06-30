@@ -64,7 +64,6 @@ import java.util.HashSet;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import noname.gson.parse.NonameReadBody;
-import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.adapter.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
@@ -225,8 +224,7 @@ public class FunctionUtil {
     }
 
     @SuppressWarnings("static-access")
-    public static void handleContentTV(final WebView contentTV,
-                                       final MessageArticlePageInfo row, int bgColor, int fgColor, Context context) {
+    public static void handleContentTV(final WebView contentTV, final MessageArticlePageInfo row, int bgColor, int fgColor, Context context) {
         final WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
@@ -814,15 +812,13 @@ public class FunctionUtil {
     }
 
     public static void fillFormated_html_data(ThreadRowInfo row, int i, Context context) {
-
         ThemeManager theme = ThemeManager.getInstance();
         if (row.getContent() == null) {
             row.setContent(row.getSubject());
             row.setSubject(null);
         }
         if (!StringUtil.isEmpty(row.getFromClient())) {
-            if (row.getFromClient().startsWith("103 ")
-                    && !StringUtil.isEmpty(row.getContent())) {
+            if (row.getFromClient().startsWith("103 ") && !StringUtil.isEmpty(row.getContent())) {
                 row.setContent(StringUtil.unescape(row.getContent()));
             }
         }
@@ -834,9 +830,7 @@ public class FunctionUtil {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-                isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr, context);
-
+        String formated_html_data = HtmlUtil.convertToHtmlText(row, isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr, context);
         row.setFormated_html_data(formated_html_data);
     }
 
