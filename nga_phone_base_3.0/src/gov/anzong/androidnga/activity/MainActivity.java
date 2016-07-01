@@ -379,6 +379,7 @@ public class MainActivity extends BaseActivity implements
         }
         mDrawerList.setItemChecked(position, true);
         if (!item.mTitle.equals("我要龙珠~撸~")) {
+            Log.e(TAG,"closeDrawer");
             mDrawerLayout.closeDrawer(mDrawerList);
         }
         mActivePosition = position;
@@ -634,6 +635,7 @@ public class MainActivity extends BaseActivity implements
 
     }
 
+    @SuppressWarnings("ResourceType")
     public void handleUserAvatat(ImageView avatarIV, String userId) {// 绝无问题
         Bitmap defaultAvatar = null, bitmap = null;
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
@@ -808,7 +810,7 @@ public class MainActivity extends BaseActivity implements
                             dragonballnum = 7;
                             editor.putString(DRAGON_BALL,
                                     String.valueOf(dragonballnum));
-                            editor.commit();
+                            editor.apply();
                             Intent intent = new Intent();
                             intent.setClass(
                                     MainActivity.this,
@@ -1265,8 +1267,6 @@ public class MainActivity extends BaseActivity implements
             addFid.add(b);
             saveaddFid(addFid.getBoardList());
         }
-        return;
-
     }
 
     private void saveaddFid(List<Board> boardList) {
@@ -1274,7 +1274,7 @@ public class MainActivity extends BaseActivity implements
         String addFidStr = JSON.toJSONString(boardList);
         Editor editor = share.edit();
         editor.putString(ADD_FID, addFidStr);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -1360,7 +1360,7 @@ public class MainActivity extends BaseActivity implements
                             Editor editor = share.edit();
                             editor.putString(CAN_SHOW_FULI, "1");
                             editor.commit();
-                            setLocItem(11,
+                            setLocItem(15,
                                     "我要龙珠~撸~", R.drawable.ic_action_dragon_ball);
                             showToast("你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
                             fulimode = "1";

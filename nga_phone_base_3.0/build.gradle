@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.1.2'
     }
 }
 
@@ -16,7 +16,7 @@ dependencies {
     compile project(':ActionBar-PullToRefresh')
     compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
-    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:support-v4:23.0.0'
 }
 
 android {
