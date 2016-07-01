@@ -232,7 +232,7 @@ public class MainActivity extends ActionBarActivity implements
                 R.string.drawer_close /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
-            	if (mIsItemClicked){
+                if (mIsItemClicked) {
                     selectItem(mActivePosition, (Item) mAdapter.getItem(mActivePosition - 1));
                     mIsItemClicked = false;
                 }
@@ -1395,6 +1395,7 @@ public class MainActivity extends ActionBarActivity implements
         super.onStop();
     }
 
+    @SuppressWarnings("WrongConstant")
     @Override
     protected void onResume() {
         int orentation = ThemeManager.getInstance().screenOrentation;
