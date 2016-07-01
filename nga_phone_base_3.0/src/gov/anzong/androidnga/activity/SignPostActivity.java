@@ -79,7 +79,6 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
     private View v;
     private boolean loading;
     private FileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /*
@@ -192,15 +191,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
                 break;
             case R.id.send:
                 if (StringUtil.isEmpty(bodyText.getText().toString())) {
-                    if (toast != null) {
-                        toast.setText("请输入内容");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(SignPostActivity.this, "请输入内容",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入内容");
                 } else {
                     if (commitListener == null) {
                         commitListener = new ButtonCommitListener(REPLY_URL);
@@ -482,18 +473,8 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onClick(View v) {
             synchronized (commit_lock) {
-                if (loading == true) {
-                    String avoidWindfury = SignPostActivity.this
-                            .getString(R.string.avoidWindfury);
-                    if (toast != null) {
-                        toast.setText(avoidWindfury);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(SignPostActivity.this,
-                                avoidWindfury, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                if (loading) {
+                    showToast(R.string.avoidWindfury);
                     return;
                 }
                 loading = true;
@@ -632,15 +613,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            if (toast != null) {
-                toast.setText(result);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(SignPostActivity.this, result,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(result);
             ActivityUtil.getInstance().dismiss();
             if (!keepActivity) {
                 Intent intent = new Intent();

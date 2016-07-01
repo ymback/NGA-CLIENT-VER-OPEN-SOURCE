@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 
@@ -44,7 +43,6 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     NearbyUserTask task = null;
     PullToRefreshAttacher attacher = null;
     private ListView lv;
-    private Toast toast = null;
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
     @Override
@@ -106,14 +104,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         if (location == null) {
             //Toast.makeText(this, R.string.fail_to_locate, Toast.LENGTH_SHORT).show();
         } else if (StringUtil.isEmpty(userName)) {
-            if (toast != null) {
-                toast.setText(R.string.nearby_no_login);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(lv.getContext(), R.string.nearby_no_login, Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(R.string.nearby_no_login);
         } else {
             ActivityUtil.getInstance().noticeSaying(this);
             task = new NearbyUserTask(location.getLatitude(), location.getLongitude(),
@@ -142,14 +133,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         }
         attacher.setRefreshComplete();
         if (list != null && list.size() == 0) {
-            if (toast != null) {
-                toast.setText(R.string.nearby_no_user);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(lv.getContext(), R.string.nearby_no_user, Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(R.string.nearby_no_user);
         }
 
         NearbyUsersAdapter adapter = new NearbyUsersAdapter(list);
@@ -177,14 +161,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (StringUtil.isEmail(texta)) {
-                            if (toast != null) {
-                                toast.setText("用户名为邮箱,无法通过邮箱获取论坛用户信息");
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(lv.getContext(), "用户名为邮箱,无法通过邮箱获取论坛用户信息", Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
+                            showToast("用户名为邮箱,无法通过邮箱获取论坛用户信息");
                         } else {
                             Intent i = new Intent(Intent.ACTION_VIEW);
                             i.putExtra("mode", "username");

@@ -61,17 +61,24 @@ public class MessageDetialAdapter extends BaseAdapter implements
             initStaticStrings(context);
     }
 
+    /**
+     * 转换函数
+     * @param row
+     * @param showImage
+     * @param imageQuality
+     * @param fgColorStr
+     * @param bgcolorStr
+     * @return
+     */
     public static String convertToHtmlText(final MessageArticlePageInfo row,
                                            boolean showImage, int imageQuality, final String fgColorStr,
                                            final String bgcolorStr) {
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage,
-                imageQuality, imageURLSet);
+        String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage, imageQuality, imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
         if (StringUtil.isEmpty(ngaHtml)) {
-
             ngaHtml = "<font color='red'>[" + hide + "]</font>";
         }
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
@@ -109,7 +116,6 @@ public class MessageDetialAdapter extends BaseAdapter implements
     }
 
     public Object getItem(int arg0) {
-
         MessageArticlePageInfo entry = getEntry(arg0);
         if (entry == null) {
             return null;

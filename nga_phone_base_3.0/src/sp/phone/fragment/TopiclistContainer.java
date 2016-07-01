@@ -383,8 +383,7 @@ public class TopiclistContainer extends Fragment implements
                 this.refresh();
                 break;
             case R.id.goto_bookmark_item:
-                Intent intent_bookmark = new Intent(getActivity(),
-                        PhoneConfiguration.getInstance().topicActivityClass);
+                Intent intent_bookmark = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
                 intent_bookmark.putExtra("favor", 1);
                 startActivity(intent_bookmark);
                 break;

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.bean.ArticlePage;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
@@ -294,7 +293,7 @@ public class ArticleUtil {
 
                 fillUserInfo(row, userInfoMap);
 
-                fillFormated_html_data(row, i);
+                FunctionUtil.fillFormated_html_data(row, i, context);
 
                 __R.add(row);
             }
@@ -352,39 +351,7 @@ public class ArticleUtil {
         row.setSignature(userInfo.getString("signature"));
     }
 
-    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap,
-                                                   JSONObject userInfoMap) {
-
+    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap, JSONObject userInfoMap) {
         return convertJSobjToList(rowMap, rowMap.size(), userInfoMap);
     }
-
-    private void fillFormated_html_data(ThreadRowInfo row, int i) {
-
-        ThemeManager theme = ThemeManager.getInstance();
-        if (row.getContent() == null) {
-            row.setContent(row.getSubject());
-            row.setSubject(null);
-        }
-        if (!StringUtil.isEmpty(row.getFromClient())) {
-            if (row.getFromClient().startsWith("103 ")
-                    && !StringUtil.isEmpty(row.getContent())) {
-                row.setContent(StringUtil.unescape(row.getContent()));
-            }
-        }
-        int bgColor = context.getResources().getColor(
-                theme.getBackgroundColor(i));
-        int fgColor = context.getResources().getColor(
-                theme.getForegroundColor());
-        bgColor = bgColor & 0xffffff;
-        final String bgcolorStr = String.format("%06x", bgColor);
-
-        int htmlfgColor = fgColor & 0xffffff;
-        final String fgColorStr = String.format("%06x", htmlfgColor);
-
-        String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-                isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
-
-        row.setFormated_html_data(formated_html_data);
-    }
-
 }

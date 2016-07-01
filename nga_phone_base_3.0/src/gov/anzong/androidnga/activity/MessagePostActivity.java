@@ -83,7 +83,6 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
     private View v;
     private boolean loading;
     private FileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /*
@@ -227,35 +226,11 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
                 break;
             case R.id.send:
                 if (StringUtil.isEmpty(toText.getText().toString())) {
-                    if (toast != null) {
-                        toast.setText("请输入收件人");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this, "请输入收件人",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入收件人");
                 } else if (StringUtil.isEmpty(titleText.getText().toString())) {
-                    if (toast != null) {
-                        toast.setText("请输入标题");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this, "请输入标题",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入标题");
                 } else if (StringUtil.isEmpty(bodyText.getText().toString())) {
-                    if (toast != null) {
-                        toast.setText("请输入内容");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this, "请输入内容",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入内容");
                 } else {
                     if (commitListener == null) {
                         commitListener = new ButtonCommitListener(REPLY_URL);
@@ -546,18 +521,8 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onClick(View v) {
             synchronized (commit_lock) {
-                if (loading == true) {
-                    String avoidWindfury = MessagePostActivity.this
-                            .getString(R.string.avoidWindfury);
-                    if (toast != null) {
-                        toast.setText(avoidWindfury);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this,
-                                avoidWindfury, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                if (loading) {
+                    showToast(R.string.avoidWindfury);
                     return;
                 }
                 loading = true;
@@ -709,15 +674,7 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            if (toast != null) {
-                toast.setText(result);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(MessagePostActivity.this, result,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(result);
             ActivityUtil.getInstance().dismiss();
             if (!keepActivity) {
                 if (!action.equals("new")) {

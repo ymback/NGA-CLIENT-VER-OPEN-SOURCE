@@ -127,89 +127,6 @@ public class ImageUtil {
         return bitmap;
     }
 
-    /**
-     * source to Drawable
-     *
-     * @param activity
-     * @param source
-     * @return
-     */
-	/*public static Drawable reSetDrawable(Activity activity, String source) {
-		// System.out.println("source:" + source);
-		Drawable drawable = null;
-		if (source.startsWith("http://")) {
-			try {
-				Log.i(LOG_TAG, "fetch from " + source);
-				URL url = new URL(source);
-				URLConnection conn = url.openConnection();
-				conn.setConnectTimeout(1*1000);
-				drawable = Drawable.createFromStream(conn.getInputStream(), "");
-			} catch (Exception e) {
-				return null;
-			}
-
-			if (drawable == null)
-				drawable = activity.getResources().getDrawable(
-						R.drawable.defult_img);
-		}else if (source.equals("[s:1]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.smile);
-		} else if (source.equals("[s:2]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.mrgreen);
-		} else if (source.equals("[s:3]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.question);
-		} else if (source.equals("[s:4]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.wink);
-		} else if (source.equals("[s:5]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.redface);
-		} else if (source.equals("[s:6]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.sad);
-		} else if (source.equals("[s:7]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.cool);
-		} else if (source.equals("[s:8]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.crazy);
-		} else if (source.equals("[s:34]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a14);
-		} else if (source.equals("[s:32]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a12);
-		} else if (source.equals("[s:30]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a10);
-		} else if (source.equals("[s:29]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a09);
-		} else if (source.equals("[s:28]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a08);
-		} else if (source.equals("[s:27]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a07);
-		} else if (source.equals("[s:26]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a06);
-		} else if (source.equals("[s:24]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a04);
-		} else if (source.equals("[s:35]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a15);
-		} else if (source.equals("[s:36]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a16);
-		} else if (source.equals("[s:37]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a17);
-		} else if (source.equals("[s:38]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a18);
-		} else if (source.equals("[s:39]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a19);
-		} else if (source.equals("[s:40]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a20);
-		} else if (source.equals("[s:41]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a21);
-		} else if (source.equals("[s:42]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a22);
-		} else if (source.equals("[s:43]")) {
-			drawable = activity.getResources().getDrawable(R.drawable.a23);
-		} else {
-			//
-			drawable = activity.getResources().getDrawable(R.drawable.question);
-		}
-		drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
-				.getIntrinsicHeight());
-		return drawable;
-	}
-*/
     public static String newImage2(String oldImage, String userId) {
         if (oldImage.indexOf(".") != -1) {
             String fileType = oldImage.substring(oldImage.lastIndexOf("."),
@@ -380,7 +297,6 @@ public class ImageUtil {
             return null;
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
-        Bitmap bitmap = BitmapFactory.decodeStream(is, null, opts);
         final int avatarWidth = PhoneConfiguration.getInstance().getNikeWidth();
 
         final int minSideLength = Math.min(avatarWidth, maxHeight);
@@ -389,13 +305,12 @@ public class ImageUtil {
         opts.inJustDecodeBounds = false;
         opts.inInputShareable = true;
         opts.inPurgeable = true;
-        bitmap = BitmapFactory.decodeStream(is2, null, opts);
+        Bitmap bitmap = BitmapFactory.decodeStream(is2, null, opts);
         if (bitmap != null && bitmap.getWidth() != avatarWidth) {
             Bitmap tmp = bitmap;
             bitmap = zoomImageByWidth(tmp, avatarWidth);
             tmp.recycle();
         }
-
         return bitmap;
     }
 

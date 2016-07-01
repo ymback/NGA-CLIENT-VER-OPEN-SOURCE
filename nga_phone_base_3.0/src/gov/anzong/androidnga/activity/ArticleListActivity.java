@@ -48,6 +48,9 @@ import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
+/**
+ * 帖子详情页
+ */
 public class ArticleListActivity extends SwipeBackAppCompatActivity implements
         PagerOwnner, ResetableArticle, OnThreadPageLoadFinishedListener,
         PullToRefreshAttacherOnwer, PerferenceConstant {

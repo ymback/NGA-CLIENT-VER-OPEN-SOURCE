@@ -92,7 +92,6 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
     private View v;
     private boolean loading;
     private FileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /*
@@ -231,17 +230,8 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                // TODO Auto-generated method stub
                 if (isChecked) {
-                    if (toast != null) {
-                        toast.setText("匿名发帖/回复每次将扣除一百铜币,慎重");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(PostActivity.this,
-                                "匿名发帖/回复每次将扣除一百铜币,慎重", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("匿名发帖/回复每次将扣除一百铜币,慎重");
                 }
             }
 
@@ -351,7 +341,6 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             try {
                 is = getResources().getAssets().open(sourcefile);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             if (is != null) {
@@ -389,21 +378,15 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                     try {
                         is = getResources().getAssets().open(sourcefile);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     if (is != null) {
                         Bitmap bitmap = BitmapFactory.decodeStream(is);
                         BitmapDrawable bd = new BitmapDrawable(bitmap);
-                        Drawable drawable = (Drawable) bd;
-                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                                drawable.getIntrinsicHeight());
-                        SpannableString spanString = new SpannableString(
-                                emotion);
-                        ImageSpan span = new ImageSpan(drawable,
-                                ImageSpan.ALIGN_BASELINE);
-                        spanString.setSpan(span, 0, emotion.length(),
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
+                        SpannableString spanString = new SpannableString( emotion);
+                        ImageSpan span = new ImageSpan(bd, ImageSpan.ALIGN_BASELINE);
+                        spanString.setSpan(span, 0, emotion.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         if (index <= 0 || index >= bodyText.length()) {// pos @
                             // begin
                             // / end
@@ -474,8 +457,6 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         if (!StringUtil.isEmpty(selectedImagePath2)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2,
-                    options); // 此时返回 bm 为空
             options.inJustDecodeBounds = false;
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -492,15 +473,12 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             } else {
                 options.inSampleSize = 1;
             }
-            bitmap = BitmapFactory.decodeFile(selectedImagePath2, options);
+            Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2, options);
             BitmapDrawable bd = new BitmapDrawable(bitmap);
-            Drawable drawable = (Drawable) bd;
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight());
+            bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
             SpannableString spanStringS = new SpannableString(spantmp);
-            ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-            spanStringS.setSpan(span, 0, spantmp.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ImageSpan span = new ImageSpan(bd, ImageSpan.ALIGN_BASELINE);
+            spanStringS.setSpan(span, 0, spantmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             if (bodyText.getText().toString().replaceAll("\\n", "").trim()
                     .equals("")) {// NO INPUT DATA
@@ -612,18 +590,8 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onClick(View v) {
             synchronized (commit_lock) {
-                if (loading == true) {
-                    String avoidWindfury = PostActivity.this
-                            .getString(R.string.avoidWindfury);
-                    if (toast != null) {
-                        toast.setText(avoidWindfury);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(PostActivity.this,
-                                avoidWindfury, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                if (loading) {
+                    showToast(R.string.avoidWindfury);
                     return;
                 }
                 loading = true;
@@ -762,15 +730,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            if (toast != null) {
-                toast.setText(result);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(PostActivity.this, result,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(result);
             if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
                 PhoneConfiguration.getInstance().setRefreshAfterPost(true);
             }

@@ -71,7 +71,6 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
     private boolean alreadylogin = false;
     private String authcode_cookie;
     private boolean loading = false;
-    private Toast toast = null;
 
     /*
      * (non-Javadoc)
@@ -133,15 +132,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
         action = intent.getStringExtra("action");
         messagemode = intent.getStringExtra("messagemode");
         if (!StringUtil.isEmpty(action)) {
-            if (toast != null) {
-                toast.setText("你需要登录才能进行下一步操作");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(LoginActivity.this, "你需要登录才能进行下一步操作",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast("你需要登录才能进行下一步操作");
             if (action.equals("search")) {
                 fid = intent.getIntExtra("fid", -7);
                 needtopost = true;
@@ -199,15 +190,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 
     private void reloadauthcode(String error) {
         if (!StringUtil.isEmpty(error)) {
-            if (toast != null) {
-                toast.setText(error);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(this, error,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(error);
         }
         reloadauthcode();
     }
@@ -311,23 +294,13 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 
     @Override
     public void authcodefinishLoad(Bitmap authimg, String authcode) {
-        // TODO Auto-generated method stub
         this.authcode_cookie = authcode;
         authcodeImg.setImageBitmap(authimg);
     }
 
     @Override
     public void authcodefinishLoadError() {
-        // TODO Auto-generated method stub
-        if (toast != null) {
-            toast.setText("载入验证码失败，请点击刷新重新加载");
-            toast.setDuration(Toast.LENGTH_SHORT);
-            toast.show();
-        } else {
-            toast = Toast.makeText(LoginActivity.this,
-                    "载入验证码失败，请点击刷新重新加载", Toast.LENGTH_SHORT);
-            toast.show();
-        }
+        showToast("载入验证码失败，请点击刷新重新加载");
         authcodeImg.setImageDrawable(getResources().getDrawable(R.drawable.q_vcode_retry));
         authcode_cookie = "";
         authcodeText.setText("");
@@ -348,31 +321,13 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
         public void onClick(View v) {
             synchronized (commit_lock) {
                 if (loading == true) {
-                    String avoidWindfury = LoginActivity.this
-                            .getString(R.string.avoidWindfury);
-                    if (toast != null) {
-                        toast.setText(avoidWindfury);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(LoginActivity.this,
-                                avoidWindfury, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast(R.string.avoidWindfury);
                     return;
                 } else {
                     StringBuffer bodyBuffer = new StringBuffer();
                     bodyBuffer.append("email=");
                     if (StringUtil.isEmpty(authcode_cookie)) {
-                        if (toast != null) {
-                            toast.setText("验证码信息错误，请重试");
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(LoginActivity.this,
-                                    "验证码信息错误，请重试", Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                        showToast("验证码信息错误，请重试");
                         reloadauthcode();
                         return;
                     }
@@ -380,15 +335,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                     if (StringUtil.isEmpty(name) ||
                             StringUtil.isEmpty(passwordText.getText().toString()) ||
                             StringUtil.isEmpty(authcodeText.getText().toString())) {
-                        if (toast != null) {
-                            toast.setText("内容缺少，请检查后再试");
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(LoginActivity.this,
-                                    "内容缺少，请检查后再试", Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                        showToast("内容缺少，请检查后再试");
                         reloadauthcode();
                         return;
                     }
@@ -514,17 +461,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                     super.onPostExecute(result);
                 } else {
                     if (result.booleanValue()) {
-                        if (toast != null) {
-                            toast.setText(R.string.login_successfully);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast
-                                    .makeText(LoginActivity.this,
-                                            R.string.login_successfully,
-                                            Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                        showToast(R.string.login_successfully);
                         SharedPreferences share = LoginActivity.this
                                 .getSharedPreferences(PERFERENCE,
                                         MODE_MULTI_PROCESS);
@@ -577,16 +514,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                                 }
                             } else {
                                 if (to.equals(name)) {
-                                    if (toast != null) {
-                                        toast.setText(R.string.not_to_send_to_self);
-                                        toast.setDuration(Toast.LENGTH_SHORT);
-                                        toast.show();
-                                    } else {
-                                        toast = Toast.makeText(LoginActivity.this,
-                                                R.string.not_to_send_to_self,
-                                                Toast.LENGTH_SHORT);
-                                        toast.show();
-                                    }
+                                    showToast(R.string.not_to_send_to_self);
                                     finish();
                                 } else {
                                     if (action.equals("new")) {
@@ -611,15 +539,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                         }
                         super.onPostExecute(result);
                     } else {
-                        if (toast != null) {
-                            toast.setText(R.string.login_failed);
-                            toast.setDuration(Toast.LENGTH_SHORT);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(LoginActivity.this,
-                                    R.string.login_failed, Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+                        showToast(R.string.login_failed);
                     }
                 }
             }
