@@ -556,7 +556,7 @@ public class StringUtil {
         }
         for (int i = 0; i < 46; i++) {
             s = s.replaceAll(ignoreCaseTag + "\\[s:a2:" + newacniangofubbcode[i]
-                    + "\\]", "<img src='file:///android_asset/acniang/"
+                    + "\\]", "<img src='file:///android_asset/newacniang/"
                     + newacniangappadd[i] + "'>");
         }
         for (int i = 0; i < 65; i++) {
