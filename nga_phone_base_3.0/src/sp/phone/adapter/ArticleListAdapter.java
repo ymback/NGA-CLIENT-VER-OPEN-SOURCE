@@ -98,7 +98,8 @@ public class ArticleListAdapter extends BaseAdapter implements
         State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
         return wifi == State.CONNECTED;
     }
-
+    
+    @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final int lou = row.getLou();
         final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
@@ -120,8 +121,6 @@ public class ArticleListAdapter extends BaseAdapter implements
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
                 // Log.d(TAG, "recycle avatar:" + origTag.lou);
-            } else {
-                // Log.d(TAG, "default avatar, skip recycle");
             }
         }
 
