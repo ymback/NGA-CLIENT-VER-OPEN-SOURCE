@@ -100,21 +100,21 @@
         android:layout_marginLeft="25dp"
         android:contentDescription="@string/select_category"
         android:src="@drawable/yangcongtou" />
-      <ImageView
-        android:id="@+id/emotion_acniang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:contentDescription="@string/select_category"
-        android:src="@drawable/acniang" />
+        <ImageView
+            android:id="@+id/emotion_acniang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:contentDescription="@string/select_category"
+            android:src="@drawable/acniang" />
+        <ImageView
+            android:id="@+id/emotion_new_acniang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:contentDescription="@string/select_category"
+            android:src="@drawable/new_acniang" />
 
-	<ImageView
-        android:id="@+id/emotion_lindabi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:contentDescription="@string/select_category"
-        android:src="@drawable/lindabi" />
     </LinearLayout>
     
     <LinearLayout
@@ -122,10 +122,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:gravity="center" >
+        <ImageView
+            android:id="@+id/emotion_lindabi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/select_category"
+            android:src="@drawable/lindabi" />
     <ImageView
             android:id="@+id/emotion_bierde"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
             android:contentDescription="@string/select_category"
             android:src="@drawable/bierde" />
       <ImageView
@@ -142,13 +149,6 @@
         android:layout_marginLeft="25dp"
         android:contentDescription="@string/select_category"
         android:src="@drawable/quniang" />
-	<ImageView
-        android:id="@+id/emotion_pst"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:contentDescription="@string/select_category"
-        android:src="@drawable/pst" />
 	
     </LinearLayout>
     
@@ -157,9 +157,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:gravity="center" >
+        <ImageView
+            android:id="@+id/emotion_pst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/select_category"
+            android:src="@drawable/pst" />
 	<ImageView
         android:id="@+id/emotion_dt"
         android:layout_width="wrap_content"
+        android:layout_marginLeft="25dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/select_category"
         android:src="@drawable/dt" />

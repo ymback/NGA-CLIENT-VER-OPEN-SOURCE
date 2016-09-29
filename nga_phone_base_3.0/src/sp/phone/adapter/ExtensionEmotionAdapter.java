@@ -16,7 +16,7 @@ import sp.phone.utils.ImageUtil;
 
 public class ExtensionEmotionAdapter extends BaseAdapter {
     private static final String dirs[] = {"baozou", "xiongmao", "taijun", "ali", "dayanmao",
-            "luoxiaohei", "majianglian", "zhaiyin", "yangcongtou", "acniang", "bierde", "lindabi", "quniang", "niweihezhemediao", "pst", "dt"};
+            "luoxiaohei", "majianglian", "zhaiyin", "yangcongtou", "acniang", "newacniang", "bierde", "lindabi", "quniang", "niweihezhemediao", "pst", "dt"};
 
 
     private static final String res[][] = {
@@ -822,6 +822,55 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
                     "http://pic3.178.com/2017/20174851/month_1401/2aa114ca0804d12f2178e0dc69d4bc8a.png",
                     "http://pic3.178.com/2017/20174851/month_1401/167e42963246c38b3e570995b10ce9b5.jpg",
                     "http://pic3.178.com/2017/20174851/month_1401/b9719388cc6390ccaf62f432b7f8e3f6.gif",
+            },
+            //论坛新版AC娘
+            {
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_02.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_05.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_03.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_04.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_07.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_08.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_09.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_10.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_14.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_16.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_15.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_17.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_21.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_23.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_24.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_25.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_27.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_28.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_30.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_31.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_32.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_33.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_36.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_51.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_53.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_54.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_55.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_47.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_48.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_45.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_49.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_18.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_19.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_52.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_26.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_11.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_12.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_13.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_20.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_22.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_42.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_37.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_38.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_39.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_41.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_40.png"
             },
             // bierde
             {

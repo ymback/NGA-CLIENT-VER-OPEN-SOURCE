@@ -555,6 +555,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             case CATEGORY_ZHAIYIN:
             case CATEGORY_YANGCONGTOU:
             case CATEGORY_ACNIANG:
+            case CATEGORY_NEW_ACNIANG:
             case CATEGORY_BIERDE:
             case CATEGORY_LINDABI:
             case CATEGORY_QUNIANG:

@@ -71,6 +71,9 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
                         case R.id.emotion_acniang:
                             father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_ACNIANG);
                             break;
+                        case R.id.emotion_new_acniang:
+                            father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_NEW_ACNIANG);
+                            break;
                         case R.id.emotion_bierde:
                             father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_BIERDE);
                             break;
@@ -110,6 +113,7 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
         view.findViewById(R.id.emotion_zhaiyin).setOnClickListener(listener);
         view.findViewById(R.id.emotion_yangcongtou).setOnClickListener(listener);
         view.findViewById(R.id.emotion_acniang).setOnClickListener(listener);
+        view.findViewById(R.id.emotion_new_acniang).setOnClickListener(listener);
         view.findViewById(R.id.emotion_bierde).setOnClickListener(listener);
         view.findViewById(R.id.emotion_lindabi).setOnClickListener(listener);
         view.findViewById(R.id.emotion_quniang).setOnClickListener(listener);

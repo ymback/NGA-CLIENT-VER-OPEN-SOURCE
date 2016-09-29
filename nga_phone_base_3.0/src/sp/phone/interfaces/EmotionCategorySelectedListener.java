@@ -12,12 +12,13 @@ public interface EmotionCategorySelectedListener {
     public final int CATEGORY_ZHAIYIN = 8;
     public final int CATEGORY_YANGCONGTOU = 9;
     public final int CATEGORY_ACNIANG = 10;
-    public final int CATEGORY_BIERDE = 11;
-    public final int CATEGORY_LINDABI = 12;
-    public final int CATEGORY_QUNIANG = 13;
-    public final int CATEGORY_NIWEIHEZHEMEDIAO = 14;
-    public final int CATEGORY_PST = 15;
-    public final int CATEGORY_DT = 16;
+    public final int CATEGORY_NEW_ACNIANG = 11;
+    public final int CATEGORY_BIERDE = 12;
+    public final int CATEGORY_LINDABI = 13;
+    public final int CATEGORY_QUNIANG = 14;
+    public final int CATEGORY_NIWEIHEZHEMEDIAO = 15;
+    public final int CATEGORY_PST = 16;
+    public final int CATEGORY_DT = 17;
 
     void onEmotionCategorySelected(int category);
 }

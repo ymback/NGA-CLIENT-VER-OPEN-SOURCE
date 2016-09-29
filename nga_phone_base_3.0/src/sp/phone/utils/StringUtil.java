@@ -417,6 +417,28 @@ public class StringUtil {
                 "-1324875_50e597e9d6319.png", "-47218_5052bd27520ef.png",
                 "-47218_5052bcbe35760.png", "-1324875_50e597f190a11.png"// 0-44
         };
+        final String newacniangofubbcode[] = {
+                "goodjob", "诶嘿", "偷笑", "怒", "笑",
+                "那个……", "哦嗬嗬嗬", "舔", "鬼脸", "冷",
+                "大哭", "哭", "恨", "中枪", "囧",
+                "你看看你", "doge", "自戳双目", "偷吃", "冷笑",
+                "壁咚", "再见我去二次元了", "不明觉厉", "是在下输了", "你为猴这么屌",
+                "干杯", "干杯2", "异议", "认真", "你已经死了",
+                "只能活两集", "妮可妮可妮", "惊", "抢镜头", "yes",
+                "有何贵干", "病娇", "lucky", "poi", "囧2",
+                "威吓", "jojo立", "jojo立2", "jojo立3", "jojo立4",
+                "jojo立5",};// (0-45)
+        final String newacniangappadd[] = {"a2_02.png", "a2_05.png", "a2_03.png", "a2_04.png",
+                "a2_07.png", "a2_08.png", "a2_09.png", "a2_10.png", "a2_14.png",
+                "a2_16.png", "a2_15.png", "a2_17.png", "a2_21.png", "a2_23.png",
+                "a2_24.png", "a2_25.png", "a2_27.png", "a2_28.png", "a2_30.png",
+                "a2_31.png", "a2_32.png", "a2_33.png", "a2_36.png", "a2_51.png",
+                "a2_53.png", "a2_54.png", "a2_55.png", "a2_47.png", "a2_48.png",
+                "a2_45.png", "a2_49.png", "a2_18.png", "a2_19.png", "a2_52.png",
+                "a2_26.png", "a2_11.png", "a2_12.png", "a2_13.png", "a2_20.png",
+                "a2_22.png", "a2_42.png", "a2_37.png", "a2_38.png", "a2_39.png",
+                "a2_41.png", "a2_40.png",// 0-45
+        };
         final String pstofubbcode[] = {"举手", "亲", "偷笑", "偷笑2", "偷笑3",
                 "傻眼", "傻眼2", "兔子", "发光", "呆",
                 "呆2", "呆3", "呕", "呵欠", "哭",
@@ -531,6 +553,11 @@ public class StringUtil {
             s = s.replaceAll(ignoreCaseTag + "\\[s:ac:" + acniangofubbcode[i]
                     + "\\]", "<img src='file:///android_asset/acniang/"
                     + acniangappadd[i] + "'>");
+        }
+        for (int i = 0; i < 46; i++) {
+            s = s.replaceAll(ignoreCaseTag + "\\[s:a2:" + newacniangofubbcode[i]
+                    + "\\]", "<img src='file:///android_asset/acniang/"
+                    + newacniangappadd[i] + "'>");
         }
         for (int i = 0; i < 65; i++) {
             s = s.replaceAll(ignoreCaseTag + "\\[s:pst:" + pstofubbcode[i]

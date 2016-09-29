@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -486,6 +485,7 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
             case CATEGORY_ZHAIYIN:
             case CATEGORY_YANGCONGTOU:
             case CATEGORY_ACNIANG:
+            case CATEGORY_NEW_ACNIANG:
             case CATEGORY_BIERDE:
             case CATEGORY_LINDABI:
             case CATEGORY_QUNIANG:

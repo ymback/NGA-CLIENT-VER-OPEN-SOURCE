@@ -2,6 +2,7 @@ package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -12,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -86,6 +85,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
      *
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
+    @SuppressWarnings("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -175,9 +175,9 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
                 startActivityForResult(intent, REQUEST_CODE_SELECT_PIC);
                 break;
             case R.id.emotion:
-                FragmentTransaction ft = getSupportFragmentManager()
+                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
                         .beginTransaction();
-                Fragment prev = getSupportFragmentManager().findFragmentByTag(
+                android.support.v4.app.Fragment prev = getSupportFragmentManager().findFragmentByTag(
                         EMOTION_CATEGORY_TAG);
                 if (prev != null) {
                     ft.remove(prev);
@@ -438,6 +438,7 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
             case CATEGORY_ZHAIYIN:
             case CATEGORY_YANGCONGTOU:
             case CATEGORY_ACNIANG:
+            case CATEGORY_NEW_ACNIANG:
             case CATEGORY_BIERDE:
             case CATEGORY_LINDABI:
             case CATEGORY_QUNIANG:

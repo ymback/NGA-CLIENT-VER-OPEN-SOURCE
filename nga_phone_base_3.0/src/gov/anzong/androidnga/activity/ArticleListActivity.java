@@ -496,6 +496,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
     }
 
+    @SuppressWarnings("WrongConstant")
     @Override
     protected void onResume() {
         int orentation = ThemeManager.getInstance().screenOrentation;
