@@ -425,24 +425,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	 */
 
     private void nightMode(final MenuItem menu) {
-        ThemeManager tm = ThemeManager.getInstance();
-        SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
-        int mode = ThemeManager.MODE_NORMAL;
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
-            menu.setIcon(R.drawable.ic_action_bightness_low);
-            menu.setTitle(R.string.change_night_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, false);
-            editor.commit();
-        } else {
-            menu.setIcon(R.drawable.ic_action_brightness_high);
-            menu.setTitle(R.string.change_daily_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, true);
-            editor.commit();
-            mode = ThemeManager.MODE_NIGHT;
-        }
-        ThemeManager.getInstance().setMode(mode);
+        changeNightMode(menu);
         if (mTabsAdapter != null) {
             refresh_saying();
             if (PhoneConfiguration.getInstance().kitwebview) {

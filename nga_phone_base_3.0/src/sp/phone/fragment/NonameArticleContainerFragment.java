@@ -32,9 +32,9 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class NonameArticleContainerFragment extends Fragment implements
+public class NonameArticleContainerFragment extends BaseFragment implements
         OnNonameThreadPageLoadFinishedListener, PerferenceConstant, PagerOwnner {
-    private static final String TAG = "NonameArticleContainerFragment";
+    private static final String TAG = "NonameArtContainFrag";
     private static final String GOTO_TAG = "goto";
     // TabHost tabhost;
     ViewPager mViewPager;
@@ -273,26 +273,7 @@ public class NonameArticleContainerFragment extends Fragment implements
     }
 
     private void nightMode(final MenuItem menu) {
-        ThemeManager tm = ThemeManager.getInstance();
-        SharedPreferences share = getActivity().getSharedPreferences(
-                PERFERENCE, Activity.MODE_PRIVATE);
-        int mode = ThemeManager.MODE_NORMAL;
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
-            menu.setIcon(R.drawable.ic_action_bightness_low);
-            menu.setTitle(R.string.change_night_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, false);
-            editor.commit();
-        } else {
-            menu.setIcon(R.drawable.ic_action_brightness_high);
-            menu.setTitle(R.string.change_daily_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, true);
-            editor.commit();
-            mode = ThemeManager.MODE_NIGHT;
-        }
-        ThemeManager.getInstance().setMode(mode);
-
+        changeNightMode(menu);
         if (mTabsAdapter != null) {
             if (PhoneConfiguration.getInstance().kitwebview) {
                 try {
@@ -315,7 +296,7 @@ public class NonameArticleContainerFragment extends Fragment implements
         if (mCallback != null)
             mCallback.onModeChanged();
         if (mcontainer != null) {
-            if (mode == ThemeManager.MODE_NIGHT) {
+            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
                 mcontainer.setBackgroundResource(R.color.night_bg_color);
             } else {
                 mcontainer.setBackgroundResource(R.color.shit1);
