@@ -1386,12 +1386,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
         try {
             is = view.getContext().getAssets().open(getFileName(position));
             Bitmap bm = BitmapFactory.decodeStream(is);
-            if (bm.getHeight() > 130) {
-                Bitmap resizedBm = ImageUtil.zoomImageByHeight(bm, 130);
-                bm.recycle();
-                bm = resizedBm;
-            }
-            view.setImageBitmap(bm);
+            view.setImageBitmap(ImageUtil.zoomImageByHeight(bm, 130));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
