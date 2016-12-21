@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 
@@ -78,16 +76,12 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
     // private Button button_cancel;
     // private ImageButton button_upload;
     // private ImageButton button_emotion;
-    Object commit_lock = new Object();
-    private String prefix;
+    private final Object commit_lock = new Object();
     private EditText titleText;
     private EditText bodyText;
     private CheckBox anony;
     private ThreadPostAction act;
     private String action;
-    private String tid;
-    private int fid;
-    private Spinner userList;
     private String REPLY_URL = Utils.getNGAHost() + "post.php?";
     private View v;
     private boolean loading;
@@ -122,21 +116,24 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         }
 
         Intent intent = this.getIntent();
-        prefix = intent.getStringExtra("prefix");
+        String prefix = intent.getStringExtra("prefix");
         // if(prefix!=null){
         // prefix=prefix.replaceAll("\\n\\n", "\n");
         // }
         action = intent.getStringExtra("action");
-        if (action.equals("new")) {
-            getSupportActionBar().setTitle(R.string.new_thread);
-        } else if (action.equals("reply")) {
-            getSupportActionBar().setTitle(R.string.reply_thread);
-
-        } else if (action.equals("modify")) {
-            getSupportActionBar().setTitle(R.string.modify_thread);
+        switch (action) {
+            case "new":
+                getSupportActionBar().setTitle(R.string.new_thread);
+                break;
+            case "reply":
+                getSupportActionBar().setTitle(R.string.reply_thread);
+                break;
+            case "modify":
+                getSupportActionBar().setTitle(R.string.modify_thread);
+                break;
         }
-        tid = intent.getStringExtra("tid");
-        fid = intent.getIntExtra("fid", -7);
+        String tid = intent.getStringExtra("tid");
+        int fid = intent.getIntExtra("fid", -7);
         String title = intent.getStringExtra("title");
         String pid = intent.getStringExtra("pid");
         String mention = intent.getStringExtra("mention");
@@ -191,7 +188,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             anony.setTextColor(textColor);
         }
 
-        userList = (Spinner) findViewById(R.id.user_list);
+        Spinner userList = (Spinner) findViewById(R.id.user_list);
         if (userList != null) {
             SpinnerUserListAdapter adapter = new SpinnerUserListAdapter(this);
             userList.setAdapter(adapter);
@@ -345,8 +342,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             }
             if (is != null) {
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
-                BitmapDrawable bd = new BitmapDrawable(bitmap);
-                Drawable drawable = (Drawable) bd;
+                BitmapDrawable drawable = new BitmapDrawable(bitmap);
                 drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
                         drawable.getIntrinsicHeight());
                 SpannableString spanString = new SpannableString(emotion);
@@ -412,8 +408,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                 Log.i(LOG_TAG, " select file :" + data.getDataString());
                 uploadTask = new FileUploadTask(this, this, data.getData());
                 break;
-            default:
-                ;
+            default: break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -598,12 +593,16 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                 loading = true;
             }
 
-            if (action.equals("reply")) {
-                handleReply(v);
-            } else if (action.equals("new")) {
-                handleNewThread(v);
-            } else if (action.equals("modify")) {
-                handleNewThread(v);
+            switch (action) {
+                case "reply":
+                    handleReply(v);
+                    break;
+                case "new":
+                    handleNewThread(v);
+                    break;
+                case "modify":
+                    handleNewThread(v);
+                    break;
             }
         }
 
@@ -720,10 +719,10 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         @Override
         protected void onPostExecute(String result) {
             String success_results[] = {"发贴完毕", "@提醒每24小时不能超过50个"};
-            if (keepActivity == false) {
+            if (!keepActivity) {
                 boolean success = false;
-                for (int i = 0; i < success_results.length; ++i) {
-                    if (result.contains(success_results[i])) {
+                for (String success_result : success_results) {
+                    if (result.contains(success_result)) {
                         success = true;
                         break;
                     }

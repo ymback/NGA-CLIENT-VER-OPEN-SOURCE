@@ -1339,8 +1339,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 
     private static String getFilePath(int category, int position) {
         String httpUri = res[category][position];
-        String fileName = dirs[category] + "/" + FilenameUtils.getName(httpUri);
-        return fileName;
+        return dirs[category] + "/" + FilenameUtils.getName(httpUri);
     }
 
     @Override
@@ -1375,7 +1374,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView view = null;
+        ImageView view;
         if (convertView == null)
             view = new ImageView(parent.getContext());
         else {
@@ -1396,8 +1395,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 
     private String getFileName(int position) {
         String httpUri = res[index][position];
-        String fileName = dirs[index] + "/" + FilenameUtils.getName(httpUri);
-        return fileName;
+        return dirs[index] + "/" + FilenameUtils.getName(httpUri);
     }
 
 }
