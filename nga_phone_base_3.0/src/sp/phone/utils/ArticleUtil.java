@@ -1,8 +1,6 @@
 package sp.phone.utils;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -12,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.ArticlePage;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
@@ -19,7 +18,7 @@ import sp.phone.bean.ThreadRowInfo;
 
 public class ArticleUtil {
     private final static String TAG = ArticleUtil.class.getSimpleName();
-    private static Context context;
+    private Context context;
 
     @SuppressWarnings("static-access")
     public ArticleUtil(Context context) {
@@ -153,16 +152,8 @@ public class ArticleUtil {
         return null;
     }
 
-    public static boolean isInWifi() {
-        ConnectivityManager conMan = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED;
-    }
-
     public static int showImageQuality() {
-        if (isInWifi()) {
+        if (NetUtil.getInstance().isInWifi()) {
             return 0;
         } else {
             return PhoneConfiguration.getInstance().imageQuality;
@@ -170,11 +161,11 @@ public class ArticleUtil {
     }
 
     private boolean isShowImage() {
-        return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+        return PhoneConfiguration.getInstance().isDownImgNoWifi() || NetUtil.getInstance().isInWifi();
     }
 
     private boolean isShowAvatar() {
-        return PhoneConfiguration.getInstance().isDownAvatarNoWifi() || isInWifi();
+        return PhoneConfiguration.getInstance().isDownAvatarNoWifi() || NetUtil.getInstance().isInWifi();
     }
 
     public ThreadData parseJsonThreadPage(String js) {

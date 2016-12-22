@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.ThreadRowInfo;
 
@@ -193,7 +194,7 @@ public class HtmlUtil {
         ret.append("<tbody>");
 
         Iterator<ThreadRowInfo> it = row.getComments().iterator();
-        final boolean downImg = FunctionUtil.isInWifi(context) || PhoneConfiguration.getInstance().isDownAvatarNoWifi();
+        final boolean downImg = NetUtil.getInstance().isInWifi() || PhoneConfiguration.getInstance().isDownAvatarNoWifi();
         while (it.hasNext()) {
             ThreadRowInfo comment = it.next();
             ret.append("<tr><td>");

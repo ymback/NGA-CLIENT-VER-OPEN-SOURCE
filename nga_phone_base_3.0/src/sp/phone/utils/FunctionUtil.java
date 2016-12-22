@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,6 +61,7 @@ import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.util.NetUtil;
 import noname.gson.parse.NonameReadBody;
 import sp.phone.adapter.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
@@ -360,7 +359,7 @@ public class FunctionUtil {
             contentTV.setLongClickable(false);
         }
         boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-                || ArticleUtil.isInWifi();
+                || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -444,7 +443,7 @@ public class FunctionUtil {
             contentTV.setLongClickable(false);
         }
         boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-                || ArticleUtil.isInWifi();
+                || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -509,7 +508,7 @@ public class FunctionUtil {
         });
         ((Activity) context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-                || ArticleUtil.isInWifi();
+                || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -806,8 +805,7 @@ public class FunctionUtil {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        String formated_html_data = NonameArticleListAdapter.convertToHtmlText(row,
-                isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr, context);
+        String formated_html_data = NonameArticleListAdapter.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
         return formated_html_data;
     }
 
@@ -830,24 +828,16 @@ public class FunctionUtil {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        String formated_html_data = HtmlUtil.convertToHtmlText(row, isShowImage(context), showImageQuality(context), fgColorStr, bgcolorStr, context);
+        String formated_html_data = HtmlUtil.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
         row.setFormated_html_data(formated_html_data);
     }
 
-    public static boolean isInWifi(Context context) {
-        ConnectivityManager conMan = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED;
+    public static boolean isShowImage() {
+        return PhoneConfiguration.getInstance().isDownImgNoWifi() || NetUtil.getInstance().isInWifi();
     }
 
-    public static boolean isShowImage(Context context) {
-        return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi(context);
-    }
-
-    public static int showImageQuality(Context context) {
-        if (isInWifi(context)) {
+    public static int showImageQuality() {
+        if (NetUtil.getInstance().isInWifi()) {
             return 0;
         } else {
             return PhoneConfiguration.getInstance().imageQuality;

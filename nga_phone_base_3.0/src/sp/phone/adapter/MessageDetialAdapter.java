@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
@@ -243,7 +244,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
                 // Log.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
@@ -272,7 +273,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
                     }
 
                 } else {
-                    final boolean downImg = isInWifi()
+                    final boolean downImg = NetUtil.getInstance().isInWifi()
                             || PhoneConfiguration.getInstance()
                             .isDownAvatarNoWifi();
 
@@ -283,14 +284,6 @@ public class MessageDetialAdapter extends BaseAdapter implements
             }
         }
 
-    }
-
-    private boolean isInWifi() {
-        ConnectivityManager conMan = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED;
     }
 
     private boolean isPending(String url) {

@@ -525,8 +525,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                signatureToHtmlText(ret, FunctionUtil.isShowImage(this),
-                        FunctionUtil.showImageQuality(this), fgColorStr, bgcolorStr),
+                signatureToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr),
                 "text/html", "utf-8", null);
     }
 
@@ -560,8 +559,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                adminToHtmlText(ret, FunctionUtil.isShowImage(this), FunctionUtil.showImageQuality(this),
-                        fgColorStr, bgcolorStr), "text/html", "utf-8", null);
+                adminToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
     }
 
     private void handlefameWebview(WebView contentTV, ProfileData ret) {
@@ -594,8 +592,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                fameToHtmlText(ret, FunctionUtil.isShowImage(this), FunctionUtil.showImageQuality(this),
-                        fgColorStr, bgcolorStr), "text/html", "utf-8", null);
+                fameToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
     }
 
     public String fameToHtmlText(final ProfileData ret, boolean showImage,
@@ -701,9 +698,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
                     }
 
                 } else {
-                    new AvatarLoadTask(avatarIV, null, FunctionUtil.isShowImage(this), 0, this)
-                            .execute(avatarUrl, avatarPath, userId);
-
+                    new AvatarLoadTask(avatarIV, null, FunctionUtil.isShowImage(), 0, this).execute(avatarUrl, avatarPath, userId);
                 }
             }
         }

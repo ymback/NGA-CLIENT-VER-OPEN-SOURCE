@@ -42,6 +42,7 @@ import java.util.Set;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
@@ -796,14 +797,11 @@ public class ArticleListFragmentNew extends Fragment implements
                     }
 
                 } else {
-                    final boolean downImg = FunctionUtil
-                            .isInWifi(getActivity())
-                            || PhoneConfiguration.getInstance()
-                            .isDownAvatarNoWifi();
+                    final boolean downImg = NetUtil.getInstance().isInWifi()
+                            || PhoneConfiguration.getInstance().isDownAvatarNoWifi();
 
                     new AvatarLoadTask(avatarIV, null, downImg, lou, this)
                             .execute(avatarUrl, avatarPath, userId);
-
                 }
             }
         }

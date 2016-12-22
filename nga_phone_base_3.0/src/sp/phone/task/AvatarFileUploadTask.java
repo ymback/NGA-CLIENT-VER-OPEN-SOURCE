@@ -10,7 +10,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 
 import org.apache.commons.io.IOUtils;
 
@@ -98,12 +98,9 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
             Toast.makeText(context, errorStr, Toast.LENGTH_SHORT)
                     .show();
         } else {
-            Gson gson = new Gson();
-            NonameUploadResponse response = gson.fromJson(result,
-                    NonameUploadResponse.class);
-            if (response.error == true) {
-                Toast.makeText(context, response.errorinfo, Toast.LENGTH_SHORT)
-                        .show();
+            NonameUploadResponse response = JSON.parseObject(result, NonameUploadResponse.class);
+            if (response.error) {
+                Toast.makeText(context, response.errorinfo, Toast.LENGTH_SHORT).show();
             } else {
                 notifier.finishUpload(response.data, uri);
             }

@@ -94,9 +94,7 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        String formated_html_data = MessageDetialAdapter.convertToHtmlText(row,
-                FunctionUtil.isShowImage(context), FunctionUtil.showImageQuality(context), fgColorStr, bgcolorStr);
-
+        String formated_html_data = MessageDetialAdapter.convertToHtmlText(row, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr);
         row.setFormated_html_data(formated_html_data);
     }
 

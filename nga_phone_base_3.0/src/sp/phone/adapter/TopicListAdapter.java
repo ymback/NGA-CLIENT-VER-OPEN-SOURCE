@@ -9,13 +9,12 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.alibaba.fastjson.util.Base64;
 
 import java.math.BigInteger;
 import java.util.Locale;
@@ -221,7 +220,7 @@ public class TopicListAdapter extends BaseAdapter implements
                     }
                 }
             } else {
-                byte b[] = Base64.decodeFast(misc);
+                byte b[] = Base64.decode(misc, Base64.DEFAULT);
                 if (b != null) {
                     if (b.length == 5) {
                         String miscstring = toBinary(b);
