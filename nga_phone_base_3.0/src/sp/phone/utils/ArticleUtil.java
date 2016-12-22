@@ -242,7 +242,7 @@ public class ArticleUtil {
             JSONObject commObj = (JSONObject) rowObj.get("comment");
 
             if (commObj != null) {
-                row.setComments(convertJSobjToList(commObj, userInfoMap));
+                row.setComments(convertJSobjToList(commObj, commObj.size(), userInfoMap));
             }
             String from_client = rowObj.getString("from_client");
             if (!StringUtil.isEmpty(from_client)) {
@@ -323,9 +323,5 @@ public class ArticleUtil {
             row.setAurvrc(0);
         }
         row.setSignature(userInfo.getString("signature"));
-    }
-
-    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap, JSONObject userInfoMap) {
-        return convertJSobjToList(rowMap, rowMap.size(), userInfoMap);
     }
 }

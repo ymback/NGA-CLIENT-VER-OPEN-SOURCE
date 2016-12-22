@@ -510,9 +510,10 @@ public class StringUtil {
                 ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
                 "<a href='" + Utils.getNGAHost() + "read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
 
-        s = s.replaceAll(
+        // 某些帖子会导致这个方法卡住, 暂时不清楚原因, 和这个方法的作用.... by elrond
+        /*s = s.replaceAll(
                 ignoreCaseTag + "={3,}((^=){0,}(.*?){0,}(^=){0,})={3,}",
-                "<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$1</h4>");
+                "<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$1</h4>");*/
 
         s = s.replaceAll(ignoreCaseTag + "\\[quote\\]", quoteStyle);
         s = s.replaceAll(ignoreCaseTag + "\\[/quote\\]", endDiv);
