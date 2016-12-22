@@ -230,19 +230,15 @@ public class ArticleUtil {
         data.setRowList(__R);
         data.setRowNum(__R.size());
         data.set__ROWS(all_rows);
-        o1 = (JSONObject) o.get("__F");
 
         return data;
-
     }
 
-    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap,
-                                                   int count, JSONObject userInfoMap) {
-        List<ThreadRowInfo> __R = new ArrayList<ThreadRowInfo>();
-
+    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap, int count, JSONObject userInfoMap) {
         if (rowMap == null)
             return null;
-
+        List<ThreadRowInfo> __R = new ArrayList<ThreadRowInfo>();
+        Log.d("ArticleUtil", "convertJSobjToList");
         for (int i = 0; i < count; i++) {
             Object obj = rowMap.get(String.valueOf(i));
             JSONObject rowObj = null;
@@ -251,53 +247,40 @@ public class ArticleUtil {
             } else {
                 continue;
             }
-            ThreadRowInfo row = null;
-            if (rowObj != null) {
+            ThreadRowInfo row = JSONObject.toJavaObject(rowObj, ThreadRowInfo.class);
+            JSONObject commObj = (JSONObject) rowObj.get("comment");
 
-                row = JSONObject.toJavaObject(rowObj, ThreadRowInfo.class);
-                JSONObject commObj = (JSONObject) rowObj.get("comment");
-
-                if (commObj != null) {
-
-                    row.setComments(convertJSobjToList(commObj, userInfoMap));
-                }
-                String from_client = rowObj.getString("from_client");
-                if (!StringUtil.isEmpty(from_client)) {
-                    row.setFromClient(from_client.toString());
-                    if (!from_client.trim().equals("")) {
-                        String clientappcode = "";
-                        if (from_client.indexOf(" ") > 0) {
-                            clientappcode = from_client.substring(0,
-                                    from_client.indexOf(" "));
-                        } else {
-                            clientappcode = from_client;
-                        }
-                        if (clientappcode.equals("1") || clientappcode.equals("7")
-                                || clientappcode.equals("101")) {
-                            row.setFromClientModel("ios");
-                        } else if (clientappcode.equals("103")
-                                || clientappcode.equals("9")) {
-                            row.setFromClientModel("wp");
-                        } else if (!clientappcode.equals("8")
-                                && !clientappcode.equals("100")) {
-                            row.setFromClientModel("unknown");
-                        } else {
-                            row.setFromClientModel("android");
-                        }
+            if (commObj != null) {
+                row.setComments(convertJSobjToList(commObj, userInfoMap));
+            }
+            String from_client = rowObj.getString("from_client");
+            if (!StringUtil.isEmpty(from_client)) {
+                row.setFromClient(from_client);
+                if (!from_client.trim().equals("")) {
+                    String clientappcode = "";
+                    if (from_client.indexOf(" ") > 0) {
+                        clientappcode = from_client.substring(0, from_client.indexOf(" "));
+                    } else {
+                        clientappcode = from_client;
+                    }
+                    if (clientappcode.equals("1") || clientappcode.equals("7") || clientappcode.equals("101")) {
+                        row.setFromClientModel("ios");
+                    } else if (clientappcode.equals("103") || clientappcode.equals("9")) {
+                        row.setFromClientModel("wp");
+                    } else if (!clientappcode.equals("8") && !clientappcode.equals("100")) {
+                        row.setFromClientModel("unknown");
+                    } else {
+                        row.setFromClientModel("android");
                     }
                 }
-                String vote = rowObj.getString("vote");
-                if (!StringUtil.isEmpty(vote)) {
-                    row.setVote(vote);
-                }
-
-                fillUserInfo(row, userInfoMap);
-
-                FunctionUtil.fillFormated_html_data(row, i, context);
-
-                __R.add(row);
             }
-
+            String vote = rowObj.getString("vote");
+            if (!StringUtil.isEmpty(vote)) {
+                row.setVote(vote);
+            }
+            fillUserInfo(row, userInfoMap);
+            FunctionUtil.fillFormated_html_data(row, i, context);
+            __R.add(row);
         }
         return __R;
     }

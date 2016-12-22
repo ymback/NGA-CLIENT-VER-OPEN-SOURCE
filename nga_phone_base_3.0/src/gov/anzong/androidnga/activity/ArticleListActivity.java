@@ -1,13 +1,10 @@
 package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -450,14 +447,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
                 }
             }
         }
-    }
-
-    public boolean isInWifi() {
-        ConnectivityManager conMan = (ConnectivityManager) this
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED;
     }
 
     private void createGotoDialog() {
