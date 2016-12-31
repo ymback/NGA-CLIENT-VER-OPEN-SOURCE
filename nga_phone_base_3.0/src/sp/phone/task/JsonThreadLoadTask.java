@@ -53,9 +53,7 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
     }
 
     private ThreadData loadAndParseJsonPage(String uri) {
-        // Log.d(TAG, "start to load:" + uri);
-        String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance()
-                .getCookie());
+        String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
         if (null == js) {
             errorStr = context.getString(R.string.network_error);
             return null;
@@ -103,20 +101,16 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
                         errorStr = message;
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
-
             } while (false);
-
         }
-
         return result;
 
     }
 
     @Override
     protected void onPreExecute() {
-        // TODO Auto-generated method stub
         super.onPreExecute();
     }
 

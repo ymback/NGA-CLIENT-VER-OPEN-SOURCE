@@ -18,6 +18,7 @@ import java.util.Set;
 
 import gov.anzong.androidnga.CrashHandler;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.Bookmark;
@@ -49,7 +50,7 @@ public class MyApp extends Application implements PerferenceConstant {
         initUserInfo();
         if (ActivityUtil.isGreaterThan_2_1())
             initPath();
-        if (config.iconmode == true) {// laotubiao
+        if (config.iconmode) {// laotubiao
             loadDefaultBoardOld();
         } else {
             loadDefaultBoard();
@@ -58,6 +59,8 @@ public class MyApp extends Application implements PerferenceConstant {
         CrashHandler crashHandler = CrashHandler.getInstance();
         // 注册crashHandler
         crashHandler.init(getApplicationContext());
+
+        NetUtil.init(this);
 
         super.onCreate();
     }
