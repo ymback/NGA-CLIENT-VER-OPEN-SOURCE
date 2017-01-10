@@ -14,7 +14,7 @@
             android:id="@+id/pagerslidingtab"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
-            android:background="@color/shit2"
+            android:background="@color/shit1"
             android:fadingEdge="horizontal"
             android:fadingEdgeLength="10dp"
             android:textColor="@color/profilefcolor"

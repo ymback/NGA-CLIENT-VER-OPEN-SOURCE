@@ -369,7 +369,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                         MODE_PRIVATE);
                 Editor editor = share.edit();
                 editor.putInt(UI_FLAG, flag);
-                editor.commit();
+                editor.apply();
             }
         }
 
@@ -588,7 +588,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(NIGHT_MODE, arg1);
-            editor.commit();
+            editor.apply();
             int mode = ThemeManager.MODE_NORMAL;
             if (arg1)
                 mode = ThemeManager.MODE_NIGHT;
@@ -610,7 +610,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_ANIMATION, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -628,7 +628,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             PhoneConfiguration.getInstance().setRefreshAfterPost(false);
             Editor editor = share.edit();
             editor.putBoolean(REFRESH_AFTERPOST_SETTING_MODE, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -641,7 +641,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         public void onCheckedChanged(CompoundButton buttonView,
                                      final boolean isChecked) {
 
-            if (recentlychanged == false) {
+            if (!recentlychanged) {
                 String alertString = getString(R.string.change_icon_string);
                 final AlertDialogFragment f = AlertDialogFragment
                         .create(alertString);
@@ -679,7 +679,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                         editor.putBoolean(SHOW_ICON_MODE, isChecked);
                         editor.putString(RECENT_BOARD, "");
                         editor.putString(ADD_FID, addFidStr);
-                        editor.commit();
+                        editor.apply();
 
                     }
 
@@ -715,7 +715,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(USE_VIEW_CACHE, isChecked);
-            editor.commit();
+            editor.apply();
 
             if (isChecked) {
                 new AlertDialog.Builder(SettingsActivity.this)
@@ -740,7 +740,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_SIGNATURE, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -794,7 +794,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(UPLOAD_LOCATION, isChecked);
-            editor.commit();
+            editor.apply();
         }
 
     }
@@ -811,7 +811,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_STATIC, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -829,7 +829,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_REPLYBUTTON, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -847,7 +847,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SWIPEBACK, isChecked);
-            editor.commit();
+            editor.apply();
             if (isChecked) {
                 swipebackChooer.setVisibility(View.VISIBLE);
                 final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
@@ -927,7 +927,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_LAJIBANKUAI, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
     }
@@ -944,7 +944,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(FULLSCREENMODE, isChecked);
-            editor.commit();
+            editor.apply();
             if (isChecked) {
                 ActivityUtil.getInstance().setFullScreen(view);
             } else {
@@ -988,7 +988,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(DOWNLOAD_IMG_NO_WIFI, arg1);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1017,7 +1017,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                             MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putInt(DOWNLOAD_IMG_QUALITY_NO_WIFI, which);
-                    editor.commit();
+                    editor.apply();
                     updateImageQualityChoiceText(PhoneConfiguration
                             .getInstance());
                 }
@@ -1237,7 +1237,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                             MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putInt(HANDSIDE, Math.abs(1 - which));
-                    editor.commit();
+                    editor.apply();
                     updateHandSideChoiceText(PhoneConfiguration.getInstance());
                 }
             });
@@ -1272,7 +1272,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(DOWNLOAD_AVATAR_NO_WIFI, arg1);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1307,7 +1307,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(ENABLE_NOTIFIACTION, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1331,7 +1331,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(NOTIFIACTION_SOUND, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1362,7 +1362,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putFloat(TEXT_SIZE, textSize);
-            editor.commit();
+            editor.apply();
             PhoneConfiguration.getInstance().setTextSize(textSize);
         }
 
@@ -1398,7 +1398,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             Editor editor = share.edit();
 
             editor.putInt(WEB_SIZE, webSize);
-            editor.commit();
+            editor.apply();
 
             PhoneConfiguration.getInstance().setWebSize(webSize);
 
@@ -1443,7 +1443,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(NICK_WIDTH, progress);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1470,7 +1470,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(UI_FLAG, flag);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1501,7 +1501,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(UI_FLAG, flag);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1531,7 +1531,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(UI_FLAG, flag);
-            editor.commit();
+            editor.apply();
 
         }
 
