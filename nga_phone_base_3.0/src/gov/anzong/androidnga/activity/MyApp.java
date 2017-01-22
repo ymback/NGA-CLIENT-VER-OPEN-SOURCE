@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.CrashHandler;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
@@ -31,7 +32,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class MyApp extends Application implements PerferenceConstant {
-    public final static int version = 2057;
+    public final static int version = BuildConfig.VERSION_CODE;
     public static final int fddicon[][] = {};
     static final String RECENT = "最近访问";
     static final String ADDFID = "用户自定义";
@@ -42,8 +43,6 @@ public class MyApp extends Application implements PerferenceConstant {
     @Override
     public void onCreate() {
         Log.w(TAG, "app nga androind start");
-        // CrashHandler crashHandler = CrashHandler.getInstance();
-        // crashHandler.init(getApplicationContext());
         if (config == null)
             config = PhoneConfiguration.getInstance();
         loadConfig();

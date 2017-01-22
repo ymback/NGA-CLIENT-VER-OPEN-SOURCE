@@ -760,8 +760,8 @@ public class ArticleListFragmentNew extends Fragment implements
         if (defaultAvatar == null
                 || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
             Resources res = avatarIV.getContext().getResources();
-            InputStream is = res.openRawResource(R.drawable.default_avatar);
-            InputStream is2 = res.openRawResource(R.drawable.default_avatar);
+            InputStream is = res.openRawResource(R.raw.default_avatar);
+            InputStream is2 = res.openRawResource(R.raw.default_avatar);
             this.defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
         }
 

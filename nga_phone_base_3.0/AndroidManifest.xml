@@ -3,20 +3,13 @@
     package="gov.anzong.androidnga"
     android:configChanges="orientation|screenSize"
     android:installLocation="auto"
-    android:largeHeap="true"
-    android:versionCode="2057"
-    android:versionName="2.0.57">
+    android:largeHeap="true" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NFC" />
-
-    <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="24" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature

@@ -84,9 +84,8 @@ public class PendingReplyAdapter extends BaseAdapter {
 
         Resources res = avatarIV.getResources();
         if (bitmap == null) {
-
-            InputStream is = res.openRawResource(R.drawable.default_avatar);
-            InputStream is2 = res.openRawResource(R.drawable.default_avatar);
+            InputStream is = res.openRawResource(R.raw.default_avatar);
+            InputStream is2 = res.openRawResource(R.raw.default_avatar);
             bitmap = ImageUtil.loadAvatarFromStream(is, is2, 150);
         }
 

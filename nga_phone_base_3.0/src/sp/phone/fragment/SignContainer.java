@@ -1,12 +1,8 @@
 package sp.phone.fragment;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -318,14 +314,14 @@ public class SignContainer extends BaseFragment implements
         if (defaultAvatar == null
                 || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
             Resources res = inflatera.getContext().getResources();
-            InputStream is = res.openRawResource(R.drawable.default_avatar);
-            InputStream is2 = res.openRawResource(R.drawable.default_avatar);
+            InputStream is = res.openRawResource(R.raw.default_avatar);
+            InputStream is2 = res.openRawResource(R.raw.default_avatar);
             defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
         }
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
                 // Log.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
