@@ -4,8 +4,8 @@
     android:configChanges="orientation|screenSize"
     android:installLocation="auto"
     android:largeHeap="true"
-    android:versionCode="2056"
-    android:versionName="2.0.56">
+    android:versionCode="2057"
+    android:versionName="2.0.57">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

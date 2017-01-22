@@ -31,7 +31,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class MyApp extends Application implements PerferenceConstant {
-    public final static int version = 2056;
+    public final static int version = 2057;
     public static final int fddicon[][] = {};
     static final String RECENT = "最近访问";
     static final String ADDFID = "用户自定义";
