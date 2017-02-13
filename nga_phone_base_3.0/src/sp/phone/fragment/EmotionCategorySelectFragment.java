@@ -22,7 +22,7 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        view.setBackgroundColor(0x7f000000);
+        view.setBackgroundResource(R.color.shit1);
         OnClickListener listener = new OnClickListener() {
 
             @Override
