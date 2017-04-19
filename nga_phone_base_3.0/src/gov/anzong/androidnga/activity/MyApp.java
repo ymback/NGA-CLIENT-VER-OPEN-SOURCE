@@ -732,7 +732,7 @@ public class MyApp extends Application implements PerferenceConstant {
             if (version_in_config < 2028) {
                 editor.putString(USER_LIST, "");
             }
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -782,7 +782,7 @@ public class MyApp extends Application implements PerferenceConstant {
                 flag = flag & ~UI_FLAG_HA;
                 Editor editor = share.edit();
                 editor.putInt(UI_FLAG, flag);
-                editor.commit();
+                editor.apply();
             }
             PhoneConfiguration.getInstance().setUiFlag(flag);
         } else {

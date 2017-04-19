@@ -68,7 +68,7 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
                     R.string.thread_load_error);
             do {
                 try {
-                    JSONObject o = (JSONObject) JSON.parseObject(js);
+                    JSONObject o = JSON.parseObject(js);
                     if (o == null)
                         break;
                     o = (JSONObject) o.get("data");

@@ -1359,7 +1359,7 @@ public class MainActivity extends BaseActivity implements
                         if (menucishu >= 7) {
                             Editor editor = share.edit();
                             editor.putString(CAN_SHOW_FULI, "1");
-                            editor.commit();
+                            editor.apply();
                             setLocItem(15,
                                     "我要龙珠~撸~", R.drawable.ic_action_dragon_ball);
                             showToast("你根本不知道发生了什么\n如果你知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
@@ -1521,7 +1521,7 @@ public class MainActivity extends BaseActivity implements
             String rescentStr = JSON.toJSONString(boardList);
             Editor editor = share.edit();
             editor.putString(RECENT_BOARD, rescentStr);
-            editor.commit();
+            editor.apply();
         }
 
         private void addToRecent() {

@@ -88,7 +88,7 @@ public class UserListAdapter extends SpinnerUserListAdapter
                 editor.putString(PENDING_REPLYS, "");
                 editor.putString(REPLYTOTALNUM, "0");
                 editor.putString(BLACK_LIST, "");
-                editor.commit();
+                editor.apply();
             } else {
                 User u = userList.get(0);
                 PhoneConfiguration.getInstance().setUid(u.getUserId());

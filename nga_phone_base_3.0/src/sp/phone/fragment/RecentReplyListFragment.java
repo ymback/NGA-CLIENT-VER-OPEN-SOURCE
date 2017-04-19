@@ -229,7 +229,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
             editor.putString(PENDING_REPLYS, "");
             editor.putString(REPLYTOTALNUM,
                     "0");
-            editor.commit();
+            editor.apply();
         }
         if (adapter != null) {
             adapter.clean();

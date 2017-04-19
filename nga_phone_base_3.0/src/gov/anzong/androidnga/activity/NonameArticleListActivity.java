@@ -328,7 +328,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                 MODE_MULTI_PROCESS);
         Editor editor = share.edit();
         editor.putInt(SCREEN_ORENTATION, newOrientation);
-        editor.commit();
+        editor.apply();
 
     }
 

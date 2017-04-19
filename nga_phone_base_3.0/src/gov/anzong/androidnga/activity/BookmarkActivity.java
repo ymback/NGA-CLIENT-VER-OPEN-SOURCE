@@ -95,7 +95,7 @@ public class BookmarkActivity extends SwipeBackAppCompatActivity
                 if (bookmarks.size() > 0)
                     jsonString = JSON.toJSONString(bookmarks.getClass());
                 editor.putString(BOOKMARKS, jsonString);
-                editor.commit();
+                editor.apply();
 
                 BookmarkAdapter ad = (BookmarkAdapter) view.getAdapter();
                 ad.notifyDataSetChanged();

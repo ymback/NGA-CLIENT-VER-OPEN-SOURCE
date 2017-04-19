@@ -150,7 +150,7 @@ public class CheckReplyNotificationTask extends
                     Editor editor = share.edit();
                     editor.putString(PENDING_REPLYS, recentstr);
                     editor.putString(REPLYTOTALNUM, String.valueOf(list.size()));
-                    editor.commit();
+                    editor.apply();
                 }
             }
 
