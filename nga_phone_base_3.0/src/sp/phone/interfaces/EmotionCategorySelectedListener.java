@@ -1,24 +1,25 @@
 package sp.phone.interfaces;
 
 public interface EmotionCategorySelectedListener {
-    public final int CATEGORY_BASIC = 0;
-    public final int CATEGORY_BAOZOU = 1;
-    public final int CATEGORY_XIONGMAO = 2;
-    public final int CATEGORY_TAIJUN = 3;
-    public final int CATEGORY_ALI = 4;
-    public final int CATEGORY_DAYANMAO = 5;
-    public final int CATEGORY_LUOXIAOHEI = 6;
-    public final int CATEGORY_MAJIANGLIAN = 7;
-    public final int CATEGORY_ZHAIYIN = 8;
-    public final int CATEGORY_YANGCONGTOU = 9;
-    public final int CATEGORY_ACNIANG = 10;
-    public final int CATEGORY_NEW_ACNIANG = 11;
-    public final int CATEGORY_BIERDE = 12;
-    public final int CATEGORY_LINDABI = 13;
-    public final int CATEGORY_QUNIANG = 14;
-    public final int CATEGORY_NIWEIHEZHEMEDIAO = 15;
-    public final int CATEGORY_PST = 16;
-    public final int CATEGORY_DT = 17;
+    int CATEGORY_BASIC = 0;
+    int CATEGORY_BAOZOU = 1;
+    int CATEGORY_XIONGMAO = 2;
+    int CATEGORY_TAIJUN = 3;
+    int CATEGORY_ALI = 4;
+    int CATEGORY_DAYANMAO = 5;
+    int CATEGORY_LUOXIAOHEI = 6;
+    int CATEGORY_MAJIANGLIAN = 7;
+    int CATEGORY_ZHAIYIN = 8;
+    int CATEGORY_YANGCONGTOU = 9;
+    int CATEGORY_ACNIANG = 10;
+    int CATEGORY_NEW_ACNIANG = 11;
+    int CATEGORY_BIERDE = 12;
+    int CATEGORY_LINDABI = 13;
+    int CATEGORY_QUNIANG = 14;
+    int CATEGORY_NIWEIHEZHEMEDIAO = 15;
+    int CATEGORY_PST = 16;
+    int CATEGORY_DT = 17;
+    int CATEGORY_PG = 18;
 
     void onEmotionCategorySelected(int category);
 }

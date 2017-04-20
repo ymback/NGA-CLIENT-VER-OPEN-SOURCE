@@ -439,6 +439,14 @@ public class StringUtil {
                 "a2_22.png", "a2_42.png", "a2_37.png", "a2_38.png", "a2_39.png",
                 "a2_41.png", "a2_40.png",// 0-45
         };
+        final String penguinOfUBBCode[] = {
+                "战斗力", "哈啤", "满分", "衰", "拒绝",
+                "心", "严肃", "吃瓜", "嘣", "嘣2",
+                "冻", "谢", "哭", "响指", "转身"};
+        final String penguinAppAdd[] = {"pg01.png", "pg02.png", "pg03.png", "pg04.png",
+                "pg05.png", "pg06.png", "pg07.png", "pg08.png", "pg09.png",
+                "pg10.png", "pg11.png", "pg12.png", "pg13.png", "pg14.png",
+                "pg15.png"};
         final String pstofubbcode[] = {"举手", "亲", "偷笑", "偷笑2", "偷笑3",
                 "傻眼", "傻眼2", "兔子", "发光", "呆",
                 "呆2", "呆3", "呕", "呵欠", "哭",
@@ -559,6 +567,11 @@ public class StringUtil {
             s = s.replaceAll(ignoreCaseTag + "\\[s:a2:" + newacniangofubbcode[i]
                     + "\\]", "<img src='file:///android_asset/newacniang/"
                     + newacniangappadd[i] + "'>");
+        }
+        for (int i = 0; i < penguinOfUBBCode.length; i++) {
+            s = s.replaceAll(ignoreCaseTag + "\\[s:pg:" + penguinOfUBBCode[i]
+                    + "\\]", "<img src='file:///android_asset/pg/"
+                    + penguinAppAdd[i] + "'>");
         }
         for (int i = 0; i < 65; i++) {
             s = s.replaceAll(ignoreCaseTag + "\\[s:pst:" + pstofubbcode[i]
@@ -748,9 +761,7 @@ public class StringUtil {
                 }
             }
         } catch (Exception e) {
-
         }
-
         return s;
     }
 
@@ -759,7 +770,6 @@ public class StringUtil {
         try {
             encodedURL = URLEncoder.encode(url, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             return url;
         }
         String r = url;
@@ -822,9 +832,7 @@ public class StringUtil {
     }
 
     public static String getTips() {
-
         return tips;
-
     }
 
     public static StringFindResult getStringBetween(String data,
