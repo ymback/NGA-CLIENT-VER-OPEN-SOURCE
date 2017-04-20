@@ -1484,8 +1484,7 @@ public class MainActivity extends BaseActivity implements
 
             Log.i(this.getClass().getSimpleName(), "set host:" + HttpUtil.HOST);
 
-            String url = HttpUtil.Server + "/thread.php?fid=" + fidString
-                    + "&rss=1";
+            String url = HttpUtil.Server + "/thread.php?fid=" + fidString + "&rss=1";
             PhoneConfiguration config = PhoneConfiguration.getInstance();
             if (!StringUtil.isEmpty(config.getCookie())) {
                 url = url + "&" + config.getCookie().replace("; ", "&");

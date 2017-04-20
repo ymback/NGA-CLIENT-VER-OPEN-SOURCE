@@ -175,14 +175,14 @@ public class ArticleUtil {
         js = js.replaceAll("\"content\":(0\\d+),", "\"content\":\"$1\",");
         js = js.replaceAll("\"subject\":(0\\d+),", "\"subject\":\"$1\",");
         js = js.replaceAll("\"author\":(0\\d+),", "\"author\":\"$1\",");
+        js = js.replaceAll("\"alterinfo\":\"\\[(\\w|\\s)+\\]\\s+\",", ""); //部分页面打不开的问题
         final String start = "\"__P\":{\"aid\":";
         final String end = "\"this_visit_rows\":";
-        if (js.indexOf(start) != -1 && js.indexOf(end) != -1) {
+        if (js.contains(start) && js.contains(end)) {
             Log.w(TAG, "here comes an invalid response");
             String validJs = js.substring(0, js.indexOf(start));
             validJs += js.substring(js.indexOf(end));
             js = validJs;
-
         }
         JSONObject o = null;
         try {
