@@ -15,8 +15,8 @@ android {
 
     defaultConfig {
         applicationId "gov.anzong.androidnga"
-        versionCode 2057
-        versionName "2.0.57"
+        versionCode 2058
+        versionName "2.0.58"
 
         minSdkVersion 11
         targetSdkVersion 24

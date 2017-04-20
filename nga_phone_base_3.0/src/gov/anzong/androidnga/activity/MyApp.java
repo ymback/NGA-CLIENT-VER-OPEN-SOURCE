@@ -668,13 +668,11 @@ public class MyApp extends Application implements PerferenceConstant {
                 .putString(USER_NAME, name)
                 .putString(PENDING_REPLYS, replyString)
                 .putString(REPLYTOTALNUM, String.valueOf(replytotalnum))
-                .putString(USER_LIST, userListString).putString(BLACK_LIST, blacklist).commit();
+                .putString(USER_LIST, userListString).putString(BLACK_LIST, blacklist).apply();
     }
 
-
     public void upgradeUserdata(String blacklist) {
-        SharedPreferences share = this.getSharedPreferences(PERFERENCE,
-                MODE_PRIVATE);
+        SharedPreferences share = this.getSharedPreferences(PERFERENCE, MODE_PRIVATE);
 
         String userListString = share.getString(USER_LIST, "");
         List<User> userList = null;
@@ -692,11 +690,10 @@ public class MyApp extends Application implements PerferenceConstant {
         }
     }
 
-
     public void addToMeiziUserList(String uid, String sess) {
         SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
         String cookie = "uid=" + uid + "; sess=" + sess;
-        share.edit().putString(DBCOOKIE, cookie).commit();
+        share.edit().putString(DBCOOKIE, cookie).apply();
         config.setDb_Cookie(cookie);
     }
 
