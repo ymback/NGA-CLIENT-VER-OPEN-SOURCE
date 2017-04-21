@@ -15,11 +15,11 @@ android {
 
     defaultConfig {
         applicationId "gov.anzong.androidnga"
-        versionCode 2057
-        versionName "2.0.57"
+        versionCode 2058
+        versionName "2.0.58"
 
         minSdkVersion 11
-        targetSdkVersion 24
+        targetSdkVersion 23
         multiDexEnabled true
     }
 
@@ -65,5 +65,5 @@ dependencies {
     compile project(':ActionBar-PullToRefresh')
     compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
-    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:support-v4:25.1.1'
 }
