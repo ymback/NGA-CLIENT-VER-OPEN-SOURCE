@@ -654,6 +654,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         return ngaHtml;
     }
 
+    @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ProfileData row) {
 
         final String avatarUrl = FunctionUtil.parseAvatarUrl(row.get_avatar());//
@@ -664,8 +665,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         }
         if (defaultAvatar == null
                 || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
-            Resources res = avatarIV.getContext().getResources();
-            InputStream is = res.openRawResource(R.drawable.default_avatar);
+            Resources res = avatarIV.getContext().getResources(); InputStream is = res.openRawResource(R.drawable.default_avatar);
             InputStream is2 = res.openRawResource(R.drawable.default_avatar);
             this.defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
         }
@@ -673,7 +673,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
             }
         }
@@ -745,6 +745,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         };
     }
 
+    @SuppressWarnings("WrongConstant")
     @Override
     protected void onResume() {
         int orentation = ThemeManager.getInstance().screenOrentation;

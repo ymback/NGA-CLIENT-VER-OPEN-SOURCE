@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -35,6 +33,7 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
+@SuppressWarnings("ResourceType")
 public class MessageDetialAdapter extends BaseAdapter implements
         OnMessageDetialLoadFinishedListener, AvatarLoadCompleteCallBack, OnLongClickListener {
 
