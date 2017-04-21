@@ -1,26 +1,98 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
+}
 
 buildscript {
     repositories {
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+        maven {
+            url 'http://oss.sonatype.org/content/repositories/snapshots'
+        }
         mavenCentral()
+        jcenter()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
     }
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion General_CompileSdkVersion as int
+    buildToolsVersion General_BuildToolsVersion
+
+    signingConfigs {
+        signingConfig {
+            if (IS_JENKINS.equals("true")) {
+                storeFile file('../../android19910914.keystore')
+            } else {
+                storeFile file('..\\..\\android19910914.keystore')
+            }
+            storePassword '19910914'
+            keyAlias 'android.keystore'
+            keyPassword '19910914'
+        }
+    }
+
+    packagingOptions {
+        exclude 'lib/arm64-v8a/*.so'
+        exclude 'lib/x86_64/*.so'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/MANIFEST.MF'
+    }
 
     defaultConfig {
         applicationId "gov.anzong.androidnga"
-        versionCode 2058
-        versionName "2.0.58"
-
         minSdkVersion 11
-        targetSdkVersion 23
+        targetSdkVersion 25
         multiDexEnabled true
+        resConfigs "zh", "en"
+
+        versionCode APP_VERSION_CODE as int
+        versionName APP_VERSION_NAME
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            pseudoLocalesEnabled false
+            minifyEnabled false
+            zipAlignEnabled true
+            signingConfig signingConfigs.signingConfig
+        }
+
+        debug {
+            debuggable true
+            signingConfig signingConfigs.signingConfig
+            minifyEnabled false
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "1g"
+    }
+
+    retrolambda {
+        jvmArgs '-noverify'
+    }
+
+    lintOptions {
+        abortOnError false
+        disable 'MissingTranslation'
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 
     sourceSets {
@@ -35,25 +107,34 @@ android {
             jniLibs.srcDirs = ['libs']
         }
 
-        // Move the tests to tests/java, tests/res, etc...
         instrumentTest.setRoot('tests')
 
-        // Move the build types to build-types/<type>
-        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
-        // This moves them out of them default location under src/<type>/... which would
-        // conflict with src/ being used by the main source set.
-        // Adding new build types or product flavors should be accompanied
-        // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/MANIFEST.MF'
-    }
-    lintOptions {
-        abortOnError false
+    
+    //修改生成的apk名字
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def newName
+            def timeNow
+            def outDirectory
+            if (IS_JENKINS.equals("true")) {
+                timeNow = JENKINS_TIME
+                outDirectory = '/auto-build/tomcat/webapps/download/'
+                newName = 'NGA-v' +
+                        APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
+            } else {
+                timeNow = getDate()
+                outDirectory = "C:\\Users\\" + WINDOWS_USERNAME + "\\Desktop"
+                if (variant.buildType.name.equals('debug')) {
+                    newName = "NGA-v${APP_VERSION_NAME}-debug.apk"
+                } else {
+                    newName = "NGA-v${APP_VERSION_NAME}-" + timeNow + '-' + variant.buildType.name + '.apk'
+                }
+            }
+            output.outputFile = new File(outDirectory, newName)
+        }
     }
 }
 
@@ -65,5 +146,5 @@ dependencies {
     compile project(':ActionBar-PullToRefresh')
     compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
-    compile 'com.android.support:support-v4:25.1.1'
+    compile "com.android.support:support-v4:$Version_AndroidSupport"
 }

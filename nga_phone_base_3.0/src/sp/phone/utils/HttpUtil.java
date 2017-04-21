@@ -65,10 +65,9 @@ public class HttpUtil {
                 if (result == HttpURLConnection.HTTP_OK) {
                     HOST = host;//
                     break;
-                } else {
                 }
-            } catch (MalformedURLException e) {
             } catch (IOException e) {
+                e.printStackTrace();
             } finally {
                 if (conn != null) {
                     conn.disconnect();
@@ -103,10 +102,9 @@ public class HttpUtil {
                     HOST_PORT = host;
                     status = true;
                     break;
-                } else {
                 }
-            } catch (MalformedURLException e) {
             } catch (IOException e) {
+                e.printStackTrace();
             } finally {
                 if (conn != null) {
                     conn.disconnect();
@@ -137,8 +135,6 @@ public class HttpUtil {
             is = url.openStream();
             File file = new File(fileName);
             FileUtils.copyInputStreamToFile(is, file);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -296,13 +292,17 @@ public class HttpUtil {
 
             @Override
             public boolean verify(String hostname, SSLSession session) {
-                // TODO Auto-generated method stub
-                return true;
+                if (hostname.toLowerCase().contains("nga") || hostname.contains("178")) {
+                    return true;
+                }
+                return false;
             }
         };
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-        String machine = "";
-        if (MODEL.indexOf(MANUFACTURER) >= 0) {
+
+
+        String machine;
+        if (MODEL.contains(MANUFACTURER)) {
             machine = android.os.Build.MODEL;
         } else {
             machine = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
@@ -310,7 +310,7 @@ public class HttpUtil {
         if (machine.length() < 19) {
             machine = "[" + machine + "]";
         }
-        final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(573).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+        final String USER_AGENT = "Nga_Official/" + 573 + "(" + machine + ";Android" + Build.VERSION.RELEASE + ")";
 
         try {
             URL url = new URL(uri);
@@ -335,8 +335,6 @@ public class HttpUtil {
             String encoding = getCharset(conn, "GBK");
 
             return IOUtils.toString(is, encoding);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
