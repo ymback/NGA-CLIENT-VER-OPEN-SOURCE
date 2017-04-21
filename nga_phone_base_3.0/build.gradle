@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 def getDate() {
     def date = new Date()
@@ -18,9 +17,6 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
-    }
-    dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
     }
 }
 
@@ -82,17 +78,9 @@ android {
         javaMaxHeapSize "1g"
     }
 
-    retrolambda {
-        jvmArgs '-noverify'
-    }
-
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'
-    }
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
     }
 
     sourceSets {
