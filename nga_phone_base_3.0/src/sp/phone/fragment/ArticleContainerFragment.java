@@ -424,7 +424,7 @@ public class ArticleContainerFragment extends BaseFragment implements
                 PERFERENCE, Activity.MODE_PRIVATE);
         Editor editor = share.edit();
         editor.putInt(SCREEN_ORENTATION, newOrientation);
-        editor.commit();
+        editor.apply();
 
     }
 

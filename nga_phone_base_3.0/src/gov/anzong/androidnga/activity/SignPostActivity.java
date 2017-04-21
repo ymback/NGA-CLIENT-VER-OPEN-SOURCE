@@ -2,7 +2,6 @@ package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -13,9 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.DialogFragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -46,9 +43,6 @@ import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.SignPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
-import sp.phone.fragment.EmotionDialogFragment;
-import sp.phone.fragment.ExtensionEmotionFragment;
-import sp.phone.interfaces.EmotionCategorySelectedListener;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
 import sp.phone.utils.ActivityUtil;
@@ -58,12 +52,9 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class SignPostActivity extends SwipeBackAppCompatActivity implements
-        FileUploadTask.onFileUploaded, EmotionCategorySelectedListener,
-        OnEmotionPickedListener {
+public class SignPostActivity extends BasePostActivity implements
+        FileUploadTask.onFileUploaded, OnEmotionPickedListener {
 
-    static private final String EMOTION_CATEGORY_TAG = "emotion_category";
-    static private final String EMOTION_TAG = "emotion";
     final int REQUEST_CODE_SELECT_PIC = 1;
     private final String LOG_TAG = Activity.class.getSimpleName();
     // private Button button_commit;
@@ -404,63 +395,6 @@ public class SignPostActivity extends SwipeBackAppCompatActivity implements
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
         return 1;
-    }
-
-    @Override
-    public void onEmotionCategorySelected(int category) {
-        final FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        final Fragment categoryFragment = getSupportFragmentManager()
-                .findFragmentByTag(EMOTION_CATEGORY_TAG);
-        if (categoryFragment != null)
-            ft.remove(categoryFragment);
-        ft.commit();
-
-        ft = fm.beginTransaction();
-        final Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                EMOTION_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        DialogFragment newFragment = null;
-        switch (category) {
-            case CATEGORY_BASIC:
-                newFragment = new EmotionDialogFragment();
-                break;
-            case CATEGORY_BAOZOU:
-            case CATEGORY_XIONGMAO:
-            case CATEGORY_TAIJUN:
-            case CATEGORY_ALI:
-            case CATEGORY_DAYANMAO:
-            case CATEGORY_LUOXIAOHEI:
-            case CATEGORY_MAJIANGLIAN:
-            case CATEGORY_ZHAIYIN:
-            case CATEGORY_YANGCONGTOU:
-            case CATEGORY_ACNIANG:
-            case CATEGORY_NEW_ACNIANG:
-            case CATEGORY_BIERDE:
-            case CATEGORY_LINDABI:
-            case CATEGORY_QUNIANG:
-            case CATEGORY_NIWEIHEZHEMEDIAO:
-            case CATEGORY_PST:
-            case CATEGORY_DT:
-                Bundle args = new Bundle();
-                args.putInt("index", category - 1);
-                newFragment = new ExtensionEmotionFragment();
-                newFragment.setArguments(args);
-                break;
-            default:
-
-        }
-        // ft.commit();
-        // ft.addToBackStack(null);
-
-        if (newFragment != null) {
-            ft.commit();
-            newFragment.show(fm, EMOTION_TAG);
-        }
-
     }
 
     class ButtonCommitListener implements OnClickListener {

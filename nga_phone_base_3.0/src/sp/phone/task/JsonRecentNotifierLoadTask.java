@@ -80,7 +80,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
                 editor.putString(PENDING_REPLYS, "");
                 editor.putString(REPLYTOTALNUM,
                         "0");
-                editor.commit();
+                editor.apply();
             }
             notifier.jsonfinishLoad();
             return;
@@ -161,7 +161,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
                 Editor editor = share.edit();
                 editor.putString(PENDING_REPLYS, recentstr);
                 editor.putString(REPLYTOTALNUM, String.valueOf(list.size()));
-                editor.commit();
+                editor.apply();
             }
         }
         notifier.jsonfinishLoad();

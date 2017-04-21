@@ -23,28 +23,24 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
-public class ReplyListFragment extends Fragment
-        implements PerferenceConstant {
+public class ReplyListFragment extends Fragment implements PerferenceConstant {
 
     private ListView lv;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         lv = new ListView(getActivity());
         return lv;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        SharedPreferences share =
-                getActivity().getSharedPreferences(PERFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE, Context.MODE_PRIVATE);
         String str = share.getString(PENDING_REPLYS_FOR_SHOW, "");
         if (!StringUtil.isEmpty(str)) {
             List<NotificationObject> list = JSON.parseArray(str, NotificationObject.class);
             if (list != null && list.size() != 0) {
                 lv.setAdapter(new PendingReplyAdapter(list));
-
             }
         }
         //lv.setAdapter(adapter);
@@ -67,7 +63,6 @@ public class ReplyListFragment extends Fragment
 
                 intent.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
                 getActivity().startActivity(intent);
-
             }
 
         });

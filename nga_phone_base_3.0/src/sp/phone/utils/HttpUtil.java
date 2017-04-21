@@ -29,30 +29,20 @@ import sp.phone.bean.ArticlePage;
 
 public class HttpUtil {
 
-    public final static String PATH_OLD = android.os.Environment
-            .getExternalStorageDirectory().getPath()
-            + "/nga_cache";
-    public static final String PATH_ZIP = "";
+    public final static String PATH_OLD = android.os.Environment.getExternalStorageDirectory().getPath() + "/nga_cache";
     public static final String NGA_ATTACHMENT_HOST = "img.ngacn.cc";
     public static final String Servlet_phone = "/servlet/PhoneServlet";
     public static final String Servlet_timer = "/servlet/TimerServlet";
     private static final String servers[] = {"http://nga.178.com", "http://bbs.ngacn.cc"};
     private static final String TAG = HttpUtil.class.getSimpleName();
-    /*private static String[] host_arr = { "http://aa121077313.gicp.net:8099",
-            "http://aa121077313.gicp.net:8098", "http://10.0.2.2:8099",
-            "http://10.0.2.2:8098" };*/
     private static final String[] host_arr = {};
-    public static String PATH_AVATAR_OLD = PATH_OLD +
-            "/nga_cache";
-    public static String PATH_IMAGES = android.os.Environment
-            .getExternalStorageDirectory().getAbsolutePath() + "/Pictures";
-    public static String PATH = android.os.Environment
-            .getExternalStorageDirectory().getPath()
-            + "/nga_cache";
-    public static String PATH_AVATAR = PATH +
-            "/nga_cache";
+    public static String PATH_AVATAR_OLD = PATH_OLD + "/nga_cache";
+    public static String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures";
+    public static String PATH = android.os.Environment.getExternalStorageDirectory().getPath() + "/nga_cache";
+    public static String PATH_AVATAR = PATH + "/nga_cache";
     public static String PATH_NOMEDIA = PATH + "/.nomedia";
-    public static String Server = "http://nga.178.com";
+
+    public static String Server = "http://bbs.nga.cn";
     public static String NonameServer = "http://ngac.sinaapp.com/nganoname";
     public static String HOST = "";
     public static String HOST_PORT = "";

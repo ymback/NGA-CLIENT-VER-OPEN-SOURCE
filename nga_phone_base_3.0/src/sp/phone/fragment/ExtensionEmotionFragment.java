@@ -18,8 +18,7 @@ public class ExtensionEmotionFragment extends NoframeDialogFragment {
     private GridView gv = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         gv = (GridView) inflater.inflate(R.layout.extension_emotion_grid, container, false);
         return gv;
     }

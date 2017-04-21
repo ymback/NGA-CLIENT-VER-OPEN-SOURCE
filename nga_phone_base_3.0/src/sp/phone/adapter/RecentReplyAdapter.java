@@ -149,7 +149,7 @@ public class RecentReplyAdapter extends BaseAdapter implements
             editor.putString(PENDING_REPLYS, str);
             editor.putString(REPLYTOTALNUM,
                     String.valueOf(list.size()));
-            editor.commit();
+            editor.apply();
         }
         this.notifyDataSetInvalidated();
     }

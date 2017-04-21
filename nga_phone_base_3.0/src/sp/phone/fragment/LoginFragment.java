@@ -376,7 +376,7 @@ public class LoginFragment extends DialogFragment implements
                         editor.putString(REPLYTOTALNUM, "0");
                         editor.putString(USER_NAME, name);
                         editor.putString(BLACK_LIST, "");
-                        editor.commit();
+                        editor.apply();
                         MyApp app = (MyApp) getActivity().getApplication();
                         app.addToUserList(uid, cid, name, "", 0, "");
 

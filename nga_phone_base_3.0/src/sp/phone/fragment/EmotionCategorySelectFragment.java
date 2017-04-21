@@ -12,11 +12,8 @@ import sp.phone.interfaces.EmotionCategorySelectedListener;
 
 public class EmotionCategorySelectFragment extends NoframeDialogFragment {
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.emotion_category, container, false);
     }
 
@@ -92,16 +89,16 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
                         case R.id.emotion_dt:
                             father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_DT);
                             break;
+                        case R.id.emotion_pg:
+                            father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_PG);
+                            break;
                         default:
+                            break;
                     }
-
-
                 }
-
             }
 
         };
-
         view.findViewById(R.id.emotion_basic).setOnClickListener(listener);
         view.findViewById(R.id.emotion_baozou).setOnClickListener(listener);
         view.findViewById(R.id.emotion_xiongmao).setOnClickListener(listener);
@@ -120,7 +117,7 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
         view.findViewById(R.id.emotion_niweihezhemediao).setOnClickListener(listener);
         view.findViewById(R.id.emotion_pst).setOnClickListener(listener);
         view.findViewById(R.id.emotion_dt).setOnClickListener(listener);
+        view.findViewById(R.id.emotion_pg).setOnClickListener(listener);
         super.onViewCreated(view, savedInstanceState);
     }
-
 }

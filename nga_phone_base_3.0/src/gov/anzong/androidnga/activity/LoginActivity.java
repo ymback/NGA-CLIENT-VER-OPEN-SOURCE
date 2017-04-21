@@ -470,7 +470,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                                 .putString(REPLYTOTALNUM, "0")
                                 .putString(USER_NAME, name)
                                 .putString(BLACK_LIST, "");
-                        editor.commit();
+                        editor.apply();
                         MyApp app = (MyApp) LoginActivity.this.getApplication();
                         app.addToUserList(uid, cid, name, "", 0, "");
 

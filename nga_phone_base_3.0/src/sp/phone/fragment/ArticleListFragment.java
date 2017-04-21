@@ -436,7 +436,7 @@ public class ArticleListFragment extends BaseFragment implements
                             PERFERENCE, Context.MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putString(BLACK_LIST, blickliststring);
-                    editor.commit();
+                    editor.apply();
                     if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
                         MyApp app = (MyApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());

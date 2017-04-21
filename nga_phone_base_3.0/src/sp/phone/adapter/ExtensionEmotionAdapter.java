@@ -16,7 +16,7 @@ import sp.phone.utils.ImageUtil;
 
 public class ExtensionEmotionAdapter extends BaseAdapter {
     private static final String dirs[] = {"baozou", "xiongmao", "taijun", "ali", "dayanmao",
-            "luoxiaohei", "majianglian", "zhaiyin", "yangcongtou", "acniang", "newacniang", "bierde", "lindabi", "quniang", "niweihezhemediao", "pst", "dt"};
+            "luoxiaohei", "majianglian", "zhaiyin", "yangcongtou", "acniang", "newacniang", "bierde", "lindabi", "quniang", "niweihezhemediao", "pst", "dt", "pg"};
 
 
     private static final String res[][] = {
@@ -1317,6 +1317,23 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
                     "http://img4.nga.178.com/ngabbs/post/smile/dt31.png",
                     "http://img4.nga.178.com/ngabbs/post/smile/dt32.png",
                     "http://img4.nga.178.com/ngabbs/post/smile/dt33.png",},
+            {
+                    "http://img4.nga.cn/ngabbs/post/smile/pg01.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg02.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg03.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg04.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg05.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg06.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg07.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg08.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg09.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg10.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg11.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg12.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg13.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg14.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg15.png",
+            }
     };
     final private int index;
 
@@ -1332,7 +1349,6 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
                     return getFilePath(category, index);
                 }
             }
-
         }
         return null;
     }

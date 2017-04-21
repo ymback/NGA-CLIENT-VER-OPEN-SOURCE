@@ -410,7 +410,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
                 MODE_MULTI_PROCESS);
         Editor editor = share.edit();
         editor.putInt(SCREEN_ORENTATION, newOrientation);
-        editor.commit();
+        editor.apply();
 
     }
 
