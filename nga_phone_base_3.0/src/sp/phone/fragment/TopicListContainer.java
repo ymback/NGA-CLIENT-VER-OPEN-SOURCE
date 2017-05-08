@@ -154,7 +154,6 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
             favor = getArguments().getInt("favor", 0);
             key = getArguments().getString("key");
             author = getArguments().getString("author");
-//			table = getArguments().getString("table");
             fidgroup = getArguments().getString("fidgroup");
             if (!StringUtil.isEmpty(getArguments().getString("searchmode"))) {
                 if (getArguments().getString("searchmode").equals("true"))
@@ -293,18 +292,6 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
                 jsonUri += "fidgroup=" + fidgroup + "&";
             }
         }
-//		if (table != null && !table.equals("")) {
-//			if (isend) {
-//				if (restart) {
-//					table = this.getActivity().getString(
-//							R.string.largesttablenum);
-//				} else {
-//					table = String.valueOf(Integer.parseInt(table) - 1);
-//				}
-//				page = 1;
-//			}
-//			jsonUri += "table=" + table + "&";
-//		}
         jsonUri += "page=" + page + "&lite=js&noprefix";
         switch (category) {
             case 2:
@@ -488,31 +475,10 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
 
         mTopicListInfo = result;
         if (result.get__SEARCHNORESULT()) {
-//			JsonTopicListLoadTask task = new JsonTopicListLoadTask(
-//					getActivity(), this);
-//			refresh_saying();
-//			if (result.get__TABLE() > 0) {
-//				if (getActivity() != null) {
-//					Toast.makeText(
-//							getActivity(),
-//							"库" + String.valueOf(result.get__TABLE())
-//									+ "中的结果已搜索完毕,正在搜索库"
-//									+ String.valueOf(result.get__TABLE() - 1)
-//									+ "中的结果", Toast.LENGTH_SHORT).show();
-//				}
-//				if (ActivityUtil.isGreaterThan_2_3_3())
-//					task.executeOnExecutor(
-//							JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
-//							getUrl(1, true, false));
-//				else
-//					task.execute(getUrl(1, true, false));
-//			} else
-//			{
             if (getActivity() != null) {
                 Toast.makeText(getActivity(), "结果已搜索完毕",
                         Toast.LENGTH_SHORT).show();
             }
-//			}
             return;
         }
         int lines = 35;

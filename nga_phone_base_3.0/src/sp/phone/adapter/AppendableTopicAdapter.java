@@ -30,8 +30,8 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 
     public AppendableTopicAdapter(Context context, PullToRefreshAttacher attacher, NextJsonTopicListLoader loader) {
         super(context);
-        infoList = new ArrayList<TopicListInfo>();
-        tidSet = new HashSet<Integer>();
+        infoList = new ArrayList<>();
+        tidSet = new HashSet<>();
         this.attacher = attacher;
         this.loader = loader;
     }
@@ -50,34 +50,10 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     @Override
     public void jsonfinishLoad(TopicListInfo result) {
         isLoading = false;
-//        try{
-//            table=result.get__TABLE();
-//        }catch(Exception e){
-//        	table=TableNum-1;
-//        }
+
         if (attacher != null)
             attacher.setRefreshComplete();
         if (result.get__SEARCHNORESULT()) {
-//        	if(table>0){
-//        		TableNum=table;
-//    			isEndOfList = true;
-//    			isLoadingTable=true;
-//    			TableListPage=infoList.size();
-//    			TableList__ROWS=count;
-//    			if (toast != null)
-//            	{
-//            		toast.setText("库"+String.valueOf(table)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-1)+"中的结果");
-//            		toast.setDuration(Toast.LENGTH_SHORT);
-//            		toast.show();
-//            	} else
-//            	{
-//            		toast = Toast.makeText(this.context, "库"+String.valueOf(table)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-1)+"中的结果", Toast.LENGTH_SHORT);
-//            		toast.show();
-//            	}
-//        		isLoading = true;
-//        		loader.loadNextPage(this);
-//            }else{
-//
             if (toast != null) {
                 toast.setText("结果已搜索完毕");
                 toast.setDuration(Toast.LENGTH_SHORT);
@@ -87,8 +63,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
                 toast.show();
             }
             isLoading = false;
-//            }
-//            return;
         }
         ActivityUtil.getInstance().dismiss();
         if (count != 0) {
@@ -117,23 +91,14 @@ public class AppendableTopicAdapter extends TopicListAdapter {
             }
 
         }
-
         infoList.add(result);
         count += result.get__T__ROWS();
-//		if (count >= (result.get__ROWS()+TableList__ROWS))
         if (count >= (result.get__ROWS())) {
             isEndOfList = true;
         } else {
             isEndOfList = false;
         }
-
-//		if(count != (result.get__T__ROWS()+TableList__ROWS)||isLoadingTable)
-//		{
-
         this.notifyDataSetChanged();
-
-//		}
-
     }
 
     public void clear() {
@@ -145,11 +110,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     }
 
     public int getNextPage() {
-//		if(!isLoadingTable){
         return infoList.size() + 1;
-//		}else{
-//			return infoList.size()-TableListPage+1;
-//		}
     }
 
     public boolean getIsEnd() {
@@ -161,7 +122,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         View ret = super.getView(position, view, parent);
         if (position + 1 == this.getCount() && !isLoading) {
             if (isEndOfList == true) {
-//        		if(table<2||table>(Integer.parseInt(context.getString(R.string.largesttablenum))+1)){//数据库没有或者加载完了
                 if (isPrompted == false) {
                     if (toast != null) {
                         toast.setText(context.getString(R.string.last_page_prompt));
@@ -173,24 +133,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
                     }
                     isPrompted = true;
                 }
-//        		}else{
-//        			TableListPage=infoList.size();
-//        			isLoadingTable=true;
-//        			TableList__ROWS=count;
-//
-//        			if (toast != null)
-//                	{
-//                		toast.setText("库"+String.valueOf(table-1)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-2)+"中的结果");
-//                		toast.setDuration(Toast.LENGTH_SHORT);
-//                		toast.show();
-//                	} else
-//                	{
-//                		toast = Toast.makeText(this.context, "库"+String.valueOf(table-1)+"中的结果已搜索完毕,正在搜索库"+String.valueOf(table-2)+"中的结果", Toast.LENGTH_SHORT);
-//                		toast.show();
-//                	}
-//                    isLoading = true;
-//                    loader.loadNextPage(this);
-//        		}
             } else {
                 isLoading = true;
                 loader.loadNextPage(this);
@@ -198,10 +140,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         }
         return ret;
     }
-//    private int TableList__ROWS = 0;
-//    private boolean isLoadingTable = false;
-//    private int TableListPage=0;
-//    private int TableNum=6;
 
     public void remove(int position) {
         for (int i = 0; i < infoList.size(); i++) {
@@ -213,7 +151,6 @@ public class AppendableTopicAdapter extends TopicListAdapter {
             position -= infoList.get(i).get__T__ROWS();
         }
     }
-
 
     public String gettidarray(int position) {
         for (int i = 0; i < infoList.size(); i++) {
