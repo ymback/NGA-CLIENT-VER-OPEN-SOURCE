@@ -1,11 +1,3 @@
-/Test
-/TestSoLibrary
-/.metadata
-/GetAppSignature
-/MainActivity
-/RemoteSystemsTempFiles
-/Android-Universal-Image-Loader-Library/bin
-/Android-Universal-Image-Loader-Library/gen
 /PagerSlidingTabStrip/gen
 /PagerSlidingTabStrip/bin
 /PinterestLikeAdapterView/bin
@@ -18,3 +10,5 @@ local.properties
 *.DS_Store
 gradle.properties
 /gradle
+*.apk
+projectFilesBackup/

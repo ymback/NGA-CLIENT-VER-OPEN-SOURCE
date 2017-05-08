@@ -466,8 +466,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                             + getString(R.string.websize_sample_text)
                             + "</font>", "text/html", "utf-8", "");
         }
-        int fgColor = getResources().getColor(
-                ThemeManager.getInstance().getForegroundColor());
+        int fgColor = getResources().getColor(ThemeManager.getInstance().getForegroundColor());
         checkBoxDownimgNowifi.setTextColor(fgColor);
         fullscreen.setTextColor(fgColor);
         kitwebview.setTextColor(fgColor);
@@ -505,8 +504,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         blackgunSoundChoiceTextView.setTextColor(fgColor);
         swipebackOptionInfoTextView.setTextColor(fgColor);
         swipebackOptionChoiceTextView.setTextColor(fgColor);
-        view.setBackgroundResource(ThemeManager.getInstance()
-                .getBackgroundColor());
+        view.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor());
 
         picshowtitle.setTextColor(fgColor);
         optiontitle.setTextColor(fgColor);

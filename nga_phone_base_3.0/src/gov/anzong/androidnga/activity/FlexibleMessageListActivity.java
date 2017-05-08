@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
@@ -35,7 +34,7 @@ import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.bean.User;
 import sp.phone.fragment.MessageDetialListContainer;
 import sp.phone.fragment.MessageListContainer;
-import sp.phone.fragment.TopiclistContainer;
+import sp.phone.fragment.TopicListContainer;
 import sp.phone.interfaces.EnterJsonMessageThread;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
@@ -176,7 +175,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
             @Override
             public NdefMessage createNdefMessage(NfcEvent event) {
                 FragmentManager fm = getSupportFragmentManager();
-                TopiclistContainer f1 = (TopiclistContainer) fm
+                TopicListContainer f1 = (TopicListContainer) fm
                         .findFragmentById(R.id.item_list);
                 final String url = f1.getNfcUrl();
                 NdefMessage msg = new NdefMessage(

@@ -35,7 +35,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -61,7 +60,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.alibaba.fastjson.JSON;
@@ -91,7 +89,7 @@ import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.User;
 import sp.phone.fragment.LoginFragment;
 import sp.phone.fragment.ProfileSearchDialogFragment;
-import sp.phone.fragment.TopiclistContainer;
+import sp.phone.fragment.TopicListContainer;
 import sp.phone.interfaces.PageCategoryOwnner;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
@@ -401,7 +399,7 @@ public class MainActivity extends BaseActivity implements
         try {
             df.show(ft, dialogTag);
         } catch (Exception e) {
-            Log.e(TopiclistContainer.class.getSimpleName(),
+            Log.e(TopicListContainer.class.getSimpleName(),
                     Log.getStackTraceString(e));
 
         }

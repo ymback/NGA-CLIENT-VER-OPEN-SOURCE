@@ -37,7 +37,7 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.fragment.ArticleContainerFragment;
-import sp.phone.fragment.TopiclistContainer;
+import sp.phone.fragment.TopicListContainer;
 import sp.phone.interfaces.EnterJsonArticle;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
@@ -62,7 +62,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
         OnItemLongClickListener,
         ArticleContainerFragment.OnArticleContainerFragmentListener,
-        TopiclistContainer.OnTopiclistContainerListener {
+        TopicListContainer.OnTopicListContainerListener {
 
     boolean dualScreen = true;
     String strs[] = {"全部", "精华", "推荐"};
@@ -113,8 +113,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity,
-                null);
+        view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity, null);
         Intent intent = getIntent();
         boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
         if (isfullScreen) {
@@ -169,16 +168,14 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             fromreplyactivity = true;
         }
         if (f1 == null) {
-            f1 = new TopiclistContainer();
+            f1 = new TopicListContainer();
             Bundle args = new Bundle();// (getIntent().getExtras());
             if (null != getIntent().getExtras()) {
                 args.putAll(getIntent().getExtras());
             }
             args.putString("url", getIntent().getDataString());
             f1.setArguments(args);
-            FragmentTransaction ft = fm.beginTransaction().add(R.id.item_list,
-                    f1);
-            // .add(R.id.item_detail_container, f);
+            FragmentTransaction ft = fm.beginTransaction().add(R.id.item_list, f1);
             ft.commit();
         }
         Fragment f2 = fm.findFragmentById(R.id.item_detail_container);
@@ -266,14 +263,13 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-        categoryAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, strs);
+        categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, strs);
         OnNavigationListener callback = new OnNavigationListener() {
 
             @Override
             public boolean onNavigationItemSelected(int itemPosition,
                                                     long itemId) {
-                TopiclistContainer f1 = (TopiclistContainer) getSupportFragmentManager()
+                TopicListContainer f1 = (TopicListContainer) getSupportFragmentManager()
                         .findFragmentById(R.id.item_list);
                 if (f1 != null) {
                     f1.onCategoryChanged(itemPosition);
@@ -294,7 +290,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             @Override
             public NdefMessage createNdefMessage(NfcEvent event) {
                 FragmentManager fm = getSupportFragmentManager();
-                TopiclistContainer f1 = (TopiclistContainer) fm
+                TopicListContainer f1 = (TopicListContainer) fm
                         .findFragmentById(R.id.item_list);
                 final String url = f1.getNfcUrl();
                 NdefMessage msg = new NdefMessage(
@@ -305,9 +301,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         };
         if (adapter != null) {
             adapter.setNdefPushMessageCallback(callback, this);
-
         }
-
     }
 
     @Override
@@ -333,10 +327,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             invalidateOptionsMenu();
             nightmode = ThemeManager.getInstance().getMode();
         }
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
+        int orientation = ThemeManager.getInstance().screenOrentation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(orientation);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
@@ -348,7 +341,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         long now = System.currentTimeMillis();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
         if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
-//			 if(1==1){
             Log.d(TAG, "start to check Reply Notification");
             asynTask = new CheckReplyNotificationTask(this);
             asynTask.execute(config.getCookie());
@@ -361,8 +353,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public void jsonfinishLoad(TopicListInfo result) {
-        Fragment topicContainer = getSupportFragmentManager().findFragmentById(
-                R.id.item_list);
+        Fragment topicContainer = getSupportFragmentManager().findFragmentById(R.id.item_list);
         if (!result.get__SEARCHNORESULT()) {
             this.result = result;
         }
@@ -372,22 +363,17 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             if (listener != null)
                 listener.jsonfinishLoad(result);
         } catch (ClassCastException e) {
-            Log.e(TAG, "topicContainer should implements "
-                    + OnTopListLoadFinishedListener.class.getCanonicalName());
+            Log.e(TAG, "topicContainer should implements " + OnTopListLoadFinishedListener.class.getCanonicalName());
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (!dualScreen) {// 非平板
             if (null == onItemClickNewActivity) {
-                onItemClickNewActivity = new EnterJsonArticle(this,
-                        fromreplyactivity);
+                onItemClickNewActivity = new EnterJsonArticle(this, fromreplyactivity);
             }
             onItemClickNewActivity.onItemClick(parent, view, position, id);
-
         } else {
             String guid = (String) parent.getItemAtPosition(position);
             if (StringUtil.isEmpty(guid))
@@ -422,9 +408,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             }
             adapter.setSelected(position);
             listview.setItemChecked(position, true);
-
         }
-
     }
 
     @Override
@@ -450,48 +434,36 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                                 .getSubject()));
             }
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "detailContainer should implements OnThreadPageLoadFinishedListener");
+            Log.e(TAG, "detailContainer should implements OnThreadPageLoadFinishedListener");
         }
-
     }
 
     @Override
     public int getCurrentPage() {
         PagerOwnner child = null;
         try {
-
-            Fragment articleContainer = getSupportFragmentManager()
-                    .findFragmentById(R.id.item_detail_container);
+            Fragment articleContainer = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
             child = (PagerOwnner) articleContainer;
             if (null == child)
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwnner.class.getName());
+            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwnner.class.getName());
             return 0;
         }
-
     }
 
     @Override
     public void setCurrentItem(int index) {
         PagerOwnner child = null;
         try {
-
-            Fragment articleContainer = getSupportFragmentManager()
-                    .findFragmentById(R.id.item_detail_container);
+            Fragment articleContainer = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
             child = (PagerOwnner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwnner.class.getName());
+            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwnner.class.getName());
             return;
         }
-
     }
 
     @Override
@@ -503,7 +475,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             getSupportActionBar().setTitle("主题列表");
             guidtmp = "";
         }
-
     }
 
     @Override
@@ -518,8 +489,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     }
 
     @Override
-    public boolean onItemLongClick(final AdapterView<?> parent,
-                                   final View view, int position, long id) {
+    public boolean onItemLongClick(final AdapterView<?> parent, final View view, int position, long id) {
         Object a = parent.getAdapter();
         AppendableTopicAdapter adapter = null;
         if (a instanceof AppendableTopicAdapter) {
@@ -572,7 +542,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     public void onModeChanged() {
         Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.item_list);
         if (f1 != null) {
-            ((TopiclistContainer) f1).changedmode();
+            ((TopicListContainer) f1).changedMode();
         }
     }
 
