@@ -164,7 +164,7 @@ public class SignPageAdapter extends BaseAdapter implements
                 .getWebSize());
         setting.setJavaScriptEnabled(false);
         holder.content.setWebViewClient(client);
-        holder.content.loadDataWithBaseURL(null, infoToHtmlText(info, FunctionUtil.isShowImage(context), FunctionUtil.showImageQuality(context), fgColorStr, bgcolorStr),
+        holder.content.loadDataWithBaseURL(null, infoToHtmlText(info, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr),
                 "text/html", "utf-8", null);
         holder.missionidtitle.setText("可完成任务ID:");
         if (entry.get__issuccessed() == true) {

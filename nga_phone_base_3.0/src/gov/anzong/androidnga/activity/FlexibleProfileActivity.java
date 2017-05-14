@@ -525,8 +525,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                signatureToHtmlText(ret, FunctionUtil.isShowImage(this),
-                        FunctionUtil.showImageQuality(this), fgColorStr, bgcolorStr),
+                signatureToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr),
                 "text/html", "utf-8", null);
     }
 
@@ -560,8 +559,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                adminToHtmlText(ret, FunctionUtil.isShowImage(this), FunctionUtil.showImageQuality(this),
-                        fgColorStr, bgcolorStr), "text/html", "utf-8", null);
+                adminToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
     }
 
     private void handlefameWebview(WebView contentTV, ProfileData ret) {
@@ -594,8 +592,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                fameToHtmlText(ret, FunctionUtil.isShowImage(this), FunctionUtil.showImageQuality(this),
-                        fgColorStr, bgcolorStr), "text/html", "utf-8", null);
+                fameToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
     }
 
     public String fameToHtmlText(final ProfileData ret, boolean showImage,
@@ -657,6 +654,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         return ngaHtml;
     }
 
+    @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ProfileData row) {
 
         final String avatarUrl = FunctionUtil.parseAvatarUrl(row.get_avatar());//
@@ -667,8 +665,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         }
         if (defaultAvatar == null
                 || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
-            Resources res = avatarIV.getContext().getResources();
-            InputStream is = res.openRawResource(R.drawable.default_avatar);
+            Resources res = avatarIV.getContext().getResources(); InputStream is = res.openRawResource(R.drawable.default_avatar);
             InputStream is2 = res.openRawResource(R.drawable.default_avatar);
             this.defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
         }
@@ -676,7 +673,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
             }
         }
@@ -701,9 +698,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
                     }
 
                 } else {
-                    new AvatarLoadTask(avatarIV, null, FunctionUtil.isShowImage(this), 0, this)
-                            .execute(avatarUrl, avatarPath, userId);
-
+                    new AvatarLoadTask(avatarIV, null, FunctionUtil.isShowImage(), 0, this).execute(avatarUrl, avatarPath, userId);
                 }
             }
         }
@@ -750,6 +745,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         };
     }
 
+    @SuppressWarnings("WrongConstant")
     @Override
     protected void onResume() {
         int orentation = ThemeManager.getInstance().screenOrentation;

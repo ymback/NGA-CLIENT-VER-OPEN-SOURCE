@@ -3,6 +3,9 @@ package sp.phone.bean;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 每一行的内容
+ */
 public class ThreadRowInfo {
 
     private int tid;

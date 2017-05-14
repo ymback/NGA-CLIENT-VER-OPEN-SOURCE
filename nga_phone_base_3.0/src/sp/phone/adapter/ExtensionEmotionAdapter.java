@@ -16,7 +16,7 @@ import sp.phone.utils.ImageUtil;
 
 public class ExtensionEmotionAdapter extends BaseAdapter {
     private static final String dirs[] = {"baozou", "xiongmao", "taijun", "ali", "dayanmao",
-            "luoxiaohei", "majianglian", "zhaiyin", "yangcongtou", "acniang", "bierde", "lindabi", "quniang", "niweihezhemediao", "pst", "dt"};
+            "luoxiaohei", "majianglian", "zhaiyin", "yangcongtou", "acniang", "newacniang", "bierde", "lindabi", "quniang", "niweihezhemediao", "pst", "dt", "pg"};
 
 
     private static final String res[][] = {
@@ -823,6 +823,55 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
                     "http://pic3.178.com/2017/20174851/month_1401/167e42963246c38b3e570995b10ce9b5.jpg",
                     "http://pic3.178.com/2017/20174851/month_1401/b9719388cc6390ccaf62f432b7f8e3f6.gif",
             },
+            //论坛新版AC娘
+            {
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_02.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_05.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_03.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_04.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_07.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_08.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_09.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_10.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_14.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_16.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_15.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_17.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_21.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_23.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_24.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_25.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_27.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_28.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_30.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_31.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_32.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_33.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_36.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_51.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_53.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_54.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_55.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_47.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_48.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_45.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_49.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_18.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_19.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_52.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_26.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_11.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_12.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_13.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_20.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_22.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_42.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_37.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_38.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_39.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_41.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/a2_40.png"
+            },
             // bierde
             {
                     "http://img.nga.178.com/attachments/mon_201209/04/-47218_5045bd823ee71.gif",
@@ -1268,6 +1317,23 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
                     "http://img4.nga.178.com/ngabbs/post/smile/dt31.png",
                     "http://img4.nga.178.com/ngabbs/post/smile/dt32.png",
                     "http://img4.nga.178.com/ngabbs/post/smile/dt33.png",},
+            {
+                    "http://img4.nga.cn/ngabbs/post/smile/pg01.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg02.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg03.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg04.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg05.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg06.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg07.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg08.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg09.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg10.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg11.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg12.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg13.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg14.png",
+                    "http://img4.nga.cn/ngabbs/post/smile/pg15.png",
+            }
     };
     final private int index;
 
@@ -1283,15 +1349,13 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
                     return getFilePath(category, index);
                 }
             }
-
         }
         return null;
     }
 
     private static String getFilePath(int category, int position) {
         String httpUri = res[category][position];
-        String fileName = dirs[category] + "/" + FilenameUtils.getName(httpUri);
-        return fileName;
+        return dirs[category] + "/" + FilenameUtils.getName(httpUri);
     }
 
     @Override
@@ -1326,7 +1390,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView view = null;
+        ImageView view;
         if (convertView == null)
             view = new ImageView(parent.getContext());
         else {
@@ -1337,12 +1401,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
         try {
             is = view.getContext().getAssets().open(getFileName(position));
             Bitmap bm = BitmapFactory.decodeStream(is);
-            if (bm.getHeight() > 130) {
-                Bitmap resizedBm = ImageUtil.zoomImageByHeight(bm, 130);
-                bm.recycle();
-                bm = resizedBm;
-            }
-            view.setImageBitmap(bm);
+            view.setImageBitmap(ImageUtil.zoomImageByHeight(bm, 130));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -1352,8 +1411,7 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
 
     private String getFileName(int position) {
         String httpUri = res[index][position];
-        String fileName = dirs[index] + "/" + FilenameUtils.getName(httpUri);
-        return fileName;
+        return dirs[index] + "/" + FilenameUtils.getName(httpUri);
     }
 
 }

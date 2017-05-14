@@ -18,8 +18,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,14 +31,13 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 
+import org.xmlpull.v1.XmlPullParserException;
+
 import java.io.IOException;
 import java.util.List;
-
-import org.xmlpull.v1.XmlPullParserException;
 
 import gov.anzong.androidnga.R;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -88,7 +87,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
     private RelativeLayout handsideQualityChooser;
     private RelativeLayout blackgunSoundChooser;
-    private Toast toast;
     private SeekBar fontSizeBar;
     private float defaultFontSize;
     private TextView fontTextView;
@@ -134,7 +132,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
-      //  ThemeManager.SetContextTheme(this);
+        //  ThemeManager.SetContextTheme(this);
         int layoutId = R.layout.settings;
         if (ActivityUtil.isMeizu())
             layoutId = R.layout.settings_meizu;
@@ -225,7 +223,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         notification.setChecked(config.notification);
 
 		/*
-		 * uploadLocation = (CompoundButton)
+         * uploadLocation = (CompoundButton)
 		 * findViewById(R.id.checkBox_upload_location);
 		 * uploadLocation.setChecked(config.uploadLocation);
 		 * uploadLocation.setOnCheckedChangeListener(new
@@ -371,7 +369,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                         MODE_PRIVATE);
                 Editor editor = share.edit();
                 editor.putInt(UI_FLAG, flag);
-                editor.commit();
+                editor.apply();
             }
         }
 
@@ -468,8 +466,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                             + getString(R.string.websize_sample_text)
                             + "</font>", "text/html", "utf-8", "");
         }
-        int fgColor = getResources().getColor(
-                ThemeManager.getInstance().getForegroundColor());
+        int fgColor = getResources().getColor(ThemeManager.getInstance().getForegroundColor());
         checkBoxDownimgNowifi.setTextColor(fgColor);
         fullscreen.setTextColor(fgColor);
         kitwebview.setTextColor(fgColor);
@@ -507,52 +504,50 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         blackgunSoundChoiceTextView.setTextColor(fgColor);
         swipebackOptionInfoTextView.setTextColor(fgColor);
         swipebackOptionChoiceTextView.setTextColor(fgColor);
-        view.setBackgroundResource(ThemeManager.getInstance()
-                .getBackgroundColor());
+        view.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor());
 
         picshowtitle.setTextColor(fgColor);
         optiontitle.setTextColor(fgColor);
         uishowtitle.setTextColor(fgColor);
-        if (checkBoxDownimgNowifi instanceof Switch){
-        	XmlResourceParser xrp = getResources().getXml(ThemeManager.getInstance().getSwitchBackground());
-			try {
-				ColorStateList list = ColorStateList.createFromXml(getResources(), xrp);
-				((Switch)checkBoxDownimgNowifi).getTrackDrawable().setTintList(list);
-				((Switch)checkBoxDownAvatarNowifi).getTrackDrawable().setTintList(list);
-				((Switch)showReplyButton).getTrackDrawable().setTintList(list);
-				((Switch)nightMode).getTrackDrawable().setTintList(list);
-				((Switch)swipeback).getTrackDrawable().setTintList(list);
-				((Switch)showAnimation).getTrackDrawable().setTintList(list);
-				((Switch)showSignature).getTrackDrawable().setTintList(list);
-				((Switch)notification).getTrackDrawable().setTintList(list);
-				((Switch)notificationSound).getTrackDrawable().setTintList(list);
-				((Switch)showStatic).getTrackDrawable().setTintList(list);
-				((Switch)showColortxt).getTrackDrawable().setTintList(list);
-				((Switch)showLajibankuai).getTrackDrawable().setTintList(list);
-				((Switch)showNewweiba).getTrackDrawable().setTintList(list);
-				((Switch)showIconMode).getTrackDrawable().setTintList(list);
-				((Switch)refresh_after_post_setting_mode).getTrackDrawable().setTintList(list);
-				((Switch)split).getTrackDrawable().setTintList(list);
-				((Switch)replysplit).getTrackDrawable().setTintList(list);
-				((Switch)ha).getTrackDrawable().setTintList(list);
-				((Switch)fullscreen).getTrackDrawable().setTintList(list);
-				((Switch)kitwebview).getTrackDrawable().setTintList(list);
-			} catch (XmlPullParserException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	xrp.close();
-        	
+        if (checkBoxDownimgNowifi instanceof Switch) {
+            XmlResourceParser xrp = getResources().getXml(ThemeManager.getInstance().getSwitchBackground());
+            try {
+                ColorStateList list = ColorStateList.createFromXml(getResources(), xrp);
+                for (View view : new View[]{
+                        checkBoxDownimgNowifi,
+                        checkBoxDownAvatarNowifi,
+                        showReplyButton,
+                        nightMode,
+                        swipeback,
+                        showAnimation,
+                        showSignature,
+                        notification,
+                        notificationSound,
+                        showStatic,
+                        showColortxt,
+                        showLajibankuai,
+                        showNewweiba,
+                        showIconMode,
+                        refresh_after_post_setting_mode,
+                        split,
+                        replysplit,
+                        ha,
+                        fullscreen,
+                        kitwebview}) {
+                    DrawableCompat.setTintList(((Switch)view).getTrackDrawable(), list);
+                }
+            } catch (XmlPullParserException | IOException e) {
+                e.printStackTrace();
+            }
+            xrp.close();
+
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         int flags = 15;
-		/*
+        /*
 		 * ActionBar.DISPLAY_SHOW_HOME; flags |= ActionBar.DISPLAY_USE_LOGO;
 		 * flags |= ActionBar.DISPLAY_SHOW_TITLE; flags |=
 		 * ActionBar.DISPLAY_HOME_AS_UP; flags |= ActionBar.DISPLAY_SHOW_CUSTOM;
@@ -591,7 +586,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(NIGHT_MODE, arg1);
-            editor.commit();
+            editor.apply();
             int mode = ThemeManager.MODE_NORMAL;
             if (arg1)
                 mode = ThemeManager.MODE_NIGHT;
@@ -613,7 +608,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_ANIMATION, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -631,7 +626,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             PhoneConfiguration.getInstance().setRefreshAfterPost(false);
             Editor editor = share.edit();
             editor.putBoolean(REFRESH_AFTERPOST_SETTING_MODE, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -644,7 +639,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         public void onCheckedChanged(CompoundButton buttonView,
                                      final boolean isChecked) {
 
-            if (recentlychanged == false) {
+            if (!recentlychanged) {
                 String alertString = getString(R.string.change_icon_string);
                 final AlertDialogFragment f = AlertDialogFragment
                         .create(alertString);
@@ -682,7 +677,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                         editor.putBoolean(SHOW_ICON_MODE, isChecked);
                         editor.putString(RECENT_BOARD, "");
                         editor.putString(ADD_FID, addFidStr);
-                        editor.commit();
+                        editor.apply();
 
                     }
 
@@ -718,7 +713,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(USE_VIEW_CACHE, isChecked);
-            editor.commit();
+            editor.apply();
 
             if (isChecked) {
                 new AlertDialog.Builder(SettingsActivity.this)
@@ -743,7 +738,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_SIGNATURE, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -797,7 +792,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(UPLOAD_LOCATION, isChecked);
-            editor.commit();
+            editor.apply();
         }
 
     }
@@ -814,7 +809,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_STATIC, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -832,7 +827,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_REPLYBUTTON, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -850,7 +845,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SWIPEBACK, isChecked);
-            editor.commit();
+            editor.apply();
             if (isChecked) {
                 swipebackChooer.setVisibility(View.VISIBLE);
                 final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
@@ -890,19 +885,11 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             SharedPreferences share = getSharedPreferences(PERFERENCE,
                     MODE_PRIVATE);
             if (isChecked) {
-                if (toast != null) {
-                    toast.setText(R.string.showColortxtWarn);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(SettingsActivity.this,
-                            R.string.showColortxtWarn, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast(R.string.showColortxtWarn);
             }
             Editor editor = share.edit();
             editor.putBoolean(SHOW_COLORTXT, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
     }
@@ -917,19 +904,11 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             SharedPreferences share = getSharedPreferences(PERFERENCE,
                     MODE_PRIVATE);
             if (isChecked) {
-                if (toast != null) {
-                    toast.setText(R.string.showNewweibaWarn);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(SettingsActivity.this,
-                            R.string.showNewweibaWarn, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast(R.string.showNewweibaWarn);
             }
             Editor editor = share.edit();
             editor.putBoolean(SHOW_NEWWEIBA, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
     }
@@ -946,7 +925,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(SHOW_LAJIBANKUAI, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
     }
@@ -963,7 +942,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(FULLSCREENMODE, isChecked);
-            editor.commit();
+            editor.apply();
             if (isChecked) {
                 ActivityUtil.getInstance().setFullScreen(view);
             } else {
@@ -984,17 +963,9 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(KITWEBVIEWMODE, isChecked);
-            editor.commit();
+            editor.apply();
             if (isChecked) {
-                if (toast != null) {
-                    toast.setText(R.string.kitwebviewinfo);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(SettingsActivity.this,
-                            R.string.kitwebviewinfo, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast(R.string.kitwebviewinfo);
             }
         }
     }
@@ -1015,7 +986,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(DOWNLOAD_IMG_NO_WIFI, arg1);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1038,13 +1009,13 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
+
                     PhoneConfiguration.getInstance().imageQuality = which;
                     SharedPreferences share = getSharedPreferences(PERFERENCE,
                             MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putInt(DOWNLOAD_IMG_QUALITY_NO_WIFI, which);
-                    editor.commit();
+                    editor.apply();
                     updateImageQualityChoiceText(PhoneConfiguration
                             .getInstance());
                 }
@@ -1055,7 +1026,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
                 @Override
                 public void onDismiss(DialogInterface arg0) {
-                    // TODO Auto-generated method stub
                     dialog.dismiss();
                     if (PhoneConfiguration.getInstance().fullscreen) {
                         ActivityUtil.getInstance().setFullScreen(view);
@@ -1063,15 +1033,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                 }
 
             });
-            if (toast != null) {
-                toast.setText(R.string.image_quality_claim);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(SettingsActivity.this,
-                        R.string.image_quality_claim, Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(R.string.image_quality_claim);
         }
 
     }
@@ -1094,7 +1056,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
                     AudioManager audioManager = (AudioManager) view
                             .getContext().getSystemService(
                                     Context.AUDIO_SERVICE);
@@ -1112,14 +1073,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                                     mp.setDataSource(view.getContext(), ringToneUri);
                                     mp.prepare();
                                     mp.start();
-                                } catch (IllegalArgumentException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IllegalStateException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -1134,14 +1088,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                                             afd.getStartOffset(), afd.getLength());
                                     mp.prepare();
                                     mp.start();
-                                } catch (IllegalArgumentException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IllegalStateException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -1157,14 +1104,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                                             afd.getStartOffset(), afd.getLength());
                                     mp.prepare();
                                     mp.start();
-                                } catch (IllegalArgumentException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IllegalStateException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -1180,14 +1120,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                                             afd.getStartOffset(), afd.getLength());
                                     mp.prepare();
                                     mp.start();
-                                } catch (IllegalArgumentException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IllegalStateException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -1198,7 +1131,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
                             MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putInt(BLACKGUN_SOUND, which);
-                    editor.commit();
+                    editor.apply();
                     updateBlackgunSoundChoiceText(PhoneConfiguration
                             .getInstance());
                 }
@@ -1209,7 +1142,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
                 @Override
                 public void onDismiss(DialogInterface arg0) {
-                    // TODO Auto-generated method stub
                     dialog.dismiss();
 
                     if (PhoneConfiguration.getInstance().fullscreen) {
@@ -1238,13 +1170,12 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
                     PhoneConfiguration.getInstance().swipeenablePosition = which;
                     SharedPreferences share = getSharedPreferences(PERFERENCE,
                             MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putInt(SWIPEBACKPOSITION, which);
-                    editor.commit();
+                    editor.apply();
                     int pos = SwipeBackLayout.EDGE_ALL;
                     switch (which) {
                         case 0:
@@ -1270,7 +1201,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
                 @Override
                 public void onDismiss(DialogInterface arg0) {
-                    // TODO Auto-generated method stub
+
                     dialog.dismiss();
 
                     if (PhoneConfiguration.getInstance().fullscreen) {
@@ -1297,14 +1228,14 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
+
                     PhoneConfiguration.getInstance().HandSide = Math
                             .abs(1 - which);
                     SharedPreferences share = getSharedPreferences(PERFERENCE,
                             MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putInt(HANDSIDE, Math.abs(1 - which));
-                    editor.commit();
+                    editor.apply();
                     updateHandSideChoiceText(PhoneConfiguration.getInstance());
                 }
             });
@@ -1314,7 +1245,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
                 @Override
                 public void onDismiss(DialogInterface arg0) {
-                    // TODO Auto-generated method stub
+
                     dialog.dismiss();
 
                     if (PhoneConfiguration.getInstance().fullscreen) {
@@ -1339,7 +1270,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(DOWNLOAD_AVATAR_NO_WIFI, arg1);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1374,7 +1305,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(ENABLE_NOTIFIACTION, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1398,7 +1329,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putBoolean(NOTIFIACTION_SOUND, isChecked);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1410,14 +1341,14 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
-            // TODO Auto-generated method stub
+
             if (progress != 0)
                 fontTextView.setTextSize(defaultFontSize * progress / 100.0f);
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-            // TODO Auto-generated method stub
+
 
         }
 
@@ -1429,7 +1360,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putFloat(TEXT_SIZE, textSize);
-            editor.commit();
+            editor.apply();
             PhoneConfiguration.getInstance().setTextSize(textSize);
         }
 
@@ -1449,7 +1380,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-            // TODO Auto-generated method stub
+
 
         }
 
@@ -1465,7 +1396,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             Editor editor = share.edit();
 
             editor.putInt(WEB_SIZE, webSize);
-            editor.commit();
+            editor.apply();
 
             PhoneConfiguration.getInstance().setWebSize(webSize);
 
@@ -1510,7 +1441,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(NICK_WIDTH, progress);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1537,7 +1468,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(UI_FLAG, flag);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1568,7 +1499,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(UI_FLAG, flag);
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -1598,7 +1529,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
             Editor editor = share.edit();
             editor.putInt(UI_FLAG, flag);
-            editor.commit();
+            editor.apply();
 
         }
 

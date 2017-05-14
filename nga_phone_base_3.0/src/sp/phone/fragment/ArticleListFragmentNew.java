@@ -42,6 +42,7 @@ import java.util.Set;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.PerferenceConstant;
 import sp.phone.bean.ThreadData;
@@ -312,7 +313,7 @@ public class ArticleListFragmentNew extends Fragment implements
                             PERFERENCE, Context.MODE_PRIVATE);
                     Editor editor = share.edit();
                     editor.putString(BLACK_LIST, blickliststring);
-                    editor.commit();
+                    editor.apply();
                     if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
                         MyApp app = (MyApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
@@ -759,8 +760,8 @@ public class ArticleListFragmentNew extends Fragment implements
         if (defaultAvatar == null
                 || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
             Resources res = avatarIV.getContext().getResources();
-            InputStream is = res.openRawResource(R.drawable.default_avatar);
-            InputStream is2 = res.openRawResource(R.drawable.default_avatar);
+            InputStream is = res.openRawResource(R.raw.default_avatar);
+            InputStream is2 = res.openRawResource(R.raw.default_avatar);
             this.defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
         }
 
@@ -796,14 +797,11 @@ public class ArticleListFragmentNew extends Fragment implements
                     }
 
                 } else {
-                    final boolean downImg = FunctionUtil
-                            .isInWifi(getActivity())
-                            || PhoneConfiguration.getInstance()
-                            .isDownAvatarNoWifi();
+                    final boolean downImg = NetUtil.getInstance().isInWifi()
+                            || PhoneConfiguration.getInstance().isDownAvatarNoWifi();
 
                     new AvatarLoadTask(avatarIV, null, downImg, lou, this)
                             .execute(avatarUrl, avatarPath, userId);
-
                 }
             }
         }

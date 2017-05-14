@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 
@@ -66,33 +64,25 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class PostActivity extends SwipeBackAppCompatActivity implements
-        FileUploadTask.onFileUploaded, EmotionCategorySelectedListener,
-        OnEmotionPickedListener {
+public class PostActivity extends BasePostActivity implements
+        FileUploadTask.onFileUploaded, OnEmotionPickedListener {
 
-    static private final String EMOTION_CATEGORY_TAG = "emotion_category";
-    static private final String EMOTION_TAG = "emotion";
     final int REQUEST_CODE_SELECT_PIC = 1;
     private final String LOG_TAG = Activity.class.getSimpleName();
     // private Button button_commit;
     // private Button button_cancel;
     // private ImageButton button_upload;
     // private ImageButton button_emotion;
-    Object commit_lock = new Object();
-    private String prefix;
+    private final Object commit_lock = new Object();
     private EditText titleText;
     private EditText bodyText;
     private CheckBox anony;
     private ThreadPostAction act;
     private String action;
-    private String tid;
-    private int fid;
-    private Spinner userList;
     private String REPLY_URL = Utils.getNGAHost() + "post.php?";
     private View v;
     private boolean loading;
     private FileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /*
@@ -123,21 +113,24 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         }
 
         Intent intent = this.getIntent();
-        prefix = intent.getStringExtra("prefix");
+        String prefix = intent.getStringExtra("prefix");
         // if(prefix!=null){
         // prefix=prefix.replaceAll("\\n\\n", "\n");
         // }
         action = intent.getStringExtra("action");
-        if (action.equals("new")) {
-            getSupportActionBar().setTitle(R.string.new_thread);
-        } else if (action.equals("reply")) {
-            getSupportActionBar().setTitle(R.string.reply_thread);
-
-        } else if (action.equals("modify")) {
-            getSupportActionBar().setTitle(R.string.modify_thread);
+        switch (action) {
+            case "new":
+                getSupportActionBar().setTitle(R.string.new_thread);
+                break;
+            case "reply":
+                getSupportActionBar().setTitle(R.string.reply_thread);
+                break;
+            case "modify":
+                getSupportActionBar().setTitle(R.string.modify_thread);
+                break;
         }
-        tid = intent.getStringExtra("tid");
-        fid = intent.getIntExtra("fid", -7);
+        String tid = intent.getStringExtra("tid");
+        int fid = intent.getIntExtra("fid", -7);
         String title = intent.getStringExtra("title");
         String pid = intent.getStringExtra("pid");
         String mention = intent.getStringExtra("mention");
@@ -192,7 +185,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             anony.setTextColor(textColor);
         }
 
-        userList = (Spinner) findViewById(R.id.user_list);
+        Spinner userList = (Spinner) findViewById(R.id.user_list);
         if (userList != null) {
             SpinnerUserListAdapter adapter = new SpinnerUserListAdapter(this);
             userList.setAdapter(adapter);
@@ -231,17 +224,8 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                // TODO Auto-generated method stub
                 if (isChecked) {
-                    if (toast != null) {
-                        toast.setText("匿名发帖/回复每次将扣除一百铜币,慎重");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(PostActivity.this,
-                                "匿名发帖/回复每次将扣除一百铜币,慎重", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("匿名发帖/回复每次将扣除一百铜币,慎重");
                 }
             }
 
@@ -351,13 +335,11 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             try {
                 is = getResources().getAssets().open(sourcefile);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             if (is != null) {
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
-                BitmapDrawable bd = new BitmapDrawable(bitmap);
-                Drawable drawable = (Drawable) bd;
+                BitmapDrawable drawable = new BitmapDrawable(bitmap);
                 drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
                         drawable.getIntrinsicHeight());
                 SpannableString spanString = new SpannableString(emotion);
@@ -389,21 +371,15 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                     try {
                         is = getResources().getAssets().open(sourcefile);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     if (is != null) {
                         Bitmap bitmap = BitmapFactory.decodeStream(is);
                         BitmapDrawable bd = new BitmapDrawable(bitmap);
-                        Drawable drawable = (Drawable) bd;
-                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                                drawable.getIntrinsicHeight());
-                        SpannableString spanString = new SpannableString(
-                                emotion);
-                        ImageSpan span = new ImageSpan(drawable,
-                                ImageSpan.ALIGN_BASELINE);
-                        spanString.setSpan(span, 0, emotion.length(),
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
+                        SpannableString spanString = new SpannableString( emotion);
+                        ImageSpan span = new ImageSpan(bd, ImageSpan.ALIGN_BASELINE);
+                        spanString.setSpan(span, 0, emotion.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         if (index <= 0 || index >= bodyText.length()) {// pos @
                             // begin
                             // / end
@@ -429,8 +405,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                 Log.i(LOG_TAG, " select file :" + data.getDataString());
                 uploadTask = new FileUploadTask(this, this, data.getData());
                 break;
-            default:
-                ;
+            default: break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -474,8 +449,6 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         if (!StringUtil.isEmpty(selectedImagePath2)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2,
-                    options); // 此时返回 bm 为空
             options.inJustDecodeBounds = false;
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -492,15 +465,12 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
             } else {
                 options.inSampleSize = 1;
             }
-            bitmap = BitmapFactory.decodeFile(selectedImagePath2, options);
+            Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2, options);
             BitmapDrawable bd = new BitmapDrawable(bitmap);
-            Drawable drawable = (Drawable) bd;
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight());
+            bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
             SpannableString spanStringS = new SpannableString(spantmp);
-            ImageSpan span = new ImageSpan(drawable, ImageSpan.ALIGN_BASELINE);
-            spanStringS.setSpan(span, 0, spantmp.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ImageSpan span = new ImageSpan(bd, ImageSpan.ALIGN_BASELINE);
+            spanStringS.setSpan(span, 0, spantmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             if (bodyText.getText().toString().replaceAll("\\n", "").trim()
                     .equals("")) {// NO INPUT DATA
@@ -545,62 +515,6 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         return 1;
     }
 
-    @Override
-    public void onEmotionCategorySelected(int category) {
-        final FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        final Fragment categoryFragment = getSupportFragmentManager()
-                .findFragmentByTag(EMOTION_CATEGORY_TAG);
-        if (categoryFragment != null)
-            ft.remove(categoryFragment);
-        ft.commit();
-
-        ft = fm.beginTransaction();
-        final Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                EMOTION_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        DialogFragment newFragment = null;
-        switch (category) {
-            case CATEGORY_BASIC:
-                newFragment = new EmotionDialogFragment();
-                break;
-            case CATEGORY_BAOZOU:
-            case CATEGORY_XIONGMAO:
-            case CATEGORY_TAIJUN:
-            case CATEGORY_ALI:
-            case CATEGORY_DAYANMAO:
-            case CATEGORY_LUOXIAOHEI:
-            case CATEGORY_MAJIANGLIAN:
-            case CATEGORY_ZHAIYIN:
-            case CATEGORY_YANGCONGTOU:
-            case CATEGORY_ACNIANG:
-            case CATEGORY_BIERDE:
-            case CATEGORY_LINDABI:
-            case CATEGORY_QUNIANG:
-            case CATEGORY_NIWEIHEZHEMEDIAO:
-            case CATEGORY_PST:
-            case CATEGORY_DT:
-                Bundle args = new Bundle();
-                args.putInt("index", category - 1);
-                newFragment = new ExtensionEmotionFragment();
-                newFragment.setArguments(args);
-                break;
-            default:
-
-        }
-        // ft.commit();
-        // ft.addToBackStack(null);
-
-        if (newFragment != null) {
-            ft.commit();
-            newFragment.show(fm, EMOTION_TAG);
-        }
-
-    }
-
     class ButtonCommitListener implements OnClickListener {
 
         private final String url;
@@ -612,29 +526,23 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onClick(View v) {
             synchronized (commit_lock) {
-                if (loading == true) {
-                    String avoidWindfury = PostActivity.this
-                            .getString(R.string.avoidWindfury);
-                    if (toast != null) {
-                        toast.setText(avoidWindfury);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(PostActivity.this,
-                                avoidWindfury, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                if (loading) {
+                    showToast(R.string.avoidWindfury);
                     return;
                 }
                 loading = true;
             }
 
-            if (action.equals("reply")) {
-                handleReply(v);
-            } else if (action.equals("new")) {
-                handleNewThread(v);
-            } else if (action.equals("modify")) {
-                handleNewThread(v);
+            switch (action) {
+                case "reply":
+                    handleReply(v);
+                    break;
+                case "new":
+                    handleNewThread(v);
+                    break;
+                case "modify":
+                    handleNewThread(v);
+                    break;
             }
         }
 
@@ -751,10 +659,10 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
         @Override
         protected void onPostExecute(String result) {
             String success_results[] = {"发贴完毕", "@提醒每24小时不能超过50个"};
-            if (keepActivity == false) {
+            if (!keepActivity) {
                 boolean success = false;
-                for (int i = 0; i < success_results.length; ++i) {
-                    if (result.contains(success_results[i])) {
+                for (String success_result : success_results) {
+                    if (result.contains(success_result)) {
                         success = true;
                         break;
                     }
@@ -762,15 +670,7 @@ public class PostActivity extends SwipeBackAppCompatActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            if (toast != null) {
-                toast.setText(result);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(PostActivity.this, result,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(result);
             if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
                 PhoneConfiguration.getInstance().setRefreshAfterPost(true);
             }

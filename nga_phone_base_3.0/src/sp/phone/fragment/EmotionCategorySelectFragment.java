@@ -12,17 +12,14 @@ import sp.phone.interfaces.EmotionCategorySelectedListener;
 
 public class EmotionCategorySelectFragment extends NoframeDialogFragment {
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.emotion_category, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        view.setBackgroundColor(0x7f000000);
+        view.setBackgroundResource(R.color.shit1);
         OnClickListener listener = new OnClickListener() {
 
             @Override
@@ -71,6 +68,9 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
                         case R.id.emotion_acniang:
                             father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_ACNIANG);
                             break;
+                        case R.id.emotion_new_acniang:
+                            father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_NEW_ACNIANG);
+                            break;
                         case R.id.emotion_bierde:
                             father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_BIERDE);
                             break;
@@ -89,16 +89,16 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
                         case R.id.emotion_dt:
                             father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_DT);
                             break;
+                        case R.id.emotion_pg:
+                            father.onEmotionCategorySelected(EmotionCategorySelectedListener.CATEGORY_PG);
+                            break;
                         default:
+                            break;
                     }
-
-
                 }
-
             }
 
         };
-
         view.findViewById(R.id.emotion_basic).setOnClickListener(listener);
         view.findViewById(R.id.emotion_baozou).setOnClickListener(listener);
         view.findViewById(R.id.emotion_xiongmao).setOnClickListener(listener);
@@ -110,13 +110,14 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
         view.findViewById(R.id.emotion_zhaiyin).setOnClickListener(listener);
         view.findViewById(R.id.emotion_yangcongtou).setOnClickListener(listener);
         view.findViewById(R.id.emotion_acniang).setOnClickListener(listener);
+        view.findViewById(R.id.emotion_new_acniang).setOnClickListener(listener);
         view.findViewById(R.id.emotion_bierde).setOnClickListener(listener);
         view.findViewById(R.id.emotion_lindabi).setOnClickListener(listener);
         view.findViewById(R.id.emotion_quniang).setOnClickListener(listener);
         view.findViewById(R.id.emotion_niweihezhemediao).setOnClickListener(listener);
         view.findViewById(R.id.emotion_pst).setOnClickListener(listener);
         view.findViewById(R.id.emotion_dt).setOnClickListener(listener);
+        view.findViewById(R.id.emotion_pg).setOnClickListener(listener);
         super.onViewCreated(view, savedInstanceState);
     }
-
 }

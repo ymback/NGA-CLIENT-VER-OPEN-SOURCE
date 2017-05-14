@@ -20,6 +20,7 @@ public class LocationUpdater implements LocationListener {
         this.c = c;
     }
 
+    @SuppressWarnings("MissingPermission")
     @Override
     public void onLocationChanged(Location location) {
         Toast.makeText(c, R.string.get_location_success, Toast.LENGTH_SHORT).show();

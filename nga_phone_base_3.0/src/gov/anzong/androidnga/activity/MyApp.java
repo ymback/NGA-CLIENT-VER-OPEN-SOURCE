@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.CrashHandler;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.Bookmark;
@@ -30,7 +32,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class MyApp extends Application implements PerferenceConstant {
-    public final static int version = 2054;
+    public final static int version = BuildConfig.VERSION_CODE;
     public static final int fddicon[][] = {};
     static final String RECENT = "最近访问";
     static final String ADDFID = "用户自定义";
@@ -41,15 +43,13 @@ public class MyApp extends Application implements PerferenceConstant {
     @Override
     public void onCreate() {
         Log.w(TAG, "app nga androind start");
-        // CrashHandler crashHandler = CrashHandler.getInstance();
-        // crashHandler.init(getApplicationContext());
         if (config == null)
             config = PhoneConfiguration.getInstance();
         loadConfig();
         initUserInfo();
         if (ActivityUtil.isGreaterThan_2_1())
             initPath();
-        if (config.iconmode == true) {// laotubiao
+        if (config.iconmode) {// laotubiao
             loadDefaultBoardOld();
         } else {
             loadDefaultBoard();
@@ -58,6 +58,8 @@ public class MyApp extends Application implements PerferenceConstant {
         CrashHandler crashHandler = CrashHandler.getInstance();
         // 注册crashHandler
         crashHandler.init(getApplicationContext());
+
+        NetUtil.init(this);
 
         super.onCreate();
     }
@@ -293,6 +295,7 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "-3432136", "飘落的诗章", R.drawable.oldpdefault));
         boards.add(new Board(i, "-187628", "家居 装修", R.drawable.oldpdefault));
         boards.add(new Board(i, "-8627585", "牛头人酋长乐队", R.drawable.oldpdefault));
+        boards.add(new Board(i, "-17100", "全民健身中心", R.drawable.oldpdefault));
         boards.addCategoryName(i, "个人版面");
 
         String addFidStr = share.getString(ADD_FID, "");
@@ -547,6 +550,7 @@ public class MyApp extends Application implements PerferenceConstant {
         boards.add(new Board(i, "-3432136", "飘落的诗章", R.drawable.p3432136));
         boards.add(new Board(i, "-187628", "家居 装修", R.drawable.p187628));
         boards.add(new Board(i, "-8627585", "牛头人酋长乐队", R.drawable.p8627585));
+        boards.add(new Board(i, "-17100", "全民健身中心", R.drawable.p395));
         boards.addCategoryName(i, "个人版面");
         // i++;
 
@@ -664,13 +668,11 @@ public class MyApp extends Application implements PerferenceConstant {
                 .putString(USER_NAME, name)
                 .putString(PENDING_REPLYS, replyString)
                 .putString(REPLYTOTALNUM, String.valueOf(replytotalnum))
-                .putString(USER_LIST, userListString).putString(BLACK_LIST, blacklist).commit();
+                .putString(USER_LIST, userListString).putString(BLACK_LIST, blacklist).apply();
     }
 
-
     public void upgradeUserdata(String blacklist) {
-        SharedPreferences share = this.getSharedPreferences(PERFERENCE,
-                MODE_PRIVATE);
+        SharedPreferences share = this.getSharedPreferences(PERFERENCE, MODE_PRIVATE);
 
         String userListString = share.getString(USER_LIST, "");
         List<User> userList = null;
@@ -688,11 +690,10 @@ public class MyApp extends Application implements PerferenceConstant {
         }
     }
 
-
     public void addToMeiziUserList(String uid, String sess) {
         SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
         String cookie = "uid=" + uid + "; sess=" + sess;
-        share.edit().putString(DBCOOKIE, cookie).commit();
+        share.edit().putString(DBCOOKIE, cookie).apply();
         config.setDb_Cookie(cookie);
     }
 
@@ -728,7 +729,7 @@ public class MyApp extends Application implements PerferenceConstant {
             if (version_in_config < 2028) {
                 editor.putString(USER_LIST, "");
             }
-            editor.commit();
+            editor.apply();
 
         }
 
@@ -778,7 +779,7 @@ public class MyApp extends Application implements PerferenceConstant {
                 flag = flag & ~UI_FLAG_HA;
                 Editor editor = share.edit();
                 editor.putInt(UI_FLAG, flag);
-                editor.commit();
+                editor.apply();
             }
             PhoneConfiguration.getInstance().setUiFlag(flag);
         } else {

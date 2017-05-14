@@ -29,30 +29,20 @@ import sp.phone.bean.ArticlePage;
 
 public class HttpUtil {
 
-    public final static String PATH_OLD = android.os.Environment
-            .getExternalStorageDirectory().getPath()
-            + "/nga_cache";
-    public static final String PATH_ZIP = "";
+    public final static String PATH_OLD = android.os.Environment.getExternalStorageDirectory().getPath() + "/nga_cache";
     public static final String NGA_ATTACHMENT_HOST = "img.ngacn.cc";
     public static final String Servlet_phone = "/servlet/PhoneServlet";
     public static final String Servlet_timer = "/servlet/TimerServlet";
     private static final String servers[] = {"http://nga.178.com", "http://bbs.ngacn.cc"};
     private static final String TAG = HttpUtil.class.getSimpleName();
-    /*private static String[] host_arr = { "http://aa121077313.gicp.net:8099",
-            "http://aa121077313.gicp.net:8098", "http://10.0.2.2:8099",
-            "http://10.0.2.2:8098" };*/
     private static final String[] host_arr = {};
-    public static String PATH_AVATAR_OLD = PATH_OLD +
-            "/nga_cache";
-    public static String PATH_IMAGES = android.os.Environment
-            .getExternalStorageDirectory().getAbsolutePath() + "/Pictures";
-    public static String PATH = android.os.Environment
-            .getExternalStorageDirectory().getPath()
-            + "/nga_cache";
-    public static String PATH_AVATAR = PATH +
-            "/nga_cache";
+    public static String PATH_AVATAR_OLD = PATH_OLD + "/nga_cache";
+    public static String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures";
+    public static String PATH = android.os.Environment.getExternalStorageDirectory().getPath() + "/nga_cache";
+    public static String PATH_AVATAR = PATH + "/nga_cache";
     public static String PATH_NOMEDIA = PATH + "/.nomedia";
-    public static String Server = "http://nga.178.com";
+
+    public static String Server = "http://bbs.nga.cn";
     public static String NonameServer = "http://ngac.sinaapp.com/nganoname";
     public static String HOST = "";
     public static String HOST_PORT = "";
@@ -75,10 +65,9 @@ public class HttpUtil {
                 if (result == HttpURLConnection.HTTP_OK) {
                     HOST = host;//
                     break;
-                } else {
                 }
-            } catch (MalformedURLException e) {
             } catch (IOException e) {
+                e.printStackTrace();
             } finally {
                 if (conn != null) {
                     conn.disconnect();
@@ -113,10 +102,9 @@ public class HttpUtil {
                     HOST_PORT = host;
                     status = true;
                     break;
-                } else {
                 }
-            } catch (MalformedURLException e) {
             } catch (IOException e) {
+                e.printStackTrace();
             } finally {
                 if (conn != null) {
                     conn.disconnect();
@@ -147,8 +135,6 @@ public class HttpUtil {
             is = url.openStream();
             File file = new File(fileName);
             FileUtils.copyInputStreamToFile(is, file);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -306,13 +292,17 @@ public class HttpUtil {
 
             @Override
             public boolean verify(String hostname, SSLSession session) {
-                // TODO Auto-generated method stub
-                return true;
+                if (hostname.toLowerCase().contains("nga") || hostname.contains("178")) {
+                    return true;
+                }
+                return false;
             }
         };
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-        String machine = "";
-        if (MODEL.indexOf(MANUFACTURER) >= 0) {
+
+
+        String machine;
+        if (MODEL.contains(MANUFACTURER)) {
             machine = android.os.Build.MODEL;
         } else {
             machine = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
@@ -320,7 +310,7 @@ public class HttpUtil {
         if (machine.length() < 19) {
             machine = "[" + machine + "]";
         }
-        final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(573).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+        final String USER_AGENT = "Nga_Official/" + 573 + "(" + machine + ";Android" + Build.VERSION.RELEASE + ")";
 
         try {
             URL url = new URL(uri);
@@ -345,8 +335,6 @@ public class HttpUtil {
             String encoding = getCharset(conn, "GBK");
 
             return IOUtils.toString(is, encoding);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

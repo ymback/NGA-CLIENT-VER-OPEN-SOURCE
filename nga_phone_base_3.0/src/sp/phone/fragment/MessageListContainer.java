@@ -3,10 +3,7 @@ package sp.phone.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +31,7 @@ import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
-public class MessageListContainer extends Fragment implements
+public class MessageListContainer extends BaseFragment implements
         OnMessageListLoadFinishedListener, NextJsonMessageListLoader, PerferenceConstant {
     static final int MESSAGE_SENT = 1;
     final String TAG = MessageListContainer.class.getSimpleName();
@@ -220,29 +217,9 @@ public class MessageListContainer extends Fragment implements
     }
 
     private void nightMode(final MenuItem menu) {
-        ThemeManager tm = ThemeManager.getInstance();
-        SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
-                Activity.MODE_PRIVATE);
-        int mode = ThemeManager.MODE_NORMAL;
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {//是晚上模式，改白天的
-            menu.setIcon(
-                    R.drawable.ic_action_bightness_low);
-            menu.setTitle(R.string.change_night_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, false);
-            editor.commit();
-        } else {
-            menu.setIcon(
-                    R.drawable.ic_action_brightness_high);
-            menu.setTitle(R.string.change_daily_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, true);
-            editor.commit();
-            mode = ThemeManager.MODE_NIGHT;
-        }
-        ThemeManager.getInstance().setMode(mode);
+        changeNightMode(menu);
         if (mcontainer != null) {
-            if (mode == ThemeManager.MODE_NIGHT) {
+            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
                 mcontainer.setBackgroundResource(R.color.night_bg_color);
             } else {
                 mcontainer.setBackgroundResource(R.color.shit1);

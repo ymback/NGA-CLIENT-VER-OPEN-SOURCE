@@ -1,8 +1,6 @@
 package sp.phone.utils;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -12,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import sp.phone.adapter.ArticleListAdapter;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.ArticlePage;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
@@ -20,7 +18,7 @@ import sp.phone.bean.ThreadRowInfo;
 
 public class ArticleUtil {
     private final static String TAG = ArticleUtil.class.getSimpleName();
-    private static Context context;
+    private Context context;
 
     @SuppressWarnings("static-access")
     public ArticleUtil(Context context) {
@@ -154,16 +152,8 @@ public class ArticleUtil {
         return null;
     }
 
-    public static boolean isInWifi() {
-        ConnectivityManager conMan = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED;
-    }
-
     public static int showImageQuality() {
-        if (isInWifi()) {
+        if (NetUtil.getInstance().isInWifi()) {
             return 0;
         } else {
             return PhoneConfiguration.getInstance().imageQuality;
@@ -171,11 +161,11 @@ public class ArticleUtil {
     }
 
     private boolean isShowImage() {
-        return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+        return PhoneConfiguration.getInstance().isDownImgNoWifi() || NetUtil.getInstance().isInWifi();
     }
 
     private boolean isShowAvatar() {
-        return PhoneConfiguration.getInstance().isDownAvatarNoWifi() || isInWifi();
+        return PhoneConfiguration.getInstance().isDownAvatarNoWifi() || NetUtil.getInstance().isInWifi();
     }
 
     public ThreadData parseJsonThreadPage(String js) {
@@ -185,15 +175,8 @@ public class ArticleUtil {
         js = js.replaceAll("\"content\":(0\\d+),", "\"content\":\"$1\",");
         js = js.replaceAll("\"subject\":(0\\d+),", "\"subject\":\"$1\",");
         js = js.replaceAll("\"author\":(0\\d+),", "\"author\":\"$1\",");
-        final String start = "\"__P\":{\"aid\":";
-        final String end = "\"this_visit_rows\":";
-        if (js.indexOf(start) != -1 && js.indexOf(end) != -1) {
-            Log.w(TAG, "here comes an invalid response");
-            String validJs = js.substring(0, js.indexOf(start));
-            validJs += js.substring(js.indexOf(end));
-            js = validJs;
+        js = js.replaceAll("\"alterinfo\":\"\\[(\\w|\\s)+\\]\\s+\",", ""); //部分页面打不开的问题
 
-        }
         JSONObject o = null;
         try {
             o = (JSONObject) JSON.parseObject(js).get("data");
@@ -231,19 +214,15 @@ public class ArticleUtil {
         data.setRowList(__R);
         data.setRowNum(__R.size());
         data.set__ROWS(all_rows);
-        o1 = (JSONObject) o.get("__F");
 
         return data;
-
     }
 
-    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap,
-                                                   int count, JSONObject userInfoMap) {
-        List<ThreadRowInfo> __R = new ArrayList<ThreadRowInfo>();
-
+    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap, int count, JSONObject userInfoMap) {
         if (rowMap == null)
             return null;
-
+        List<ThreadRowInfo> __R = new ArrayList<ThreadRowInfo>();
+        Log.d("ArticleUtil", "convertJSobjToList");
         for (int i = 0; i < count; i++) {
             Object obj = rowMap.get(String.valueOf(i));
             JSONObject rowObj = null;
@@ -252,53 +231,40 @@ public class ArticleUtil {
             } else {
                 continue;
             }
-            ThreadRowInfo row = null;
-            if (rowObj != null) {
+            ThreadRowInfo row = JSONObject.toJavaObject(rowObj, ThreadRowInfo.class);
+            JSONObject commObj = (JSONObject) rowObj.get("comment");
 
-                row = JSONObject.toJavaObject(rowObj, ThreadRowInfo.class);
-                JSONObject commObj = (JSONObject) rowObj.get("comment");
-
-                if (commObj != null) {
-
-                    row.setComments(convertJSobjToList(commObj, userInfoMap));
-                }
-                String from_client = rowObj.getString("from_client");
-                if (!StringUtil.isEmpty(from_client)) {
-                    row.setFromClient(from_client.toString());
-                    if (!from_client.trim().equals("")) {
-                        String clientappcode = "";
-                        if (from_client.indexOf(" ") > 0) {
-                            clientappcode = from_client.substring(0,
-                                    from_client.indexOf(" "));
-                        } else {
-                            clientappcode = from_client;
-                        }
-                        if (clientappcode.equals("1") || clientappcode.equals("7")
-                                || clientappcode.equals("101")) {
-                            row.setFromClientModel("ios");
-                        } else if (clientappcode.equals("103")
-                                || clientappcode.equals("9")) {
-                            row.setFromClientModel("wp");
-                        } else if (!clientappcode.equals("8")
-                                && !clientappcode.equals("100")) {
-                            row.setFromClientModel("unknown");
-                        } else {
-                            row.setFromClientModel("android");
-                        }
+            if (commObj != null) {
+                row.setComments(convertJSobjToList(commObj, commObj.size(), userInfoMap));
+            }
+            String from_client = rowObj.getString("from_client");
+            if (!StringUtil.isEmpty(from_client)) {
+                row.setFromClient(from_client);
+                if (!from_client.trim().equals("")) {
+                    String clientappcode = "";
+                    if (from_client.indexOf(" ") > 0) {
+                        clientappcode = from_client.substring(0, from_client.indexOf(" "));
+                    } else {
+                        clientappcode = from_client;
+                    }
+                    if (clientappcode.equals("1") || clientappcode.equals("7") || clientappcode.equals("101")) {
+                        row.setFromClientModel("ios");
+                    } else if (clientappcode.equals("103") || clientappcode.equals("9")) {
+                        row.setFromClientModel("wp");
+                    } else if (!clientappcode.equals("8") && !clientappcode.equals("100")) {
+                        row.setFromClientModel("unknown");
+                    } else {
+                        row.setFromClientModel("android");
                     }
                 }
-                String vote = rowObj.getString("vote");
-                if (!StringUtil.isEmpty(vote)) {
-                    row.setVote(vote);
-                }
-
-                fillUserInfo(row, userInfoMap);
-
-                fillFormated_html_data(row, i);
-
-                __R.add(row);
             }
-
+            String vote = rowObj.getString("vote");
+            if (!StringUtil.isEmpty(vote)) {
+                row.setVote(vote);
+            }
+            fillUserInfo(row, userInfoMap);
+            FunctionUtil.fillFormated_html_data(row, i, context);
+            __R.add(row);
         }
         return __R;
     }
@@ -351,40 +317,4 @@ public class ArticleUtil {
         }
         row.setSignature(userInfo.getString("signature"));
     }
-
-    private List<ThreadRowInfo> convertJSobjToList(JSONObject rowMap,
-                                                   JSONObject userInfoMap) {
-
-        return convertJSobjToList(rowMap, rowMap.size(), userInfoMap);
-    }
-
-    private void fillFormated_html_data(ThreadRowInfo row, int i) {
-
-        ThemeManager theme = ThemeManager.getInstance();
-        if (row.getContent() == null) {
-            row.setContent(row.getSubject());
-            row.setSubject(null);
-        }
-        if (!StringUtil.isEmpty(row.getFromClient())) {
-            if (row.getFromClient().startsWith("103 ")
-                    && !StringUtil.isEmpty(row.getContent())) {
-                row.setContent(StringUtil.unescape(row.getContent()));
-            }
-        }
-        int bgColor = context.getResources().getColor(
-                theme.getBackgroundColor(i));
-        int fgColor = context.getResources().getColor(
-                theme.getForegroundColor());
-        bgColor = bgColor & 0xffffff;
-        final String bgcolorStr = String.format("%06x", bgColor);
-
-        int htmlfgColor = fgColor & 0xffffff;
-        final String fgColorStr = String.format("%06x", htmlfgColor);
-
-        String formated_html_data = ArticleListAdapter.convertToHtmlText(row,
-                isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
-
-        row.setFormated_html_data(formated_html_data);
-    }
-
 }

@@ -1,13 +1,10 @@
 package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -48,6 +45,9 @@ import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
+/**
+ * 帖子详情页
+ */
 public class ArticleListActivity extends SwipeBackAppCompatActivity implements
         PagerOwnner, ResetableArticle, OnThreadPageLoadFinishedListener,
         PullToRefreshAttacherOnwer, PerferenceConstant {
@@ -410,7 +410,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
                 MODE_MULTI_PROCESS);
         Editor editor = share.edit();
         editor.putInt(SCREEN_ORENTATION, newOrientation);
-        editor.commit();
+        editor.apply();
 
     }
 
@@ -422,24 +422,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 	 */
 
     private void nightMode(final MenuItem menu) {
-        ThemeManager tm = ThemeManager.getInstance();
-        SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
-        int mode = ThemeManager.MODE_NORMAL;
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
-            menu.setIcon(R.drawable.ic_action_bightness_low);
-            menu.setTitle(R.string.change_night_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, false);
-            editor.commit();
-        } else {
-            menu.setIcon(R.drawable.ic_action_brightness_high);
-            menu.setTitle(R.string.change_daily_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, true);
-            editor.commit();
-            mode = ThemeManager.MODE_NIGHT;
-        }
-        ThemeManager.getInstance().setMode(mode);
+        changeNightMode(menu);
         if (mTabsAdapter != null) {
             refresh_saying();
             if (PhoneConfiguration.getInstance().kitwebview) {
@@ -466,14 +449,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
         }
     }
 
-    public boolean isInWifi() {
-        ConnectivityManager conMan = (ConnectivityManager) this
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED;
-    }
-
     private void createGotoDialog() {
 
         int count = mTabsAdapter.getCount();
@@ -493,6 +468,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements
 
     }
 
+    @SuppressWarnings("WrongConstant")
     @Override
     protected void onResume() {
         int orentation = ThemeManager.getInstance().screenOrentation;

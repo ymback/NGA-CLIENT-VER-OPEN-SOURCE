@@ -18,8 +18,7 @@ public class ExtensionEmotionFragment extends NoframeDialogFragment {
     private GridView gv = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         gv = (GridView) inflater.inflate(R.layout.extension_emotion_grid, container, false);
         return gv;
     }
@@ -28,7 +27,7 @@ public class ExtensionEmotionFragment extends NoframeDialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         int index = getArguments().getInt("index");
         gv.setAdapter(new ExtensionEmotionAdapter(index));
-        gv.setBackgroundColor(0x7f000000);
+        gv.setBackgroundResource(R.color.shit1);
         gv.setOnItemClickListener(new OnItemClickListener() {
 
             @Override

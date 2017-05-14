@@ -23,7 +23,6 @@ public class ReplyListActivity extends SwipeBackAppCompatActivity {
             f = new ReplyListFragment();
             fm.beginTransaction().add(R.id.item_list, f).commit();
         }
-
     }
 
     @Override

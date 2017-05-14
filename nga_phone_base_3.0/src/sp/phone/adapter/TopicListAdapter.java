@@ -9,13 +9,12 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.alibaba.fastjson.util.Base64;
 
 import java.math.BigInteger;
 import java.util.Locale;
@@ -28,10 +27,9 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class TopicListAdapter extends BaseAdapter implements
-        OnTopListLoadFinishedListener {
+public abstract class TopicListAdapter extends BaseAdapter implements OnTopListLoadFinishedListener {
 
-    final static int _FONT_RED = 1, _FONT_BLUE = 2, _FONT_GREEN = 4,
+    private final static int _FONT_RED = 1, _FONT_BLUE = 2, _FONT_GREEN = 4,
             _FONT_ORANGE = 8, _FONT_SILVER = 16, _FONT_B = 32, _FONT_I = 64,
             _FONT_U = 128;
     protected Context context;
@@ -46,7 +44,6 @@ public class TopicListAdapter extends BaseAdapter implements
     }
 
     public Object getItem(int arg0) {
-
         ThreadPageInfo entry = getEntry(arg0);
         if (entry == null || entry.getTid() == 0) {
             return null;
@@ -56,9 +53,7 @@ public class TopicListAdapter extends BaseAdapter implements
         if (entry.getPid() != 0) {
             return ret + "&pid=" + entry.getPid();
         }
-
         return ret;
-
     }
 
     public int getCount() {
@@ -70,8 +65,7 @@ public class TopicListAdapter extends BaseAdapter implements
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-
-        View convertView = view;// m.get(position);
+        View convertView = view;
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.relative_topic_list, null);
@@ -86,10 +80,8 @@ public class TopicListAdapter extends BaseAdapter implements
             holder.author = author;
             holder.lastReply = lastReply;
             convertView.setTag(holder);
-
         } else {
             holder = (ViewHolder) convertView.getTag();
-
         }
 
         ThemeManager cfg = ThemeManager.getInstance();
@@ -99,13 +91,10 @@ public class TopicListAdapter extends BaseAdapter implements
                 colorId = R.color.topiclist_selected_color;
             else
                 colorId = R.color.holo_blue_light;
-            ;
         }
         convertView.setBackgroundResource(colorId);
-
         handleJsonList(holder, position);
         return convertView;
-
     }
 
     public void setSelected(int position) {
@@ -114,7 +103,6 @@ public class TopicListAdapter extends BaseAdapter implements
 
     private void handleJsonList(ViewHolder holder, int position) {
         ThreadPageInfo entry = getEntry(position);
-        // this.topicListInfo.getArticleEntryList().get(position);
 
         if (entry == null) {
             return;
@@ -142,7 +130,6 @@ public class TopicListAdapter extends BaseAdapter implements
     }
 
     private void handleTitleView(TextView view, ThreadPageInfo entry) {
-
         ThemeManager theme = ThemeManager.getInstance();
         Resources res = inflater.getContext().getResources();
         float size = PhoneConfiguration.getInstance().getTextSize();
@@ -221,7 +208,7 @@ public class TopicListAdapter extends BaseAdapter implements
                     }
                 }
             } else {
-                byte b[] = Base64.decodeFast(misc);
+                byte b[] = Base64.decode(misc, Base64.DEFAULT);
                 if (b != null) {
                     if (b.length == 5) {
                         String miscstring = toBinary(b);
@@ -324,7 +311,5 @@ public class TopicListAdapter extends BaseAdapter implements
         public TextView title;
         public TextView author;
         public TextView lastReply;
-
     }
-
 }

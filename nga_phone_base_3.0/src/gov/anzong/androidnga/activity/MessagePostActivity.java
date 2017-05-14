@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -58,12 +57,9 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class MessagePostActivity extends SwipeBackAppCompatActivity implements
-        FileUploadTask.onFileUploaded, EmotionCategorySelectedListener,
-        OnEmotionPickedListener {
+public class MessagePostActivity extends BasePostActivity implements
+        FileUploadTask.onFileUploaded, OnEmotionPickedListener {
 
-    static private final String EMOTION_CATEGORY_TAG = "emotion_category";
-    static private final String EMOTION_TAG = "emotion";
     final int REQUEST_CODE_SELECT_PIC = 1;
     private final String LOG_TAG = Activity.class.getSimpleName();
     // private Button button_commit;
@@ -83,7 +79,6 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
     private View v;
     private boolean loading;
     private FileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /*
@@ -227,35 +222,11 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
                 break;
             case R.id.send:
                 if (StringUtil.isEmpty(toText.getText().toString())) {
-                    if (toast != null) {
-                        toast.setText("请输入收件人");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this, "请输入收件人",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入收件人");
                 } else if (StringUtil.isEmpty(titleText.getText().toString())) {
-                    if (toast != null) {
-                        toast.setText("请输入标题");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this, "请输入标题",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入标题");
                 } else if (StringUtil.isEmpty(bodyText.getText().toString())) {
-                    if (toast != null) {
-                        toast.setText("请输入内容");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this, "请输入内容",
-                                Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入内容");
                 } else {
                     if (commitListener == null) {
                         commitListener = new ButtonCommitListener(REPLY_URL);
@@ -479,62 +450,6 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
         return 1;
     }
 
-    @Override
-    public void onEmotionCategorySelected(int category) {
-        final FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        final Fragment categoryFragment = getSupportFragmentManager()
-                .findFragmentByTag(EMOTION_CATEGORY_TAG);
-        if (categoryFragment != null)
-            ft.remove(categoryFragment);
-        ft.commit();
-
-        ft = fm.beginTransaction();
-        final Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                EMOTION_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        DialogFragment newFragment = null;
-        switch (category) {
-            case CATEGORY_BASIC:
-                newFragment = new EmotionDialogFragment();
-                break;
-            case CATEGORY_BAOZOU:
-            case CATEGORY_XIONGMAO:
-            case CATEGORY_TAIJUN:
-            case CATEGORY_ALI:
-            case CATEGORY_DAYANMAO:
-            case CATEGORY_LUOXIAOHEI:
-            case CATEGORY_MAJIANGLIAN:
-            case CATEGORY_ZHAIYIN:
-            case CATEGORY_YANGCONGTOU:
-            case CATEGORY_ACNIANG:
-            case CATEGORY_BIERDE:
-            case CATEGORY_LINDABI:
-            case CATEGORY_QUNIANG:
-            case CATEGORY_NIWEIHEZHEMEDIAO:
-            case CATEGORY_PST:
-            case CATEGORY_DT:
-                Bundle args = new Bundle();
-                args.putInt("index", category - 1);
-                newFragment = new ExtensionEmotionFragment();
-                newFragment.setArguments(args);
-                break;
-            default:
-
-        }
-        // ft.commit();
-        // ft.addToBackStack(null);
-
-        if (newFragment != null) {
-            ft.commit();
-            newFragment.show(fm, EMOTION_TAG);
-        }
-
-    }
-
     class ButtonCommitListener implements OnClickListener {
 
         private final String url;
@@ -546,18 +461,8 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onClick(View v) {
             synchronized (commit_lock) {
-                if (loading == true) {
-                    String avoidWindfury = MessagePostActivity.this
-                            .getString(R.string.avoidWindfury);
-                    if (toast != null) {
-                        toast.setText(avoidWindfury);
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(MessagePostActivity.this,
-                                avoidWindfury, Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                if (loading) {
+                    showToast(R.string.avoidWindfury);
                     return;
                 }
                 loading = true;
@@ -709,15 +614,7 @@ public class MessagePostActivity extends SwipeBackAppCompatActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            if (toast != null) {
-                toast.setText(result);
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(MessagePostActivity.this, result,
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast(result);
             ActivityUtil.getInstance().dismiss();
             if (!keepActivity) {
                 if (!action.equals("new")) {

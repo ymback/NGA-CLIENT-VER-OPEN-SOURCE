@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -149,7 +150,7 @@ public class CheckReplyNotificationTask extends
                     Editor editor = share.edit();
                     editor.putString(PENDING_REPLYS, recentstr);
                     editor.putString(REPLYTOTALNUM, String.valueOf(list.size()));
-                    editor.commit();
+                    editor.apply();
                 }
             }
 
@@ -274,17 +275,30 @@ public class CheckReplyNotificationTask extends
                 Context.MODE_PRIVATE);
         Editor editor = share.edit();
         editor.putString(PENDING_REPLYS_FOR_SHOW, str);
-        editor.commit();
-        NotificationManager nm = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        editor.apply();
+
+
         Intent intent = new Intent();
-        // intent.setFlags(Intent.flag)
         intent.setClass(context, ReplyListActivity.class);
         PendingIntent pending = PendingIntent
                 .getActivity(context, 0, intent, 0);
-        Notification notification = new Notification();
-        notification.icon = R.drawable.nga_bg;
-        notification.defaults = Notification.DEFAULT_LIGHTS;
+
+        NotificationObject o = notificationList.get(0);
+
+        Notification.Builder builder = new Notification.Builder(context);
+        builder.setTicker(String.format(
+                context.getString(R.string.multi_reply_format),
+                notificationList.size()));
+        builder.setNumber(notificationList.size());
+        builder.setLights(Color.parseColor("#fff0cd"), 2333, 0);
+        builder.setSmallIcon(R.drawable.nga_bg); //设置图标
+        builder.setContentTitle(o.getNickName()); //设置标题
+        builder.setContentText(o.getTitle()); //消息内容
+        builder.setWhen(System.currentTimeMillis()); //发送时间
+        builder.setDefaults(Notification.DEFAULT_ALL); //设置默认的提示音，振动方式，灯光
+        builder.setAutoCancel(true);//打开程序后图标消失
+        builder.setContentIntent(pending);
+        int defaults = Notification.DEFAULT_LIGHTS;
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
@@ -292,39 +306,33 @@ public class CheckReplyNotificationTask extends
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
             switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
                 case 1:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.taijun);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.taijun));
                     break;
                 case 2:
-                    notification.sound = Uri.parse("android.resource://"
+                    builder.setSound(Uri.parse("android.resource://"
                             + context.getPackageName() + "/"
-                            + R.raw.balckgunoftaijun);
+                            + R.raw.balckgunoftaijun));
                     break;
                 case 3:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.balckgunofyou);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.balckgunofyou));
                     break;
                 default:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
             }
         }
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        builder.setDefaults(defaults);
 
-        notification.tickerText = String.format(
-                context.getString(R.string.multi_reply_format),
-                notificationList.size());
-        notification.when = System.currentTimeMillis();
-
-        notification.number = notificationList.size();
-
-        NotificationObject o = notificationList.get(0);
-        notification.setLatestEventInfo(context, o.getNickName(), o.getTitle(),
-                pending);
-        nm.notify(R.layout.topiclist_activity, notification);
+        Notification notification1 = builder.build();
+        notification1.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
+        NotificationManager nm = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(R.layout.topiclist_activity, notification1); // 通过通知管理器发送通知
     }
 
     @SuppressWarnings("deprecation")
@@ -337,24 +345,17 @@ public class CheckReplyNotificationTask extends
         Log.i(this.getClass().getSimpleName(), "showNotification: pid=" + pid
                 + ",tid=" + tid);
 
-        NotificationManager nm = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-
         Intent intent = new Intent(context,
                 PhoneConfiguration.getInstance().articleActivityClass);
-        // intent.putExtra("tid", Integer.valueOf(tid).intValue());
-        // Intent intent = new Intent(Intent.ACTION_VIEW);
 
         int pidValue = 0;
         try {
             if (!StringUtil.isEmpty(pid))
-                pidValue = Integer.valueOf(pid).intValue();
+                pidValue = Integer.valueOf(pid);
         } catch (Exception e) {
             Log.e(this.getClass().getSimpleName(), "invalid pid: " + pid);
         }
-        // intent.putExtra("pid", pidValue);
-
-        Resources res = context.getResources();// .getString(R.string.myscheme)
+        Resources res = context.getResources();
         String url = res.getString(R.string.myscheme) + "://"
                 + res.getString(R.string.myhost) + "/read.php?tid=" + tid;
         if (pidValue != 0) {
@@ -370,14 +371,23 @@ public class CheckReplyNotificationTask extends
         PendingIntent pending = PendingIntent
                 .getActivity(context, 0, intent, 0);
 
-        String tickerText = nickName + context.getString(R.string.reply_to_you);
+        int id = Integer.valueOf(tid);
+        if (pidValue != 0) {
+            id = pidValue;
+        }
 
-        Notification notification = new Notification();
-        notification.icon = R.drawable.nga_bg;
-        // notification.largeIcon = avatar;
-        // notification.number = 5;
 
-        notification.defaults = Notification.DEFAULT_LIGHTS;
+        Notification.Builder builder = new Notification.Builder(context);
+        builder.setTicker(nickName + context.getString(R.string.reply_to_you));
+        builder.setLights(Color.parseColor("#fff0cd"), 2333, 0);
+        builder.setSmallIcon(R.drawable.nga_bg); //设置图标
+        builder.setContentTitle(nickName); //设置标题
+        builder.setContentText(title); //消息内容
+        builder.setWhen(System.currentTimeMillis()); //发送时间
+        builder.setDefaults(Notification.DEFAULT_ALL); //设置默认的提示音，振动方式，灯光
+        builder.setAutoCancel(true);//打开程序后图标消失
+        builder.setContentIntent(pending);
+        int defaults = Notification.DEFAULT_LIGHTS;
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
@@ -385,39 +395,33 @@ public class CheckReplyNotificationTask extends
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
             switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
                 case 1:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.taijun);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.taijun));
                     break;
                 case 2:
-                    notification.sound = Uri.parse("android.resource://"
+                    builder.setSound(Uri.parse("android.resource://"
                             + context.getPackageName() + "/"
-                            + R.raw.balckgunoftaijun);
+                            + R.raw.balckgunoftaijun));
                     break;
                 case 3:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.balckgunofyou);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.balckgunofyou));
                     break;
                 default:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
             }
         }
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        builder.setDefaults(defaults);
 
-        // Notification notification = new
-        // Notification(sp.phone.activity.R.drawable.defult_img,tickerText,
-        // System.currentTimeMillis());
-        notification.tickerText = tickerText;
-        notification.when = System.currentTimeMillis();
-        int id = Integer.valueOf(tid).intValue();
-        if (pidValue != 0)
-            id = pidValue;
-
-        notification.setLatestEventInfo(context, nickName, title, pending);
-        nm.notify(id, notification);
+        Notification notification1 = builder.build();
+        notification1.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
+        NotificationManager nm = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(id, notification1); // 通过通知管理器发送通知
     }
 
     @SuppressWarnings("deprecation")
@@ -426,10 +430,6 @@ public class CheckReplyNotificationTask extends
         if (mid == 0) {
             return;
         }
-
-        NotificationManager nm = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-
         Intent intent = new Intent(context,
                 PhoneConfiguration.getInstance().messageDetialActivity);
 
@@ -439,8 +439,6 @@ public class CheckReplyNotificationTask extends
                 + "/nuke.php?func=message&mid=" + mid;
         intent.setData(Uri.parse(url));
 
-        // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK
-        // );
         intent.addFlags(Intent.FILL_IN_DATA);
 
         PendingIntent pending = PendingIntent
@@ -449,12 +447,18 @@ public class CheckReplyNotificationTask extends
         String tickerText = String.format(
                 context.getString(R.string.message_to_you), title);
 
-        Notification notification = new Notification();
-        notification.icon = R.drawable.nga_bg;
-        // notification.largeIcon = avatar;
-        // notification.number = 5;
 
-        notification.defaults = Notification.DEFAULT_LIGHTS;
+        Notification.Builder builder = new Notification.Builder(context);
+        builder.setTicker(tickerText);
+        builder.setLights(Color.parseColor("#fff0cd"), 2333, 0);
+        builder.setSmallIcon(R.drawable.nga_bg); //设置图标
+        builder.setContentTitle(title); //设置标题
+        builder.setContentText(title + "(" + String.valueOf(authId) + ")向你发送了短消息"); //消息内容
+        builder.setWhen(System.currentTimeMillis()); //发送时间
+        builder.setDefaults(Notification.DEFAULT_ALL); //设置默认的提示音，振动方式，灯光
+        builder.setAutoCancel(true);//打开程序后图标消失
+        builder.setContentIntent(pending);
+        int defaults = Notification.DEFAULT_LIGHTS;
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
@@ -462,51 +466,61 @@ public class CheckReplyNotificationTask extends
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
             switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
                 case 1:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.taijun);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.taijun));
                     break;
                 case 2:
-                    notification.sound = Uri.parse("android.resource://"
+                    builder.setSound(Uri.parse("android.resource://"
                             + context.getPackageName() + "/"
-                            + R.raw.balckgunoftaijun);
+                            + R.raw.balckgunoftaijun));
                     break;
                 case 3:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.balckgunofyou);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.balckgunofyou));
                     break;
                 default:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
             }
         }
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        builder.setDefaults(defaults);
 
-        // Notification notification = new
-        // Notification(sp.phone.activity.R.drawable.defult_img,tickerText,
-        // System.currentTimeMillis());
-        notification.tickerText = tickerText;
-        notification.when = System.currentTimeMillis();
-        notification.setLatestEventInfo(context, title,
-                title + "(" + String.valueOf(authId) + ")向你发送了短消息", pending);
-        nm.notify(mid, notification);
+        Notification notification1 = builder.build();
+        notification1.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
+        NotificationManager nm = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(mid, notification1); // 通过通知管理器发送通知
     }
 
     @SuppressWarnings("deprecation")
     void showStackedMsgNotification() {
-        NotificationManager nm = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = new Intent();
         // intent.setFlags(Intent.flag)
         intent.setClass(context,
                 PhoneConfiguration.getInstance().messageActivityClass);
         PendingIntent pending = PendingIntent
                 .getActivity(context, 0, intent, 0);
-        Notification notification = new Notification();
-        notification.icon = R.drawable.nga_bg;
-        notification.defaults = Notification.DEFAULT_LIGHTS;
+
+        MsgNotificationObject o = msgnotificationlist.get(0);
+
+        Notification.Builder builder = new Notification.Builder(context);
+        builder.setTicker(String.format(
+                context.getString(R.string.multi_message_format),
+                msgnotificationlist.size()));
+        builder.setLights(Color.parseColor("#fff0cd"), 2333, 0);
+        builder.setSmallIcon(R.drawable.nga_bg); //设置图标
+        builder.setNumber(msgnotificationlist.size());
+        builder.setContentTitle( o.getTitle()); //设置标题
+        builder.setContentText(o.getTitle() + "("
+                + String.valueOf(o.getAuthorId()) + ")等向你发送了短消息"); //消息内容
+        builder.setWhen(System.currentTimeMillis()); //发送时间
+        builder.setDefaults(Notification.DEFAULT_ALL); //设置默认的提示音，振动方式，灯光
+        builder.setAutoCancel(true);//打开程序后图标消失
+        builder.setContentIntent(pending);
+        int defaults = Notification.DEFAULT_LIGHTS;
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
@@ -514,40 +528,32 @@ public class CheckReplyNotificationTask extends
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
             switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
                 case 1:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.taijun);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.taijun));
                     break;
                 case 2:
-                    notification.sound = Uri.parse("android.resource://"
+                    builder.setSound(Uri.parse("android.resource://"
                             + context.getPackageName() + "/"
-                            + R.raw.balckgunoftaijun);
+                            + R.raw.balckgunoftaijun));
                     break;
                 case 3:
-                    notification.sound = Uri.parse("android.resource://"
-                            + context.getPackageName() + "/" + R.raw.balckgunofyou);
+                    builder.setSound(Uri.parse("android.resource://"
+                            + context.getPackageName() + "/" + R.raw.balckgunofyou));
                     break;
                 default:
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    defaults |= Notification.DEFAULT_SOUND;
                     break;
             }
         }
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        builder.setDefaults(defaults);
 
-        notification.tickerText = String.format(
-                context.getString(R.string.multi_message_format),
-                msgnotificationlist.size());
-        notification.when = System.currentTimeMillis();
-
-        notification.number = msgnotificationlist.size();
-
-        MsgNotificationObject o = msgnotificationlist.get(0);
-        notification
-                .setLatestEventInfo(context, o.getTitle(), o.getTitle() + "("
-                                + String.valueOf(o.getAuthorId()) + ")等向你发送了短消息",
-                        pending);
-        nm.notify(R.layout.messagelist_activity, notification);
+        Notification notification1 = builder.build();
+        notification1.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
+        NotificationManager nm = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(R.layout.messagelist_activity, notification1); // 通过通知管理器发送通知
     }
 }

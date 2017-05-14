@@ -57,12 +57,9 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class NonamePostActivity extends SwipeBackAppCompatActivity implements
-        EmotionCategorySelectedListener, OnEmotionPickedListener,
-        NonameFileUploadTask.onFileUploaded {
+public class NonamePostActivity extends BasePostActivity implements
+        OnEmotionPickedListener, NonameFileUploadTask.onFileUploaded {
 
-    static private final String EMOTION_CATEGORY_TAG = "emotion_category";
-    static private final String EMOTION_TAG = "emotion";
     final int REQUEST_CODE_SELECT_PIC = 1;
     private final String LOG_TAG = Activity.class.getSimpleName();
     // private Button button_commit;
@@ -80,7 +77,6 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
     private View v;
     private boolean loading;
     private NonameFileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /*
@@ -353,62 +349,6 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
         task.executeOnExecutor(NonameFileUploadTask.THREAD_POOL_EXECUTOR);
     }
 
-    @Override
-    public void onEmotionCategorySelected(int category) {
-        final FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        final Fragment categoryFragment = getSupportFragmentManager()
-                .findFragmentByTag(EMOTION_CATEGORY_TAG);
-        if (categoryFragment != null)
-            ft.remove(categoryFragment);
-        ft.commit();
-
-        ft = fm.beginTransaction();
-        final Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                EMOTION_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        DialogFragment newFragment = null;
-        switch (category) {
-            case CATEGORY_BASIC:
-                newFragment = new EmotionDialogFragment();
-                break;
-            case CATEGORY_BAOZOU:
-            case CATEGORY_XIONGMAO:
-            case CATEGORY_TAIJUN:
-            case CATEGORY_ALI:
-            case CATEGORY_DAYANMAO:
-            case CATEGORY_LUOXIAOHEI:
-            case CATEGORY_MAJIANGLIAN:
-            case CATEGORY_ZHAIYIN:
-            case CATEGORY_YANGCONGTOU:
-            case CATEGORY_ACNIANG:
-            case CATEGORY_BIERDE:
-            case CATEGORY_LINDABI:
-            case CATEGORY_QUNIANG:
-            case CATEGORY_NIWEIHEZHEMEDIAO:
-            case CATEGORY_PST:
-            case CATEGORY_DT:
-                Bundle args = new Bundle();
-                args.putInt("index", category - 1);
-                newFragment = new ExtensionEmotionFragment();
-                newFragment.setArguments(args);
-                break;
-            default:
-
-        }
-        // ft.commit();
-        // ft.addToBackStack(null);
-
-        if (newFragment != null) {
-            ft.commit();
-            newFragment.show(fm, EMOTION_TAG);
-        }
-
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public int finishUpload(String picUrl, Uri uri) {
@@ -501,65 +441,29 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
             if (action.equals("reply")) {
                 if (bodyText.getText().toString().length() > 2) {
                     synchronized (commit_lock) {
-                        if (loading == true) {
-                            String avoidWindfury = NonamePostActivity.this
-                                    .getString(R.string.avoidWindfury);
-                            if (toast != null) {
-                                toast.setText(avoidWindfury);
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(NonamePostActivity.this,
-                                        avoidWindfury, Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
+                        if (loading) {
+                            showToast(R.string.avoidWindfury);
                             return;
                         }
                         loading = true;
                     }
                     handleReply(v);
                 } else {
-                    if (toast != null) {
-                        toast.setText("正文内容至少3个字符");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(NonamePostActivity.this,
-                                "正文内容至少3个字符", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("正文内容至少3个字符");
                 }
             } else if (action.equals("new")) {
                 if (titleText.getText().toString().length() > 0
                         && bodyText.getText().toString().length() > 2) {
                     synchronized (commit_lock) {
-                        if (loading == true) {
-                            String avoidWindfury = NonamePostActivity.this
-                                    .getString(R.string.avoidWindfury);
-                            if (toast != null) {
-                                toast.setText(avoidWindfury);
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(NonamePostActivity.this,
-                                        avoidWindfury, Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
+                        if (loading) {
+                            showToast(R.string.avoidWindfury);
                             return;
                         }
                         loading = true;
                     }
                     handleNewThread(v);
                 } else {
-                    if (toast != null) {
-                        toast.setText("请输入正确的标题和正文内容，正文内容至少3个字符");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(NonamePostActivity.this,
-                                "请输入正确的标题和正文内容，正文内容至少3个字符", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入正确的标题和正文内容，正文内容至少3个字符");
                 }
             }
         }
@@ -662,25 +566,9 @@ public class NonamePostActivity extends SwipeBackAppCompatActivity implements
                     keepActivity = true;
             }
             if (s.error) {// 出错
-                if (toast != null) {
-                    toast.setText(s.errorinfo);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(NonamePostActivity.this,
-                            s.errorinfo, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast(s.errorinfo);
             } else {
-                if (toast != null) {
-                    toast.setText(s.data);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(NonamePostActivity.this, s.data,
-                            Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast(s.data);
             }
             if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
                 PhoneConfiguration.getInstance().setRefreshAfterPost(true);

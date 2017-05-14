@@ -35,7 +35,6 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
     boolean dualScreen = true;
     int flags = ThemeManager.ACTION_BAR_FLAG;
     int mid;
-    ArrayAdapter<String> categoryAdapter;
     int nightmode;
     private String TAG = MessageDetialActivity.class.getSimpleName();
     private PullToRefreshAttacher mPullToRefreshAttacher;
@@ -204,8 +203,6 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 
     @Override
     public void setCurrentItem(int index) {
-        // TODO Auto-generated method stub
-
         PagerOwnner child = null;
         try {
 
@@ -219,12 +216,10 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
                             + PagerOwnner.class.getName());
             return;
         }
-
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        // TODO Auto-generated method stub
     }
 }

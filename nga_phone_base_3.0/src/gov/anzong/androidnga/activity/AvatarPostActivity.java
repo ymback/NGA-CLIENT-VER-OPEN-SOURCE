@@ -71,7 +71,6 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
     private View v;
     private boolean loading;
     private AvatarFileUploadTask uploadTask = null;
-    private Toast toast = null;
     private ButtonCommitListener commitListener = null;
 
     /**
@@ -387,43 +386,17 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
                 if (titleText.getText().toString().startsWith("http")) {
                     synchronized (commit_lock) {
                         if (loading == true) {
-                            String avoidWindfury = AvatarPostActivity.this
-                                    .getString(R.string.avoidWindfury);
-                            if (toast != null) {
-                                toast.setText(avoidWindfury);
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast.makeText(AvatarPostActivity.this,
-                                        avoidWindfury, Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
+                            showToast(R.string.avoidWindfury);
                             return;
                         }
                         loading = true;
                     }
                     handleReply(v);
                 } else {
-                    if (toast != null) {
-                        toast.setText("请输入正确的头像URL地址");
-                        toast.setDuration(Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        toast = Toast.makeText(AvatarPostActivity.this,
-                                "请输入正确的头像URL地址", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    showToast("请输入正确的头像URL地址");
                 }
             } else {
-                if (toast != null) {
-                    toast.setText("请输入正确的头像URL地址");
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(AvatarPostActivity.this,
-                            "请输入正确的头像URL地址", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                showToast("请输入正确的头像URL地址");
             }
         }
 
@@ -558,15 +531,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            if (toast != null) {
-                toast.setText("操作成功");
-                toast.setDuration(Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                toast = Toast.makeText(AvatarPostActivity.this, "操作成功",
-                        Toast.LENGTH_SHORT);
-                toast.show();
-            }
+            showToast("操作成功");
             ActivityUtil.getInstance().dismiss();
             String userId = PhoneConfiguration.getInstance().uid;
             String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId + ".jpg";

@@ -1,7 +1,6 @@
 package gov.anzong.androidnga.util;
 
 import android.content.Context;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class UiUtil {
@@ -19,16 +18,6 @@ public class UiUtil {
     }
 
     public static void showToast(Context context, String msg, int duration) {
-        if (context != null) {
-            context = context.getApplicationContext();
-            Toast mToast = new Toast(context);
-            TextView mTextView = new TextView(context);
-            mTextView.setGravity(17);
-            mTextView.setTextColor(context.getResources().getColor(android.R.color.white));
-            mToast.setView(mTextView);
-            mTextView.setText(msg);
-            mToast.setDuration(duration);
-            mToast.show();
-        }
+        Toast.makeText(context, msg, duration).show();
     }
 }

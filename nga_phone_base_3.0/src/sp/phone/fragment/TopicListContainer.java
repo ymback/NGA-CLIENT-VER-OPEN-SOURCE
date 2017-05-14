@@ -3,9 +3,9 @@ package sp.phone.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,29 +43,30 @@ import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
-public class TopiclistContainer extends Fragment implements
-        OnTopListLoadFinishedListener, NextJsonTopicListLoader,
-        PerferenceConstant {
-    static final int MESSAGE_SENT = 1;
-    final String TAG = TopiclistContainer.class.getSimpleName();
+/**
+ * 帖子列表分页
+ */
+public class TopicListContainer extends BaseFragment implements OnTopListLoadFinishedListener, NextJsonTopicListLoader, PerferenceConstant {
+    final String TAG = TopicListContainer.class.getSimpleName();
     int fid;
     int authorid;
     int searchpost;
     int favor;
     int content;
     String key;
-    //	String table;
     String fidgroup;
     String author;
 
-    PullToRefreshAttacher attacher = null;
-    AppendableTopicAdapter adapter;
+    private PullToRefreshAttacher attacher = null;
+    private AppendableTopicAdapter adapter;
     boolean canDismiss = true;
     int category = 0;
     int fromreplyactivity = 0;
     boolean searchmode = false;
-    OnTopiclistContainerListener mCallback;
+    private OnTopicListContainerListener mCallback;
+
     private ListView listView;
+    private FloatingActionButton mFab;
     private TopicListInfo mTopicListInfo;
     private int mListPosition;
     private int mListFirstTop;
@@ -76,7 +77,7 @@ public class TopiclistContainer extends Fragment implements
         setRetainInstance(true);
     }
 
-    public void changedmode() {
+    public void changedMode() {
         if (adapter != null)
             adapter.notifyDataSetChanged();
     }
@@ -88,14 +89,13 @@ public class TopiclistContainer extends Fragment implements
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (OnTopiclistContainerListener) activity;
+            mCallback = (OnTopicListContainerListener) activity;
         } catch (ClassCastException e) {
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             category = savedInstanceState.getInt("category", 0);
         }
@@ -105,25 +105,29 @@ public class TopiclistContainer extends Fragment implements
             attacher = attacherOnwer.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            Log.e(TAG, "father activity should implement PullToRefreshAttacherOnwer");
         }
-
-        listView = new ListView(getActivity());
-        listView.setDivider(null);
+        View view = inflater.inflate(R.layout.fragment_topic_list_container, container, false);
+        listView = (ListView) view.findViewById(R.id.topic_list);
+        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            listView.setNestedScrollingEnabled(true);
+        }
         adapter = new AppendableTopicAdapter(this.getActivity(), attacher, this);
         listView.setAdapter(adapter);
-        // mPullRefreshListView.setAdapter(adapter);
         try {
             OnItemClickListener listener = (OnItemClickListener) getActivity();
-            // mPullRefreshListView.setOnItemClickListener(listener);
             listView.setOnItemClickListener(listener);
         } catch (ClassCastException e) {
             Log.e(TAG, "father activity should implenent OnItemClickListener");
         }
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refresh();
+            }
+        });
 
-        // mPullRefreshListView.setOnRefreshListener(new
-        // ListRefreshListener());\
         if (attacher != null)
             attacher.addRefreshableView(listView, new ListRefreshListener());
 
@@ -132,7 +136,6 @@ public class TopiclistContainer extends Fragment implements
         String url = getArguments().getString("url");
 
         if (url != null) {
-
             fid = getUrlParameter(url, "fid");
             authorid = getUrlParameter(url, "authorid");
             searchpost = getUrlParameter(url, "searchpost");
@@ -151,7 +154,6 @@ public class TopiclistContainer extends Fragment implements
             favor = getArguments().getInt("favor", 0);
             key = getArguments().getString("key");
             author = getArguments().getString("author");
-//			table = getArguments().getString("table");
             fidgroup = getArguments().getString("fidgroup");
             if (!StringUtil.isEmpty(getArguments().getString("searchmode"))) {
                 if (getArguments().getString("searchmode").equals("true"))
@@ -160,8 +162,7 @@ public class TopiclistContainer extends Fragment implements
         }
 
         if (favor != 0) {
-            Toast.makeText(getActivity(), "长按可删除收藏的帖子", Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(getActivity(), "长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
             if (getActivity() instanceof OnItemLongClickListener) {
                 listView.setLongClickable(true);
                 listView.setOnItemLongClickListener((OnItemLongClickListener) getActivity());
@@ -173,10 +174,7 @@ public class TopiclistContainer extends Fragment implements
             fromreplyactivity = 1;
         }
 
-        // JsonTopicListLoadTask task = new
-        // JsonTopicListLoadTask(getActivity(),this);
-        // task.execute(getUrl(1));
-        return listView;
+        return view;
     }
 
     @Override
@@ -214,8 +212,7 @@ public class TopiclistContainer extends Fragment implements
         if (attacher != null) {
             uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
             headerTransformer = attacher.getHeaderTransformer();
-            if (headerTransformer != null
-                    && headerTransformer instanceof DefaultHeaderTransformer)
+            if (headerTransformer != null && headerTransformer instanceof DefaultHeaderTransformer)
                 transformer = (DefaultHeaderTransformer) headerTransformer;
         }
 
@@ -228,9 +225,7 @@ public class TopiclistContainer extends Fragment implements
     }
 
     void refresh() {
-        JsonTopicListLoadTask task = new JsonTopicListLoadTask(getActivity(),
-                this);
-        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        JsonTopicListLoadTask task = new JsonTopicListLoadTask(getActivity(), this);
         refresh_saying();
         task.execute(getUrl(1, true, true));
     }
@@ -259,13 +254,10 @@ public class TopiclistContainer extends Fragment implements
             sb.append(searchpost);
             sb.append('&');
         }
-
-
         return sb.toString();
     }
 
     public String getUrl(int page, boolean isend, boolean restart) {
-
         String jsonUri = HttpUtil.Server + "/thread.php?";
         if (0 != authorid)
             jsonUri += "authorid=" + authorid + "&";
@@ -300,18 +292,6 @@ public class TopiclistContainer extends Fragment implements
                 jsonUri += "fidgroup=" + fidgroup + "&";
             }
         }
-//		if (table != null && !table.equals("")) {
-//			if (isend) {
-//				if (restart) {
-//					table = this.getActivity().getString(
-//							R.string.largesttablenum);
-//				} else {
-//					table = String.valueOf(Integer.parseInt(table) - 1);
-//				}
-//				page = 1;
-//			}
-//			jsonUri += "table=" + table + "&";
-//		}
         jsonUri += "page=" + page + "&lite=js&noprefix";
         switch (category) {
             case 2:
@@ -341,29 +321,19 @@ public class TopiclistContainer extends Fragment implements
             menuId = R.menu.threadlist_menu;
         }
         inflater.inflate(menuId, menu);
-        /*
-		 * if(ActivityUtil.isLessThan_3_0()) { for(int i=0; i< menu.size();
-		 * ++i){ menu.getItem(i).setVisible(false); } }
-		 */
-
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         if (menu.findItem(R.id.night_mode) != null) {
             if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-                menu.findItem(R.id.night_mode).setIcon(
-                        R.drawable.ic_action_brightness_high);
-                menu.findItem(R.id.night_mode).setTitle(
-                        R.string.change_daily_mode);
+                menu.findItem(R.id.night_mode).setIcon(R.drawable.ic_action_brightness_high);
+                menu.findItem(R.id.night_mode).setTitle(R.string.change_daily_mode);
             } else {
-                menu.findItem(R.id.night_mode).setIcon(
-                        R.drawable.ic_action_bightness_low);
-                menu.findItem(R.id.night_mode).setTitle(
-                        R.string.change_night_mode);
+                menu.findItem(R.id.night_mode).setIcon(R.drawable.ic_action_bightness_low);
+                menu.findItem(R.id.night_mode).setTitle(R.string.change_night_mode);
             }
         }
-        // getSupportMenuInflater().inflate(R.menu.book_detail, menu);
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -374,8 +344,8 @@ public class TopiclistContainer extends Fragment implements
                 handlePostThread(item);
                 break;
             case R.id.threadlist_menu_item2:
-			/*
-			 * int current = this.mViewPager.getCurrentItem();
+            /*
+             * int current = this.mViewPager.getCurrentItem();
 			 * ActivityUtil.getInstance().noticeSaying(this);
 			 * this.mViewPager.setAdapter(this.mTabsAdapter);
 			 * this.mViewPager.setCurrentItem(current, true);
@@ -383,8 +353,7 @@ public class TopiclistContainer extends Fragment implements
                 this.refresh();
                 break;
             case R.id.goto_bookmark_item:
-                Intent intent_bookmark = new Intent(getActivity(),
-                        PhoneConfiguration.getInstance().topicActivityClass);
+                Intent intent_bookmark = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
                 intent_bookmark.putExtra("favor", 1);
                 startActivity(intent_bookmark);
                 break;
@@ -398,12 +367,10 @@ public class TopiclistContainer extends Fragment implements
                 if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     handleSearch();
                 } else {
-                    intentsearch.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().loginActivityClass);
+                    intentsearch.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
                     startActivity(intentsearch);
                     if (PhoneConfiguration.getInstance().showAnimation) {
-                        getActivity().overridePendingTransition(R.anim.zoom_enter,
-                                R.anim.zoom_exit);
+                        getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                     }
                 }
                 break;
@@ -419,25 +386,7 @@ public class TopiclistContainer extends Fragment implements
     }
 
     private void nightMode(final MenuItem menu) {
-        ThemeManager tm = ThemeManager.getInstance();
-        SharedPreferences share = getActivity().getSharedPreferences(
-                PERFERENCE, Activity.MODE_PRIVATE);
-        int mode = ThemeManager.MODE_NORMAL;
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
-            menu.setIcon(R.drawable.ic_action_bightness_low);
-            menu.setTitle(R.string.change_night_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, false);
-            editor.commit();
-        } else {
-            menu.setIcon(R.drawable.ic_action_brightness_high);
-            menu.setTitle(R.string.change_daily_mode);
-            Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, true);
-            editor.commit();
-            mode = ThemeManager.MODE_NIGHT;
-        }
-        ThemeManager.getInstance().setMode(mode);
+        changeNightMode(menu);
         if (adapter != null)
             adapter.notifyDataSetChanged();
         if (mCallback != null)
@@ -449,16 +398,13 @@ public class TopiclistContainer extends Fragment implements
         intent.putExtra("fid", fid);
         intent.putExtra("action", "new");
         if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-            intent.setClass(getActivity(),
-                    PhoneConfiguration.getInstance().postActivityClass);
+            intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
         } else {
-            intent.setClass(getActivity(),
-                    PhoneConfiguration.getInstance().loginActivityClass);
+            intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
         }
         startActivity(intent);
         if (PhoneConfiguration.getInstance().showAnimation) {
-            getActivity().overridePendingTransition(R.anim.zoom_enter,
-                    R.anim.zoom_exit);
+            getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
         }
         return true;
     }
@@ -486,9 +432,7 @@ public class TopiclistContainer extends Fragment implements
         try {
             df.show(ft, dialogTag);
         } catch (Exception e) {
-            Log.e(TopiclistContainer.class.getSimpleName(),
-                    Log.getStackTraceString(e));
-
+            Log.e(TopicListContainer.class.getSimpleName(), Log.getStackTraceString(e));
         }
     }
 
@@ -511,7 +455,6 @@ public class TopiclistContainer extends Fragment implements
         } catch (Exception e) {
             Log.e(TAG, "invalid url:" + url);
         }
-
         return ret;
     }
 
@@ -532,31 +475,10 @@ public class TopiclistContainer extends Fragment implements
 
         mTopicListInfo = result;
         if (result.get__SEARCHNORESULT()) {
-//			JsonTopicListLoadTask task = new JsonTopicListLoadTask(
-//					getActivity(), this);
-//			refresh_saying();
-//			if (result.get__TABLE() > 0) {
-//				if (getActivity() != null) {
-//					Toast.makeText(
-//							getActivity(),
-//							"库" + String.valueOf(result.get__TABLE())
-//									+ "中的结果已搜索完毕,正在搜索库"
-//									+ String.valueOf(result.get__TABLE() - 1)
-//									+ "中的结果", Toast.LENGTH_SHORT).show();
-//				}
-//				if (ActivityUtil.isGreaterThan_2_3_3())
-//					task.executeOnExecutor(
-//							JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
-//							getUrl(1, true, false));
-//				else
-//					task.execute(getUrl(1, true, false));
-//			} else
-//			{
             if (getActivity() != null) {
                 Toast.makeText(getActivity(), "结果已搜索完毕",
                         Toast.LENGTH_SHORT).show();
             }
-//			}
             return;
         }
         int lines = 35;
@@ -579,37 +501,32 @@ public class TopiclistContainer extends Fragment implements
         listView.setAdapter(adapter);
         if (canDismiss)
             ActivityUtil.getInstance().dismiss();
-
     }
 
     @TargetApi(11)
     private void RunParallen(JsonTopicListLoadTask task) {
-        task.executeOnExecutor(JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
-                getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
+        task.executeOnExecutor(JsonTopicListLoadTask.THREAD_POOL_EXECUTOR, getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
     }
 
     @Override
     public void loadNextPage(OnTopListLoadFinishedListener callback) {
-        JsonTopicListLoadTask task = new JsonTopicListLoadTask(getActivity(),
-                callback);
+        JsonTopicListLoadTask task = new JsonTopicListLoadTask(getActivity(), callback);
         refresh_saying();
         if (ActivityUtil.isGreaterThan_2_3_3())
             RunParallen(task);
         else
-            task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(),
-                    false));
+            task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
     }
 
     // Container Activity must implement this interface
-    public interface OnTopiclistContainerListener {
+    public interface OnTopicListContainerListener {
         public void onAnotherModeChanged();
     }
 
-    class ListRefreshListener implements
-            PullToRefreshAttacher.OnRefreshListener {
+    class ListRefreshListener implements PullToRefreshAttacher.OnRefreshListener {
 
 		/*
-		 * @Override public void onPullDownToRefresh(
+         * @Override public void onPullDownToRefresh(
 		 * PullToRefreshBase<ListView> refreshView) { refresh();
 		 * 
 		 * }
@@ -633,7 +550,6 @@ public class TopiclistContainer extends Fragment implements
 
         @Override
         public void onRefreshStarted(View view) {
-
             refresh();
         }
     }

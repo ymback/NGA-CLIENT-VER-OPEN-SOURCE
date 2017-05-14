@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -21,6 +19,7 @@ import java.io.InputStream;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
@@ -34,6 +33,7 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
+@SuppressWarnings("ResourceType")
 public class MessageDetialAdapter extends BaseAdapter implements
         OnMessageDetialLoadFinishedListener, AvatarLoadCompleteCallBack, OnLongClickListener {
 
@@ -61,17 +61,24 @@ public class MessageDetialAdapter extends BaseAdapter implements
             initStaticStrings(context);
     }
 
+    /**
+     * 转换函数
+     * @param row
+     * @param showImage
+     * @param imageQuality
+     * @param fgColorStr
+     * @param bgcolorStr
+     * @return
+     */
     public static String convertToHtmlText(final MessageArticlePageInfo row,
                                            boolean showImage, int imageQuality, final String fgColorStr,
                                            final String bgcolorStr) {
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage,
-                imageQuality, imageURLSet);
+        String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage, imageQuality, imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
         if (StringUtil.isEmpty(ngaHtml)) {
-
             ngaHtml = "<font color='red'>[" + hide + "]</font>";
         }
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
@@ -109,7 +116,6 @@ public class MessageDetialAdapter extends BaseAdapter implements
     }
 
     public Object getItem(int arg0) {
-
         MessageArticlePageInfo entry = getEntry(arg0);
         if (entry == null) {
             return null;
@@ -237,7 +243,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
                 // Log.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
@@ -266,7 +272,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
                     }
 
                 } else {
-                    final boolean downImg = isInWifi()
+                    final boolean downImg = NetUtil.getInstance().isInWifi()
                             || PhoneConfiguration.getInstance()
                             .isDownAvatarNoWifi();
 
@@ -277,14 +283,6 @@ public class MessageDetialAdapter extends BaseAdapter implements
             }
         }
 
-    }
-
-    private boolean isInWifi() {
-        ConnectivityManager conMan = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED;
     }
 
     private boolean isPending(String url) {

@@ -19,8 +19,7 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements
-        PerferenceConstant, PullToRefreshAttacherOnwer {
+public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PerferenceConstant, PullToRefreshAttacherOnwer {
     FragmentManager fm;
     Fragment f;
     View v;
@@ -48,7 +47,6 @@ public class RecentReplyListActivity extends SwipeBackAppCompatActivity implemen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         ReflectionUtil.actionBar_setDisplayOption(this, flags);
         return false;// super.onCreateOptionsMenu(menu);
     }
@@ -81,7 +79,6 @@ public class RecentReplyListActivity extends SwipeBackAppCompatActivity implemen
 
     @Override
     public PullToRefreshAttacher getAttacher() {
-        // TODO Auto-generated method stub
         return mPullToRefreshAttacher;
     }
 
