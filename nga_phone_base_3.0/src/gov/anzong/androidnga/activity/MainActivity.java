@@ -1285,11 +1285,11 @@ public class MainActivity extends BaseActivity implements
     @SuppressWarnings("WrongConstant")
     @Override
     protected void onResume() {
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        int orientation = ThemeManager.getInstance().screenOrentation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                setRequestedOrientation(orentation);
+                setRequestedOrientation(orientation);
         } else {
             if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                     || getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -1300,12 +1300,12 @@ public class MainActivity extends BaseActivity implements
         }
         Intent intent = getIntent();
         loadConfig(intent);
-        if (pager.getAdapter() != null) {
+        if (pager.getAdapter() == null) {
+            updatepager();
             mPagerSlidingTabStrip.notifyDataSetChanged();
         }
         updatemDrawerList();
         refreshheadview();
-        updatepager();
         super.onResume();
     }
 
