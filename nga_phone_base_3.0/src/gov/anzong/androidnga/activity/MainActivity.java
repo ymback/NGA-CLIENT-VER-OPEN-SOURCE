@@ -103,11 +103,11 @@ public class MainActivity extends BaseActivity implements
     static final String TAG = MainActivity.class.getSimpleName();
     private ActivityUtil activityUtil = ActivityUtil.getInstance();
     private MyApp app;
-    private List<Object> items = new ArrayList<Object>();
+    private List<Object> items = new ArrayList<>();
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-    private View headview;
+    private View mHeaderView;
     private MenuAdapter mAdapter;
     private int mActivePosition = 0;
     private BoardHolder boardInfo;
@@ -115,10 +115,10 @@ public class MainActivity extends BaseActivity implements
     private ViewPager pager;
     private View view;
     private LinearLayout mLinearLayout;
-    private boolean tabletloginfragmentshowed = false;
+    private boolean mIsTabletLoginFragmentShown;
     private ViewFlipper flipper;
     private SharedPreferences share;
-    private int dragonballnum = 0;
+    private int mDragonBallCount = 0;
     private MediaPlayer mp = new MediaPlayer();
     private Animation rightInAnimation;
     private Animation rightOutAnimation;
@@ -127,17 +127,17 @@ public class MainActivity extends BaseActivity implements
     private int menucishu = 0;
     private String fulimode = "0";
     private ThemeManager tm = ThemeManager.getInstance();
-    private OnItemClickListener onItemClickListenerlistener = new EnterToplistLintener();
+    private OnItemClickListener onItemClickListener = new EnterToplistLintener();
     private boolean mIsItemClicked;
 
     public static Bitmap toRoundCorner(Bitmap bitmap, float ratio) { // 绝无问题
         if (bitmap.getWidth() > bitmap.getHeight()) {
             bitmap = Bitmap.createBitmap(bitmap,
-                    (int) (bitmap.getWidth() - bitmap.getHeight()) / 2, 0,
+                    (bitmap.getWidth() - bitmap.getHeight()) / 2, 0,
                     bitmap.getHeight(), bitmap.getHeight());
         } else if (bitmap.getWidth() < bitmap.getHeight()) {
             bitmap = Bitmap.createBitmap(bitmap, 0,
-                    (int) (bitmap.getHeight() - bitmap.getWidth()) / 2,
+                    (bitmap.getHeight() - bitmap.getWidth()) / 2,
                     bitmap.getWidth(), bitmap.getWidth());
         }
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
@@ -164,18 +164,18 @@ public class MainActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         this.setTheme(R.style.AppTheme);
         share = getSharedPreferences(PERFERENCE, Activity.MODE_PRIVATE);
-        dragonballnum = Integer.parseInt(share.getString(DRAGON_BALL, "0"));
+        mDragonBallCount = Integer.parseInt(share.getString(DRAGON_BALL, "0"));
         app = ((MyApp) getApplication());
         fulimode = share.getString(CAN_SHOW_FULI, "0");
         initDate();
-        setitem();
+        setItem();
         initView();
         getSupportActionBar().setTitle(R.string.start_title);
-        checknewversion();
+        checkNewVersion();
     }
 
     //OK
-    private void checknewversion() {
+    private void checkNewVersion() {
         if (app.isNewVersion()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.prompt).setMessage(StringUtil.getTips())
@@ -207,8 +207,8 @@ public class MainActivity extends BaseActivity implements
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mLinearLayout = (LinearLayout) findViewById(R.id.drawer_linearlayout);
 
-        headview = LayoutInflater.from(this).inflate(R.layout.maindrawer_viewlipper, null);
-        mDrawerList.addHeaderView(headview, null, false);
+        mHeaderView = LayoutInflater.from(this).inflate(R.layout.maindrawer_viewlipper, null);
+        mDrawerList.addHeaderView(mHeaderView, null, false);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -232,9 +232,9 @@ public class MainActivity extends BaseActivity implements
             }
 
             public void onDrawerOpened(View drawerView) {
-                if (tabletloginfragmentshowed) {
-                    refreshheadview();
-                    tabletloginfragmentshowed = false;
+                if (mIsTabletLoginFragmentShown) {
+                    refreshHeaderView();
+                    mIsTabletLoginFragmentShown = false;
                 }
                 getSupportActionBar().setTitle("赞美片总");
                 if (ActivityUtil.isLessThan_3_0())
@@ -244,13 +244,13 @@ public class MainActivity extends BaseActivity implements
             }
         };
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         pager = (ViewPager) findViewById(R.id.pager);
         mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.pagerslidingtab);
     }
 
-    public void updatemDrawerList() {
+    public void updateDrawerList() {
         mAdapter = new MenuAdapter(this, items);
         mDrawerList.setCacheColorHint(0x00000000);
         if (tm.getMode() == ThemeManager.MODE_NIGHT) {
@@ -289,7 +289,7 @@ public class MainActivity extends BaseActivity implements
             }
     }
 
-    public void updatepager() {
+    public void updatePager() {
         mLinearLayout.setBackgroundResource(ThemeManager.getInstance()
                 .getBackgroundColor());
         int width = getResources().getInteger(R.integer.page_category_width);
@@ -344,36 +344,55 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void selectItem(int position, Item item) {
-        if (item.mTitle.equals("登录账号")) {
-            jumpToLogin();
-        } else if (item.mTitle.equals("Yoooo~")) {
-            jumpToNearby();
-        } else if (item.mTitle.equals("最近被喷")) {
-            jumpToRecentReply();
-        } else if (item.mTitle.equals("我的主题")) {
-            jumpToMyPost(false);
-        } else if (item.mTitle.equals("我的回复")) {
-            jumpToMyPost(true);
-        } else if (item.mTitle.equals("收藏夹")) {
-            jumpToBookmark();
-        } else if (item.mTitle.equals("签到任务")) {
-            signmission();
-        } else if (item.mTitle.equals("短消息")) {
-            mymessage();
-        } else if (item.mTitle.equals("大漩涡匿名版")) {
-            noname();
-        } else if (item.mTitle.equals("搜索用户")) {
-            search_profile();
-        } else if (item.mTitle.equals("添加版面")) {
-            add_fid_dialog();
-        } else if (item.mTitle.equals("由URL读取")) {
-            useurltoactivity_dialog();
-        } else if (item.mTitle.equals("清空最近访问")) {
-            clear_recent_board();
-        } else if (item.mTitle.equals("我要龙珠~撸~")) {
-            collect_dragon_ball();
-        } else if (item.mTitle.equals("关于")) {
-            about_ngaclient();
+
+        switch (item.mTitle){
+            case "登录账号":
+                jumpToLogin();
+                break;
+            case "Yoooo~":
+                jumpToNearby();
+                break;
+            case "最近被喷":
+                jumpToRecentReply();
+                break;
+            case "我的主题":
+                jumpToMyPost(false);
+                break;
+            case "我的回复":
+                jumpToMyPost(true);
+                break;
+            case "收藏夹":
+                jumpToBookmark();
+                break;
+            case "签到任务":
+                signmission();
+                break;
+            case "短消息":
+                mymessage();
+                break;
+            case "大漩涡匿名版":
+                noname();
+                break;
+            case "搜索用户":
+                search_profile();
+                break;
+            case "添加版面":
+                add_fid_dialog();
+                break;
+            case "由URL读取":
+                useurltoactivity_dialog();
+                break;
+            case "清空最近访问":
+                clear_recent_board();
+                break;
+            case "我要龙珠~撸~":
+                collect_dragon_ball();
+                break;
+            case "关于":
+                about_ngaclient();
+                break;
+            default:
+                break;
         }
         mDrawerList.setItemChecked(position, true);
         if (!item.mTitle.equals("我要龙珠~撸~")) {
@@ -449,7 +468,7 @@ public class MainActivity extends BaseActivity implements
         if (loc + 1 <= mActivePosition) {
             mActivePosition++;
         }
-        updatemDrawerList();
+        updateDrawerList();
     }
 
     private void about_ngaclient() {
@@ -459,7 +478,7 @@ public class MainActivity extends BaseActivity implements
         alert.setView(view);
         alert.setTitle("关于");
         String versionName = null;
-        int versionvalue = 0;
+        int versionValue = 0;
         TextView textview = (TextView) view
                 .findViewById(R.id.client_device_dialog);
         try {
@@ -469,13 +488,13 @@ public class MainActivity extends BaseActivity implements
                     PackageManager.GET_ACTIVITIES);
             if (pi != null) {
                 versionName = pi.versionName == null ? "null" : pi.versionName;
-                versionvalue = pi.versionCode;
+                versionValue = pi.versionCode;
             }
         } catch (NameNotFoundException e) {
             Log.e(TAG, "an error occured when collect package info", e);
         }
         String textviewtext = String.format(MainActivity.this
-                .getString(R.string.about_client), versionName, versionvalue);
+                .getString(R.string.about_client), versionName, versionValue);
         textview.setText(Html.fromHtml(textviewtext));
 
         textview.setMovementMethod(LinkMovementMethod.getInstance());
@@ -517,7 +536,7 @@ public class MainActivity extends BaseActivity implements
         });
     }
 
-    public void setitem() {
+    public void setItem() {
         items.add(new Item("登录账号", R.drawable.ic_login));
         items.add(new Category("论坛功能"));
         items.add(new Item("短消息", R.drawable.ic_action_email));
@@ -540,7 +559,7 @@ public class MainActivity extends BaseActivity implements
         items.add(new Item("关于", R.drawable.ic_action_about));
     }
 
-    void updateflipper(String userListString) {
+    void updateFlipper(String userListString) {
         flipper.removeAllViews();
         BitmapFactory.Options bfoOptions = new BitmapFactory.Options();
         bfoOptions.inScaled = false;
@@ -551,7 +570,7 @@ public class MainActivity extends BaseActivity implements
         int width = dm.widthPixels;
         width = (int) (width * 0.8);
         if (width < 800) {
-            bmp = Bitmap.createBitmap(bmp, (int) 400 - width / 2, 0, width, 55);
+            bmp = Bitmap.createBitmap(bmp, 400 - width / 2, 0, width, 55);
         }
         @SuppressWarnings("deprecation")
         BitmapDrawable bd = new BitmapDrawable(bmp);
@@ -577,22 +596,22 @@ public class MainActivity extends BaseActivity implements
 
     @SuppressWarnings("deprecation")
     public View getUserView(List<User> userList, int position, BitmapDrawable bd) {
-        View privateview = getLayoutInflater().inflate(
+        View privateView = getLayoutInflater().inflate(
                 R.layout.drawerloginuser, null);
-        RelativeLayout mRelativeLayout = (RelativeLayout) privateview
+        RelativeLayout mRelativeLayout = (RelativeLayout) privateView
                 .findViewById(R.id.mainlisthead);
         mRelativeLayout.setBackgroundDrawable(bd);
-        TextView loginstate = (TextView) privateview
+        TextView loginState = (TextView) privateView
                 .findViewById(R.id.loginstate);
-        TextView loginnameandid = (TextView) privateview
+        TextView loginNameAndId = (TextView)privateView
                 .findViewById(R.id.loginnameandid);
-        ImageView avatarImage = (ImageView) privateview
+        ImageView avatarImage = (ImageView) privateView
                 .findViewById(R.id.avatarImage);
-        ImageView nextImage = (ImageView) privateview
+        ImageView nextImage = (ImageView) privateView
                 .findViewById(R.id.nextImage);
         if (userList == null) {
-            loginstate.setText("未登录");
-            loginnameandid.setText("点击下面的登录账号登录");
+            loginState.setText("未登录");
+            loginNameAndId.setText("点击下面的登录账号登录");
             avatarImage.setImageDrawable(getResources().getDrawable(
                     R.drawable.drawerdefaulticon));
             nextImage.setVisibility(View.GONE);
@@ -601,22 +620,22 @@ public class MainActivity extends BaseActivity implements
                 nextImage.setVisibility(View.GONE);
             }
             if (userList.size() == 1) {
-                loginstate.setText("已登录1个账户");
+                loginState.setText("已登录1个账户");
             } else {
-                loginstate.setText("已登录"
+                loginState.setText("已登录"
                         + String.valueOf(userList.size() + "个账户,点击切换"));
             }
             if (userList.size() > 0) {
                 User user = userList.get(position);
-                loginnameandid.setText("当前:" + user.getNickName() + "("
+                loginNameAndId.setText("当前:" + user.getNickName() + "("
                         + user.getUserId() + ")");
                 handleUserAvatat(avatarImage, user.getUserId());
             }
         }
-        return privateview;
+        return privateView;
     }
 
-    public void refreshheadview() {
+    public void refreshHeaderView() {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -628,14 +647,15 @@ public class MainActivity extends BaseActivity implements
         }
         flipper = (ViewFlipper) this.findViewById(R.id.viewFlipper);
         String userListString = share.getString(USER_LIST, "");
-        updateflipper(userListString);
-        headview.setOnClickListener(new HeadViewClickListener(userListString));
+        updateFlipper(userListString);
+        mHeaderView.setOnClickListener(new HeadViewClickListener(userListString));
 
     }
 
     @SuppressWarnings("ResourceType")
     public void handleUserAvatat(ImageView avatarIV, String userId) {// 绝无问题
-        Bitmap defaultAvatar = null, bitmap = null;
+        Bitmap defaultAvatar = null;
+        Bitmap bitmap = null;
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             return;
         }
@@ -649,7 +669,7 @@ public class MainActivity extends BaseActivity implements
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
             }
         }
@@ -716,10 +736,10 @@ public class MainActivity extends BaseActivity implements
         new Thread() {
             public void run() {
 
-                File filebase = new File(HttpUtil.PATH);
-                if (!filebase.exists()) {
+                File fileBase = new File(HttpUtil.PATH);
+                if (!fileBase.exists()) {
                     delay(getString(R.string.create_cache_dir));
-                    filebase.mkdirs();
+                    fileBase.mkdirs();
                 }
                 if (ActivityUtil.isGreaterThan_2_1()) {
                     File f = new File(HttpUtil.PATH_AVATAR_OLD);
@@ -752,7 +772,7 @@ public class MainActivity extends BaseActivity implements
 
     private void jumpToLogin() {
         if (isTablet()) {
-            tabletloginfragmentshowed = true;
+            mIsTabletLoginFragmentShown = true;
             DialogFragment df = new LoginFragment();
             df.show(getSupportFragmentManager(), "login");
             return;
@@ -766,19 +786,19 @@ public class MainActivity extends BaseActivity implements
                 overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }
 
     private void collect_dragon_ball() {
-        if (dragonballnum < 6) {
-            dragonballnum++;
+        if (mDragonBallCount < 6) {
+            mDragonBallCount++;
             Editor editor = share.edit();
-            editor.putString(DRAGON_BALL, String.valueOf(dragonballnum));
+            editor.putString(DRAGON_BALL, String.valueOf(mDragonBallCount));
             editor.apply();
-            showToast("你收集到了" + String.valueOf(dragonballnum) + "颗龙珠");
-        } else if (dragonballnum == 6) {
+            showToast("你收集到了" + String.valueOf(mDragonBallCount) + "颗龙珠");
+        } else if (mDragonBallCount == 6) {
             showToast("你收集到了7颗龙珠");
             AudioManager audioManager = (AudioManager) view.getContext()
                     .getSystemService(Context.AUDIO_SERVICE);
@@ -805,9 +825,9 @@ public class MainActivity extends BaseActivity implements
                     mp = new MediaPlayer();
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
-                            dragonballnum = 7;
+                            mDragonBallCount = 7;
                             editor.putString(DRAGON_BALL,
-                                    String.valueOf(dragonballnum));
+                                    String.valueOf(mDragonBallCount));
                             editor.apply();
                             Intent intent = new Intent();
                             intent.setClass(
@@ -822,9 +842,9 @@ public class MainActivity extends BaseActivity implements
 
                         case DialogInterface.BUTTON_NEGATIVE:
                             // Do nothing
-                            dragonballnum = 0;
+                            mDragonBallCount = 0;
                             editor.putString(DRAGON_BALL,
-                                    String.valueOf(dragonballnum));
+                                    String.valueOf(mDragonBallCount));
                             editor.apply();
                             showToast("你选择了不使用,龙珠又散落四方了");
                             break;
@@ -861,7 +881,7 @@ public class MainActivity extends BaseActivity implements
 
             });
 
-        } else if (dragonballnum >= 7) {
+        } else if (mDragonBallCount >= 7) {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, MeiziMainActivity.class);
             startActivity(intent);
@@ -985,8 +1005,8 @@ public class MainActivity extends BaseActivity implements
                         e.printStackTrace();
                     }
                 } else {
-                    if (url.toLowerCase(Locale.US).indexOf("dbmeizi.com") >= 0
-                            || url.indexOf("豆瓣妹子") >= 0 || url.equals("1024")) {
+                    if (url.toLowerCase(Locale.US).contains("dbmeizi.com")
+                            || url.contains("豆瓣妹子") || url.equals("1024")) {
                         showToast("恭喜你找到了一种方法,知道就是知道了,不要去论坛宣传,自己用就行了,为了开发者的安全");
                         Intent intent = new Intent();
                         intent.setClass(
@@ -1146,7 +1166,7 @@ public class MainActivity extends BaseActivity implements
                     } catch (Exception e) {
                         fidisnotint = true;
                     }
-                    if (match.matches() == false || fid.equals("") || fidisnotint) {
+                    if (!match.matches() || fid.equals("") || fidisnotint) {
                         addfid_id.setText("");
                         addfid_id.setFocusable(true);
                         showToast("请输入正确的版面ID(个人版面要加负号)");
@@ -1160,7 +1180,7 @@ public class MainActivity extends BaseActivity implements
                         }
                     } else {// CHECK PASS, READY TO ADD FID
                         boolean FidAllreadyExist = false;
-                        int i = 0;
+                        int i;
                         for (i = 0; i < boardInfo.getCategoryCount(); i++) {
                             BoardCategory curr = boardInfo.getCategory(i);
                             for (int j = 0; j < curr.size(); j++) {
@@ -1234,17 +1254,16 @@ public class MainActivity extends BaseActivity implements
     private void addToaddFid(String Name, String Fid) {
         boolean addFidAlreadExist = false;
         BoardCategory addFid = null;
-        int i = 0;
+        int i;
         for (i = 0; i < boardInfo.getCategoryCount(); i++) {
             if (boardInfo.getCategoryName(i).equals(getString(R.string.addfid))) {
                 addFidAlreadExist = true;
                 addFid = boardInfo.getCategory(i);
                 break;
             }
-            ;
         }
         if (!addFidAlreadExist) {// 没有
-            List<Board> boardList = new ArrayList<Board>();
+            List<Board> boardList = new ArrayList<>();
             Board b;
             if (PhoneConfiguration.getInstance().iconmode) {
                 b = new Board(i + 1, Fid, Name, R.drawable.oldpdefault);
@@ -1301,11 +1320,11 @@ public class MainActivity extends BaseActivity implements
         Intent intent = getIntent();
         loadConfig(intent);
         if (pager.getAdapter() == null) {
-            updatepager();
+            updatePager();
             mPagerSlidingTabStrip.notifyDataSetChanged();
         }
-        updatemDrawerList();
-        refreshheadview();
+        updateDrawerList();
+        refreshHeaderView();
         super.onResume();
     }
 
@@ -1333,7 +1352,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
-        this.onItemClickListenerlistener
+        this.onItemClickListener
                 .onItemClick(parent, view, position, id);
 
     }
@@ -1539,7 +1558,7 @@ public class MainActivity extends BaseActivity implements
                                 b.getIcon());
 
                         if (!recentAlreadExist) {
-                            List<Board> boardList = new ArrayList<Board>();
+                            List<Board> boardList = new ArrayList<>();
                             boardList.add(b1);
                             saveRecent(boardList);
                             onResume();
