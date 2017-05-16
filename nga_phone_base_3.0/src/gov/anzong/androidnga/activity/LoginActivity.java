@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -49,18 +48,15 @@ import sp.phone.utils.ThemeManager;
 public class LoginActivity extends SwipeBackAppCompatActivity implements
         PerferenceConstant, OnAuthcodeLoadFinishedListener {
 
-    EditText userText;
-    EditText passwordText;
-    EditText authcodeText;
-    ImageView authcodeImg;
-    View view;
-    ListView userList;
-    Object commit_lock = new Object();
-    String name;
-    Button button_login;
-    ImageButton authcodeimg_refresh;
-    AccountAuthcodeImageReloadTask loadauthcodetask;
-    private String action, messagemode;
+    private EditText userText;
+    private EditText passwordText;
+    private EditText authcodeText;
+    private ImageView authcodeImg;
+    private View view;
+    private final Object commit_lock = new Object();
+    private String name;
+    private AccountAuthcodeImageReloadTask loadauthcodetask;
+    private String action;
     private String tid;
     private int fid;
     private boolean needtopost = false;
@@ -84,10 +80,10 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
+        int orientation = ThemeManager.getInstance().screenOrentation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(orientation);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
@@ -96,26 +92,26 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
         view = LayoutInflater.from(this).inflate(R.layout.login, null);
         this.setContentView(view);
         this.setTitle("登录");
-        button_login = (Button) findViewById(R.id.login_button);
+        Button loginBtn = (Button) findViewById(R.id.login_button);
         authcodeImg = (ImageView) view.findViewById(R.id.authcode_img);
-        authcodeimg_refresh = (ImageButton) findViewById(R.id.authcode_refresh);
+        ImageButton authcodeimgRefreshBtn = (ImageButton) findViewById(R.id.authcode_refresh);
         userText = (EditText) findViewById(R.id.login_user_edittext);
         passwordText = (EditText) findViewById(R.id.login_password_edittext);
         authcodeText = (EditText) findViewById(R.id.login_authcode_edittext);
-        userList = (ListView) findViewById(R.id.user_list);
+        ListView userList = (ListView) findViewById(R.id.user_list);
         userList.setAdapter(new UserListAdapter(this, userText));
 
 
         String postUrl = "http://account.178.com/q_account.php?_act=login&print=login";
 
         String userName = PhoneConfiguration.getInstance().userName;
-        if (userName != "") {
+        if (!userName.equals("")) {
             userText.setText(userName);
             userText.selectAll();
         }
 
         LoginButtonListener listener = new LoginButtonListener(postUrl);
-        button_login.setOnClickListener(listener);
+        loginBtn.setOnClickListener(listener);
         updateThemeUI();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -130,14 +126,14 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
         }, 500);
         Intent intent = this.getIntent();
         action = intent.getStringExtra("action");
-        messagemode = intent.getStringExtra("messagemode");
+        String messageMode = intent.getStringExtra("messagemode");
         if (!StringUtil.isEmpty(action)) {
             showToast("你需要登录才能进行下一步操作");
             if (action.equals("search")) {
                 fid = intent.getIntExtra("fid", -7);
                 needtopost = true;
             }
-            if (StringUtil.isEmpty(messagemode)) {
+            if (StringUtil.isEmpty(messageMode)) {
                 if (action.equals("new") || action.equals("reply")
                         || action.equals("modify")) {
                     needtopost = true;
@@ -156,7 +152,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                 }
             }
         }
-        authcodeimg_refresh.setOnClickListener(new OnClickListener() {
+        authcodeimgRefreshBtn.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -220,10 +216,9 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
             int bitmapwidth = 640;
             int bitmapheigth = 1136;
             double bitmapheigthtoheigth = (double) bitmapheigth / bitmapwidth;
-            ;
             if (phoneheigthtoheigth > bitmapheigthtoheigth) {
                 int backbitmapwidth = (int) (1136 / phoneheigthtoheigth);
-                int cutwidth = (int) (640 - backbitmapwidth) / 2;
+                int cutwidth = (640 - backbitmapwidth) / 2;
                 bmp = Bitmap.createBitmap(bmp, cutwidth, 0, backbitmapwidth,
                         bitmapheigth);
             } else if (phoneheigthtoheigth < bitmapheigthtoheigth) {
@@ -245,10 +240,9 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
             int bitmapwidth = 1920;
             int bitmapheigth = 1000;
             double bitmapheigthtoheigth = (double) bitmapheigth / bitmapwidth;
-            ;
             if (phoneheigthtoheigth > bitmapheigthtoheigth) {
                 int backbitmapwidth = (int) (1000 / phoneheigthtoheigth);
-                int cutwidth = (int) (1920 - backbitmapwidth) / 2;
+                int cutwidth = (1920 - backbitmapwidth) / 2;
                 bmp = Bitmap.createBitmap(bmp, cutwidth, 0, backbitmapwidth,
                         bitmapheigth);
             } else if (phoneheigthtoheigth < bitmapheigthtoheigth) {
@@ -320,11 +314,11 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
         @Override
         public void onClick(View v) {
             synchronized (commit_lock) {
-                if (loading == true) {
+                if (loading) {
                     showToast(R.string.avoidWindfury);
                     return;
                 } else {
-                    StringBuffer bodyBuffer = new StringBuffer();
+                    StringBuilder bodyBuffer = new StringBuilder();
                     bodyBuffer.append("email=");
                     if (StringUtil.isEmpty(authcode_cookie)) {
                         showToast("验证码信息错误，请重试");
@@ -384,8 +378,8 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                 if (conn == null)
                     return false;
 
-                String cookieVal = null;
-                String key = null;
+                String cookieVal;
+                String key;
 
                 String uid = "";
                 String cid = "";
@@ -440,8 +434,8 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
 
                     }
                 }
-                if (cid != "" && uid != ""
-                        && location.indexOf("login_success&error=0") != -1) {
+                if (!cid.equals("") && !uid.equals("")
+                        && location.contains("login_success&error=0")) {
                     this.uid = uid;
                     this.cid = cid;
                     Log.i(LOG_TAG, "uid =" + uid + ",csid=" + cid);
@@ -460,7 +454,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
                     reloadauthcode(errorstr);
                     super.onPostExecute(result);
                 } else {
-                    if (result.booleanValue()) {
+                    if (result) {
                         showToast(R.string.login_successfully);
                         SharedPreferences share = LoginActivity.this
                                 .getSharedPreferences(PERFERENCE,
