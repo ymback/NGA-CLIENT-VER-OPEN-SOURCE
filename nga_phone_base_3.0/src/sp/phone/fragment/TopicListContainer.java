@@ -29,7 +29,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import sp.phone.adapter.AppendableTopicAdapter;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
@@ -46,7 +46,7 @@ import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 /**
  * 帖子列表分页
  */
-public class TopicListContainer extends BaseFragment implements OnTopListLoadFinishedListener, NextJsonTopicListLoader, PerferenceConstant {
+public class TopicListContainer extends BaseFragment implements OnTopListLoadFinishedListener, NextJsonTopicListLoader, PreferenceConstant {
     final String TAG = TopicListContainer.class.getSimpleName();
     int fid;
     int authorid;

@@ -27,7 +27,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.fragment.ArticleListFragment;
 import sp.phone.fragment.ArticleListFragmentNew;
@@ -50,7 +50,7 @@ import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
  */
 public class ArticleListActivity extends SwipeBackAppCompatActivity implements
         PagerOwnner, ResetableArticle, OnThreadPageLoadFinishedListener,
-        PullToRefreshAttacherOnwer, PerferenceConstant {
+        PullToRefreshAttacherOnwer, PreferenceConstant {
     private static final String TAG = "ArticleListActivity";
     private static final String GOTO_TAG = "goto";
     TabHost tabhost;

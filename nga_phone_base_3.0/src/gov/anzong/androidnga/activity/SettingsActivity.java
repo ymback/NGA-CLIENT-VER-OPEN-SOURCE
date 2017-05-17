@@ -43,7 +43,7 @@ import gov.anzong.androidnga.R;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ImageUtil;
@@ -53,7 +53,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class SettingsActivity extends SwipeBackAppCompatActivity implements
-        PerferenceConstant {
+        PreferenceConstant {
 
     final private String ALERT_DIALOG_TAG = "alertdialog";
     private View view;
@@ -577,7 +577,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class NightModeListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
@@ -597,7 +597,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class ShowAnimationListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -615,7 +615,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class SettingRefreshAfterPostListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -633,7 +633,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class IconModeListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -702,7 +702,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class UseViewCacheListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -727,7 +727,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class ShowSignatureListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -745,7 +745,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class UploadLocationListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
         private final String TAG = "UploadLocationAlert";
 
         @Override
@@ -798,7 +798,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class ShowStaticListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -816,7 +816,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class ShowReplyButtonListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -834,7 +834,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class SwipeBackButtonListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -876,7 +876,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class showColortxtListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -895,7 +895,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class showNewweibaListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -914,7 +914,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class showLajibankuaiListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -931,7 +931,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class fullscreenListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -952,7 +952,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class kitwebviewListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -971,7 +971,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class DownImgNoWifiChangedListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
@@ -1259,7 +1259,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class DownAvatarNowifiChangedListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
@@ -1277,7 +1277,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class NotificationChangedListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
         final CompoundButton child;
 
         public NotificationChangedListener(CompoundButton child) {
@@ -1312,7 +1312,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class NotificationSoundChangedListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -1336,7 +1336,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class FontSizeListener implements SeekBar.OnSeekBarChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress,
@@ -1367,7 +1367,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class WebSizeListener implements SeekBar.OnSeekBarChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress,
@@ -1405,7 +1405,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class AvatarSizeListener implements SeekBar.OnSeekBarChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress,
@@ -1448,7 +1448,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class HaChangedListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -1475,7 +1475,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class SplitChangedListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,
@@ -1506,7 +1506,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     }
 
     class ReplySplitChangedListener implements OnCheckedChangeListener,
-            PerferenceConstant {
+            PreferenceConstant {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView,

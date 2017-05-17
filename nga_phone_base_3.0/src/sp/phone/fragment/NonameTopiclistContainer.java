@@ -21,7 +21,7 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.AppendableNonameTopicAdapter;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -35,7 +35,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class NonameTopiclistContainer extends BaseFragment implements
-        OnNonameTopListLoadFinishedListener, NextJsonNonameTopicListLoader, PerferenceConstant {
+        OnNonameTopListLoadFinishedListener, NextJsonNonameTopicListLoader, PreferenceConstant {
     static final int MESSAGE_SENT = 1;
     final String TAG = NonameTopiclistContainer.class.getSimpleName();
     int fid;

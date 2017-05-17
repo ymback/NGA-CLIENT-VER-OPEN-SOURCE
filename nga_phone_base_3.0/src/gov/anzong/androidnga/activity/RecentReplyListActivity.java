@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.fragment.RecentReplyListFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtil;
@@ -19,7 +19,7 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PerferenceConstant, PullToRefreshAttacherOnwer {
+public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PreferenceConstant, PullToRefreshAttacherOnwer {
     FragmentManager fm;
     Fragment f;
     View v;

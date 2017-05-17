@@ -63,9 +63,9 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import gov.anzong.meizi.SplitMeiziMainActivity;
 import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 
-public class PhoneConfiguration implements PerferenceConstant {
+public class PhoneConfiguration implements PreferenceConstant {
     private static PhoneConfiguration instance;
     public String userName;
     public int nikeWidth = 100;

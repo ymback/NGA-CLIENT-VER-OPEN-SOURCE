@@ -24,7 +24,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.NearbyUsersAdapter;
 import sp.phone.bean.NearbyUser;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.NearbyAlertDialogFragment;
 import sp.phone.interfaces.OnNearbyLoadComplete;
@@ -38,7 +38,7 @@ import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class NearbyUserActivity extends SwipeBackAppCompatActivity
-        implements PerferenceConstant, OnNearbyLoadComplete, PullToRefreshAttacherOnwer {
+        implements PreferenceConstant, OnNearbyLoadComplete, PullToRefreshAttacherOnwer {
     final private String ALERT_DIALOG_TAG = "alertdialog";
     NearbyUserTask task = null;
     PullToRefreshAttacher attacher = null;

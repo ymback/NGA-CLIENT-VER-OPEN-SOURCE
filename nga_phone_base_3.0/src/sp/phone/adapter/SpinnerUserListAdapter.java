@@ -13,12 +13,12 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.User;
 import sp.phone.utils.StringUtil;
 
 public class SpinnerUserListAdapter extends BaseAdapter
-        implements PerferenceConstant {
+        implements PreferenceConstant {
     protected List<User> userList;
     protected Context context;
 

@@ -44,7 +44,7 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
@@ -66,7 +66,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class ArticleListFragmentNew extends Fragment implements
-        OnThreadPageLoadFinishedListener, PerferenceConstant,
+        OnThreadPageLoadFinishedListener, PreferenceConstant,
         AvatarLoadCompleteCallBack {
     final static private String TAG = ArticleListFragmentNew.class
             .getSimpleName();

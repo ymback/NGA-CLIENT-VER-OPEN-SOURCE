@@ -18,7 +18,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MainActivity;
 import sp.phone.adapter.AppendableMessageAdapter;
 import sp.phone.bean.MessageListInfo;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.interfaces.NextJsonMessageListLoader;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -32,7 +32,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class MessageListContainer extends BaseFragment implements
-        OnMessageListLoadFinishedListener, NextJsonMessageListLoader, PerferenceConstant {
+        OnMessageListLoadFinishedListener, NextJsonMessageListLoader, PreferenceConstant {
     static final int MESSAGE_SENT = 1;
     final String TAG = MessageListContainer.class.getSimpleName();
     PullToRefreshAttacher attacher = null;

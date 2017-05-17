@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -36,7 +35,7 @@ import java.util.TimerTask;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.UserListAdapter;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnAuthcodeLoadFinishedListener;
 import sp.phone.task.AccountAuthcodeImageReloadTask;
@@ -47,7 +46,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class LoginActivity extends SwipeBackAppCompatActivity implements
-        PerferenceConstant, OnAuthcodeLoadFinishedListener {
+        PreferenceConstant, OnAuthcodeLoadFinishedListener {
 
     EditText userText;
     EditText passwordText;

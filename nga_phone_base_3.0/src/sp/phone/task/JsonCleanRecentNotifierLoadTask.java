@@ -4,11 +4,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import gov.anzong.androidnga.Utils;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 
-public class JsonCleanRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PerferenceConstant {
+public class JsonCleanRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PreferenceConstant {
     static final String TAG = JsonCleanRecentNotifierLoadTask.class.getSimpleName();
     final String url = Utils.getNGAHost() + "nuke.php?__lib=noti&raw=3&__act=del";
     final private Context context;

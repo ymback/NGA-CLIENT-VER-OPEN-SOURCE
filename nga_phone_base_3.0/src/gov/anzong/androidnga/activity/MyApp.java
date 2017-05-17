@@ -23,7 +23,7 @@ import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.User;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
@@ -31,7 +31,7 @@ import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
-public class MyApp extends Application implements PerferenceConstant {
+public class MyApp extends Application implements PreferenceConstant {
     public final static int version = BuildConfig.VERSION_CODE;
     public static final int fddicon[][] = {};
     static final String RECENT = "最近访问";

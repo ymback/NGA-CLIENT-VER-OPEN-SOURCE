@@ -28,7 +28,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.RecentReplyAdapter;
 import sp.phone.bean.NotificationObject;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.User;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -40,7 +40,7 @@ import sp.phone.utils.StringUtil;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
-public class RecentReplyListFragment extends Fragment implements OnRecentNotifierFinishedListener, PerferenceConstant {
+public class RecentReplyListFragment extends Fragment implements OnRecentNotifierFinishedListener, PreferenceConstant {
     String TAG = getClass().getSimpleName();
     PullToRefreshAttacher attacher = null;
     private ListView lv;

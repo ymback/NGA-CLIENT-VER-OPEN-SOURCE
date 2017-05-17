@@ -28,14 +28,14 @@ import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.ReplyListActivity;
 import sp.phone.bean.MsgNotificationObject;
 import sp.phone.bean.NotificationObject;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.User;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class CheckReplyNotificationTask extends
-        AsyncTask<String, Integer, String> implements PerferenceConstant {
+        AsyncTask<String, Integer, String> implements PreferenceConstant {
     final String url = Utils.getNGAHost() + "nuke.php?__lib=noti&raw=3&__act=get_all";
     final Context context;
     final String TAG = getClass().getSimpleName();

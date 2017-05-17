@@ -20,7 +20,7 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.SignPageAdapter;
 import sp.phone.bean.AvatarTag;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.SignData;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
@@ -35,7 +35,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class SignContainer extends BaseFragment implements
-        OnSignPageLoadFinishedListener, PerferenceConstant {
+        OnSignPageLoadFinishedListener, PreferenceConstant {
     static final int MESSAGE_SENT = 1;
     final String TAG = SignContainer.class.getSimpleName();
     int fid;

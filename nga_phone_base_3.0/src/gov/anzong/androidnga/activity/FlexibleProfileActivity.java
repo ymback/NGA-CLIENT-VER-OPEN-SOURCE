@@ -28,7 +28,7 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.AvatarTag;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
@@ -50,7 +50,7 @@ import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         implements OnProfileLoadFinishedListener, AvatarLoadCompleteCallBack, PullToRefreshAttacherOnwer,
-        PerferenceConstant {
+        PreferenceConstant {
     private static final String TAG = "FlexibleProfileActivity";
     private final Object lock = new Object();
     private final HashSet<String> urlSet = new HashSet<String>();

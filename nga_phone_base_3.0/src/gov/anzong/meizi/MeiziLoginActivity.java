@@ -22,7 +22,7 @@ import java.net.URLEncoder;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.MD5Util;
@@ -32,7 +32,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
-        PerferenceConstant {
+        PreferenceConstant {
 
     EditText userText;
     EditText passwordText;
