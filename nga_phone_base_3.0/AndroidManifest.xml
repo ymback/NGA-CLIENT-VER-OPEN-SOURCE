@@ -72,6 +72,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SettingsActivity"
+            android:launchMode="singleTop"
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name=".activity.BookmarkActivity"

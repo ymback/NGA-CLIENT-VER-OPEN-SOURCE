@@ -6,6 +6,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/shit2</item>
         <item name="android:textColor">@color/text_color_selector</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 
 
@@ -14,6 +15,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="android:textColor">@color/text_color_dark_selector</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 
 

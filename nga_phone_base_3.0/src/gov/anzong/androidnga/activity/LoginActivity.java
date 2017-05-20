@@ -37,6 +37,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.adapter.UserListAdapter;
 import sp.phone.bean.PreferenceConstant;
 import sp.phone.forumoperation.HttpPostClient;
+import sp.phone.fragment.material.LoginFragment;
 import sp.phone.interfaces.OnAuthcodeLoadFinishedListener;
 import sp.phone.task.AccountAuthcodeImageReloadTask;
 import sp.phone.utils.ActivityUtil;
@@ -90,7 +91,9 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
-        ThemeManager.SetContextTheme(this);
+        if (!PhoneConfiguration.getInstance().isMaterialMode()) {
+            ThemeManager.SetContextTheme(this);
+        }
 
         view = LayoutInflater.from(this).inflate(R.layout.login, null);
         this.setContentView(view);
@@ -173,6 +176,11 @@ public class LoginActivity extends SwipeBackAppCompatActivity implements
             }
 
         });
+        if (PhoneConfiguration.getInstance().isMaterialMode()){
+            getSupportFragmentManager().beginTransaction().replace(android.R.id.content,new LoginFragment()).commit();
+            view.setVisibility(View.GONE);
+            return;
+        }
         reloadauthcode();
     }
 
