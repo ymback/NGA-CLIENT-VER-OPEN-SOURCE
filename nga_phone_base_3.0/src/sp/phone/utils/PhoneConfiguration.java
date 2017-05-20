@@ -95,6 +95,7 @@ public class PhoneConfiguration implements PreferenceConstant {
     public boolean showLajibankuai = true;
     public boolean fullscreen = false;
     public boolean kitwebview = false;
+    public boolean materialMode;
     public int replytotalnum = 0;
     public Set<Integer> blacklist = new HashSet<Integer>();
     public String db_cookie;
@@ -164,6 +165,14 @@ public class PhoneConfiguration implements PreferenceConstant {
 
     public void setDownImgNoWifi(boolean downImgNoWifi) {
         this.downImgNoWifi = downImgNoWifi;
+    }
+
+    public boolean isMaterialMode(){
+        return materialMode;
+    }
+
+    public void setMaterialMode(boolean materialMode){
+        this.materialMode = materialMode;
     }
 
     public boolean isNotification() {

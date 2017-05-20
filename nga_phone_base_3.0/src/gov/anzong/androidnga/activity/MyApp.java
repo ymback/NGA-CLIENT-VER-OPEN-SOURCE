@@ -755,6 +755,7 @@ public class MyApp extends Application implements PreferenceConstant {
         config.iconmode = share.getBoolean(SHOW_ICON_MODE, false);
         config.swipeBack = share.getBoolean(SWIPEBACK, true);
         config.swipeenablePosition = share.getInt(SWIPEBACKPOSITION, 2);
+        config.materialMode = share.getBoolean(PreferenceConstant.MATERIAL_MODE,false);
 
         // font
         final float defTextSize = 21.0f;// new TextView(this).getTextSize();

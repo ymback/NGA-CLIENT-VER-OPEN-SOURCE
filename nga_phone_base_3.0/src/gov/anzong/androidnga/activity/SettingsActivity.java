@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -40,6 +41,7 @@ import java.io.IOException;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
+import sp.phone.fragment.material.SettingsFragment;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
@@ -70,6 +72,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     private CompoundButton showNewweiba;
     private CompoundButton showLajibankuai;
     private CompoundButton showReplyButton;
+    private CompoundButton mMaterialModeCb;
 
     private CompoundButton swipeback;
     private RelativeLayout swipebackChooer;
@@ -112,6 +115,8 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
     private SeekBar avatarSeekBar;
 
     private boolean recentlychanged = false;
+
+    private SettingsFragment mSettingsFragment;
 
     // private MyGestureListener gestureListener;
     @Override
@@ -379,7 +384,42 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
             fullscreen.setVisibility(View.GONE);
             viewgone3.setVisibility(View.GONE);
         }
+
+        mMaterialModeCb = (CompoundButton) findViewById(R.id.cb_material_mode);
+        if (mMaterialModeCb != null){
+            mMaterialModeCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    PhoneConfiguration.getInstance().setMaterialMode(isChecked);
+                    SharedPreferences sp = getSharedPreferences(PreferenceConstant.PERFERENCE,Context.MODE_PRIVATE);
+                    Editor editor = sp.edit();
+                    editor.putBoolean(PreferenceConstant.MATERIAL_MODE,isChecked).apply();
+                    finish();
+                }
+            });
+        }
+        if (PhoneConfiguration.getInstance().isMaterialMode()){
+            view.setVisibility(View.GONE);
+            mSettingsFragment = new SettingsFragment();
+            getFragmentManager().beginTransaction().replace(android.R.id.content,mSettingsFragment).commit();
+        }
+
         updateThemeUI();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (PhoneConfiguration.getInstance().isMaterialMode()){
+            FragmentManager fm = getFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+                fm.beginTransaction().show(mSettingsFragment).commit();
+            } else{
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void updateImageQualityChoiceText(PhoneConfiguration config) {
@@ -473,6 +513,9 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
         checkBoxDownAvatarNowifi.setTextColor(fgColor);
         nightMode.setTextColor(fgColor);
         showAnimation.setTextColor(fgColor);
+        if (mMaterialModeCb != null){
+            mMaterialModeCb.setTextColor(fgColor);
+        }
 
         showIconMode.setTextColor(fgColor);
         refresh_after_post_setting_mode.setTextColor(fgColor);

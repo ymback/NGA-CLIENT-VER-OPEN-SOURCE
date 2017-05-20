@@ -53,4 +53,8 @@ public interface PreferenceConstant {
     final String CAN_SHOW_FULI = "0";
 
     final String SHOW_ICON_MODE = "showiconmode";
+
+    String MATERIAL_MODE = "material_mode";
+
+    String ADJUST_SIZE = "adjust_size";
 }

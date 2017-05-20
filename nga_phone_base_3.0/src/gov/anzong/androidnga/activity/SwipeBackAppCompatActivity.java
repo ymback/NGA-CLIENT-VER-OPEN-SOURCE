@@ -13,7 +13,7 @@ import sp.phone.utils.PhoneConfiguration;
  */
 public class SwipeBackAppCompatActivity extends BaseActivity implements
         SwipeBackActivityBase {
-    final int MY_EDGE_SIZE = 10;
+    public static final int MY_EDGE_SIZE = 10;
     private SwipeBackActivityHelper mHelper;
 
     @Override

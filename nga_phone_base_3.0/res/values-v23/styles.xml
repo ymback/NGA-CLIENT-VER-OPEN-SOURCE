@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MaterialTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/shit2</item>
+        <item name="android:textColor">@color/text_color_selector</item>
+    </style>
+
+
+    <style name="MaterialThemeDark" parent="@style/Theme.AppCompat">
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="android:textColor">@color/text_color_dark_selector</item>
+    </style>
+
+
+
+
+</resources>
