@@ -325,4 +325,7 @@
 
     <string name="swipeback">启用侧滑返回</string>
     <string name="file_saved">图片已保存在：</string>
+
+    <string name="setting_title_material_mode">Material Mode(6.0以上)</string>
+    <string name="setting_title_size">调整字体和头像大小</string>
 </resources>

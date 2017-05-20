@@ -34,7 +34,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.ArticleListAdapter;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
@@ -53,7 +53,7 @@ import sp.phone.utils.ThemeManager;
  * 帖子详情分页
  */
 public class ArticleListFragment extends BaseFragment implements
-        OnThreadPageLoadFinishedListener, PerferenceConstant {
+        OnThreadPageLoadFinishedListener, PreferenceConstant {
     final static private String TAG = ArticleListFragment.class.getSimpleName();
     /*
      * static final int QUOTE_ORDER = 0; static final int REPLY_ORDER = 1;

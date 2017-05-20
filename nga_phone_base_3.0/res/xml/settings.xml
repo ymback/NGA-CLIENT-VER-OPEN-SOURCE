@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="picshowtitle"
+        android:title="@string/setting_picshow">
+
+        <android.preference.SwitchCompatPreference
+            android:key="down_load_without_wifi"
+            android:title="@string/nowifi_downimg"
+            android:defaultValue="false"
+            android:layout="@layout/layout_preference"/>
+
+        <android.preference.ListCompatPreference
+            android:key="download_img_quality_without_wifi"
+            android:title="@string/image_quality_info"
+            android:layout="@layout/layout_preference"
+            android:entries="@array/image_quality_option"
+            android:defaultValue="0"
+            android:dialogTitle="@string/image_quality_chooser_prompt"
+            android:dependency="down_load_without_wifi"
+            android:entryValues="@array/image_quality_option_value"/>
+
+        <android.preference.SwitchCompatPreference
+            android:key="download_avatar_nowifi"
+            android:title="@string/download_avatar_nowifi"
+            android:layout="@layout/layout_preference"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/setting_option"
+        android:key="optiontitle">
+
+        <SwitchCompatPreference
+            android:defaultValue="false"
+            android:layout="@layout/layout_preference"
+            android:title="@string/color_txt"
+            android:key="showColortxt"/>
+
+        <SwitchCompatPreference
+            android:defaultValue="true"
+            android:title="@string/refresh_after_post_setting_mode"
+            android:layout="@layout/layout_preference"
+            android:key="refresh_after_post_setting_mode"/>
+
+        <SwitchCompatPreference
+            android:defaultValue="true"
+            android:title="@string/swipeback"
+            android:layout="@layout/layout_preference"
+            android:key="swipeback"/>
+
+        <android.preference.ListCompatPreference
+            android:key="SwipeBackPosition"
+            android:title="@string/swipeback_hand"
+            android:layout="@layout/layout_preference"
+            android:entries="@array/swipe_back_position"
+            android:defaultValue="2"
+            android:dialogTitle="@string/swipeback_chooser_prompt"
+            android:dependency="swipeback"
+            android:entryValues="@array/swipe_back_option_value"/>
+
+        <SwitchCompatPreference
+            android:defaultValue="false"
+            android:title="@string/fullscreenmode"
+            android:layout="@layout/layout_preference"
+            android:key="fullscreen"/>
+
+        <SwitchCompatPreference
+            android:defaultValue="true"
+            android:title="@string/notification_on"
+            android:layout="@layout/layout_preference"
+            android:key="enableNotification"/>
+
+        <SwitchCompatPreference
+            android:defaultValue="true"
+            android:title="@string/notification_sound"
+            android:layout="@layout/layout_preference"
+            android:dependency="enableNotification"
+            android:key="notificationSound"/>
+
+        <android.preference.ListCompatPreference
+            android:key="blackgun_sound"
+            android:title="@string/blackgun_sound_info"
+            android:layout="@layout/layout_preference"
+            android:entries="@array/black_gun_sound"
+            android:defaultValue="0"
+            android:dialogTitle="@string/blackgun_sound_chooser_prompt"
+            android:dependency="notificationSound"
+            android:entryValues="@array/black_gun_sound_value"/>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="uishowtitle"
+        android:title="@string/setting_uishow">
+
+        <SwitchCompatPreference
+            android:key="nightmode"
+            android:defaultValue="false"
+            android:layout="@layout/layout_preference"
+            android:title="@string/nightmode"/>
+
+        <SwitchCompatPreference
+            android:key="showiconmode"
+            android:defaultValue="false"
+            android:layout="@layout/layout_preference"
+            android:title="@string/iconmode"/>
+
+        <SwitchCompatPreference
+            android:key="showSignature"
+            android:defaultValue="false"
+            android:layout="@layout/layout_preference"
+            android:title="@string/showSignature"/>
+
+        <SwitchCompatPreference
+            android:key="showStatic"
+            android:defaultValue="false"
+            android:layout="@layout/layout_preference"
+            android:title="@string/show_static"/>
+
+        <SwitchCompatPreference
+            android:key="showLajibankuai"
+            android:defaultValue="true"
+            android:layout="@layout/layout_preference"
+            android:title="@string/show_lajibankuai"/>
+
+        <SwitchCompatPreference
+            android:key="showReplyButton"
+            android:defaultValue="true"
+            android:layout="@layout/layout_preference"
+            android:title="@string/addreplybutton"/>
+
+        <SwitchCompatPreference
+            android:key="showAnimation"
+            android:defaultValue="false"
+            android:layout="@layout/layout_preference"
+            android:title="@string/showAnimation"/>
+
+
+        <android.preference.SwitchCompatPreference
+            android:key="material_mode"
+            android:layout="@layout/layout_preference"
+            android:title="@string/setting_title_material_mode"/>
+        <PreferenceScreen
+            android:title="@string/setting_title_size"
+            android:key="adjust_size"
+            android:layout="@layout/layout_preference"
+            android:fragment="sp.phone.fragment.material.SettingsSizeFragment"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

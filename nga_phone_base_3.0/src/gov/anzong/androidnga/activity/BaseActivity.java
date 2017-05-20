@@ -10,8 +10,8 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import sp.phone.utils.ThemeManager;
 
-import static sp.phone.bean.PerferenceConstant.NIGHT_MODE;
-import static sp.phone.bean.PerferenceConstant.PERFERENCE;
+import static sp.phone.bean.PreferenceConstant.NIGHT_MODE;
+import static sp.phone.bean.PreferenceConstant.PERFERENCE;
 
 /**
  * Created by liuboyu on 16/6/28.

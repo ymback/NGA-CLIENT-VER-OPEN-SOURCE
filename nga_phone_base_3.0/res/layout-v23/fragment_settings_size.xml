@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:minHeight="?attr/listPreferredItemHeight"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView_font_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/text_size" />
+
+        <SeekBar
+            android:id="@+id/fontsize_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:max="300"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="6dp"
+        android:background="@color/night_fore_color" >
+    </View>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:minHeight="?attr/listPreferredItemHeight"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/avatarsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="6dp"
+            android:contentDescription="@string/avatar_description"
+            android:src="@drawable/default_avatar" />
+
+        <TextView
+            android:id="@+id/textView_avatarsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/avatar_size" />
+
+        <SeekBar
+            android:id="@+id/avatarsize_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:max="200"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp" />
+
+    </LinearLayout>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="6dp"
+        android:background="@color/night_fore_color" >
+    </View>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/listPreferredItemHeight"
+        tools:ignore="WebViewLayout">
+
+        <WebView
+            android:id="@+id/websize_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp" />
+
+        <SeekBar
+            android:id="@+id/webszie_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="30dp"
+            android:max="300"
+            android:paddingRight="20dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

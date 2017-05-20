@@ -24,7 +24,7 @@ import android.widget.TabWidget;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ThreadFragmentAdapter;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
@@ -36,7 +36,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class ArticleContainerFragment extends BaseFragment implements
-        OnThreadPageLoadFinishedListener, PerferenceConstant, PagerOwnner {
+        OnThreadPageLoadFinishedListener, PreferenceConstant, PagerOwnner {
     private static final String TAG = "ArticleContainerFrag";
     private static final String GOTO_TAG = "goto";
     // TabHost tabhost;

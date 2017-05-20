@@ -27,7 +27,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.adapter.AppendableMessageDetialAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
@@ -46,7 +46,7 @@ import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class MessageDetialListContainer extends BaseFragment implements
         OnMessageDetialLoadFinishedListener, NextJsonMessageDetialLoader,
-        PerferenceConstant {
+        PreferenceConstant {
     static final int MESSAGE_SENT = 1;
     final String TAG = MessageDetialListContainer.class.getSimpleName();
     PullToRefreshAttacher attacher = null;

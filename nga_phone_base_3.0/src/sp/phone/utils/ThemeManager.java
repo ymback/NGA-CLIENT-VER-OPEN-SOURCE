@@ -73,5 +73,9 @@ public class ThemeManager {
         this.mode = mode;
     }
 
+    public boolean isNightMode(){
+        return mode == MODE_NIGHT;
+    }
+
 
 }

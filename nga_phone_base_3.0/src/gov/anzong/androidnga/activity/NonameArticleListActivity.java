@@ -21,7 +21,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.fragment.NonameArticleListFragment;
 import sp.phone.fragment.NonameArticleListFragmentNew;
@@ -38,7 +38,7 @@ import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         implements PagerOwnner, OnNonameThreadPageLoadFinishedListener,
-        PullToRefreshAttacherOnwer, PerferenceConstant {
+        PullToRefreshAttacherOnwer, PreferenceConstant {
     private static final String TAG = "ArticleListActivity";
     private static final String GOTO_TAG = "goto";
     TabHost tabhost;

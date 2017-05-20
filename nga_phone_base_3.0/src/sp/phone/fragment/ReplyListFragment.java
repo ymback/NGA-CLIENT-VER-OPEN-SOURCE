@@ -18,12 +18,12 @@ import java.util.List;
 
 import sp.phone.adapter.PendingReplyAdapter;
 import sp.phone.bean.NotificationObject;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
-public class ReplyListFragment extends Fragment implements PerferenceConstant {
+public class ReplyListFragment extends Fragment implements PreferenceConstant {
 
     private ListView lv;
 

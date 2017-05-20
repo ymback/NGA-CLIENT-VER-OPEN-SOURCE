@@ -85,7 +85,7 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 import sp.phone.bean.BoardHolder;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.User;
 import sp.phone.fragment.LoginFragment;
 import sp.phone.fragment.ProfileSearchDialogFragment;
@@ -99,7 +99,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class MainActivity extends BaseActivity implements
-        PerferenceConstant, PageCategoryOwnner, OnItemClickListener {
+        PreferenceConstant, PageCategoryOwnner, OnItemClickListener {
     static final String TAG = MainActivity.class.getSimpleName();
     private ActivityUtil activityUtil = ActivityUtil.getInstance();
     private MyApp app;

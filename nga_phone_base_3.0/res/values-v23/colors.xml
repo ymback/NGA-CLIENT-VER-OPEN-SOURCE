@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_color">#FF21201B</color>
+    <color name="text_color_disabled">#FFC4BEAE</color>
+    <color name="text_color_dark">#FFFFFF</color>
+    <color name="text_color_dark_disabled">#FF6F6F6F</color>
+    <color name="window_background_dark">#FF303030</color>
+
+</resources>

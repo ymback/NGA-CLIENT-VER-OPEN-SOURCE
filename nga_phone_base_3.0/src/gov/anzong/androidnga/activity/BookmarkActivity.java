@@ -24,12 +24,12 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ThemeManager;
 
 public class BookmarkActivity extends SwipeBackAppCompatActivity
-        implements OnItemClickListener, PerferenceConstant {
+        implements OnItemClickListener, PreferenceConstant {
     List<Bookmark> bookmarks;//reference
     ListView view;
 

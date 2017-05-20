@@ -63,9 +63,9 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import gov.anzong.meizi.SplitMeiziMainActivity;
 import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.PerferenceConstant;
+import sp.phone.bean.PreferenceConstant;
 
-public class PhoneConfiguration implements PerferenceConstant {
+public class PhoneConfiguration implements PreferenceConstant {
     private static PhoneConfiguration instance;
     public String userName;
     public int nikeWidth = 100;
@@ -95,6 +95,7 @@ public class PhoneConfiguration implements PerferenceConstant {
     public boolean showLajibankuai = true;
     public boolean fullscreen = false;
     public boolean kitwebview = false;
+    public boolean materialMode;
     public int replytotalnum = 0;
     public Set<Integer> blacklist = new HashSet<Integer>();
     public String db_cookie;
@@ -164,6 +165,14 @@ public class PhoneConfiguration implements PerferenceConstant {
 
     public void setDownImgNoWifi(boolean downImgNoWifi) {
         this.downImgNoWifi = downImgNoWifi;
+    }
+
+    public boolean isMaterialMode(){
+        return materialMode;
+    }
+
+    public void setMaterialMode(boolean materialMode){
+        this.materialMode = materialMode;
     }
 
     public boolean isNotification() {
