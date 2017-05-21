@@ -275,6 +275,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         if (fullScreen){
             flag = WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         } else {
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getActivity().getWindow().addFlags(flag);

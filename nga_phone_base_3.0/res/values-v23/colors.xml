@@ -6,5 +6,6 @@
     <color name="text_color_dark">#FFFFFF</color>
     <color name="text_color_dark_disabled">#FF6F6F6F</color>
     <color name="window_background_dark">#FF303030</color>
+    <color name="colorAccent">#FF43a047</color>
 
 </resources>
