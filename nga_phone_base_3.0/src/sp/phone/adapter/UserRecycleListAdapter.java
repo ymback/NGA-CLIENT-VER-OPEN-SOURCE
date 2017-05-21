@@ -8,8 +8,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -39,8 +37,6 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
         public UserViewHolder(View itemView) {
             super(itemView);
             userNameView = (TextView) itemView.findViewById(R.id.user_name);
-            userNameView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-            itemView.findViewById(R.id.delete_user).setVisibility(View.GONE);
         }
     }
 
@@ -82,14 +78,15 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
 
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View convertView = LayoutInflater.from(mContext).inflate(R.layout.user_list, parent, false);
-        return new UserViewHolder(convertView);
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_user_list_item, parent, false);
+        UserViewHolder holder = new UserViewHolder(convertView);
+        holder.userNameView.setOnClickListener(mOnClickListener);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
         holder.userNameView.setText(mUserList.get(position).getNickName());
-        holder.userNameView.setOnClickListener(mOnClickListener);
     }
 
     @Override
