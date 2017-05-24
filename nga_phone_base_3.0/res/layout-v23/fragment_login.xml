@@ -7,7 +7,7 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:layout_margin="6dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -41,7 +41,7 @@
 
 
     <RelativeLayout
-        android:layout_margin="6dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -79,12 +79,14 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
+        android:background="@drawable/btn_ripple_accent_bg"
+        android:textColor="@android:color/white"
+        android:layout_margin="10dp"
         android:text="@string/login" >
     </Button>
 
     <TextView
-        android:layout_margin="6dp"
+        android:layout_margin="10dp"
         android:text="用户列表"
         android:textColor="@color/colorAccent"
         android:layout_width="wrap_content"
@@ -92,7 +94,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/user_list"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </android.support.v7.widget.RecyclerView>

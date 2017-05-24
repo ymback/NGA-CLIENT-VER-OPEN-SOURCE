@@ -128,6 +128,15 @@ public class SettingsActivity extends SwipeBackAppCompatActivity implements
 
     }
 
+    @Override
+    protected void updateThemeUi() {
+        if (ThemeManager.getInstance().isNightMode()){
+            setTheme(R.style.MaterialThemeDark);
+        } else {
+            setTheme(R.style.MaterialTheme);
+        }
+    }
+
     void initView() {
 
         int orentation = ThemeManager.getInstance().screenOrentation;

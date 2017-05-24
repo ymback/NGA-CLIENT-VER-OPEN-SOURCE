@@ -22,6 +22,7 @@ import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -816,7 +817,11 @@ public class PullToRefreshAttacher implements View.OnTouchListener {
 		 */
 		public Context getContextForInflater(Activity activity) {
 			if (Build.VERSION.SDK_INT >= 14) {
-				return activity.getActionBar().getThemedContext();
+				if (activity instanceof AppCompatActivity){
+					return ((AppCompatActivity) activity).getSupportActionBar().getThemedContext();
+				} else {
+					return activity.getActionBar().getThemedContext();
+				}
 			} else {
 				return activity;
 			}

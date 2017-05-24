@@ -107,9 +107,8 @@ public class LoginFragment extends MaterialCompatFragment implements OnAuthcodeL
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         mPasswordView = (EditText) rootView.findViewById(R.id.login_password_edittext);
         mUserNameView = (EditText) rootView.findViewById(R.id.login_user_edittext);
@@ -120,6 +119,7 @@ public class LoginFragment extends MaterialCompatFragment implements OnAuthcodeL
         RecyclerView listView = (RecyclerView) rootView.findViewById(R.id.user_list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setAdapter(new UserRecycleListAdapter(getContext(),this,listView));
+        getFloatingActionButton().setVisibility(View.GONE);
         reloadAuthCode();
         return rootView;
     }

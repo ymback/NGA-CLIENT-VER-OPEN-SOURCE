@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.LoginActivity;
+import gov.anzong.androidnga.activity.SettingsActivity;
 import sp.phone.bean.BoardHolder;
 import sp.phone.proxy.DummyFullScreenProxy;
 import sp.phone.proxy.FullScreenProxy;
@@ -33,12 +35,22 @@ public class ActivityUtil {
     static Object lock = new Object();
     private final FullScreenProxy fullScreenProxy;
     private DialogFragment df = null;
+    private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity"};
 
     private ActivityUtil() {
         if (isLessThan_4_4())
             fullScreenProxy = new DummyFullScreenProxy();
         else
             fullScreenProxy = new V19FullScreenProxy();
+    }
+
+    public static boolean supportMaterialMode(Context context){
+        for (int i = 0 ; i < sMaterialSupportList.length; i++){
+            if (sMaterialSupportList[i].equals(context.getClass().getSimpleName())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isGreaterThan_3_0() {

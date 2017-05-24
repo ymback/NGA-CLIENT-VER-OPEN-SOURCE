@@ -2,21 +2,37 @@
 <resources>
 
     <style name="MaterialTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/shit2</item>
+        <item name="android:windowBackground">@color/window_background</item>
         <item name="android:textColor">@color/text_color_selector</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+    </style>
+
+    <style name="MaterialThemeNoActionBar" parent="MaterialTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 
     <style name="MaterialThemeDark" parent="@style/Theme.AppCompat">
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="android:textColor">@color/text_color_dark_selector</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
+
+    <style name="MaterialThemeDarkNoActionBar" parent="MaterialThemeDark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 
