@@ -56,7 +56,12 @@ public class MessageListContainer extends BaseFragment implements
         }
 
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
+            PullToRefreshAttacherOnwer attacherOnwer;
+            if (PhoneConfiguration.getInstance().isMaterialMode()){
+                attacherOnwer = (PullToRefreshAttacherOnwer) getParentFragment();
+            } else {
+                attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
+            }
             attacher = attacherOnwer.getAttacher();
 
         } catch (ClassCastException e) {

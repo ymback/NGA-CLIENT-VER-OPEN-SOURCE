@@ -35,7 +35,7 @@ public class ActivityUtil {
     static Object lock = new Object();
     private final FullScreenProxy fullScreenProxy;
     private DialogFragment df = null;
-    private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity"};
+    private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity"};
 
     private ActivityUtil() {
         if (isLessThan_4_4())

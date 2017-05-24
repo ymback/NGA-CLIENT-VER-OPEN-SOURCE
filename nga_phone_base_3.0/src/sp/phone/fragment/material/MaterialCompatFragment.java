@@ -16,15 +16,19 @@ import android.widget.SpinnerAdapter;
 
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.BaseFragment;
+import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.PhoneConfiguration;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public abstract class MaterialCompatFragment extends BaseFragment {
+public abstract class MaterialCompatFragment extends BaseFragment implements PullToRefreshAttacherOnwer {
 
     protected PhoneConfiguration mConfiguration = PhoneConfiguration.getInstance();
 
     protected AppCompatActivity mActivity;
 
     private FloatingActionButton mFab;
+
+    private PullToRefreshAttacher mPullToRefreshAttacher;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +42,7 @@ public abstract class MaterialCompatFragment extends BaseFragment {
         FrameLayout realContainer = (FrameLayout) rootView.findViewById(R.id.container);
         setSupportActionBar(rootView);
         initSpinner(rootView);
-        mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        initFabButton(rootView);
         View view = onCreateContainerView(inflater, realContainer,savedInstanceState);
         if (view != null){
             realContainer.addView(view);
@@ -46,8 +50,8 @@ public abstract class MaterialCompatFragment extends BaseFragment {
         return rootView;
     }
 
-    protected FloatingActionButton getFloatingActionButton(){
-        return mFab;
+    protected int getContainerId(){
+        return R.id.container;
     }
 
     @Override
@@ -60,6 +64,8 @@ public abstract class MaterialCompatFragment extends BaseFragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         if (mActivity.getSupportActionBar() == null && toolbar != null) {
             mActivity.setSupportActionBar(toolbar);
+            mActivity.getSupportActionBar().setHomeButtonEnabled(true);
+            mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -73,7 +79,7 @@ public abstract class MaterialCompatFragment extends BaseFragment {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    onSpinnerItemSelected(position);
+                    onSpinnerItemSelected((Spinner) parent,position);
                 }
 
                 @Override
@@ -84,8 +90,24 @@ public abstract class MaterialCompatFragment extends BaseFragment {
         }
     }
 
+    private void initFabButton(View rootView){
+        mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        View.OnClickListener listener = getFabClickListener();
+        if (listener == null){
+            mFab .setVisibility(View.GONE);
+        } else {
+            mFab .setVisibility(View.VISIBLE);
+            mFab .setOnClickListener(listener);
+        }
+    }
 
-    protected void onSpinnerItemSelected(int position){
+
+    protected View.OnClickListener getFabClickListener(){
+        return null;
+    }
+
+
+    protected void onSpinnerItemSelected(Spinner spinner,int position){
 
     }
 
@@ -94,8 +116,17 @@ public abstract class MaterialCompatFragment extends BaseFragment {
     }
 
     protected View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-
         return null;
     }
 
+    @Override
+    public PullToRefreshAttacher getAttacher() {
+        if (mPullToRefreshAttacher == null){
+            PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
+            options.refreshScrollDistance = 0.3f;
+            options.refreshOnUp = true;
+            mPullToRefreshAttacher = PullToRefreshAttacher.get(mActivity, options);
+        }
+        return mPullToRefreshAttacher;
+    }
 }
