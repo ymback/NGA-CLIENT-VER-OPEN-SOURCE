@@ -119,7 +119,6 @@ public class LoginFragment extends MaterialCompatFragment implements OnAuthcodeL
         RecyclerView listView = (RecyclerView) rootView.findViewById(R.id.user_list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setAdapter(new UserRecycleListAdapter(getContext(),this,listView));
-        getFloatingActionButton().setVisibility(View.GONE);
         reloadAuthCode();
         return rootView;
     }
