@@ -24,6 +24,8 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     protected PhoneConfiguration mConfiguration = PhoneConfiguration.getInstance();
 
+    protected static final String TAG = "material";
+
     protected AppCompatActivity mActivity;
 
     private FloatingActionButton mFab;

@@ -82,7 +82,12 @@ public class MessageDetialListContainer extends BaseFragment implements
         }
 
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
+            PullToRefreshAttacherOnwer attacherOnwer;
+            if (PhoneConfiguration.getInstance().isMaterialMode()){
+                attacherOnwer = (PullToRefreshAttacherOnwer) getParentFragment();
+            } else {
+                attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
+            }
             attacher = attacherOnwer.getAttacher();
 
         } catch (ClassCastException e) {
@@ -490,6 +495,25 @@ public class MessageDetialListContainer extends BaseFragment implements
         inflater.inflate(menuId, menu);
     }
 
+    public void startArticleReply(){
+        Intent intent_bookmark = new Intent();
+        intent_bookmark.putExtra("mid", mid);
+        intent_bookmark.putExtra("title", title);
+        intent_bookmark.putExtra("to", to);
+        intent_bookmark.putExtra("action", "reply");
+        intent_bookmark.putExtra("messagemode", "yes");
+        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+            intent_bookmark
+                    .setClass(
+                            getActivity(),
+                            PhoneConfiguration.getInstance().messagePostActivityClass);
+        } else {
+            intent_bookmark.setClass(getActivity(),
+                    PhoneConfiguration.getInstance().loginActivityClass);
+        }
+        startActivityForResult(intent_bookmark, 123);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -500,22 +524,7 @@ public class MessageDetialListContainer extends BaseFragment implements
                 nightMode(item);
                 break;
             case R.id.article_menuitem_reply:
-                Intent intent_bookmark = new Intent();
-                intent_bookmark.putExtra("mid", mid);
-                intent_bookmark.putExtra("title", title);
-                intent_bookmark.putExtra("to", to);
-                intent_bookmark.putExtra("action", "reply");
-                intent_bookmark.putExtra("messagemode", "yes");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-                    intent_bookmark
-                            .setClass(
-                                    getActivity(),
-                                    PhoneConfiguration.getInstance().messagePostActivityClass);
-                } else {
-                    intent_bookmark.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().loginActivityClass);
-                }
-                startActivityForResult(intent_bookmark, 123);
+                startArticleReply();
                 break;
             case R.id.article_menuitem_back:
             default:
