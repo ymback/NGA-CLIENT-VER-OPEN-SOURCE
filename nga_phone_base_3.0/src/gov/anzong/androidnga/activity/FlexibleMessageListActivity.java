@@ -75,7 +75,9 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
         this.setContentView(view);
         nightmode = ThemeManager.getInstance().getMode();
         if (PhoneConfiguration.getInstance().isMaterialMode()){
-            getSupportFragmentManager().beginTransaction().replace(android.R.id.content,new MessageListFragment()).commit();
+            if (arg0 == null) {
+                getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new MessageListFragment()).commit();
+            }
             view.setVisibility(View.GONE);
             dualScreen = false;
             return;
