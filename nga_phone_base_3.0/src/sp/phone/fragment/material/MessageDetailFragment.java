@@ -31,7 +31,7 @@ public class MessageDetailFragment extends MaterialCompatFragment {
     }
 
     @Override
-    protected View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         FragmentManager fm = getChildFragmentManager();
         Fragment fragment = fm.findFragmentById(getContainerId());// ok

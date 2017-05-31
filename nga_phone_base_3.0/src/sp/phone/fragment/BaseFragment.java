@@ -12,12 +12,12 @@ import gov.anzong.androidnga.activity.BaseActivity;
 public class BaseFragment extends Fragment {
     protected Toast toast;
 
-    protected void showToast(int res) {
+    public void showToast(int res) {
         String str = getString(res);
         showToast(str);
     }
 
-    protected void showToast(String res) {
+    public void showToast(String res) {
         if (toast != null) {
             toast.setText(res);
             toast.setDuration(Toast.LENGTH_SHORT);

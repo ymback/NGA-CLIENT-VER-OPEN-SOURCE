@@ -108,7 +108,7 @@ public class LoginFragment extends MaterialCompatFragment implements OnAuthcodeL
     }
 
     @Override
-    protected View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
         mPasswordView = (EditText) rootView.findViewById(R.id.login_password_edittext);
         mUserNameView = (EditText) rootView.findViewById(R.id.login_user_edittext);
