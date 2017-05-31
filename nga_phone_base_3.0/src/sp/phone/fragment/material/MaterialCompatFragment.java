@@ -32,6 +32,8 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
+    private int mLayoutId = R.layout.fragment_material_compat;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_material_compat,container,false);
+        View rootView = inflater.inflate(mLayoutId,container,false);
         FrameLayout realContainer = (FrameLayout) rootView.findViewById(R.id.container);
         setSupportActionBar(rootView);
         initSpinner(rootView);
@@ -51,6 +53,11 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
         }
         return rootView;
     }
+
+    protected void setLayoutId(int layoutId){
+        mLayoutId = layoutId;
+    }
+
 
     protected int getContainerId(){
         return R.id.container;
@@ -117,10 +124,6 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
         return null;
     }
 
-    protected View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        return null;
-    }
-
     @Override
     public PullToRefreshAttacher getAttacher() {
         if (mPullToRefreshAttacher == null){
@@ -130,5 +133,9 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
             mPullToRefreshAttacher = PullToRefreshAttacher.get(mActivity, options);
         }
         return mPullToRefreshAttacher;
+    }
+
+    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+        return null;
     }
 }
