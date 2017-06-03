@@ -377,7 +377,7 @@ public class MainActivity extends BaseActivity implements
         }
         mDrawerList.setItemChecked(position, true);
         if (!item.mTitle.equals("我要龙珠~撸~")) {
-            Log.e(TAG,"closeDrawer");
+            Log.e(TAG, "closeDrawer");
             mDrawerLayout.closeDrawer(mDrawerList);
         }
         mActivePosition = position;
@@ -1300,11 +1300,11 @@ public class MainActivity extends BaseActivity implements
         }
         Intent intent = getIntent();
         loadConfig(intent);
-        if (pager.getAdapter() == null) {
-            updatepager();
+        if (pager.getAdapter() != null) {
             mPagerSlidingTabStrip.notifyDataSetChanged();
         }
         updatemDrawerList();
+        updatepager();
         refreshheadview();
         super.onResume();
     }
