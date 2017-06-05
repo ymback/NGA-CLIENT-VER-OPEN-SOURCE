@@ -152,7 +152,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         }
     }
 
-    public String gettidarray(int position) {
+    public String getTidArray(int position) {
         for (int i = 0; i < infoList.size(); i++) {
             if (position < infoList.get(i).get__T__ROWS()) {
                 return infoList.get(i).getArticleEntryList().get(position).getTidarray();
