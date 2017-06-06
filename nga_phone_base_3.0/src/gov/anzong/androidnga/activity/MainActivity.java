@@ -1300,12 +1300,12 @@ public class MainActivity extends BaseActivity implements
         }
         Intent intent = getIntent();
         loadConfig(intent);
-        if (pager.getAdapter() == null) {
-            updatepager();
+       if (pager.getAdapter() != null) {
             mPagerSlidingTabStrip.notifyDataSetChanged();
         }
         updatemDrawerList();
         refreshheadview();
+        updatepager();
         super.onResume();
     }
 
