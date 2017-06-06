@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public abstract class MaterialCompatFragment extends BaseFragment implements PullToRefreshAttacherOnwer {
@@ -32,7 +35,11 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
-    private int mLayoutId = R.layout.fragment_material_compat;
+    private int mLayoutId = R.layout.fragment_material;
+
+    private TabLayout mTabLayout;
+
+    private Spinner mSpinner;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +50,10 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(mLayoutId,container,false);
-        FrameLayout realContainer = (FrameLayout) rootView.findViewById(R.id.container);
+        ViewGroup realContainer = (ViewGroup) rootView.findViewById(R.id.container);
+        mTabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
+        mSpinner = (Spinner) rootView.findViewById(R.id.spinner);
+        mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         setSupportActionBar(rootView);
         initSpinner(rootView);
         initFabButton(rootView);
@@ -52,6 +62,45 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
             realContainer.addView(view);
         }
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    protected void setTabViewPager(ViewPager viewPager){
+        if (mTabLayout != null){
+            mTabLayout.setupWithViewPager(viewPager);
+            mTabLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void setFabOnClickListener(View.OnClickListener listener){
+        if (mFab != null){
+            mFab.setOnClickListener(listener);
+            mFab.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void setSpinnerAdapter(SpinnerAdapter adapter,AdapterView.OnItemSelectedListener listener){
+        if (mSpinner != null){
+            mSpinner.setAdapter(adapter);
+            mSpinner.setOnItemSelectedListener(listener);
+            mSpinner.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected FloatingActionButton getFloatingActionButton(){
+        return mFab;
+    }
+
+    protected Spinner getSpinner(){
+        return mSpinner;
+    }
+
+    protected TabLayout getTabLayout(){
+        return mTabLayout;
     }
 
     protected void setLayoutId(int layoutId){
@@ -72,6 +121,7 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
     private void setSupportActionBar(View rootView){
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         if (mActivity.getSupportActionBar() == null && toolbar != null) {
+            toolbar.setPopupTheme(ThemeManager.getInstance().isNightMode() ? R.style.AppTheme_PopupOverlayDark:R.style.AppTheme_PopupOverlay);
             mActivity.setSupportActionBar(toolbar);
             mActivity.getSupportActionBar().setHomeButtonEnabled(true);
             mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,6 +130,9 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     private void initSpinner(View rootView){
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner);
+        if (spinner == null){
+            return;
+        }
         SpinnerAdapter adapter = getSpinnerAdapter();
         if (adapter == null){
             spinner.setVisibility(View.GONE);
