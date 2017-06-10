@@ -10,6 +10,8 @@ public interface BaseContract {
 
     interface Presenter {
 
+        Context getContext();
+
     }
 
     interface View<T> {
@@ -21,5 +23,10 @@ public interface BaseContract {
         void showToast(String toast);
 
         Context getContext();
+    }
+
+    interface Model<T>{
+
+        void setPresenter(T presenter);
     }
 }

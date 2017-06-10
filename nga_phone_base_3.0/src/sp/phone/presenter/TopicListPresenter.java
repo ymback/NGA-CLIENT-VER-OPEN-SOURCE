@@ -1,5 +1,6 @@
 package sp.phone.presenter;
 
+import android.content.Context;
 import android.widget.AdapterView;
 
 import java.io.UnsupportedEncodingException;
@@ -135,4 +136,8 @@ public class TopicListPresenter implements TopicListContract.Presenter{
         return jsonUri;
     }
 
+    @Override
+    public Context getContext() {
+        return null;
+    }
 }

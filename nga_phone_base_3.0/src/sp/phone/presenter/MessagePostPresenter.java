@@ -1,5 +1,6 @@
 package sp.phone.presenter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -135,4 +136,9 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
             }
         }
     }//
+
+    @Override
+    public Context getContext() {
+        return null;
+    }
 }

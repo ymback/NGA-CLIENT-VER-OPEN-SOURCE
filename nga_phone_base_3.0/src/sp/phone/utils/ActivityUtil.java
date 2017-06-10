@@ -36,7 +36,7 @@ public class ActivityUtil {
     private final FullScreenProxy fullScreenProxy;
     private DialogFragment df = null;
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
-            ,"MessagePostActivity","FlexibleTopicListActivity"};
+            ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
 
     private ActivityUtil() {
         if (isLessThan_4_4())
@@ -210,7 +210,7 @@ public class ActivityUtil {
     }
 
     public void setFullScreen(View v) {
-        fullScreenProxy.setFullScreen(v);
+      //  fullScreenProxy.setFullScreen(v);
     }
 
     public void setNormalScreen(View v) {

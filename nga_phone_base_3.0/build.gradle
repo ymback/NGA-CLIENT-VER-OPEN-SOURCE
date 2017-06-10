@@ -47,7 +47,7 @@ android {
 
     defaultConfig {
         applicationId "gov.anzong.androidnga"
-        minSdkVersion 11
+        minSdkVersion 16
         targetSdkVersion 25
         multiDexEnabled true
         resConfigs "zh", "en"
@@ -133,6 +133,8 @@ dependencies {
     compile project(':ActionBar-PullToRefresh')
     compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+    compile 'com.google.code.gson:gson:2.8.1'
     compile "com.android.support:support-v4:$Version_AndroidSupport"
     compile "com.android.support:design:$Version_AndroidSupport"
 }

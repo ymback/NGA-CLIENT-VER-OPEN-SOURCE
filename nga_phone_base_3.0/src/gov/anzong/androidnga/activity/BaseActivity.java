@@ -23,9 +23,9 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        updateFullScreen();
         if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(this)) {
             updateThemeUi();
-            updateFullScreen();
         }
         super.onCreate(savedInstanceState);
     }
@@ -39,11 +39,12 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     private void updateFullScreen(){
-        int flag;
-        if (PhoneConfiguration.getInstance().fullscreen){
-            flag = WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
-        } else {
+        int flag = 0;
+        if (PhoneConfiguration.getInstance().isMaterialMode()){
             flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
+        }
+        if (PhoneConfiguration.getInstance().fullscreen){
+            flag = flag | WindowManager.LayoutParams.FLAG_FULLSCREEN;
         }
         getWindow().addFlags(flag);
     }
