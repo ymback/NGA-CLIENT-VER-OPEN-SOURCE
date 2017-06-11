@@ -137,6 +137,7 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
         if (adapter == null){
             spinner.setVisibility(View.GONE);
         } else {
+            spinner.setVisibility(View.VISIBLE);
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

@@ -47,6 +47,7 @@ public class FileUploadTask extends
     private String utfFilename;
     private String contentType;
     private String errorStr = null;
+    private String auth;
 
 	/*public FileUploadTask(InputStream is, long filesize, Context context, onFileUploaded notifier, String contentType) {
 		super();
@@ -63,6 +64,13 @@ public class FileUploadTask extends
         this.context = context;
         this.notifier = notifier;
         this.uri = uri;
+    }
+
+    public FileUploadTask(Context context, onFileUploaded notifier, Uri uri,String auth) {
+        this.context = context;
+        this.notifier = notifier;
+        this.uri = uri;
+        this.auth = auth;
     }
 
     @Override
@@ -238,9 +246,10 @@ public class FileUploadTask extends
                 "fid",
                 "func",
                 "attachment_file1_img", "origin_domain",
-                "lite"};
+                "lite",
+                "auth"};
         final String values[] = {"1", "", "", filename, "-7", "upload",
-                "1", Utils.getNGADomain(), "js"
+                "1", Utils.getNGADomain(), "js",auth
         };
 
         for (int i = 0; i < keys.length; ++i) {

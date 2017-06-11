@@ -1306,6 +1306,7 @@ public class MainActivity extends BaseActivity implements
         updatemDrawerList();
         updatepager();
         refreshheadview();
+        updatepager();
         super.onResume();
     }
 

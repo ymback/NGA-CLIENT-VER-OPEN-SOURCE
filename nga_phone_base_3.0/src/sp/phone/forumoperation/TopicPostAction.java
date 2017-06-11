@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 
 import sp.phone.utils.StringUtil;
 
-public class ThreadPostAction {
+public class TopicPostAction {
     private int step_;
     private String pid_;
     private String action_;
@@ -23,7 +23,29 @@ public class ThreadPostAction {
     private String __ngaClientChecksum;
     private boolean __isanony;//&anony=1
 
-    public ThreadPostAction(String tid, String subject, String content) {
+    private String auth;
+
+    public String getAuth() {
+        return auth;
+    }
+
+    public synchronized void setAuth(String auth) {
+        this.auth = auth;
+    }
+
+    public String getAction(){
+        return action_;
+    }
+
+    public String getTid(){
+        return tid_;
+    }
+
+    public String getPid(){
+        return pid_;
+    }
+
+    public TopicPostAction(String tid, String subject, String content) {
         step_ = 2;
         pid_ = "";
         action_ = "new";
@@ -82,6 +104,8 @@ public class ThreadPostAction {
     public String getAction_() {
         return action_;
     }
+
+
 
     public void setAction_(String action) {
         action_ = action;
