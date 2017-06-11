@@ -4,11 +4,9 @@ package sp.phone.model;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 import gov.anzong.androidnga.Utils;
 import okhttp3.Call;
@@ -19,8 +17,8 @@ import okhttp3.Response;
 import sp.phone.bean.json.TopicPostBean;
 import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.presenter.contract.TopicPostContract;
-import sp.phone.task.TopicPostTask;
 import sp.phone.task.FileUploadTask;
+import sp.phone.task.TopicPostTask;
 import sp.phone.utils.PhoneConfiguration;
 
 /**
@@ -78,9 +76,7 @@ public class TopicPostModel implements TopicPostContract.Model{
                     String result = response.body().string();
                     int index = result.indexOf("=");
                     result = result.substring(index+1);
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<TopicPostBean>() {}.getType();
-                    TopicPostBean bean = gson.fromJson(result , type);
+                    TopicPostBean bean = JSON.parseObject(result,TopicPostBean.class);
                     act.setAuth(bean.getData().getAuth());
                     Log.d(TAG,result);
                 } else {
