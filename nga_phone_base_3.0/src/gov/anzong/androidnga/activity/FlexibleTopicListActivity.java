@@ -231,7 +231,14 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             f1.setArguments(args);
             FragmentTransaction ft = fm.beginTransaction().add(R.id.item_list, f1);
             ft.commit();
+        } else {
+            if (PhoneConfiguration.getInstance().isMaterialMode()) {
+                if (favor != 0 || !StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)) {
+                    new TopicListPresenter((TopicListContract.View) f1);
+                }
+            }
         }
+
         Fragment f2 = fm.findFragmentById(R.id.item_detail_container);
         if (null == f2) {
             f1.setHasOptionsMenu(true);
