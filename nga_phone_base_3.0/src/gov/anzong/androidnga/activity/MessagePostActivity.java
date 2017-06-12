@@ -87,6 +87,8 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
         bundle.putString("title",title);
         Fragment fragment =  getSupportFragmentManager().findFragmentById(android.R.id.content);
         if (fragment != null){
+            mPresenter = new MessagePostPresenter((MessagePostContract.View) fragment);
+            mPresenter.setMessagePostAction(mMessagePostAction);
             return;
         }
         if (PhoneConfiguration.getInstance().isMaterialMode()){

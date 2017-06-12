@@ -105,18 +105,23 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
         bundle.putString("prefix",prefix);
         bundle.putString("action",action);
         bundle.putString("title",title);
-        Fragment fragment;
-        if (PhoneConfiguration.getInstance().isMaterialMode()){
-            fragment = new TopicPostFragment();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
+        if (fragment == null){
+            if (PhoneConfiguration.getInstance().isMaterialMode()){
+                fragment = new TopicPostFragment();
+            } else {
+                fragment = new TopicPostContainer();
+            }
+            mPresenter  = new TopicPostPresenter((TopicPostContract.View) fragment);
+            mPresenter.setTopicPostAction(act);
+            fragment.setArguments(bundle);
+            fragment.setHasOptionsMenu(true);
+            getSupportFragmentManager().beginTransaction().replace(android.R.id.content,fragment).commit();
         } else {
-            fragment = new TopicPostContainer();
+            mPresenter  = new TopicPostPresenter((TopicPostContract.View) fragment);
+            mPresenter.setTopicPostAction(act);
         }
 
-        mPresenter  = new TopicPostPresenter((TopicPostContract.View) fragment);
-        mPresenter.setTopicPostAction(act);
-        fragment.setArguments(bundle);
-        fragment.setHasOptionsMenu(true);
-        getSupportFragmentManager().beginTransaction().replace(android.R.id.content,fragment).commit();
     }
 
 
