@@ -40,11 +40,10 @@ public class BaseActivity extends ActionBarActivity {
 
     private void updateFullScreen(){
         int flag = 0;
-        if (PhoneConfiguration.getInstance().isMaterialMode()){
-            flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
-        }
         if (PhoneConfiguration.getInstance().fullscreen){
             flag = flag | WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        } else {
+            flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
     }

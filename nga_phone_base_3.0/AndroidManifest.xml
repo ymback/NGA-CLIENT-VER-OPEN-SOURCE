@@ -73,6 +73,7 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name=".activity.BookmarkActivity"
