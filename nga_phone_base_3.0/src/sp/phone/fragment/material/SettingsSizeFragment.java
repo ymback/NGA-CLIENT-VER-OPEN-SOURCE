@@ -41,7 +41,6 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
 
     private Context mContext;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mContext = getActivity();
@@ -50,7 +49,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView= getThemeInflater(inflater).inflate(R.layout.fragment_settings_size, container, false);
+        View rootView= inflater.inflate(R.layout.fragment_settings_size, container, false);
         initView(rootView);
         return rootView;
     }
@@ -114,13 +113,10 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
         seekBar.setOnSeekBarChangeListener(this);
     }
 
+
+    @Deprecated
     private LayoutInflater getThemeInflater(LayoutInflater inflater){
-        int themeStyle;
-        if (ThemeManager.getInstance().isNightMode()){
-            themeStyle = R.style.MaterialThemeDark;
-        } else {
-            themeStyle = R.style.MaterialTheme;
-        }
+        int themeStyle = R.style.AppThemeDayNight;
         final Context contextThemeWrapper = new ContextThemeWrapper(mContext, themeStyle);
         // clone the inflater using the ContextThemeWrapper
         return inflater.cloneInContext(contextThemeWrapper);

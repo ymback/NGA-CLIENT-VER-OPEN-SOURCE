@@ -3,7 +3,10 @@ package gov.anzong.androidnga.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -24,28 +27,38 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateFullScreen();
-        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(this)) {
+        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(this) || ActivityUtil.supportNewUi(this)) {
             updateThemeUi();
         }
         super.onCreate(savedInstanceState);
     }
 
     protected void updateThemeUi(){
+        setTheme(R.style.AppThemeDayNight);
         if (ThemeManager.getInstance().isNightMode()){
-            setTheme(R.style.MaterialThemeDarkNoActionBar);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            setTheme(R.style.MaterialThemeNoActionBar);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
     private void updateFullScreen(){
-        int flag = 0;
+        int flag;
         if (PhoneConfiguration.getInstance().fullscreen){
-            flag = flag | WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_FULLSCREEN;
         } else {
             flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
+    }
+
+    protected void setupActionBar(Toolbar toolbar){
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
     }
 
     protected Toast toast;
