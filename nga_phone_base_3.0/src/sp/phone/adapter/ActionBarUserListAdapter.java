@@ -31,12 +31,8 @@ public class ActionBarUserListAdapter extends SpinnerUserListAdapter {
 
 
         if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(context)){
-            if (ThemeManager.getInstance().isNightMode()){
-                convertView.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimaryDark));
-            } else {
-                convertView.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimary));
-            }
-            ((TextView) convertView).setTextColor(ContextCompat.getColor(context,R.color.text_color_dark));
+            convertView.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimary));
+            ((TextView) convertView).setTextColor(ContextCompat.getColor(context,R.color.toolbar_text_color));
         }
         return convertView;
     }
