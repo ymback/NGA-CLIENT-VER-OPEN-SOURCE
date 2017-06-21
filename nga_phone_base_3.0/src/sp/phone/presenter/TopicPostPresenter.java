@@ -45,9 +45,8 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
 
     public TopicPostPresenter(TopicPostContract.View view){
         mView = view;
-        mModel = new TopicPostModel();
+        mModel = new TopicPostModel(this);
         mView.setPresenter(this);
-        mModel.setPresenter(this);
     }
 
     @Override

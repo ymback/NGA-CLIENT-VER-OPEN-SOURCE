@@ -42,6 +42,7 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name="gov.anzong.meizi.MeiziLoginActivity"
