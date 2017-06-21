@@ -38,6 +38,8 @@ public class ActivityUtil {
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
             ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
 
+    private static String[] sSupportNewUi = { "SettingsActivity" };
+
     private ActivityUtil() {
         if (isLessThan_4_4())
             fullScreenProxy = new DummyFullScreenProxy();
@@ -48,6 +50,15 @@ public class ActivityUtil {
     public static boolean supportMaterialMode(Context context){
         for (int i = 0 ; i < sMaterialSupportList.length; i++){
             if (sMaterialSupportList[i].equals(context.getClass().getSimpleName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean supportNewUi(Context context){
+        for (int i = 0 ; i < sSupportNewUi.length; i++){
+            if (sSupportNewUi[i].equals(context.getClass().getSimpleName())){
                 return true;
             }
         }

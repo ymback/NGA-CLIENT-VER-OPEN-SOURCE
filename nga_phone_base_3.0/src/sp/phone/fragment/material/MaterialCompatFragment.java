@@ -121,7 +121,6 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
     private void setSupportActionBar(View rootView){
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         if (mActivity.getSupportActionBar() == null && toolbar != null) {
-            toolbar.setPopupTheme(ThemeManager.getInstance().isNightMode() ? R.style.AppTheme_PopupOverlayDark:R.style.AppTheme_PopupOverlay);
             mActivity.setSupportActionBar(toolbar);
             mActivity.getSupportActionBar().setHomeButtonEnabled(true);
             mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

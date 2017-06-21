@@ -16,9 +16,6 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -44,26 +41,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private static final String ALERT_DIALOG_TAG = "alertdialog";
 
+    private Context mContext;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        initializeTheme();
-        setFullScreen(mConfiguration.fullscreen);
+        mContext = getActivity();
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
         mapping(getPreferenceScreen());
-    }
-
-    private void initializeTheme(){
-        if (ThemeManager.getInstance().isNightMode()){
-            getActivity().setTheme(R.style.MaterialThemeDark);
-        } else {
-            getActivity().setTheme(R.style.MaterialTheme);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings,container,false);
     }
 
     private void mapping(PreferenceGroup group){
@@ -78,6 +63,20 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     @Override
+    public void onResume() {
+        getActivity().setTitle(R.string.menu_setting);
+        super.onResume();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden){
+            getActivity().setTitle(R.string.menu_setting);
+        }
+        super.onHiddenChanged(hidden);
+    }
+
+    @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()){
             case PreferenceConstant.DOWNLOAD_IMG_QUALITY_NO_WIFI:
@@ -88,11 +87,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 break;
             case PreferenceConstant.MATERIAL_MODE:
                 mConfiguration.setMaterialMode((Boolean) newValue);
-                getActivity().finish();
                 break;
             case PreferenceConstant.NIGHT_MODE:
                 ThemeManager.getInstance().setMode((boolean)newValue ? ThemeManager.MODE_NIGHT : ThemeManager.MODE_NORMAL);
                 getActivity().finish();
+                startActivity(getActivity().getIntent());
                 break;
             case PreferenceConstant.DOWNLOAD_AVATAR_NO_WIFI:
                 mConfiguration.downAvatarNoWifi = (boolean) newValue;
@@ -154,7 +153,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mConfiguration.iconmode = isChecked;
-                SharedPreferences share = getContext().getSharedPreferences(
+                SharedPreferences share = mContext.getSharedPreferences(
                         PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE);
                 String addFidStr = share.getString(PreferenceConstant.ADD_FID, "");
                 List<Board> addFidList;
@@ -201,7 +200,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void showBlackGunSound(int which){
-        AudioManager audioManager = (AudioManager)getContext().getSystemService(
+        AudioManager audioManager = (AudioManager)mContext.getSystemService(
                         Context.AUDIO_SERVICE);
         AssetFileDescriptor afd;
         MediaPlayer mp = new MediaPlayer();
@@ -212,7 +211,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                         && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                     try {
                         mp.reset();
-                        mp.setDataSource(getContext(), ringToneUri);
+                        mp.setDataSource(mContext, ringToneUri);
                         mp.prepare();
                         mp.start();
                     } catch (Exception e) {
@@ -311,14 +310,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         switch (preference.getKey()){
             case PreferenceConstant.DOWNLOAD_IMG_QUALITY_NO_WIFI:
-                Toast.makeText(getContext(),R.string.image_quality_claim,Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,R.string.image_quality_claim,Toast.LENGTH_SHORT).show();
                 break;
             case PreferenceConstant.SHOW_ICON_MODE:
                 showIconModeAlertDialog((SwitchPreference) preference,preference.getSharedPreferences().getBoolean(preference.getKey(),false));
                 break;
             case PhoneConfiguration.ADJUST_SIZE:
                 FragmentManager fm = getActivity().getFragmentManager();
-                fm.beginTransaction().hide(this).add(android.R.id.content,new SettingsSizeFragment()).addToBackStack(null).commit();
+                fm.beginTransaction().hide(this).add(R.id.container,new SettingsSizeFragment()).addToBackStack(null).commit();
                 break;
 
         }
