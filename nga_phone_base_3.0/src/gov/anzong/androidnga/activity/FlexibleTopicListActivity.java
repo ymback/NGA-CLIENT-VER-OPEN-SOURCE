@@ -477,6 +477,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             }
             adapter.setSelected(position);
             listview.setItemChecked(position, true);
+            adapter.notifyDataSetChanged();
         }
     }
 
