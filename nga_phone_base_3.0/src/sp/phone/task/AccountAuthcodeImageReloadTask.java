@@ -13,23 +13,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import sp.phone.interfaces.OnAuthcodeLoadFinishedListener;
+import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.utils.StringUtil;
 
-public class AccountAuthcodeImageReloadTask extends
+public class AccountAuthCodeImageReloadTask extends
         AsyncTask<String, Integer, Bitmap> {
-    private final static String TAG = AccountAuthcodeImageReloadTask.class
+    private final static String TAG = AccountAuthCodeImageReloadTask.class
             .getSimpleName();
     private final Context context;
-    OnAuthcodeLoadFinishedListener notifier;
+    OnAuthCodeLoadFinishedListener notifier;
     String authcode;
     String authcodeUrl = "http://account.178.com/q_vcode.php?_act=gen_reg";
     private String error;
     @SuppressWarnings("unused")
     private String table;
 
-    public AccountAuthcodeImageReloadTask(Context context,
-                                          OnAuthcodeLoadFinishedListener notifier) {
+    public AccountAuthCodeImageReloadTask(Context context,
+                                          OnAuthCodeLoadFinishedListener notifier) {
         super();
         this.context = context;
         this.notifier = notifier;
@@ -88,9 +88,9 @@ public class AccountAuthcodeImageReloadTask extends
     @Override
     protected void onPostExecute(Bitmap result) {
         if (result != null) {
-            notifier.authcodefinishLoad(result, authcode);
+            notifier.authCodeFinishLoad(result, authcode);
         } else {
-            notifier.authcodefinishLoadError();
+            notifier.authCodeFinishLoadError();
         }
         super.onPostExecute(result);
     }

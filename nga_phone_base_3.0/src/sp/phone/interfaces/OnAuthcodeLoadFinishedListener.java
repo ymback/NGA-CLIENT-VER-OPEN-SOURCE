@@ -2,10 +2,10 @@ package sp.phone.interfaces;
 
 import android.graphics.Bitmap;
 
-public interface OnAuthcodeLoadFinishedListener {
+public interface OnAuthCodeLoadFinishedListener {
     //void finishLoad(RSSFeed feed);
-    void authcodefinishLoad(Bitmap authimg, String authcode);
+    void authCodeFinishLoad(Bitmap authImg, String authCode);
 
-    void authcodefinishLoadError();
+    void authCodeFinishLoadError();
 
 }
