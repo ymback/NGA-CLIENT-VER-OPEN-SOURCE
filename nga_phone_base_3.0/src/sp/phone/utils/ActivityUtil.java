@@ -38,7 +38,7 @@ public class ActivityUtil {
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
             ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
 
-    private static String[] sSupportNewUi = { "SettingsActivity" };
+    private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity"};
 
     private ActivityUtil() {
         if (isLessThan_4_4())

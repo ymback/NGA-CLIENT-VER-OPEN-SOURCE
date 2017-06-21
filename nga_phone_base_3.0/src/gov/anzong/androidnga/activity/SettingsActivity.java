@@ -14,7 +14,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        updateThemeUi();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         setupFragment();
@@ -27,7 +26,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity {
         mSettingsFragment = (PreferenceFragment) fm.findFragmentByTag(SettingsFragment.class.getSimpleName());
         if (mSettingsFragment == null){
             mSettingsFragment = new SettingsFragment();
-            getFragmentManager().beginTransaction().replace(R.id.container,mSettingsFragment,SettingsFragment.class.getSimpleName()).commit();
+            fm.beginTransaction().replace(R.id.container,mSettingsFragment,SettingsFragment.class.getSimpleName()).commit();
         } else if (fm.getBackStackEntryCount() > 0){
             fm.beginTransaction().hide(mSettingsFragment).commit();
         }
@@ -43,6 +42,5 @@ public class SettingsActivity extends SwipeBackAppCompatActivity {
             super.onBackPressed();
         }
     }
-
 
 }

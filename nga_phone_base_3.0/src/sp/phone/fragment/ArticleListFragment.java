@@ -412,7 +412,7 @@ public class ArticleListFragment extends BaseFragment implements
                 }
                 break;
             case R.id.vote_dialog:
-                FunctionUtil.Create_Vote_Dialog(row, getActivity(), listview, toast);
+                FunctionUtil.Create_Vote_Dialog(row, getActivity(), listview, mToast);
                 break;
 
             case R.id.ban_thisone:

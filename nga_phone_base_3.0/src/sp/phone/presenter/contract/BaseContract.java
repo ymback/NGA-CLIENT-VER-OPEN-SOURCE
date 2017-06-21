@@ -23,10 +23,11 @@ public interface BaseContract {
         void showToast(String toast);
 
         Context getContext();
+
+        void finish();
     }
 
-    interface Model<T>{
+    interface Model{
 
-        void setPresenter(T presenter);
     }
 }
