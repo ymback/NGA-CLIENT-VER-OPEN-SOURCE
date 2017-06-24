@@ -3,7 +3,9 @@ package gov.anzong.androidnga.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +25,7 @@ import sp.phone.presenter.TopicPostPresenter;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.PermissionUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
@@ -150,6 +153,16 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
     @Override
     public void onEmotionPicked(String emotion) {
         mPresenter.setEmoticon(emotion);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PermissionUtil.REQUEST_CODE_WRITE_EXTERNAL_STORAGE){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                mPresenter.prepareUploadFile();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }
