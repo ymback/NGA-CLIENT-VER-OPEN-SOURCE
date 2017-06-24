@@ -79,7 +79,7 @@
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_ripple_accent_bg"
+        android:background="@drawable/btn_accent_bg"
         android:textColor="@android:color/white"
         android:layout_margin="10dp"
         android:text="@string/login" >
