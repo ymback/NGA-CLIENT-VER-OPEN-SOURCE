@@ -100,7 +100,7 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
-    
+
     //修改生成的apk名字
     android.applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -113,7 +113,7 @@ android {
                 newName = 'NGA-v' + APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
             } else {
                 timeNow = getDate()
-                outDirectory = "./"
+                outDirectory = WINDOWS_PATH
                 if (variant.buildType.name.equals('debug')) {
                     newName = "NGA-v${APP_VERSION_NAME}-debug.apk"
                 } else {

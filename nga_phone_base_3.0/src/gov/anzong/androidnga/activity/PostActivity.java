@@ -38,6 +38,7 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     private TopicPostContract.Presenter mPresenter;
 
+    @SuppressWarnings("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
