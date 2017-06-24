@@ -24,6 +24,7 @@ import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.PermissionUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
@@ -136,7 +137,11 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
 
     @Override
     public void prepareUploadFile() {
-        mView.showFilePicker();
+        if (PermissionUtil.hasStoragePermission(mView.getContext()) && ActivityUtil.isGreaterThan_5_1()) {
+            mView.showFilePicker();
+        } else {
+            PermissionUtil.requestStoragePermission((Activity) mView.getContext());
+        }
     }
 
     @Override
