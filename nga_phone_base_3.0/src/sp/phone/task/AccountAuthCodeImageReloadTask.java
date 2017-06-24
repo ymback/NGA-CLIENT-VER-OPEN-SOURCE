@@ -28,6 +28,7 @@ public class AccountAuthCodeImageReloadTask extends
     @SuppressWarnings("unused")
     private String table;
 
+
     public AccountAuthCodeImageReloadTask(Context context,
                                           OnAuthCodeLoadFinishedListener notifier) {
         super();
