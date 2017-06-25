@@ -55,6 +55,10 @@ public class ActivityUtil {
         return false;
     }
 
+    public static boolean isGreateEqual_6_0() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
     public static boolean isNotLessThan_5_0() {
         return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
