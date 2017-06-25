@@ -36,8 +36,9 @@ public class TopicPostModel implements TopicPostContract.Model{
     private OkHttpClient mOkHttpClient;
 
 
-    public TopicPostModel() {
+    public TopicPostModel(TopicPostContract.Presenter presenter) {
         mOkHttpClient = new OkHttpClient();
+        mPresenter = presenter;
     }
 
     @Override
@@ -100,8 +101,4 @@ public class TopicPostModel implements TopicPostContract.Model{
         fileUploadTask.executeOnExecutor(FileUploadTask.THREAD_POOL_EXECUTOR);
     }
 
-    @Override
-    public void setPresenter(TopicPostContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
 }

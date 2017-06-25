@@ -29,8 +29,6 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     protected static final String TAG = "material";
 
-    protected AppCompatActivity mActivity;
-
     private FloatingActionButton mFab;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
@@ -110,12 +108,6 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     protected int getContainerId(){
         return R.id.container;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        mActivity = (AppCompatActivity) context;
-        super.onAttach(context);
     }
 
     private void setSupportActionBar(View rootView){

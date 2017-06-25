@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -27,6 +28,7 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateFullScreen();
+        updateOrientation();
         if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(this) || ActivityUtil.supportNewUi(this)) {
             updateThemeUi();
         }
@@ -50,6 +52,17 @@ public class BaseActivity extends ActionBarActivity {
             flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
+    }
+
+    private void updateOrientation(){
+        int orientation = ThemeManager.getInstance().screenOrentation;
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
     }
 
     protected void setupActionBar(Toolbar toolbar){

@@ -40,7 +40,7 @@ public interface TopicPostContract {
 
     }
 
-    interface Model extends BaseContract.Model<Presenter>{
+    interface Model extends BaseContract.Model {
 
         void preparePost();
 

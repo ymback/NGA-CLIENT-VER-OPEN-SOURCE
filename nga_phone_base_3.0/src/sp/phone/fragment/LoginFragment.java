@@ -29,13 +29,13 @@ import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.UserListAdapter;
 import sp.phone.bean.PreferenceConstant;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.interfaces.OnAuthcodeLoadFinishedListener;
-import sp.phone.task.AccountAuthcodeImageReloadTask;
+import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
+import sp.phone.task.AccountAuthCodeImageReloadTask;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class LoginFragment extends DialogFragment implements
-        PreferenceConstant, OnAuthcodeLoadFinishedListener {
+        PreferenceConstant, OnAuthCodeLoadFinishedListener {
 
     EditText userText;
     EditText passwordText;
@@ -43,7 +43,7 @@ public class LoginFragment extends DialogFragment implements
     ImageView authcodeImg;
     Button button_login;
     ImageButton authcodeimg_refresh;
-    AccountAuthcodeImageReloadTask loadauthcodetask;
+    AccountAuthCodeImageReloadTask loadauthcodetask;
     ListView userList;
     String name;
     Object commit_lock = new Object();
@@ -121,7 +121,7 @@ public class LoginFragment extends DialogFragment implements
         }
         authcodeImg.setImageDrawable(getResources().getDrawable(
                 R.drawable.q_vcode));
-        loadauthcodetask = new AccountAuthcodeImageReloadTask(getActivity(),
+        loadauthcodetask = new AccountAuthCodeImageReloadTask(getActivity(),
                 this);
         loadauthcodetask.execute();
     }
@@ -142,7 +142,7 @@ public class LoginFragment extends DialogFragment implements
     }
 
     @Override
-    public void authcodefinishLoad(Bitmap authimg, String authcode) {
+    public void authCodeFinishLoad(Bitmap authimg, String authcode) {
         // TODO Auto-generated method stub
         Log.i("TAG", authcode);
         this.authcode_cookie = authcode;
@@ -150,7 +150,7 @@ public class LoginFragment extends DialogFragment implements
     }
 
     @Override
-    public void authcodefinishLoadError() {
+    public void authCodeFinishLoadError() {
         // TODO Auto-generated method stub
         if (toast != null) {
             toast.setText("载入验证码失败，请点击刷新重新加载");
