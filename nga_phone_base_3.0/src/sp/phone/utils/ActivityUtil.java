@@ -65,8 +65,8 @@ public class ActivityUtil {
         return false;
     }
 
-    public static boolean isGreaterThan_3_0() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.HONEYCOMB;
+    public static boolean isNotLessThan_5_0() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static boolean isGreaterThan_2_2() {
@@ -77,16 +77,8 @@ public class ActivityUtil {
         return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.ECLAIR_MR1;
     }
 
-    public static boolean isGreaterThan_1_6() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.DONUT;
-    }
-
     public static boolean isGreaterThan_5_1(){
         return android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1;
-    }
-
-    public static boolean isGreaterThan_2_3() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD;
     }
 
     public static boolean isGreaterThan_2_3_3() {
