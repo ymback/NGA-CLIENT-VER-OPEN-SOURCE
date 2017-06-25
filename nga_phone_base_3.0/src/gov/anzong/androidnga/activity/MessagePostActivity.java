@@ -37,14 +37,6 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-
         super.onCreate(savedInstanceState);
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {

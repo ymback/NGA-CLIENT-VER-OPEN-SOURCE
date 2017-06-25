@@ -26,7 +26,7 @@ android {
 
     signingConfigs {
         signingConfig {
-            if (IS_JENKINS.equals("true")) {
+            if (IS_JENKINS == "true") {
                 storeFile file('../../android19910914.keystore')
             } else {
                 storeFile file('..\\..\\android19910914.keystore')
@@ -107,14 +107,14 @@ android {
             def newName
             def timeNow
             def outDirectory
-            if (IS_JENKINS.equals("true")) {
+            if (IS_JENKINS == "true") {
                 timeNow = JENKINS_TIME
                 outDirectory = '/auto-build/tomcat/webapps/download/'
                 newName = 'NGA-v' + APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
             } else {
                 timeNow = getDate()
                 outDirectory = WINDOWS_PATH
-                if (variant.buildType.name.equals('debug')) {
+                if (variant.buildType.name == 'debug') {
                     newName = "NGA-v${APP_VERSION_NAME}-debug.apk"
                 } else {
                     newName = "NGA-v${APP_VERSION_NAME}-" + timeNow + '-' + variant.buildType.name + '.apk'

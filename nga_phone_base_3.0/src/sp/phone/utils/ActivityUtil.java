@@ -19,12 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.LoginActivity;
-import gov.anzong.androidnga.activity.SettingsActivity;
 import sp.phone.bean.BoardHolder;
-import sp.phone.proxy.DummyFullScreenProxy;
-import sp.phone.proxy.FullScreenProxy;
-import sp.phone.proxy.V19FullScreenProxy;
 
 public class ActivityUtil {
 
@@ -33,7 +28,6 @@ public class ActivityUtil {
     private static final double EARTH_RADIUS = 6378.137;
     static ActivityUtil instance;
     static Object lock = new Object();
-    private final FullScreenProxy fullScreenProxy;
     private DialogFragment df = null;
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
             ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
@@ -41,10 +35,6 @@ public class ActivityUtil {
     private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity"};
 
     private ActivityUtil() {
-        if (isLessThan_4_4())
-            fullScreenProxy = new DummyFullScreenProxy();
-        else
-            fullScreenProxy = new V19FullScreenProxy();
     }
 
     public static boolean supportMaterialMode(Context context){
@@ -217,11 +207,6 @@ public class ActivityUtil {
     }
 
     public void setFullScreen(View v) {
-      //  fullScreenProxy.setFullScreen(v);
-    }
-
-    public void setNormalScreen(View v) {
-        fullScreenProxy.setNormalScreen(v);
     }
 
     public void noticeSaying(Context context) {

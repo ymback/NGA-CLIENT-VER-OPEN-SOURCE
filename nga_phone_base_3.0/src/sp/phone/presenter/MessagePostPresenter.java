@@ -15,6 +15,7 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.MessagePostAction;
+import sp.phone.model.MessagePostModel;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
 import sp.phone.utils.ActivityUtil;
@@ -28,6 +29,8 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
 
     private MessagePostContract.View mView;
 
+    private MessagePostContract.Model mModel;
+
     private final static Object COMMIT_LOCK = new Object();
 
     private boolean mLoading;
@@ -37,6 +40,7 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
     public MessagePostPresenter(MessagePostContract.View view) {
         mView = view;
         mView.setPresenter(this);
+        mModel = new MessagePostModel(this);
     }
 
     @Override
@@ -52,7 +56,7 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
         mMessagePostAction.setPost_subject_(title);
         if (body.length() > 0) {
             mMessagePostAction.setPost_content_(FunctionUtil.ColorTxtCheck(body));
-            new MessagePostTask(mView.getContext(),this).execute(mMessagePostAction.toString());
+            mModel.postMessage(mMessagePostAction,this);
         }
     }
 
