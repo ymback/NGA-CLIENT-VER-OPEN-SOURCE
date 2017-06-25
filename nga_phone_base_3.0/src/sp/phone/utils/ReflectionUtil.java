@@ -1,6 +1,6 @@
 package sp.phone.utils;
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,10 +8,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import java.lang.reflect.Method;
 
-import gov.anzong.androidnga.activity.MainActivity;
-
 public class ReflectionUtil {
-    public static boolean actionBar_setDisplayOption(ActionBarActivity activity, int flags) {
+    public static boolean actionBar_setDisplayOption(AppCompatActivity activity, int flags) {
         boolean ret = true;
          /*Method setDisplayMethod;
 		 Method getActionBarMethod;

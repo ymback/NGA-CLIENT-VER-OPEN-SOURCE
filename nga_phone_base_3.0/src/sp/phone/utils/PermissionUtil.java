@@ -15,14 +15,26 @@ public class PermissionUtil {
 
     public static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0;
 
+    public static final int REQUEST_CODE_LOCATION = 1;
 
-    public static boolean hasStoragePermission(Context context){
+
+    public static boolean hasStoragePermission(Context context) {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void requestStoragePermission(Activity activity){
+    public static void requestStoragePermission(Activity activity) {
         ActivityCompat.requestPermissions(activity,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+    }
+
+    public static boolean hasLocationPermission(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void requestLocationPermission(Activity activity) {
+        ActivityCompat.requestPermissions(activity,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                REQUEST_CODE_LOCATION);
     }
 }

@@ -31,6 +31,7 @@ import sp.phone.interfaces.OnNearbyLoadComplete;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.NearbyUserTask;
 import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.PermissionUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
@@ -92,6 +93,11 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     }
 
     void initLocation() {
+        if (!PermissionUtil.hasLocationPermission(this) && ActivityUtil.isGreateEqual_6_0()){
+            PermissionUtil.requestLocationPermission(this);
+            return;
+        }
+
         if (PhoneConfiguration.getInstance().location == null)
             ActivityUtil.reflushLocation(this);
 

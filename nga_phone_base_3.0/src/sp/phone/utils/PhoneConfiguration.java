@@ -66,7 +66,6 @@ import sp.phone.bean.Bookmark;
 import sp.phone.bean.PreferenceConstant;
 
 public class PhoneConfiguration implements PreferenceConstant {
-    private static PhoneConfiguration instance;
     public String userName;
     public int nikeWidth = 100;
     public boolean downAvatarNoWifi;
@@ -121,18 +120,22 @@ public class PhoneConfiguration implements PreferenceConstant {
     private float textSize;
     private int webSize;
     private int uiFlag = 0;
+
+
+    private static class PhoneConfigurationHolder {
+
+        private static PhoneConfiguration sInstance = new PhoneConfiguration();
+    }
+
+
     private PhoneConfiguration() {
 
-        bookmarks = new ArrayList<Bookmark>();
-
+        bookmarks = new ArrayList<>();
 
     }
 
     public static PhoneConfiguration getInstance() {
-        if (instance == null) {
-            instance = new PhoneConfiguration();
-        }
-        return instance;
+        return PhoneConfigurationHolder.sInstance;
     }
 
     public String getDb_Cookie() {
