@@ -125,6 +125,11 @@
             android:defaultValue="false"
             android:title="@string/showAnimation"/>
 
+
+        <android.preference.SwitchCompatPreference
+            android:key="material_mode"
+            android:title="@string/setting_title_material_mode"/>
+
         <PreferenceScreen
             android:title="@string/setting_title_size"
             android:key="adjust_size"

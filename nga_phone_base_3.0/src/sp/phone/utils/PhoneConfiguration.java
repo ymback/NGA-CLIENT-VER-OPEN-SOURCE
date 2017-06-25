@@ -168,7 +168,7 @@ public class PhoneConfiguration implements PreferenceConstant {
     }
 
     public boolean isMaterialMode(){
-        return materialMode;
+        return materialMode && ActivityUtil.isNotLessThan_5_0();
     }
 
     public void setMaterialMode(boolean materialMode){
