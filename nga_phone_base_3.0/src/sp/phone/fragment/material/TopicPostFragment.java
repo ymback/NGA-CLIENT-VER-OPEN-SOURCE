@@ -95,7 +95,6 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
 
         });
         initUserSpinner();
-        updateThemeUi();
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -210,12 +209,6 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
         startActivityForResult(intent, PostActivity.REQUEST_CODE_SELECT_PIC);
     }
 
-
-    private void updateThemeUi(){
-
-    }
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.topic_post_menu, menu);
@@ -245,9 +238,6 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
             mTitleEditText.requestFocus();
         } else {
             mBodyEditText.requestFocus();
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(getView());
         }
         if (mUploadFilePath != null) {
             mPresenter.startUploadTask(mUploadFilePath);

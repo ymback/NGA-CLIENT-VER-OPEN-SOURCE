@@ -19,9 +19,14 @@ import android.view.animation.Interpolator;
 public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
 
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
+
     private boolean mIsAnimatingOut = false;
+
     private boolean mIsAnimationIn = false;
+
     private boolean mIsShown = true;
+
+    private static final int SCROLL_AXIS_VERTICAL = 10;
 
     public ScrollAwareFabBehavior(Context context, AttributeSet attrs) {
         super();
@@ -36,10 +41,10 @@ public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
 
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dx, int dy, int[] consumed) {
-        if (dy > 0 && !mIsAnimatingOut && mIsShown) {
+        if (dy > SCROLL_AXIS_VERTICAL && !mIsAnimatingOut && mIsShown) {
             // User scrolled down and the FAB is currently visible -> hide the FAB
             animateOut(child);
-        } else if (dy < 0 && !mIsAnimationIn && !mIsShown) {
+        } else if (dy < -SCROLL_AXIS_VERTICAL && !mIsAnimationIn && !mIsShown) {
             // User scrolled up and the FAB is currently not visible -> show the FAB
             animateIn(child);
         }

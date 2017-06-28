@@ -19,12 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.LoginActivity;
-import gov.anzong.androidnga.activity.SettingsActivity;
 import sp.phone.bean.BoardHolder;
-import sp.phone.proxy.DummyFullScreenProxy;
-import sp.phone.proxy.FullScreenProxy;
-import sp.phone.proxy.V19FullScreenProxy;
 
 public class ActivityUtil {
 
@@ -33,7 +28,6 @@ public class ActivityUtil {
     private static final double EARTH_RADIUS = 6378.137;
     static ActivityUtil instance;
     static Object lock = new Object();
-    private final FullScreenProxy fullScreenProxy;
     private DialogFragment df = null;
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
             ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
@@ -41,10 +35,6 @@ public class ActivityUtil {
     private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity"};
 
     private ActivityUtil() {
-        if (isLessThan_4_4())
-            fullScreenProxy = new DummyFullScreenProxy();
-        else
-            fullScreenProxy = new V19FullScreenProxy();
     }
 
     public static boolean supportMaterialMode(Context context){
@@ -65,8 +55,12 @@ public class ActivityUtil {
         return false;
     }
 
-    public static boolean isGreaterThan_3_0() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.HONEYCOMB;
+    public static boolean isGreateEqual_6_0() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean isNotLessThan_5_0() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static boolean isGreaterThan_2_2() {
@@ -77,16 +71,8 @@ public class ActivityUtil {
         return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.ECLAIR_MR1;
     }
 
-    public static boolean isGreaterThan_1_6() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.DONUT;
-    }
-
     public static boolean isGreaterThan_5_1(){
         return android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1;
-    }
-
-    public static boolean isGreaterThan_2_3() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD;
     }
 
     public static boolean isGreaterThan_2_3_3() {
@@ -225,11 +211,6 @@ public class ActivityUtil {
     }
 
     public void setFullScreen(View v) {
-      //  fullScreenProxy.setFullScreen(v);
-    }
-
-    public void setNormalScreen(View v) {
-        fullScreenProxy.setNormalScreen(v);
     }
 
     public void noticeSaying(Context context) {

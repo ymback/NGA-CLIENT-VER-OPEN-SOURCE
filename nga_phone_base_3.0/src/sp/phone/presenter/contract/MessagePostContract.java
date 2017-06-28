@@ -1,6 +1,7 @@
 package sp.phone.presenter.contract;
 
 import sp.phone.forumoperation.MessagePostAction;
+import sp.phone.task.MessagePostTask;
 
 /**
  * Created by Yang Yihang on 2017/5/28.
@@ -8,7 +9,7 @@ import sp.phone.forumoperation.MessagePostAction;
 
 public interface MessagePostContract {
 
-    interface Presenter extends BaseContract.Presenter{
+    interface Presenter extends BaseContract.Presenter {
 
         void commit(String title,String to,String body);
 
@@ -18,10 +19,15 @@ public interface MessagePostContract {
 
     }
 
-    interface View extends BaseContract.View<Presenter>{
+    interface View extends BaseContract.View<Presenter> {
 
         void finish(int resultCode);
 
         void insertBodyText(CharSequence text);
+    }
+
+    interface Model extends BaseContract.Model {
+
+        void postMessage(MessagePostAction action,MessagePostTask.CallBack callBack);
     }
 }
