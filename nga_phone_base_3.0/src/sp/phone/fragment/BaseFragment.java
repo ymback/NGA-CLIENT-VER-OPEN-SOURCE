@@ -2,7 +2,11 @@ package sp.phone.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -48,6 +52,34 @@ public class BaseFragment extends Fragment {
         if (mActivity != null) {
             mActivity.finish();
         }
+    }
+
+    protected void setSupportActionBar(Toolbar toolbar) {
+        if (mActivity != null) {
+            mActivity.setSupportActionBar(toolbar);
+        }
+    }
+
+    protected ActionBar getSupportActionBar() {
+        return mActivity != null ? mActivity.getSupportActionBar() : null;
+    }
+
+    protected void setTitle(String title) {
+        if (mActivity != null) {
+            mActivity.setTitle(title);
+        }
+    }
+
+    protected void setTitle(int resId) {
+        setTitle(getString(resId));
+    }
+
+    protected LayoutInflater getLayoutInflater() {
+        return mActivity != null ? mActivity.getLayoutInflater() : null;
+    }
+
+    protected FragmentManager getSupportFragmentManager() {
+        return getChildFragmentManager();
     }
 
     @Override

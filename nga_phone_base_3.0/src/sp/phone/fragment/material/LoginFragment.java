@@ -1,6 +1,7 @@
 package sp.phone.fragment.material;
 
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -85,6 +86,13 @@ public class LoginFragment extends MaterialCompatFragment implements View.OnClic
     @Override
     public void setAuthCode(String text) {
         mAuthCodeView.setText(text);
+    }
+
+    @Override
+    public void setResult(boolean isChanged) {
+        if (isChanged) {
+            getActivity().setResult(Activity.RESULT_OK);
+        }
     }
 
 }

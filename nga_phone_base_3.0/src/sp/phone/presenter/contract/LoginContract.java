@@ -21,6 +21,7 @@ public interface LoginContract {
         void setLoginAction(LoginAction loginAction);
 
         void start();
+
     }
 
     interface View extends BaseContract.View<Presenter> {
@@ -30,6 +31,8 @@ public interface LoginContract {
         void setAuthCodeImg(int resId);
 
         void setAuthCode(String text);
+
+        void setResult(boolean isChanged);
     }
 
     interface Model extends BaseContract.Model {

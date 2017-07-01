@@ -11,7 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.util.Log;
@@ -112,7 +112,7 @@ public class ArticleListFragment extends BaseFragment implements
                 ListView lv = (ListView) parent;
                 lv.setItemChecked(position, true);
                 if (mActionModeCallback != null) {
-                    ((ActionBarActivity) getActivity()).startSupportActionMode((Callback) mActionModeCallback);
+                    ((AppCompatActivity) getActivity()).startSupportActionMode((Callback) mActionModeCallback);
                     return true;
                 }
                 return false;

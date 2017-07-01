@@ -106,6 +106,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                         config.setReplyTotalNum(0);
                         config.setReplyString("");
                         config.blacklist = StringUtil.blackliststringtolisttohashset("");
+                        mView.setResult(true);
                         mView.finish();
                     }
 

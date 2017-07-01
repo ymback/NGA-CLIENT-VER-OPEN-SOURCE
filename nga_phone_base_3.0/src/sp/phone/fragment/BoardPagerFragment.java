@@ -14,15 +14,16 @@ import android.widget.GridView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.BoardCatagoryAdapter;
-import sp.phone.interfaces.PageCategoryOwnner;
+import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
 
 public class BoardPagerFragment extends Fragment {
     private static final String TAG = BoardPagerFragment.class.getSimpleName();
     int category;
     GridView listview;
     BaseAdapter adapter;
+
+    private PageCategoryOwner mPageCategoryOwner;
 
     // View v;
     public static Fragment newInstance(int category) {
@@ -32,6 +33,10 @@ public class BoardPagerFragment extends Fragment {
         f.setArguments(args);
         return f;
 
+    }
+
+    public void setPageCategoryOwner(PageCategoryOwner pageCategoryOwner) {
+        mPageCategoryOwner = pageCategoryOwner;
     }
 
     @Override
@@ -55,8 +60,6 @@ public class BoardPagerFragment extends Fragment {
                             R.anim.grid_wave_scale);
             listview.setLayoutAnimation(anim);
         }
-        listview.setBackgroundResource(ThemeManager.getInstance()
-                .getBackgroundColor());
 
         return listview;
     }
@@ -65,38 +68,28 @@ public class BoardPagerFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         OnItemClickListener listener = null;
-        try {
+        if (getParentFragment() instanceof OnItemClickListener) {
+            listener = (OnItemClickListener) getParentFragment();
+        } else if (getActivity() instanceof OnItemClickListener) {
             listener = (OnItemClickListener) getActivity();
-        } catch (ClassCastException e) {
+        } else {
             Log.e(TAG,
-                    "activty should implements "
+                    "Activity or parentFragment should implements "
                             + OnItemClickListener.class.getSimpleName());
         }
 
         listview.setOnItemClickListener(listener);
 
-        PageCategoryOwnner pageCategoryOwnner = null;
-        try {
 
-            pageCategoryOwnner = (PageCategoryOwnner) getActivity();
-        } catch (ClassCastException e) {
-            Log.e(TAG, "father activity does not implements interface "
-                    + PageCategoryOwnner.class.getName());
-
+        if (mPageCategoryOwner == null && getActivity() instanceof PageCategoryOwner) {
+            mPageCategoryOwner = (PageCategoryOwner) getActivity();
         }
 
         adapter = new BoardCatagoryAdapter(getResources(), getActivity()
-                .getLayoutInflater(), pageCategoryOwnner.getCategory(category));
+                .getLayoutInflater(), mPageCategoryOwner.getCategory(category));
 
         listview.setAdapter(adapter);
 
-    }
-
-    @Override
-    public void onResume() {
-        listview.setBackgroundResource(ThemeManager.getInstance()
-                .getBackgroundColor());
-        super.onResume();
     }
 
 }

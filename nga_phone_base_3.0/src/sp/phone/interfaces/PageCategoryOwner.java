@@ -2,7 +2,8 @@ package sp.phone.interfaces;
 
 import sp.phone.bean.BoardCategory;
 
-public interface PageCategoryOwnner {
+public interface PageCategoryOwner {
+
     int getCategoryCount();
 
     String getCategoryName(int position);
