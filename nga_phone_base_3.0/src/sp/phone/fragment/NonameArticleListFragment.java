@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.util.Log;
@@ -103,7 +103,7 @@ public class NonameArticleListFragment extends Fragment implements
                 ListView lv = (ListView) parent;
                 lv.setItemChecked(position, true);
                 if (mActionModeCallback != null) {
-                    ((ActionBarActivity) getActivity())
+                    ((AppCompatActivity) getActivity())
                             .startSupportActionMode((Callback) mActionModeCallback);
                     return true;
                 }

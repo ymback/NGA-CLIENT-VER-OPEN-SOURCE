@@ -23,18 +23,18 @@ public class TopicPostAction {
     private String __ngaClientChecksum;
     private boolean __isanony;//&anony=1
 
-    private String auth;
+    private String auth = "";
 
     public String getAuth() {
         return auth;
     }
 
-    public synchronized void setAuth(String auth) {
-        this.auth = auth;
-    }
-
     public String getAction(){
         return action_;
+    }
+
+    public synchronized void setAuth(String auth) {
+        this.auth = auth;
     }
 
     public String getTid(){

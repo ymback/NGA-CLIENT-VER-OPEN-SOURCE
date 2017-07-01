@@ -14,6 +14,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import sp.phone.bean.json.TopicPostBean;
 import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.presenter.contract.TopicPostContract;
@@ -73,13 +74,21 @@ public class TopicPostModel implements TopicPostContract.Model{
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-                if ("ok".equalsIgnoreCase(response.message())){
-                    String result = response.body().string();
+                ResponseBody body = response.body();
+                if ("ok".equalsIgnoreCase(response.message()) && body != null){
+                    String result = body.string();
                     int index = result.indexOf("=");
+                    if (index < 0) {
+                        Log.e(TAG,"prepare post info failed !!");
+                        return;
+                    }
                     result = result.substring(index+1);
                     TopicPostBean bean = JSON.parseObject(result,TopicPostBean.class);
-                    act.setAuth(bean.getData().getAuth());
-                    Log.d(TAG,result);
+                    if (bean != null) {
+                        act.setAuth(bean.getData().getAuth());
+                    } else {
+                        Log.e(TAG,"prepare post info failed !!");
+                    }
                 } else {
                     Log.e(TAG,"prepare post info failed !!");
                 }
