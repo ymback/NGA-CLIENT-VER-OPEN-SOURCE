@@ -1,5 +1,6 @@
 package sp.phone.fragment.material;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -183,6 +184,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 editor.putString(PreferenceConstant.RECENT_BOARD, "");
                 editor.putString(PreferenceConstant.ADD_FID, addFidStr);
                 editor.apply();
+                getActivity().setResult(Activity.RESULT_OK);
 
             }
 

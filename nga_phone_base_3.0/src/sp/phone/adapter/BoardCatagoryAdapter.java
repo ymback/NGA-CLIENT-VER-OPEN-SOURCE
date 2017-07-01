@@ -13,7 +13,6 @@ import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.BoardCategory;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.ThemeManager;
 
 public class BoardCatagoryAdapter extends BaseAdapter {
 
@@ -69,14 +68,6 @@ public class BoardCatagoryAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-            holder.text.setTextColor(getResources().getColor(
-                    R.color.night_fore_color));
-        } else {
-            holder.text.setTextColor(getResources().getColor(
-                    R.color.black));
-        }
- 
         Drawable draw = getDrable(convertView, position);
         holder.img.setImageDrawable(draw);
         holder.text.setText(category.get(position).getName());

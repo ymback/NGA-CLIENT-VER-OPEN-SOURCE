@@ -1,10 +1,10 @@
 package sp.phone.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +64,8 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
                 @Override
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                     remove(viewHolder.getAdapterPosition());
+                    //temp solution
+                    ((Activity)mContext).setResult(Activity.RESULT_OK);
                     notifyDataSetChanged();
                 }
             });
