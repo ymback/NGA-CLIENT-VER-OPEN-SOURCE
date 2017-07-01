@@ -17,6 +17,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
@@ -114,6 +115,8 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
                 return onOptionsItemSelected(item);
             }
         });
+        NavigationMenuView menuView = (NavigationMenuView) navigationView.getChildAt(0);
+        menuView.setVerticalScrollBarEnabled(false);
         MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_gun);
         View actionView = getLayoutInflater().inflate(R.layout.nav_menu_action_view_gun,null);
         menuItem.setActionView(actionView);
