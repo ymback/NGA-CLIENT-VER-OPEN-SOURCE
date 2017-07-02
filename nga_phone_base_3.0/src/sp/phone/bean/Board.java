@@ -1,6 +1,9 @@
 package sp.phone.bean;
 
-public class Board {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Board implements Parcelable {
     private int category;
     private String url;
     private String name;
@@ -28,6 +31,25 @@ public class Board {
     public Board(String url, String name) {
         this(0, url, name, 0);
     }
+
+    protected Board(Parcel in) {
+        category = in.readInt();
+        url = in.readString();
+        name = in.readString();
+        icon = in.readInt();
+    }
+
+    public static final Creator<Board> CREATOR = new Creator<Board>() {
+        @Override
+        public Board createFromParcel(Parcel in) {
+            return new Board(in);
+        }
+
+        @Override
+        public Board[] newArray(int size) {
+            return new Board[size];
+        }
+    };
 
     public String getUrl() {
         return url;
@@ -70,4 +92,16 @@ public class Board {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(category);
+        dest.writeString(url);
+        dest.writeString(name);
+        dest.writeInt(icon);
+    }
 }

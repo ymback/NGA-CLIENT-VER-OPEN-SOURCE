@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.fragment.material.TopicListFragment;
@@ -38,7 +39,6 @@ public class TopicViewPagerAdapter extends FragmentPagerAdapter {
             try {
                 TopicListRequestInfo info = (TopicListRequestInfo) mRequestInfo.clone();
                 info.category = position;
-                mPresenters[position] = new TopicListPresenter((TopicListContract.View) mFragments[position]);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("requestInfo",info);
                 mFragments[position].setArguments(bundle);
@@ -50,6 +50,12 @@ public class TopicViewPagerAdapter extends FragmentPagerAdapter {
         return mFragments[position];
     }
 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container,position);
+        mPresenters[position] = new TopicListPresenter((TopicListContract.View) fragment);
+        return fragment;
+    }
 
     @Override
     public int getCount() {
