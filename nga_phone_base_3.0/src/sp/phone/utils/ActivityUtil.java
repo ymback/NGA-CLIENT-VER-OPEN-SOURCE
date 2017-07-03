@@ -32,7 +32,11 @@ public class ActivityUtil {
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
             ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
 
-    private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity"};
+    private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity","MainActivity"};
+
+    public static final int REQUEST_CODE_LOGIN = 1;
+
+    public static final int REQUEST_CODE_SETTING = 2;
 
     private ActivityUtil() {
     }

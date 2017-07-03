@@ -3,57 +3,47 @@ package sp.phone.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.ViewGroup;
 
-import sp.phone.fragment.BoardPagerFragment;
-import sp.phone.interfaces.PageCategoryOwnner;
+import sp.phone.fragment.BoardCategoryFragment;
+import sp.phone.interfaces.PageCategoryOwner;
 
 public class BoardPagerAdapter extends FragmentStatePagerAdapter {
 
-    final private int widthPercentage;
-    private PageCategoryOwnner pageCategoryOwnner;
+    private final int mWidthPercentage;
 
-    public BoardPagerAdapter(FragmentManager fm, PageCategoryOwnner pageCategoryOwnner, int width) {
+    private PageCategoryOwner mPageCategoryOwner;
+
+    public BoardPagerAdapter(FragmentManager fm, PageCategoryOwner pageCategoryOwner, int width) {
         super(fm);
-        this.pageCategoryOwnner = pageCategoryOwnner;
-        this.widthPercentage = width;
+        mPageCategoryOwner = pageCategoryOwner;
+        mWidthPercentage = width;
 
     }
 
     @Override
     public Fragment getItem(int index) {
-        return BoardPagerFragment.newInstance(index);
+        return BoardCategoryFragment.newInstance(mPageCategoryOwner.getCategory(index));
     }
 
     @Override
     public int getCount() {
 
-        return pageCategoryOwnner.getCategoryCount();
+        return mPageCategoryOwner.getCategoryCount();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-
-        return pageCategoryOwnner.getCategoryName(position);
+        return mPageCategoryOwner.getCategoryName(position);
     }
 
     @Override
     public float getPageWidth(int position) {
-        return widthPercentage / 100.0f;
+        return mWidthPercentage / 100.0f;
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        Object obj = super.instantiateItem(container, position);
-        if (obj != null) {
-            try {
-                destroyItem(container, position, obj);
-            } catch (Exception e) {
 
-            }
-            return super.instantiateItem(container, position);
-        } else {
-            return obj;
-        }
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }
