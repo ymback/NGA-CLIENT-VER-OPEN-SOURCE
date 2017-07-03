@@ -6,8 +6,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion General_CompileSdkVersion as int
-    buildToolsVersion General_BuildToolsVersion
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
 
     sourceSets {
         main {
