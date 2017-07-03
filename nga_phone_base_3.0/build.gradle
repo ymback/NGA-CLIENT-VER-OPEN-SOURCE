@@ -28,19 +28,6 @@ android {
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
 
-    signingConfigs {
-        signingConfig {
-            if (isJenkins()) {
-                storeFile file('../../android19910914.keystore')
-            } else {
-                storeFile file('..\\..\\android19910914.keystore')
-            }
-            storePassword '19910914'
-            keyAlias 'android.keystore'
-            keyPassword '19910914'
-        }
-    }
-
     packagingOptions {
         exclude 'lib/arm64-v8a/*.so'
         exclude 'lib/x86_64/*.so'
@@ -68,7 +55,6 @@ android {
             pseudoLocalesEnabled false
             minifyEnabled false
             zipAlignEnabled true
-            signingConfig signingConfigs.signingConfig
         }
 
         debug {
