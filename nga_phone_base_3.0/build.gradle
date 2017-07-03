@@ -6,6 +6,10 @@ static def getDate() {
     return formattedDate
 }
 
+def isJenkins() {
+    return project.hasProperty('IS_JENKINS') && IS_JENKINS == 'true'
+}
+
 buildscript {
     repositories {
         maven {
@@ -26,7 +30,7 @@ android {
 
     signingConfigs {
         signingConfig {
-            if (IS_JENKINS == "true") {
+            if (isJenkins()) {
                 storeFile file('../../android19910914.keystore')
             } else {
                 storeFile file('..\\..\\android19910914.keystore')
@@ -52,8 +56,8 @@ android {
         multiDexEnabled true
         resConfigs "zh", "en"
 
-        versionCode APP_VERSION_CODE as int
-        versionName APP_VERSION_NAME
+        versionCode project.appVersionCode
+        versionName project.appVersionName
     }
 
     buildTypes {
@@ -106,15 +110,15 @@ android {
         variant.outputs.each { output ->
             def newName
             def timeNow
-            if (IS_JENKINS == "true") {
+            if (isJenkins()) {
                 timeNow = JENKINS_TIME
-                newName = 'NGA-v' + APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
+                newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
             } else {
                 timeNow = getDate()
                 if (variant.buildType.name == 'debug') {
-                    newName = "NGA-v${APP_VERSION_NAME}-debug.apk"
+                    newName = 'NGA-v' + project.appVersionName + '-debug.apk'
                 } else {
-                    newName = "NGA-v${APP_VERSION_NAME}-" + timeNow + '-' + variant.buildType.name + '.apk'
+                    newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
                 }
             }
             output.outputFile = new File(output.outputFile.parent, newName)
