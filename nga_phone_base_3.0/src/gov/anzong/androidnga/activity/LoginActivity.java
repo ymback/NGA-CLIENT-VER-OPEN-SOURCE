@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.fragment.material.LoginFragment;
+import sp.phone.fragment.material.LoginWebFragment;
 import sp.phone.presenter.LoginPresenter;
 import sp.phone.presenter.contract.LoginContract;
 
@@ -26,7 +27,9 @@ public class LoginActivity extends SwipeBackAppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(LoginFragment.class.getSimpleName());
         if (fragment == null){
-            fragment = new LoginFragment();
+            // 暂时使用网页版登录
+            //fragment = new LoginFragment();
+            fragment = new LoginWebFragment();
             fm.beginTransaction().replace(R.id.container,fragment,LoginFragment.class.getSimpleName()).commit();
         }
         LoginPresenter presenter = new LoginPresenter((LoginContract.View) fragment);
