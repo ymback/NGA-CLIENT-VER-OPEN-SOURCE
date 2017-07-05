@@ -126,7 +126,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void parseCookie(String cookies) {
-        if (!cookies.contains(TAG_UID)) {
+        if (!cookies.contains(TAG_UID) || mLoginAction.getUid() != null) {
             return;
         }
         String uid = null;
@@ -153,6 +153,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         if (!StringUtil.isEmpty(cid)
                 && !StringUtil.isEmpty(uid)
                 && !StringUtil.isEmpty(userName)) {
+            mLoginAction.setUid(uid);
             saveCookie(uid,cid,userName);
         }
 
