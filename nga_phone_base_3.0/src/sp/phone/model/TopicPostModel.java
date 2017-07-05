@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 
 import java.io.IOException;
 
@@ -83,7 +84,12 @@ public class TopicPostModel implements TopicPostContract.Model{
                         return;
                     }
                     result = result.substring(index+1);
-                    TopicPostBean bean = JSON.parseObject(result,TopicPostBean.class);
+                    TopicPostBean bean = null;
+                    try {
+                        bean = JSON.parseObject(result, TopicPostBean.class);
+                    } catch (JSONException e) {
+                      e.printStackTrace();
+                    }
                     if (bean != null) {
                         act.setAuth(bean.getData().getAuth());
                     } else {
