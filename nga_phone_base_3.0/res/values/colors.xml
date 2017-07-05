@@ -4,9 +4,9 @@
     <color name="text_color">#FF21201B</color>
     <color name="text_color_disabled">#FFC4BEAE</color>
     <color name="window_background">@color/shit2</color>
-    <color name="colorAccent">#FF128F80</color>
-    <color name="colorPrimary">#FF128F80</color>
-    <color name="colorPrimaryDark">#FF128F80</color>
+    <color name="colorAccent">#FF591804</color>
+    <color name="colorPrimary">#FF591804</color>
+    <color name="colorPrimaryDark">#FF591804</color>
 
     <color name="toolbar_text_color">#FFFFFF</color>
     <color name="toolbar_popup_background">#fffafafa</color>
