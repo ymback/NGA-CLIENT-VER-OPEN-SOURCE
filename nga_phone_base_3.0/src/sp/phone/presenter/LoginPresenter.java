@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.PreferenceConstant;
@@ -138,6 +141,12 @@ public class LoginPresenter implements LoginContract.Presenter {
                 cid = cookie.substring(TAG_CID.length() + 1);
             } else if (cookie.contains(TAG_USER_NAME)) {
                 userName = cookie.substring(TAG_USER_NAME.length() + 1);
+                try {
+                    userName = URLDecoder.decode(userName, "gbk");
+                    userName = URLDecoder.decode(userName, "gbk");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

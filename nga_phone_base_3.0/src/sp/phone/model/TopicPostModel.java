@@ -88,7 +88,7 @@ public class TopicPostModel implements TopicPostContract.Model{
                     try {
                         bean = JSON.parseObject(result, TopicPostBean.class);
                     } catch (JSONException e) {
-                      e.printStackTrace();
+                        e.printStackTrace();
                     }
                     if (bean != null) {
                         act.setAuth(bean.getData().getAuth());
