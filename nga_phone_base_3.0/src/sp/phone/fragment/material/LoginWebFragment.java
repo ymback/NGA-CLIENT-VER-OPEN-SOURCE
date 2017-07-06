@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -44,11 +45,18 @@ public class LoginWebFragment extends BaseFragment implements LoginContract.View
                 mProgressBar.setVisibility(View.GONE);
             }
             mProgressBar.setProgress(newProgress);
-            String cookieStr = CookieManager.getInstance().getCookie(view.getUrl());
-            if (!StringUtil.isEmpty(cookieStr)) {
-                mPresenter.parseCookie(cookieStr);
-            }
             super.onProgressChanged(view, newProgress);
+        }
+
+        @Override
+        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+            if (message.contains("成功")) {
+                String cookieStr = CookieManager.getInstance().getCookie(view.getUrl());
+                if (!StringUtil.isEmpty(cookieStr)) {
+                    mPresenter.parseCookie(cookieStr);
+                }
+            }
+            return super.onJsAlert(view, url, message, result);
         }
     }
 
@@ -80,7 +88,6 @@ public class LoginWebFragment extends BaseFragment implements LoginContract.View
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        CookieManager.getInstance().removeAllCookie();
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         mProgressBar.setMax(MAX_PROGRESS);
         webView.loadUrl(LOGIN_URL);
