@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.ArticleListActivity;
 import sp.phone.bean.BoardHolder;
 
 public class ActivityUtil {
@@ -32,11 +33,13 @@ public class ActivityUtil {
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
             ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
 
-    private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity","MainActivity"};
+    private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity","MainActivity", ArticleListActivity.class.getSimpleName()};
 
     public static final int REQUEST_CODE_LOGIN = 1;
 
     public static final int REQUEST_CODE_SETTING = 2;
+
+    public static final int REQUEST_CODE_TOPIC_POST = 3;
 
     private ActivityUtil() {
     }

@@ -31,7 +31,7 @@ import sp.phone.bean.PreferenceConstant;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonMessageDetialLoadTask;
 import sp.phone.task.JsonMessageListLoadTask;
@@ -221,12 +221,12 @@ public class MessageDetialListContainer extends BaseFragment implements
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        PagerOwnner father = null;
+        PagerOwner father = null;
         try {
-            father = (PagerOwnner) getActivity();
+            father = (PagerOwner) getActivity();
         } catch (ClassCastException e) {
             Log.e(TAG, "father activity does not implements interface "
-                    + PagerOwnner.class.getName());
+                    + PagerOwner.class.getName());
             return true;
         }
 

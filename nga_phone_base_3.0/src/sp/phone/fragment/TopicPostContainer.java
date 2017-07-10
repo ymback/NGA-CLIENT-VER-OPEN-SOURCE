@@ -250,6 +250,11 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
         startActivityForResult(intent, PostActivity.REQUEST_CODE_SELECT_PIC);
     }
 
+    @Override
+    public void setResult(int result) {
+        getActivity().setResult(result);
+    }
+
 
     private void updateThemeUi(){
         ThemeManager tm = ThemeManager.getInstance();

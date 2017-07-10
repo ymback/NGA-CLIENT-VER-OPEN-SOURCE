@@ -49,7 +49,7 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.ResetableArticle;
 import sp.phone.listener.MyListenerForClient;
 import sp.phone.listener.MyListenerForReply;
@@ -556,9 +556,9 @@ public class ArticleListFragmentNew extends Fragment implements
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-                PagerOwnner father = null;
+                PagerOwner father = null;
                 try {
-                    father = (PagerOwnner) getActivity();
+                    father = (PagerOwner) getActivity();
                     if (father.getCurrentPage() == page) {
                         PhoneConfiguration.getInstance().setRefreshAfterPost(
                                 false);
@@ -568,7 +568,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     }
                 } catch (ClassCastException e) {
                     Log.e(TAG, "father activity does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
 
                 }
 

@@ -26,7 +26,7 @@ import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.fragment.NonameArticleListFragment;
 import sp.phone.fragment.NonameArticleListFragmentNew;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -37,7 +37,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class NonameArticleListActivity extends SwipeBackAppCompatActivity
-        implements PagerOwnner, OnNonameThreadPageLoadFinishedListener,
+        implements PagerOwner, OnNonameThreadPageLoadFinishedListener,
         PullToRefreshAttacherOnwer, PreferenceConstant {
     private static final String TAG = "ArticleListActivity";
     private static final String GOTO_TAG = "goto";

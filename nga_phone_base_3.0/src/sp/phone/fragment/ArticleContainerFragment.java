@@ -28,7 +28,7 @@ import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.ThreadData;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
@@ -36,7 +36,7 @@ import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class ArticleContainerFragment extends BaseFragment implements
-        OnThreadPageLoadFinishedListener, PreferenceConstant, PagerOwnner {
+        OnThreadPageLoadFinishedListener, PreferenceConstant, PagerOwner {
     private static final String TAG = "ArticleContainerFrag";
     private static final String GOTO_TAG = "goto";
     // TabHost tabhost;
