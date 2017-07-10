@@ -30,7 +30,7 @@ import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.bean.PreferenceConstant;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.listener.MyListenerForNonameReply;
 import sp.phone.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
@@ -194,9 +194,9 @@ public class NonameArticleListFragmentNew extends Fragment implements
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-                PagerOwnner father = null;
+                PagerOwner father = null;
                 try {
-                    father = (PagerOwnner) getActivity();
+                    father = (PagerOwner) getActivity();
                     if (father.getCurrentPage() == page) {
                         PhoneConfiguration.getInstance().setRefreshAfterPost(
                                 false);
@@ -206,7 +206,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                     }
                 } catch (ClassCastException e) {
                     Log.e(TAG, "father activity does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
 
                 }
 

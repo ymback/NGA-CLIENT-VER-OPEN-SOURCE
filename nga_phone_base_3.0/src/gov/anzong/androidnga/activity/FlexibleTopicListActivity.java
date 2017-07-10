@@ -45,7 +45,7 @@ import sp.phone.interfaces.EnterJsonArticle;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
@@ -63,7 +63,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
  */
 public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         implements OnTopListLoadFinishedListener, OnItemClickListener,
-        OnThreadPageLoadFinishedListener, PagerOwnner,
+        OnThreadPageLoadFinishedListener, PagerOwner,
         OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
         OnItemLongClickListener,
         ArticleContainerFragment.OnArticleContainerFragmentListener,
@@ -509,28 +509,28 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public int getCurrentPage() {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
             Fragment articleContainer = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             if (null == child)
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwnner.class.getName());
+            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return 0;
         }
     }
 
     @Override
     public void setCurrentItem(int index) {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
             Fragment articleContainer = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwnner.class.getName());
+            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return;
         }
     }

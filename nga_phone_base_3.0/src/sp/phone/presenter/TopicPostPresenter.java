@@ -165,6 +165,7 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
             PhoneConfiguration.getInstance().setRefreshAfterPost(true);
         }
         if (isSuccess){
+            mView.setResult(Activity.RESULT_OK);
             mView.finish();
         }
 

@@ -26,14 +26,14 @@ import sp.phone.adapter.NonameThreadFragmentAdapter;
 import sp.phone.bean.PreferenceConstant;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
 
 public class NonameArticleContainerFragment extends BaseFragment implements
-        OnNonameThreadPageLoadFinishedListener, PreferenceConstant, PagerOwnner {
+        OnNonameThreadPageLoadFinishedListener, PreferenceConstant, PagerOwner {
     private static final String TAG = "NonameArtContainFrag";
     private static final String GOTO_TAG = "goto";
     // TabHost tabhost;

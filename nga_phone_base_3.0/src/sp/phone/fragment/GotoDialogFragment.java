@@ -1,58 +1,57 @@
 package sp.phone.fragment;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import gov.anzong.androidnga.R;
-import sp.phone.interfaces.PagerOwnner;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.interfaces.PagerOwner;
 
 public class GotoDialogFragment extends NoframeDialogFragment {
-    final static private String TAG = "GotoDialogFragment";
-    View v;
 
+    private final static String TAG = "GotoDialogFragment";
+
+    private View mView;
+
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setTitle(R.string.goto_floor_description);
-        v = this.getDialogView();
-        alert.setView(v);
-
-        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        mView = getDialogView();
+        builder.setTitle(R.string.goto_floor_description)
+                .setView(mView)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
-                PagerOwnner father = null;
-                try {
-                    father = (PagerOwnner) getActivity();
-                } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
-                            + PagerOwnner.class.getName());
+                PagerOwner father;
+
+                if (getParentFragment() instanceof PagerOwner) {
+                    father = (PagerOwner) getParentFragment();
+                } else if (getActivity() instanceof PagerOwner) {
+                    father = (PagerOwner) getActivity();
+                } else {
                     return;
                 }
-                if (father != null)
-                    father.setCurrentItem(getPageValue() - 1);
+
+                father.setCurrentItem(getPageValue() - 1);
 
             }
         });
 
-        alert.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
             }
         });
 
-        return alert.create();
+        return builder.create();
 
     }
 
-    @TargetApi(11)
     private View getNumberPicker() {
         final NumberPicker picker = new NumberPicker(getActivity());
         picker.setMinValue(1);
@@ -63,44 +62,17 @@ public class GotoDialogFragment extends NoframeDialogFragment {
         return picker;
     }
 
-    private View getEditText() {
-        final EditText input = new EditText(getActivity());
-        input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
-        return input;
-    }
-
     private View getDialogView() {
-        if (ActivityUtil.isGreaterThan_2_3_3())
-            return getNumberPicker();
-        return getEditText();
+        return getNumberPicker();
     }
 
     private int getPageValue() {
-        if (ActivityUtil.isGreaterThan_2_3_3())
-            return getNumberPickerValue();
-        return getEditTextValue();
+        return getNumberPickerValue();
     }
 
-    private int getEditTextValue() {
-        final EditText input = (EditText) v;
-        String value = input.getText().toString().trim();
-        int count = getArguments().getInt("count", 1);
-        int floor = count;
-        try {
 
-            floor = Integer.valueOf(value);
-            if (floor > count || floor < 1)
-                floor = count;
-
-        } catch (Exception e) {
-
-        }
-        return floor;
-    }
-
-    @TargetApi(11)
     private int getNumberPickerValue() {
-        final NumberPicker picker = (NumberPicker) v;
+        final NumberPicker picker = (NumberPicker) mView;
         picker.clearFocus();
         return picker.getValue();
     }

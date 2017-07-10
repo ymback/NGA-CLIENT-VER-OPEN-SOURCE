@@ -38,6 +38,8 @@ public interface TopicPostContract {
 
         void showFilePicker();
 
+        void setResult(int result);
+
     }
 
     interface Model extends BaseContract.Model {

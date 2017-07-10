@@ -172,6 +172,7 @@
             android:name=".activity.ArticleListActivity"
             android:exported="true"
             android:multiprocess="true"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/SwipeBackTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
