@@ -69,6 +69,10 @@ public class BoardCategory implements Parcelable{
         mBoardList.add(board);
     }
 
+    public void addFront(Board board) {
+        mBoardList.add(0,board);
+    }
+
 
     @Override
     public int describeContents() {

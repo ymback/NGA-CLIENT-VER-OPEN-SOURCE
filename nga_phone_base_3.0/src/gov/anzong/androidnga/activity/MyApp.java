@@ -72,7 +72,7 @@ public class MyApp extends Application implements PreferenceConstant {
 
         SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
         String recentStr = share.getString(RECENT_BOARD, "");
-        List<Board> recentList = null;
+        List<Board> recentList;
         if (!StringUtil.isEmpty(recentStr)) {
             recentList = JSON.parseArray(recentStr, Board.class);
             if (recentList != null) {
@@ -86,10 +86,8 @@ public class MyApp extends Application implements PreferenceConstant {
                 }
             }
         }
-        if (recentList != null) {
-            boards.addCategoryName(i, RECENT);
-            i++;
-        }
+        boards.addCategoryName(i, RECENT);
+        i++;
 
         boards.add(new Board(i, "7", "议事厅", R.drawable.oldp7));
         boards.add(new Board(i, "323", "国服以外讨论", R.drawable.oldp323));
@@ -341,10 +339,8 @@ public class MyApp extends Application implements PreferenceConstant {
                 }
             }
         }
-        if (recentList != null) {
-            boards.addCategoryName(i, RECENT);
-            i++;
-        }
+        boards.addCategoryName(i, RECENT);
+        i++;
 
         boards.add(new Board(i, "7", "议事厅", R.drawable.p7));
         boards.add(new Board(i, "323", "国服以外讨论", R.drawable.p323));

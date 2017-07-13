@@ -2,7 +2,6 @@ package gov.anzong.androidnga.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,7 +27,6 @@ import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.PermissionUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
 
 public class PostActivity extends BasePostActivity implements OnEmotionPickedListener {
 
@@ -38,17 +36,8 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     private TopicPostContract.Presenter mPresenter;
 
-    @SuppressWarnings("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
 
         super.onCreate(savedInstanceState);
 

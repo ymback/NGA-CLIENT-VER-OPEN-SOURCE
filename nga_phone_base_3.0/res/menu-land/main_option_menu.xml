@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/menu_setting" android:id="@+id/mainmenu_setting" android:icon="@drawable/action_settings" androidnga:showAsAction="always|withText" android:showAsAction="always|withText"></item>
+</menu>

@@ -5,9 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,13 +34,13 @@ import java.util.Locale;
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import sp.phone.bean.PreferenceConstant;
 import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.ProfileSearchDialogFragment;
 import sp.phone.presenter.BoardPresenter;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
+import sp.phone.utils.PermissionUtil;
 import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.utils.ThemeManager;
@@ -59,7 +60,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initDate();
         initView();
-        clearRecentBoards();
         checkNewVersion();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
     }
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_option_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -141,9 +141,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.menu_gun:
                 jumpToRecentReply();
-                break;
-            case R.id.menu_clear_recent:
-                clearRecentBoards();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -226,8 +223,22 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PermissionUtil.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                initDate();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     private void initDate() {
 
+        if (!PermissionUtil.hasStoragePermission(this)) {
+            PermissionUtil.requestStoragePermission(this);
+            return;
+        }
         new Thread() {
             public void run() {
 
@@ -308,11 +319,6 @@ public class MainActivity extends BaseActivity {
         Intent intent_bookmark = new Intent(this, mConfig.topicActivityClass);
         intent_bookmark.putExtra("favor", 1);
         startActivity(intent_bookmark);
-    }
-
-    private void clearRecentBoards() {
-        Editor editor = getSharedPreferences(PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE).edit();
-        editor.putString(PreferenceConstant.RECENT_BOARD, "").apply();
     }
 
     private void toActivityByUrl() {
