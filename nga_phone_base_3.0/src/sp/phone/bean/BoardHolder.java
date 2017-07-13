@@ -4,35 +4,40 @@ import android.util.SparseArray;
 
 
 public class BoardHolder {
-    public static SparseArray<String> boardNameMap = new SparseArray<String>();
-    private SparseArray<BoardCategory> boardInfo;
-    private SparseArray<String> categoryName;
+    public static SparseArray<String> boardNameMap = new SparseArray<>();
+
+    private SparseArray<BoardCategory> mBoardInfo;
+
+    private SparseArray<String> mCategoryName;
 
     public BoardHolder() {
-        boardInfo = new SparseArray<BoardCategory>();
-        categoryName = new SparseArray<String>();
+        mBoardInfo = new SparseArray<>();
+        mCategoryName = new SparseArray<>();
     }
 
     /**
      * @return the boardInfo
      */
     public SparseArray<BoardCategory> getBoardInfo() {
-        return boardInfo;
+        return mBoardInfo;
     }
 
     /**
      * @param boardInfo the boardInfo to set
      */
     public void setBoardInfo(SparseArray<BoardCategory> boardInfo) {
-        this.boardInfo = boardInfo;
+        mBoardInfo = boardInfo;
     }
 
     public void addCategoryName(int index, String name) {
-        categoryName.put(index, name);
+        mCategoryName.put(index, name);
+        if (mBoardInfo.get(index) == null) {
+            mBoardInfo.put(index, new BoardCategory());
+        }
     }
 
     public String getCategoryName(int index) {
-        return categoryName.get(index);
+        return mCategoryName.get(index);
     }
 
 	/*public void convertChildren(){
@@ -56,11 +61,11 @@ public class BoardHolder {
 	}*/
 
     public int getCategoryCount() {
-        return categoryName.size();
+        return mCategoryName.size();
     }
 
-    public int size(int categoryid) {
-        BoardCategory boardCategory = (BoardCategory) boardInfo.get(categoryid);
+    public int size(int categoryId) {
+        BoardCategory boardCategory = mBoardInfo.get(categoryId);
         if (boardCategory == null)
             return 0;
         return boardCategory.size();
@@ -68,11 +73,11 @@ public class BoardHolder {
 
     public BoardCategory getCategory(int index) {
 
-        return boardInfo.get(index);
+        return mBoardInfo.get(index);
     }
 
     public Board get(int category, int index) {
-        BoardCategory categoryList = (BoardCategory) boardInfo.get(category);
+        BoardCategory categoryList = mBoardInfo.get(category);
         return categoryList == null ? null : categoryList.get(index);
     }
 
@@ -83,10 +88,11 @@ public class BoardHolder {
     }
 
     public void add(int category, Board board) {
-        if (boardInfo.get(category) == null)
-            boardInfo.put(category, new BoardCategory());
+        if (mBoardInfo.get(category) == null) {
+            mBoardInfo.put(category, new BoardCategory());
+        }
 
-        ((BoardCategory) boardInfo.get(category)).add(board);
+        mBoardInfo.get(category).add(board);
         try {
             int fid = Integer.parseInt(board.getUrl());
             boardNameMap.put(fid, board.getName());
@@ -102,11 +108,9 @@ public class BoardHolder {
 	}*/
 
     public void remove(int category, String fid) {
-        BoardCategory categoryList = (BoardCategory) boardInfo.get(category);
+        BoardCategory categoryList =  mBoardInfo.get(category);
         if (categoryList != null) {
-
             categoryList.remove(fid);
-
         }
 
     }

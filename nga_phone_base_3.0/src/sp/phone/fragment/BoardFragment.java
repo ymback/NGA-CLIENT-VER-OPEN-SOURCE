@@ -171,7 +171,9 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
             case R.id.menu_login:
                 jumpToLogin();
                 break;
-
+            case R.id.menu_clear_recent:
+                mPresenter.clearRecentBoards();
+                break;
             default:
                 return getActivity().onOptionsItemSelected(item);
 
@@ -349,6 +351,9 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         if (mBoardPagerAdapter == null) {
             mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager(), (PageCategoryOwner) mPresenter,getResources().getInteger(R.integer.page_category_width));
             mViewPager.setAdapter(mBoardPagerAdapter);
+            if (((PageCategoryOwner) mPresenter).getCategory(0).size() == 0) {
+                mViewPager.setCurrentItem(1);
+            }
         }
         mReplyCountView.setText(String.valueOf(PhoneConfiguration.getInstance().getReplyTotalNum()));
         super.onResume();

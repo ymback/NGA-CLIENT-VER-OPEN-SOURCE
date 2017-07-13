@@ -19,7 +19,6 @@
             <item
                 android:id="@+id/menu_clear_recent"
                 android:icon="@drawable/ic_action_warning"
-                android:visible="false"
                 android:title="清空最近访问"/>
             <item
                 android:id="@+id/menu_gun"
