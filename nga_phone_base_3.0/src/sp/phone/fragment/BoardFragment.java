@@ -163,6 +163,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
     }
 
     @Override
+    public int getCurrentItem() {
+        return mViewPager.getCurrentItem();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:

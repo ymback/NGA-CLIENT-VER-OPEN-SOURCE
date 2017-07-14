@@ -35,6 +35,8 @@ public interface BoardContract {
         void updateHeaderView();
 
         void notifyDataSetChanged();
+
+        int getCurrentItem();
     }
 
     interface Model extends BaseContract.Model {
