@@ -125,8 +125,10 @@ public class ArticleListFragment extends BaseFragment {
         mTask.loadPage(getContext(), mArticleListAction, new OnThreadPageLoadFinishedListener() {
             @Override
             public void finishLoad(ThreadData data) {
-                setData(data);
-                dismiss();
+                if (data != null) {
+                    setData(data);
+                    dismiss();
+                }
             }
         });
 

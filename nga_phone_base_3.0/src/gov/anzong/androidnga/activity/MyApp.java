@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -770,19 +769,20 @@ public class MyApp extends Application implements PreferenceConstant {
 
         config.nikeWidth = share.getInt(NICK_WIDTH, 100);
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int flag = share.getInt(UI_FLAG, 0);
-            if ((config.getUiFlag() & UI_FLAG_HA) != 0) {
-                flag = flag & ~UI_FLAG_HA;
-                Editor editor = share.edit();
-                editor.putInt(UI_FLAG, flag);
-                editor.apply();
-            }
-            PhoneConfiguration.getInstance().setUiFlag(flag);
-        } else {
-            int uiFlag = share.getInt(UI_FLAG, 0);
-            config.setUiFlag(uiFlag);
-        }
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            int flag = share.getInt(UI_FLAG, 0);
+//            if ((config.getUiFlag() & UI_FLAG_HA) != 0) {
+//                flag = flag & ~UI_FLAG_HA;
+//                Editor editor = share.edit();
+//                editor.putInt(UI_FLAG, flag);
+//                editor.apply();
+//            }
+//            PhoneConfiguration.getInstance().setUiFlag(flag);
+//        } else {
+//            int uiFlag = share.getInt(UI_FLAG, 0);
+//            config.setUiFlag(uiFlag);
+//        }
+        config.setUiFlag(0);
 
         // bookmarks
         String bookmarkJson = share.getString(BOOKMARKS, "");

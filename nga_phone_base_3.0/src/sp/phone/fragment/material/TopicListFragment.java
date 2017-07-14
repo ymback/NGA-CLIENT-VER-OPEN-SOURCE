@@ -114,7 +114,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
     @Override
     public void onResume() {
-        if (mTopicListInfo == null && getUserVisibleHint()){
+        if (mTopicListInfo == null && getUserVisibleHint() && mPresenter != null){
             mPresenter.refresh();
         }
         super.onResume();

@@ -151,6 +151,9 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
             intent.setClass(getContext(), config.topicActivityClass);
             getContext().startActivity(intent);
             addToRecent(fidString);
+            if (mView.getCurrentItem() <= 1) {
+                mView.notifyDataSetChanged();
+            }
         }
     }
 
