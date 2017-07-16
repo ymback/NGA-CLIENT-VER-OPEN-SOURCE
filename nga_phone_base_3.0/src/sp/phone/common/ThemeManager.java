@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.common;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;

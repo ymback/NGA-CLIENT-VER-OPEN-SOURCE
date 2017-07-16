@@ -13,7 +13,7 @@ import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MessageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, MessageDetialInfo> {

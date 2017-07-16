@@ -26,9 +26,9 @@ import sp.phone.listener.MyListenerForNonameReply;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class NonameArticleListAdapter extends BaseAdapter implements
         OnLongClickListener {

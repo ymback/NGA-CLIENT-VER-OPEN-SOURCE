@@ -11,7 +11,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class MyListenerForNonameReply implements OnClickListener {

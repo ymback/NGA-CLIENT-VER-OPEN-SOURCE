@@ -13,7 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class ProfileSearchDialogFragment extends DialogFragment {

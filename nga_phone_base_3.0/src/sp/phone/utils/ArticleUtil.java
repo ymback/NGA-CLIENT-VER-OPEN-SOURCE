@@ -15,6 +15,7 @@ import sp.phone.bean.ArticlePage;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
 
 public class ArticleUtil {
     private final static String TAG = ArticleUtil.class.getSimpleName();

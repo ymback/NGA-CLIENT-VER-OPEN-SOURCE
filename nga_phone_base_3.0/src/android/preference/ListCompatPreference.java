@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 
 
 public class ListCompatPreference extends ListPreference {
@@ -22,7 +22,7 @@ public class ListCompatPreference extends ListPreference {
 
     @Override
     protected void onAttachedToHierarchy(PreferenceManager preferenceManager) {
-        preferenceManager.setSharedPreferencesName(PreferenceConstant.PERFERENCE);
+        preferenceManager.setSharedPreferencesName(PreferenceKey.PERFERENCE);
         super.onAttachedToHierarchy(preferenceManager);
     }
 

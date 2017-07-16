@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -30,7 +29,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 
@@ -45,17 +43,14 @@ import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
-import sp.phone.fragment.EmotionDialogFragment;
-import sp.phone.fragment.ExtensionEmotionFragment;
-import sp.phone.interfaces.EmotionCategorySelectedListener;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.NonameFileUploadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class NonamePostActivity extends BasePostActivity implements
         OnEmotionPickedListener, NonameFileUploadTask.onFileUploaded {

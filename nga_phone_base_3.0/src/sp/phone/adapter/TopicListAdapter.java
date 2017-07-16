@@ -23,9 +23,9 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public abstract class TopicListAdapter extends BaseAdapter implements OnTopListLoadFinishedListener {
 

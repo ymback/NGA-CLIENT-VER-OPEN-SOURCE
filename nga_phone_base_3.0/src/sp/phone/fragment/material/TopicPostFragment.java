@@ -25,7 +25,7 @@ import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.User;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**

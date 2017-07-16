@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 
 /**
  * Created by Yang Yihang on 2017/6/6.

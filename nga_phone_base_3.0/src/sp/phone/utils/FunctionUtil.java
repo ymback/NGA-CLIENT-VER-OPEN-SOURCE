@@ -66,6 +66,8 @@ import noname.gson.parse.NonameReadBody;
 import sp.phone.adapter.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.ReportDialogFragment;
 import sp.phone.proxy.ProxyBridge;
 

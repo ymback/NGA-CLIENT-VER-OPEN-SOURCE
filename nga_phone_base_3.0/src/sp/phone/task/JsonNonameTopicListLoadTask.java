@@ -10,7 +10,7 @@ import noname.gson.parse.NonameThreadResponse;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, NonameThreadResponse> {

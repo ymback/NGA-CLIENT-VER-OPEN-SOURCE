@@ -29,7 +29,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import sp.phone.adapter.AppendableTopicAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
@@ -37,16 +37,16 @@ import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 /**
  * 帖子列表分页
  */
-public class TopicListContainer extends BaseFragment implements OnTopListLoadFinishedListener, NextJsonTopicListLoader, PreferenceConstant {
+public class TopicListContainer extends BaseFragment implements OnTopListLoadFinishedListener, NextJsonTopicListLoader, PreferenceKey {
     final String TAG = TopicListContainer.class.getSimpleName();
     int fid;
     int authorid;

@@ -10,12 +10,12 @@ import java.net.URLDecoder;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.model.LoginModel;
 import sp.phone.presenter.contract.LoginContract;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**
@@ -160,12 +160,12 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private void saveCookie(String uid,String cid,String userName) {
         mView.showToast(R.string.login_successfully);
-        SharedPreferences sp = getContext().getSharedPreferences(PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE);
-        sp.edit().putString(PreferenceConstant.UID, uid)
-                .putString(PreferenceConstant.CID, cid).putString(PreferenceConstant.PENDING_REPLYS, "")
-                .putString(PreferenceConstant.REPLYTOTALNUM, "0")
-                .putString(PreferenceConstant.USER_NAME, uid)
-                .putString(PreferenceConstant.BLACK_LIST, "")
+        SharedPreferences sp = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        sp.edit().putString(PreferenceKey.UID, uid)
+                .putString(PreferenceKey.CID, cid).putString(PreferenceKey.PENDING_REPLYS, "")
+                .putString(PreferenceKey.REPLYTOTALNUM, "0")
+                .putString(PreferenceKey.USER_NAME, uid)
+                .putString(PreferenceKey.BLACK_LIST, "")
                 .apply();
         MyApp app = (MyApp) ((Activity)mView.getContext()).getApplication();
         app.addToUserList(uid, cid, userName, "", 0, "");

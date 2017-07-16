@@ -17,12 +17,12 @@ import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 import sp.phone.bean.BoardHolder;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**
@@ -165,8 +165,8 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
 
     @Override
     public void clearRecentBoards() {
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE).edit();
-        editor.putString(PreferenceConstant.RECENT_BOARD, "").apply();
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE).edit();
+        editor.putString(PreferenceKey.RECENT_BOARD, "").apply();
         mBoardInfo.getCategory(0).getBoardList().clear();
         mView.notifyDataSetChanged();
     }
@@ -206,8 +206,8 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
 
     private void saveFid(List<Board> boardList) {
         String addFidStr = JSON.toJSONString(boardList);
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE).edit();
-        editor.putString(PreferenceConstant.ADD_FID, addFidStr);
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE).edit();
+        editor.putString(PreferenceKey.ADD_FID, addFidStr);
         editor.apply();
     }
 
@@ -229,8 +229,8 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
 
     private void saveRecent(List<Board> boardList) {
         String recentStr = JSON.toJSONString(boardList);
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceConstant.PERFERENCE,Context.MODE_PRIVATE).edit();
-        editor.putString(PreferenceConstant.RECENT_BOARD, recentStr).apply();
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceKey.PERFERENCE,Context.MODE_PRIVATE).edit();
+        editor.putString(PreferenceKey.RECENT_BOARD, recentStr).apply();
     }
 
     private void addToRecent(String fidString) {

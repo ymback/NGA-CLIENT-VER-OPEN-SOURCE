@@ -21,7 +21,7 @@ import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 
 /**
  * Created by Yang Yihang on 2017/6/10.

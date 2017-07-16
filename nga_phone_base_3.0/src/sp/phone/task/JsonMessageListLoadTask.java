@@ -16,7 +16,7 @@ import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageListInfo> {

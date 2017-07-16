@@ -20,10 +20,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 
 public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.OnSeekBarChangeListener {
 
@@ -160,19 +160,19 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        SharedPreferences share = mContext.getSharedPreferences(PreferenceConstant.PERFERENCE,
+        SharedPreferences share = mContext.getSharedPreferences(PreferenceKey.PERFERENCE,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = share.edit();
         switch (seekBar.getId()) {
             case R.id.fontsize_seekBar:
                 float textSize = mDefaultFontSize * seekBar.getProgress() / 100.0f;
-                editor.putFloat(PreferenceConstant.TEXT_SIZE, textSize);
+                editor.putFloat(PreferenceKey.TEXT_SIZE, textSize);
                 editor.apply();
                 mConfiguration.setTextSize(textSize);
                 break;
             case R.id.webszie_bar:
                 int webSize = (int) (mDefaultWebFontSize * seekBar.getProgress() / 100.0f);
-                editor.putInt(PreferenceConstant.WEB_SIZE, webSize);
+                editor.putInt(PreferenceKey.WEB_SIZE, webSize);
                 editor.apply();
                 PhoneConfiguration.getInstance().setWebSize(webSize);
                 break;
@@ -182,7 +182,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
                     progress = 2;
                 }
                 mConfiguration.nikeWidth = progress;
-                editor.putInt(PreferenceConstant.NICK_WIDTH, progress);
+                editor.putInt(PreferenceKey.NICK_WIDTH, progress);
                 editor.apply();
                 break;
         }

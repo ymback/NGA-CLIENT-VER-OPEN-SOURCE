@@ -52,10 +52,10 @@ import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 /**

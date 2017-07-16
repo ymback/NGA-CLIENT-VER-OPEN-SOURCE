@@ -18,7 +18,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFinishedListener {
 

@@ -18,7 +18,7 @@ import sp.phone.bean.adminForumsData;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonProfileLoadTask extends

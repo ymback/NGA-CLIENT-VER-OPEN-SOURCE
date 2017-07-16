@@ -28,7 +28,7 @@ import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.listener.MyListenerForNonameReply;
@@ -38,12 +38,12 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class NonameArticleListFragmentNew extends Fragment implements
-        OnNonameThreadPageLoadFinishedListener, PreferenceConstant {
+        OnNonameThreadPageLoadFinishedListener, PreferenceKey {
     final static private String TAG = NonameArticleListFragmentNew.class
             .getSimpleName();
     @SuppressWarnings("unused")

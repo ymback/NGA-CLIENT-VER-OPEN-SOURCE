@@ -15,7 +15,7 @@ import java.util.Locale;
 import gov.anzong.meizi.MeiziTopicMData.ContentItemType;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class HTMLMeiziTopicLoadTask extends

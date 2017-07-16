@@ -17,15 +17,15 @@ import java.util.List;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.NotificationObject;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
-public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PreferenceConstant {
+public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PreferenceKey {
     static final String TAG = JsonRecentNotifierLoadTask.class.getSimpleName();
     final String url = Utils.getNGAHost() + "nuke.php?__lib=noti&raw=3&__act=get_all";
     final private Context context;

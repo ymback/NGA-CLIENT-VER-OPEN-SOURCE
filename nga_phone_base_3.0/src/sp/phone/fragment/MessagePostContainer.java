@@ -14,10 +14,10 @@ import gov.anzong.androidnga.R;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 /**
  * Created by Yang Yihang on 2017/5/28.

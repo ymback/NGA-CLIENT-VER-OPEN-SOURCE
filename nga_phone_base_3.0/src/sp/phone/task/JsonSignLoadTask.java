@@ -18,7 +18,7 @@ import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {

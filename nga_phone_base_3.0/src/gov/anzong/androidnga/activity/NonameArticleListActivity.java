@@ -21,7 +21,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.fragment.NonameArticleListFragment;
 import sp.phone.fragment.NonameArticleListFragmentNew;
@@ -29,16 +29,16 @@ import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         implements PagerOwner, OnNonameThreadPageLoadFinishedListener,
-        PullToRefreshAttacherOnwer, PreferenceConstant {
+        PullToRefreshAttacherOnwer, PreferenceKey {
     private static final String TAG = "ArticleListActivity";
     private static final String GOTO_TAG = "goto";
     TabHost tabhost;

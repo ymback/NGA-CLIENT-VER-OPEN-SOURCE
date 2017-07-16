@@ -19,7 +19,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.gallery.ImageZoomActivity;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class MeiziTopicAdapter extends BaseAdapter {
 

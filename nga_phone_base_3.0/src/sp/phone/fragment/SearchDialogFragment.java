@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class SearchDialogFragment extends DialogFragment {

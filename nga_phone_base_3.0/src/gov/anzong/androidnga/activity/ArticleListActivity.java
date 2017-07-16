@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListAction;
 import sp.phone.fragment.material.ArticleContainerFragment;
 import sp.phone.utils.StringUtil;
@@ -15,7 +15,7 @@ import sp.phone.utils.StringUtil;
 /**
  * 帖子详情页
  */
-public class ArticleListActivity extends SwipeBackAppCompatActivity implements PreferenceConstant {
+public class ArticleListActivity extends SwipeBackAppCompatActivity implements PreferenceKey {
 
     private static final String TAG = "ArticleListActivity";
 

@@ -24,7 +24,7 @@ import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.presenter.contract.TopicListContract;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.view.ScrollableViewPager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;

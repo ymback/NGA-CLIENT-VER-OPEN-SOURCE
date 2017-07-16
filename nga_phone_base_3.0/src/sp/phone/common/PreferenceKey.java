@@ -1,6 +1,6 @@
-package sp.phone.bean;
+package sp.phone.common;
 
-public interface PreferenceConstant {
+public interface PreferenceKey {
     final String PERFERENCE = "perference";
     final String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
     final String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";

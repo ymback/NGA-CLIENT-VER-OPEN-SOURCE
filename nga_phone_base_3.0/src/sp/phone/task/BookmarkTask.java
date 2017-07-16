@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class BookmarkTask extends AsyncTask<String, Integer, String> {
