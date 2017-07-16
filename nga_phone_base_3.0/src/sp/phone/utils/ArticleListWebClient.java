@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.util.Locale;
 
 import gov.anzong.androidnga.gallery.ImageZoomActivity;
+import sp.phone.common.PhoneConfiguration;
 
 public class ArticleListWebClient extends WebViewClient {
     static private final String NGACN_BOARD_PREFIX = "http://bbs.ngacn.cc/thread.php?";

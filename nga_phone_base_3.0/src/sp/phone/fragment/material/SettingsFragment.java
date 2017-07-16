@@ -30,11 +30,11 @@ import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.AlertDialogFragment;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -80,64 +80,64 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         switch (preference.getKey()){
-            case PreferenceConstant.DOWNLOAD_IMG_QUALITY_NO_WIFI:
+            case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
                 mConfiguration.imageQuality = Integer.parseInt((String) newValue);
                 break;
-            case PreferenceConstant.DOWNLOAD_IMG_NO_WIFI:
+            case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
                 mConfiguration.setDownImgNoWifi((Boolean) newValue);
                 break;
-            case PreferenceConstant.MATERIAL_MODE:
+            case PreferenceKey.MATERIAL_MODE:
                 mConfiguration.setMaterialMode((Boolean) newValue);
                 break;
-            case PreferenceConstant.NIGHT_MODE:
+            case PreferenceKey.NIGHT_MODE:
                 ThemeManager.getInstance().setMode((boolean)newValue ? ThemeManager.MODE_NIGHT : ThemeManager.MODE_NORMAL);
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;
-            case PreferenceConstant.DOWNLOAD_AVATAR_NO_WIFI:
+            case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
                 mConfiguration.downAvatarNoWifi = (boolean) newValue;
                 break;
-            case PreferenceConstant.SHOW_COLORTXT:
+            case PreferenceKey.SHOW_COLORTXT:
                 mConfiguration.showColortxt = (boolean) newValue;
                 break;
-            case PreferenceConstant.REFRESH_AFTERPOST_SETTING_MODE:
+            case PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE:
                 mConfiguration.refresh_after_post_setting_mode = (boolean) newValue;
                 break;
-            case PreferenceConstant.SWIPEBACK:
+            case PreferenceKey.SWIPEBACK:
                 mConfiguration.swipeBack = (boolean) newValue;
                 updateSwipeBackOption((Boolean) newValue);
                 break;
-            case PreferenceConstant.SWIPEBACKPOSITION:
+            case PreferenceKey.SWIPEBACKPOSITION:
                 mConfiguration.swipeenablePosition = Integer.parseInt((String) newValue);
                 updateSwipeBackOption(true);
                 break;
-            case PreferenceConstant.FULLSCREENMODE:
+            case PreferenceKey.FULLSCREENMODE:
                 mConfiguration.fullscreen = (boolean) newValue;
                 setFullScreen((Boolean) newValue);
                 break;
-            case PreferenceConstant.ENABLE_NOTIFIACTION:
+            case PreferenceKey.ENABLE_NOTIFIACTION:
                 mConfiguration.notification = (boolean) newValue;
                 break;
-            case PreferenceConstant.NOTIFIACTION_SOUND:
+            case PreferenceKey.NOTIFIACTION_SOUND:
                 mConfiguration.notificationSound = (boolean) newValue;
                 break;
-            case PreferenceConstant.BLACKGUN_SOUND:
+            case PreferenceKey.BLACKGUN_SOUND:
                 mConfiguration.blackgunsound = Integer.parseInt((String) newValue);
                 showBlackGunSound(mConfiguration.blackgunsound);
                 break;
-            case PreferenceConstant.SHOW_SIGNATURE:
+            case PreferenceKey.SHOW_SIGNATURE:
                 mConfiguration.showSignature = (boolean) newValue;
                 break;
-            case PreferenceConstant.SHOW_STATIC:
+            case PreferenceKey.SHOW_STATIC:
                 mConfiguration.showStatic = (boolean) newValue;
                 break;
-            case PreferenceConstant.SHOW_LAJIBANKUAI:
+            case PreferenceKey.SHOW_LAJIBANKUAI:
                 mConfiguration.showLajibankuai = (boolean) newValue;
                 break;
-            case PreferenceConstant.SHOW_REPLYBUTTON:
+            case PreferenceKey.SHOW_REPLYBUTTON:
                 mConfiguration.showReplyButton = (boolean) newValue;
                 break;
-            case PreferenceConstant.SHOW_ANIMATION:
+            case PreferenceKey.SHOW_ANIMATION:
                 mConfiguration.showAnimation = (boolean) newValue;
                 break;
 
@@ -155,8 +155,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             public void onClick(DialogInterface dialog, int which) {
                 mConfiguration.iconmode = isChecked;
                 SharedPreferences share = mContext.getSharedPreferences(
-                        PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE);
-                String addFidStr = share.getString(PreferenceConstant.ADD_FID, "");
+                        PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+                String addFidStr = share.getString(PreferenceKey.ADD_FID, "");
                 List<Board> addFidList;
                 BoardCategory addFid = new BoardCategory();
                 int iconInt;
@@ -180,9 +180,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     }
                 }
                 SharedPreferences.Editor editor = share.edit();
-                editor.putBoolean(PreferenceConstant.SHOW_ICON_MODE, isChecked);
-                editor.putString(PreferenceConstant.RECENT_BOARD, "");
-                editor.putString(PreferenceConstant.ADD_FID, addFidStr);
+                editor.putBoolean(PreferenceKey.SHOW_ICON_MODE, isChecked);
+                editor.putString(PreferenceKey.RECENT_BOARD, "");
+                editor.putString(PreferenceKey.ADD_FID, addFidStr);
                 editor.apply();
                 getActivity().setResult(Activity.RESULT_OK);
 
@@ -311,10 +311,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         switch (preference.getKey()){
-            case PreferenceConstant.DOWNLOAD_IMG_QUALITY_NO_WIFI:
+            case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
                 Toast.makeText(mContext,R.string.image_quality_claim,Toast.LENGTH_SHORT).show();
                 break;
-            case PreferenceConstant.SHOW_ICON_MODE:
+            case PreferenceKey.SHOW_ICON_MODE:
                 showIconModeAlertDialog((SwitchPreference) preference,preference.getSharedPreferences().getBoolean(preference.getKey(),false));
                 break;
             case PhoneConfiguration.ADJUST_SIZE:

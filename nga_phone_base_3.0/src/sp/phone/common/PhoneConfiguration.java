@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.common;
 
 import android.location.Location;
 
@@ -63,9 +63,10 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import gov.anzong.meizi.SplitMeiziMainActivity;
 import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.StringUtil;
 
-public class PhoneConfiguration implements PreferenceConstant {
+public class PhoneConfiguration implements PreferenceKey {
     public String userName;
     public int nikeWidth = 100;
     public boolean downAvatarNoWifi;

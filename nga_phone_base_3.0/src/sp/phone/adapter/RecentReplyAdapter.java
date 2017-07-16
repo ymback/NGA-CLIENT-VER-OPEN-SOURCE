@@ -23,14 +23,14 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.NotificationObject;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class RecentReplyAdapter extends BaseAdapter implements
-        PreferenceConstant {
+        PreferenceKey {
 
     private List<NotificationObject> list;
 

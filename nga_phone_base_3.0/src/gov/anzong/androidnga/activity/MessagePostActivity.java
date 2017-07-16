@@ -2,7 +2,6 @@ package gov.anzong.androidnga.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -23,8 +22,7 @@ import sp.phone.presenter.MessagePostPresenter;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.PhoneConfiguration;
 
 public class MessagePostActivity extends BasePostActivity implements OnEmotionPickedListener {
 

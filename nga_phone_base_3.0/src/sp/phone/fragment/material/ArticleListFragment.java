@@ -26,7 +26,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.ArticleListAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.forumoperation.ArticleListAction;
@@ -37,7 +37,7 @@ import sp.phone.interfaces.ResetableArticle;
 import sp.phone.model.ArticleListTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.view.NestedListView;
 
@@ -324,9 +324,9 @@ public class ArticleListFragment extends BaseFragment {
                     PhoneConfiguration.getInstance().blacklist = blacklist;
                     blackListString = blacklist.toString();
                     SharedPreferences share = getActivity().getSharedPreferences(
-                            PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE);
+                            PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = share.edit();
-                    editor.putString(PreferenceConstant.BLACK_LIST, blackListString);
+                    editor.putString(PreferenceKey.BLACK_LIST, blackListString);
                     editor.apply();
                     if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
                         MyApp app = (MyApp) getActivity().getApplication();

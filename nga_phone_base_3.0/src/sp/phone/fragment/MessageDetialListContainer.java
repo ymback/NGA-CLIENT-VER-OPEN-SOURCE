@@ -27,7 +27,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.adapter.AppendableMessageDetialAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
@@ -38,15 +38,15 @@ import sp.phone.task.JsonMessageListLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class MessageDetialListContainer extends BaseFragment implements
         OnMessageDetialLoadFinishedListener, NextJsonMessageDetialLoader,
-        PreferenceConstant {
+        PreferenceKey {
     static final int MESSAGE_SENT = 1;
     final String TAG = MessageDetialListContainer.class.getSimpleName();
     PullToRefreshAttacher attacher = null;

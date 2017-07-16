@@ -12,6 +12,7 @@ import java.util.Map;
 
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
+import sp.phone.common.PhoneConfiguration;
 
 public class UploadCookieCollector {
     //static final String collectURL = "http://bbs.ngacn.cc/nuke.php";

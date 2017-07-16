@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 
@@ -43,10 +43,10 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
     public UserRecycleListAdapter(Context context, View.OnClickListener onClickListener,RecyclerView listView) {
         mContext = context;
         mOnClickListener = onClickListener;
-        SharedPreferences share = context.getSharedPreferences(PreferenceConstant.PERFERENCE,
+        SharedPreferences share = context.getSharedPreferences(PreferenceKey.PERFERENCE,
                 Context.MODE_PRIVATE);
 
-        String userListString = share.getString(PreferenceConstant.USER_LIST, "");
+        String userListString = share.getString(PreferenceKey.USER_LIST, "");
         if (StringUtil.isEmpty(userListString)) {
             mUserList = new ArrayList<>();
         } else {
@@ -99,11 +99,11 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
     private void remove(int position){
         mUserList.remove(position);
 
-        SharedPreferences share = mContext.getSharedPreferences(PreferenceConstant.PERFERENCE,
+        SharedPreferences share = mContext.getSharedPreferences(PreferenceKey.PERFERENCE,
                 Context.MODE_PRIVATE);
 
         String userListString = JSON.toJSONString(mUserList);
-        share.edit().putString(PreferenceConstant.USER_LIST, userListString).apply();
+        share.edit().putString(PreferenceKey.USER_LIST, userListString).apply();
 
         if (position == 0) {
             PhoneConfiguration configuration = PhoneConfiguration.getInstance();
@@ -115,12 +115,12 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
                 configuration.setReplyTotalNum(0);
                 configuration.blacklist = StringUtil.blackliststringtolisttohashset("");
                 SharedPreferences.Editor editor = share.edit();
-                editor.putString(PreferenceConstant.UID, "")
-                .putString(PreferenceConstant.CID, "")
-                .putString(PreferenceConstant.USER_NAME, "")
-                .putString(PreferenceConstant.PENDING_REPLYS, "")
-                .putString(PreferenceConstant.REPLYTOTALNUM, "0")
-                .putString(PreferenceConstant.BLACK_LIST, "")
+                editor.putString(PreferenceKey.UID, "")
+                .putString(PreferenceKey.CID, "")
+                .putString(PreferenceKey.USER_NAME, "")
+                .putString(PreferenceKey.PENDING_REPLYS, "")
+                .putString(PreferenceKey.REPLYTOTALNUM, "0")
+                .putString(PreferenceKey.BLACK_LIST, "")
                 .apply();
             } else {
                 User user = mUserList.get(0);

@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class ReportTask extends AsyncTask<String, Integer, String> {

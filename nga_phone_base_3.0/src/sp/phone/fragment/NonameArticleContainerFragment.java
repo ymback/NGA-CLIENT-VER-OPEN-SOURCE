@@ -23,17 +23,17 @@ import android.widget.ImageButton;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.adapter.NonameThreadFragmentAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class NonameArticleContainerFragment extends BaseFragment implements
-        OnNonameThreadPageLoadFinishedListener, PreferenceConstant, PagerOwner {
+        OnNonameThreadPageLoadFinishedListener, PreferenceKey, PagerOwner {
     private static final String TAG = "NonameArtContainFrag";
     private static final String GOTO_TAG = "goto";
     // TabHost tabhost;

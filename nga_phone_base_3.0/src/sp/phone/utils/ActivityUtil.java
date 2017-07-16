@@ -21,6 +21,7 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import sp.phone.bean.BoardHolder;
+import sp.phone.common.PhoneConfiguration;
 
 public class ActivityUtil {
 

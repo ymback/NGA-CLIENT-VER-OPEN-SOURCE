@@ -29,9 +29,9 @@ import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 @SuppressWarnings("ResourceType")
 public class MessageDetialAdapter extends BaseAdapter implements

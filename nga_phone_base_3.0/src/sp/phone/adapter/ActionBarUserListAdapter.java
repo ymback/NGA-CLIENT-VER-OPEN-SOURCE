@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.PhoneConfiguration;
 
 /**
  * Created by GDB437 on 9/3/13,nga_phone_base_3.0

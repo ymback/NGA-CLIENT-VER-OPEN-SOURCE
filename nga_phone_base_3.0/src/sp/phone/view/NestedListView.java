@@ -6,6 +6,8 @@ import android.support.annotation.Size;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
+import sp.phone.utils.DeviceUtils;
+
 /**
  * Created by Yang Yihang on 2017/6/3.
  */
@@ -21,7 +23,9 @@ public class NestedListView extends ListView  {
 
     public NestedListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setNestedScrollingEnabled(true);
+        if (DeviceUtils.isGreaterEqual_5_0()) {
+            setNestedScrollingEnabled(true);
+        }
     }
 
     @Override

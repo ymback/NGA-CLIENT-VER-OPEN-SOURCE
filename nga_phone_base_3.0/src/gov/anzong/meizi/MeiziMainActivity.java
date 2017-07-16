@@ -25,8 +25,8 @@ import gov.anzong.meizi.MeiziCategoryFragment.OnMeiziSelectedListener;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class MeiziMainActivity extends ActionBarActivity implements

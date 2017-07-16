@@ -28,7 +28,7 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.AvatarTag;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
@@ -41,16 +41,16 @@ import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         implements OnProfileLoadFinishedListener, AvatarLoadCompleteCallBack, PullToRefreshAttacherOnwer,
-        PreferenceConstant {
+        PreferenceKey {
     private static final String TAG = "FlexibleProfileActivity";
     private final Object lock = new Object();
     private final HashSet<String> urlSet = new HashSet<String>();

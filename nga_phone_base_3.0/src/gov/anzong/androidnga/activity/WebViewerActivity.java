@@ -16,9 +16,9 @@ import gov.anzong.androidnga.R;
 import sp.phone.task.DownloadImageTask;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class WebViewerActivity extends SwipeBackAppCompatActivity {
     private WebView wv;

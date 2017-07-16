@@ -1,6 +1,5 @@
 include ':PinterestLikeAdapterView'
 include ':ActionBar-PullToRefresh'
-include ':PagerSlidingTabStrip'
 include ':SwipeBackLayoutLibrary'
 include ':ActionBar-PullToRefresh-Library'
 include ':nga_phone_base_3.0'

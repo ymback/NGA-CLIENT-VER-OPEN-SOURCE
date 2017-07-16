@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +14,11 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 
-import static sp.phone.bean.PreferenceConstant.NIGHT_MODE;
-import static sp.phone.bean.PreferenceConstant.PERFERENCE;
+import static sp.phone.common.PreferenceKey.NIGHT_MODE;
+import static sp.phone.common.PreferenceKey.PERFERENCE;
 
 /**
  * Created by liuboyu on 16/6/28.

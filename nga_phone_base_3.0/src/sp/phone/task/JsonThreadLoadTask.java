@@ -13,7 +13,7 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 
 public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
     static final String TAG = JsonThreadLoadTask.class.getSimpleName();

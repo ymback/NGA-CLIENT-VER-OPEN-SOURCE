@@ -3,7 +3,7 @@ package android.preference;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 
 
 public class SwitchCompatPreference extends SwitchPreference {
@@ -18,7 +18,7 @@ public class SwitchCompatPreference extends SwitchPreference {
 
     @Override
     protected void onAttachedToHierarchy(PreferenceManager preferenceManager) {
-        preferenceManager.setSharedPreferencesName(PreferenceConstant.PERFERENCE);
+        preferenceManager.setSharedPreferencesName(PreferenceKey.PERFERENCE);
         super.onAttachedToHierarchy(preferenceManager);
     }
 }

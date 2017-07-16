@@ -16,7 +16,7 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 

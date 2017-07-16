@@ -14,6 +14,8 @@ import java.util.List;
 import sp.phone.adapter.MessageDetialAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 
 /**
  * 解析页面内容类

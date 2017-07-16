@@ -29,8 +29,7 @@
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:paddingTop="@dimen/article_list_tab_height"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

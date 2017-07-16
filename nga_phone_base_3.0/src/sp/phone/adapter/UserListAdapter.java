@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSON;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.User;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class UserListAdapter extends SpinnerUserListAdapter
