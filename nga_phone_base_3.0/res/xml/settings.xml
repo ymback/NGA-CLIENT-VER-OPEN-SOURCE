@@ -118,12 +118,8 @@
 
         <SwitchCompatPreference
             android:key="showReplyButton"
+            android:defaultValue="true"
             android:title="@string/addreplybutton"/>
-
-        <SwitchCompatPreference
-            android:key="showAnimation"
-            android:defaultValue="false"
-            android:title="@string/showAnimation"/>
 
         <PreferenceScreen
             android:title="@string/setting_title_size"

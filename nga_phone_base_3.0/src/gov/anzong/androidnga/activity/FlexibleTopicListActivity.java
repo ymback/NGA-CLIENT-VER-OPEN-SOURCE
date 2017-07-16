@@ -166,8 +166,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
         }
 
-        if (ActivityUtil.isNotLessThan_4_0())
-            setNfcCallBack();
+        setNfcCallBack();
 
         if (null == findViewById(R.id.item_detail_container)) {
             dualScreen = false;

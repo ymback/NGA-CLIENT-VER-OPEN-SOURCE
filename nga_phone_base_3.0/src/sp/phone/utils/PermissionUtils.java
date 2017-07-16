@@ -11,7 +11,7 @@ import android.support.v4.content.ContextCompat;
  * Created by Yang Yihang on 2017/6/24.
  */
 
-public class PermissionUtil {
+public class PermissionUtils {
 
     public static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 0;
 

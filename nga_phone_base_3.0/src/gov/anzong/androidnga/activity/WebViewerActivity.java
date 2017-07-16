@@ -65,8 +65,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         final WebSettings settings = wv.getSettings();
         getSupportActionBar().setTitle("查看内容");
 
-        if (uri.endsWith(".swf")
-                && ActivityUtil.isGreaterThan_2_1())//android 2.2
+        if (uri.endsWith(".swf"))//android 2.2
         {
             wv.setWebChromeClient(new WebChromeClient());
             //settings.setPluginState(PluginState.ON);
@@ -77,8 +76,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
             settings.setJavaScriptEnabled(true);
             settings.setBuiltInZoomControls(true);
 //			settings.setUseWideViewPort(true); 
-            if (ActivityUtil.isGreaterThan_2_1())
-                settings.setLoadWithOverviewMode(true);
+            settings.setLoadWithOverviewMode(true);
             //settings.setUserAgentString(IPHONE_UA);
             wv.loadUrl(uri);
         }

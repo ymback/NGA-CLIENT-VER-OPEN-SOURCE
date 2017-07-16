@@ -22,13 +22,12 @@ import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.Bookmark;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.utils.HttpUtil;
+import sp.phone.utils.StringUtil;
 
 public class MyApp extends Application implements PreferenceKey {
     public final static int version = BuildConfig.VERSION_CODE;
@@ -46,8 +45,7 @@ public class MyApp extends Application implements PreferenceKey {
             config = PhoneConfiguration.getInstance();
         loadConfig();
         initUserInfo();
-        if (ActivityUtil.isGreaterThan_2_1())
-            initPath();
+        initPath();
         if (config.iconmode) {// laotubiao
             loadDefaultBoardOld();
         } else {
