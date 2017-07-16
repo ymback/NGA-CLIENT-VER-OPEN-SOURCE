@@ -10,8 +10,6 @@ import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.module.GlideModule;
 
-import sp.phone.utils.ActivityUtil;
-
 /**
  */
 public class MyGlideModule implements GlideModule {
@@ -20,9 +18,7 @@ public class MyGlideModule implements GlideModule {
         int MEM_CACHE_SIZE = 1024 * 1024 * ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass() / 3;
         builder.setMemoryCache(new LruResourceCache(MEM_CACHE_SIZE));
         builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
-        if (ActivityUtil.isGreaterThan_2_1()) {
-            builder.setDiskCache(new ExternalCacheDiskCacheFactory(context));
-        }
+        builder.setDiskCache(new ExternalCacheDiskCacheFactory(context));
     }
 
     @Override

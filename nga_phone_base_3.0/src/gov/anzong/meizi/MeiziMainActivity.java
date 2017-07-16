@@ -119,20 +119,14 @@ public class MeiziMainActivity extends ActionBarActivity implements
             @Override
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle("赞美JJMIMMYS");
-                if (ActivityUtil.isLessThan_3_0())
-                    supportInvalidateOptionsMenu();
-                else
-                    invalidateOptionsMenu();
+                invalidateOptionsMenu();
                 super.onDrawerOpened(drawerView);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 getSupportActionBar().setTitle(mAdapter.getItem(mActiveposition).getName());
-                if (ActivityUtil.isLessThan_3_0())
-                    supportInvalidateOptionsMenu();
-                else
-                    invalidateOptionsMenu();
+                invalidateOptionsMenu();
             }
 
         };

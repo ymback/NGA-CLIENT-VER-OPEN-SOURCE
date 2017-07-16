@@ -24,7 +24,7 @@ import sp.phone.presenter.TopicPostPresenter;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PermissionUtil;
+import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
@@ -147,7 +147,7 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtil.REQUEST_CODE_WRITE_EXTERNAL_STORAGE){
+        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 mPresenter.prepareUploadFile();
             }

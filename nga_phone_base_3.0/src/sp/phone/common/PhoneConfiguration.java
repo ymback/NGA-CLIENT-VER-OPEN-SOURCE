@@ -63,7 +63,7 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import gov.anzong.meizi.SplitMeiziMainActivity;
 import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.StringUtil;
 
 public class PhoneConfiguration implements PreferenceKey {
@@ -172,7 +172,7 @@ public class PhoneConfiguration implements PreferenceKey {
     }
 
     public boolean isMaterialMode(){
-        return materialMode && ActivityUtil.isNotLessThan_5_0();
+        return materialMode && DeviceUtils.isGreaterEqual_5_0();
     }
 
     public void setMaterialMode(boolean materialMode){

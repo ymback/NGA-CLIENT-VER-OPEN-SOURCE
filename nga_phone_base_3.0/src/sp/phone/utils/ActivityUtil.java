@@ -63,48 +63,12 @@ public class ActivityUtil {
         return false;
     }
 
-    public static boolean isGreateEqual_6_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-    }
-
-    public static boolean isNotLessThan_5_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
-
     public static boolean isGreaterThan_2_2() {
         return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.FROYO;
     }
 
-    public static boolean isGreaterThan_2_1() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.ECLAIR_MR1;
-    }
-
-    public static boolean isGreaterThan_5_1(){
-        return android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1;
-    }
-
     public static boolean isGreaterThan_2_3_3() {
         return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
-    }
-
-    public static boolean isGreaterThan_4_0() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-    }
-
-    public static boolean islessThan_4_1() {
-        return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN;
-    }
-
-    public static boolean isNotLessThan_4_0() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-    }
-
-    public static boolean isLessThan_3_0() {
-        return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB;
-    }
-
-    public static boolean isMeizu() {
-        return "Meizu".equalsIgnoreCase(android.os.Build.MANUFACTURER);
     }
 
     public static boolean isLessThan_4_4() {

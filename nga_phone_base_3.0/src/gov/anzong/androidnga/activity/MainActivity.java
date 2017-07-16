@@ -40,7 +40,7 @@ import sp.phone.presenter.BoardPresenter;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PermissionUtil;
+import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.common.ThemeManager;
@@ -225,7 +225,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtil.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
+        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 initDate();
             }
@@ -235,8 +235,8 @@ public class MainActivity extends BaseActivity {
 
     private void initDate() {
 
-        if (!PermissionUtil.hasStoragePermission(this)) {
-            PermissionUtil.requestStoragePermission(this);
+        if (!PermissionUtils.hasStoragePermission(this)) {
+            PermissionUtils.requestStoragePermission(this);
             return;
         }
         new Thread() {
