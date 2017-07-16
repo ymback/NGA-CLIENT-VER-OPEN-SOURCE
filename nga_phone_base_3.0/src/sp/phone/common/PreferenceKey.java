@@ -57,4 +57,6 @@ public interface PreferenceKey {
     String MATERIAL_MODE = "material_mode";
 
     String ADJUST_SIZE = "adjust_size";
+
+    String MATERIAL_THEME = "material_theme";
 }

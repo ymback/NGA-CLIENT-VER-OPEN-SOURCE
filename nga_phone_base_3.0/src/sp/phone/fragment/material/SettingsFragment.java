@@ -140,6 +140,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.SHOW_ANIMATION:
                 mConfiguration.showAnimation = (boolean) newValue;
                 break;
+            case PreferenceKey.MATERIAL_THEME:
+                ThemeManager.getInstance().setTheme(Integer.parseInt((String) newValue));
+                getActivity().finish();
+                startActivity(getActivity().getIntent());
+                break;
 
         }
         return true;

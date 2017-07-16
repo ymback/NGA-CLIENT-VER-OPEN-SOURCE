@@ -10,79 +10,79 @@
         android:title="@string/setting_picshow">
 
         <android.preference.SwitchCompatPreference
+            android:defaultValue="false"
             android:key="down_load_without_wifi"
-            android:title="@string/nowifi_downimg"
-            android:defaultValue="false" />
+            android:title="@string/nowifi_downimg" />
 
         <android.preference.ListCompatPreference
-            android:key="download_img_quality_without_wifi"
-            android:title="@string/image_quality_info"
-            android:entries="@array/image_quality_option"
             android:defaultValue="0"
-            android:dialogTitle="@string/image_quality_chooser_prompt"
             android:dependency="down_load_without_wifi"
-            android:entryValues="@array/image_quality_option_value"/>
+            android:dialogTitle="@string/image_quality_chooser_prompt"
+            android:entries="@array/image_quality_option"
+            android:entryValues="@array/image_quality_option_value"
+            android:key="download_img_quality_without_wifi"
+            android:title="@string/image_quality_info" />
 
         <android.preference.SwitchCompatPreference
+            android:defaultValue="false"
             android:key="download_avatar_nowifi"
-            android:title="@string/download_avatar_nowifi"
-            android:defaultValue="false"/>
+            android:title="@string/download_avatar_nowifi" />
 
     </PreferenceCategory>
 
 
     <PreferenceCategory
-        android:title="@string/setting_option"
-        android:key="optiontitle">
+        android:key="optiontitle"
+        android:title="@string/setting_option">
 
         <SwitchCompatPreference
             android:defaultValue="false"
-            android:title="@string/color_txt"
-            android:key="showColortxt"/>
+            android:key="showColortxt"
+            android:title="@string/color_txt" />
 
         <SwitchCompatPreference
             android:defaultValue="true"
-            android:title="@string/refresh_after_post_setting_mode"
-            android:key="refresh_after_post_setting_mode"/>
+            android:key="refresh_after_post_setting_mode"
+            android:title="@string/refresh_after_post_setting_mode" />
 
         <SwitchCompatPreference
             android:defaultValue="true"
-            android:title="@string/swipeback"
-            android:key="swipeback"/>
+            android:key="swipeback"
+            android:title="@string/swipeback" />
 
         <android.preference.ListCompatPreference
-            android:key="SwipeBackPosition"
-            android:title="@string/swipeback_hand"
-            android:entries="@array/swipe_back_position"
             android:defaultValue="2"
-            android:dialogTitle="@string/swipeback_chooser_prompt"
             android:dependency="swipeback"
-            android:entryValues="@array/swipe_back_option_value"/>
+            android:dialogTitle="@string/swipeback_chooser_prompt"
+            android:entries="@array/swipe_back_position"
+            android:entryValues="@array/swipe_back_option_value"
+            android:key="SwipeBackPosition"
+            android:title="@string/swipeback_hand" />
 
         <SwitchCompatPreference
             android:defaultValue="false"
-            android:title="@string/fullscreenmode"
-            android:key="fullscreen"/>
+            android:key="fullscreen"
+            android:title="@string/fullscreenmode" />
 
         <SwitchCompatPreference
             android:defaultValue="true"
-            android:title="@string/notification_on"
-            android:key="enableNotification"/>
+            android:key="enableNotification"
+            android:title="@string/notification_on" />
 
         <SwitchCompatPreference
             android:defaultValue="true"
-            android:title="@string/notification_sound"
             android:dependency="enableNotification"
-            android:key="notificationSound"/>
+            android:key="notificationSound"
+            android:title="@string/notification_sound" />
 
         <android.preference.ListCompatPreference
-            android:key="blackgun_sound"
-            android:title="@string/blackgun_sound_info"
-            android:entries="@array/black_gun_sound"
             android:defaultValue="0"
-            android:dialogTitle="@string/blackgun_sound_chooser_prompt"
             android:dependency="notificationSound"
-            android:entryValues="@array/black_gun_sound_value"/>
+            android:dialogTitle="@string/blackgun_sound_chooser_prompt"
+            android:entries="@array/black_gun_sound"
+            android:entryValues="@array/black_gun_sound_value"
+            android:key="blackgun_sound"
+            android:title="@string/blackgun_sound_info" />
 
 
     </PreferenceCategory>
@@ -92,39 +92,46 @@
         android:title="@string/setting_uishow">
 
         <SwitchCompatPreference
+            android:defaultValue="false"
             android:key="nightmode"
-            android:defaultValue="false"
-            android:title="@string/nightmode"/>
+            android:title="@string/nightmode" />
 
         <SwitchCompatPreference
+            android:defaultValue="false"
             android:key="showiconmode"
-            android:defaultValue="false"
-            android:title="@string/iconmode"/>
+            android:title="@string/iconmode" />
 
         <SwitchCompatPreference
+            android:defaultValue="false"
             android:key="showSignature"
-            android:defaultValue="false"
-            android:title="@string/showSignature"/>
+            android:title="@string/showSignature" />
 
         <SwitchCompatPreference
+            android:defaultValue="false"
             android:key="showStatic"
-            android:defaultValue="false"
-            android:title="@string/show_static"/>
+            android:title="@string/show_static" />
 
         <SwitchCompatPreference
+            android:defaultValue="true"
             android:key="showLajibankuai"
-            android:defaultValue="true"
-            android:title="@string/show_lajibankuai"/>
+            android:title="@string/show_lajibankuai" />
 
         <SwitchCompatPreference
-            android:key="showReplyButton"
             android:defaultValue="true"
-            android:title="@string/addreplybutton"/>
+            android:key="showReplyButton"
+            android:title="@string/addreplybutton" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/material_theme"
+            android:entryValues="@array/material_theme_value"
+            android:key="material_theme"
+            android:title="@string/setting_title_material_theme" />
 
         <PreferenceScreen
-            android:title="@string/setting_title_size"
+            android:fragment="sp.phone.fragment.material.SettingsSizeFragment"
             android:key="adjust_size"
-            android:fragment="sp.phone.fragment.material.SettingsSizeFragment"/>
+            android:title="@string/setting_title_size" />
 
     </PreferenceCategory>
 

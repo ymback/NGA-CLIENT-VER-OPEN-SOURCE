@@ -48,6 +48,7 @@ import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.bean.AvatarTag;
 import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.ActivityUtil;
@@ -126,6 +127,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         menuItem.setActionView(actionView);
         menuItem.expandActionView();
         mReplyCountView = (TextView) actionView.findViewById(R.id.reply_count);
+        navigationView.getHeaderView(0).setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(getContext()));
         mHeaderView = (ViewFlipper) navigationView.getHeaderView(0).findViewById(R.id.viewFlipper);
         updateHeaderView();
         super.onViewCreated(view, savedInstanceState);

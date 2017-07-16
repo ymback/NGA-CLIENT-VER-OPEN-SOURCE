@@ -25,6 +25,8 @@ import static sp.phone.common.PreferenceKey.PERFERENCE;
  */
 public class BaseActivity extends AppCompatActivity {
 
+    protected Toast mToast;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateFullScreen();
@@ -36,8 +38,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void updateThemeUi(){
-        setTheme(R.style.AppThemeDayNight);
-        if (ThemeManager.getInstance().isNightMode()){
+        ThemeManager tm = ThemeManager.getInstance();
+        setTheme(tm.getTheme());
+        if (tm.isNightMode()){
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -74,21 +77,19 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected Toast toast;
-
     protected void showToast(int res) {
         String str = getString(res);
         showToast(str);
     }
 
     protected void showToast(String res) {
-        if (toast != null) {
-            toast.setText(res);
-            toast.setDuration(Toast.LENGTH_SHORT);
+        if (mToast != null) {
+            mToast.setText(res);
+            mToast.setDuration(Toast.LENGTH_SHORT);
         } else {
-            toast = Toast.makeText(this, res, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(this, res, Toast.LENGTH_SHORT);
         }
-        toast.show();
+        mToast.show();
     }
 
     public void changeNightMode(final MenuItem menu) {

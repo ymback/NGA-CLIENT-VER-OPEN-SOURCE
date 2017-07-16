@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -691,6 +692,12 @@ public class MyApp extends Application implements PreferenceKey {
     }
 
     private void loadConfig() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        ThemeManager tm = ThemeManager.getInstance();
+        tm.setTheme(Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME,"0")));
+
+
 
         SharedPreferences share = this.getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);
