@@ -4,10 +4,15 @@
     <color name="text_color">#FFFFFF</color>
     <color name="text_color_disabled">#FF6F6F6F</color>
     <color name="window_background">#FF303030</color>
-    <color name="colorAccent">#FF128F80</color>
-    <color name="colorPrimary">#FF282828</color>
-    <color name="colorPrimaryDark">#FF282828</color>
-
     <color name="toolbar_popup_background">#ff303030</color>
+
+    <color name="colorAccentBrown">#FF591804</color>
+    <color name="colorPrimaryBrown">#FF282828</color>
+    <color name="colorPrimaryDarkBrown">#FF282828</color>
+
+    <color name="colorAccentGreen">#FF128F80</color>
+    <color name="colorPrimaryGreen">#FF282828</color>
+    <color name="colorPrimaryDarkGreen">#FF282828</color>
+
 
 </resources>

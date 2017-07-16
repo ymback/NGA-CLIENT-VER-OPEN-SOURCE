@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
+import sp.phone.common.ThemeManager;
 import sp.phone.utils.ActivityUtil;
 import sp.phone.common.PhoneConfiguration;
 
@@ -30,7 +31,7 @@ public class ActionBarUserListAdapter extends SpinnerUserListAdapter {
 
 
         if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(context)){
-            convertView.setBackgroundColor(ContextCompat.getColor(context,R.color.colorPrimary));
+            convertView.setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(context));
             ((TextView) convertView).setTextColor(ContextCompat.getColor(context,R.color.toolbar_text_color));
         }
         return convertView;
