@@ -700,11 +700,7 @@ public class MyApp extends Application implements PreferenceKey {
         tm.setTheme(Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME,"0")));
         config.setShowBottomTab(sp.getBoolean(PreferenceKey.BOTTOM_TAB,false));
 
-
-
-
-
-        SharedPreferences share = this.getSharedPreferences(PERFERENCE,
+        SharedPreferences share = getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);
         if (share.getBoolean(NIGHT_MODE, false))
             ThemeManager.getInstance().setMode(1);
