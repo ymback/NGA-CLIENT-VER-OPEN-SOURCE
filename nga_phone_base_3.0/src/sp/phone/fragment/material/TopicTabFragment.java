@@ -96,7 +96,9 @@ public class TopicTabFragment extends MaterialCompatFragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 getCurrentPresenter().refresh();
+                getCurrentPresenter().showFirstItem();
             }
         });
 

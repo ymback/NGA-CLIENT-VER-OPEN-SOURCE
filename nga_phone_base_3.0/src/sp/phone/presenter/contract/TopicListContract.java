@@ -1,8 +1,5 @@
 package sp.phone.presenter.contract;
 
-import android.view.View;
-import android.widget.AdapterView;
-
 import sp.phone.bean.TopicListInfo;
 import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
@@ -22,6 +19,8 @@ public interface TopicListContract {
         void jsonFinishLoad(TopicListInfo result);
 
         void removeBookmark(String tidId,int position);
+
+        void showFirstItem();
     }
 
     interface View extends BaseContract.View<Presenter>{
@@ -35,6 +34,9 @@ public interface TopicListContract {
         TopicListRequestInfo getTopicListRequestInfo();
 
         android.view.View getTopicListView();
+
+        void scrollTo(int position);
+
 
     }
 
