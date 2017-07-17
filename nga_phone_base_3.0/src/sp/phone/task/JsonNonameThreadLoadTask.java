@@ -8,7 +8,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -70,8 +70,8 @@ public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameR
     @Override
     protected void onPostExecute(NonameReadResponse result) {
         if (result == null) {
-            ActivityUtil.getInstance().dismiss();
-            ActivityUtil.getInstance().noticeError(errorStr, context);
+            ActivityUtils.getInstance().dismiss();
+            ActivityUtils.getInstance().noticeError(errorStr, context);
         }
         notifier.finishLoad(result);
 
@@ -80,7 +80,7 @@ public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameR
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

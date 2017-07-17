@@ -45,7 +45,7 @@ import sp.phone.forumoperation.SignPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -95,7 +95,7 @@ public class SignPostActivity extends BasePostActivity implements
 
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
 
         Intent intent = this.getIntent();
@@ -299,14 +299,14 @@ public class SignPostActivity extends BasePostActivity implements
         if (uploadTask != null) {
             FileUploadTask temp = uploadTask;
             uploadTask = null;
-            if (ActivityUtil.isGreaterThan_2_3_3()) {
+            if (ActivityUtils.isGreaterThan_2_3_3()) {
                 RunParallel(temp);
             } else {
                 temp.execute();
             }
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(v);
+            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }
@@ -440,7 +440,7 @@ public class SignPostActivity extends BasePostActivity implements
 
         @Override
         protected void onPreExecute() {
-            ActivityUtil.getInstance().noticeSaying(c);
+            ActivityUtils.getInstance().noticeSaying(c);
             super.onPreExecute();
         }
 
@@ -449,7 +449,7 @@ public class SignPostActivity extends BasePostActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -458,7 +458,7 @@ public class SignPostActivity extends BasePostActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -549,7 +549,7 @@ public class SignPostActivity extends BasePostActivity implements
                     keepActivity = true;
             }
             showToast(result);
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             if (!keepActivity) {
                 Intent intent = new Intent();
                 intent.putExtra("sign", act.getsign_());

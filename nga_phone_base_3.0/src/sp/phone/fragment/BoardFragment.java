@@ -51,7 +51,7 @@ import sp.phone.bean.User;
 import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -207,7 +207,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         } else {
             Intent intent = new Intent();
             intent.setClass(getContext(), LoginActivity.class);
-            startActivityForResult(intent, ActivityUtil.REQUEST_CODE_LOGIN);
+            startActivityForResult(intent, ActivityUtils.REQUEST_CODE_LOGIN);
         }
     }
 
@@ -253,7 +253,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ActivityUtil.REQUEST_CODE_LOGIN && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ActivityUtils.REQUEST_CODE_LOGIN && resultCode == Activity.RESULT_OK) {
             updateHeaderView();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -360,7 +360,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
     @Override
     public void onResume() {
         if (mBoardPagerAdapter == null) {
-            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager(), (PageCategoryOwner) mPresenter,getResources().getInteger(R.integer.page_category_width));
+            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager(), (PageCategoryOwner) mPresenter);
             mViewPager.setAdapter(mBoardPagerAdapter);
             if (((PageCategoryOwner) mPresenter).getCategory(0).size() == 0) {
                 mViewPager.setCurrentItem(1);

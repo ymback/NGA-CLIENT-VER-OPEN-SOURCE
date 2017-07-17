@@ -35,7 +35,7 @@ import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonTopicListLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -217,9 +217,9 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }
@@ -346,7 +346,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
             case R.id.threadlist_menu_item2:
             /*
              * int current = this.mViewPager.getCurrentItem();
-			 * ActivityUtil.getInstance().noticeSaying(this);
+			 * ActivityUtils.getInstance().noticeSaying(this);
 			 * this.mViewPager.setAdapter(this.mTabsAdapter);
 			 * this.mViewPager.setCurrentItem(current, true);
 			 */
@@ -500,7 +500,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         adapter.jsonfinishLoad(result);
         listView.setAdapter(adapter);
         if (canDismiss)
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
     }
 
     @TargetApi(11)
@@ -512,7 +512,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     public void loadNextPage(OnTopListLoadFinishedListener callback) {
         JsonTopicListLoadTask task = new JsonTopicListLoadTask(getActivity(), callback);
         refresh_saying();
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             RunParallen(task);
         else
             task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
@@ -538,11 +538,11 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
 		 * 
 		 * @Override public void jsonfinishLoad( TopicListInfo result) {
 		 * mPullRefreshListView.onRefreshComplete(); if(result == null) return;
-		 * ActivityUtil.getInstance().dismiss(); adapter.jsonfinishLoad(result);
+		 * ActivityUtils.getInstance().dismiss(); adapter.jsonfinishLoad(result);
 		 * 
 		 * }
 		 * 
-		 * } ); ActivityUtil.getInstance().noticeSaying(getActivity());
+		 * } ); ActivityUtils.getInstance().noticeSaying(getActivity());
 		 * task.execute(getUrl(adapter.getNextPage()));
 		 * 
 		 * }

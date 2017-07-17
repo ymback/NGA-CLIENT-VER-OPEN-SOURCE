@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
 import sp.phone.presenter.contract.MessagePostContract;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -126,7 +126,7 @@ public class MessagePostContainer extends BaseFragment implements MessagePostCon
             mBodyEditText.requestFocus();
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(getView());
+            ActivityUtils.getInstance().setFullScreen(getView());
         }
         super.onResume();
     }

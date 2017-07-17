@@ -24,7 +24,7 @@ import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziCategoryFragment.OnMeiziSelectedListener;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
@@ -144,7 +144,7 @@ public class MeiziMainActivity extends ActionBarActivity implements
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         mAdapter = new MeiziDrawerAdapter(this, mDrawerList);
         mDrawerList.setAdapter(mAdapter);

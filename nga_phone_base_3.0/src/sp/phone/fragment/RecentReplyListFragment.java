@@ -34,7 +34,7 @@ import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonCleanRecentNotifierLoadTask;
 import sp.phone.task.JsonRecentNotifierLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
@@ -118,7 +118,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
     @Override
     public void onResume() {
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(lv);
+            ActivityUtils.getInstance().setFullScreen(lv);
         }
         super.onResume();
     }
@@ -126,7 +126,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
     void refresh() {
         JsonRecentNotifierLoadTask task = new JsonRecentNotifierLoadTask(getActivity(),
                 this);
-        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        // ActivityUtils.getInstance().noticeSaying(this.getActivity());
         refresh_saying();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
         task.execute(config.getCookie());
@@ -144,9 +144,9 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }
@@ -191,7 +191,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
                         // TODO Auto-generated method stub
                         dialog.dismiss();
                         if (PhoneConfiguration.getInstance().fullscreen) {
-                            ActivityUtil.getInstance().setFullScreen(lv);
+                            ActivityUtils.getInstance().setFullScreen(lv);
                         }
                     }
 

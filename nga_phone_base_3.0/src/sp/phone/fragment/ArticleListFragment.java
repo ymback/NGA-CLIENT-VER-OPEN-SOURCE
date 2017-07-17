@@ -42,7 +42,7 @@ import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.ResetableArticle;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -259,12 +259,12 @@ public class ArticleListFragment extends BaseFragment implements
             if (authorid != 0) {
                 url = url + "&authorid=" + authorid;
             }
-            if (ActivityUtil.isGreaterThan_2_3_3())
+            if (ActivityUtils.isGreaterThan_2_3_3())
                 RunParallen(task, url);
             else
                 task.execute(url);
         } else {
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
         }
 
     }
@@ -515,7 +515,7 @@ public class ArticleListFragment extends BaseFragment implements
                 }
 
                 // restNotifier.reset(0, row.getAuthorid());
-                // ActivityUtil.getInstance().noticeSaying(getActivity());
+                // ActivityUtils.getInstance().noticeSaying(getActivity());
 
                 break;
             case R.id.show_whole_thread:
@@ -529,7 +529,7 @@ public class ArticleListFragment extends BaseFragment implements
                         return true;
                     }
                     restNotifier.reset(0, 0, row.getLou());
-                    ActivityUtil.getInstance().noticeSaying(getActivity());
+                    ActivityUtils.getInstance().noticeSaying(getActivity());
                 } else {
                     int tid1 = tid;
                     ArticleContainerFragment f = ArticleContainerFragment
@@ -679,7 +679,7 @@ public class ArticleListFragment extends BaseFragment implements
             }
 
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         this.needLoad = false;
     }
 }

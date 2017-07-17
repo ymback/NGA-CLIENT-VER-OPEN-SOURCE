@@ -35,7 +35,7 @@ import sp.phone.fragment.PostCommentDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.ResetableArticle;
 import sp.phone.model.ArticleListTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -291,7 +291,7 @@ public class ArticleListFragment extends BaseFragment {
                 } else {
                     intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
                 }
-                getParentFragment().startActivityForResult(intent, ActivityUtil.REQUEST_CODE_TOPIC_POST);
+                getParentFragment().startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
                 break;
 
             case R.id.menu_signature:
@@ -410,7 +410,7 @@ public class ArticleListFragment extends BaseFragment {
                         return true;
                     }
                     restNotifier.reset(0, 0, row.getLou());
-                    ActivityUtil.getInstance().noticeSaying(getActivity());
+                    ActivityUtils.getInstance().noticeSaying(getActivity());
                 } else {
                     sp.phone.fragment.ArticleContainerFragment f = sp.phone.fragment.ArticleContainerFragment
                             .createshowall(tid);
@@ -527,13 +527,13 @@ public class ArticleListFragment extends BaseFragment {
 
     public void showProgress() {
         if (getUserVisibleHint()) {
-            ActivityUtil.getInstance().noticeSaying(getContext());
+            ActivityUtils.getInstance().noticeSaying(getContext());
         }
     }
 
     public void dismiss() {
         if (getUserVisibleHint()) {
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
         }
     }
 

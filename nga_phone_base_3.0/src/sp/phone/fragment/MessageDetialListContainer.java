@@ -35,7 +35,7 @@ import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonMessageDetialLoadTask;
 import sp.phone.task.JsonMessageListLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -448,9 +448,9 @@ public class MessageDetialListContainer extends BaseFragment implements
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else {
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         }
         if (attacher != null)
             attacher.setRefreshing(true);
@@ -459,7 +459,7 @@ public class MessageDetialListContainer extends BaseFragment implements
     void refresh() {
         JsonMessageDetialLoadTask task = new JsonMessageDetialLoadTask(
                 getActivity(), this);
-        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        // ActivityUtils.getInstance().noticeSaying(this.getActivity());
         if (this.getActivity() != null) {
             adapter = new AppendableMessageDetialAdapter(this.getActivity(),
                     attacher, this);
@@ -572,7 +572,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         adapter.finishLoad(result);
         listView.setAdapter(adapter);
         if (canDismiss)
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
 
     }
 
@@ -587,7 +587,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         JsonMessageDetialLoadTask task = new JsonMessageDetialLoadTask(
                 getActivity(), callback);
         refresh_saying();
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             RunParallen(task);
         else
             task.execute(getUrl(adapter.getNextPage(), mid, adapter.getIsEnd(),
@@ -615,11 +615,11 @@ public class MessageDetialListContainer extends BaseFragment implements
 		 * 
 		 * @Override public void jsonfinishLoad( TopicListInfo result) {
 		 * mPullRefreshListView.onRefreshComplete(); if(result == null) return;
-		 * ActivityUtil.getInstance().dismiss(); adapter.jsonfinishLoad(result);
+		 * ActivityUtils.getInstance().dismiss(); adapter.jsonfinishLoad(result);
 		 * 
 		 * }
 		 * 
-		 * } ); ActivityUtil.getInstance().noticeSaying(getActivity());
+		 * } ); ActivityUtils.getInstance().noticeSaying(getActivity());
 		 * task.execute(getUrl(adapter.getNextPage()));
 		 * 
 		 * }

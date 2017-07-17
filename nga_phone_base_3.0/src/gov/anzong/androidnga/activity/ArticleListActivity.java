@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import gov.anzong.androidnga.R;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListAction;
 import sp.phone.fragment.material.ArticleContainerFragment;
@@ -65,10 +66,18 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article_list);
+        setContentView(getContentViewId());
         setupActionBar((Toolbar) findViewById(R.id.toolbar));
         setupFragment();
 
+    }
+
+    private int getContentViewId() {
+        if (PhoneConfiguration.getInstance().isShownBottomTab()) {
+            return R.layout.activity_article_list_bottom_tab;
+        } else {
+            return R.layout.activity_article_list;
+        }
     }
 
     private int getUrlParameter(String url, String paraName) {

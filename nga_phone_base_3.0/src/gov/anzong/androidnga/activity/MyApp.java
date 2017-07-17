@@ -695,7 +695,12 @@ public class MyApp extends Application implements PreferenceKey {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
         ThemeManager tm = ThemeManager.getInstance();
+        PhoneConfiguration config = PhoneConfiguration.getInstance();
+
         tm.setTheme(Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME,"0")));
+        config.setShowBottomTab(sp.getBoolean(PreferenceKey.BOTTOM_TAB,false));
+
+
 
 
 
@@ -734,7 +739,6 @@ public class MyApp extends Application implements PreferenceKey {
         }
 
         // refresh
-        PhoneConfiguration config = PhoneConfiguration.getInstance();
         config.setRefreshAfterPost(false);
 
         config.showAnimation = share.getBoolean(SHOW_ANIMATION, false);

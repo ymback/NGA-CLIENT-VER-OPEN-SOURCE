@@ -45,7 +45,7 @@ import sp.phone.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.NonameFileUploadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -98,7 +98,7 @@ public class NonamePostActivity extends BasePostActivity implements
 
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
 
         Intent intent = this.getIntent();
@@ -327,14 +327,14 @@ public class NonamePostActivity extends BasePostActivity implements
         if (uploadTask != null) {
             NonameFileUploadTask temp = uploadTask;
             uploadTask = null;
-            if (ActivityUtil.isGreaterThan_2_3_3()) {
+            if (ActivityUtils.isGreaterThan_2_3_3()) {
                 RunParallel(temp);
             } else {
                 temp.execute();
             }
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(v);
+            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }
@@ -494,7 +494,7 @@ public class NonamePostActivity extends BasePostActivity implements
 
         @Override
         protected void onPreExecute() {
-            ActivityUtil.getInstance().noticeSaying(c);
+            ActivityUtils.getInstance().noticeSaying(c);
             super.onPreExecute();
         }
 
@@ -503,7 +503,7 @@ public class NonamePostActivity extends BasePostActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -512,7 +512,7 @@ public class NonamePostActivity extends BasePostActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -568,7 +568,7 @@ public class NonamePostActivity extends BasePostActivity implements
             if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
                 PhoneConfiguration.getInstance().setRefreshAfterPost(true);
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             if (!keepActivity)
                 NonamePostActivity.this.finish();
             synchronized (commit_lock) {

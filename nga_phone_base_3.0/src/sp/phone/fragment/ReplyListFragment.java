@@ -19,7 +19,7 @@ import java.util.List;
 import sp.phone.adapter.PendingReplyAdapter;
 import sp.phone.bean.NotificationObject;
 import sp.phone.common.PreferenceKey;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
@@ -71,7 +71,7 @@ public class ReplyListFragment extends Fragment implements PreferenceKey {
     @Override
     public void onResume() {
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(lv);
+            ActivityUtils.getInstance().setFullScreen(lv);
         }
         super.onResume();
     }

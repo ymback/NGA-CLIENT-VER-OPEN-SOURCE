@@ -59,4 +59,6 @@ public interface PreferenceKey {
     String ADJUST_SIZE = "adjust_size";
 
     String MATERIAL_THEME = "material_theme";
+
+    String BOTTOM_TAB = "bottom_tab";
 }

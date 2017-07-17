@@ -27,7 +27,7 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.ResetableArticle;
 import sp.phone.task.BookmarkTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
@@ -120,7 +120,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
                     intent.setClass(getContext(),
                             PhoneConfiguration.getInstance().loginActivityClass);
                 }
-                startActivityForResult(intent, ActivityUtil.REQUEST_CODE_TOPIC_POST);
+                startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
                 break;
             case R.id.menu_refresh:
                 mPagerAdapter.getChildAt(mPosition).loadPage();
@@ -199,7 +199,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ActivityUtil.REQUEST_CODE_TOPIC_POST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ActivityUtils.REQUEST_CODE_TOPIC_POST && resultCode == Activity.RESULT_OK) {
             if (mViewPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
                 mPagerAdapter.getChildAt(mViewPager.getCurrentItem()).loadPage();
             }

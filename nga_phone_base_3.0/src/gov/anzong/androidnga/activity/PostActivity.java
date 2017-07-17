@@ -22,7 +22,7 @@ import sp.phone.fragment.material.TopicPostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.presenter.TopicPostPresenter;
 import sp.phone.presenter.contract.TopicPostContract;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
@@ -43,7 +43,7 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
 
         Intent intent = this.getIntent();

@@ -17,4 +17,8 @@
     <color name="colorAccentGreen">#FF128F80</color>
     <color name="colorPrimaryGreen">#FF128F80</color>
     <color name="colorPrimaryDarkGreen">#FF128F80</color>
+
+    <color name="colorAccentBlack">#FF128F80</color>
+    <color name="colorPrimaryBlack">#ff212121</color>
+    <color name="colorPrimaryDarkBlack">@android:color/black</color>
 </resources>

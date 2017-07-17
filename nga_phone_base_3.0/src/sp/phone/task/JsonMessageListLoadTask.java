@@ -14,7 +14,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -130,10 +130,10 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 
     @Override
     protected void onPostExecute(MessageListInfo result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (result == null) {
             if (!StringUtil.isEmpty(error))
-                ActivityUtil.getInstance().noticeError
+                ActivityUtils.getInstance().noticeError
                         (error, context);
         }
         if (null != notifier)
@@ -143,7 +143,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

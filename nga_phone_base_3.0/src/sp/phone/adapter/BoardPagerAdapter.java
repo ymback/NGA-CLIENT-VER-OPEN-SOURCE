@@ -9,14 +9,11 @@ import sp.phone.interfaces.PageCategoryOwner;
 
 public class BoardPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final int mWidthPercentage;
-
     private PageCategoryOwner mPageCategoryOwner;
 
-    public BoardPagerAdapter(FragmentManager fm, PageCategoryOwner pageCategoryOwner, int width) {
+    public BoardPagerAdapter(FragmentManager fm, PageCategoryOwner pageCategoryOwner) {
         super(fm);
         mPageCategoryOwner = pageCategoryOwner;
-        mWidthPercentage = width;
 
     }
 
@@ -35,12 +32,6 @@ public class BoardPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mPageCategoryOwner.getCategoryName(position);
     }
-
-    @Override
-    public float getPageWidth(int position) {
-        return mWidthPercentage / 100.0f;
-    }
-
 
     @Override
     public int getItemPosition(Object object) {

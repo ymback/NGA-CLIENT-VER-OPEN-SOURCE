@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -117,8 +117,8 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
     @Override
     protected void onPostExecute(ThreadData result) {
         if (result == null) {
-            ActivityUtil.getInstance().dismiss();
-            ActivityUtil.getInstance().noticeError(errorStr, context);
+            ActivityUtils.getInstance().dismiss();
+            ActivityUtils.getInstance().noticeError(errorStr, context);
         }
         notifier.finishLoad(result);
 
@@ -127,7 +127,7 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

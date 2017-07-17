@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 
@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateFullScreen();
         updateOrientation();
-        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(this) || ActivityUtil.supportNewUi(this)) {
+        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtils.supportMaterialMode(this) || ActivityUtils.supportNewUi(this)) {
             updateThemeUi();
         }
         super.onCreate(savedInstanceState);

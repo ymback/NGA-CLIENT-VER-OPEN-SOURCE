@@ -33,7 +33,7 @@ import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -223,12 +223,12 @@ public class NonameArticleListFragment extends Fragment implements
             if (tid != 0)
                 url = url + "&tid=" + tid;
 
-            if (ActivityUtil.isGreaterThan_2_3_3())
+            if (ActivityUtils.isGreaterThan_2_3_3())
                 RunParallen(task, url);
             else
                 task.execute(url);
         } else {
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
         }
 
     }
@@ -370,7 +370,7 @@ public class NonameArticleListFragment extends Fragment implements
             }
 
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         this.needLoad = false;
 
     }

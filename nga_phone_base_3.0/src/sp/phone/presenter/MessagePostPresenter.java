@@ -18,7 +18,7 @@ import sp.phone.forumoperation.MessagePostAction;
 import sp.phone.model.MessagePostModel;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 
 /**
@@ -70,7 +70,7 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
         if (resultInfo != null){
             mView.showToast(resultInfo);
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (result) {
             if (!mMessagePostAction.getAction_().equals("new")) {
                 mView.finish(123);

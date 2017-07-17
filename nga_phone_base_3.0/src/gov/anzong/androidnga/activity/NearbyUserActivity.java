@@ -30,7 +30,7 @@ import sp.phone.fragment.NearbyAlertDialogFragment;
 import sp.phone.interfaces.OnNearbyLoadComplete;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.NearbyUserTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
@@ -100,7 +100,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         }
 
         if (PhoneConfiguration.getInstance().location == null)
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
 
         Location location = PhoneConfiguration.getInstance().location;
 
@@ -113,7 +113,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         } else if (StringUtil.isEmpty(userName)) {
             showToast(R.string.nearby_no_login);
         } else {
-            ActivityUtil.getInstance().noticeSaying(this);
+            ActivityUtils.getInstance().noticeSaying(this);
             task = new NearbyUserTask(location.getLatitude(), location.getLongitude(),
                     userName, PhoneConfiguration.getInstance().uid, this);
             task.execute();
@@ -125,7 +125,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     @Override
     public void OnComplete(String result) {
         task = null;
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (StringUtil.isEmpty(result))
             return;
         List<NearbyUser> list = null;
@@ -136,7 +136,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         }
         Location myloc = PhoneConfiguration.getInstance().location;
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).setJuli(String.valueOf(ActivityUtil.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
+            list.get(i).setJuli(String.valueOf(ActivityUtils.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
         }
         attacher.setRefreshComplete();
         if (list != null && list.size() == 0) {
@@ -217,7 +217,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         if (progress > total) {
             saying = this.getString(R.string.fail_to_cross_gfw);
         }
-        ActivityUtil.getInstance().noticeError(saying, this);
+        ActivityUtils.getInstance().noticeError(saying, this);
 
 
     }
@@ -233,7 +233,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     @Override
     protected void onResume() {
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(lv);
+            ActivityUtils.getInstance().setFullScreen(lv);
         }
         super.onResume();
     }

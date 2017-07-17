@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:androidnga="http://schemas.android.com/apk/res-auto">
-    <item android:title="@string/menu_setting" android:id="@+id/mainmenu_setting" android:icon="@drawable/action_settings" androidnga:showAsAction="always|withText" android:showAsAction="always|withText"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/action_search"
+        android:showAsAction="never"
+        android:title="搜索用户"
+        androidnga:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_post"
+        android:icon="@drawable/action_search"
+        android:showAsAction="never"
+        android:title="我的主题"
+        androidnga:showAsAction="never" />
+    <item
+        android:id="@+id/menu_reply"
+        android:icon="@drawable/action_search"
+        android:showAsAction="never"
+        android:title="我的回复"
+        androidnga:showAsAction="never" />
+    <item
+        android:id="@+id/menu_msg"
+        android:icon="@drawable/ic_action_email"
+        android:showAsAction="never"
+        android:title="短消息"
+        androidnga:showAsAction="never" />
+    <item
+        android:id="@+id/menu_bookmark"
+        android:icon="@drawable/action_search"
+        android:showAsAction="never"
+        android:title="收藏夹"
+        androidnga:showAsAction="never" />
+    <item
+        android:id="@+id/menu_setting"
+        android:icon="@drawable/action_settings"
+        android:showAsAction="never"
+        android:title="@string/menu_setting"
+        androidnga:showAsAction="never" />
 </menu>

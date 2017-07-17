@@ -16,7 +16,7 @@ import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -307,9 +307,9 @@ public class JsonProfileLoadTask extends
 
     @Override
     protected void onPostExecute(ProfileData result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (result == null) {
-            ActivityUtil.getInstance().noticeError(error, context);
+            ActivityUtils.getInstance().noticeError(error, context);
         } else {
         }
         notifier.jsonfinishLoad(result);
@@ -319,7 +319,7 @@ public class JsonProfileLoadTask extends
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

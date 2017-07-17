@@ -24,7 +24,7 @@ import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.MD5Util;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -103,7 +103,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
     @Override
     protected void onResume() {
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         if (alreadylogin && needtopost) {
             finish();

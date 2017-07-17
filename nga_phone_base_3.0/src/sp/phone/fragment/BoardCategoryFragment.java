@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.BoardCatagoryAdapter;
+import sp.phone.adapter.BoardCategoryAdapter;
 import sp.phone.bean.BoardCategory;
 
 public class BoardCategoryFragment extends Fragment {
@@ -67,7 +67,7 @@ public class BoardCategoryFragment extends Fragment {
 
         mListView.setOnItemClickListener(listener);
 
-        mAdapter = new BoardCatagoryAdapter(getResources(), getActivity().getLayoutInflater(),mBoardCategory);
+        mAdapter = new BoardCategoryAdapter(getActivity(),mBoardCategory);
 
         mListView.setAdapter(mAdapter);
     }

@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageDetialInfo;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MessageUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -87,10 +87,10 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
 
     @Override
     protected void onPostExecute(MessageDetialInfo result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (result == null) {
             if (!StringUtil.isEmpty(error))
-                ActivityUtil.getInstance().noticeError
+                ActivityUtils.getInstance().noticeError
                         (error, context);
         }
         if (null != notifier) {
@@ -101,7 +101,7 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 
