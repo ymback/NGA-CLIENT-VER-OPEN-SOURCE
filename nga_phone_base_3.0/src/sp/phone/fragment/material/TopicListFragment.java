@@ -153,6 +153,12 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         return mListView;
     }
 
+    @Override
+    public void scrollTo(int position) {
+      //  mListView.smoothScrollToPosition(position);
+        mListView.setAdapter(mAdapter);
+    }
+
 
     @Override
     public void setPresenter(TopicListContract.Presenter presenter) {

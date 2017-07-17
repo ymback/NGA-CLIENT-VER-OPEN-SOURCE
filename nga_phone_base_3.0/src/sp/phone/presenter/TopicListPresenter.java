@@ -6,7 +6,6 @@ import android.widget.AdapterView;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import gov.anzong.androidnga.activity.FlexibleTopicListActivity;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
@@ -84,6 +83,11 @@ public class TopicListPresenter implements TopicListContract.Presenter{
         DeleteBookmarkTask task = new DeleteBookmarkTask(
                 mView.getContext(), (AdapterView<?>) mView.getTopicListView(), position);
         task.execute(tidId);
+    }
+
+    @Override
+    public void showFirstItem() {
+        mView.scrollTo(0);
     }
 
     public String getUrl(int page,TopicListRequestInfo requestInfo) {
