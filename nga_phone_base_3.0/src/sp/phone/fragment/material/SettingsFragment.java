@@ -87,7 +87,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         switch (preference.getKey()){
             case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
                 mConfiguration.imageQuality = Integer.parseInt((String) newValue);
