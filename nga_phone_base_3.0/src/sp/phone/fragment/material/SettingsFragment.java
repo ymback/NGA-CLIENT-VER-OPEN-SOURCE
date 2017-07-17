@@ -30,11 +30,11 @@ import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
-import sp.phone.common.PreferenceKey;
-import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.fragment.AlertDialogFragment;
+import sp.phone.utils.StringUtil;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -50,6 +50,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
         mapping(getPreferenceScreen());
+        configPreference();
     }
 
     private void mapping(PreferenceGroup group){
@@ -60,6 +61,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             } else {
                 preference.setOnPreferenceChangeListener(this);
             }
+        }
+    }
+
+    private void configPreference() {
+        if (ThemeManager.getInstance().isNightMode()) {
+            findPreference(PreferenceKey.MATERIAL_THEME).setEnabled(false);
         }
     }
 
@@ -144,6 +151,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 ThemeManager.getInstance().setTheme(Integer.parseInt((String) newValue));
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
+                break;
+            case PreferenceKey.BOTTOM_TAB:
+                mConfiguration.setShowBottomTab((Boolean) newValue);
                 break;
 
         }

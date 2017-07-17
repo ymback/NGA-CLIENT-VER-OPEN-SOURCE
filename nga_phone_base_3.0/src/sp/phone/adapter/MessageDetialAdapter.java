@@ -26,7 +26,7 @@ import sp.phone.bean.MessageDetialInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
 import sp.phone.task.AvatarLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -149,7 +149,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
             holder.postTime = postTime;
             holder.avatarImage = avatarImage;
             holder.content = content;
-            if (ActivityUtil.isGreaterThan_2_2()) {
+            if (ActivityUtils.isGreaterThan_2_2()) {
                 holder.content.setLongClickable(false);
             }
             convertView.setTag(holder);
@@ -206,13 +206,13 @@ public class MessageDetialAdapter extends BaseAdapter implements
         final int fgColor = parent.getContext().getResources()
                 .getColor(fgColorId);
         view.setBackgroundResource(colorId);
-        if (ActivityUtil.isLessThan_4_3()) {
+        if (ActivityUtils.isLessThan_4_3()) {
             new Thread(new Runnable() {
                 public void run() {
                     FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor, context);
                 }
             }).start();
-        } else if (ActivityUtil.isLessThan_4_4()) {
+        } else if (ActivityUtils.isLessThan_4_4()) {
             ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
                 public void run() {
                     FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor, context);

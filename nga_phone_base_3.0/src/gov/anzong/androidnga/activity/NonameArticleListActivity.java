@@ -28,7 +28,7 @@ import sp.phone.fragment.NonameArticleListFragmentNew;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
@@ -61,7 +61,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -136,7 +136,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         if (PhoneConfiguration.getInstance().fullscreen) {
             refresh_saying();
         } else {
-            ActivityUtil.getInstance().noticeSaying(this);
+            ActivityUtils.getInstance().noticeSaying(this);
         }
 
     }
@@ -154,9 +154,9 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this);
+            ActivityUtils.getInstance().noticeSaying(this);
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }
@@ -264,7 +264,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                 if (PhoneConfiguration.getInstance().fullscreen) {
                     refresh_saying();
                 } else {
-                    ActivityUtil.getInstance().noticeSaying(this);
+                    ActivityUtils.getInstance().noticeSaying(this);
                 }
                 mViewPager.setAdapter(mTabsAdapter);
                 mViewPager.setCurrentItem(current);
@@ -368,7 +368,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(mViewPager);
+            ActivityUtils.getInstance().setFullScreen(mViewPager);
         }
         super.onResume();
     }

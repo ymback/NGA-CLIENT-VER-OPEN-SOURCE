@@ -181,7 +181,7 @@ public class FunctionUtil {
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(scrollview);
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
                 }
             }
 
@@ -194,7 +194,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         if (mActionModeCallback != null) {
@@ -230,7 +230,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
 
@@ -253,7 +253,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         if (mActionModeCallback != null) {
@@ -301,7 +301,7 @@ public class FunctionUtil {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(listView);
+                    ActivityUtils.getInstance().setFullScreen(listView);
                 }
             }
 
@@ -326,7 +326,7 @@ public class FunctionUtil {
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(listview);
+                    ActivityUtils.getInstance().setFullScreen(listview);
                 }
             }
         });
@@ -357,7 +357,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
@@ -387,7 +387,7 @@ public class FunctionUtil {
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(scrollview);
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
                 }
             }
         });
@@ -441,7 +441,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
@@ -471,7 +471,7 @@ public class FunctionUtil {
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(scrollview);
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
                 }
             }
         });
@@ -499,7 +499,7 @@ public class FunctionUtil {
         WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
         final WebView contentTV = (WebView) view.findViewById(R.id.votewebview);
         contentTV.setBackgroundColor(0);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         contentTV.setOnLongClickListener(new View.OnLongClickListener() {
@@ -620,7 +620,7 @@ public class FunctionUtil {
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(scrollview);
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
                 }
             }
         });
@@ -650,7 +650,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         WebSettings setting = contentTV.getSettings();
@@ -675,7 +675,7 @@ public class FunctionUtil {
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(scrollview);
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
                 }
             }
 
@@ -706,7 +706,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         WebSettings setting = contentTV.getSettings();
@@ -731,7 +731,7 @@ public class FunctionUtil {
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(scrollview);
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
                 }
             }
 
@@ -1798,7 +1798,7 @@ public class FunctionUtil {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(v);
+                    ActivityUtils.getInstance().setFullScreen(v);
                 }
             }
 

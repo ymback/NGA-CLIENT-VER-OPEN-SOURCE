@@ -20,7 +20,7 @@ import sp.phone.fragment.material.MessagePostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.presenter.MessagePostPresenter;
 import sp.phone.presenter.contract.MessagePostContract;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 
@@ -38,7 +38,7 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
         super.onCreate(savedInstanceState);
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
 
         Intent intent = this.getIntent();

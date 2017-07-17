@@ -38,7 +38,7 @@ import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.ProfileSearchDialogFragment;
 import sp.phone.presenter.BoardPresenter;
 import sp.phone.presenter.contract.BoardContract;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
@@ -272,12 +272,12 @@ public class MainActivity extends BaseActivity {
     private void jumpToSetting() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, SettingsActivity.class);
-        startActivityForResult(intent, ActivityUtil.REQUEST_CODE_SETTING);
+        startActivityForResult(intent, ActivityUtils.REQUEST_CODE_SETTING);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ActivityUtil.REQUEST_CODE_SETTING && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ActivityUtils.REQUEST_CODE_SETTING && resultCode == Activity.RESULT_OK) {
             mPresenter.notifyDataSetChanged();
         } else {
             super.onActivityResult(requestCode, resultCode, data);

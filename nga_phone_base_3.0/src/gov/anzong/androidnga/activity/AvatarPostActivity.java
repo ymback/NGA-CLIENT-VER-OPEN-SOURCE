@@ -40,7 +40,7 @@ import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
 import sp.phone.task.AvatarFileUploadTask;
 import sp.phone.task.ChangeAvatarLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -225,7 +225,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
         act = new AvatarPostAction();
         loading = false;
@@ -309,14 +309,14 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
         if (uploadTask != null) {
             AvatarFileUploadTask temp = uploadTask;
             uploadTask = null;
-            if (ActivityUtil.isGreaterThan_2_3_3()) {
+            if (ActivityUtils.isGreaterThan_2_3_3()) {
                 RunParallel(temp);
             } else {
                 temp.execute();
             }
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(v);
+            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }
@@ -421,7 +421,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 
         @Override
         protected void onPreExecute() {
-            ActivityUtil.getInstance().noticeSaying(c);
+            ActivityUtils.getInstance().noticeSaying(c);
             super.onPreExecute();
         }
 
@@ -430,7 +430,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -439,7 +439,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -531,7 +531,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
                     keepActivity = true;
             }
             showToast("操作成功");
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             String userId = PhoneConfiguration.getInstance().uid;
             String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId + ".jpg";
             HttpUtil.downImage3(resultbitmap, avatarPath);

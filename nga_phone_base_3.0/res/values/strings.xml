@@ -329,4 +329,5 @@
     <string name="setting_title_material_mode">Material Mode(6.0以上)</string>
     <string name="setting_title_size">调整字体和头像大小</string>
     <string name="setting_title_material_theme">主题风格</string>
+    <string name="setting_title_bottom_tab">主题页面底部标签页</string>
 </resources>

@@ -16,11 +16,11 @@ public class ThemeManager {
 
     private int mMode;
 
-    private int[] mPrimaryColors = new int[]{R.color.colorPrimaryBrown,R.color.colorPrimaryGreen};
+    private int[] mPrimaryColors = new int[]{R.color.colorPrimaryBrown,R.color.colorPrimaryGreen,R.color.colorPrimaryBlack};
 
-    private int[] mAccentColors = new int[]{R.color.colorAccentBrown,R.color.colorAccentGreen};
+    private int[] mAccentColors = new int[]{R.color.colorAccentBrown,R.color.colorAccentGreen,R.color.colorAccentBlack};
 
-    private int[] mThemes = new int[]{R.style.AppThemeDayNightBrown,R.style.AppThemeDayNightGreen};
+    private int[] mThemes = new int[]{R.style.AppThemeDayNightBrown,R.style.AppThemeDayNightGreen,R.style.AppThemeDayNightBlack};
 
     static final public int ACTION_BAR_FLAG = 31;
     static final public int ACTION_IF_ROOM = 1;//SHOW_AS_ACTION_IF_ROOM

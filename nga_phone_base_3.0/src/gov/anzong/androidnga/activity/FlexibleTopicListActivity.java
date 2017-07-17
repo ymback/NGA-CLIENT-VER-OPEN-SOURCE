@@ -51,7 +51,7 @@ import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.task.DeleteBookmarkTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
@@ -155,7 +155,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         Intent intent = getIntent();
         boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
         if (isfullScreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         this.setContentView(view);
         nightmode = ThemeManager.getInstance().getMode();
@@ -414,7 +414,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             asynTask.execute(config.getCookie());
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         super.onResume();
     }
@@ -598,7 +598,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(view);
+                    ActivityUtils.getInstance().setFullScreen(view);
                 }
             }
 

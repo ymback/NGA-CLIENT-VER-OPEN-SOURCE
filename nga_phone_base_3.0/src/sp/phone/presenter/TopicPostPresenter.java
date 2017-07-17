@@ -22,7 +22,7 @@ import sp.phone.model.TopicPostModel;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.PermissionUtils;
@@ -165,7 +165,7 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
         if (!StringUtil.isEmpty(result)){
             mView.showToast(result);
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             PhoneConfiguration.getInstance().setRefreshAfterPost(true);
         }

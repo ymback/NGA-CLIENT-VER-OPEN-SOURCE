@@ -23,7 +23,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.listener.MyListenerForNonameReply;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -242,14 +242,14 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(postTime);
         postTimeTV.setTextColor(fgColor);
-        if (ActivityUtil.isLessThan_4_3()) {
+        if (ActivityUtils.isLessThan_4_3()) {
             new Thread(new Runnable() {
                 public void run() {
                     FunctionUtil.handleContentTV(contentTV, row, bgColor,
                             fgColor, activity, null, client);
                 }
             }).start();
-        } else if (ActivityUtil.isLessThan_4_4()) {
+        } else if (ActivityUtils.isLessThan_4_4()) {
             ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
                 public void run() {
                     FunctionUtil.handleContentTV(contentTV, row, bgColor,

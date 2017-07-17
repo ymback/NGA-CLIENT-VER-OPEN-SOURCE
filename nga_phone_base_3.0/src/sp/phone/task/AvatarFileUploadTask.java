@@ -22,7 +22,7 @@ import java.net.URL;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.StringUtil;
 
@@ -63,19 +63,19 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPreExecute() {
-        ActivityUtil.getInstance().noticeSayingWithProgressBar(context);
+        ActivityUtils.getInstance().noticeSayingWithProgressBar(context);
         super.onPreExecute();
     }
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 
     @Override
     protected void onCancelled(String result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 
@@ -88,7 +88,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
             if (values[0] < 0 || values[0] > 100) {
                 values[0] = 99;
             }
-            ActivityUtil.getInstance().noticebarsetprogress(values[0]);
+            ActivityUtils.getInstance().noticebarsetprogress(values[0]);
         }
     }
 
@@ -105,7 +105,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
                 notifier.finishUpload(response.data, uri);
             }
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onPostExecute(result);
     }
 

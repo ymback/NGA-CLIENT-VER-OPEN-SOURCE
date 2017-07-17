@@ -37,7 +37,7 @@ import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonProfileLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
@@ -171,7 +171,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         if (PhoneConfiguration.getInstance().fullscreen) {
             refresh_saying();
         } else {
-            ActivityUtil.getInstance().noticeSaying(this);
+            ActivityUtils.getInstance().noticeSaying(this);
         }
         task.execute(params);
     }// 读取JSON了
@@ -189,9 +189,9 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this);
+            ActivityUtils.getInstance().noticeSaying(this);
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }
@@ -515,7 +515,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         WebSettings setting = contentTV.getSettings();
@@ -549,7 +549,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         WebSettings setting = contentTV.getSettings();
@@ -582,7 +582,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             contentTV.setLongClickable(false);
         }
         WebSettings setting = contentTV.getSettings();
@@ -756,7 +756,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         if (!StringUtil.isEmpty(trueusername)) {
             if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {

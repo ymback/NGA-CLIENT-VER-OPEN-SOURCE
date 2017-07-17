@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
@@ -96,7 +96,7 @@ public class HTMLMeiziCategoryLoadTask extends
 
     @Override
     protected void onPostExecute(List<MeiziUrlData> result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (null != notifier) {
             if (isrosmm && nextsid >= 0) {
                 notifier.datafinishLoad(result, nextsid);
@@ -109,7 +109,7 @@ public class HTMLMeiziCategoryLoadTask extends
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

@@ -20,7 +20,7 @@ import sp.phone.bean.NotificationObject;
 import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -203,7 +203,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

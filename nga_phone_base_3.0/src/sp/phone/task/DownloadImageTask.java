@@ -9,7 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.StringUtil;
@@ -29,12 +29,12 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPreExecute() {
 
-        ActivityUtil.getInstance().noticeSaying(context);
+        ActivityUtils.getInstance().noticeSaying(context);
     }
 
     @Override
     protected void onPostExecute(String result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         String description = context.getResources().getString(R.string.image_saved)
                 + HttpUtil.PATH_IMAGES;
         if (result != null)

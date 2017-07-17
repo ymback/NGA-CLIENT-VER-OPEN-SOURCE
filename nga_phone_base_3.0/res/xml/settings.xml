@@ -128,6 +128,11 @@
             android:key="material_theme"
             android:title="@string/setting_title_material_theme" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="bottom_tab"
+            android:title="@string/setting_title_bottom_tab"/>
+
         <PreferenceScreen
             android:fragment="sp.phone.fragment.material.SettingsSizeFragment"
             android:key="adjust_size"

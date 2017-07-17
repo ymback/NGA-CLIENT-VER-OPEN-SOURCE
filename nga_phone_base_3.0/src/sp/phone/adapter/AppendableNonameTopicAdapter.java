@@ -14,7 +14,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class AppendableNonameTopicAdapter extends NonameTopicListAdapter {
@@ -53,7 +53,7 @@ public class AppendableNonameTopicAdapter extends NonameTopicListAdapter {
         if (result == null) {
             return;
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         for (int i = 0; i < result.data.threads.length; i++) {
             NonameThreadBody info = result.data.threads[i];
             if (info == null) {

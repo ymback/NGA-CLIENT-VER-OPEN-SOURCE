@@ -25,7 +25,7 @@ public class LocationUpdater implements LocationListener {
     public void onLocationChanged(Location location) {
         Toast.makeText(c, R.string.get_location_success, Toast.LENGTH_SHORT).show();
         locationManager.removeUpdates(this);
-        ActivityUtil.updateLocation(location);
+        ActivityUtils.updateLocation(location);
     }
 
     @Override

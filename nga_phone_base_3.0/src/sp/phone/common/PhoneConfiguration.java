@@ -122,6 +122,8 @@ public class PhoneConfiguration implements PreferenceKey {
     private int webSize;
     private int uiFlag = 0;
 
+    private boolean mShowBottomTab;
+
 
     private static class PhoneConfigurationHolder {
 
@@ -137,6 +139,15 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public static PhoneConfiguration getInstance() {
         return PhoneConfigurationHolder.sInstance;
+    }
+
+
+    public void setShowBottomTab(boolean value) {
+        mShowBottomTab = value;
+    }
+
+    public boolean isShownBottomTab() {
+        return mShowBottomTab;
     }
 
     public String getDb_Cookie() {

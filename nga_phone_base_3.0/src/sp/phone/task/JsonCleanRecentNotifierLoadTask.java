@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PreferenceKey;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 
 public class JsonCleanRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PreferenceKey {
@@ -38,7 +38,7 @@ public class JsonCleanRecentNotifierLoadTask extends AsyncTask<String, Integer, 
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

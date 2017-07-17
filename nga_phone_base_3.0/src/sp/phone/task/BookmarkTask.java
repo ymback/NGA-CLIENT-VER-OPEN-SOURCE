@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
@@ -59,12 +59,12 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPreExecute() {
-        ActivityUtil.getInstance().noticeSaying(context);
+        ActivityUtils.getInstance().noticeSaying(context);
     }
 
     @Override
     protected void onPostExecute(String result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (StringUtil.isEmpty(result))
             return;
 
@@ -82,7 +82,7 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
     }
 
 

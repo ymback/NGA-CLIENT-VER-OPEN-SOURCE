@@ -13,7 +13,7 @@ import java.util.Set;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.interfaces.NextJsonTopicListLoader;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class AppendableSignAdapter extends SignPageAdapter {
@@ -46,7 +46,7 @@ public class AppendableSignAdapter extends SignPageAdapter {
         if (result == null) {
             return;
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
 
     }
 

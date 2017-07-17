@@ -121,6 +121,10 @@
             android:key="showReplyButton"
             android:title="@string/addreplybutton" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="bottom_tab"
+            android:title="@string/setting_title_bottom_tab"/>
 
         <android.preference.SwitchCompatPreference
             android:key="material_mode"

@@ -31,6 +31,6 @@ public class DeviceUtils {
 
     public boolean isTablet(Context context) {
         int screenLayout = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-        return screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE || screenLayout == Configuration.SCREENLAYOUT_SIZE_LARGE;
+        return screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 }

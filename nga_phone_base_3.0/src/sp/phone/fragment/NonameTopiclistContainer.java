@@ -26,7 +26,7 @@ import sp.phone.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonNonameTopicListLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
@@ -195,9 +195,9 @@ public class NonameTopiclistContainer extends BaseFragment implements
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }
@@ -205,7 +205,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
     void refresh() {
         JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
                 this);
-        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        // ActivityUtils.getInstance().noticeSaying(this.getActivity());
         refresh_saying();
         task.execute(getUrl(1, true, true));
     }
@@ -369,7 +369,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
         adapter.jsonfinishLoad(result);
         listView.setAdapter(adapter);
         if (canDismiss)
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
 
     }
 
@@ -384,7 +384,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
         JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
                 callback);
         refresh_saying();
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             RunParallen(task);
         else
             task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(),

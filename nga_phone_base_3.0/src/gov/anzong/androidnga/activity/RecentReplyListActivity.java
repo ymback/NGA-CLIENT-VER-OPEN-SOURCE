@@ -13,7 +13,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.RecentReplyListFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.common.ThemeManager;
@@ -72,7 +72,7 @@ public class RecentReplyListActivity extends SwipeBackAppCompatActivity implemen
         }
 
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(v);
+            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }

@@ -18,7 +18,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -156,7 +156,7 @@ public class SignPageAdapter extends BaseAdapter implements
         holder.content.setBackgroundColor(0);
         holder.content.setFocusableInTouchMode(false);
         holder.content.setFocusable(false);
-        if (ActivityUtil.isGreaterThan_2_2()) {
+        if (ActivityUtils.isGreaterThan_2_2()) {
             holder.content.setLongClickable(false);
         }
         WebSettings setting = holder.content.getSettings();

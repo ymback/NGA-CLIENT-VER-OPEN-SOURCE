@@ -51,12 +51,12 @@ import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.ResetableArticle;
-import sp.phone.listener.MyListenerForClient;
+import sp.phone.listener.ClientListener;
 import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
@@ -430,7 +430,7 @@ public class ArticleListFragmentNew extends Fragment implements
                         return true;
                     }
                     restNotifier.reset(0, 0, row.getLou());
-                    ActivityUtil.getInstance().noticeSaying(getActivity());
+                    ActivityUtils.getInstance().noticeSaying(getActivity());
                 } else {
                     int tid1 = tid;
                     ArticleContainerFragment f = ArticleContainerFragment
@@ -608,12 +608,12 @@ public class ArticleListFragmentNew extends Fragment implements
             if (authorid != 0) {
                 url = url + "&authorid=" + authorid;
             }
-            if (ActivityUtil.isGreaterThan_2_3_3())
+            if (ActivityUtils.isGreaterThan_2_3_3())
                 RunParallen(task, url);
             else
                 task.execute(url);
         } else {
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
         }
 
     }
@@ -651,7 +651,7 @@ public class ArticleListFragmentNew extends Fragment implements
                         "father activity should implements OnThreadPageLoadFinishedListener");
             }
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         this.needLoad = false;
     }
 
@@ -710,8 +710,8 @@ public class ArticleListFragmentNew extends Fragment implements
         floorTV.setText("[" + floor + " 楼]");
         floorTV.setTextColor(fgColor);
         if (!StringUtil.isEmpty(row.getFromClientModel())) {
-            MyListenerForClient myListenerForClient = new MyListenerForClient(
-                    position, data, getActivity(), scrollview);
+            ClientListener clientListener = new ClientListener(
+                    position, data, getActivity());
             String from_client_model = row.getFromClientModel();
             if (from_client_model.equals("ios")) {
                 holder.clientBtn.setImageResource(R.drawable.ios);// IOS
@@ -721,7 +721,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 holder.clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
             }
             holder.clientBtn.setVisibility(View.VISIBLE);
-            holder.clientBtn.setOnClickListener(myListenerForClient);
+            holder.clientBtn.setOnClickListener(clientListener);
         }
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());

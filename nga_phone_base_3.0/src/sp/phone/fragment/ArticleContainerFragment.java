@@ -30,7 +30,7 @@ import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.BookmarkTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.common.ThemeManager;
@@ -159,7 +159,7 @@ public class ArticleContainerFragment extends BaseFragment implements
         mTabsAdapter.setArgument("pid", pid);
         mTabsAdapter.setArgument("authorid", authorid);
 
-        // ActivityUtil.getInstance().noticeSaying(getActivity());
+        // ActivityUtils.getInstance().noticeSaying(getActivity());
 
         if (savedInstanceState != null) {
             int pageCount = savedInstanceState.getInt("pageCount");
@@ -288,7 +288,7 @@ public class ArticleContainerFragment extends BaseFragment implements
                 break;
             case R.id.article_menuitem_refresh:
                 int current = mViewPager.getCurrentItem();
-                ActivityUtil.getInstance().noticeSaying(getActivity());
+                ActivityUtils.getInstance().noticeSaying(getActivity());
                 mViewPager.setAdapter(mTabsAdapter);
                 mViewPager.setCurrentItem(current);
                 break;
