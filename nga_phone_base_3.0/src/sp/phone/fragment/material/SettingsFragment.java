@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
@@ -86,6 +87,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         switch (preference.getKey()){
             case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
                 mConfiguration.imageQuality = Integer.parseInt((String) newValue);
@@ -148,11 +150,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mConfiguration.showAnimation = (boolean) newValue;
                 break;
             case PreferenceKey.MATERIAL_THEME:
+                sp.edit().putString(PreferenceKey.MATERIAL_THEME, (String) newValue).apply();
                 ThemeManager.getInstance().setTheme(Integer.parseInt((String) newValue));
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;
             case PreferenceKey.BOTTOM_TAB:
+                sp.edit().putBoolean(PreferenceKey.BOTTOM_TAB, (Boolean) newValue).apply();
                 mConfiguration.setShowBottomTab((Boolean) newValue);
                 break;
 

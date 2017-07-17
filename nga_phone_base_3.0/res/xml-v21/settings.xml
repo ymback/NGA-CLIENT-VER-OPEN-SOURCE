@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--SwitchPreference和ListPreference默认存储String类型,但是之前存储的是int类型-->
-    <!--所以采用SwitchCompatPreference和ListCompatPreference进行兼容处理-->
-    <!--新增的设置请使用SwitchPreference和ListPreference-->
-
     <PreferenceCategory
         android:key="picshowtitle"
         android:title="@string/setting_picshow">
