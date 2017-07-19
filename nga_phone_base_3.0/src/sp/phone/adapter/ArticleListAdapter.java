@@ -167,6 +167,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         holder.contentTV.setHorizontalScrollBarEnabled(false);
         holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
         holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
+        holder.scoreTV = (TextView) view.findViewById(R.id.score);
         return holder;
     }
 
@@ -267,6 +268,8 @@ public class ArticleListAdapter extends BaseAdapter implements
         if (needin) {
             view.invalidate();
         }
+        holder.scoreTV.setText("顶: " + row.getScore() + "    踩: " + row.getScore_2());
+        holder.scoreTV.setTextColor(fgColor);
         return view;
     }
 
@@ -311,6 +314,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         int position = -1;
         ImageButton viewBtn;
         ImageButton clientBtn;
+        TextView scoreTV;
     }
 
     static class WebViewTag {
