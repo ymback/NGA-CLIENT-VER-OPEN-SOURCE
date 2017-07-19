@@ -14,7 +14,7 @@ import sp.phone.fragment.material.ArticleContainerFragment;
 import sp.phone.utils.StringUtil;
 
 /**
- * 帖子详情页
+ * 帖子详情页, 是否MD都用这个
  */
 public class ArticleListActivity extends SwipeBackAppCompatActivity implements PreferenceKey {
 

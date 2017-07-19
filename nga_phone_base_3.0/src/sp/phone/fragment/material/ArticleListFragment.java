@@ -41,6 +41,9 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.view.NestedListView;
 
+/*
+ * MD 帖子详情分页
+ */
 public class ArticleListFragment extends BaseFragment {
 
     private final static String TAG = sp.phone.fragment.ArticleListFragment.class.getSimpleName();

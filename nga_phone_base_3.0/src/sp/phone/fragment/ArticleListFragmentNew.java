@@ -667,6 +667,7 @@ public class ArticleListFragmentNew extends Fragment implements
         holder.contentTV.setHorizontalScrollBarEnabled(false);
         holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
         holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
+        holder.scoreTV = (TextView) view.findViewById(R.id.score);
         return holder;
     }
 
@@ -703,8 +704,7 @@ public class ArticleListFragmentNew extends Fragment implements
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = getActivity().getResources().getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV,
-                getActivity());
+        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, getActivity());
         final String floor = String.valueOf(lou);
         TextView floorTV = holder.floorTV;
         floorTV.setText("[" + floor + " 楼]");
@@ -730,28 +730,26 @@ public class ArticleListFragmentNew extends Fragment implements
         final WebView contentTV = holder.contentTV;
         final Callback mActionModeCallback = (Callback) activeActionMode(data,
                 position);
-        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
-                getActivity(), mActionModeCallback, client);
+        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, getActivity(), mActionModeCallback, client);
         holder.articlelistrelativelayout
                 .setOnLongClickListener(new OnLongClickListener() {
 
                     @Override
                     public boolean onLongClick(View v) {
-                        // TODO Auto-generated method stub
-                        ((ActionBarActivity) getActivity())
-                                .startSupportActionMode(mActionModeCallback);
+                        ((ActionBarActivity) getActivity()).startSupportActionMode(mActionModeCallback);
                         return false;
                     }
 
                 });
+
+        holder.scoreTV.setText("顶: " + row.getScore() + "    踩: " + row.getScore_2());
+        holder.scoreTV.setTextColor(fgColor);
         return view;
     }
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
-
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row
-                .getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
@@ -768,7 +766,7 @@ public class ArticleListFragmentNew extends Fragment implements
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
                 // Log.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
@@ -843,7 +841,7 @@ public class ArticleListFragmentNew extends Fragment implements
         int position = -1;
         ImageButton viewBtn;
         ImageButton clientBtn;
-
+        TextView scoreTV;
     }
 
     /** 头像处理结束 **/

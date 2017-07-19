@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/articlelistrelativelayout"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:paddingBottom="0dp"
-    android:id="@+id/articlelistrelativelayout" >
+    android:paddingBottom="0dp">
 
     <TextView
         android:id="@+id/nickName"
@@ -14,8 +14,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:textIsSelectable="false"
-        android:textStyle="bold" >
-    </TextView>
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/avatarImage"
@@ -27,22 +26,21 @@
         android:contentDescription="@string/avatar"
         android:focusable="false"
         android:longClickable="false"
-        android:src="@drawable/open" >
-    </ImageView>
+        android:src="@drawable/open" />
 
     <WebView
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/nickName"
-        android:focusable="false"
-        android:layout_toRightOf="@id/avatarImage" />
-    
+        android:layout_toRightOf="@id/avatarImage"
+        android:focusable="false" />
+
     <!-- 由于wrap_content不支持margin bottom，用一个place_holder把整个撑大，避免快速回复按钮和文字重叠 -->
     <LinearLayout
         android:id="@+id/place_holder"
         android:layout_width="fill_parent"
-        android:layout_height="6dp"
+        android:layout_height="10dp"
         android:layout_below="@id/content"
         android:layout_toRightOf="@id/avatarImage"
         android:orientation="horizontal" />
@@ -53,27 +51,27 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/nickName"
         android:layout_toRightOf="@+id/nickName"
-        android:textIsSelectable="false" >
-    </TextView>
+        android:textIsSelectable="false" />
+
     <ImageButton
         android:id="@+id/clientbutton"
-        android:background="#00000000"
-        android:layout_toRightOf="@+id/floor"
-        android:layout_alignTop="@id/floor"
-        android:layout_alignBottom="@id/floor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/android"
+        android:layout_alignBottom="@id/floor"
+        android:layout_alignTop="@id/floor"
+        android:layout_toRightOf="@+id/floor"
+        android:background="#00000000"
         android:scaleType="fitCenter"
+        android:src="@drawable/android"
         android:visibility="gone" />
+
     <TextView
         android:id="@+id/postTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/floor"
-        android:textIsSelectable="false" >
-    </TextView>
+        android:textIsSelectable="false" />
 
     <ImageButton
         android:id="@+id/listviewreplybtn"
@@ -86,4 +84,12 @@
         android:contentDescription="@string/quote_subject"
         android:scaleType="fitXY"
         android:src="@drawable/listreply3" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/listviewreplybtn"
+        android:textIsSelectable="false" />
 </RelativeLayout>
