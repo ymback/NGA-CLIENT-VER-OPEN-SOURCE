@@ -20,22 +20,21 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ArticlePagerAdapter;
 import sp.phone.bean.ThreadData;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListAction;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.ResetableArticle;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleContainerFragment extends BaseFragment implements OnThreadPageLoadFinishedListener,ResetableArticle,PagerOwner {
+public class ArticleContainerFragment extends BaseFragment implements OnThreadPageLoadFinishedListener,PagerOwner {
 
     private ViewPager mViewPager;
 
@@ -190,11 +189,6 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         }
         df.show(fm, GOTO_TAG);
 
-    }
-
-    @Override
-    public void reset(int pid, int authorId, int floor) {
-        // TODO: 2017/7/10
     }
 
     @Override

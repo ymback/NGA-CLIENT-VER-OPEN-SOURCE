@@ -26,18 +26,17 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.ArticleListAdapter;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListAction;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.PostCommentDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.interfaces.ResetableArticle;
 import sp.phone.model.ArticleListTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.view.NestedListView;
 
@@ -401,16 +400,12 @@ public class ArticleListFragment extends BaseFragment {
                 break;
             case R.id.menu_show_whole_thread:
                 if (null == getActivity().findViewById(R.id.item_detail_container)) {
-                    ResetableArticle restNotifier;
-                    if (getParentFragment() instanceof ResetableArticle) {
-                        restNotifier = (ResetableArticle) getParentFragment();
-                    } else if (getActivity() instanceof ResetableArticle) {
-                        restNotifier = (ResetableArticle) getActivity();
-                    } else {
-                        return true;
-                    }
-                    restNotifier.reset(0, 0, row.getLou());
-                    ActivityUtils.getInstance().noticeSaying(getActivity());
+                    Intent intentThis = new Intent();
+                    intentThis.putExtra("tab", "1");
+                    intentThis.putExtra("tid", tid);
+                    intentThis.putExtra("fromreplyactivity", 1);
+                    intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
+                    startActivity(intentThis);
                 } else {
                     sp.phone.fragment.ArticleContainerFragment f = sp.phone.fragment.ArticleContainerFragment
                             .createshowall(tid);
