@@ -298,7 +298,7 @@ public abstract class TopicListAdapter extends BaseAdapter implements OnTopListL
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         if (!result.get__SEARCHNORESULT()) {
             this.topicListInfo = result;
             count = topicListInfo.get__T__ROWS();

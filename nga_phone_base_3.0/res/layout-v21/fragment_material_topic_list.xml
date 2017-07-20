@@ -16,12 +16,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
+            app:layout_scrollFlags="scroll|snap"
             android:layout_height="?attr/actionBarSize"/>
 
     </android.support.design.widget.AppBarLayout>

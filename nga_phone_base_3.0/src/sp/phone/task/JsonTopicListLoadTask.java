@@ -299,7 +299,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
             return;
         }
         if (null != notifier)
-            notifier.jsonfinishLoad(result);
+            notifier.jsonFinishLoad(result);
         super.onPostExecute(result);
     }
 
