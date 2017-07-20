@@ -2,34 +2,30 @@ package sp.phone.fragment.material;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.HeaderViewListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.AppendableTopicAdapter;
+import sp.phone.adapter.material.AppendableTopicAdapter;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.bean.TopicListRequestInfo;
-import sp.phone.interfaces.EnterJsonArticle;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtil;
-import sp.phone.view.NestedListView;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
-/**
- * Created by Yang Yihang on 2017/6/3.
- */
 
 public class TopicListFragment extends MaterialCompatFragment implements TopicListContract.View,AdapterView.OnItemLongClickListener{
 
@@ -41,7 +37,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
     private AppendableTopicAdapter mAdapter;
 
-    private ListView mListView;
+    private RecyclerView mListView;
 
     private TopicListInfo mTopicListInfo;
 
@@ -67,24 +63,16 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getParentFragment() == null){
-            return super.onCreateView(inflater,container,savedInstanceState);
-        } else {
-            return createView(inflater,container,savedInstanceState);
-        }
+        return inflater.inflate(R.layout.fragment_topic_list,container,false);
     }
+
 
     @Override
-    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return createView(inflater,container,savedInstanceState);
-    }
-
-    private View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        mListView = new NestedListView(getContext());
-        mListView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        mListView = (RecyclerView) view.findViewById(R.id.list);
+        mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (getParentFragment() == null){
             mAttacher = getAttacher();
-            mListView.setNestedScrollingEnabled(false);
         } else  {
             mAttacher = ((PullToRefreshAttacherOnwer) getParentFragment()).getAttacher();
         }
@@ -94,18 +82,14 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
                 mPresenter.loadNextPage(callback);
             }
         });
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new EnterJsonArticle(mActivity, mFromReplayActivity));
+        mAdapter.setOnItemClickListener(new EnterJsonArticle());
         if (mRequestInfo.favor != 0) {
             Toast.makeText(getActivity(), "长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
-            mListView.setLongClickable(true);
-            mListView.setOnItemLongClickListener(this);
+            mAdapter.setOnItemLongClickListener(this);
         }
-        return mListView;
-    }
+        mListView.setAdapter(mAdapter);
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+
         if (mTopicListInfo != null) {
             mPresenter.jsonFinishLoad(mTopicListInfo);
         }
@@ -155,8 +139,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
     @Override
     public void scrollTo(int position) {
-      //  mListView.smoothScrollToPosition(position);
-        mListView.setAdapter(mAdapter);
+        mListView.scrollToPosition(position);
     }
 
 
@@ -178,28 +161,18 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
     public void setData(TopicListInfo result) {
         mTopicListInfo = result;
         mAdapter.clear();
-        mAdapter.jsonfinishLoad(result);
+        mAdapter.jsonFinishLoad(result);
     }
 
     @Override
     public boolean onItemLongClick(final AdapterView<?> parent, final View view, int position, long id) {
-        Object a = parent.getAdapter();
-        AppendableTopicAdapter adapter = null;
-        if (a instanceof AppendableTopicAdapter) {
-            adapter = (AppendableTopicAdapter) a;
-        } else if (a instanceof HeaderViewListAdapter) {
-            HeaderViewListAdapter ha = (HeaderViewListAdapter) a;
-            adapter = (AppendableTopicAdapter) ha.getWrappedAdapter();
-            position -= ha.getHeadersCount();
-        }
-        final AppendableTopicAdapter finalAdapter = adapter;
         final int finalPosition = position;
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        mPresenter.removeBookmark(finalAdapter.getTidArray(finalPosition), finalPosition);
+                        mPresenter.removeBookmark(mAdapter.getTidArray(finalPosition), finalPosition);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -217,5 +190,37 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         dialog.show();
         return true;
     }
+
+    public class EnterJsonArticle implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id) {
+            String guide = (String) mAdapter.getItem(position);
+            if (StringUtil.isEmpty(guide)) {
+                return;
+            }
+
+            guide = guide.trim();
+
+            int pid = StringUtil.getUrlParameter(guide, "pid");
+            int tid = StringUtil.getUrlParameter(guide, "tid");
+            int authorId = StringUtil.getUrlParameter(guide, "authorid");
+
+            Intent intent = new Intent();
+            intent.putExtra("tab", "1");
+            intent.putExtra("tid", tid);
+            intent.putExtra("pid", pid);
+            intent.putExtra("authorid", authorId);
+            if (mFromReplayActivity) {
+                intent.putExtra("fromreplyactivity", 1);
+            }
+            mAdapter.setSelected(position);
+            intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
+            startActivity(intent);
+        }
+
+    }
+
 
 }

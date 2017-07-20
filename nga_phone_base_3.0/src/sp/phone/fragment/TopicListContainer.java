@@ -184,7 +184,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         if (mTopicListInfo == null) {
             refresh();
         } else {
-            jsonfinishLoad(mTopicListInfo);
+            jsonFinishLoad(mTopicListInfo);
         }
         if (searchmode)
             handleSearch();
@@ -466,7 +466,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         if (attacher != null)
             attacher.setRefreshComplete();
 
@@ -497,7 +497,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         }
 
         adapter.clear();
-        adapter.jsonfinishLoad(result);
+        adapter.jsonFinishLoad(result);
         listView.setAdapter(adapter);
         if (canDismiss)
             ActivityUtils.getInstance().dismiss();

@@ -48,7 +48,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         isLoading = false;
 
         if (attacher != null)

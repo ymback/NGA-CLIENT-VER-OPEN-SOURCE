@@ -420,7 +420,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         Fragment topicContainer = getSupportFragmentManager().findFragmentById(R.id.item_list);
         if (!result.get__SEARCHNORESULT()) {
             this.result = result;
@@ -429,7 +429,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         try {
             listener = (OnTopListLoadFinishedListener) topicContainer;
             if (listener != null)
-                listener.jsonfinishLoad(result);
+                listener.jsonFinishLoad(result);
         } catch (ClassCastException e) {
             Log.e(TAG, "topicContainer should implements " + OnTopListLoadFinishedListener.class.getCanonicalName());
         }

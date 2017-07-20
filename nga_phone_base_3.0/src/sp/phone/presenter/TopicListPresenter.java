@@ -19,7 +19,7 @@ import sp.phone.utils.StringUtil;
  * Created by Yang Yihang on 2017/6/3.
  */
 
-public class TopicListPresenter implements TopicListContract.Presenter{
+public class TopicListPresenter implements TopicListContract.Presenter,OnTopListLoadFinishedListener{
 
 
     private TopicListContract.View mView;
@@ -34,12 +34,7 @@ public class TopicListPresenter implements TopicListContract.Presenter{
     public void refresh() {
         TopicListRequestInfo requestInfo = mView.getTopicListRequestInfo();
         mView.setRefreshing(true);
-        JsonTopicListLoadTask task = new JsonTopicListLoadTask(mView.getContext(), new OnTopListLoadFinishedListener() {
-            @Override
-            public void jsonfinishLoad(TopicListInfo result) {
-                jsonFinishLoad(result);
-            }
-        });
+        JsonTopicListLoadTask task = new JsonTopicListLoadTask(mView.getContext(),this);
         task.execute(getUrl(1,requestInfo));
     }
 
