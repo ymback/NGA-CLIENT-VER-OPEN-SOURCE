@@ -3,7 +3,6 @@ package sp.phone.fragment.material;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,14 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.TopicViewPagerAdapter;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.TopicListRequestInfo;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.presenter.contract.TopicListContract;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 import sp.phone.view.ScrollableViewPager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
@@ -33,7 +34,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
  * Created by Yang Yihang on 2017/6/3.
  */
 
-public class TopicTabFragment extends MaterialCompatFragment {
+public class TopicTabFragment extends MaterialCompatFragment implements View.OnClickListener{
 
     private PullToRefreshAttacher mAttacher = null;
 
@@ -47,6 +48,8 @@ public class TopicTabFragment extends MaterialCompatFragment {
 
     private boolean[] mPreloadFlags = new boolean[3];
 
+    private FloatingActionsMenu mFam;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,6 @@ public class TopicTabFragment extends MaterialCompatFragment {
             }
         }
     }
-
 
     @Override
     public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,38 +92,31 @@ public class TopicTabFragment extends MaterialCompatFragment {
             handleSearch();
         }
         mPreloadFlags[mCurrentIndex] = true;
-        FloatingActionButton fab = getFloatingActionButton();
-        fab.setImageResource(R.drawable.ic_refresh);
-        fab.setVisibility(View.VISIBLE);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                getCurrentPresenter().refresh();
-                getCurrentPresenter().showFirstItem();
-            }
-        });
-
+        view.findViewById(R.id.fab_post).setOnClickListener(this);
+        view.findViewById(R.id.fab_refresh).setOnClickListener(this);
+        mFam = (FloatingActionsMenu) view.findViewById(R.id.fab_menu);
         super.onViewCreated(view, savedInstanceState);
     }
-
-
 
 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.topic_list_menu, menu);
-
     }
 
 
+    @Override
+    public void onResume() {
+        mFam.collapse();
+        super.onResume();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.threadlist_menu_newthread:
-                handlePostThread(item);
+                handlePostThread();
                 break;
             case R.id.goto_bookmark_item:
                 Intent intent_bookmark = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
@@ -129,14 +124,14 @@ public class TopicTabFragment extends MaterialCompatFragment {
                 startActivity(intent_bookmark);
                 break;
             case R.id.search:
-                Intent intentsearch = new Intent();
-                intentsearch.putExtra("fid", mRequestInfo.fid);
-                intentsearch.putExtra("action", "search");
+                Intent intent = new Intent();
+                intent.putExtra("fid", mRequestInfo.fid);
+                intent.putExtra("action", "search");
                 if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     handleSearch();
                 } else {
-                    intentsearch.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
-                    startActivity(intentsearch);
+                    intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
+                    startActivity(intent);
                     if (PhoneConfiguration.getInstance().showAnimation) {
                         getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                     }
@@ -169,7 +164,7 @@ public class TopicTabFragment extends MaterialCompatFragment {
         }
     }
 
-    private boolean handlePostThread(MenuItem item) {
+    private boolean handlePostThread() {
         Intent intent = new Intent();
         intent.putExtra("fid", mRequestInfo.fid);
         intent.putExtra("action", "new");
@@ -190,5 +185,17 @@ public class TopicTabFragment extends MaterialCompatFragment {
     }
 
 
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_refresh:
+                getCurrentPresenter().refresh();
+                getCurrentPresenter().showFirstItem();
+                mFam.collapse();
+                break;
+            case R.id.fab_post:
+                handlePostThread();
+                break;
+        }
+    }
 }

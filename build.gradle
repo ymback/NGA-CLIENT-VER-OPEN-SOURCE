@@ -20,7 +20,12 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+
+        flatDir {
+            dirs 'libs'
+        }
     }
+
 }
 
 task clean(type: Delete) {
