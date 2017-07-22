@@ -132,6 +132,7 @@ dependencies {
     compile project(':ActionBar-PullToRefresh')
     compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
+    compile (name:'floatingactionmenu', ext:'aar')
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile "com.android.support:support-v4:$Version_AndroidSupport"
     compile "com.android.support:design:$Version_AndroidSupport"

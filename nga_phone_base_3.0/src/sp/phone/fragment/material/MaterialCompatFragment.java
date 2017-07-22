@@ -142,6 +142,9 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     private void initFabButton(View rootView){
         mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        if (mFab == null) {
+            return;
+        }
         View.OnClickListener listener = getFabClickListener();
         if (listener == null){
             mFab .setVisibility(View.GONE);
