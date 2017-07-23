@@ -5,7 +5,7 @@
         android:id="@+id/menu_goto_floor"
         android:icon="@drawable/ic_menu_goto"
         android:title="@string/goto_floor"
-        androidnga:showAsAction="ifRoom" />
+        androidnga:showAsAction="never" />
     <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_refresh"

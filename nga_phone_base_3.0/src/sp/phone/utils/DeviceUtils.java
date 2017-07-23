@@ -2,6 +2,8 @@ package sp.phone.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 
 /**
@@ -29,8 +31,14 @@ public class DeviceUtils {
         return DEVICE_NAME_MEIZU.equalsIgnoreCase(android.os.Build.MANUFACTURER);
     }
 
-    public boolean isTablet(Context context) {
+    public static boolean isTablet(Context context) {
         int screenLayout = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
         return screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
+    }
+
+    public static boolean isWifiConnected(Context context) {
+        ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
+        return networkInfo.getState() == NetworkInfo.State.CONNECTED || networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 }

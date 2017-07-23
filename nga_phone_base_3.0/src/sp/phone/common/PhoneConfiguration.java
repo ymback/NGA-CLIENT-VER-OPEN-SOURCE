@@ -124,6 +124,8 @@ public class PhoneConfiguration implements PreferenceKey {
 
     private boolean mShowBottomTab;
 
+    private boolean mLeftHandMode;
+
 
     private static class PhoneConfigurationHolder {
 
@@ -148,6 +150,14 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public boolean isShownBottomTab() {
         return mShowBottomTab;
+    }
+
+    public boolean isLeftHandMode() {
+        return mLeftHandMode;
+    }
+
+    public void setLeftHandMode(boolean leftHandMode) {
+        mLeftHandMode = leftHandMode;
     }
 
     public String getDb_Cookie() {

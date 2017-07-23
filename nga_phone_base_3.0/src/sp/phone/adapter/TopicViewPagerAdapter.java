@@ -17,7 +17,7 @@ import sp.phone.presenter.contract.TopicListContract;
 
 public class TopicViewPagerAdapter extends FragmentPagerAdapter {
 
-    private String mTabs[] = {"全部", "精华", "推荐"};
+    private String mTabs[] = {"全部", "精华"};
 
     private TopicListRequestInfo mRequestInfo;
 

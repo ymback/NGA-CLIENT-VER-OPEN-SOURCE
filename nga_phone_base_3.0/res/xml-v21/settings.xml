@@ -102,6 +102,11 @@
             android:key="showSignature"
             android:title="@string/showSignature" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="left_hand"
+            android:title="@string/setting_title_left_hand" />
+
         <SwitchCompatPreference
             android:defaultValue="false"
             android:key="showStatic"

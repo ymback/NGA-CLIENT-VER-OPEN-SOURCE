@@ -1,8 +1,8 @@
 package sp.phone.utils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -26,9 +26,9 @@ public class ArticleListWebClient extends WebViewClient {
     static private final String ANDROIDNGAUSERNAME_END = "&";
 
 
-    private final FragmentActivity fa;
+    private final Context fa;
 
-    public ArticleListWebClient(FragmentActivity fa) {
+    public ArticleListWebClient(Context fa) {
         super();
         this.fa = fa;
     }

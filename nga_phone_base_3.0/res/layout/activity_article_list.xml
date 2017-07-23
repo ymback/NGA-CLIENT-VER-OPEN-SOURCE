@@ -16,22 +16,45 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:layout_scrollFlags="scroll|snap"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/article_list_tab_height"/>
+            android:layout_height="@dimen/article_list_tab_height" />
 
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:paddingTop="@dimen/article_list_tab_height"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        app:layout_behavior="com.getbase.floatingactionbutton.ScrollAwareFamBehavior">
+
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_title="@string/new_thread"
+            app:srcCompat="@drawable/content_edit" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_title="刷新"
+            app:srcCompat="@drawable/ic_refresh" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </android.support.design.widget.CoordinatorLayout>
