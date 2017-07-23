@@ -14,7 +14,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.interfaces.NextJsonMessageListLoader;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class AppendableMessageAdapter extends MessageListAdapter {
@@ -54,7 +54,7 @@ public class AppendableMessageAdapter extends MessageListAdapter {
         if (result == null) {
             return;
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
 
         if (count != 0) {
             List<MessageThreadPageInfo> threadList = new ArrayList<MessageThreadPageInfo>();

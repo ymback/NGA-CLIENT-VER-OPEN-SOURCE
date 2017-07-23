@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFinishedListener {
 
@@ -134,7 +134,7 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
         switch (item.getItemId()) {
             case R.id.meizi_topic_refresh:
                 loadData();
-                ActivityUtil.getInstance().noticeSaying(getActivity());
+                ActivityUtils.getInstance().noticeSaying(getActivity());
                 break;
             case R.id.article_menuitem_back:
             default:

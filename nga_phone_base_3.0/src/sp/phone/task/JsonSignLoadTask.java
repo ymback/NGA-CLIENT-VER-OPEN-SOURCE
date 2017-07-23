@@ -15,10 +15,10 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
@@ -239,11 +239,11 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 
     @Override
     protected void onPostExecute(SignData result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (result == null) {
-            ActivityUtil.getInstance().noticeError(error, context);
+            ActivityUtils.getInstance().noticeError(error, context);
         } else if (result.get__is_json_error() && !result.get__today_alreadysign()) {
-            ActivityUtil.getInstance().noticeError(error, context);
+            ActivityUtils.getInstance().noticeError(error, context);
         } else if (result.get__is_json_signsuccess()) {
             if (toast != null) {
                 toast.setText(result.get__SignResult());
@@ -274,7 +274,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

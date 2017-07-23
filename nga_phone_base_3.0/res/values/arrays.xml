@@ -41,4 +41,16 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="material_theme">
+        <item>棕色</item>
+        <item>绿色</item>
+        <item>黑色</item>
+    </string-array>
+
+    <string-array name="material_theme_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

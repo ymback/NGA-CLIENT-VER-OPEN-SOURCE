@@ -24,19 +24,19 @@ import android.widget.TabWidget;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ThreadFragmentAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ThreadData;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.BookmarkTask;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class ArticleContainerFragment extends BaseFragment implements
-        OnThreadPageLoadFinishedListener, PreferenceConstant, PagerOwnner {
+        OnThreadPageLoadFinishedListener, PreferenceKey, PagerOwner {
     private static final String TAG = "ArticleContainerFrag";
     private static final String GOTO_TAG = "goto";
     // TabHost tabhost;
@@ -159,7 +159,7 @@ public class ArticleContainerFragment extends BaseFragment implements
         mTabsAdapter.setArgument("pid", pid);
         mTabsAdapter.setArgument("authorid", authorid);
 
-        // ActivityUtil.getInstance().noticeSaying(getActivity());
+        // ActivityUtils.getInstance().noticeSaying(getActivity());
 
         if (savedInstanceState != null) {
             int pageCount = savedInstanceState.getInt("pageCount");
@@ -288,7 +288,7 @@ public class ArticleContainerFragment extends BaseFragment implements
                 break;
             case R.id.article_menuitem_refresh:
                 int current = mViewPager.getCurrentItem();
-                ActivityUtil.getInstance().noticeSaying(getActivity());
+                ActivityUtils.getInstance().noticeSaying(getActivity());
                 mViewPager.setAdapter(mTabsAdapter);
                 mViewPager.setCurrentItem(current);
                 break;

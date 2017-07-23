@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -14,31 +13,34 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 
-import static sp.phone.bean.PreferenceConstant.NIGHT_MODE;
-import static sp.phone.bean.PreferenceConstant.PERFERENCE;
+import static sp.phone.common.PreferenceKey.NIGHT_MODE;
+import static sp.phone.common.PreferenceKey.PERFERENCE;
 
 /**
  * Created by liuboyu on 16/6/28.
  */
 public class BaseActivity extends AppCompatActivity {
 
+    protected Toast mToast;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateFullScreen();
         updateOrientation();
-        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtil.supportMaterialMode(this) || ActivityUtil.supportNewUi(this)) {
+        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtils.supportMaterialMode(this) || ActivityUtils.supportNewUi(this)) {
             updateThemeUi();
         }
         super.onCreate(savedInstanceState);
     }
 
     protected void updateThemeUi(){
-        setTheme(R.style.AppThemeDayNight);
-        if (ThemeManager.getInstance().isNightMode()){
+        ThemeManager tm = ThemeManager.getInstance();
+        setTheme(tm.getTheme());
+        if (tm.isNightMode()){
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -75,21 +77,19 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected Toast toast;
-
     protected void showToast(int res) {
         String str = getString(res);
         showToast(str);
     }
 
     protected void showToast(String res) {
-        if (toast != null) {
-            toast.setText(res);
-            toast.setDuration(Toast.LENGTH_SHORT);
+        if (mToast != null) {
+            mToast.setText(res);
+            mToast.setDuration(Toast.LENGTH_SHORT);
         } else {
-            toast = Toast.makeText(this, res, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(this, res, Toast.LENGTH_SHORT);
         }
-        toast.show();
+        mToast.show();
     }
 
     public void changeNightMode(final MenuItem menu) {

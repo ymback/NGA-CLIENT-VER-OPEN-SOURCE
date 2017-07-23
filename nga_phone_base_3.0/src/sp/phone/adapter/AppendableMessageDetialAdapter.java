@@ -12,9 +12,9 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
@@ -52,7 +52,7 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
         if (result == null) {
             return;
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
 
         infoList.add(result);
         count += result.getMessageEntryList().size();

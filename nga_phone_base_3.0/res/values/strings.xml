@@ -63,7 +63,7 @@
     <string name="modify_thread">编辑帖子</string>
     <string name="showSignature">显示签名</string>
     <string name="goto_floor">跳页</string>
-    <string name="goto_floor_description">直接确定跳到最后一页</string>
+    <string name="goto_floor_description">上下拨动或手动输入</string>
     <string name="use_view_cache">启用楼层缓存</string>
     <string name="view_cache_tips">开启楼层缓存可以防止楼层滚动的时候遇到长帖子时跳动的问题，但是会占用更多的内存，如果体验不佳，请关闭这个选项</string>
     <string name="myscheme">ngacn</string>
@@ -133,7 +133,7 @@
     <string name="split">菜单按钮在下面(4.0以上)</string>
     <string name="replysplit">发帖按钮在下面(4.0以上)</string>
     <string name="ha">硬件加速(4.0以上)</string>
-    <string name="fullscreenmode">全屏模式(4.4以上)</string>
+    <string name="fullscreenmode">全屏模式</string>
     <string name="kitwebview">列表卡顿修复(测试)</string>
     <string name="kitwebviewinfo">如果你的手机在主题帖中不卡顿,请不要启用本功能!</string>
     <string name="addreplybutton">主题页面显示回复按钮</string>
@@ -328,4 +328,7 @@
 
     <string name="setting_title_material_mode">Material Mode(6.0以上)</string>
     <string name="setting_title_size">调整字体和头像大小</string>
+    <string name="setting_title_material_theme">主题风格</string>
+    <string name="setting_title_bottom_tab">主题页面显示底部标签页</string>
+    <string name="setting_title_left_hand">左手模式</string>
 </resources>

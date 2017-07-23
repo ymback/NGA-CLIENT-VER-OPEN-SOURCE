@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.MessageListAdapter;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class EnterJsonMessageThread implements OnItemClickListener {

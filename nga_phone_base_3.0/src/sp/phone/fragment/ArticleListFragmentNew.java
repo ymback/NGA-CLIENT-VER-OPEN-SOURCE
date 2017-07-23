@@ -44,29 +44,29 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.ResetableArticle;
-import sp.phone.listener.MyListenerForClient;
+import sp.phone.listener.ClientListener;
 import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class ArticleListFragmentNew extends Fragment implements
-        OnThreadPageLoadFinishedListener, PreferenceConstant,
+        OnThreadPageLoadFinishedListener, PreferenceKey,
         AvatarLoadCompleteCallBack {
     final static private String TAG = ArticleListFragmentNew.class
             .getSimpleName();
@@ -430,7 +430,7 @@ public class ArticleListFragmentNew extends Fragment implements
                         return true;
                     }
                     restNotifier.reset(0, 0, row.getLou());
-                    ActivityUtil.getInstance().noticeSaying(getActivity());
+                    ActivityUtils.getInstance().noticeSaying(getActivity());
                 } else {
                     int tid1 = tid;
                     ArticleContainerFragment f = ArticleContainerFragment
@@ -556,9 +556,9 @@ public class ArticleListFragmentNew extends Fragment implements
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-                PagerOwnner father = null;
+                PagerOwner father = null;
                 try {
-                    father = (PagerOwnner) getActivity();
+                    father = (PagerOwner) getActivity();
                     if (father.getCurrentPage() == page) {
                         PhoneConfiguration.getInstance().setRefreshAfterPost(
                                 false);
@@ -568,7 +568,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     }
                 } catch (ClassCastException e) {
                     Log.e(TAG, "father activity does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
 
                 }
 
@@ -608,12 +608,12 @@ public class ArticleListFragmentNew extends Fragment implements
             if (authorid != 0) {
                 url = url + "&authorid=" + authorid;
             }
-            if (ActivityUtil.isGreaterThan_2_3_3())
+            if (ActivityUtils.isGreaterThan_2_3_3())
                 RunParallen(task, url);
             else
                 task.execute(url);
         } else {
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
         }
 
     }
@@ -651,7 +651,7 @@ public class ArticleListFragmentNew extends Fragment implements
                         "father activity should implements OnThreadPageLoadFinishedListener");
             }
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         this.needLoad = false;
     }
 
@@ -667,6 +667,7 @@ public class ArticleListFragmentNew extends Fragment implements
         holder.contentTV.setHorizontalScrollBarEnabled(false);
         holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
         holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
+        holder.scoreTV = (TextView) view.findViewById(R.id.score);
         return holder;
     }
 
@@ -703,15 +704,14 @@ public class ArticleListFragmentNew extends Fragment implements
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = getActivity().getResources().getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV,
-                getActivity());
+        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, getActivity());
         final String floor = String.valueOf(lou);
         TextView floorTV = holder.floorTV;
         floorTV.setText("[" + floor + " 楼]");
         floorTV.setTextColor(fgColor);
         if (!StringUtil.isEmpty(row.getFromClientModel())) {
-            MyListenerForClient myListenerForClient = new MyListenerForClient(
-                    position, data, getActivity(), scrollview);
+            ClientListener clientListener = new ClientListener(
+                    position, data, getActivity());
             String from_client_model = row.getFromClientModel();
             if (from_client_model.equals("ios")) {
                 holder.clientBtn.setImageResource(R.drawable.ios);// IOS
@@ -721,7 +721,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 holder.clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
             }
             holder.clientBtn.setVisibility(View.VISIBLE);
-            holder.clientBtn.setOnClickListener(myListenerForClient);
+            holder.clientBtn.setOnClickListener(clientListener);
         }
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());
@@ -730,28 +730,26 @@ public class ArticleListFragmentNew extends Fragment implements
         final WebView contentTV = holder.contentTV;
         final Callback mActionModeCallback = (Callback) activeActionMode(data,
                 position);
-        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
-                getActivity(), mActionModeCallback, client);
+        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, getActivity(), mActionModeCallback, client);
         holder.articlelistrelativelayout
                 .setOnLongClickListener(new OnLongClickListener() {
 
                     @Override
                     public boolean onLongClick(View v) {
-                        // TODO Auto-generated method stub
-                        ((ActionBarActivity) getActivity())
-                                .startSupportActionMode(mActionModeCallback);
+                        ((ActionBarActivity) getActivity()).startSupportActionMode(mActionModeCallback);
                         return false;
                     }
 
                 });
+
+        holder.scoreTV.setText("顶: " + row.getScore() + "    踩: " + row.getScore_2());
+        holder.scoreTV.setTextColor(fgColor);
         return view;
     }
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
-
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row
-                .getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
@@ -768,7 +766,7 @@ public class ArticleListFragmentNew extends Fragment implements
         Object tagObj = avatarIV.getTag();
         if (tagObj instanceof AvatarTag) {
             AvatarTag origTag = (AvatarTag) tagObj;
-            if (origTag.isDefault == false) {
+            if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
                 // Log.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
@@ -843,7 +841,7 @@ public class ArticleListFragmentNew extends Fragment implements
         int position = -1;
         ImageButton viewBtn;
         ImageButton clientBtn;
-
+        TextView scoreTV;
     }
 
     /** 头像处理结束 **/

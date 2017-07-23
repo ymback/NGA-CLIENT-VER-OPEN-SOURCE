@@ -31,17 +31,17 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
-import sp.phone.listener.MyListenerForClient;
+import sp.phone.listener.ClientListener;
 import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HtmlUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 /**
  * 帖子详情列表Adapter
@@ -167,6 +167,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         holder.contentTV.setHorizontalScrollBarEnabled(false);
         holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
         holder.clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
+        holder.scoreTV = (TextView) view.findViewById(R.id.score);
         return holder;
     }
 
@@ -234,7 +235,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         floorTV.setTextColor(fgColor);
 
         if (!StringUtil.isEmpty(row.getFromClientModel())) {
-            MyListenerForClient myListenerForClient = new MyListenerForClient(position, data, activity, parent);
+            ClientListener clientListener = new ClientListener(position, data, activity);
             String from_client_model = row.getFromClientModel();
             if (from_client_model.equals("ios")) {
                 holder.clientBtn.setImageResource(R.drawable.ios);// IOS
@@ -244,15 +245,15 @@ public class ArticleListAdapter extends BaseAdapter implements
                 holder.clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
             }
             holder.clientBtn.setVisibility(View.VISIBLE);
-            holder.clientBtn.setOnClickListener(myListenerForClient);
+            holder.clientBtn.setOnClickListener(clientListener);
         }
-        if (ActivityUtil.isLessThan_4_3()) {
+        if (ActivityUtils.isLessThan_4_3()) {
             new Thread(new Runnable() {
                 public void run() {
                     FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
                 }
             }).start();
-        } else if (ActivityUtil.isLessThan_4_4()) {
+        } else if (ActivityUtils.isLessThan_4_4()) {
             ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
                 public void run() {
                     FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
@@ -267,6 +268,8 @@ public class ArticleListAdapter extends BaseAdapter implements
         if (needin) {
             view.invalidate();
         }
+        holder.scoreTV.setText("顶: " + row.getScore() + "    踩: " + row.getScore_2());
+        holder.scoreTV.setTextColor(fgColor);
         return view;
     }
 
@@ -311,6 +314,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         int position = -1;
         ImageButton viewBtn;
         ImageButton clientBtn;
+        TextView scoreTV;
     }
 
     static class WebViewTag {

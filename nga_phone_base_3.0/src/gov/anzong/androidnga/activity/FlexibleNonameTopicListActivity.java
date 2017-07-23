@@ -29,13 +29,13 @@ import sp.phone.interfaces.EnterJsonNonameArticle;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
@@ -43,7 +43,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
         OnNonameTopListLoadFinishedListener,
         OnItemClickListener,
         OnNonameThreadPageLoadFinishedListener,
-        PagerOwnner,
+        PagerOwner,
         OnChildFragmentRemovedListener,
         PullToRefreshAttacherOnwer,
         NonameArticleContainerFragment.OnNonameArticleContainerFragmentListener,
@@ -68,7 +68,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
         Intent intent = getIntent();
         boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
         if (isfullScreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         this.setContentView(view);
         nightmode = ThemeManager.getInstance().getMode();
@@ -150,7 +150,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         super.onResume();
     }
@@ -233,19 +233,19 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public int getCurrentPage() {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
 
             Fragment articleContainer = getSupportFragmentManager()
                     .findFragmentById(R.id.item_detail_container);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             if (null == child)
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
             Log.e(TAG,
                     "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
             return 0;
         }
 
@@ -253,17 +253,17 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public void setCurrentItem(int index) {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
 
             Fragment articleContainer = getSupportFragmentManager()
                     .findFragmentById(R.id.item_detail_container);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
             Log.e(TAG,
                     "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
             return;
         }
 

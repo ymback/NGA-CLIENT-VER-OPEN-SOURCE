@@ -12,8 +12,8 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 
 /**
  * Created by Yang Yihang on 2017/6/6.
@@ -49,7 +49,7 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPreExecute() {
-        ActivityUtil.getInstance().noticeSaying(mContext);
+        ActivityUtils.getInstance().noticeSaying(mContext);
         super.onPreExecute();
     }
 

@@ -45,17 +45,17 @@ import sp.phone.interfaces.EnterJsonArticle;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.task.DeleteBookmarkTask;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 /**
@@ -63,7 +63,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
  */
 public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         implements OnTopListLoadFinishedListener, OnItemClickListener,
-        OnThreadPageLoadFinishedListener, PagerOwnner,
+        OnThreadPageLoadFinishedListener, PagerOwner,
         OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
         OnItemLongClickListener,
         ArticleContainerFragment.OnArticleContainerFragmentListener,
@@ -155,7 +155,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         Intent intent = getIntent();
         boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
         if (isfullScreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         this.setContentView(view);
         nightmode = ThemeManager.getInstance().getMode();
@@ -166,8 +166,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
         }
 
-        if (ActivityUtil.isNotLessThan_4_0())
-            setNfcCallBack();
+        setNfcCallBack();
 
         if (null == findViewById(R.id.item_detail_container)) {
             dualScreen = false;
@@ -415,13 +414,13 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             asynTask.execute(config.getCookie());
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         super.onResume();
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         Fragment topicContainer = getSupportFragmentManager().findFragmentById(R.id.item_list);
         if (!result.get__SEARCHNORESULT()) {
             this.result = result;
@@ -430,7 +429,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         try {
             listener = (OnTopListLoadFinishedListener) topicContainer;
             if (listener != null)
-                listener.jsonfinishLoad(result);
+                listener.jsonFinishLoad(result);
         } catch (ClassCastException e) {
             Log.e(TAG, "topicContainer should implements " + OnTopListLoadFinishedListener.class.getCanonicalName());
         }
@@ -510,28 +509,28 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public int getCurrentPage() {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
             Fragment articleContainer = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             if (null == child)
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwnner.class.getName());
+            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return 0;
         }
     }
 
     @Override
     public void setCurrentItem(int index) {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
             Fragment articleContainer = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwnner.class.getName());
+            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return;
         }
     }
@@ -600,7 +599,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
                 if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtil.getInstance().setFullScreen(view);
+                    ActivityUtils.getInstance().setFullScreen(view);
                 }
             }
 

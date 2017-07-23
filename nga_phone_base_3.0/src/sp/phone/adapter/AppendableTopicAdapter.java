@@ -14,7 +14,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonTopicListLoader;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class AppendableTopicAdapter extends TopicListAdapter {
@@ -48,7 +48,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         isLoading = false;
 
         if (attacher != null)
@@ -64,7 +64,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
             }
             isLoading = false;
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (count != 0) {
             List<ThreadPageInfo> threadList = new ArrayList<ThreadPageInfo>();
             for (int i = 0; i < result.getArticleEntryList().size(); i++) {

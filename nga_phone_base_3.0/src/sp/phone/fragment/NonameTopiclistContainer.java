@@ -21,21 +21,21 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.AppendableNonameTopicAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonNonameTopicListLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class NonameTopiclistContainer extends BaseFragment implements
-        OnNonameTopListLoadFinishedListener, NextJsonNonameTopicListLoader, PreferenceConstant {
+        OnNonameTopListLoadFinishedListener, NextJsonNonameTopicListLoader, PreferenceKey {
     static final int MESSAGE_SENT = 1;
     final String TAG = NonameTopiclistContainer.class.getSimpleName();
     int fid;
@@ -195,9 +195,9 @@ public class NonameTopiclistContainer extends BaseFragment implements
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }
@@ -205,7 +205,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
     void refresh() {
         JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
                 this);
-        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        // ActivityUtils.getInstance().noticeSaying(this.getActivity());
         refresh_saying();
         task.execute(getUrl(1, true, true));
     }
@@ -369,7 +369,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
         adapter.jsonfinishLoad(result);
         listView.setAdapter(adapter);
         if (canDismiss)
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
 
     }
 
@@ -384,7 +384,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
         JsonNonameTopicListLoadTask task = new JsonNonameTopicListLoadTask(getActivity(),
                 callback);
         refresh_saying();
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             RunParallen(task);
         else
             task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(),

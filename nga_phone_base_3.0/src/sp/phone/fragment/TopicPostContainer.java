@@ -28,10 +28,10 @@ import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.User;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 /**
  * Created by Yang Yihang on 2017/6/6.
@@ -248,6 +248,11 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PostActivity.REQUEST_CODE_SELECT_PIC);
+    }
+
+    @Override
+    public void setResult(int result) {
+        getActivity().setResult(result);
     }
 
 

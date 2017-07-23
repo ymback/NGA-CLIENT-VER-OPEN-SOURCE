@@ -5,8 +5,8 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -23,15 +23,14 @@ import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardHolder;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.PreferenceConstant;
 import sp.phone.bean.User;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
 
-public class MyApp extends Application implements PreferenceConstant {
+public class MyApp extends Application implements PreferenceKey {
     public final static int version = BuildConfig.VERSION_CODE;
     public static final int fddicon[][] = {};
     static final String RECENT = "最近访问";
@@ -47,8 +46,7 @@ public class MyApp extends Application implements PreferenceConstant {
             config = PhoneConfiguration.getInstance();
         loadConfig();
         initUserInfo();
-        if (ActivityUtil.isGreaterThan_2_1())
-            initPath();
+        initPath();
         if (config.iconmode) {// laotubiao
             loadDefaultBoardOld();
         } else {
@@ -72,7 +70,7 @@ public class MyApp extends Application implements PreferenceConstant {
 
         SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
         String recentStr = share.getString(RECENT_BOARD, "");
-        List<Board> recentList = null;
+        List<Board> recentList;
         if (!StringUtil.isEmpty(recentStr)) {
             recentList = JSON.parseArray(recentStr, Board.class);
             if (recentList != null) {
@@ -86,10 +84,8 @@ public class MyApp extends Application implements PreferenceConstant {
                 }
             }
         }
-        if (recentList != null) {
-            boards.addCategoryName(i, RECENT);
-            i++;
-        }
+        boards.addCategoryName(i, RECENT);
+        i++;
 
         boards.add(new Board(i, "7", "议事厅", R.drawable.oldp7));
         boards.add(new Board(i, "323", "国服以外讨论", R.drawable.oldp323));
@@ -341,10 +337,8 @@ public class MyApp extends Application implements PreferenceConstant {
                 }
             }
         }
-        if (recentList != null) {
-            boards.addCategoryName(i, RECENT);
-            i++;
-        }
+        boards.addCategoryName(i, RECENT);
+        i++;
 
         boards.add(new Board(i, "7", "议事厅", R.drawable.p7));
         boards.add(new Board(i, "323", "国服以外讨论", R.drawable.p323));
@@ -698,8 +692,16 @@ public class MyApp extends Application implements PreferenceConstant {
     }
 
     private void loadConfig() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        SharedPreferences share = this.getSharedPreferences(PERFERENCE,
+        ThemeManager tm = ThemeManager.getInstance();
+        PhoneConfiguration config = PhoneConfiguration.getInstance();
+
+        tm.setTheme(Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME,"0")));
+        config.setShowBottomTab(sp.getBoolean(PreferenceKey.BOTTOM_TAB,false));
+        config.setLeftHandMode(sp.getBoolean(PreferenceKey.LEFT_HAND,false));
+
+        SharedPreferences share = getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);
         if (share.getBoolean(NIGHT_MODE, false))
             ThemeManager.getInstance().setMode(1);
@@ -734,7 +736,6 @@ public class MyApp extends Application implements PreferenceConstant {
         }
 
         // refresh
-        PhoneConfiguration config = PhoneConfiguration.getInstance();
         config.setRefreshAfterPost(false);
 
         config.showAnimation = share.getBoolean(SHOW_ANIMATION, false);
@@ -755,7 +756,7 @@ public class MyApp extends Application implements PreferenceConstant {
         config.iconmode = share.getBoolean(SHOW_ICON_MODE, false);
         config.swipeBack = share.getBoolean(SWIPEBACK, true);
         config.swipeenablePosition = share.getInt(SWIPEBACKPOSITION, 2);
-        config.materialMode = share.getBoolean(PreferenceConstant.MATERIAL_MODE,false);
+        config.materialMode = share.getBoolean(PreferenceKey.MATERIAL_MODE,false);
 
         // font
         final float defTextSize = 21.0f;// new TextView(this).getTextSize();
@@ -774,19 +775,20 @@ public class MyApp extends Application implements PreferenceConstant {
 
         config.nikeWidth = share.getInt(NICK_WIDTH, 100);
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int flag = share.getInt(UI_FLAG, 0);
-            if ((config.getUiFlag() & UI_FLAG_HA) != 0) {
-                flag = flag & ~UI_FLAG_HA;
-                Editor editor = share.edit();
-                editor.putInt(UI_FLAG, flag);
-                editor.apply();
-            }
-            PhoneConfiguration.getInstance().setUiFlag(flag);
-        } else {
-            int uiFlag = share.getInt(UI_FLAG, 0);
-            config.setUiFlag(uiFlag);
-        }
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            int flag = share.getInt(UI_FLAG, 0);
+//            if ((config.getUiFlag() & UI_FLAG_HA) != 0) {
+//                flag = flag & ~UI_FLAG_HA;
+//                Editor editor = share.edit();
+//                editor.putInt(UI_FLAG, flag);
+//                editor.apply();
+//            }
+//            PhoneConfiguration.getInstance().setUiFlag(flag);
+//        } else {
+//            int uiFlag = share.getInt(UI_FLAG, 0);
+//            config.setUiFlag(uiFlag);
+//        }
+        config.setUiFlag(0);
 
         // bookmarks
         String bookmarkJson = share.getString(BOOKMARKS, "");

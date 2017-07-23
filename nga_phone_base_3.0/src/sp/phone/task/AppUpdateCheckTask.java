@@ -21,7 +21,7 @@ import java.util.TimeZone;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {

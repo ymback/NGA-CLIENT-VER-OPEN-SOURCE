@@ -23,9 +23,9 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public abstract class TopicListAdapter extends BaseAdapter implements OnTopListLoadFinishedListener {
 
@@ -298,7 +298,7 @@ public abstract class TopicListAdapter extends BaseAdapter implements OnTopListL
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         if (!result.get__SEARCHNORESULT()) {
             this.topicListInfo = result;
             count = topicListInfo.get__T__ROWS();

@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.model.LoginModel;
 import sp.phone.presenter.contract.LoginContract;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**
@@ -30,6 +33,12 @@ public class LoginPresenter implements LoginContract.Presenter {
     private boolean mLoading;
 
     private static final Object COMMIT_LOCK = new Object();
+
+    private static final String TAG_UID = "ngaPassportUid";
+
+    private static final String TAG_CID = "ngaPassportCid";
+
+    private static final String TAG_USER_NAME = "ngaPassportUrlencodedUname";
 
 
     public LoginPresenter(LoginContract.View view) {
@@ -82,32 +91,10 @@ public class LoginPresenter implements LoginContract.Presenter {
                 mModel.login(mLoginAction, new LoginModel.OnLoginListener() {
                     @Override
                     public void onLoginSuccess() {
-                        mView.showToast(R.string.login_successfully);
-
                         String uid = mLoginAction.getUid();
                         String cid = mLoginAction.getCid();
                         String userName = mLoginAction.getUserName();
-
-                        SharedPreferences sp = getContext().getSharedPreferences(PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE);
-                        sp.edit().putString(PreferenceConstant.UID, uid)
-                                .putString(PreferenceConstant.CID, cid).putString(PreferenceConstant.PENDING_REPLYS, "")
-                                .putString(PreferenceConstant.REPLYTOTALNUM, "0")
-                                .putString(PreferenceConstant.USER_NAME, uid)
-                                .putString(PreferenceConstant.BLACK_LIST, "")
-                                .apply();
-                        MyApp app = (MyApp) ((Activity)mView.getContext()).getApplication();
-                        app.addToUserList(uid, cid, userName, "", 0, "");
-
-                        PhoneConfiguration config = PhoneConfiguration.getInstance();
-
-                        config.setUid(uid);
-                        config.setCid(cid);
-                        config.userName = userName;
-                        config.setReplyTotalNum(0);
-                        config.setReplyString("");
-                        config.blacklist = StringUtil.blackliststringtolisttohashset("");
-                        mView.setResult(true);
-                        mView.finish();
+                        saveCookie(uid,cid,userName);
                     }
 
                     @Override
@@ -135,6 +122,64 @@ public class LoginPresenter implements LoginContract.Presenter {
         if (!StringUtil.isEmpty(mLoginAction.getAction())) {
             mView.showToast("你需要登录才能进行下一步操作");
         }
+    }
+
+    @Override
+    public void parseCookie(String cookies) {
+        if (!cookies.contains(TAG_UID)) {
+            return;
+        }
+        String uid = null;
+        String cid = null;
+        String userName = null;
+
+        for (String cookie : cookies.split(";")) {
+            cookie = cookie.trim();
+            if (cookie.contains(TAG_UID)) {
+                uid = cookie.substring(TAG_UID.length() + 1);
+            } else if (cookie.contains(TAG_CID)) {
+                cid = cookie.substring(TAG_CID.length() + 1);
+            } else if (cookie.contains(TAG_USER_NAME)) {
+                userName = cookie.substring(TAG_USER_NAME.length() + 1);
+                try {
+                    userName = URLDecoder.decode(userName, "gbk");
+                    userName = URLDecoder.decode(userName, "gbk");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (!StringUtil.isEmpty(cid)
+                && !StringUtil.isEmpty(uid)
+                && !StringUtil.isEmpty(userName)) {
+            saveCookie(uid,cid,userName);
+        }
+
+    }
+
+    private void saveCookie(String uid,String cid,String userName) {
+        mView.showToast(R.string.login_successfully);
+        SharedPreferences sp = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        sp.edit().putString(PreferenceKey.UID, uid)
+                .putString(PreferenceKey.CID, cid).putString(PreferenceKey.PENDING_REPLYS, "")
+                .putString(PreferenceKey.REPLYTOTALNUM, "0")
+                .putString(PreferenceKey.USER_NAME, uid)
+                .putString(PreferenceKey.BLACK_LIST, "")
+                .apply();
+        MyApp app = (MyApp) ((Activity)mView.getContext()).getApplication();
+        app.addToUserList(uid, cid, userName, "", 0, "");
+
+        PhoneConfiguration config = PhoneConfiguration.getInstance();
+
+        config.setUid(uid);
+        config.setCid(cid);
+        config.userName = userName;
+        config.setReplyTotalNum(0);
+        config.setReplyString("");
+        config.blacklist = StringUtil.blackliststringtolisttohashset("");
+        mView.setResult(true);
+      //  mView.finish();
     }
 
 }

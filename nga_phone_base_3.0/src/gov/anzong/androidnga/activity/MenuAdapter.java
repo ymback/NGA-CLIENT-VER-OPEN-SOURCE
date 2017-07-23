@@ -13,8 +13,8 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 
 public class MenuAdapter extends BaseAdapter {
 

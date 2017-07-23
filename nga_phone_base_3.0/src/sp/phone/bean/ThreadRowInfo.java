@@ -63,6 +63,25 @@ public class ThreadRowInfo {
     private String from_client;
     private String from_client_model;
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore_2() {
+        return score_2;
+    }
+
+    public void setScore_2(int score_2) {
+        this.score_2 = score_2;
+    }
+
+    private int score;
+    private int score_2;
+
     public void set_IsInBlackList(boolean isin) {
         this.isInBlackList = isin;
     }

@@ -22,6 +22,8 @@ public interface LoginContract {
 
         void start();
 
+        void parseCookie(String cookie);
+
     }
 
     interface View extends BaseContract.View<Presenter> {

@@ -28,20 +28,20 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.adapter.NonameArticleListAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class NonameArticleListFragment extends Fragment implements
-        OnNonameThreadPageLoadFinishedListener, PreferenceConstant {
+        OnNonameThreadPageLoadFinishedListener, PreferenceKey {
     final static private String TAG = NonameArticleListFragment.class
             .getSimpleName();
     @SuppressWarnings("unused")
@@ -164,9 +164,9 @@ public class NonameArticleListFragment extends Fragment implements
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-                PagerOwnner father = null;
+                PagerOwner father = null;
                 try {
-                    father = (PagerOwnner) getActivity();
+                    father = (PagerOwner) getActivity();
                     if (father.getCurrentPage() == page) {
                         PhoneConfiguration.getInstance().setRefreshAfterPost(
                                 false);
@@ -175,7 +175,7 @@ public class NonameArticleListFragment extends Fragment implements
                     }
                 } catch (ClassCastException e) {
                     Log.e(TAG, "father activity does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
 
                 }
 
@@ -223,12 +223,12 @@ public class NonameArticleListFragment extends Fragment implements
             if (tid != 0)
                 url = url + "&tid=" + tid;
 
-            if (ActivityUtil.isGreaterThan_2_3_3())
+            if (ActivityUtils.isGreaterThan_2_3_3())
                 RunParallen(task, url);
             else
                 task.execute(url);
         } else {
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
         }
 
     }
@@ -246,12 +246,12 @@ public class NonameArticleListFragment extends Fragment implements
     public boolean onContextItemSelected(MenuItem item) {
 
         Log.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
-        PagerOwnner father = null;
+        PagerOwner father = null;
         try {
-            father = (PagerOwnner) getActivity();
+            father = (PagerOwner) getActivity();
         } catch (ClassCastException e) {
             Log.e(TAG, "father activity does not implements interface "
-                    + PagerOwnner.class.getName());
+                    + PagerOwner.class.getName());
             return true;
         }
 
@@ -370,7 +370,7 @@ public class NonameArticleListFragment extends Fragment implements
             }
 
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         this.needLoad = false;
 
     }

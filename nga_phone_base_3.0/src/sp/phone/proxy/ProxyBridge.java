@@ -18,8 +18,8 @@ import java.net.HttpURLConnection;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public final class ProxyBridge {
@@ -35,11 +35,11 @@ public final class ProxyBridge {
 
     @JavascriptInterface
     public void postURL(String url) {
-        ActivityUtil.getInstance().noticeSaying("正在提交...", context);
+        ActivityUtils.getInstance().noticeSaying("正在提交...", context);
         (new AsyncTask<String, Integer, String>() {
             @Override
             protected void onPostExecute(String result) {
-                ActivityUtil.getInstance().dismiss();
+                ActivityUtils.getInstance().dismiss();
                 if (StringUtil.isEmpty(result))
                     result = "未知错误,请重试";
                 if (result.startsWith("操作成功"))

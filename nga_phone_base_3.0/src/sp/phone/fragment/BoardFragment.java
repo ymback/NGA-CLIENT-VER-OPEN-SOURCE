@@ -23,6 +23,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -45,14 +46,15 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LoginActivity;
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.bean.AvatarTag;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 
@@ -108,6 +110,9 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
             }
         });
 
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, (Toolbar) view.findViewById(R.id.toolbar), R.string.app_name, R.string.app_name);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
         NavigationView navigationView = (NavigationView) view.findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -122,6 +127,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         menuItem.setActionView(actionView);
         menuItem.expandActionView();
         mReplyCountView = (TextView) actionView.findViewById(R.id.reply_count);
+        navigationView.getHeaderView(0).setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(getContext()));
         mHeaderView = (ViewFlipper) navigationView.getHeaderView(0).findViewById(R.id.viewFlipper);
         updateHeaderView();
         super.onViewCreated(view, savedInstanceState);
@@ -130,8 +136,8 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
 
     @Override
     public void updateHeaderView() {
-        SharedPreferences sp = getContext().getSharedPreferences(PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE);
-        String userListString = sp.getString(PreferenceConstant.USER_LIST, "");
+        SharedPreferences sp = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        String userListString = sp.getString(PreferenceKey.USER_LIST, "");
         mHeaderView.removeAllViews();
         final List<User> userList;
         if (StringUtil.isEmpty(userListString)) {
@@ -163,6 +169,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
     }
 
     @Override
+    public int getCurrentItem() {
+        return mViewPager.getCurrentItem();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
@@ -171,7 +182,9 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
             case R.id.menu_login:
                 jumpToLogin();
                 break;
-
+            case R.id.menu_clear_recent:
+                mPresenter.clearRecentBoards();
+                break;
             default:
                 return getActivity().onOptionsItemSelected(item);
 
@@ -194,7 +207,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         } else {
             Intent intent = new Intent();
             intent.setClass(getContext(), LoginActivity.class);
-            startActivityForResult(intent, ActivityUtil.REQUEST_CODE_LOGIN);
+            startActivityForResult(intent, ActivityUtils.REQUEST_CODE_LOGIN);
         }
     }
 
@@ -240,7 +253,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ActivityUtil.REQUEST_CODE_LOGIN && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ActivityUtils.REQUEST_CODE_LOGIN && resultCode == Activity.RESULT_OK) {
             updateHeaderView();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -347,8 +360,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
     @Override
     public void onResume() {
         if (mBoardPagerAdapter == null) {
-            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager(), (PageCategoryOwner) mPresenter,getResources().getInteger(R.integer.page_category_width));
+            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager(), (PageCategoryOwner) mPresenter);
             mViewPager.setAdapter(mBoardPagerAdapter);
+            if (((PageCategoryOwner) mPresenter).getCategory(0).size() == 0) {
+                mViewPager.setCurrentItem(1);
+            }
         }
         mReplyCountView.setText(String.valueOf(PhoneConfiguration.getInstance().getReplyTotalNum()));
         super.onResume();

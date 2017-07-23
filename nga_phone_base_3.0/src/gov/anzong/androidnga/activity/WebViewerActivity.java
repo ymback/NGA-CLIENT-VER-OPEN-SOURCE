@@ -14,11 +14,11 @@ import android.webkit.WebViewClient;
 
 import gov.anzong.androidnga.R;
 import sp.phone.task.DownloadImageTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class WebViewerActivity extends SwipeBackAppCompatActivity {
     private WebView wv;
@@ -26,7 +26,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     @SuppressWarnings("static-access")
     @Override
     protected void onCreate(Bundle arg0) {
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             requestWindowFeature(Window.FEATURE_PROGRESS);
         super.onCreate(arg0);
         View view = LayoutInflater.from(this).inflate(R.layout.webview_layout, null, false);
@@ -35,7 +35,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         WebViewClient client = new ArticleListWebClient(this);
         wv.setWebViewClient(client);
         wv.getSettings().setUserAgentString(getString(R.string.clientua) + ((MyApp) getApplication()).version);
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             wv.setWebChromeClient(new WebChromeClient() {
                 public void onProgressChanged(WebView view, int progress) {
 
@@ -50,7 +50,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     protected void onResume() {
         load();
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(wv);
+            ActivityUtils.getInstance().setFullScreen(wv);
         }
         super.onResume();
     }
@@ -65,8 +65,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         final WebSettings settings = wv.getSettings();
         getSupportActionBar().setTitle("查看内容");
 
-        if (uri.endsWith(".swf")
-                && ActivityUtil.isGreaterThan_2_1())//android 2.2
+        if (uri.endsWith(".swf"))//android 2.2
         {
             wv.setWebChromeClient(new WebChromeClient());
             //settings.setPluginState(PluginState.ON);
@@ -77,8 +76,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
             settings.setJavaScriptEnabled(true);
             settings.setBuiltInZoomControls(true);
 //			settings.setUseWideViewPort(true); 
-            if (ActivityUtil.isGreaterThan_2_1())
-                settings.setLoadWithOverviewMode(true);
+            settings.setLoadWithOverviewMode(true);
             //settings.setUserAgentString(IPHONE_UA);
             wv.loadUrl(uri);
         }

@@ -27,15 +27,15 @@ import java.net.URLEncoder;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.UserListAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.task.AccountAuthCodeImageReloadTask;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class LoginFragment extends DialogFragment implements
-        PreferenceConstant, OnAuthCodeLoadFinishedListener {
+        PreferenceKey, OnAuthCodeLoadFinishedListener {
 
     EditText userText;
     EditText passwordText;

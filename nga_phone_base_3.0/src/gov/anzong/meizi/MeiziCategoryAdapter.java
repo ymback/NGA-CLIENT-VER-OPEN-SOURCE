@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class MeiziCategoryAdapter extends BaseAdapter {
 

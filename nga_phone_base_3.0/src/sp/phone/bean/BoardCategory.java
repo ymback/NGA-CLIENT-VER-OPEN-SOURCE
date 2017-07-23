@@ -48,7 +48,6 @@ public class BoardCategory implements Parcelable{
 
 
     public Board get(int index) {
-        // TODO Auto-generated method stub
         return mBoardList.get(index);
     }
 
@@ -68,6 +67,10 @@ public class BoardCategory implements Parcelable{
 
     public void add(Board board) {
         mBoardList.add(board);
+    }
+
+    public void addFront(Board board) {
+        mBoardList.add(0,board);
     }
 
 

@@ -34,26 +34,26 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.ArticleListAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.ResetableArticle;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 /**
  * 帖子详情分页
  */
 public class ArticleListFragment extends BaseFragment implements
-        OnThreadPageLoadFinishedListener, PreferenceConstant {
+        OnThreadPageLoadFinishedListener, PreferenceKey {
     final static private String TAG = ArticleListFragment.class.getSimpleName();
     /*
      * static final int QUOTE_ORDER = 0; static final int REPLY_ORDER = 1;
@@ -198,9 +198,9 @@ public class ArticleListFragment extends BaseFragment implements
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
 
-                PagerOwnner father = null;
+                PagerOwner father = null;
                 try {
-                    father = (PagerOwnner) getActivity();
+                    father = (PagerOwner) getActivity();
                     if (father.getCurrentPage() == page) {
                         PhoneConfiguration.getInstance().setRefreshAfterPost(
                                 false);
@@ -209,7 +209,7 @@ public class ArticleListFragment extends BaseFragment implements
                     }
                 } catch (ClassCastException e) {
                     Log.e(TAG, "father activity does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
 
                 }
 
@@ -259,12 +259,12 @@ public class ArticleListFragment extends BaseFragment implements
             if (authorid != 0) {
                 url = url + "&authorid=" + authorid;
             }
-            if (ActivityUtil.isGreaterThan_2_3_3())
+            if (ActivityUtils.isGreaterThan_2_3_3())
                 RunParallen(task, url);
             else
                 task.execute(url);
         } else {
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
         }
 
     }
@@ -304,12 +304,12 @@ public class ArticleListFragment extends BaseFragment implements
     public boolean onContextItemSelected(MenuItem item) {
 
         Log.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
-        PagerOwnner father = null;
+        PagerOwner father = null;
         try {
-            father = (PagerOwnner) getActivity();
+            father = (PagerOwner) getActivity();
         } catch (ClassCastException e) {
             Log.e(TAG, "father activity does not implements interface "
-                    + PagerOwnner.class.getName());
+                    + PagerOwner.class.getName());
             return true;
         }
 
@@ -515,7 +515,7 @@ public class ArticleListFragment extends BaseFragment implements
                 }
 
                 // restNotifier.reset(0, row.getAuthorid());
-                // ActivityUtil.getInstance().noticeSaying(getActivity());
+                // ActivityUtils.getInstance().noticeSaying(getActivity());
 
                 break;
             case R.id.show_whole_thread:
@@ -529,7 +529,7 @@ public class ArticleListFragment extends BaseFragment implements
                         return true;
                     }
                     restNotifier.reset(0, 0, row.getLou());
-                    ActivityUtil.getInstance().noticeSaying(getActivity());
+                    ActivityUtils.getInstance().noticeSaying(getActivity());
                 } else {
                     int tid1 = tid;
                     ArticleContainerFragment f = ArticleContainerFragment
@@ -679,7 +679,7 @@ public class ArticleListFragment extends BaseFragment implements
             }
 
         }
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         this.needLoad = false;
     }
 }

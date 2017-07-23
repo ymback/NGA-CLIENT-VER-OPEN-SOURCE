@@ -24,22 +24,23 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.NearbyUsersAdapter;
 import sp.phone.bean.NearbyUser;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.NearbyAlertDialogFragment;
 import sp.phone.interfaces.OnNearbyLoadComplete;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.NearbyUserTask;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PermissionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.utils.DeviceUtils;
+import sp.phone.utils.PermissionUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class NearbyUserActivity extends SwipeBackAppCompatActivity
-        implements PreferenceConstant, OnNearbyLoadComplete, PullToRefreshAttacherOnwer {
+        implements PreferenceKey, OnNearbyLoadComplete, PullToRefreshAttacherOnwer {
     final private String ALERT_DIALOG_TAG = "alertdialog";
     NearbyUserTask task = null;
     PullToRefreshAttacher attacher = null;
@@ -93,13 +94,13 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     }
 
     void initLocation() {
-        if (!PermissionUtil.hasLocationPermission(this) && ActivityUtil.isGreateEqual_6_0()){
-            PermissionUtil.requestLocationPermission(this);
+        if (!PermissionUtils.hasLocationPermission(this) && DeviceUtils.isGreaterEqual_6_0()){
+            PermissionUtils.requestLocationPermission(this);
             return;
         }
 
         if (PhoneConfiguration.getInstance().location == null)
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
 
         Location location = PhoneConfiguration.getInstance().location;
 
@@ -112,7 +113,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         } else if (StringUtil.isEmpty(userName)) {
             showToast(R.string.nearby_no_login);
         } else {
-            ActivityUtil.getInstance().noticeSaying(this);
+            ActivityUtils.getInstance().noticeSaying(this);
             task = new NearbyUserTask(location.getLatitude(), location.getLongitude(),
                     userName, PhoneConfiguration.getInstance().uid, this);
             task.execute();
@@ -124,7 +125,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     @Override
     public void OnComplete(String result) {
         task = null;
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (StringUtil.isEmpty(result))
             return;
         List<NearbyUser> list = null;
@@ -135,7 +136,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         }
         Location myloc = PhoneConfiguration.getInstance().location;
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).setJuli(String.valueOf(ActivityUtil.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
+            list.get(i).setJuli(String.valueOf(ActivityUtils.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
         }
         attacher.setRefreshComplete();
         if (list != null && list.size() == 0) {
@@ -216,7 +217,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         if (progress > total) {
             saying = this.getString(R.string.fail_to_cross_gfw);
         }
-        ActivityUtil.getInstance().noticeError(saying, this);
+        ActivityUtils.getInstance().noticeError(saying, this);
 
 
     }
@@ -232,7 +233,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     @Override
     protected void onResume() {
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(lv);
+            ActivityUtils.getInstance().setFullScreen(lv);
         }
         super.onResume();
     }

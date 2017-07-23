@@ -14,6 +14,8 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 
 /**
  * Created by liuboyu on 16/6/30.

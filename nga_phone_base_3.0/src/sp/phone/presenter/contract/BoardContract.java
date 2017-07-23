@@ -22,6 +22,8 @@ public interface BoardContract {
 
         void notifyDataSetChanged();
 
+        void clearRecentBoards();
+
     }
 
     interface View extends BaseContract.View<Presenter> {
@@ -33,6 +35,8 @@ public interface BoardContract {
         void updateHeaderView();
 
         void notifyDataSetChanged();
+
+        int getCurrentItem();
     }
 
     interface Model extends BaseContract.Model {

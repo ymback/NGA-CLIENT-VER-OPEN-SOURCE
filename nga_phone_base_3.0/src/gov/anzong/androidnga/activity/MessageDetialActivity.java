@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.SignData;
@@ -22,17 +19,17 @@ import sp.phone.fragment.MessageDetialListContainer;
 import sp.phone.fragment.material.MessageDetailFragment;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
-        OnSignPageLoadFinishedListener, PagerOwnner, OnItemClickListener,
+        OnSignPageLoadFinishedListener, PagerOwner, OnItemClickListener,
         OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer {
 
     boolean dualScreen = true;
@@ -179,7 +176,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 
             View view = findViewById(R.id.item_list);
             if (PhoneConfiguration.getInstance().fullscreen && view != null) {
-                ActivityUtil.getInstance().setFullScreen(view);
+                ActivityUtils.getInstance().setFullScreen(view);
             }
         }
         super.onResume();
@@ -210,19 +207,19 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 
     @Override
     public int getCurrentPage() {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
 
             Fragment articleContainer = getSupportFragmentManager()
                     .findFragmentById(R.id.item_list);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             if (null == child)
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
             Log.e(TAG,
                     "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
             return 0;
         }
     }
@@ -230,17 +227,17 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
 
     @Override
     public void setCurrentItem(int index) {
-        PagerOwnner child = null;
+        PagerOwner child = null;
         try {
 
             Fragment articleContainer = getSupportFragmentManager()
                     .findFragmentById(R.id.item_list);
-            child = (PagerOwnner) articleContainer;
+            child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
             Log.e(TAG,
                     "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwnner.class.getName());
+                            + PagerOwner.class.getName());
             return;
         }
     }

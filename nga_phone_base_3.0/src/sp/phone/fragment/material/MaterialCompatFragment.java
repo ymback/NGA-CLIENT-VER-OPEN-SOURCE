@@ -1,26 +1,22 @@
 package sp.phone.fragment.material;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.utils.PhoneConfiguration;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.PhoneConfiguration;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public abstract class MaterialCompatFragment extends BaseFragment implements PullToRefreshAttacherOnwer {
@@ -146,6 +142,9 @@ public abstract class MaterialCompatFragment extends BaseFragment implements Pul
 
     private void initFabButton(View rootView){
         mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        if (mFab == null) {
+            return;
+        }
         View.OnClickListener listener = getFabClickListener();
         if (listener == null){
             mFab .setVisibility(View.GONE);

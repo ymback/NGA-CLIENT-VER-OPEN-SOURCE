@@ -29,24 +29,24 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import sp.phone.adapter.AppendableTopicAdapter;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonTopicListLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 /**
  * 帖子列表分页
  */
-public class TopicListContainer extends BaseFragment implements OnTopListLoadFinishedListener, NextJsonTopicListLoader, PreferenceConstant {
+public class TopicListContainer extends BaseFragment implements OnTopListLoadFinishedListener, NextJsonTopicListLoader, PreferenceKey {
     final String TAG = TopicListContainer.class.getSimpleName();
     int fid;
     int authorid;
@@ -184,7 +184,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         if (mTopicListInfo == null) {
             refresh();
         } else {
-            jsonfinishLoad(mTopicListInfo);
+            jsonFinishLoad(mTopicListInfo);
         }
         if (searchmode)
             handleSearch();
@@ -217,9 +217,9 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }
@@ -346,7 +346,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
             case R.id.threadlist_menu_item2:
             /*
              * int current = this.mViewPager.getCurrentItem();
-			 * ActivityUtil.getInstance().noticeSaying(this);
+			 * ActivityUtils.getInstance().noticeSaying(this);
 			 * this.mViewPager.setAdapter(this.mTabsAdapter);
 			 * this.mViewPager.setCurrentItem(current, true);
 			 */
@@ -466,7 +466,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     }
 
     @Override
-    public void jsonfinishLoad(TopicListInfo result) {
+    public void jsonFinishLoad(TopicListInfo result) {
         if (attacher != null)
             attacher.setRefreshComplete();
 
@@ -497,10 +497,10 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         }
 
         adapter.clear();
-        adapter.jsonfinishLoad(result);
+        adapter.jsonFinishLoad(result);
         listView.setAdapter(adapter);
         if (canDismiss)
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
     }
 
     @TargetApi(11)
@@ -512,7 +512,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     public void loadNextPage(OnTopListLoadFinishedListener callback) {
         JsonTopicListLoadTask task = new JsonTopicListLoadTask(getActivity(), callback);
         refresh_saying();
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             RunParallen(task);
         else
             task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
@@ -538,11 +538,11 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
 		 * 
 		 * @Override public void jsonfinishLoad( TopicListInfo result) {
 		 * mPullRefreshListView.onRefreshComplete(); if(result == null) return;
-		 * ActivityUtil.getInstance().dismiss(); adapter.jsonfinishLoad(result);
+		 * ActivityUtils.getInstance().dismiss(); adapter.jsonfinishLoad(result);
 		 * 
 		 * }
 		 * 
-		 * } ); ActivityUtil.getInstance().noticeSaying(getActivity());
+		 * } ); ActivityUtils.getInstance().noticeSaying(getActivity());
 		 * task.execute(getUrl(adapter.getNextPage()));
 		 * 
 		 * }

@@ -27,26 +27,26 @@ import gov.anzong.androidnga.R;
 import sp.phone.adapter.AppendableMessageDetialAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
-import sp.phone.interfaces.PagerOwnner;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonMessageDetialLoadTask;
 import sp.phone.task.JsonMessageListLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class MessageDetialListContainer extends BaseFragment implements
         OnMessageDetialLoadFinishedListener, NextJsonMessageDetialLoader,
-        PreferenceConstant {
+        PreferenceKey {
     static final int MESSAGE_SENT = 1;
     final String TAG = MessageDetialListContainer.class.getSimpleName();
     PullToRefreshAttacher attacher = null;
@@ -221,12 +221,12 @@ public class MessageDetialListContainer extends BaseFragment implements
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        PagerOwnner father = null;
+        PagerOwner father = null;
         try {
-            father = (PagerOwnner) getActivity();
+            father = (PagerOwner) getActivity();
         } catch (ClassCastException e) {
             Log.e(TAG, "father activity does not implements interface "
-                    + PagerOwnner.class.getName());
+                    + PagerOwner.class.getName());
             return true;
         }
 
@@ -448,9 +448,9 @@ public class MessageDetialListContainer extends BaseFragment implements
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else {
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         }
         if (attacher != null)
             attacher.setRefreshing(true);
@@ -459,7 +459,7 @@ public class MessageDetialListContainer extends BaseFragment implements
     void refresh() {
         JsonMessageDetialLoadTask task = new JsonMessageDetialLoadTask(
                 getActivity(), this);
-        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        // ActivityUtils.getInstance().noticeSaying(this.getActivity());
         if (this.getActivity() != null) {
             adapter = new AppendableMessageDetialAdapter(this.getActivity(),
                     attacher, this);
@@ -572,7 +572,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         adapter.finishLoad(result);
         listView.setAdapter(adapter);
         if (canDismiss)
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
 
     }
 
@@ -587,7 +587,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         JsonMessageDetialLoadTask task = new JsonMessageDetialLoadTask(
                 getActivity(), callback);
         refresh_saying();
-        if (ActivityUtil.isGreaterThan_2_3_3())
+        if (ActivityUtils.isGreaterThan_2_3_3())
             RunParallen(task);
         else
             task.execute(getUrl(adapter.getNextPage(), mid, adapter.getIsEnd(),
@@ -615,11 +615,11 @@ public class MessageDetialListContainer extends BaseFragment implements
 		 * 
 		 * @Override public void jsonfinishLoad( TopicListInfo result) {
 		 * mPullRefreshListView.onRefreshComplete(); if(result == null) return;
-		 * ActivityUtil.getInstance().dismiss(); adapter.jsonfinishLoad(result);
+		 * ActivityUtils.getInstance().dismiss(); adapter.jsonfinishLoad(result);
 		 * 
 		 * }
 		 * 
-		 * } ); ActivityUtil.getInstance().noticeSaying(getActivity());
+		 * } ); ActivityUtils.getInstance().noticeSaying(getActivity());
 		 * task.execute(getUrl(adapter.getNextPage()));
 		 * 
 		 * }

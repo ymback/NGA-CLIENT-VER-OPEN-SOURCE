@@ -17,12 +17,12 @@ import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 import sp.phone.bean.BoardHolder;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**
@@ -150,12 +150,24 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
             intent.putExtra("fid", fid);
             intent.setClass(getContext(), config.topicActivityClass);
             getContext().startActivity(intent);
+            addToRecent(fidString);
+            if (mView.getCurrentItem() <= 1) {
+                mView.notifyDataSetChanged();
+            }
         }
     }
 
     @Override
     public void notifyDataSetChanged() {
         loadBoardInfo();
+        mView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void clearRecentBoards() {
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE).edit();
+        editor.putString(PreferenceKey.RECENT_BOARD, "").apply();
+        mBoardInfo.getCategory(0).getBoardList().clear();
         mView.notifyDataSetChanged();
     }
 
@@ -194,8 +206,8 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
 
     private void saveFid(List<Board> boardList) {
         String addFidStr = JSON.toJSONString(boardList);
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceConstant.PERFERENCE, Context.MODE_PRIVATE).edit();
-        editor.putString(PreferenceConstant.ADD_FID, addFidStr);
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE).edit();
+        editor.putString(PreferenceKey.ADD_FID, addFidStr);
         editor.apply();
     }
 
@@ -215,49 +227,32 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
         return mBoardInfo == null ? null : mBoardInfo.getCategory(category);
     }
 
-//    private void saveRecent(List<Board> boardList) {
-//        String rescentStr = JSON.toJSONString(boardList);
-//        Editor editor = share.edit();
-//        editor.putString(RECENT_BOARD, rescentStr);
-//        editor.apply();
-//    }
-//
-//    private void addToRecent() {
-//
-//        boolean recentAlreadExist = boardInfo.getCategoryName(0).equals(
-//                getString(R.string.recent));
-//
-//        BoardCategory recent = boardInfo.getCategory(0);
-//        if (recent != null && recentAlreadExist)
-//            recent.remove(fidString);
-//        // int i = 0;
-//        for (int i = 0; i < boardInfo.getCategoryCount(); i++) {
-//            BoardCategory curr = boardInfo.getCategory(i);
-//            for (int j = 0; j < curr.size(); j++) {
-//                Board b = curr.get(j);
-//                if (b.getUrl().equals(fidString)) {
-//                    Board b1 = new Board(0, b.getUrl(), b.getName(),
-//                            b.getIcon());
-//
-//                    if (!recentAlreadExist) {
-//                        List<Board> boardList = new ArrayList<Board>();
-//                        boardList.add(b1);
-//                        saveRecent(boardList);
-//                        onResume();
-//                        return;
-//                    } else {
-//                        recent.addFront(b1);
-//                        recent = boardInfo.getCategory(0);
-//                        saveRecent(recent.getBoardList());
-//                    }
-//
-//                    return;
-//                }// if
-//            }// for j
-//
-//        }// for i
-//
-//    }
+    private void saveRecent(List<Board> boardList) {
+        String recentStr = JSON.toJSONString(boardList);
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(PreferenceKey.PERFERENCE,Context.MODE_PRIVATE).edit();
+        editor.putString(PreferenceKey.RECENT_BOARD, recentStr).apply();
+    }
+
+    private void addToRecent(String fidString) {
+
+        BoardCategory recent = mBoardInfo.getCategory(0);
+        recent.remove(fidString);
+        for (int i = 1; i < mBoardInfo.getCategoryCount(); i++) {
+            BoardCategory curr = mBoardInfo.getCategory(i);
+            for (int j = 0; j < curr.size(); j++) {
+                Board board = curr.get(j);
+                if (board.getUrl().equals(fidString)) {
+                    Board newBoard = new Board(0, board.getUrl(), board.getName(),
+                            board.getIcon());
+                    recent.addFront(newBoard);
+                    saveRecent(recent.getBoardList());
+                    return;
+                }// if
+            }// for j
+
+        }// for i
+
+    }
 
 
 }

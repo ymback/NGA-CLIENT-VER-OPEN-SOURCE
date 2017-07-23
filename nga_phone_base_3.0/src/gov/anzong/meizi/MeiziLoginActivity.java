@@ -22,17 +22,17 @@ import java.net.URLEncoder;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.MD5Util;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
-        PreferenceConstant {
+        PreferenceKey {
 
     EditText userText;
     EditText passwordText;
@@ -103,7 +103,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
     @Override
     protected void onResume() {
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(view);
+            ActivityUtils.getInstance().setFullScreen(view);
         }
         if (alreadylogin && needtopost) {
             finish();

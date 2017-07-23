@@ -20,22 +20,22 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.SignPageAdapter;
 import sp.phone.bean.AvatarTag;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.common.PreferenceKey;
 import sp.phone.bean.SignData;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonSignLoadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class SignContainer extends BaseFragment implements
-        OnSignPageLoadFinishedListener, PreferenceConstant {
+        OnSignPageLoadFinishedListener, PreferenceKey {
     static final int MESSAGE_SENT = 1;
     final String TAG = SignContainer.class.getSimpleName();
     int fid;
@@ -237,16 +237,16 @@ public class SignContainer extends BaseFragment implements
         }
 
         if (transformer == null)
-            ActivityUtil.getInstance().noticeSaying(this.getActivity());
+            ActivityUtils.getInstance().noticeSaying(this.getActivity());
         else
-            transformer.setRefreshingText(ActivityUtil.getSaying());
+            transformer.setRefreshingText(ActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }// 有效
 
     void refresh() {
         JsonSignLoadTask task = new JsonSignLoadTask(getActivity(), this);
-        // ActivityUtil.getInstance().noticeSaying(this.getActivity());
+        // ActivityUtils.getInstance().noticeSaying(this.getActivity());
         refresh_saying();
         task.execute("SIGN");
         isrefresh = true;
@@ -303,7 +303,7 @@ public class SignContainer extends BaseFragment implements
         }
         listView.setAdapter(adapter);
         if (canDismiss)
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
     }
 
     public void handleUserAvatat(ImageView avatarIV, String userId) {

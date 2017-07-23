@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -30,7 +29,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 
@@ -45,17 +43,14 @@ import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
-import sp.phone.fragment.EmotionDialogFragment;
-import sp.phone.fragment.ExtensionEmotionFragment;
-import sp.phone.interfaces.EmotionCategorySelectedListener;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.NonameFileUploadTask;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class NonamePostActivity extends BasePostActivity implements
         OnEmotionPickedListener, NonameFileUploadTask.onFileUploaded {
@@ -103,7 +98,7 @@ public class NonamePostActivity extends BasePostActivity implements
 
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
 
         Intent intent = this.getIntent();
@@ -332,14 +327,14 @@ public class NonamePostActivity extends BasePostActivity implements
         if (uploadTask != null) {
             NonameFileUploadTask temp = uploadTask;
             uploadTask = null;
-            if (ActivityUtil.isGreaterThan_2_3_3()) {
+            if (ActivityUtils.isGreaterThan_2_3_3()) {
                 RunParallel(temp);
             } else {
                 temp.execute();
             }
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(v);
+            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }
@@ -499,7 +494,7 @@ public class NonamePostActivity extends BasePostActivity implements
 
         @Override
         protected void onPreExecute() {
-            ActivityUtil.getInstance().noticeSaying(c);
+            ActivityUtils.getInstance().noticeSaying(c);
             super.onPreExecute();
         }
 
@@ -508,7 +503,7 @@ public class NonamePostActivity extends BasePostActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -517,7 +512,7 @@ public class NonamePostActivity extends BasePostActivity implements
             synchronized (commit_lock) {
                 loading = false;
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             super.onCancelled();
         }
 
@@ -573,7 +568,7 @@ public class NonamePostActivity extends BasePostActivity implements
             if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
                 PhoneConfiguration.getInstance().setRefreshAfterPost(true);
             }
-            ActivityUtil.getInstance().dismiss();
+            ActivityUtils.getInstance().dismiss();
             if (!keepActivity)
                 NonamePostActivity.this.finish();
             synchronized (commit_lock) {

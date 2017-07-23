@@ -15,9 +15,9 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListInfo> {
@@ -292,20 +292,20 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 
     @Override
     protected void onPostExecute(TopicListInfo result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (result == null) {
-            ActivityUtil.getInstance().noticeError
+            ActivityUtils.getInstance().noticeError
                     (error, context);
             return;
         }
         if (null != notifier)
-            notifier.jsonfinishLoad(result);
+            notifier.jsonFinishLoad(result);
         super.onPostExecute(result);
     }
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

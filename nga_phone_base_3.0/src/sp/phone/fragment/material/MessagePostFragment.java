@@ -12,9 +12,7 @@ import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
 import sp.phone.presenter.contract.MessagePostContract;
-import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**
@@ -92,9 +90,6 @@ public class MessagePostFragment extends MaterialCompatFragment implements Messa
             }
         } else {
             mBodyEditText.requestFocus();
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtil.getInstance().setFullScreen(getView());
         }
         super.onResume();
     }

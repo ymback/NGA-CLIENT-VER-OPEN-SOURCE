@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.ReplyListFragment;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class ReplyListActivity extends SwipeBackAppCompatActivity {
     @Override

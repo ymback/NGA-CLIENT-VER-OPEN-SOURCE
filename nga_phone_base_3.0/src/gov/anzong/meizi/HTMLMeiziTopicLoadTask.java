@@ -14,8 +14,8 @@ import java.util.Locale;
 
 import gov.anzong.meizi.MeiziTopicMData.ContentItemType;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
-import sp.phone.utils.ActivityUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class HTMLMeiziTopicLoadTask extends
@@ -59,7 +59,7 @@ public class HTMLMeiziTopicLoadTask extends
 
     @Override
     protected void onPostExecute(MeiziTopicMData result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (null != notifier)
             notifier.datafinishLoad(result);
         super.onPostExecute(result);
@@ -67,7 +67,7 @@ public class HTMLMeiziTopicLoadTask extends
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

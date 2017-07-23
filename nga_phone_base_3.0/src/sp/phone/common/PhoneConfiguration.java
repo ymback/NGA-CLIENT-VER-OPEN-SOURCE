@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.common;
 
 import android.location.Location;
 
@@ -63,9 +63,10 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import gov.anzong.meizi.SplitMeiziMainActivity;
 import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.PreferenceConstant;
+import sp.phone.utils.DeviceUtils;
+import sp.phone.utils.StringUtil;
 
-public class PhoneConfiguration implements PreferenceConstant {
+public class PhoneConfiguration implements PreferenceKey {
     public String userName;
     public int nikeWidth = 100;
     public boolean downAvatarNoWifi;
@@ -121,6 +122,10 @@ public class PhoneConfiguration implements PreferenceConstant {
     private int webSize;
     private int uiFlag = 0;
 
+    private boolean mShowBottomTab;
+
+    private boolean mLeftHandMode;
+
 
     private static class PhoneConfigurationHolder {
 
@@ -136,6 +141,23 @@ public class PhoneConfiguration implements PreferenceConstant {
 
     public static PhoneConfiguration getInstance() {
         return PhoneConfigurationHolder.sInstance;
+    }
+
+
+    public void setShowBottomTab(boolean value) {
+        mShowBottomTab = value;
+    }
+
+    public boolean isShownBottomTab() {
+        return mShowBottomTab;
+    }
+
+    public boolean isLeftHandMode() {
+        return mLeftHandMode;
+    }
+
+    public void setLeftHandMode(boolean leftHandMode) {
+        mLeftHandMode = leftHandMode;
     }
 
     public String getDb_Cookie() {
@@ -171,7 +193,7 @@ public class PhoneConfiguration implements PreferenceConstant {
     }
 
     public boolean isMaterialMode(){
-        return materialMode && ActivityUtil.isNotLessThan_5_0();
+        return materialMode && DeviceUtils.isGreaterEqual_5_0();
     }
 
     public void setMaterialMode(boolean materialMode){

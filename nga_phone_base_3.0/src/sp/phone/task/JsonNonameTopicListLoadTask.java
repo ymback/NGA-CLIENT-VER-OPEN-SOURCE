@@ -8,9 +8,9 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, NonameThreadResponse> {
@@ -53,14 +53,14 @@ public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, Nona
 
     @Override
     protected void onPostExecute(NonameThreadResponse result) {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         if (result == null) {
-            ActivityUtil.getInstance().noticeError
+            ActivityUtils.getInstance().noticeError
                     (error, context);
             return;
         }
         if (result.error) {
-            ActivityUtil.getInstance().noticeError
+            ActivityUtils.getInstance().noticeError
                     (result.errorinfo, context);
             return;
         }
@@ -71,7 +71,7 @@ public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, Nona
 
     @Override
     protected void onCancelled() {
-        ActivityUtil.getInstance().dismiss();
+        ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 

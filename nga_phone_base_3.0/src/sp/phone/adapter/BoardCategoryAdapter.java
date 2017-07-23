@@ -1,8 +1,9 @@
 package sp.phone.adapter;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.view.Gravity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,33 +13,26 @@ import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.BoardCategory;
-import sp.phone.utils.ReflectionUtil;
 
-public class BoardCatagoryAdapter extends BaseAdapter {
+public class BoardCategoryAdapter extends BaseAdapter {
 
+    private BoardCategory mCategory;
 
-    //private Map<String,Drawable> iconMap;
-    Resources resources;
-    LayoutInflater layoutInflater;
-    BoardCategory category;
-    //private BoardHolder boardInfo;
+    private Activity mActivity;
 
 
-    public BoardCatagoryAdapter(Resources resources,
-                                LayoutInflater layoutInflater, BoardCategory category) {
+    public BoardCategoryAdapter(Activity activity, BoardCategory category) {
         super();
-        this.resources = resources;
-        this.layoutInflater = layoutInflater;
-        //iconMap = new HashMap<String,Drawable>();
-        this.category = category;
+        mActivity = activity;
+        mCategory = category;
     }
 
     public int getCount() {
-        return category == null ? 0 : category.size();
+        return mCategory == null ? 0 : mCategory.size();
     }
 
     public Object getItem(int position) {
-        return category == null ? null : category.get(position).getUrl();//boardInfo.get(category,position).getUrl();//urls[position];
+        return mCategory == null ? null : mCategory.get(position).getUrl();
     }
 
     public long getItemId(int position) {
@@ -61,40 +55,37 @@ public class BoardCatagoryAdapter extends BaseAdapter {
             holder.img = iconView;
             holder.text = tv;
             convertView.setTag(holder);
-            //iconView.setGravity(Gravity.CENTER_HORIZONTAL);
-            ReflectionUtil.view_setGravity(convertView, Gravity.CENTER_HORIZONTAL);
         } else {
 
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Drawable draw = getDrable(convertView, position);
+        Drawable draw = getDrawable(position);
         holder.img.setImageDrawable(draw);
-        holder.text.setText(category.get(position).getName());
+        holder.text.setText(mCategory.get(position).getName());
         return convertView;
 
     }
 
     ;
 
-    private Drawable getDrable(View convertView, int position) {
-        Drawable d = null;
-        int resId = category.get(position).getIcon();
+    private Drawable getDrawable(int position) {
+        Drawable drawable;
+        int resId = mCategory.get(position).getIcon();
         if (resId != 0) {// default board
-            d = getResources().getDrawable(resId);
+            drawable = ContextCompat.getDrawable(mActivity,resId);
         } else {// optional board
-            d = getResources().getDrawable(R.drawable.pdefault);
+            drawable = ContextCompat.getDrawable(mActivity,R.drawable.pdefault);
         }
-
-        return d;
+        return drawable;
     }
 
     public Resources getResources() {
-        return resources;
+        return mActivity.getResources();
     }
 
     public LayoutInflater getLayoutInflater() {
-        return layoutInflater;
+        return mActivity.getLayoutInflater();
     }
 
     class ViewHolder {

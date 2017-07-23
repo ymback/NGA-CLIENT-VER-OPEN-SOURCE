@@ -2,7 +2,6 @@ package gov.anzong.androidnga.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,12 +22,11 @@ import sp.phone.fragment.material.TopicPostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.presenter.TopicPostPresenter;
 import sp.phone.presenter.contract.TopicPostContract;
-import sp.phone.utils.ActivityUtil;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PermissionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.utils.PermissionUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
 
 public class PostActivity extends BasePostActivity implements OnEmotionPickedListener {
 
@@ -38,23 +36,14 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     private TopicPostContract.Presenter mPresenter;
 
-    @SuppressWarnings("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
 
         super.onCreate(savedInstanceState);
 
         if (PhoneConfiguration.getInstance().uploadLocation
                 && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtil.reflushLocation(this);
+            ActivityUtils.reflushLocation(this);
         }
 
         Intent intent = this.getIntent();
@@ -158,7 +147,7 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtil.REQUEST_CODE_WRITE_EXTERNAL_STORAGE){
+        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 mPresenter.prepareUploadFile();
             }

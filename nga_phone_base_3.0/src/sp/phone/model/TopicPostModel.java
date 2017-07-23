@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 
 /**
  * Created by Yang Yihang on 2017/6/10.
@@ -83,7 +84,12 @@ public class TopicPostModel implements TopicPostContract.Model{
                         return;
                     }
                     result = result.substring(index+1);
-                    TopicPostBean bean = JSON.parseObject(result,TopicPostBean.class);
+                    TopicPostBean bean = null;
+                    try {
+                        bean = JSON.parseObject(result, TopicPostBean.class);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     if (bean != null) {
                         act.setAuth(bean.getData().getAuth());
                     } else {

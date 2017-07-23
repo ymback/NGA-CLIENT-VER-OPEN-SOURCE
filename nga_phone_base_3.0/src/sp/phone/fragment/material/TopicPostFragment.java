@@ -24,9 +24,8 @@ import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.User;
 import sp.phone.presenter.contract.TopicPostContract;
-import sp.phone.utils.ActivityUtil;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 /**
@@ -207,6 +206,11 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PostActivity.REQUEST_CODE_SELECT_PIC);
+    }
+
+    @Override
+    public void setResult(int result) {
+        getActivity().setResult(result);
     }
 
     @Override

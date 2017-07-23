@@ -13,9 +13,9 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
-import sp.phone.utils.ThemeManager;
+import sp.phone.common.ThemeManager;
 
 public class NonameTopicListAdapter extends BaseAdapter implements
         OnNonameTopListLoadFinishedListener {

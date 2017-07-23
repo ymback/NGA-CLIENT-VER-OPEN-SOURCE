@@ -17,7 +17,7 @@ import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.bean.User;
 import sp.phone.fragment.MessageListContainer;
-import sp.phone.utils.PhoneConfiguration;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtil;
 
 public class MessageListFragment extends MaterialCompatFragment implements AdapterView.OnItemClickListener{

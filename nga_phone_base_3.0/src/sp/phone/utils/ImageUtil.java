@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import sp.phone.common.PhoneConfiguration;
+
 public class ImageUtil {
     static final String LOG_TAG = ImageUtil.class.getSimpleName();
     //final static int max_avatar_width = 200;
