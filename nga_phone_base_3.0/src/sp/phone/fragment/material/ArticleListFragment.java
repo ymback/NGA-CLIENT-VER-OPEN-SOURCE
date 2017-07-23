@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,14 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.Set;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
-import sp.phone.adapter.ArticleListAdapter;
+import sp.phone.adapter.material.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
@@ -38,7 +39,6 @@ import sp.phone.model.ArticleListTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.StringUtil;
-import sp.phone.view.NestedListView;
 
 /*
  * MD 帖子详情分页
@@ -47,17 +47,13 @@ public class ArticleListFragment extends BaseFragment {
 
     private final static String TAG = sp.phone.fragment.ArticleListFragment.class.getSimpleName();
 
-    private ListView mListView;
+    private RecyclerView mListView;
 
     private ArticleListAdapter mArticleAdapter;
 
     private ActionMode mActionMode;
 
     private ActionMode.Callback mActionModeCallback;
-
-    private int mListPosition;
-
-    private int mListFirstTop;
 
     private ArticleListAction mArticleListAction;
 
@@ -91,32 +87,28 @@ public class ArticleListFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mListView = new NestedListView(getContext());
-        mListView.setDivider(null);
-        activeActionMode();
-        mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        return inflater.inflate(R.layout.fragment_article_list,container,false);
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        mListView = (RecyclerView) view.findViewById(R.id.list);
+        mListView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mListView.setItemViewCacheSize(20);
+        mArticleAdapter = new ArticleListAdapter(getContext());
+        mArticleAdapter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView lv = (ListView) parent;
-                lv.setItemChecked(position, true);
+                mArticleAdapter.setSelectedItem(position);
                 if (mActionModeCallback != null) {
                     ((AppCompatActivity) getActivity()).startSupportActionMode(mActionModeCallback);
                     return true;
                 }
                 return false;
             }
-
         });
-        mArticleAdapter = new ArticleListAdapter(getContext());
         mListView.setAdapter(mArticleAdapter);
-        mListView.setDescendantFocusability(ListView.FOCUS_AFTER_DESCENDANTS);
-        return mListView;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+        activeActionMode();
         loadPage();
         super.onViewCreated(view, savedInstanceState);
     }
@@ -148,10 +140,10 @@ public class ArticleListFragment extends BaseFragment {
                     inflater.inflate(R.menu.article_list_context_menu_with_tid,
                             menu);
                 }
-                int position = mListView.getCheckedItemPosition();
+                int position = mArticleAdapter.getSelectedItem();
                 ThreadRowInfo row = new ThreadRowInfo();
-                if (position < mListView.getCount()) {
-                    row = (ThreadRowInfo) mListView.getItemAtPosition(position);
+                if (position < mArticleAdapter.getItemCount()) {
+                    row = (ThreadRowInfo) mArticleAdapter.getItem(position);
                 }
 
                 MenuItem mi = menu.findItem(R.id.menu_ban_this_one);
@@ -192,21 +184,6 @@ public class ArticleListFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mListView.setSelectionFromTop(mListPosition, mListFirstTop);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mListView.getChildCount() >= 1) {
-            mListPosition = mListView.getFirstVisiblePosition();
-            mListFirstTop = mListView.getChildAt(0).getTop();
-        }
-    }
-
-    @Override
     public boolean onContextItemSelected(MenuItem item) {
 
         int page = mArticleListAction.getPageFromUrl();
@@ -221,19 +198,18 @@ public class ArticleListFragment extends BaseFragment {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
                 .getMenuInfo();
-        int position = this.mListView.getCheckedItemPosition();
+        int position = mArticleAdapter.getSelectedItem();
         if (info != null) {
             position = info.position;
         }
-        if (position < 0 || position >= mListView.getAdapter().getCount()) {
+        if (position < 0 || position >= mArticleAdapter.getItemCount()) {
             showToast(R.string.floor_error);
             position = 0;
         }
         StringBuilder postPrefix = new StringBuilder();
         String tidStr = String.valueOf(tid);
 
-        ThreadRowInfo row = (ThreadRowInfo) mListView
-                .getItemAtPosition(position);
+        ThreadRowInfo row = (ThreadRowInfo) mArticleAdapter.getItem(position);
         if (row == null) {
             showToast(R.string.unknow_error);
             return true;

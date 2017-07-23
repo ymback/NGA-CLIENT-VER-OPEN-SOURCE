@@ -3,12 +3,14 @@ package sp.phone.fragment.material;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -92,10 +94,22 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
             handleSearch();
         }
         mPreloadFlags[mCurrentIndex] = true;
-        view.findViewById(R.id.fab_post).setOnClickListener(this);
-        view.findViewById(R.id.fab_refresh).setOnClickListener(this);
-        mFam = (FloatingActionsMenu) view.findViewById(R.id.fab_menu);
+        updateFloatingMenu();
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void updateFloatingMenu() {
+
+        View rootView =  getView();
+        rootView.findViewById(R.id.fab_post).setOnClickListener(this);
+        rootView.findViewById(R.id.fab_refresh).setOnClickListener(this);
+        mFam = (FloatingActionsMenu) rootView.findViewById(R.id.fab_menu);
+        if (mConfiguration.isLeftHandMode()) {
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
+            lp.gravity = Gravity.START | Gravity.BOTTOM;
+            mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP,FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
+            mFam.setLayoutParams(lp);
+        }
     }
 
 

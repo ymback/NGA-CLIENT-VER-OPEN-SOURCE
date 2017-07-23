@@ -159,6 +159,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 sp.edit().putBoolean(PreferenceKey.BOTTOM_TAB, (Boolean) newValue).apply();
                 mConfiguration.setShowBottomTab((Boolean) newValue);
                 break;
+            case PreferenceKey.LEFT_HAND:
+                sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
+                mConfiguration.setLeftHandMode((Boolean) newValue);
+                break;
 
         }
         return true;

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,11 +62,20 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_topic_list,container,false);
+        if (getParentFragment() == null) {
+            return super.onCreateView(inflater,container,savedInstanceState);
+        } else {
+            return inflater.inflate(R.layout.fragment_topic_list, container, false);
+        }
     }
 
+    @Override
+    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_topic_list, container, false);
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -88,8 +98,6 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
             mAdapter.setOnItemLongClickListener(this);
         }
         mListView.setAdapter(mAdapter);
-
-
         if (mTopicListInfo != null) {
             mPresenter.jsonFinishLoad(mTopicListInfo);
         }

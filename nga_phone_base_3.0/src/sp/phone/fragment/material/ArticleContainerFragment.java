@@ -4,17 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
@@ -34,7 +39,7 @@ import sp.phone.utils.StringUtil;
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleContainerFragment extends BaseFragment implements OnThreadPageLoadFinishedListener,PagerOwner {
+public class ArticleContainerFragment extends BaseFragment implements OnThreadPageLoadFinishedListener,PagerOwner,OnClickListener {
 
     private ViewPager mViewPager;
 
@@ -49,6 +54,8 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
     private static final String GOTO_TAG = "goto";
 
     private String mTitle;
+
+    private FloatingActionsMenu mFam;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +93,33 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        updateFloatingMenu();
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+
+    private void updateFloatingMenu() {
+        mActivity.findViewById(R.id.fab_post).setOnClickListener(this);
+        mActivity.findViewById(R.id.fab_refresh).setOnClickListener(this);
+        mFam = (FloatingActionsMenu) mActivity.findViewById(R.id.fab_menu);
+        if (PhoneConfiguration.getInstance().isLeftHandMode()) {
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
+            lp.gravity = Gravity.START | Gravity.BOTTOM;
+            mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP,FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
+            mFam.setLayoutParams(lp);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        if (mFam != null) {
+            mFam.collapse();
+        }
+        super.onResume();
+    }
+
+    @Override
     public void finishLoad(ThreadData data) {
 
         mTitle = data.getThreadInfo().getSubject();
@@ -103,23 +137,29 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         mPagerAdapter.setCount(count);
     }
 
+    private void reply() {
+        Intent intent = new Intent();
+        String tid = String.valueOf(mArticleListAction.getTid());
+        intent.putExtra("prefix", "");
+        intent.putExtra("tid", tid);
+        intent.putExtra("action", "reply");
+        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+            intent.setClass(getContext(),
+                    PhoneConfiguration.getInstance().postActivityClass);
+        } else {
+            intent.setClass(getContext(),
+                    PhoneConfiguration.getInstance().loginActivityClass);
+        }
+        startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent();
         switch (item.getItemId()) {
             case R.id.menu_reply:
-                String tid = String.valueOf(mArticleListAction.getTid());
-                intent.putExtra("prefix", "");
-                intent.putExtra("tid", tid);
-                intent.putExtra("action", "reply");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-                    intent.setClass(getContext(),
-                            PhoneConfiguration.getInstance().postActivityClass);
-                } else {
-                    intent.setClass(getContext(),
-                            PhoneConfiguration.getInstance().loginActivityClass);
-                }
-                startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
+                reply();
+
                 break;
             case R.id.menu_refresh:
                 mPagerAdapter.getChildAt(mPosition).loadPage();
@@ -172,6 +212,15 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (mFam != null) {
+            menu.findItem(R.id.menu_reply).setVisible(false);
+            menu.findItem(R.id.menu_refresh).setVisible(false);
+        }
+        super.onPrepareOptionsMenu(menu);
+    }
+
     private void createGotoDialog() {
 
         int count = mPagerAdapter.getCount();
@@ -209,6 +258,19 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
     @Override
     public void setCurrentItem(int index) {
         mViewPager.setCurrentItem(index);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab_post:
+                reply();
+                break;
+            case R.id.fab_refresh:
+                mPagerAdapter.getChildAt(mPosition).loadPage();
+                mFam.collapse();
+                break;
+        }
     }
 
     //    @SuppressWarnings({"unused", "deprecation"})
