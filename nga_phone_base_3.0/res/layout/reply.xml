@@ -17,10 +17,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="5dp"
             android:layout_alignParentRight="true"
+            android:textColor="@color/black"
             android:layout_alignTop="@+id/reply_titile_edittext"
             android:layout_alignBottom="@+id/reply_titile_edittext"
             android:text="@string/anony"
-            android:textColor="@color/black"
             android:textStyle="bold" />
         <EditText
             android:id="@+id/reply_titile_edittext"
@@ -36,7 +36,6 @@
             android:inputType="textNoSuggestions"
             android:textColor="@color/black"
             android:textCursorDrawable="@null" />
-        
 
     </RelativeLayout>
 
@@ -46,20 +45,20 @@
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:hint="@string/replycontent"
         android:background="@color/white"
         android:cursorVisible="true"
         android:gravity="top|left"
-  		android:scrollbars="vertical"
+        android:hint="@string/replycontent"
         android:imeOptions="actionDone"
         android:inputType="textMultiLine|textNoSuggestions"
+        android:layerType="software"
+        android:scrollbars="vertical"
         android:textColor="@color/black"
         android:textCursorDrawable="@null" >
 
         <requestFocus />
     </EditText>
-
 
 </LinearLayout>

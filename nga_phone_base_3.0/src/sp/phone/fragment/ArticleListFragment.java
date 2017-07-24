@@ -259,10 +259,7 @@ public class ArticleListFragment extends BaseFragment implements
             if (authorid != 0) {
                 url = url + "&authorid=" + authorid;
             }
-            if (ActivityUtils.isGreaterThan_2_3_3())
-                RunParallen(task, url);
-            else
-                task.execute(url);
+            RunParallen(task, url);
         } else {
             ActivityUtils.getInstance().dismiss();
         }

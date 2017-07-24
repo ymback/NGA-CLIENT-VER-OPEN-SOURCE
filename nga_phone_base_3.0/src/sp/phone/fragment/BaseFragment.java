@@ -15,7 +15,7 @@ import gov.anzong.androidnga.activity.BaseActivity;
 /**
  * Created by liuboyu on 16/6/28.
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     protected AppCompatActivity mActivity;
 
@@ -34,7 +34,7 @@ public class BaseFragment extends Fragment {
             mToast.setText(res);
             mToast.setDuration(Toast.LENGTH_SHORT);
         } else {
-            mToast = Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(mActivity, res, Toast.LENGTH_SHORT);
         }
         mToast.show();
     }

@@ -515,9 +515,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -549,9 +547,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -582,9 +578,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());

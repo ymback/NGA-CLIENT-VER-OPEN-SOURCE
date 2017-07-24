@@ -14,7 +14,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
-import sp.phone.utils.ActivityUtils;
 
 public class ReportDialogFragment extends DialogFragment {
 
@@ -37,10 +36,7 @@ public class ReportDialogFragment extends DialogFragment {
                                 + tid + "&pid=" + pid
                                 + "&log";
                         ReportTask task = new ReportTask(getActivity());
-                        if (ActivityUtils.isGreaterThan_2_3_3())
-                            RunParallen(task, url);
-                        else
-                            task.execute(url);
+                        RunParallen(task, url);
                     }
 
                     @TargetApi(11)

@@ -26,8 +26,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     @SuppressWarnings("static-access")
     @Override
     protected void onCreate(Bundle arg0) {
-        if (ActivityUtils.isGreaterThan_2_3_3())
-            requestWindowFeature(Window.FEATURE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_PROGRESS);
         super.onCreate(arg0);
         View view = LayoutInflater.from(this).inflate(R.layout.webview_layout, null, false);
         this.setContentView(view);
@@ -35,13 +34,12 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         WebViewClient client = new ArticleListWebClient(this);
         wv.setWebViewClient(client);
         wv.getSettings().setUserAgentString(getString(R.string.clientua) + ((MyApp) getApplication()).version);
-        if (ActivityUtils.isGreaterThan_2_3_3())
-            wv.setWebChromeClient(new WebChromeClient() {
-                public void onProgressChanged(WebView view, int progress) {
+        wv.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
 
-                    WebViewerActivity.this.setProgress(progress * 100);
-                }
-            });
+                WebViewerActivity.this.setProgress(progress * 100);
+            }
+        });
 
 
     }

@@ -327,11 +327,7 @@ public class NonamePostActivity extends BasePostActivity implements
         if (uploadTask != null) {
             NonameFileUploadTask temp = uploadTask;
             uploadTask = null;
-            if (ActivityUtils.isGreaterThan_2_3_3()) {
-                RunParallel(temp);
-            } else {
-                temp.execute();
-            }
+            RunParallel(temp);
         }
         if (PhoneConfiguration.getInstance().fullscreen) {
             ActivityUtils.getInstance().setFullScreen(v);
