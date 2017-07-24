@@ -75,14 +75,6 @@ public class ActivityUtils {
         }
     }
 
-    public static boolean isGreaterThan_2_2() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.FROYO;
-    }
-
-    public static boolean isGreaterThan_2_3_3() {
-        return android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1;
-    }
-
     public static boolean isLessThan_4_4() {
         return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }

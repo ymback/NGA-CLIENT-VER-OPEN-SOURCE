@@ -194,9 +194,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         if (mActionModeCallback != null) {
             contentTV.setOnLongClickListener(new OnLongClickListener() {
 
@@ -230,9 +228,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
 
 
         WebSettings setting = contentTV.getSettings();
@@ -253,9 +249,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         if (mActionModeCallback != null) {
             contentTV.setOnLongClickListener(new OnLongClickListener() {
 
@@ -357,9 +351,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
                 || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
@@ -441,9 +433,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
                 || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
@@ -499,9 +489,7 @@ public class FunctionUtil {
         WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
         final WebView contentTV = (WebView) view.findViewById(R.id.votewebview);
         contentTV.setBackgroundColor(0);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         contentTV.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -650,9 +638,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -706,9 +692,7 @@ public class FunctionUtil {
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
-        if (ActivityUtils.isGreaterThan_2_2()) {
-            contentTV.setLongClickable(false);
-        }
+        contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());

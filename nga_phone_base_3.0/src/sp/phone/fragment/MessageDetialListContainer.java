@@ -587,11 +587,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         JsonMessageDetialLoadTask task = new JsonMessageDetialLoadTask(
                 getActivity(), callback);
         refresh_saying();
-        if (ActivityUtils.isGreaterThan_2_3_3())
-            RunParallen(task);
-        else
-            task.execute(getUrl(adapter.getNextPage(), mid, adapter.getIsEnd(),
-                    false));
+        RunParallen(task);
     }
 
     // Container Activity must implement this interface

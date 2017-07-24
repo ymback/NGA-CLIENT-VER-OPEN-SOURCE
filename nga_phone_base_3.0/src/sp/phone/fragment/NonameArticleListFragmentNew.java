@@ -242,11 +242,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                     + "&lite=js&noprefix&v2";
             if (tid != 0)
                 url = url + "&tid=" + tid;
-
-            if (ActivityUtils.isGreaterThan_2_3_3())
-                RunParallen(task, url);
-            else
-                task.execute(url);
+            RunParallen(task, url);
         } else {
             ActivityUtils.getInstance().dismiss();
         }
