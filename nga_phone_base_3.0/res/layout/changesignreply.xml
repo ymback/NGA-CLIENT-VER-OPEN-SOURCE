@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-
     <EditText
         android:id="@+id/reply_body_edittext"
         android:layout_width="match_parent"
@@ -17,8 +16,9 @@
         android:background="@color/white"
         android:cursorVisible="true"
         android:gravity="top|left"
-  		android:scrollbars="vertical"
+        android:layerType="software"
         android:imeOptions="actionDone"
+        android:scrollbars="vertical"
         android:inputType="textMultiLine|textNoSuggestions"
         android:textColor="@color/black"
         android:textCursorDrawable="@null" >
