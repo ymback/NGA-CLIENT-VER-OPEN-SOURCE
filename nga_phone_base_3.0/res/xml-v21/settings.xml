@@ -131,6 +131,12 @@
             android:key="material_mode"
             android:title="@string/setting_title_material_mode" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="hardware_accelerated"
+            android:title="@string/setting_title_hardware_accelerated"
+            android:summary="@string/setting_summary_hardware_accelerated"/>
+
         <ListSummaryPreference
             android:defaultValue="0"
             android:entries="@array/material_theme"
