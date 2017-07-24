@@ -48,11 +48,13 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void updateFullScreen(){
-        int flag;
+        int flag = 0;
         if (PhoneConfiguration.getInstance().fullscreen){
-            flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        } else {
-            flag = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
+            flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        }
+
+        if (PhoneConfiguration.getInstance().getHardwareAcceleratedMode()) {
+            flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
     }

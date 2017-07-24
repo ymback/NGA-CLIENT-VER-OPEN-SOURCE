@@ -164,6 +164,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mConfiguration.setLeftHandMode((Boolean) newValue);
                 break;
 
+            case PreferenceKey.HARDWARE_ACCELERATED:
+                sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
+                mConfiguration.setHardwareAcceleratedMode((Boolean) newValue);
+                break;
+
         }
         return true;
     }

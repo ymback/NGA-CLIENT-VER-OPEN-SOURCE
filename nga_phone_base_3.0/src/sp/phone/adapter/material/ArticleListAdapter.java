@@ -203,6 +203,15 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                 return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(null,holder.itemView,position,getItemId(position));
             }
         });
+        holder.contentTV.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mItemLongClickListener != null) {
+                    mItemLongClickListener.onItemLongClick(null,holder.itemView,position,getItemId(position));
+                }
+                return true;
+            }
+        });
     }
 
     public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {

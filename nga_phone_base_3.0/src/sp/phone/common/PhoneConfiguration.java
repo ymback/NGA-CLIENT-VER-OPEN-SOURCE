@@ -126,6 +126,8 @@ public class PhoneConfiguration implements PreferenceKey {
 
     private boolean mLeftHandMode;
 
+    private boolean mHaMode;
+
 
     private static class PhoneConfigurationHolder {
 
@@ -158,6 +160,14 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public void setLeftHandMode(boolean leftHandMode) {
         mLeftHandMode = leftHandMode;
+    }
+
+    public void setHardwareAcceleratedMode(boolean value) {
+        mHaMode = value;
+    }
+
+    public boolean getHardwareAcceleratedMode() {
+        return mHaMode;
     }
 
     public String getDb_Cookie() {

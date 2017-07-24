@@ -63,4 +63,6 @@ public interface PreferenceKey {
     String BOTTOM_TAB = "bottom_tab";
 
     String LEFT_HAND = "left_hand";
+
+    String HARDWARE_ACCELERATED = "hardware_accelerated";
 }
