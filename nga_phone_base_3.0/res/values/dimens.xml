@@ -6,4 +6,7 @@
 
     <dimen name="article_list_tab_height">40dp</dimen>
 
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+
 </resources>
