@@ -383,7 +383,14 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String fidString = (String) parent.getItemAtPosition(position);
+
+        String fidString;
+        if (parent != null) {
+             fidString = (String) parent.getItemAtPosition(position);
+        } else {
+            fidString = String.valueOf(id);
+        }
+
         mPresenter.toTopicListPage(position,fidString);
     }
 }

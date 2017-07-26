@@ -41,4 +41,8 @@ public class DeviceUtils {
         NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
         return networkInfo.getState() == NetworkInfo.State.CONNECTED || networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
+
+    public static boolean isLandscape(Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
 }

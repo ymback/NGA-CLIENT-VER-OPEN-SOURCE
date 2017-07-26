@@ -3,27 +3,32 @@ package sp.phone.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.BoardCategoryAdapter;
 import sp.phone.bean.BoardCategory;
+import sp.phone.utils.DeviceUtils;
 
 public class BoardCategoryFragment extends Fragment {
 
     private static final String TAG = BoardCategoryFragment.class.getSimpleName();
 
-    private GridView mListView;
+    private RecyclerView mListView;
 
-    private BaseAdapter mAdapter;
+    private BoardCategoryAdapter mAdapter;
 
     private BoardCategory mBoardCategory;
+
+    private static final int COLUMN_NUMBER = 3;
+
+    private static final int COLUMN_NUMBER_LAND = 5;
 
     public static Fragment newInstance(BoardCategory category) {
         Fragment f = new BoardCategoryFragment();
@@ -47,12 +52,19 @@ public class BoardCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mListView = (GridView) inflater.inflate(R.layout.category_grid, container, false);
-        return mListView;
+        return inflater.inflate(R.layout.fragment_board_category,container,false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        mListView = (RecyclerView) view.findViewById(R.id.list);
+        if (DeviceUtils.isLandscape(getContext())) {
+            mListView.setLayoutManager(new GridLayoutManager(getContext(),COLUMN_NUMBER_LAND));
+        } else {
+            mListView.setLayoutManager(new GridLayoutManager(getContext(),COLUMN_NUMBER));
+        }
+
         super.onViewCreated(view, savedInstanceState);
         OnItemClickListener listener = null;
         if (getParentFragment() instanceof OnItemClickListener) {
@@ -64,10 +76,8 @@ public class BoardCategoryFragment extends Fragment {
                     "Activity or parentFragment should implements "
                             + OnItemClickListener.class.getSimpleName());
         }
-
-        mListView.setOnItemClickListener(listener);
-
         mAdapter = new BoardCategoryAdapter(getActivity(),mBoardCategory);
+        mAdapter.setOnItemClickListener(listener);
 
         mListView.setAdapter(mAdapter);
     }
