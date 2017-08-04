@@ -1,7 +1,6 @@
 package sp.phone.presenter;
 
 import android.content.Context;
-import android.widget.AdapterView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -76,7 +75,7 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
     @Override
     public void removeBookmark(String tidId,int position) {
         DeleteBookmarkTask task = new DeleteBookmarkTask(
-                mView.getContext(), (AdapterView<?>) mView.getTopicListView(), position);
+                mView.getContext(), mView.getTopicListView(), position);
         task.execute(tidId);
     }
 

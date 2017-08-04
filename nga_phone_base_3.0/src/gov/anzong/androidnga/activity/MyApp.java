@@ -700,6 +700,7 @@ public class MyApp extends Application implements PreferenceKey {
         tm.setTheme(Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME,"0")));
         config.setShowBottomTab(sp.getBoolean(PreferenceKey.BOTTOM_TAB,false));
         config.setLeftHandMode(sp.getBoolean(PreferenceKey.LEFT_HAND,false));
+        config.setHardwareAcceleratedMode(sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED,true));
 
         SharedPreferences share = getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);

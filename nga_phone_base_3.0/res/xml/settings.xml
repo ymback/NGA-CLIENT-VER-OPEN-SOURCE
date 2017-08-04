@@ -102,6 +102,11 @@
             android:key="showSignature"
             android:title="@string/showSignature" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="left_hand"
+            android:title="@string/setting_title_left_hand" />
+
         <SwitchCompatPreference
             android:defaultValue="false"
             android:key="showStatic"
@@ -117,17 +122,27 @@
             android:key="showReplyButton"
             android:title="@string/addreplybutton" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="bottom_tab"
+            android:title="@string/setting_title_bottom_tab"/>
+
+        <android.preference.SwitchCompatPreference
+            android:key="material_mode"
+            android:title="@string/setting_title_material_mode" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="hardware_accelerated"
+            android:title="@string/setting_title_hardware_accelerated"
+            android:summary="@string/setting_summary_hardware_accelerated"/>
+
         <ListSummaryPreference
             android:defaultValue="0"
             android:entries="@array/material_theme"
             android:entryValues="@array/material_theme_value"
             android:key="material_theme"
             android:title="@string/setting_title_material_theme" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="bottom_tab"
-            android:title="@string/setting_title_bottom_tab"/>
 
         <PreferenceScreen
             android:fragment="sp.phone.fragment.material.SettingsSizeFragment"

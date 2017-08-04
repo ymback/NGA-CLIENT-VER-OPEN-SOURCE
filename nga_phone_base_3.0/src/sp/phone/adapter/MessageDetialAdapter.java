@@ -149,9 +149,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
             holder.postTime = postTime;
             holder.avatarImage = avatarImage;
             holder.content = content;
-            if (ActivityUtils.isGreaterThan_2_2()) {
-                holder.content.setLongClickable(false);
-            }
+            holder.content.setLongClickable(false);
             convertView.setTag(holder);
 
         } else {

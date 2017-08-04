@@ -63,7 +63,6 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import gov.anzong.meizi.SplitMeiziMainActivity;
 import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
-import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.StringUtil;
 
 public class PhoneConfiguration implements PreferenceKey {
@@ -126,6 +125,8 @@ public class PhoneConfiguration implements PreferenceKey {
 
     private boolean mLeftHandMode;
 
+    private boolean mHaMode;
+
 
     private static class PhoneConfigurationHolder {
 
@@ -158,6 +159,14 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public void setLeftHandMode(boolean leftHandMode) {
         mLeftHandMode = leftHandMode;
+    }
+
+    public void setHardwareAcceleratedMode(boolean value) {
+        mHaMode = value;
+    }
+
+    public boolean getHardwareAcceleratedMode() {
+        return mHaMode;
     }
 
     public String getDb_Cookie() {
@@ -193,7 +202,7 @@ public class PhoneConfiguration implements PreferenceKey {
     }
 
     public boolean isMaterialMode(){
-        return materialMode && DeviceUtils.isGreaterEqual_5_0();
+        return materialMode;
     }
 
     public void setMaterialMode(boolean materialMode){

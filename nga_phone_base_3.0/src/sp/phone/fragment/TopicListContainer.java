@@ -512,10 +512,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     public void loadNextPage(OnTopListLoadFinishedListener callback) {
         JsonTopicListLoadTask task = new JsonTopicListLoadTask(getActivity(), callback);
         refresh_saying();
-        if (ActivityUtils.isGreaterThan_2_3_3())
-            RunParallen(task);
-        else
-            task.execute(getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));
+        RunParallen(task);
     }
 
     // Container Activity must implement this interface
