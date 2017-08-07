@@ -145,4 +145,9 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
     public Context getContext() {
         return null;
     }
+
+    @Override
+    public void setView(Object view) {
+
+    }
 }

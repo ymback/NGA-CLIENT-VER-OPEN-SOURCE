@@ -223,4 +223,9 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
     public Context getContext() {
         return mView.getContext();
     }
+
+    @Override
+    public void setView(Object view) {
+
+    }
 }

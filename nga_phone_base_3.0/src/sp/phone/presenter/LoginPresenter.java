@@ -47,9 +47,19 @@ public class LoginPresenter implements LoginContract.Presenter {
         mModel = new LoginModel(this);
     }
 
+    public LoginPresenter() {
+        mModel = new LoginModel(this);
+
+    }
+
     @Override
     public Context getContext() {
         return mView.getContext();
+    }
+
+    @Override
+    public void setView(LoginContract.View view) {
+        mView = view;
     }
 
     @Override
