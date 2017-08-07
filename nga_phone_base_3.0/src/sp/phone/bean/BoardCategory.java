@@ -10,13 +10,27 @@ public class BoardCategory implements Parcelable{
 
     private List<Board> mBoardList;
 
+    private String mCategoryName;
+
+    private int mCategoryIndex;
+
     public BoardCategory() {
         mBoardList = new ArrayList<>();
     }
 
+    public BoardCategory(String name) {
+        mBoardList = new ArrayList<>();
+        mCategoryName = name;
+    }
 
     protected BoardCategory(Parcel in) {
         mBoardList = in.createTypedArrayList(Board.CREATOR);
+        mCategoryName = in.readString();
+        mCategoryIndex = in.readInt();
+    }
+
+    public String getName() {
+        return mCategoryName;
     }
 
     public static final Creator<BoardCategory> CREATOR = new Creator<BoardCategory>() {
@@ -31,19 +45,17 @@ public class BoardCategory implements Parcelable{
         }
     };
 
-    /**
-     * @return the boardList
-     */
-    public List<Board> getBoardList() {
-        return mBoardList;
+    public void setCategoryIndex(int index) {
+        mCategoryIndex = index;
+    }
+
+    public int getCategoryIndex() {
+        return mCategoryIndex;
     }
 
 
-    /**
-     * @param boardList the boardList to set
-     */
-    public void setBoardList(List<Board> boardList) {
-        mBoardList = boardList;
+    public List<Board> getBoardList() {
+        return mBoardList;
     }
 
 
@@ -56,23 +68,27 @@ public class BoardCategory implements Parcelable{
     }
 
     public void remove(String fid) {
-        for (Board b : mBoardList) {
-            if (b.getUrl().equals(fid)) {
-                mBoardList.remove(b);
+        for (Board board : mBoardList) {
+            if (board.getUrl().equals(fid)) {
+                mBoardList.remove(board);
                 break;
             }
         }
 
     }
 
+    public void remove(int index) {
+        mBoardList.remove(index);
+    }
+
+    public void removeAll() {
+        mBoardList.clear();
+    }
+
     public void add(Board board) {
+        board.setCategory(mCategoryIndex);
         mBoardList.add(board);
     }
-
-    public void addFront(Board board) {
-        mBoardList.add(0,board);
-    }
-
 
     @Override
     public int describeContents() {
@@ -82,5 +98,7 @@ public class BoardCategory implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(mBoardList);
+        dest.writeString(mCategoryName);
+        dest.writeInt(mCategoryIndex);
     }
 }
