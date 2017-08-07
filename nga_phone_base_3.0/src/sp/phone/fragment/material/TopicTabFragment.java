@@ -22,8 +22,9 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.TopicViewPagerAdapter;
-import sp.phone.bean.BoardHolder;
 import sp.phone.bean.TopicListRequestInfo;
+import sp.phone.common.BoardManager;
+import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
@@ -52,15 +53,21 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
 
     private FloatingActionsMenu mFam;
 
+    private String mBoardName;
+
+    private BoardManager mBoardManager;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutId(R.layout.fragment_material_topic_list);
+        mBoardManager = BoardManagerImpl.getInstance();
         mRequestInfo = getArguments().getParcelable("requestInfo");
-        if (mRequestInfo.fid != 0) {
-            String boardName = BoardHolder.boardNameMap.get(mRequestInfo.fid);
-            if (null != boardName) {
-                getActivity().setTitle(boardName);
+        mBoardName = mRequestInfo.boardName;
+        if (mBoardName == null) {
+            mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
+            if (mBoardName != null) {
+                getActivity().setTitle(mBoardName);
             }
         }
     }
@@ -127,6 +134,21 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (mBoardName == null) {
+            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+        } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
+            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+            menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+        } else {
+            menu.findItem(R.id.menu_add_bookmark).setVisible(true);
+            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+        }
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.threadlist_menu_newthread:
@@ -151,6 +173,11 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                     }
                 }
                 break;
+            case R.id.menu_add_bookmark:
+                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
+                break;
+            case R.id.menu_remove_bookmark:
+                mBoardManager.removeBookmark(String.valueOf(mRequestInfo.fid));
             default:
                 return false;
         }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.BoardCategory;
+import sp.phone.common.PhoneConfiguration;
 
 public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdapter.BoardViewHolder> {
 
@@ -82,11 +83,22 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
     private Drawable getDrawable(int position) {
         Drawable drawable;
-        int resId = mCategory.get(position).getIcon();
-        if (resId != 0) {// default board
+        String resName;
+        if (PhoneConfiguration.getInstance().iconmode) {
+            resName = "oldp"+ mCategory.get(position).getIconOld();
+        } else {
+            resName = "p"+ mCategory.get(position).getIcon();
+        }
+
+        int resId = mActivity.getResources().getIdentifier(resName,"drawable",mActivity.getPackageName());
+        if (resId != 0) {
             drawable = ContextCompat.getDrawable(mActivity,resId);
-        } else {// optional board
-            drawable = ContextCompat.getDrawable(mActivity,R.drawable.pdefault);
+        } else {
+            if (PhoneConfiguration.getInstance().iconmode) {
+                drawable = ContextCompat.getDrawable(mActivity, R.drawable.oldpdefault);
+            } else {
+                drawable = ContextCompat.getDrawable(mActivity, R.drawable.pdefault);
+            }
         }
         return drawable;
     }

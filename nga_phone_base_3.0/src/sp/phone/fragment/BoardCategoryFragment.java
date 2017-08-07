@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.BoardCategoryAdapter;
 import sp.phone.bean.BoardCategory;
+import sp.phone.common.BoardManagerImpl;
 import sp.phone.utils.DeviceUtils;
 
 public class BoardCategoryFragment extends Fragment {
@@ -78,6 +80,27 @@ public class BoardCategoryFragment extends Fragment {
         }
         mAdapter = new BoardCategoryAdapter(getActivity(),mBoardCategory);
         mAdapter.setOnItemClickListener(listener);
+
+        if (mBoardCategory.getCategoryIndex() == 0) {
+            ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN|ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT,ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    BoardManagerImpl.getInstance().swapBookmark(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+                    mListView.getAdapter().notifyItemMoved(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+                    return true;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    BoardManagerImpl.getInstance().removeBookmark(viewHolder.getAdapterPosition());
+                    mListView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
+
+                }
+            });
+            touchHelper.attachToRecyclerView(mListView);
+        }
+
+
 
         mListView.setAdapter(mAdapter);
     }

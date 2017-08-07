@@ -3,7 +3,6 @@ package sp.phone.fragment.material;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -16,26 +15,16 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-
-import java.util.List;
-
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.SettingsActivity;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import sp.phone.bean.Board;
-import sp.phone.bean.BoardCategory;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
-import sp.phone.fragment.AlertDialogFragment;
-import sp.phone.utils.StringUtil;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -169,64 +158,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mConfiguration.setHardwareAcceleratedMode((Boolean) newValue);
                 break;
 
+            case PreferenceKey.SHOW_ICON_MODE:
+                mConfiguration.iconmode = (boolean) newValue;
+                getActivity().setResult(Activity.RESULT_OK);
+                break ;
         }
         return true;
-    }
-
-    private void showIconModeAlertDialog(final SwitchPreference preference, final boolean isChecked){
-        String alertString = getString(R.string.change_icon_string);
-        final AlertDialogFragment f = AlertDialogFragment
-                .create(alertString);
-        f.setOkListener(new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mConfiguration.iconmode = isChecked;
-                SharedPreferences share = mContext.getSharedPreferences(
-                        PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
-                String addFidStr = share.getString(PreferenceKey.ADD_FID, "");
-                List<Board> addFidList;
-                BoardCategory addFid = new BoardCategory();
-                int iconInt;
-                if (isChecked) {
-                    iconInt = R.drawable.oldpdefault;
-                } else {
-                    iconInt = R.drawable.pdefault;
-                }
-                if (!StringUtil.isEmpty(addFidStr)) {
-                    addFidList = JSON
-                            .parseArray(addFidStr, Board.class);
-                    if (addFidList != null) {
-                        int i = 11;// 新增大板块后此处+1
-                        for (int j = 0; j < addFidList.size(); j++) {
-                            addFid.add(new Board(i, addFidList.get(j)
-                                    .getUrl(), addFidList.get(j)
-                                    .getName(), iconInt));
-                        }
-                        addFidStr = JSON.toJSONString(addFid
-                                .getBoardList());
-                    }
-                }
-                SharedPreferences.Editor editor = share.edit();
-                editor.putBoolean(PreferenceKey.SHOW_ICON_MODE, isChecked);
-                editor.putString(PreferenceKey.RECENT_BOARD, "");
-                editor.putString(PreferenceKey.ADD_FID, addFidStr);
-                editor.apply();
-                getActivity().setResult(Activity.RESULT_OK);
-
-            }
-
-        });
-        f.setCancleListener(new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                preference.setChecked(!isChecked);
-                f.dismiss();
-            }
-
-        });
-        f.show(((SettingsActivity)getActivity()).getSupportFragmentManager(), ALERT_DIALOG_TAG);
     }
 
     private void showBlackGunSound(int which){
@@ -341,9 +278,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         switch (preference.getKey()){
             case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
                 Toast.makeText(mContext,R.string.image_quality_claim,Toast.LENGTH_SHORT).show();
-                break;
-            case PreferenceKey.SHOW_ICON_MODE:
-                showIconModeAlertDialog((SwitchPreference) preference,preference.getSharedPreferences().getBoolean(preference.getKey(),false));
                 break;
             case PhoneConfiguration.ADJUST_SIZE:
                 FragmentManager fm = getActivity().getFragmentManager();

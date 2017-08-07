@@ -65,4 +65,6 @@ public interface PreferenceKey {
     String LEFT_HAND = "left_hand";
 
     String HARDWARE_ACCELERATED = "hardware_accelerated";
+
+    String BOOKMARK_BOARD = "bookmark_board";
 }
