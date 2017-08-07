@@ -42,6 +42,11 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
     }
 
     @Override
+    public void setView(Object view) {
+
+    }
+
+    @Override
     public void loadBoardInfo() {
 
     }

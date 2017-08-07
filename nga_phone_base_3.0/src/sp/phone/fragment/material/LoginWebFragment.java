@@ -17,7 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.BaseFragment;
+import sp.phone.fragment.BaseMvpFragment;
 import sp.phone.presenter.contract.LoginContract;
 import sp.phone.utils.StringUtil;
 
@@ -25,7 +25,7 @@ import sp.phone.utils.StringUtil;
  * Created by Yang Yihang on 2017/7/5.
  */
 
-public class LoginWebFragment extends BaseFragment implements LoginContract.View{
+public class LoginWebFragment extends BaseMvpFragment implements LoginContract.View{
 
     private ProgressBar mProgressBar;
 
@@ -74,14 +74,28 @@ public class LoginWebFragment extends BaseFragment implements LoginContract.View
         }
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_login_web,container,false);
     }
 
+
+    @Override
+    public void onResume() {
+        initPresenter();
+        super.onResume();
+    }
+
+    private void initPresenter() {
+        mPresenter = (LoginContract.Presenter) getPresenter();
+        mPresenter.setView(this);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         WebView webView = (WebView) view.findViewById(R.id.webview);
         webView.setWebChromeClient(new LoginWebChromeClient());
         webView.setWebViewClient(new LoginWebViewClient());
@@ -98,7 +112,7 @@ public class LoginWebFragment extends BaseFragment implements LoginContract.View
     @Override
     public void setPresenter(LoginContract.Presenter presenter) {
 
-        mPresenter = presenter;
+  //      mPresenter = presenter;
     }
 
     @Override
@@ -123,6 +137,11 @@ public class LoginWebFragment extends BaseFragment implements LoginContract.View
         }
     }
 
+
+    @Override
+    protected Class getPresenterClass() {
+        return sp.phone.presenter.LoginPresenter.class;
+    }
 
 
 }

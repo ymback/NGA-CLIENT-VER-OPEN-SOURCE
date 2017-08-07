@@ -12,7 +12,7 @@ import sp.phone.model.LoginModel;
 
 public interface LoginContract {
 
-    interface Presenter extends BaseContract.Presenter {
+    interface Presenter extends BaseContract.Presenter<View> {
 
         void loadAuthCode();
 

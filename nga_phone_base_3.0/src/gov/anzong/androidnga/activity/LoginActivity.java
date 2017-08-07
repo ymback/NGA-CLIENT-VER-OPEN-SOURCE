@@ -9,8 +9,6 @@ import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.fragment.material.LoginFragment;
 import sp.phone.fragment.material.LoginWebFragment;
-import sp.phone.presenter.LoginPresenter;
-import sp.phone.presenter.contract.LoginContract;
 
 public class LoginActivity extends SwipeBackAppCompatActivity {
 
@@ -32,8 +30,6 @@ public class LoginActivity extends SwipeBackAppCompatActivity {
             fragment = new LoginWebFragment();
             fm.beginTransaction().replace(R.id.container,fragment,LoginFragment.class.getSimpleName()).commit();
         }
-        LoginPresenter presenter = new LoginPresenter((LoginContract.View) fragment);
-        presenter.setLoginAction(getLoginAction());
     }
 
 

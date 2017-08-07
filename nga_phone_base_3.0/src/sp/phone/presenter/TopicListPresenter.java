@@ -138,4 +138,9 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
     public Context getContext() {
         return null;
     }
+
+    @Override
+    public void setView(Object view) {
+
+    }
 }

@@ -8,9 +8,11 @@ import android.content.Context;
 
 public interface BaseContract {
 
-    interface Presenter {
+    interface Presenter<T> {
 
         Context getContext();
+
+        void setView(T view);
 
     }
 
