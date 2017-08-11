@@ -29,6 +29,8 @@ public class TopicListRequestInfo implements Cloneable,Parcelable {
 
     public boolean searchMode;
 
+    public String boardName;
+
     protected TopicListRequestInfo(Parcel in) {
         authorId = in.readInt();
         searchPost = in.readInt();
@@ -40,6 +42,7 @@ public class TopicListRequestInfo implements Cloneable,Parcelable {
         fidGroup = in.readString();
         author = in.readString();
         searchMode = in.readByte() != 0;
+        boardName = in.readString();
     }
 
     public  TopicListRequestInfo() {
@@ -57,6 +60,7 @@ public class TopicListRequestInfo implements Cloneable,Parcelable {
         dest.writeString(fidGroup);
         dest.writeString(author);
         dest.writeByte((byte) (searchMode ? 1 : 0));
+        dest.writeString(boardName);
     }
 
     @Override

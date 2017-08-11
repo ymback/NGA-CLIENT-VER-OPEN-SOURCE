@@ -2,6 +2,18 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/menu_add_bookmark"
+        android:title="添加收藏"
+        androidnga:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_remove_bookmark"
+        android:title="移除收藏"
+        androidnga:showAsAction="never" />
+
     <item
         android:id="@+id/goto_bookmark_item"
         android:icon="@drawable/ic_bookmark"

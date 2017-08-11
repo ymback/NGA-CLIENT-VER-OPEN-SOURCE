@@ -92,13 +92,13 @@ public class BoardHolder {
             mBoardInfo.put(category, new BoardCategory());
         }
 
-        mBoardInfo.get(category).add(board);
-        try {
-            int fid = Integer.parseInt(board.getUrl());
-            boardNameMap.put(fid, board.getName());
-        } catch (Exception e) {
-
-        }
+//        mBoardInfo.get(category).add(board);
+//        try {
+//            int fid = Integer.parseInt(board.getUrl());
+//            boardNameMap.put(fid, board.getName());
+//        } catch (Exception e) {
+//
+//        }
 
     }
 

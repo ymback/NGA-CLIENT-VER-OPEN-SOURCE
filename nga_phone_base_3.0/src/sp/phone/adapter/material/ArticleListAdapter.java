@@ -13,7 +13,6 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -65,7 +64,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
-        RelativeLayout articlelistrelativelayout;
         TextView nickNameTV;
         ImageView avatarIV;
         WebView contentTV;
@@ -85,7 +83,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         }
 
         private void initHolder(final View view) {
-            articlelistrelativelayout = (RelativeLayout) view.findViewById(R.id.articlelistrelativelayout);
             nickNameTV = (TextView) view.findViewById(R.id.nickName);
             avatarIV = (ImageView) view.findViewById(R.id.avatarImage);
             floorTV = (TextView) view.findViewById(R.id.floor);

@@ -4,32 +4,36 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Board implements Parcelable {
+
     private int category;
+
     private String url;
+
     private String name;
+
     private int icon;
 
+    private int iconOld;
+
     public Board() {
-        this(0, "0", "invalid", 0);
 
     }
 
 
-    public Board(int category, String url, String name, int icon) {
-        this.category = category;
-        this.url = url;
+    public Board(String url, String name, int icon,int iconOld) {
         this.name = name;
+        this.url = url;
         this.icon = icon;
+        this.iconOld = iconOld;
     }
-
 
     public Board(String url, String name, int icon) {
-        this(0, url, name, icon);
+        this(url,name,icon,0);
     }
 
 
     public Board(String url, String name) {
-        this(0, url, name, 0);
+        this(url,name,0,0);
     }
 
     protected Board(Parcel in) {
@@ -37,6 +41,7 @@ public class Board implements Parcelable {
         url = in.readString();
         name = in.readString();
         icon = in.readInt();
+        iconOld = in.readInt();
     }
 
     public static final Creator<Board> CREATOR = new Creator<Board>() {
@@ -50,6 +55,29 @@ public class Board implements Parcelable {
             return new Board[size];
         }
     };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(category);
+        dest.writeString(url);
+        dest.writeString(name);
+        dest.writeInt(icon);
+        dest.writeInt(iconOld);
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
 
     public String getUrl() {
         return url;
@@ -75,33 +103,11 @@ public class Board implements Parcelable {
         this.icon = icon;
     }
 
-
-    /**
-     * @return the category
-     */
-    public int getCategory() {
-        return category;
+    public int getIconOld() {
+        return iconOld;
     }
 
-
-    /**
-     * @param category the category to set
-     */
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(category);
-        dest.writeString(url);
-        dest.writeString(name);
-        dest.writeInt(icon);
+    public void setIconOld(int iconOld) {
+        this.iconOld = iconOld;
     }
 }
