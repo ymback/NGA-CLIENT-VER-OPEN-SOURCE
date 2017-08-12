@@ -82,7 +82,7 @@ public class BoardCategoryFragment extends Fragment {
         mAdapter.setOnItemClickListener(listener);
 
         if (mBoardCategory.getCategoryIndex() == 0) {
-            ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN|ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT,ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+            ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN|ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT,0) {
                 @Override
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                     BoardManagerImpl.getInstance().swapBookmark(viewHolder.getAdapterPosition(),target.getAdapterPosition());

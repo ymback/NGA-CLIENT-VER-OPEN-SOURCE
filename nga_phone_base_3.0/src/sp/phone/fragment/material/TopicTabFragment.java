@@ -57,6 +57,8 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
 
     private BoardManager mBoardManager;
 
+    private Menu mOptionMenu;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +126,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.topic_list_menu, menu);
+        mOptionMenu = menu;
     }
 
 
@@ -175,9 +178,16 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                 break;
             case R.id.menu_add_bookmark:
                 mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+                showToast(R.string.toast_add_bookmark_board);
                 break;
             case R.id.menu_remove_bookmark:
                 mBoardManager.removeBookmark(String.valueOf(mRequestInfo.fid));
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
+                showToast(R.string.toast_remove_bookmark_board);
+                break;
             default:
                 return false;
         }
