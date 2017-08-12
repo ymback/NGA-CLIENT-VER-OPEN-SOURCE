@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_search"
-        android:icon="@drawable/ic_search_24dp"
+        android:icon="@drawable/btn_ic_search"
         android:showAsAction="never"
         android:title="搜索用户"
         androidnga:showAsAction="ifRoom" />

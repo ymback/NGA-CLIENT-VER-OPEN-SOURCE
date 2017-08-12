@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:androidnga="http://schemas.android.com/apk/res-auto">
 
 
     <item
         android:id="@+id/menu_add_bookmark"
-        android:title="添加收藏"
-        androidnga:showAsAction="never" />
+        android:icon="@drawable/btn_ic_star_off"
+        android:title="@string/menu_add_bookmark_board"
+        androidnga:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_remove_bookmark"
-        android:title="移除收藏"
-        androidnga:showAsAction="never" />
+        android:icon="@drawable/btn_ic_star_on"
+        android:title="@string/menu_remove_bookmark_board"
+        androidnga:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/btn_ic_search"
+        android:title="@string/menu_search"
+        androidnga:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/goto_bookmark_item"
-        android:icon="@drawable/ic_bookmark"
-        android:title="@string/goto_bookmark"
-        androidnga:showAsAction="never"
-        android:showAsAction="never" />
-    <item
-        android:id="@+id/search"
-        android:title="@string/search"
-        android:icon="@drawable/action_search"
-        androidnga:showAsAction="never"
-        android:showAsAction="never" />
-    <item
-        android:id="@+id/threadlist_menu_newthread"
-        android:title="@string/new_thread"
-        android:icon="@drawable/content_edit"
-        androidnga:showAsAction="ifRoom"
-        android:visible="false"
-        android:showAsAction="always" />
+        android:icon="@drawable/btn_ic_collections"
+        android:title="@string/menu_bookmark_post"
+        androidnga:showAsAction="ifRoom" />
+
 
 </menu>
