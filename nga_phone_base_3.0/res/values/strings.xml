@@ -333,4 +333,12 @@
     <string name="setting_title_left_hand">左手模式</string>
     <string name="setting_title_hardware_accelerated">硬件加速</string>
     <string name="setting_summary_hardware_accelerated">主题详情页面闪退可尝试关闭此项</string>
+
+    <string name="menu_add_bookmark_board">添加至我的收藏</string>
+    <string name="menu_remove_bookmark_board">取消收藏</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_bookmark_post">收藏夹</string>
+
+    <string name="toast_add_bookmark_board">添加至我的收藏</string>
+    <string name="toast_remove_bookmark_board">取消收藏</string>
 </resources>
