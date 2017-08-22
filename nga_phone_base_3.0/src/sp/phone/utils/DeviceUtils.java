@@ -39,7 +39,9 @@ public class DeviceUtils {
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
-        return networkInfo.getState() == NetworkInfo.State.CONNECTED || networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        return networkInfo != null
+                && networkInfo.isConnected()
+                && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     public static boolean isLandscape(Context context) {
