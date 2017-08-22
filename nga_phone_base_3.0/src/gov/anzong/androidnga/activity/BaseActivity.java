@@ -13,9 +13,9 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
+import sp.phone.utils.ActivityUtils;
 
 import static sp.phone.common.PreferenceKey.NIGHT_MODE;
 import static sp.phone.common.PreferenceKey.PERFERENCE;
