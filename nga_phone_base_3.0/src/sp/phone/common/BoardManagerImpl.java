@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.alibaba.fastjson.JSON;
-import com.mahang.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -262,10 +261,11 @@ public class BoardManagerImpl implements BoardManager {
         SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         BoardCategory category = new BoardCategory("我的收藏");
         String bookmarkStr = sp.getString(PreferenceKey.BOOKMARK_BOARD, null);
-        LogUtils.d(bookmarkStr);
         if (bookmarkStr != null) {
             List<Board> boards = JSON.parseArray(bookmarkStr, Board.class);
-            category.getBoardList().addAll(boards);
+            if (!boards.isEmpty()) {
+                category.getBoardList().addAll(boards);
+            }
         }
         mCategoryList.add(category);
 
