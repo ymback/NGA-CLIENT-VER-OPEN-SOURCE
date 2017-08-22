@@ -16,7 +16,7 @@ import gov.anzong.meizi.MeiziTopicMData.ContentItemType;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class HTMLMeiziTopicLoadTask extends
         AsyncTask<String, Integer, MeiziTopicMData> {
@@ -42,7 +42,7 @@ public class HTMLMeiziTopicLoadTask extends
         String htmlString;
         htmlString = MeiziHttpUtil.getHtmlFormeizi(url, PhoneConfiguration
                 .getInstance().getDb_Cookie());
-        if (!StringUtil.isEmpty(htmlString)) {
+        if (!StringUtils.isEmpty(htmlString)) {
             MeiziTopicMData resulTopicM = null;
             if (url.toLowerCase(Locale.US).indexOf("rosmm") > 0) {
                 RosMMTopicDecoder mDecoder = new RosMMTopicDecoder();
@@ -83,8 +83,8 @@ public class HTMLMeiziTopicLoadTask extends
             // get title string
             resulTopicM.title = document.select("div.post-title").select("h1")
                     .html().trim();
-            if (!StringUtil.isEmpty(resulTopicM.title)) {
-                resulTopicM.title = StringUtil.getStringBetween(
+            if (!StringUtils.isEmpty(resulTopicM.title)) {
+                resulTopicM.title = StringUtils.getStringBetween(
                         resulTopicM.title, 0, "/span>", "/*&*&--/").result;
             }
             // get post time

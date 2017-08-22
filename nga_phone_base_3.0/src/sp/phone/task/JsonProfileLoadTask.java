@@ -19,7 +19,7 @@ import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonProfileLoadTask extends
         AsyncTask<String, Integer, ProfileData> {
@@ -117,25 +117,25 @@ public class JsonProfileLoadTask extends
             return null;
         }
 
-        if (!StringUtil.isEmpty(o0.getString("uid"))) {
+        if (!StringUtils.isEmpty(o0.getString("uid"))) {
             ret.set_uid(o0.getString("uid"));
         } else {
             ret.set_uid("未知");
         }
-        if (!StringUtil.isEmpty(o0.getString("username"))) {
+        if (!StringUtils.isEmpty(o0.getString("username"))) {
             ret.set_username(o0.getString("username"));
         } else {
             ret.set_uid("未知");
         }
-        if (!StringUtil.isEmpty(o0.getString("email"))) {
+        if (!StringUtils.isEmpty(o0.getString("email"))) {
             ret.set_hasemail(true, o0.getString("email"));
         }
-        if (!StringUtil.isEmpty(o0.getString("fame"))) {
+        if (!StringUtils.isEmpty(o0.getString("fame"))) {
             ret.set_fame(o0.getString("fame"));
         } else {
             ret.set_fame("0");
         }
-        if (!StringUtil.isEmpty(o0.getString("phone"))) {
+        if (!StringUtils.isEmpty(o0.getString("phone"))) {
             ret.set_hastel(true, o0.getString("phone"));
         }
         String group = null;
@@ -145,58 +145,58 @@ public class JsonProfileLoadTask extends
         if (o0.getString("groupid") != null) {
             group = group + " (" + o0.getString("groupid") + ")";
         }
-        if (!StringUtil.isEmpty(group)) {
+        if (!StringUtils.isEmpty(group)) {
             ret.set_group(group);
         } else {
             ret.set_group("未知");
         }
-        if (!StringUtil.isEmpty(o0.getString("posts"))) {
+        if (!StringUtils.isEmpty(o0.getString("posts"))) {
             ret.set_posts(o0.getString("posts"));
         } else {
             ret.set_posts("0");
         }
-        if (!StringUtil.isEmpty(o0.getString("money"))) {
+        if (!StringUtils.isEmpty(o0.getString("money"))) {
             ret.set_money(o0.getString("money"));
         } else {
             ret.set_money("0");
         }
-        if (!StringUtil.isEmpty(o0.getString("title"))) {
+        if (!StringUtils.isEmpty(o0.getString("title"))) {
             String title = o0.getString("title");
             title = title.substring(title.lastIndexOf(" ") + 1, title.length());
             ret.set_title(title);
         } else {
             ret.set_title("无");
         }
-        if (!StringUtil.isEmpty(o0.getString("verified"))) {
+        if (!StringUtils.isEmpty(o0.getString("verified"))) {
             ret.set_verified(o0.getString("verified"));
         } else {
             ret.set_verified("1");
         }
-        if (!StringUtil.isEmpty(o0.getString("muteTime"))) {
+        if (!StringUtils.isEmpty(o0.getString("muteTime"))) {
             if (o0.getString("muteTime").equals("0")) {
                 ret.set_muteTime("-1");
             } else {
-                ret.set_muteTime("禁言至: " + StringUtil.TimeStamp2Date(o0.getString("muteTime")));
+                ret.set_muteTime("禁言至: " + StringUtils.TimeStamp2Date(o0.getString("muteTime")));
             }
         } else {
             ret.set_muteTime("-1");
         }
-        if (!StringUtil.isEmpty(o0.getString("regdate"))) {
-            ret.set_regdate(StringUtil.TimeStamp2Date(o0.getString("regdate")));
+        if (!StringUtils.isEmpty(o0.getString("regdate"))) {
+            ret.set_regdate(StringUtils.TimeStamp2Date(o0.getString("regdate")));
         } else {
             ret.set_regdate("未知");
         }
-        if (!StringUtil.isEmpty(o0.getString("lastpost"))) {
-            ret.set_lastpost(StringUtil.TimeStamp2Date(o0.getString("lastpost")));
+        if (!StringUtils.isEmpty(o0.getString("lastpost"))) {
+            ret.set_lastpost(StringUtils.TimeStamp2Date(o0.getString("lastpost")));
         } else {
             ret.set_lastpost("未知");
         }
-        if (!StringUtil.isEmpty(o0.getString("sign"))) {
+        if (!StringUtils.isEmpty(o0.getString("sign"))) {
             ret.set_sign(o0.getString("sign"));
         } else {
             ret.set_sign("无签名");
         }
-        if (!StringUtil.isEmpty(o0.getString("avatar"))) {
+        if (!StringUtils.isEmpty(o0.getString("avatar"))) {
             ret.set_avatar(o0.getString("avatar"));
         }
         int i = 0;
@@ -209,17 +209,17 @@ public class JsonProfileLoadTask extends
             for (i = 1; oreputationdata != null; i++) {
                 try {
                     ReputationData entry = new ReputationData();
-                    if (!StringUtil.isEmpty(oreputationdata.getString("0"))) {
+                    if (!StringUtils.isEmpty(oreputationdata.getString("0"))) {
                         entry.set_name(oreputationdata.getString("0"));
                     } else {
                         entry.set_name("未知");
                     }
-                    if (!StringUtil.isEmpty(oreputationdata.getString("1"))) {
+                    if (!StringUtils.isEmpty(oreputationdata.getString("1"))) {
                         entry.set_data(oreputationdata.getString("1"));
                     } else {
                         entry.set_data("0");
                     }
-                    if (!StringUtil.isEmpty(oreputationdata.getString("2"))) {
+                    if (!StringUtils.isEmpty(oreputationdata.getString("2"))) {
                         entry.set_detail(oreputationdata.getString("2"));
                     } else {
                         entry.set_detail("未知");
@@ -245,7 +245,7 @@ public class JsonProfileLoadTask extends
             String sarray[] = adminforums.split(",");
             String ss[] = new String[sarray.length];
             for (i = 0; i < sarray.length; i++) {
-                ss[i] = StringUtil.getStringBetween(sarray[i], 0, "\"", "\"").result;
+                ss[i] = StringUtils.getStringBetween(sarray[i], 0, "\"", "\"").result;
             }
             for (i = 0; i < sarray.length; i++) {
                 try {

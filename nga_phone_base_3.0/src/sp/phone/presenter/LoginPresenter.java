@@ -16,7 +16,7 @@ import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.model.LoginModel;
 import sp.phone.presenter.contract.LoginContract;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/6/16.
@@ -86,12 +86,12 @@ public class LoginPresenter implements LoginContract.Presenter {
         synchronized (COMMIT_LOCK) {
             if (mLoading) {
                 mView.showToast(R.string.avoidWindfury);
-            } else if (StringUtil.isEmpty(mLoginAction.getAuthCodeCookie())) {
+            } else if (StringUtils.isEmpty(mLoginAction.getAuthCodeCookie())) {
                 mView.showToast("验证码信息错误，请重试");
                 loadAuthCode();
-            } else if (StringUtil.isEmpty(userName) ||
-                    StringUtil.isEmpty(password) ||
-                    StringUtil.isEmpty(authCode)){
+            } else if (StringUtils.isEmpty(userName) ||
+                    StringUtils.isEmpty(password) ||
+                    StringUtils.isEmpty(authCode)){
                 mView.showToast("内容缺少，请检查后再试");
                 loadAuthCode();
             } else {
@@ -110,7 +110,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onLoginFailure(String errorMsg) {
                         loadAuthCode();
-                        if (StringUtil.isEmpty(errorMsg)){
+                        if (StringUtils.isEmpty(errorMsg)){
                             mView.showToast(R.string.login_failed);
                         } else {
                             mView.showToast(errorMsg);
@@ -129,7 +129,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void start() {
-        if (!StringUtil.isEmpty(mLoginAction.getAction())) {
+        if (!StringUtils.isEmpty(mLoginAction.getAction())) {
             mView.showToast("你需要登录才能进行下一步操作");
         }
     }
@@ -160,9 +160,9 @@ public class LoginPresenter implements LoginContract.Presenter {
             }
         }
 
-        if (!StringUtil.isEmpty(cid)
-                && !StringUtil.isEmpty(uid)
-                && !StringUtil.isEmpty(userName)) {
+        if (!StringUtils.isEmpty(cid)
+                && !StringUtils.isEmpty(uid)
+                && !StringUtils.isEmpty(userName)) {
             saveCookie(uid,cid,userName);
         }
 
@@ -187,7 +187,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         config.userName = userName;
         config.setReplyTotalNum(0);
         config.setReplyString("");
-        config.blacklist = StringUtil.blackliststringtolisttohashset("");
+        config.blacklist = StringUtils.blackListStringToHashset("");
         mView.setResult(true);
       //  mView.finish();
     }

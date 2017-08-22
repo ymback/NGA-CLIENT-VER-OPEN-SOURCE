@@ -30,7 +30,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 @SuppressWarnings("ResourceType")
@@ -74,11 +74,11 @@ public class MessageDetialAdapter extends BaseAdapter implements
                                            boolean showImage, int imageQuality, final String fgColorStr,
                                            final String bgcolorStr) {
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage, imageQuality, imageURLSet);
+        String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage, imageQuality, imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + hide + "]</font>";
         }
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
@@ -96,7 +96,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
     }
 
     private static String buildHeader(MessageArticlePageInfo row, String fgColorStr) {
-        if (row == null || StringUtil.isEmpty(row.getSubject()))
+        if (row == null || StringUtils.isEmpty(row.getSubject()))
             return "";
         StringBuilder sb = new StringBuilder();
         sb.append("<h4 style='color:").append(fgColorStr).append("' >")
@@ -252,7 +252,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
         AvatarTag tag = new AvatarTag(lou, true);
         avatarIV.setImageBitmap(defaultAvatar);
         avatarIV.setTag(tag);
-        if (!StringUtil.isEmpty(avatarUrl)) {
+        if (!StringUtils.isEmpty(avatarUrl)) {
             final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
             if (avatarPath != null) {
                 File f = new File(avatarPath);

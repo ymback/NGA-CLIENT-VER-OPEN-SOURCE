@@ -34,7 +34,7 @@ import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
@@ -189,20 +189,20 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
                 stid = ((NonameThreadBody) parent.getItemAtPosition(position)).tid;
                 if (stid == 0) {
                     guid = (String) parent.getItemAtPosition(position);
-                    if (StringUtil.isEmpty(guid))
+                    if (StringUtils.isEmpty(guid))
                         return;
                 } else {
                     guid = "tid=" + String.valueOf(stid);
                 }
             } else {
                 guid = (String) parent.getItemAtPosition(position);
-                if (StringUtil.isEmpty(guid))
+                if (StringUtils.isEmpty(guid))
                     return;
             }
 
             guidtmp = guid;
 
-            int tid = StringUtil.getUrlParameter(guid, "tid");
+            int tid = StringUtils.getUrlParameter(guid, "tid");
             NonameArticleContainerFragment f = NonameArticleContainerFragment
                     .create(tid);
             FragmentManager fm = getSupportFragmentManager();
@@ -305,7 +305,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
             if (listener != null) {
                 listener.finishLoad(data);
                 getSupportActionBar().setTitle(
-                        StringUtil.unEscapeHtml(data.data.title));
+                        StringUtils.unEscapeHtml(data.data.title));
             }
         } catch (ClassCastException e) {
             Log.e(TAG,

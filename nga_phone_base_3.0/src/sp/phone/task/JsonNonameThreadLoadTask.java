@@ -11,7 +11,7 @@ import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameReadResponse> {
     static final String TAG = JsonNonameThreadLoadTask.class.getSimpleName();
@@ -42,7 +42,7 @@ public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameR
         // Log.d(TAG, "start to load:" + uri);
         String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance()
                 .getCookie());
-        if (StringUtil.isEmpty(js)) {
+        if (StringUtils.isEmpty(js)) {
             if (context != null)
                 errorStr = context.getResources().getString(R.string.network_error);
             return null;

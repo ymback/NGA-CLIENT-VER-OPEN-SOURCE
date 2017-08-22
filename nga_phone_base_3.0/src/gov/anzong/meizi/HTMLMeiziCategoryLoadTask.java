@@ -15,7 +15,7 @@ import java.util.Locale;
 
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class HTMLMeiziCategoryLoadTask extends
         AsyncTask<String, Integer, List<MeiziUrlData>> {
@@ -44,7 +44,7 @@ public class HTMLMeiziCategoryLoadTask extends
         if (url.toLowerCase(Locale.US).indexOf("52moe") > 0) {
             htmlString = MeiziHttpUtil.getHtmlFormeizi(url, PhoneConfiguration
                     .getInstance().getDb_Cookie());
-            if (!StringUtil.isEmpty(htmlString)) {
+            if (!StringUtils.isEmpty(htmlString)) {
                 MOE52CategoryDecoder mDecoder = new MOE52CategoryDecoder();
                 List<MeiziUrlData> result;
                 result = mDecoder.decode(htmlString);
@@ -57,8 +57,8 @@ public class HTMLMeiziCategoryLoadTask extends
                 htmlString = MeiziHttpUtil.getHtmlFormeizi(url,
                         PhoneConfiguration.getInstance().getDb_Cookie(),
                         "http://www.rosmm.com/");
-                if (!StringUtil.isEmpty(htmlString)) {
-                    String sid = StringUtil.getStringBetween(htmlString, 0,
+                if (!StringUtils.isEmpty(htmlString)) {
+                    String sid = StringUtils.getStringBetween(htmlString, 0,
                             "var endid = \"", "\"").result;
                     try {
                         nextsid = Integer.parseInt(sid);
@@ -74,8 +74,8 @@ public class HTMLMeiziCategoryLoadTask extends
                 htmlString = MeiziHttpUtil.getHtmlFormeizi(url,
                         PhoneConfiguration.getInstance().getDb_Cookie(),
                         "http://www.rosmm.com/");
-                if (!StringUtil.isEmpty(htmlString)) {
-                    String sid = StringUtil.getStringBetween(htmlString, 0,
+                if (!StringUtils.isEmpty(htmlString)) {
+                    String sid = StringUtils.getStringBetween(htmlString, 0,
                             "$$$", "\"").result;
                     try {
                         nextsid = Integer.parseInt(sid);
@@ -139,7 +139,7 @@ public class HTMLMeiziCategoryLoadTask extends
                         meiziM.TopicUrl = topicUrl;
                     }
                     if (!topicUrl.toLowerCase(Locale.US).equals(
-                            "http://www.52moe.net/?p=2473") && !StringUtil.isEmpty(meiziM.smallPicUrl))
+                            "http://www.52moe.net/?p=2473") && !StringUtils.isEmpty(meiziM.smallPicUrl))
                         result.add(meiziM);
                 }
             }
@@ -167,9 +167,9 @@ public class HTMLMeiziCategoryLoadTask extends
 
                     MeiziUrlData meiziM = new MeiziUrlData();
                     meiziM.dataId = "";
-                    if (!StringUtil.isEmpty(meiziE.select("img").first()
+                    if (!StringUtils.isEmpty(meiziE.select("img").first()
                             .attr("src"))
-                            && !StringUtil.isEmpty(meiziE.select("a").first()
+                            && !StringUtils.isEmpty(meiziE.select("a").first()
                             .attr("href"))) {
 
                         meiziM.smallPicUrl = meiziE.select("img").first()
@@ -208,9 +208,9 @@ public class HTMLMeiziCategoryLoadTask extends
 
                     MeiziUrlData meiziM = new MeiziUrlData();
                     meiziM.dataId = "";
-                    if (!StringUtil.isEmpty(meiziE.select("img").first()
+                    if (!StringUtils.isEmpty(meiziE.select("img").first()
                             .attr("src"))
-                            && !StringUtil.isEmpty(meiziE.select("a").first()
+                            && !StringUtils.isEmpty(meiziE.select("a").first()
                             .attr("href"))) {
 
                         meiziM.smallPicUrl = meiziE.select("img").first()

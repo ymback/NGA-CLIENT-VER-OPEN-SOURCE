@@ -20,7 +20,7 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public final class ProxyBridge {
 
@@ -40,7 +40,7 @@ public final class ProxyBridge {
             @Override
             protected void onPostExecute(String result) {
                 ActivityUtils.getInstance().dismiss();
-                if (StringUtil.isEmpty(result))
+                if (StringUtils.isEmpty(result))
                     result = "未知错误,请重试";
                 if (result.startsWith("操作成功"))
                     result = "操作成功";
@@ -58,7 +58,7 @@ public final class ProxyBridge {
 
             @Override
             protected String doInBackground(String... params) {
-                if (StringUtil.isEmpty(params[0]))
+                if (StringUtils.isEmpty(params[0]))
                     return "选择错误";
                 String url = Utils.getNGAHost() + "nuke.php?" + params[0];
                 HttpPostClient c = new HttpPostClient(url);
@@ -97,14 +97,14 @@ public final class ProxyBridge {
                             if (oerror == null) {
                                 return "请重新登录";
                             } else {
-                                if (!StringUtil.isEmpty(oerror.getString("0"))) {
+                                if (!StringUtils.isEmpty(oerror.getString("0"))) {
                                     return oerror.getString("0");
                                 } else {
                                     return "二哥又开始乱搞了";
                                 }
                             }
                         } else {
-                            if (!StringUtil.isEmpty(o.getString("0"))) {
+                            if (!StringUtils.isEmpty(o.getString("0"))) {
                                 return o.getString("0");
                             } else {
                                 return "二哥又开始乱搞了";

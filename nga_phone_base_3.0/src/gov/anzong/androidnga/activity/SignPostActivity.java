@@ -49,7 +49,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class SignPostActivity extends BasePostActivity implements
@@ -181,7 +181,7 @@ public class SignPostActivity extends BasePostActivity implements
                 FunctionUtil.handleSupertext(bodyText, this, v);
                 break;
             case R.id.send:
-                if (StringUtil.isEmpty(bodyText.getText().toString())) {
+                if (StringUtils.isEmpty(bodyText.getText().toString())) {
                     showToast("请输入内容");
                 } else {
                     if (commitListener == null) {
@@ -319,7 +319,7 @@ public class SignPostActivity extends BasePostActivity implements
         String selectedImagePath2 = FunctionUtil.getPath(this, uri);
         final int index = bodyText.getSelectionStart();
         String spantmp = "[img]./" + picUrl + "[/img]";
-        if (!StringUtil.isEmpty(selectedImagePath2)) {
+        if (!StringUtils.isEmpty(selectedImagePath2)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2,

@@ -105,7 +105,7 @@ public class MessageUtil {
         data.set_Alluser(allusertmp);
         if (data.getMessageEntryList().get(0) != null) {
             String title = data.getMessageEntryList().get(0).getSubject();
-            if (!StringUtil.isEmpty(title)) {
+            if (!StringUtils.isEmpty(title)) {
                 data.set_Title(title);
             } else {
                 data.set_Title("");
@@ -128,7 +128,7 @@ public class MessageUtil {
             row.setSubject(rowObj.getString("subject"));
             int time = rowObj.getIntValue("time");
             if (time > 0) {
-                row.setTime(StringUtil.TimeStamp2Date(String.valueOf(time)));
+                row.setTime(StringUtils.TimeStamp2Date(String.valueOf(time)));
             } else {
                 row.setTime("");
             }

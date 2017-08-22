@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 
 import sp.phone.interfaces.OnNearbyLoadComplete;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class NearbyUserTask extends AsyncTask<String, Integer, String> {
     private static final String ips[] = {"74.125.129.141",
@@ -49,7 +49,7 @@ public class NearbyUserTask extends AsyncTask<String, Integer, String> {
                 return null;
             }
             ret = HttpUtil.getHtml(sb.toString(), "", host, 8000);
-            if (!StringUtil.isEmpty(ret))
+            if (!StringUtils.isEmpty(ret))
                 break;
             else {
                 this.publishProgress(i + 1, ips.length);

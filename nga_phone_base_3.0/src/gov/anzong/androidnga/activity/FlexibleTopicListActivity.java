@@ -54,7 +54,7 @@ import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
@@ -94,7 +94,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     private TopicListRequestInfo mRequestInfo;
 
     private int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";
@@ -127,9 +127,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             mRequestInfo.authorId = getUrlParameter(url, "authorid");
             mRequestInfo.searchPost = getUrlParameter(url, "searchpost");
             mRequestInfo.favor = getUrlParameter(url, "favor");
-            mRequestInfo.key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
-            mRequestInfo.author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
-            mRequestInfo.fidGroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+            mRequestInfo.key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
+            mRequestInfo.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
+            mRequestInfo.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
             mRequestInfo.searchMode = false;
             mRequestInfo.content = getUrlParameter(url, "content");
         } else {
@@ -141,7 +141,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             mRequestInfo.key = bundle.getString("key");
             mRequestInfo.author = bundle.getString("author");
             mRequestInfo.fidGroup = bundle.getString("fidgroup");
-            if (!StringUtil.isEmpty(bundle.getString("searchmode"))) {
+            if (!StringUtils.isEmpty(bundle.getString("searchmode"))) {
                 if (bundle.getString("searchmode").equals("true"))
                     mRequestInfo.searchMode = true;
             }
@@ -179,10 +179,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             authorid = getUrlParameter(url, "authorid");
             searchpost = getUrlParameter(url, "searchpost");
             favor = getUrlParameter(url, "favor");
-            key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
-            author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
-//			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
-            fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+            key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
+            author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
+//			table = StringUtils.getStringBetween(url, 0, "table=", "&").result;
+            fidgroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
             content = getUrlParameter(url, "content");
         } else {
             if (null != getIntent().getExtras()) {
@@ -192,7 +192,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 favor = getIntent().getExtras().getInt("favor", 0);
                 key = getIntent().getExtras().getString("key");
                 author = getIntent().getExtras().getString("author");
-                if (!StringUtil.isEmpty(author))
+                if (!StringUtils.isEmpty(author))
                     if (author.indexOf("&searchpost=1") > 0) {
                         author = author.replace("&searchpost=1", "");
                         searchpost = 1;
@@ -203,13 +203,13 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         }
         initRequestInfo();
         if (authorid > 0 || searchpost > 0 || favor > 0
-                || !StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)
-                || !StringUtil.isEmpty(fidgroup)) {//!StringUtil.isEmpty(table) ||
+                || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)
+                || !StringUtils.isEmpty(fidgroup)) {//!StringUtils.isEmpty(table) ||
             fromreplyactivity = true;
         }
         if (f1 == null) {
             if (PhoneConfiguration.getInstance().isMaterialMode()){
-                if (favor != 0 || !StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)){
+                if (favor != 0 || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)){
                     f1 = new TopicListFragment();
                     new TopicListPresenter((TopicListContract.View) f1);
                 } else {
@@ -232,7 +232,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             ft.commit();
         } else {
             if (PhoneConfiguration.getInstance().isMaterialMode()) {
-                if (favor != 0 || !StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)) {
+                if (favor != 0 || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)) {
                     new TopicListPresenter((TopicListContract.View) f1);
                 }
             }
@@ -262,8 +262,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         String fidgroup = getIntent().getStringExtra("fidgroup");
         int authorid = getIntent().getIntExtra("authorid", 0);
 
-        if (favor == 0 && authorid == 0 && StringUtil.isEmpty(key)
-                && StringUtil.isEmpty(author)) {
+        if (favor == 0 && authorid == 0 && StringUtils.isEmpty(key)
+                && StringUtils.isEmpty(author)) {
             setNavigation();
         } else {
             flags = ThemeManager.ACTION_BAR_FLAG;
@@ -271,10 +271,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         if (favor != 0) {
             setTitle(R.string.bookmark_title);
         }
-        if (!StringUtil.isEmpty(key)) {
+        if (!StringUtils.isEmpty(key)) {
             flags = ThemeManager.ACTION_BAR_FLAG;
             if (content == 1) {
-                if (!StringUtil.isEmpty(fidgroup)) {
+                if (!StringUtils.isEmpty(fidgroup)) {
                     final String title = "搜索全站(包含正文):" + key;
                     setTitle(title);
                 } else {
@@ -282,7 +282,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                     setTitle(title);
                 }
             } else {
-                if (!StringUtil.isEmpty(fidgroup)) {
+                if (!StringUtils.isEmpty(fidgroup)) {
                     final String title = "搜索全站:" + key;
                     setTitle(title);
                 } else {
@@ -291,7 +291,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 }
             }
         } else {
-            if (!StringUtil.isEmpty(author)) {
+            if (!StringUtils.isEmpty(author)) {
                 flags = ThemeManager.ACTION_BAR_FLAG;
                 if (searchpost > 0) {
                     final String title = "搜索" + author + "的回复";
@@ -444,15 +444,15 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             onItemClickNewActivity.onItemClick(parent, view, position, id);
         } else {
             String guid = (String) parent.getItemAtPosition(position);
-            if (StringUtil.isEmpty(guid))
+            if (StringUtils.isEmpty(guid))
                 return;
 
             guid = guid.trim();
             guidtmp = guid;
 
-            int pid = StringUtil.getUrlParameter(guid, "pid");
-            int tid = StringUtil.getUrlParameter(guid, "tid");
-            int authorid = StringUtil.getUrlParameter(guid, "authorid");
+            int pid = StringUtils.getUrlParameter(guid, "pid");
+            int tid = StringUtils.getUrlParameter(guid, "tid");
+            int authorid = StringUtils.getUrlParameter(guid, "authorid");
             ArticleContainerFragment f = ArticleContainerFragment.create(tid,
                     pid, authorid);
             FragmentManager fm = getSupportFragmentManager();
@@ -486,7 +486,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 		 * if(father.getmTabsAdapter().getCount() != exactCount &&this.authorid
 		 * == 0){ father.getmTabsAdapter().setCount(exactCount); }
 		 * father.setTitle
-		 * (StringUtil.unEscapeHtml(data.getThreadInfo().getSubject()));
+		 * (StringUtils.unEscapeHtml(data.getThreadInfo().getSubject()));
 		 */
 
         Fragment articleContainer = getSupportFragmentManager()
@@ -498,7 +498,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             if (listener != null) {
                 listener.finishLoad(data);
                 setTitle(
-                        StringUtil.unEscapeHtml(data.getThreadInfo()
+                        StringUtils.unEscapeHtml(data.getThreadInfo()
                                 .getSubject()));
             }
         } catch (ClassCastException e) {

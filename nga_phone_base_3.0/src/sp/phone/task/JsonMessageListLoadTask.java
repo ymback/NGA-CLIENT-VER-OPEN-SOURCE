@@ -17,7 +17,7 @@ import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageListInfo> {
     private final static String TAG = JsonMessageListLoadTask.class.getSimpleName();
@@ -42,8 +42,8 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
         Log.d(TAG, "start to load " + params[0]);
         String uri = params[0];
         String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
-        String page = StringUtil.getStringBetween(uri, 0, "page=", "&").result;
-        if (StringUtil.isEmpty(page)) {
+        String page = StringUtils.getStringBetween(uri, 0, "page=", "&").result;
+        if (StringUtils.isEmpty(page)) {
             page = "1";
         }
         if (js == null) {
@@ -73,7 +73,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
                 error = "请重新登录";
             } else {
                 error = o.getString("0");
-                if (StringUtil.isEmpty(error))
+                if (StringUtils.isEmpty(error))
                     error = "请重新登录";
             }
             return null;
@@ -102,13 +102,13 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
                 entry.setLast_from_username(rowObj.getString("last_from_username"));
                 int time = rowObj.getInteger("time");
                 if (time > 0) {
-                    entry.setTime(StringUtil.TimeStamp2Date(String.valueOf(time)));
+                    entry.setTime(StringUtils.TimeStamp2Date(String.valueOf(time)));
                 } else {
                     entry.setTime("");
                 }
                 time = rowObj.getIntValue("last_modify");
                 if (time > 0) {
-                    entry.setLastTime(StringUtil.TimeStamp2Date(String.valueOf(time)));
+                    entry.setLastTime(StringUtils.TimeStamp2Date(String.valueOf(time)));
                 } else {
                     entry.setLastTime("");
                 }
@@ -132,7 +132,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
     protected void onPostExecute(MessageListInfo result) {
         ActivityUtils.getInstance().dismiss();
         if (result == null) {
-            if (!StringUtil.isEmpty(error))
+            if (!StringUtils.isEmpty(error))
                 ActivityUtils.getInstance().noticeError
                         (error, context);
         }

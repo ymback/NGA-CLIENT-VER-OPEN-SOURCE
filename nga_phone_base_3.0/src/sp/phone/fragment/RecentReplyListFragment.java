@@ -36,7 +36,7 @@ import sp.phone.task.JsonCleanRecentNotifierLoadTask;
 import sp.phone.task.JsonRecentNotifierLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -73,7 +73,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
     public void onViewCreated(View view, Bundle savedInstanceState) {
 //		lv.setRemoveListener(this);
         String str = PhoneConfiguration.getInstance().getReplyString();
-        if (!StringUtil.isEmpty(str)) {
+        if (!StringUtils.isEmpty(str)) {
             List<NotificationObject> list = JSON.parseArray(str,
                     NotificationObject.class);
             if (list != null && list.size() != 0) {
@@ -213,7 +213,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
                 Context.MODE_PRIVATE);
         String userListString = share.getString(USER_LIST, "");
         List<User> userList = null;
-        if (!StringUtil.isEmpty(userListString)) {
+        if (!StringUtils.isEmpty(userListString)) {
             userList = JSON.parseArray(userListString, User.class);
             for (User u : userList) {
                 if (u.getUserId().equals(
@@ -242,7 +242,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
         if (attacher != null)
             attacher.setRefreshComplete();
         String str = PhoneConfiguration.getInstance().getReplyString();
-        if (!StringUtil.isEmpty(str)) {
+        if (!StringUtils.isEmpty(str)) {
             List<NotificationObject> list = JSON.parseArray(str,
                     NotificationObject.class);
             if (list != null && list.size() != 0) {

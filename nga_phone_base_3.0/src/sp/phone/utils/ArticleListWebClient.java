@@ -86,13 +86,13 @@ public class ArticleListWebClient extends WebViewClient {
             intent.setClass(view.getContext(), ImageZoomActivity.class);
             view.getContext().startActivity(intent);
         } else if (url.startsWith(ANDROIDNGAUSERNAME_START)) {
-            String data = StringUtil.getStringBetween(origurl, 0,
+            String data = StringUtils.getStringBetween(origurl, 0,
                     ANDROIDNGAUSERNAME_START, ANDROIDNGAUSERNAME_END).result;
             try {
                 data = URLDecoder.decode(data, "utf-8");
             } catch (UnsupportedEncodingException e) {
             }
-            if (!StringUtil.isEmpty(data)) {
+            if (!StringUtils.isEmpty(data)) {
                 Intent intent = new Intent();
                 intent.putExtra("mode", "username");
                 intent.putExtra("username", data);

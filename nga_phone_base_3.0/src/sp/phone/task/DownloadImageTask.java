@@ -12,7 +12,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 import static android.media.MediaScannerConnection.scanFile;
 
@@ -54,7 +54,7 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
         if (params.length == 0)
             return invalidURI;
         final String uri = params[0];
-        if (StringUtil.isEmpty(uri))
+        if (StringUtils.isEmpty(uri))
             return invalidURI;
 
         String path = HttpUtil.PATH_IMAGES;
@@ -66,7 +66,7 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
 
         }
         String name = ImageUtil.getImageName(uri);
-        if (StringUtil.isEmpty(name))
+        if (StringUtils.isEmpty(name))
             return invalidURI;
         int i = 0;
         fullPath = path + "/" + name;

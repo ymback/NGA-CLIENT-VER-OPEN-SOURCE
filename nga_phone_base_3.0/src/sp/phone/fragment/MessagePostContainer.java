@@ -16,7 +16,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 /**
@@ -117,7 +117,7 @@ public class MessagePostContainer extends BaseFragment implements MessagePostCon
     @Override
     public void onResume() {
         if (mAction.equals("new")) {
-            if (StringUtil.isEmpty(mToEditText.getText().toString())) {
+            if (StringUtils.isEmpty(mToEditText.getText().toString())) {
                 mToEditText.requestFocus();
             } else {
                 mTitleEditText.requestFocus();
@@ -141,11 +141,11 @@ public class MessagePostContainer extends BaseFragment implements MessagePostCon
                 String title = mTitleEditText.getText().toString();
                 String to = mToEditText.getText().toString();
                 String body = mBodyEditText.getText().toString();
-                if (StringUtil.isEmpty(to)) {
+                if (StringUtils.isEmpty(to)) {
                     showToast("请输入收件人");
-                } else if (StringUtil.isEmpty(title)) {
+                } else if (StringUtils.isEmpty(title)) {
                     showToast("请输入标题");
-                } else if (StringUtil.isEmpty(body)) {
+                } else if (StringUtils.isEmpty(body)) {
                     showToast("请输入内容");
                 } else {
                     mPresenter.commit(title,to,body);

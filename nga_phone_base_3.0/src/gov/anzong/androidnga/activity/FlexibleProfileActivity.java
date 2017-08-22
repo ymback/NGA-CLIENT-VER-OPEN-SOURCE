@@ -43,7 +43,7 @@ import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -83,12 +83,12 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         activeActionMode();
         Intent intent = this.getIntent();
         mode = intent.getStringExtra("mode");
-        if (!StringUtil.isEmpty(mode)) {
+        if (!StringUtils.isEmpty(mode)) {
             if (mode.equals("uid")) {
                 params = "uid=" + intent.getStringExtra("uid");
             } else {
                 params = "username="
-                        + StringUtil.encodeUrl(
+                        + StringUtils.encodeUrl(
                         intent.getStringExtra("username"), "gbk");
             }
         } else {
@@ -211,7 +211,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         search_title.setText(":: " + username + " 发布的贴子  ::");
         topic_button.setText("[搜索 " + username + " 发布的主题]");
         reply_button.setText("[搜索 " + username + " 发布的回复]");
-        if (StringUtil.isEmpty(iplogdata)) {
+        if (StringUtils.isEmpty(iplogdata)) {
             iplog_title.setVisibility(View.GONE);
             iplog.setVisibility(View.GONE);
             iplogrelativelayout.setVisibility(View.GONE);
@@ -238,7 +238,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
                     intent_bookmark.putExtra("to", username);
                     intent_bookmark.putExtra("action", "new");
                     intent_bookmark.putExtra("messagemode", "yes");
-                    if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                    if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                         intent_bookmark
                                 .setClass(view.getContext(),
                                         PhoneConfiguration.getInstance().messagePostActivityClass);
@@ -630,7 +630,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
     public String signatureToHtmlText(final ProfileData ret, boolean showImage,
                                       int imageQuality, final String fgColorStr, final String bgcolorStr) {
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(ret.get_sign(), showImage,
+        String ngaHtml = StringUtils.decodeForumTag(ret.get_sign(), showImage,
                 imageQuality, imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
@@ -674,7 +674,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         AvatarTag tag = new AvatarTag(0, true);
         avatarIV.setImageBitmap(defaultAvatar);
         avatarIV.setTag(tag);
-        if (!StringUtil.isEmpty(avatarUrl)) {
+        if (!StringUtils.isEmpty(avatarUrl)) {
             final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
             if (avatarPath != null) {
                 File f = new File(avatarPath);
@@ -752,8 +752,8 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         if (PhoneConfiguration.getInstance().fullscreen) {
             ActivityUtils.getInstance().setFullScreen(view);
         }
-        if (!StringUtil.isEmpty(trueusername)) {
-            if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {
+        if (!StringUtils.isEmpty(trueusername)) {
+            if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {
                 if (trueusername.equals(PhoneConfiguration.getInstance().userName)) {
                     avahahahb.setVisibility(View.GONE);
                     message_title.setVisibility(View.GONE);

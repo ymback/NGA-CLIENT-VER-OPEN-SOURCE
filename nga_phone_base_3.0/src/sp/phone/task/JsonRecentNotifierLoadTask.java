@@ -23,7 +23,7 @@ import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PreferenceKey {
     static final String TAG = JsonRecentNotifierLoadTask.class.getSimpleName();
@@ -57,14 +57,14 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
 
     @Override
     protected void onPostExecute(String result) {
-        if (StringUtil.isEmpty(result)) {
+        if (StringUtils.isEmpty(result)) {
             PhoneConfiguration.getInstance().setReplyString("");
             PhoneConfiguration.getInstance().setReplyTotalNum(0);
             SharedPreferences share = context.getSharedPreferences(PERFERENCE,
                     Context.MODE_PRIVATE);
             String userListString = share.getString(USER_LIST, "");
             List<User> userList = null;
-            if (!StringUtil.isEmpty(userListString)) {
+            if (!StringUtils.isEmpty(userListString)) {
                 userList = JSON.parseArray(userListString, User.class);
                 for (User u : userList) {
                     if (u.getUserId().equals(
@@ -86,7 +86,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
             return;
         }
 
-        String totalresult = StringUtil.getStringBetween(result, 0,
+        String totalresult = StringUtils.getStringBetween(result, 0,
                 "window.script_muti_get_var_store=", "</script>").result;
         JSONObject ojson = new JSONObject();
         JSONArray ojsonnoti = new JSONArray();
@@ -116,12 +116,12 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
                         String tid = ojsonnotidata.getString("6");
                         String pid = ojsonnotidata.getString("7");
                         String title = ojsonnotidata.getString("5");
-                        if (!StringUtil.isEmpty(authorId)
-                                && !StringUtil.isEmpty(nickName)
-                                && !StringUtil.isEmpty(tid)
-                                && !StringUtil.isEmpty(pid)
-                                && !StringUtil.isEmpty(title)) {
-                            title = StringUtil.unEscapeHtml(title);
+                        if (!StringUtils.isEmpty(authorId)
+                                && !StringUtils.isEmpty(nickName)
+                                && !StringUtils.isEmpty(tid)
+                                && !StringUtils.isEmpty(pid)
+                                && !StringUtils.isEmpty(title)) {
+                            title = StringUtils.unEscapeHtml(title);
                             addNotification(authorId, nickName, tid, pid, title);
                         }
                     } catch (Exception e) {
@@ -142,7 +142,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
             PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
             String userListString = share.getString(USER_LIST, "");
             List<User> userList = null;
-            if (!StringUtil.isEmpty(userListString)) {
+            if (!StringUtils.isEmpty(userListString)) {
                 userList = JSON.parseArray(userListString, User.class);
                 for (User u : userList) {
                     if (u.getUserId().equals(
@@ -170,7 +170,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
 
     void addNotification(String authorid, String nickName, String tid,
                          String pid, String title) {
-        if (StringUtil.isEmpty(tid)) {
+        if (StringUtils.isEmpty(tid)) {
             return;
         }
         int pidNum = 0;

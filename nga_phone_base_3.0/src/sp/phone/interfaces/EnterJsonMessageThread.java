@@ -11,7 +11,7 @@ import android.widget.ListView;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.MessageListAdapter;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class EnterJsonMessageThread implements OnItemClickListener {
 
@@ -26,12 +26,12 @@ public class EnterJsonMessageThread implements OnItemClickListener {
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
         String guid = (String) parent.getItemAtPosition(position);
-        if (StringUtil.isEmpty(guid))
+        if (StringUtils.isEmpty(guid))
             return;
 
         guid = guid.trim();
 
-        int mid = StringUtil.getUrlParameter(guid, "mid");
+        int mid = StringUtils.getUrlParameter(guid, "mid");
 
         Intent intent = new Intent();
         intent.putExtra("mid", mid);

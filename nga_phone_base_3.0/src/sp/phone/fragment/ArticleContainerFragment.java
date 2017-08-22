@@ -32,7 +32,7 @@ import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class ArticleContainerFragment extends BaseFragment implements
@@ -211,7 +211,7 @@ public class ArticleContainerFragment extends BaseFragment implements
     }
 
     private int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";
@@ -259,12 +259,12 @@ public class ArticleContainerFragment extends BaseFragment implements
             case R.id.article_menuitem_reply:
                 // if(articleAdpater.getData() == null)
                 // return false;
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     String tid = String.valueOf(this.tid);
                     intent.putExtra("prefix", "");
                     intent.putExtra("tid", tid);
                     intent.putExtra("action", "reply");
-                    if (!StringUtil
+                    if (!StringUtils
                             .isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                         intent.setClass(getActivity(),
                                 PhoneConfiguration.getInstance().postActivityClass);
@@ -315,7 +315,7 @@ public class ArticleContainerFragment extends BaseFragment implements
                 } else {
                     shareUrl = shareUrl + "tid=" + this.tid + " (分享自NGA安卓客户端开源版)";
                 }
-                if (!StringUtil.isEmpty(this.title)) {
+                if (!StringUtils.isEmpty(this.title)) {
                     shareUrl = "《" + this.title + "》 - 艾泽拉斯国家地理论坛，地址：" + shareUrl;
                 }
                 intent.putExtra(Intent.EXTRA_TEXT, shareUrl);

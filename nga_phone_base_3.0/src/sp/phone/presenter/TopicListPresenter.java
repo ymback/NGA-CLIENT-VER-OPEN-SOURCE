@@ -12,7 +12,7 @@ import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/6/3.
@@ -95,7 +95,7 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
         if (requestInfo.content != 0)
             jsonUri += "content=" + requestInfo.content + "&";
 
-        if (!StringUtil.isEmpty(requestInfo.author)) {
+        if (!StringUtils.isEmpty(requestInfo.author)) {
             try {
                 if (requestInfo.author.endsWith("&searchpost=1")) {
                     jsonUri += "author="
@@ -112,10 +112,10 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
         } else {
             if (0 != requestInfo.fid)
                 jsonUri += "fid=" + requestInfo.fid + "&";
-            if (!StringUtil.isEmpty(requestInfo.key)) {
-                jsonUri += "key=" + StringUtil.encodeUrl(requestInfo.key, "UTF-8") + "&";
+            if (!StringUtils.isEmpty(requestInfo.key)) {
+                jsonUri += "key=" + StringUtils.encodeUrl(requestInfo.key, "UTF-8") + "&";
             }
-            if (!StringUtil.isEmpty(requestInfo.fidGroup)) {
+            if (!StringUtils.isEmpty(requestInfo.fidGroup)) {
                 jsonUri += "fidgroup=" + requestInfo.fidGroup + "&";
             }
         }

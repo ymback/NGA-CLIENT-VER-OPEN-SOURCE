@@ -10,7 +10,7 @@ import java.net.URLDecoder;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.model.LoginModel;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/6/16.
@@ -77,7 +77,7 @@ public class LoginTask extends AsyncTask<String, Integer, Boolean> {
                     cid = cookieVal.substring(5);
                 if (cookieVal.indexOf("_178c=") == 0) {
                     uid = cookieVal.substring(6, cookieVal.indexOf('%'));
-                    if (StringUtil.isEmail(mLoginAction.getUserName())) {
+                    if (StringUtils.isEmail(mLoginAction.getUserName())) {
                         try {
                             String nametmp = cookieVal
                                     .substring(cookieVal.indexOf("%23") + 3);
@@ -85,7 +85,7 @@ public class LoginTask extends AsyncTask<String, Integer, Boolean> {
                                     "utf-8");
                             String[] stemp = nametmp.split("#");
                             for (int ia = 0; ia < stemp.length; ia++) {
-                                if (!StringUtil.isEmail(stemp[ia])) {
+                                if (!StringUtils.isEmail(stemp[ia])) {
                                     mLoginAction.setUserName(stemp[ia]);
                                     ia = stemp.length;
                                 }
@@ -116,7 +116,7 @@ public class LoginTask extends AsyncTask<String, Integer, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
 
-        if (!StringUtil.isEmpty(errorstr)) {
+        if (!StringUtils.isEmpty(errorstr)) {
             mLoginListener.onLoginFailure(errorstr);
             super.onPostExecute(result);
         } else if (result) {

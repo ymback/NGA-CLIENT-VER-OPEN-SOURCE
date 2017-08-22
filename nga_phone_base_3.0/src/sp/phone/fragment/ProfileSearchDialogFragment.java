@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class ProfileSearchDialogFragment extends DialogFragment {
     View view = null;
@@ -59,7 +59,7 @@ public class ProfileSearchDialogFragment extends DialogFragment {
             final String inputString = inputStringtp.replaceAll("\\n", "");
             Intent intent_search = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
             if (searchradio.getCheckedRadioButtonId() == profilesearch_name.getId()) {//用户名
-                if (!StringUtil.isEmpty(inputString)) {
+                if (!StringUtils.isEmpty(inputString)) {
                     intent_search.putExtra("mode", "username");
                     intent_search.putExtra("username", inputString);
                     intent_search.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
@@ -81,7 +81,7 @@ public class ProfileSearchDialogFragment extends DialogFragment {
                 }
 
             } else {
-                if (!StringUtil.isEmpty(inputString)) {
+                if (!StringUtils.isEmpty(inputString)) {
                     intent_search.putExtra("mode", "uid");
                     intent_search.putExtra("uid", inputString);
                     intent_search.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);

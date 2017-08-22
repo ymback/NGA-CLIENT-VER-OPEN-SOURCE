@@ -44,7 +44,7 @@ import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
@@ -158,7 +158,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
                 PhoneConfiguration.getInstance().setNickname(u.getNickName());
                 PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
                 PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
-                PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset(u.getBlackList());
+                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
                 MessageListContainer f1 = (MessageListContainer) getSupportFragmentManager().findFragmentById(R.id.item_list);
                 if (f1 != null) {
                     f1.onCategoryChanged(itemPosition);
@@ -268,12 +268,12 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
 
         } else {
             String guid = (String) parent.getItemAtPosition(position);
-            if (StringUtil.isEmpty(guid))
+            if (StringUtils.isEmpty(guid))
                 return;
 
             guid = guid.trim();
 
-            int mid = StringUtil.getUrlParameter(guid, "mid");
+            int mid = StringUtils.getUrlParameter(guid, "mid");
             Fragment f = new MessageDetialListContainer();
             Bundle args = new Bundle();// (getIntent().getExtras());
             args.putInt("mid", mid);

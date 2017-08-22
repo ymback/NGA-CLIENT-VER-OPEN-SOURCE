@@ -22,7 +22,7 @@ import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class SignPageAdapter extends BaseAdapter implements
         OnSignPageLoadFinishedListener {
@@ -121,23 +121,23 @@ public class SignPageAdapter extends BaseAdapter implements
         String missionstat;
         String info;
         missionid = String.valueOf(entry.get__id());
-        if (StringUtil.isEmpty(entry.get__name())) {
+        if (StringUtils.isEmpty(entry.get__name())) {
             missionname = "未知";
         } else {
             missionname = entry.get__name();
         }
-        if (StringUtil.isEmpty(entry.get__detail())) {
+        if (StringUtils.isEmpty(entry.get__detail())) {
             missiondetial = "未知";
         } else {
             missiondetial = entry.get__detail();
         }
-        if (StringUtil.isEmpty(entry.get__stat())) {
+        if (StringUtils.isEmpty(entry.get__stat())) {
             missionstat = "未知";
         } else {
             missionstat = entry.get__stat();
         }
 
-        if (StringUtil.isEmpty(entry.get__info())) {
+        if (StringUtils.isEmpty(entry.get__info())) {
             info = "";
         } else {
             info = "<h3>" + entry.get__info() + "</h3>";
@@ -177,12 +177,12 @@ public class SignPageAdapter extends BaseAdapter implements
                                  boolean showImage, int imageQuality, final String fgColorStr,
                                  final String bgcolorStr) {
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(info, showImage,
+        String ngaHtml = StringUtils.decodeForumTag(info, showImage,
                 imageQuality, imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[二哥压根不给我任务信息啊]</font>";
         }
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"

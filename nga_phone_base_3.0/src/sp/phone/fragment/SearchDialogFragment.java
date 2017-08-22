@@ -16,7 +16,7 @@ import android.widget.Spinner;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class SearchDialogFragment extends DialogFragment {
     View view = null;
@@ -98,7 +98,7 @@ public class SearchDialogFragment extends DialogFragment {
                 intent_search.putExtra("isFullScreen", true);
             }
             if (searchradio.getCheckedRadioButtonId() == search_user_topic_button.getId()) {//用户主题
-                if (!StringUtil.isEmpty(inputString)) {
+                if (!StringUtils.isEmpty(inputString)) {
                     intent_search.putExtra("fid", getArguments().getInt("id", -7));
                     intent_search.putExtra("author", inputString);
                     intent_search.putExtra("authorid", getArguments().getInt("authorid", 0));
@@ -120,7 +120,7 @@ public class SearchDialogFragment extends DialogFragment {
                 }
 
             } else if (searchradio.getCheckedRadioButtonId() == search_user_apply_button.getId()) {//用户回复
-                if (!StringUtil.isEmpty(inputString)) {
+                if (!StringUtils.isEmpty(inputString)) {
                     intent_search.putExtra("fid", getArguments().getInt("id", -7));
                     intent_search.putExtra("author", inputString + "&searchpost=1");
                     intent_search.putExtra("authorid", getArguments().getInt("authorid", 0));
@@ -141,7 +141,7 @@ public class SearchDialogFragment extends DialogFragment {
                     }
                 }
             } else if (searchradio.getCheckedRadioButtonId() == search_topic_button.getId()) {
-                if (!StringUtil.isEmpty(inputString)) {
+                if (!StringUtils.isEmpty(inputString)) {
                     if (withcontent.isChecked()) {
                         intent_search.putExtra("content", 1);
                     }
@@ -156,7 +156,7 @@ public class SearchDialogFragment extends DialogFragment {
                     startActivity(intent_search);
                 }
             } else {
-                if (!StringUtil.isEmpty(inputString)) {
+                if (!StringUtils.isEmpty(inputString)) {
                     if (withcontent.isChecked()) {
                         intent_search.putExtra("content", 1);
                     }

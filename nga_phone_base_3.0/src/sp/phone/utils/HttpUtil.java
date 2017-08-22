@@ -219,7 +219,7 @@ public class HttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtil.isEmpty(cookie))
+            if (!StringUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Charset", "GBK");
@@ -258,7 +258,7 @@ public class HttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtil.isEmpty(cookie))
+            if (!StringUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", ios_ua);
             conn.setRequestProperty("Accept-Charset", "GBK");
@@ -315,12 +315,12 @@ public class HttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtil.isEmpty(cookie))
+            if (!StringUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Charset", "GBK");
             conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-            if (!StringUtil.isEmpty(host)) {
+            if (!StringUtils.isEmpty(host)) {
                 conn.setRequestProperty("Host", host);
             }
             if (timeout > 0) {
@@ -347,7 +347,7 @@ public class HttpUtil {
         if (conn == null)
             return defaultValue;
         String contentType = conn.getHeaderField("Content-Type");
-        if (StringUtil.isEmpty(contentType))
+        if (StringUtils.isEmpty(contentType))
             return defaultValue;
         String startTag = "charset=";
         String endTag = " ";

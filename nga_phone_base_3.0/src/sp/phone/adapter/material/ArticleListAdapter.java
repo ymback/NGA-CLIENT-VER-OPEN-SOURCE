@@ -34,7 +34,7 @@ import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HtmlUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * 帖子详情列表Adapter
@@ -170,7 +170,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         floorTV.setText("[" + floor + " 楼]");
         floorTV.setTextColor(fgColor);
 
-        if (!StringUtil.isEmpty(row.getFromClientModel())) {
+        if (!StringUtils.isEmpty(row.getFromClientModel())) {
             ClientListener clientListener = new ClientListener(position, mData, mContext);
             String from_client_model = row.getFromClientModel();
             switch (from_client_model) {
@@ -253,7 +253,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         AvatarTag tag = new AvatarTag(lou, true);
         avatarIV.setImageBitmap(mDefaultAvatar);
         avatarIV.setTag(tag);
-        if (!StringUtil.isEmpty(avatarUrl)) {
+        if (!StringUtils.isEmpty(avatarUrl)) {
             final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
             if (avatarPath != null) {
                 File f = new File(avatarPath);

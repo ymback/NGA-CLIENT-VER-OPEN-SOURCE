@@ -42,7 +42,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class MainActivity extends BaseActivity {
@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity {
         MyApp app = (MyApp) getApplication();
         if (app.isNewVersion()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.prompt).setMessage(StringUtil.getTips())
+            builder.setTitle(R.string.prompt).setMessage(StringUtils.getTips())
                     .setPositiveButton(R.string.i_know, null);
             builder.create().show();
             app.setNewVersion(false);
@@ -339,7 +339,7 @@ public class MainActivity extends BaseActivity {
             }
 
         }
-        if (!StringUtil.isEmpty(clipData)) {
+        if (!StringUtils.isEmpty(clipData)) {
             urlAdd.setText(clipData);
             urlAdd.selectAll();
         }
@@ -349,7 +349,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String url = urlAdd.getText().toString().trim();
-                if (StringUtil.isEmpty(url)) {// 空
+                if (StringUtils.isEmpty(url)) {// 空
                     showToast("请输入URL地址");
                     urlAdd.setFocusable(true);
                     try {
