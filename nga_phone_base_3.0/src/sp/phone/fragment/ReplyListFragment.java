@@ -21,7 +21,7 @@ import sp.phone.bean.NotificationObject;
 import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class ReplyListFragment extends Fragment implements PreferenceKey {
 
@@ -37,7 +37,7 @@ public class ReplyListFragment extends Fragment implements PreferenceKey {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE, Context.MODE_PRIVATE);
         String str = share.getString(PENDING_REPLYS_FOR_SHOW, "");
-        if (!StringUtil.isEmpty(str)) {
+        if (!StringUtils.isEmpty(str)) {
             List<NotificationObject> list = JSON.parseArray(str, NotificationObject.class);
             if (list != null && list.size() != 0) {
                 lv.setAdapter(new PendingReplyAdapter(list));

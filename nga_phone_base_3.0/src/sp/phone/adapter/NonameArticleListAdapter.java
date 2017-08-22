@@ -27,7 +27,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class NonameArticleListAdapter extends BaseAdapter implements
@@ -69,7 +69,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
     }
 
     private static String buildHeader(NonameReadBody row, String fgColorStr) {
-        if (row == null || StringUtil.isEmpty(row.title))
+        if (row == null || StringUtils.isEmpty(row.title))
             return "";
         StringBuilder sb = new StringBuilder();
         sb.append("<h4 style='color:").append(fgColorStr).append("' >")
@@ -88,18 +88,18 @@ public class NonameArticleListAdapter extends BaseAdapter implements
     public static String convertToHtmlText(final NonameReadBody row,
                                            boolean showImage, int imageQuality, final String fgColorStr,
                                            final String bgcolorStr, Context context) {
-        if (StringUtil.isEmpty(hide)) {
+        if (StringUtils.isEmpty(hide)) {
             if (context != null)
                 initStaticStrings(context);
         }
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(
+        String ngaHtml = StringUtils.decodeForumTag(
                 row.content.replaceAll("\n", "<br/>"), showImage, imageQuality,
                 imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
 
             ngaHtml = "<font color='red'>[" + hide + "]</font>";
         }
@@ -218,8 +218,8 @@ public class NonameArticleListAdapter extends BaseAdapter implements
 
 		/*
 		 * TextView titleTV = holder.titleTV; if
-		 * (!StringUtil.isEmpty(row.getSubject()) ) {
-		 * titleTV.setText(StringUtil.unEscapeHtml(row.getSubject()));
+		 * (!StringUtils.isEmpty(row.getSubject()) ) {
+		 * titleTV.setText(StringUtils.unEscapeHtml(row.getSubject()));
 		 * titleTV.setTextColor(fgColor);
 		 *
 		 * }
@@ -237,7 +237,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         final long longposttime = row.ptime;
         String postTime = "";
         if (longposttime != 0) {
-            postTime = StringUtil.TimeStamp2Date(String.valueOf(longposttime));
+            postTime = StringUtils.TimeStamp2Date(String.valueOf(longposttime));
         }
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(postTime);

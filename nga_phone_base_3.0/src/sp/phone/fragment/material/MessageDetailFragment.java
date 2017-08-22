@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import sp.phone.fragment.MessageDetialListContainer;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class MessageDetailFragment extends MaterialCompatFragment {
 
@@ -49,7 +49,7 @@ public class MessageDetailFragment extends MaterialCompatFragment {
     }
 
     private int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";

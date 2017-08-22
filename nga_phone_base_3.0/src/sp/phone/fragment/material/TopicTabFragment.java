@@ -29,7 +29,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.presenter.contract.TopicListContract;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.view.ScrollableViewPager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
@@ -166,7 +166,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                 Intent intent = new Intent();
                 intent.putExtra("fid", mRequestInfo.fid);
                 intent.putExtra("action", "search");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     handleSearch();
                 } else {
                     intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
@@ -219,7 +219,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         Intent intent = new Intent();
         intent.putExtra("fid", mRequestInfo.fid);
         intent.putExtra("action", "new");
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
         } else {
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);

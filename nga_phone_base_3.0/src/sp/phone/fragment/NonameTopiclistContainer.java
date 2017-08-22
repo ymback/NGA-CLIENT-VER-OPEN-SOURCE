@@ -29,7 +29,7 @@ import sp.phone.task.JsonNonameTopicListLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -107,10 +107,10 @@ public class NonameTopiclistContainer extends BaseFragment implements
             authorid = getUrlParameter(url, "authorid");
             searchpost = getUrlParameter(url, "searchpost");
             favor = getUrlParameter(url, "favor");
-            key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
-            author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
-            table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
-            fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+            key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
+            author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
+            table = StringUtils.getStringBetween(url, 0, "table=", "&").result;
+            fidgroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
         } else {
             fid = getArguments().getInt("fid", 0);
             authorid = getArguments().getInt("authorid", 0);
@@ -328,7 +328,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
     }
 
     private int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";

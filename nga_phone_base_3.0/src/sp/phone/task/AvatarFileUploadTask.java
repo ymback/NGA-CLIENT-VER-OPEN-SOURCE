@@ -24,7 +24,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
     @SuppressWarnings("unused")
@@ -94,7 +94,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (StringUtil.isEmpty(result)) {
+        if (StringUtils.isEmpty(result)) {
             Toast.makeText(context, errorStr, Toast.LENGTH_SHORT)
                     .show();
         } else {
@@ -119,7 +119,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
         try {
             ParcelFileDescriptor pfd = cr.openFileDescriptor(uri, "r");
             contentType = cr.getType(uri);
-            if (StringUtil.isEmpty(contentType)) {
+            if (StringUtils.isEmpty(contentType)) {
                 errorStr = context.getResources().getString(
                         R.string.invalid_img_selected);
                 return null;

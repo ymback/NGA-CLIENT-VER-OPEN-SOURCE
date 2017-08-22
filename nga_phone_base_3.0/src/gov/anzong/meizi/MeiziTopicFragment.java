@@ -17,7 +17,7 @@ import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFinishedListener {
@@ -160,7 +160,7 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
         mTopicM = result;
         if (mTopicM != null) {
             mAdapter.setData(mTopicM.content);
-            if (StringUtil.isEmpty(mTopicM.date)) {
+            if (StringUtils.isEmpty(mTopicM.date)) {
                 mHeaderDate.setVisibility(View.GONE);
             } else {
                 mHeaderDate.setVisibility(View.VISIBLE);

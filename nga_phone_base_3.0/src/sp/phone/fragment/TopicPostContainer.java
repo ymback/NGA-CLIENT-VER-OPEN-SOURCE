@@ -30,7 +30,7 @@ import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 /**
@@ -127,8 +127,8 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
                             u.getReplyString());
                     PhoneConfiguration.getInstance().setReplyTotalNum(
                             u.getReplyTotalNum());
-                    PhoneConfiguration.getInstance().blacklist = StringUtil
-                            .blackliststringtolisttohashset(u.getBlackList());
+                    PhoneConfiguration.getInstance().blacklist = StringUtils
+                            .blackListStringToHashset(u.getBlackList());
 
                 }
 
@@ -166,8 +166,8 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
                         u.getReplyString());
                 PhoneConfiguration.getInstance().setReplyTotalNum(
                         u.getReplyTotalNum());
-                PhoneConfiguration.getInstance().blacklist = StringUtil
-                        .blackliststringtolisttohashset(u.getBlackList());
+                PhoneConfiguration.getInstance().blacklist = StringUtils
+                        .blackListStringToHashset(u.getBlackList());
                 mPresenter.getTopicPostAction().set__ngaClientChecksum(FunctionUtil.getngaClientChecksum(getContext()));
                 return true;
             }
@@ -202,7 +202,7 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
     @Override
     public void insertFile(String path, CharSequence file) {
         int index = mBodyEditText.getSelectionStart();
-        if (!StringUtil.isEmpty(path)){
+        if (!StringUtils.isEmpty(path)){
             if (mBodyEditText.getText().toString().replaceAll("\\n", "").trim()
                     .equals("")) {// NO INPUT DATA
                 mBodyEditText.append(file);

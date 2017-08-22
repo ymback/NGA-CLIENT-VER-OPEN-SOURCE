@@ -17,7 +17,7 @@ import com.alibaba.fastjson.JSON;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.User;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class UserListAdapter extends SpinnerUserListAdapter
         implements OnClickListener {
@@ -80,7 +80,7 @@ public class UserListAdapter extends SpinnerUserListAdapter
                 PhoneConfiguration.getInstance().setCid("");
                 PhoneConfiguration.getInstance().setReplyString("");
                 PhoneConfiguration.getInstance().setReplyTotalNum(0);
-                PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset("");
+                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset("");
                 Editor editor = share.edit();
                 editor.putString(UID, "");
                 editor.putString(CID, "");
@@ -96,7 +96,7 @@ public class UserListAdapter extends SpinnerUserListAdapter
                 PhoneConfiguration.getInstance().setCid(u.getCid());
                 PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
                 PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
-                PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset(u.getBlackList());
+                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
             }
         }
 

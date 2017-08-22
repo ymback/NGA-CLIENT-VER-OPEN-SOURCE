@@ -1,6 +1,7 @@
 package sp.phone.utils;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
@@ -24,7 +25,7 @@ import sp.phone.bean.StringFindResult;
 import sp.phone.common.ThemeManager;
 
 @SuppressLint("SimpleDateFormat")
-public class StringUtil {
+public class StringUtils {
     public final static String key = "asdfasdf";
     final static String tips = "花几十秒看完,你会有新收获\n"
             + "更新后每次打开看到这个窗口的,重启手机\n"
@@ -380,9 +381,9 @@ public class StringUtil {
 
     public static String decodeForumTag(String s, boolean showImage,
                                         int imageQuality, HashSet<String> imageURLSet) {
-        if (StringUtil.isEmpty(s))
+        if (StringUtils.isEmpty(s))
             return "";
-        // s = StringUtil.unEscapeHtml(s);
+        // s = StringUtils.unEscapeHtml(s);
         String quoteStyle = "<div style='background:#E8E8E8;border:1px solid #888' >";
         if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT)
             quoteStyle = "<div style='background:#000000;border:1px solid #888' >";
@@ -862,7 +863,7 @@ public class StringUtil {
     }
 
     public static int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";
@@ -885,25 +886,20 @@ public class StringUtil {
     }
 
 
-    public static Set<Integer> blackliststringtolisttohashset(String s) {
-        if (StringUtil.isEmpty(s)) {
-            Set<Integer> sset = new HashSet<Integer>();
-            return sset;
-        }
-        if (s.startsWith("[") && s.endsWith("]") && s.length() > 2) {
+    public static Set<Integer> blackListStringToHashset(String s) {
+        Set<Integer> result;
+        if (!TextUtils.isEmpty(s) && s.startsWith("[") && s.endsWith("]") && s.length() > 2) {
             s = s.replace("[", "").replace("]", "").replace(" ", "");
-            String[] sarray = s.split(",");
-            List<String> sliststring = Arrays.asList(sarray);
-            List<Integer> slistint = new ArrayList<Integer>(sliststring.size());
-            for (String myString : sliststring) {
-                slistint.add(Integer.parseInt(myString));
+            List<String> sListString = Arrays.asList(s.split(","));
+            List<Integer> sListInt = new ArrayList<>();
+            for (String myString : sListString) {
+                sListInt.add(Integer.parseInt(myString));
             }
-            Set<Integer> sset = new HashSet<Integer>(slistint);
-            return sset;
+            result = new HashSet<>(sListInt);
         } else {
-            Set<Integer> sset = new HashSet<Integer>();
-            return sset;
+            result = new HashSet<>();
         }
+        return result;
     }
 
     public static String TimeStamp2Date(String timestampString) {

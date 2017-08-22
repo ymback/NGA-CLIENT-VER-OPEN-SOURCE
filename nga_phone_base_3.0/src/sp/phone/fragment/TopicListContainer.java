@@ -38,7 +38,7 @@ import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -140,10 +140,10 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
             authorid = getUrlParameter(url, "authorid");
             searchpost = getUrlParameter(url, "searchpost");
             favor = getUrlParameter(url, "favor");
-            key = StringUtil.getStringBetween(url, 0, "key=", "&").result;
-            author = StringUtil.getStringBetween(url, 0, "author=", "&").result;
-//			table = StringUtil.getStringBetween(url, 0, "table=", "&").result;
-            fidgroup = StringUtil.getStringBetween(url, 0, "fidgroup=", "&").result;
+            key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
+            author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
+//			table = StringUtils.getStringBetween(url, 0, "table=", "&").result;
+            fidgroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
             searchmode = false;
             content = getUrlParameter(url, "content");
         } else {
@@ -155,7 +155,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
             key = getArguments().getString("key");
             author = getArguments().getString("author");
             fidgroup = getArguments().getString("fidgroup");
-            if (!StringUtil.isEmpty(getArguments().getString("searchmode"))) {
+            if (!StringUtils.isEmpty(getArguments().getString("searchmode"))) {
                 if (getArguments().getString("searchmode").equals("true"))
                     searchmode = true;
             }
@@ -168,9 +168,9 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
                 listView.setOnItemLongClickListener((OnItemLongClickListener) getActivity());
             }
         }
-        if (!StringUtil.isEmpty(key) || !StringUtil.isEmpty(author)
-                || !StringUtil.isEmpty(fidgroup)
-                || searchpost != 0 || authorid != 0 || favor != 0) {//|| !StringUtil.isEmpty(table)
+        if (!StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)
+                || !StringUtils.isEmpty(fidgroup)
+                || searchpost != 0 || authorid != 0 || favor != 0) {//|| !StringUtils.isEmpty(table)
             fromreplyactivity = 1;
         }
 
@@ -268,7 +268,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         if (content != 0)
             jsonUri += "content=" + content + "&";
 
-        if (!StringUtil.isEmpty(author)) {
+        if (!StringUtils.isEmpty(author)) {
             try {
                 if (author.endsWith("&searchpost=1")) {
                     jsonUri += "author="
@@ -285,10 +285,10 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         } else {
             if (0 != fid)
                 jsonUri += "fid=" + fid + "&";
-            if (!StringUtil.isEmpty(key)) {
-                jsonUri += "key=" + StringUtil.encodeUrl(key, "UTF-8") + "&";
+            if (!StringUtils.isEmpty(key)) {
+                jsonUri += "key=" + StringUtils.encodeUrl(key, "UTF-8") + "&";
             }
-            if (!StringUtil.isEmpty(fidgroup)) {
+            if (!StringUtils.isEmpty(fidgroup)) {
                 jsonUri += "fidgroup=" + fidgroup + "&";
             }
         }
@@ -364,7 +364,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
                 Intent intentsearch = new Intent();
                 intentsearch.putExtra("fid", fid);
                 intentsearch.putExtra("action", "search");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     handleSearch();
                 } else {
                     intentsearch.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
@@ -397,7 +397,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         Intent intent = new Intent();
         intent.putExtra("fid", fid);
         intent.putExtra("action", "new");
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
         } else {
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
@@ -437,7 +437,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     }
 
     private int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";

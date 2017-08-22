@@ -35,7 +35,7 @@ import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
@@ -107,10 +107,10 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         SharedPreferences share = getSharedPreferences(
                 PERFERENCE, MODE_PRIVATE);
         String userName = share.getString(USER_NAME, "");
-        userName = StringUtil.encodeUrl(userName, "utf-8");
+        userName = StringUtils.encodeUrl(userName, "utf-8");
         if (location == null) {
             //Toast.makeText(this, R.string.fail_to_locate, Toast.LENGTH_SHORT).show();
-        } else if (StringUtil.isEmpty(userName)) {
+        } else if (StringUtils.isEmpty(userName)) {
             showToast(R.string.nearby_no_login);
         } else {
             ActivityUtils.getInstance().noticeSaying(this);
@@ -126,7 +126,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
     public void OnComplete(String result) {
         task = null;
         ActivityUtils.getInstance().dismiss();
-        if (StringUtil.isEmpty(result))
+        if (StringUtils.isEmpty(result))
             return;
         List<NearbyUser> list = null;
         try {
@@ -167,7 +167,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (StringUtil.isEmail(texta)) {
+                        if (StringUtils.isEmail(texta)) {
                             showToast("用户名为邮箱,无法通过邮箱获取论坛用户信息");
                         } else {
                             Intent i = new Intent(Intent.ACTION_VIEW);

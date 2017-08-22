@@ -27,7 +27,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class MyApp extends Application implements PreferenceKey {
     public final static int version = BuildConfig.VERSION_CODE;
@@ -83,8 +83,8 @@ public class MyApp extends Application implements PreferenceKey {
         final int replytotalnum = Integer.parseInt(share.getString(
                 REPLYTOTALNUM, "0"));
         final String black = share.getString(BLACK_LIST, "");
-        final Set<Integer> blacklist = StringUtil.blackliststringtolisttohashset(black);
-        if (!StringUtil.isEmpty(uid) && !StringUtil.isEmpty(cid)) {
+        final Set<Integer> blacklist = StringUtils.blackListStringToHashset(black);
+        if (!StringUtils.isEmpty(uid) && !StringUtils.isEmpty(cid)) {
             config.setUid(uid);
             config.setCid(cid);
             config.setReplyString(replystring);
@@ -93,7 +93,7 @@ public class MyApp extends Application implements PreferenceKey {
             String userListString = share.getString(USER_LIST, "");
             final String name = share.getString(USER_NAME, "");
             config.userName = name;
-            if (StringUtil.isEmpty(userListString)) {
+            if (StringUtils.isEmpty(userListString)) {
 
                 addToUserList(uid, cid, name, replystring, replytotalnum, black);
 
@@ -122,7 +122,7 @@ public class MyApp extends Application implements PreferenceKey {
 
         List<User> userList = null;
         // new ArrayList<User>();
-        if (StringUtil.isEmpty(userListString)) {
+        if (StringUtils.isEmpty(userListString)) {
             userList = new ArrayList<User>();
         } else {
             userList = JSON.parseArray(userListString, User.class);
@@ -156,7 +156,7 @@ public class MyApp extends Application implements PreferenceKey {
 
         String userListString = share.getString(USER_LIST, "");
         List<User> userList = null;
-        if (StringUtil.isEmpty(userListString)) {
+        if (StringUtils.isEmpty(userListString)) {
             userList = new ArrayList<User>();
         } else {
             userList = JSON.parseArray(userListString, User.class);
@@ -205,7 +205,7 @@ public class MyApp extends Application implements PreferenceKey {
 
             String recentStr = share.getString(RECENT_BOARD, "");
             List<Board> recentList = null;
-            if (!StringUtil.isEmpty(recentStr)) {
+            if (!StringUtils.isEmpty(recentStr)) {
                 recentList = JSON.parseArray(recentStr, Board.class);
                 if (recentList != null) {
                     for (int j = 0; j < recentList.size(); j++) {

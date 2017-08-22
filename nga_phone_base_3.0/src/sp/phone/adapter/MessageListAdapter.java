@@ -14,7 +14,7 @@ import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class MessageListAdapter extends BaseAdapter implements
@@ -114,14 +114,14 @@ public class MessageListAdapter extends BaseAdapter implements
             night = true;
         String fromuser;
         fromuser = entry.getFrom_username();
-        if (StringUtil.isEmpty(fromuser)) {
+        if (StringUtils.isEmpty(fromuser)) {
             fromuser = "#SYSTEM#";
         }
         holder.author.setText(fromuser);
         holder.time.setText(entry.getTime());
         holder.lasttime.setText(entry.getLastTime());
         String lastPoster = entry.getLast_from_username();
-        if (StringUtil.isEmpty(lastPoster))
+        if (StringUtils.isEmpty(lastPoster))
             lastPoster = fromuser;
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.getPosts()));
@@ -136,12 +136,12 @@ public class MessageListAdapter extends BaseAdapter implements
         float size = PhoneConfiguration.getInstance().getTextSize();
 
         String titile = entry.getSubject();
-        if (StringUtil.isEmpty(titile)) {
+        if (StringUtils.isEmpty(titile)) {
             titile = entry.getSubject();
-            holder.title.setText(StringUtil.unEscapeHtml(titile));
+            holder.title.setText(StringUtils.unEscapeHtml(titile));
 
         } else {
-            holder.title.setText(StringUtil.removeBrTag(StringUtil
+            holder.title.setText(StringUtils.removeBrTag(StringUtils
                     .unEscapeHtml(titile)));
         }
 

@@ -32,7 +32,7 @@ import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.task.AccountAuthCodeImageReloadTask;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class LoginFragment extends DialogFragment implements
         PreferenceKey, OnAuthCodeLoadFinishedListener {
@@ -127,7 +127,7 @@ public class LoginFragment extends DialogFragment implements
     }
 
     private void reloadauthcode(String error) {
-        if (!StringUtil.isEmpty(error)) {
+        if (!StringUtils.isEmpty(error)) {
             if (toast != null) {
                 toast.setText(error);
                 toast.setDuration(Toast.LENGTH_SHORT);
@@ -197,7 +197,7 @@ public class LoginFragment extends DialogFragment implements
                 } else {
                     StringBuffer bodyBuffer = new StringBuffer();
                     bodyBuffer.append("email=");
-                    if (StringUtil.isEmpty(authcode_cookie)) {
+                    if (StringUtils.isEmpty(authcode_cookie)) {
                         if (toast != null) {
                             toast.setText("验证码信息错误，请重试");
                             toast.setDuration(Toast.LENGTH_SHORT);
@@ -211,10 +211,10 @@ public class LoginFragment extends DialogFragment implements
                         return;
                     }
                     name = userText.getText().toString();
-                    if (StringUtil.isEmpty(name)
-                            || StringUtil.isEmpty(passwordText.getText()
+                    if (StringUtils.isEmpty(name)
+                            || StringUtils.isEmpty(passwordText.getText()
                             .toString())
-                            || StringUtil.isEmpty(authcodeText.getText()
+                            || StringUtils.isEmpty(authcodeText.getText()
                             .toString())) {
                         if (toast != null) {
                             toast.setText("内容缺少，请检查后再试");
@@ -305,7 +305,7 @@ public class LoginFragment extends DialogFragment implements
                         if (cookieVal.indexOf("_178c=") == 0) {
                             uid = cookieVal
                                     .substring(6, cookieVal.indexOf('%'));
-                            if (StringUtil.isEmail(name)) {
+                            if (StringUtils.isEmail(name)) {
                                 try {
                                     String nametmp = cookieVal
                                             .substring(cookieVal.indexOf("%23") + 3);
@@ -313,7 +313,7 @@ public class LoginFragment extends DialogFragment implements
                                             "utf-8");
                                     String[] stemp = nametmp.split("#");
                                     for (int ia = 0; ia < stemp.length; ia++) {
-                                        if (!StringUtil.isEmail(stemp[ia])) {
+                                        if (!StringUtils.isEmail(stemp[ia])) {
                                             name = stemp[ia];
                                             ia = stemp.length;
                                         }
@@ -346,7 +346,7 @@ public class LoginFragment extends DialogFragment implements
                 synchronized (commit_lock) {
                     loading = false;
                 }
-                if (!StringUtil.isEmpty(errorstr)) {
+                if (!StringUtils.isEmpty(errorstr)) {
                     reloadauthcode(errorstr);
                     super.onPostExecute(result);
                 } else {
@@ -385,8 +385,8 @@ public class LoginFragment extends DialogFragment implements
                         PhoneConfiguration.getInstance().userName = name;
                         PhoneConfiguration.getInstance().setReplyString("");
                         PhoneConfiguration.getInstance().setReplyTotalNum(0);
-                        PhoneConfiguration.getInstance().blacklist = StringUtil
-                                .blackliststringtolisttohashset("");
+                        PhoneConfiguration.getInstance().blacklist = StringUtils
+                                .blackListStringToHashset("");
 
                         LoginFragment.this.dismiss();
                         // startActivity(intent);

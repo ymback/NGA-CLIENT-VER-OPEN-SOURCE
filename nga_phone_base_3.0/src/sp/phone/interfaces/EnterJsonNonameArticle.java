@@ -12,7 +12,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import sp.phone.adapter.NonameTopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class EnterJsonNonameArticle implements OnItemClickListener {
 
@@ -32,18 +32,18 @@ public class EnterJsonNonameArticle implements OnItemClickListener {
             stid = ((NonameThreadBody) parent.getItemAtPosition(position)).tid;
             if (stid == 0) {
                 guid = (String) parent.getItemAtPosition(position);
-                if (StringUtil.isEmpty(guid))
+                if (StringUtils.isEmpty(guid))
                     return;
             } else {
                 guid = "tid=" + String.valueOf(stid);
             }
         } else {
             guid = (String) parent.getItemAtPosition(position);
-            if (StringUtil.isEmpty(guid))
+            if (StringUtils.isEmpty(guid))
                 return;
         }
 
-        int tid = StringUtil.getUrlParameter(guid, "tid");
+        int tid = StringUtils.getUrlParameter(guid, "tid");
 
         Intent intent = new Intent();
         intent.putExtra("tab", "1");

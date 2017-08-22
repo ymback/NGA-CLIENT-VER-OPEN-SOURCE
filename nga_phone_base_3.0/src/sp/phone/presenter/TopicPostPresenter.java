@@ -27,7 +27,7 @@ import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/6/6.
@@ -162,7 +162,7 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
 
     @Override
     public void onArticlePostFinished(boolean isSuccess, String result) {
-        if (!StringUtil.isEmpty(result)){
+        if (!StringUtils.isEmpty(result)){
             mView.showToast(result);
         }
         ActivityUtils.getInstance().dismiss();
@@ -186,7 +186,7 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
         mTopicPostAction.appendAttachments_(attachments);
         mTopicPostAction.appendAttachments_check_(attachmentsCheck);
         String spantmp = "[img]./" + picUrl + "[/img]";
-        if (!StringUtil.isEmpty(selectedImagePath2)) {
+        if (!StringUtils.isEmpty(selectedImagePath2)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             options.inJustDecodeBounds = false;

@@ -19,7 +19,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
     static final String TAG = JsonSignLoadTask.class.getSimpleName();
@@ -108,7 +108,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
         ret.set__SignResult(SignResult);
         JSONObject o1 = (JSONObject) o.get("1");
         if (null == o1) {
-            if (StringUtil.isEmpty(SignResult)) {
+            if (StringUtils.isEmpty(SignResult)) {
                 error = "二哥玩坏了或者你需要重新登录";
                 return null;
             } else {
@@ -126,11 +126,11 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
         ret.set__Continued(Integer.parseInt(o1.getString("continued")));
         ret.set__Sum(Integer.parseInt(o1.getString("sum")));
         ret.set__Uid(Integer.parseInt(o1.getString("uid")));
-        if (!StringUtil.isEmpty(o1.getString("last_time"))) {
+        if (!StringUtils.isEmpty(o1.getString("last_time"))) {
             if (o1.getString("last_time").equals("0")) {
                 ret.set__Last_time("从未");
             } else {
-                ret.set__Last_time(StringUtil.TimeStamp2Date(o1.getString("last_time")));
+                ret.set__Last_time(StringUtils.TimeStamp2Date(o1.getString("last_time")));
             }
         }
         JSONObject o2 = null;

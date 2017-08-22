@@ -1,6 +1,6 @@
 package sp.phone.forumoperation;
 
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class SignPostAction {
     private String func_;
@@ -30,7 +30,7 @@ public class SignPostAction {
         sb.append("&func=");
         sb.append(func_);
         sb.append("&sign=");
-        sb.append(StringUtil.encodeUrl(sign_, "GBK"));
+        sb.append(StringUtils.encodeUrl(sign_, "GBK"));
         sb.append("&__ngaClientChecksum=");
         sb.append(__ngaClientChecksum);
         return sb.toString();

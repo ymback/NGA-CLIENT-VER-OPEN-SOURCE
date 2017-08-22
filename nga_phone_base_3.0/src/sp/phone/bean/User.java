@@ -29,8 +29,8 @@ public class User {
         return replytotalnum;
     }
 
-    public void setReplyTotalNum(int replytotalnum) {
-        this.replytotalnum = replytotalnum;
+    public void setReplyTotalNum(int replyTotalNum) {
+        this.replytotalnum = replyTotalNum;
     }
 
     public String getReplyString() {

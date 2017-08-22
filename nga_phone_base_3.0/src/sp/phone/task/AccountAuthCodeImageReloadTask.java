@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class AccountAuthCodeImageReloadTask extends
         AsyncTask<String, Integer, Bitmap> {
@@ -75,7 +75,7 @@ public class AccountAuthCodeImageReloadTask extends
                 InputStream is = conn.getInputStream();
                 bitmap = BitmapFactory.decodeStream(is);
                 is.close();
-                if (!StringUtil.isEmpty(authcode)) {
+                if (!StringUtils.isEmpty(authcode)) {
                     return bitmap;
                 }
             }

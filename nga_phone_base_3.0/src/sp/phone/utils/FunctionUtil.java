@@ -121,7 +121,7 @@ public class FunctionUtil {
                 if (selectText.length() > 0) {
                     android.text.ClipboardManager cbm = (android.text.ClipboardManager) context
                             .getSystemService(Activity.CLIPBOARD_SERVICE);
-                    cbm.setText(StringUtil.removeBrTag(selectText.toString()));
+                    cbm.setText(StringUtils.removeBrTag(selectText.toString()));
                     if (toast != null) {
                         toast.setText(R.string.copied_to_clipboard);
                         toast.setDuration(Toast.LENGTH_SHORT);
@@ -390,12 +390,12 @@ public class FunctionUtil {
                                                      final String bgcolorStr, Context context) {
         initStaticStrings(context);
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(row.getSignature(),
+        String ngaHtml = StringUtils.decodeForumTag(row.getSignature(),
                 showImage, imageQuality, imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + context.getString(R.string.hide)
                     + "]</font>";
         }
@@ -731,7 +731,7 @@ public class FunctionUtil {
         {
             fgColor = nickNameTV.getResources().getColor(R.color.title_red);
             nickName += "(VIP)";
-        } else if (!StringUtil.isEmpty(row.getMute_time())
+        } else if (!StringUtils.isEmpty(row.getMute_time())
                 && !"0".equals(row.getMute_time())) {
             fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
             nickName += "(" + legend + ")";
@@ -762,7 +762,7 @@ public class FunctionUtil {
         {
             fgColor = nickNameTV.getResources().getColor(R.color.title_red);
             nickName += "(VIP)";
-        } else if (!StringUtil.isEmpty(row.getMute_time())
+        } else if (!StringUtils.isEmpty(row.getMute_time())
                 && !"0".equals(row.getMute_time())) {
             fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
             nickName += "(" + legend + ")";
@@ -801,9 +801,9 @@ public class FunctionUtil {
             row.setContent(row.getSubject());
             row.setSubject(null);
         }
-        if (!StringUtil.isEmpty(row.getFromClient())) {
-            if (row.getFromClient().startsWith("103 ") && !StringUtil.isEmpty(row.getContent())) {
-                row.setContent(StringUtil.unescape(row.getContent()));
+        if (!StringUtils.isEmpty(row.getFromClient())) {
+            if (row.getFromClient().startsWith("103 ") && !StringUtils.isEmpty(row.getContent())) {
+                row.setContent(StringUtils.unescape(row.getContent()));
             }
         }
         int bgColor = context.getResources().getColor(theme.getBackgroundColor(i));
@@ -835,15 +835,15 @@ public class FunctionUtil {
                                              final String bgcolorStr, Context context) {
         initStaticStrings(context);
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(row.getSignature(),
+        String ngaHtml = StringUtils.decodeForumTag(row.getSignature(),
                 showImage, imageQuality, imageURLSet);
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + context.getString(R.string.hide)
                     + "]</font>";
         }
@@ -859,7 +859,7 @@ public class FunctionUtil {
 
     public static String VoteToHtmlText(final ThreadRowInfo row, boolean showImage,
                                         int imageQuality, final String fgColorStr, final String bgcolorStr) {
-        if (StringUtil.isEmpty(row.getVote()))
+        if (StringUtils.isEmpty(row.getVote()))
             return "本楼没有投票/投注内容";
         String ngaHtml = String.valueOf(row.getTid()) + ",'" + row.getVote()
                 + "'";
@@ -904,19 +904,19 @@ public class FunctionUtil {
         String ngaHtml = null;
         initStaticStrings(context);
         if (row.getJs_escap_avatar().equals("")) {
-            ngaHtml = StringUtil
+            ngaHtml = StringUtils
                     .decodeForumTag(
                             "这家伙是骷髅党,头像什么的没有啦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
                             showImage, imageQuality, imageURLSet);
         } else {
-            ngaHtml = StringUtil.decodeForumTag(
+            ngaHtml = StringUtils.decodeForumTag(
                     "[img]" + parseAvatarUrl(row.getJs_escap_avatar())
                             + "[/img]", showImage, imageQuality, imageURLSet);
         }
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + context.getString(R.string.hide)
                     + "]</font>";
         }
@@ -936,22 +936,22 @@ public class FunctionUtil {
         String ngaHtml = null;
         initStaticStrings(context);
         if (row.getJs_escap_avatar().equals("")) {
-            ngaHtml = StringUtil
+            ngaHtml = StringUtils
                     .decodeForumTag(
                             "这家伙是骷髅党,头像什么的没有啦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
                             showImage, imageQuality, imageURLSet);
         } else {
-            ngaHtml = StringUtil.decodeForumTag(
+            ngaHtml = StringUtils.decodeForumTag(
                     "[img]" + parseAvatarUrl(row.getJs_escap_avatar())
                             + "[/img]", showImage, imageQuality, imageURLSet);
         }
         if (imageURLSet.size() == 0) {
             imageURLSet = null;
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();
         }
-        if (StringUtil.isEmpty(ngaHtml)) {
+        if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + context.getString(R.string.hide)
                     + "]</font>";
         }
@@ -989,7 +989,7 @@ public class FunctionUtil {
         intent_bookmark.putExtra("to", row.getAuthor());
         intent_bookmark.putExtra("action", "new");
         intent_bookmark.putExtra("messagemode", "yes");
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
             intent_bookmark.setClass(context,
                     PhoneConfiguration.getInstance().messagePostActivityClass);
         } else {

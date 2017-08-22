@@ -14,7 +14,7 @@ import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class NonameTopicListAdapter extends BaseAdapter implements
@@ -108,7 +108,7 @@ public class NonameTopicListAdapter extends BaseAdapter implements
             holder.author.setTextColor(nightLinkColor);
 
         String lastPoster = entry.replyhip;
-        if (StringUtil.isEmpty(lastPoster))
+        if (StringUtils.isEmpty(lastPoster))
             lastPoster = entry.hip;
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.nreply));
@@ -120,12 +120,12 @@ public class NonameTopicListAdapter extends BaseAdapter implements
         float size = PhoneConfiguration.getInstance().getTextSize();
 
         String titile = entry.title;
-        if (StringUtil.isEmpty(titile)) {
+        if (StringUtils.isEmpty(titile)) {
             titile = "无题";
-            holder.title.setText(StringUtil.unEscapeHtml(titile));
+            holder.title.setText(StringUtils.unEscapeHtml(titile));
 
         } else {
-            holder.title.setText(StringUtil.removeBrTag(StringUtil
+            holder.title.setText(StringUtils.removeBrTag(StringUtils
                     .unEscapeHtml(titile)));
         }
 

@@ -17,7 +17,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/6/29.
@@ -101,7 +101,7 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
             config.setCid(user.getCid());
             config.setReplyString(user.getReplyString());
             config.setReplyTotalNum(user.getReplyTotalNum());
-            config.blacklist = StringUtil.blackliststringtolisttohashset(user.getBlackList());
+            config.blacklist = StringUtils.blackListStringToHashset(user.getBlackList());
             mView.showToast("切换账户成功,当前账户名:" + user.getNickName());
         } else {
             mView.jumpToLogin();
@@ -132,13 +132,13 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
 
         String url = HttpUtil.Server + "/thread.php?fid=" + fidString + "&rss=1";
         PhoneConfiguration config = PhoneConfiguration.getInstance();
-        if (!StringUtil.isEmpty(config.getCookie())) {
+        if (!StringUtils.isEmpty(config.getCookie())) {
             url = url + "&" + config.getCookie().replace("; ", "&");
         } else if (fid < 0) {
             mView.jumpToLogin();
             return;
         }
-        if (!StringUtil.isEmpty(url)) {
+        if (!StringUtils.isEmpty(url)) {
             Intent intent = new Intent();
             intent.putExtra("tab", "1");
             intent.putExtra("fid", fid);

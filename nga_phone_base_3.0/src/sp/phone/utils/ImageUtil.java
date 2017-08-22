@@ -205,10 +205,10 @@ public class ImageUtil {
     }
 
     static public String getImageName(String uri) {
-        if (StringUtil.isEmpty(uri))
+        if (StringUtils.isEmpty(uri))
             return null;
         String ret = FilenameUtils.getName(uri);
-        if (StringUtil.isEmpty(ret))
+        if (StringUtils.isEmpty(ret))
             return null;
         int pos = ret.indexOf("?");
         if (pos != -1) {

@@ -62,7 +62,7 @@ import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class ArticleListFragmentNew extends Fragment implements
@@ -107,7 +107,7 @@ public class ArticleListFragmentNew extends Fragment implements
         super.onCreate(savedInstanceState);
         String fatheractivityclassname = getActivity().getClass()
                 .getSimpleName();
-        if (!StringUtil.isEmpty(fatheractivityclassname)) {
+        if (!StringUtils.isEmpty(fatheractivityclassname)) {
             if (fatheractivityclassname.indexOf("TopicListActivity") < 0)
                 setRetainInstance(true);
         }
@@ -153,7 +153,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     }
                 }
                 MenuItem votemenu = (MenuItem) menu.findItem(R.id.vote_dialog);
-                if (votemenu != null && StringUtil.isEmpty(row.getVote())) {
+                if (votemenu != null && StringUtils.isEmpty(row.getVote())) {
                     menu.removeItem(R.id.vote_dialog);
                 }
                 return true;
@@ -204,7 +204,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 final String postTime = row.getPostdate();
 
                 content = FunctionUtil.checkContent(content);
-                content = StringUtil.unEscapeHtml(content);
+                content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
                     postPrefix.append("[quote][pid=");
@@ -235,13 +235,13 @@ public class ArticleListFragmentNew extends Fragment implements
 
                 // case R.id.r:
 
-                if (!StringUtil.isEmpty(mention))
+                if (!StringUtils.isEmpty(mention))
                     intent.putExtra("mention", mention);
                 intent.putExtra("prefix",
-                        StringUtil.removeBrTag(postPrefix.toString()));
+                        StringUtils.removeBrTag(postPrefix.toString()));
                 intent.putExtra("tid", tidStr);
                 intent.putExtra("action", "reply");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     intent.setClass(getActivity(),
                             PhoneConfiguration.getInstance().postActivityClass);
                 } else {
@@ -314,7 +314,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     Editor editor = share.edit();
                     editor.putString(BLACK_LIST, blickliststring);
                     editor.apply();
-                    if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
+                    if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
                         MyApp app = (MyApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
                     } else {
@@ -368,14 +368,14 @@ public class ArticleListFragmentNew extends Fragment implements
                 }
                 Intent intentModify = new Intent();
                 intentModify.putExtra("prefix",
-                        StringUtil.unEscapeHtml(StringUtil.removeBrTag(content)));
+                        StringUtils.unEscapeHtml(StringUtils.removeBrTag(content)));
                 intentModify.putExtra("tid", tidStr);
                 String mpid = String.valueOf(row.getPid());// getPid(map.get("url"));
                 intentModify.putExtra("pid", mpid);
                 intentModify.putExtra("title",
-                        StringUtil.unEscapeHtml(row.getSubject()));
+                        StringUtils.unEscapeHtml(row.getSubject()));
                 intentModify.putExtra("action", "modify");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     intentModify.setClass(getActivity(),
                             PhoneConfiguration.getInstance().postActivityClass);
                 } else {
@@ -459,7 +459,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 final String postTime1 = row.getPostdate();
 
                 content = FunctionUtil.checkContent(content);
-                content = StringUtil.unEscapeHtml(content);
+                content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
                     postPrefix.append("[quote][pid=");
@@ -501,8 +501,8 @@ public class ArticleListFragmentNew extends Fragment implements
                 b.putInt("pid", row.getPid());
                 b.putInt("fid", row.getFid());
                 b.putInt("tid", this.tid);
-                String prefix = StringUtil.removeBrTag(postPrefix.toString());
-                if (!StringUtil.isEmpty(prefix)) {
+                String prefix = StringUtils.removeBrTag(postPrefix.toString());
+                if (!StringUtils.isEmpty(prefix)) {
                     prefix = prefix + "\n";
                 }
                 intent.putExtra("prefix", prefix
@@ -536,7 +536,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 } else {
                     shareUrl = shareUrl + "tid=" + tid + " (分享自NGA安卓客户端开源版)";
                 }
-                if (!StringUtil.isEmpty(row.getSubject())) {
+                if (!StringUtils.isEmpty(row.getSubject())) {
                     shareUrl = "《" + row.getSubject() + "》 - 艾泽拉斯国家地理论坛，地址："
                             + shareUrl;
                 }
@@ -706,7 +706,7 @@ public class ArticleListFragmentNew extends Fragment implements
         TextView floorTV = holder.floorTV;
         floorTV.setText("[" + floor + " 楼]");
         floorTV.setTextColor(fgColor);
-        if (!StringUtil.isEmpty(row.getFromClientModel())) {
+        if (!StringUtils.isEmpty(row.getFromClientModel())) {
             ClientListener clientListener = new ClientListener(
                     position, data, getActivity());
             String from_client_model = row.getFromClientModel();
@@ -774,7 +774,7 @@ public class ArticleListFragmentNew extends Fragment implements
         AvatarTag tag = new AvatarTag(lou, true);
         avatarIV.setImageBitmap(defaultAvatar);
         avatarIV.setTag(tag);
-        if (!StringUtil.isEmpty(avatarUrl)) {
+        if (!StringUtils.isEmpty(avatarUrl)) {
             final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
             if (avatarPath != null) {
                 File f = new File(avatarPath);

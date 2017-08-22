@@ -162,7 +162,7 @@ public class ActivityUtils {
     }
 
     static public String getSaying() {
-        String str = StringUtil.getSaying();
+        String str = StringUtils.getSaying();
         if (str.indexOf(";") != -1) {
             str = str.replace(";", "-----");
         }
@@ -191,7 +191,7 @@ public class ActivityUtils {
 
     public void noticeSaying(Context context) {
 
-        String str = StringUtil.getSaying();
+        String str = StringUtils.getSaying();
         if (str.indexOf(";") != -1) {
             notice("", str.replace(";", "-----"), context);
         } else {
@@ -201,7 +201,7 @@ public class ActivityUtils {
 
     public void noticeSayingWithProgressBar(Context context) {
 
-        String str = StringUtil.getSaying();
+        String str = StringUtils.getSaying();
         if (str.indexOf(";") != -1) {
             noticebar("", str.replace(";", "-----"), context);
         } else {
@@ -358,7 +358,7 @@ public class ActivityUtils {
                 String title = b.getString("title");
                 String content = b.getString("content");
                 dialog.setTitle(title);
-                if (StringUtil.isEmpty(content))
+                if (StringUtils.isEmpty(content))
                     content = ActivityUtils.getSaying();
                 dialog.setMessage(content);
             }
@@ -395,7 +395,7 @@ public class ActivityUtils {
                 String title = b.getString("title");
                 String content = b.getString("content");
                 dialog.setTitle(title);
-                if (StringUtil.isEmpty(content))
+                if (StringUtils.isEmpty(content))
                     content = ActivityUtils.getSaying();
                 dialog.setMessage(content);
             }

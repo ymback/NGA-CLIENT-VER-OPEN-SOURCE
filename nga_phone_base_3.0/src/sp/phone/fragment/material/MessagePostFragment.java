@@ -13,7 +13,7 @@ import android.widget.EditText;
 import gov.anzong.androidnga.R;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/5/28.
@@ -83,7 +83,7 @@ public class MessagePostFragment extends MaterialCompatFragment implements Messa
     @Override
     public void onResume() {
         if (mAction.equals("new")) {
-            if (StringUtil.isEmpty(mToEditText.getText().toString())) {
+            if (StringUtils.isEmpty(mToEditText.getText().toString())) {
                 mToEditText.requestFocus();
             } else {
                 mTitleEditText.requestFocus();
@@ -104,13 +104,13 @@ public class MessagePostFragment extends MaterialCompatFragment implements Messa
                 String title = mTitleEditText.getText().toString();
                 String to = mToEditText.getText().toString();
                 String body = mBodyEditText.getText().toString();
-                if (StringUtil.isEmpty(to)) {
+                if (StringUtils.isEmpty(to)) {
                     mToEditText.setError("请输入收件人");
                     mToEditText.requestFocus();
-                } else if (StringUtil.isEmpty(title)) {
+                } else if (StringUtils.isEmpty(title)) {
                     mTitleEditText.setError("请输入标题");
                     mTitleEditText.requestFocus();
-                } else if (StringUtil.isEmpty(body)) {
+                } else if (StringUtils.isEmpty(body)) {
                     mBodyEditText.setError("请输入内容");
                     mBodyEditText.requestFocus();
                 } else {

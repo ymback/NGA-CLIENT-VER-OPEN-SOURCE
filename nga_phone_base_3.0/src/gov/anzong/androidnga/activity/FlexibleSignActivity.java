@@ -26,7 +26,7 @@ import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
@@ -100,7 +100,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
                 PhoneConfiguration.getInstance().setNickname(u.getNickName());
                 PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
                 PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
-                PhoneConfiguration.getInstance().blacklist = StringUtil.blackliststringtolisttohashset(u.getBlackList());
+                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
                 SignContainer f1 = (SignContainer) getSupportFragmentManager().findFragmentById(R.id.sign_list);
                 if (f1 != null) {
                     f1.onCategoryChanged(itemPosition);

@@ -11,7 +11,7 @@ import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, NonameThreadResponse> {
     private final static String TAG = JsonNonameTopicListLoadTask.class.getSimpleName();
@@ -36,7 +36,7 @@ public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, Nona
         Log.d(TAG, "start to load " + params[0]);
         String uri = params[0];
         String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
-        if (StringUtil.isEmpty(js)) {
+        if (StringUtils.isEmpty(js)) {
             if (context != null)
                 error = context.getResources().getString(R.string.network_error);
             return null;

@@ -1,6 +1,6 @@
 package sp.phone.forumoperation;
 
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 
 public class AvatarPostAction {
@@ -31,7 +31,7 @@ public class AvatarPostAction {
         sb.append("&func=");
         sb.append(func_);
         sb.append("&icon=");
-        sb.append(StringUtil.encodeUrl(icon_, "GBK"));
+        sb.append(StringUtils.encodeUrl(icon_, "GBK"));
         sb.append("&__ngaClientChecksum=");
         sb.append(__ngaClientChecksum);
         return sb.toString();

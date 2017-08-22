@@ -3,7 +3,7 @@ package sp.phone.forumoperation;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class TopicPostAction {
     private int step_;
@@ -151,16 +151,16 @@ public class TopicPostAction {
         sb.append("&filter_key=");
         sb.append(filter_key_);
         sb.append("&post_subject=");
-        sb.append(StringUtil.encodeUrl(post_subject_, "GBK"));
+        sb.append(StringUtils.encodeUrl(post_subject_, "GBK"));
         sb.append("&post_content=");
-        sb.append(StringUtil.encodeUrl(post_content_, "GBK"));
+        sb.append(StringUtils.encodeUrl(post_content_, "GBK"));
         if (mention_.length() != 0) {
             sb.append("&mention=");
-            sb.append(StringUtil.encodeUrl(mention_, "GBK"));
+            sb.append(StringUtils.encodeUrl(mention_, "GBK"));
 
         } else {
             sb.append("&mention=");
-            sb.append(StringUtil.encodeUrl("", "GBK"));
+            sb.append(StringUtils.encodeUrl("", "GBK"));
         }
         sb.append("&checkkey=");
         sb.append(checkkey_);
@@ -170,7 +170,7 @@ public class TopicPostAction {
     }
 
     public void appendAttachments_(String attachments_) {
-        if (StringUtil.isEmpty(this.attachments_))
+        if (StringUtils.isEmpty(this.attachments_))
             this.attachments_ = attachments_;
         else {
             try {
@@ -182,7 +182,7 @@ public class TopicPostAction {
     }
 
     public void appendAttachments_check_(String attachments_check_) {
-        if (StringUtil.isEmpty(this.attachments_check_))
+        if (StringUtils.isEmpty(this.attachments_check_))
             this.attachments_check_ = attachments_check_;
         else {
             try {
