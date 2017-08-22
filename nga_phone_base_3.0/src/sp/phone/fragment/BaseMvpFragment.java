@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
-import com.mahang.utils.LogUtils;
-
 import sp.phone.presenter.contract.BaseContract;
 
 public abstract class BaseMvpFragment<T extends BaseContract.Presenter> extends BaseFragment {
@@ -56,7 +54,6 @@ public abstract class BaseMvpFragment<T extends BaseContract.Presenter> extends 
         protected void onForceLoad() {
 
             try {
-                LogUtils.d();
                 mPresenter = mTClass.newInstance();
                 deliverResult(mPresenter);
             } catch (java.lang.InstantiationException | IllegalAccessException e) {
