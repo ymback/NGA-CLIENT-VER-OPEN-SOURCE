@@ -21,7 +21,7 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.utils.UploadCookieCollector;
 
 public class FileUploadTask extends
@@ -110,7 +110,7 @@ public class FileUploadTask extends
     @Override
     protected void onPostExecute(String result) {
         do {
-            if (StringUtil.isEmpty(result))
+            if (StringUtils.isEmpty(result))
                 break;
             Log.i(TAG, result);
             int start = result.indexOf(attachmentsStartFlag);
@@ -121,7 +121,7 @@ public class FileUploadTask extends
             if (end == -1)
                 break;
             String attachments = result.substring(start, end);
-            attachments = StringUtil.encodeUrl(attachments, "utf-8");
+            attachments = StringUtils.encodeUrl(attachments, "utf-8");
 
             start = result.indexOf(attachmentsCheckStartFlag, start);
             if (start == -1)
@@ -131,7 +131,7 @@ public class FileUploadTask extends
             if (end == -1)
                 break;
             String attachmentsCheck = result.substring(start, end);
-            attachmentsCheck = StringUtil.encodeUrl(attachmentsCheck, "utf-8");
+            attachmentsCheck = StringUtils.encodeUrl(attachmentsCheck, "utf-8");
 
             start = result.indexOf(picUrlStartTag, start);
             if (start == -1)
@@ -160,7 +160,7 @@ public class FileUploadTask extends
         try {
             ParcelFileDescriptor pfd = cr.openFileDescriptor(uri, "r");
             contentType = cr.getType(uri);
-            if (StringUtil.isEmpty(contentType)) {
+            if (StringUtils.isEmpty(contentType)) {
                 errorStr = context.getResources().getString(R.string.invalid_img_selected);
                 return null;
             }

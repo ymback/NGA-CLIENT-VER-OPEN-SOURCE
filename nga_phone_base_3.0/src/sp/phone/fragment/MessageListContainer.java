@@ -26,7 +26,7 @@ import sp.phone.task.JsonMessageListLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -198,7 +198,7 @@ public class MessageListContainer extends BaseFragment implements
                 Intent intent_bookmark = new Intent();
                 intent_bookmark.putExtra("action", "new");
                 intent_bookmark.putExtra("messagemode", "yes");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     intent_bookmark.setClass(getActivity(),
                             PhoneConfiguration.getInstance().messagePostActivityClass);
                 } else {

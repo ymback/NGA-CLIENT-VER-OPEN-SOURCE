@@ -14,7 +14,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.MessageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, MessageDetialInfo> {
     private final static String TAG = JsonMessageDetialLoadTask.class.getSimpleName();
@@ -41,8 +41,8 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
         Log.d(TAG, "start to load " + params[0]);
 
         String uri = params[0];
-        String page = StringUtil.getStringBetween(uri, 0, "page=", "&").result;
-        if (StringUtil.isEmpty(page)) {
+        String page = StringUtils.getStringBetween(uri, 0, "page=", "&").result;
+        if (StringUtils.isEmpty(page)) {
             page = "1";
         }
         String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
@@ -76,7 +76,7 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
                 error = "请重新登录";
             } else {
                 error = o.getString("0");
-                if (StringUtil.isEmpty(error))
+                if (StringUtils.isEmpty(error))
                     error = "请重新登录";
             }
             return null;
@@ -89,7 +89,7 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
     protected void onPostExecute(MessageDetialInfo result) {
         ActivityUtils.getInstance().dismiss();
         if (result == null) {
-            if (!StringUtil.isEmpty(error))
+            if (!StringUtils.isEmpty(error))
                 ActivityUtils.getInstance().noticeError
                         (error, context);
         }

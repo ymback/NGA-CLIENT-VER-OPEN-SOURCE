@@ -51,11 +51,11 @@ public class HtmlUtil {
     }
 
     private static String buildHeader(ThreadRowInfo row, String fgColorStr) {
-        if (row == null || (StringUtil.isEmpty(row.getSubject()) && !row.getISANONYMOUS()))
+        if (row == null || (StringUtils.isEmpty(row.getSubject()) && !row.getISANONYMOUS()))
             return "";
         StringBuilder sb = new StringBuilder();
         sb.append("<h4 style='color:").append(fgColorStr).append("' >");
-        if (!StringUtil.isEmpty(row.getSubject()))
+        if (!StringUtils.isEmpty(row.getSubject()))
             sb.append(row.getSubject());
         if (row.getISANONYMOUS())
             sb.append("<font style='color:#D00;font-weight: bold;'>").append("[匿名]").append("</font>");
@@ -66,12 +66,12 @@ public class HtmlUtil {
     public static String convertToHtmlText(final ThreadRowInfo row,
                                            boolean showImage, int imageQuality, final String fgColorStr,
                                            final String bgcolorStr, Context context) {
-        if (StringUtil.isEmpty(hide)) {
+        if (StringUtils.isEmpty(hide)) {
             if (context != null)
                 initStaticStrings(context);
         }
         HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtil.decodeForumTag(row.getContent(), showImage,
+        String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage,
                 imageQuality, imageURLSet);
         if (row.get_isInBlackList()) {
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
@@ -85,10 +85,10 @@ public class HtmlUtil {
             if (imageURLSet.size() == 0) {
                 imageURLSet = null;
             }
-            if (StringUtil.isEmpty(ngaHtml)) {
+            if (StringUtils.isEmpty(ngaHtml)) {
                 ngaHtml = row.getAlterinfo();
             }
-            if (StringUtil.isEmpty(ngaHtml)) {
+            if (StringUtils.isEmpty(ngaHtml)) {
                 ngaHtml = "<font color='red'>[" + hide + "]</font>";
             }
             // 把链接替换为短字符
@@ -161,7 +161,7 @@ public class HtmlUtil {
                     attachURL = attachURL + ".thumb.jpg";
                     // ret.append(entry.getValue().getExt());
                 } else {
-                    attachURL = StringUtil.buildOptimizedImageURL(attachURL, imageQuality);
+                    attachURL = StringUtils.buildOptimizedImageURL(attachURL, imageQuality);
                 }
                 ret.append("<img src='");
                 ret.append(attachURL);
@@ -207,7 +207,7 @@ public class HtmlUtil {
             String avatarUrl = FunctionUtil.parseAvatarUrl(comment.getJs_escap_avatar());
             String avatarPath = ImageUtil.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
             if (downImg) {
-                if (StringUtil.isEmpty(avatarPath)) {
+                if (StringUtils.isEmpty(avatarPath)) {
                     ret.append(avatarUrl);
                 } else {
                     File f = new File(avatarPath);
@@ -218,7 +218,7 @@ public class HtmlUtil {
                     }
                 }
             } else {
-                if (StringUtil.isEmpty(avatarPath)) {
+                if (StringUtils.isEmpty(avatarPath)) {
                     ret.append("file:///android_asset/default_avatar.png");
                 } else {
                     File f = new File(avatarPath);
@@ -232,7 +232,7 @@ public class HtmlUtil {
             ret.append("' style= 'max-width:32;'>");
 
             ret.append("</td><td>");
-            ret.append(StringUtil.decodeForumTag(comment.getContent(), showImage, imageQuality, null));
+            ret.append(StringUtils.decodeForumTag(comment.getContent(), showImage, imageQuality, null));
             ret.append("</td></tr>");
 
         }
@@ -251,12 +251,12 @@ public class HtmlUtil {
         return "<br/></br>"
                 + sig
                 + "<hr/><br/>"
-                + StringUtil.decodeForumTag(row.getSignature(), showImage,
+                + StringUtils.decodeForumTag(row.getSignature(), showImage,
                 imageQuality, null);
     }
 
     private static String buildVote(ThreadRowInfo row) {
-        if (row == null || StringUtil.isEmpty(row.getVote())) {
+        if (row == null || StringUtils.isEmpty(row.getVote())) {
             return "";
         }
         return "<br/><hr/>" + "本楼有投票/投注内容,长按本楼在菜单中点击投票/投注按钮";

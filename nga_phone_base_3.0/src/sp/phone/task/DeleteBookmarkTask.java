@@ -19,7 +19,7 @@ import sp.phone.adapter.AppendableTopicAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 
 public class DeleteBookmarkTask extends AsyncTask<String, Integer, String> {
@@ -73,12 +73,12 @@ public class DeleteBookmarkTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         ActivityUtils.getInstance().dismiss();
-        if (StringUtil.isEmpty(result))
+        if (StringUtils.isEmpty(result))
             return;
 
-        String msg = StringUtil.getStringBetween(result, 0, "{\"0\":\"", "\"},\"time\"").result;
+        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"},\"time\"").result;
         //android.R.drawable.ic_search_category_default
-        if (!StringUtil.isEmpty(msg)) {
+        if (!StringUtils.isEmpty(msg)) {
             Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
             if (msg.trim().equals("操作成功")) {
                 if (parent instanceof ListView) {

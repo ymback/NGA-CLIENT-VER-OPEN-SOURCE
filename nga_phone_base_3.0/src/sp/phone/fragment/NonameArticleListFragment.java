@@ -37,7 +37,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class NonameArticleListFragment extends Fragment implements
@@ -77,7 +77,7 @@ public class NonameArticleListFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         String fatheractivityclassname = getActivity().getClass()
                 .getSimpleName();
-        if (!StringUtil.isEmpty(fatheractivityclassname)) {
+        if (!StringUtils.isEmpty(fatheractivityclassname)) {
             if (fatheractivityclassname.indexOf("TopicListActivity") < 0)
                 setRetainInstance(true);
         }
@@ -295,12 +295,12 @@ public class NonameArticleListFragment extends Fragment implements
                 final long longposttime = row.ptime;
                 String postTime = "";
                 if (longposttime != 0) {
-                    postTime = StringUtil.TimeStamp2Date(String
+                    postTime = StringUtils.TimeStamp2Date(String
                             .valueOf(longposttime));
                 }
 
                 content = FunctionUtil.checkContent(content);
-                content = StringUtil.unEscapeHtml(content);
+                content = StringUtils.unEscapeHtml(content);
                 mention = name;
                 postPrefix.append("[quote]");
                 postPrefix.append("[b]Post by [hip]");
@@ -313,10 +313,10 @@ public class NonameArticleListFragment extends Fragment implements
 
                 // case R.id.r:
 
-                if (!StringUtil.isEmpty(mention))
+                if (!StringUtils.isEmpty(mention))
                     intent.putExtra("mention", mention);
                 intent.putExtra("prefix",
-                        StringUtil.removeBrTag(postPrefix.toString()));
+                        StringUtils.removeBrTag(postPrefix.toString()));
                 intent.putExtra("tid", tidStr);
                 intent.putExtra("action", "reply");
                 intent.setClass(getActivity(),

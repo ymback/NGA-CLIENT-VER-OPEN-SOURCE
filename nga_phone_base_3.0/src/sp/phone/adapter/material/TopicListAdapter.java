@@ -26,7 +26,7 @@ import sp.phone.bean.TopicListInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.TopicViewHolder> implements OnTopListLoadFinishedListener {
 
@@ -159,7 +159,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
             holder.author.setTextColor(nightLinkColor);
 
         String lastPoster = entry.getLastposter_org();
-        if (StringUtil.isEmpty(lastPoster))
+        if (StringUtils.isEmpty(lastPoster))
             lastPoster = entry.getLastposter();
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.getReplies()));
@@ -185,14 +185,14 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
             needAdd += " +";
         }
         int titleLength;
-        if (StringUtil.isEmpty(title)) {
+        if (StringUtils.isEmpty(title)) {
             title = entry.getSubject();
-            title = StringUtil.unEscapeHtml(title);
+            title = StringUtils.unEscapeHtml(title);
             titleLength = title.length();
             title += needAdd;
 
         } else {
-            title = StringUtil.removeBrTag(StringUtil
+            title = StringUtils.removeBrTag(StringUtils
                     .unEscapeHtml(title));
             titleLength = title.length();
             title += needAdd;
@@ -215,7 +215,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         } else if ((type & 1024) == 1024 && totalLength >= 4) {//只有锁定
             builder.setSpan(lockRedSpan, totalLength - 4, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        if (!StringUtil.isEmpty(entry.getTopicMisc())) {
+        if (!StringUtils.isEmpty(entry.getTopicMisc())) {
             final String misc = entry.getTopicMisc();
             if (misc.contains("~")) {
                 if (misc.equals("~1~~") || misc.equals("~~~1")) {
@@ -292,7 +292,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
                 }
             }
         } else {
-            if (!StringUtil.isEmpty(entry.getTitlefont())) {
+            if (!StringUtils.isEmpty(entry.getTitlefont())) {
                 final String font = entry.getTitlefont();
                 if (font.contains("~")) {
                     if (font.equals("~1~~") || font.equals("~~~1")) {

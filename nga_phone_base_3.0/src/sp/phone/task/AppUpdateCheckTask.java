@@ -22,7 +22,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
 
@@ -57,7 +57,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
         }
         Log.d(TAG, "start to get html data");
         String rssString = HttpUtil.getHtml(url, "", null, 1000);
-        if (StringUtil.isEmpty(rssString)) {
+        if (StringUtils.isEmpty(rssString)) {
             Log.w(TAG, "seems gfwed, try ip");
             rssString = HttpUtil.getHtml(ipurl, "", host, 1000);
         }
@@ -65,7 +65,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
         String apkId = null;
         do {
             Log.d(TAG, "start to check");
-            if (StringUtil.isEmpty(rssString))
+            if (StringUtils.isEmpty(rssString))
                 break;
             int start = 0;
             int end = 0;
@@ -124,7 +124,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
             if (end == -1)
                 break;
             this.content = rssString.substring(start, end).trim();
-            this.content = StringUtil.unEscapeHtml(content);
+            this.content = StringUtils.unEscapeHtml(content);
         } while (false);
 
         return apkId;

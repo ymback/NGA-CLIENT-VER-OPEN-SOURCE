@@ -26,7 +26,7 @@ import sp.phone.bean.User;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/6/6.
@@ -119,8 +119,8 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
                             u.getReplyString());
                     PhoneConfiguration.getInstance().setReplyTotalNum(
                             u.getReplyTotalNum());
-                    PhoneConfiguration.getInstance().blacklist = StringUtil
-                            .blackliststringtolisttohashset(u.getBlackList());
+                    PhoneConfiguration.getInstance().blacklist = StringUtils
+                            .blackListStringToHashset(u.getBlackList());
 
                 }
 
@@ -160,7 +160,7 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
     @Override
     public void insertFile(String path, CharSequence file) {
         int index = mBodyEditText.getSelectionStart();
-        if (!StringUtil.isEmpty(path)){
+        if (!StringUtils.isEmpty(path)){
             if (mBodyEditText.getText().toString().replaceAll("\\n", "").trim()
                     .equals("")) {// NO INPUT DATA
                 mBodyEditText.append(file);

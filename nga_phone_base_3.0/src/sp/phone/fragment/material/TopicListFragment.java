@@ -23,7 +23,7 @@ import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -53,8 +53,8 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         super.onCreate(savedInstanceState);
         mRequestInfo = getArguments().getParcelable("requestInfo");
         if (mRequestInfo.authorId > 0 || mRequestInfo.searchPost > 0 || mRequestInfo.favor > 0
-                || !StringUtil.isEmpty(mRequestInfo.key) || !StringUtil.isEmpty(mRequestInfo.author)
-                || !StringUtil.isEmpty(mRequestInfo.fidGroup)) {//!StringUtil.isEmpty(table) ||
+                || !StringUtils.isEmpty(mRequestInfo.key) || !StringUtils.isEmpty(mRequestInfo.author)
+                || !StringUtils.isEmpty(mRequestInfo.fidGroup)) {//!StringUtils.isEmpty(table) ||
             mFromReplayActivity = true;
         }
         setRetainInstance(true);
@@ -205,15 +205,15 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
             String guide = (String) mAdapter.getItem(position);
-            if (StringUtil.isEmpty(guide)) {
+            if (StringUtils.isEmpty(guide)) {
                 return;
             }
 
             guide = guide.trim();
 
-            int pid = StringUtil.getUrlParameter(guide, "pid");
-            int tid = StringUtil.getUrlParameter(guide, "tid");
-            int authorId = StringUtil.getUrlParameter(guide, "authorid");
+            int pid = StringUtils.getUrlParameter(guide, "pid");
+            int tid = StringUtils.getUrlParameter(guide, "tid");
+            int authorId = StringUtils.getUrlParameter(guide, "authorid");
 
             Intent intent = new Intent();
             intent.putExtra("tab", "1");

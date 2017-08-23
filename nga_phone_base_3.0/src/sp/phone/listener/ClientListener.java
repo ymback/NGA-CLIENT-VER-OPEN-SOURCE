@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class ClientListener implements OnClickListener {
 
@@ -30,7 +30,7 @@ public class ClientListener implements OnClickListener {
         String fromClient = row.getFromClient();
         String clientModel = row.getFromClientModel();
         String deviceInfo;
-        if (!StringUtil.isEmpty(clientModel)) {
+        if (!StringUtils.isEmpty(clientModel)) {
             String clientAppCode;
             if (!fromClient.contains(" ")) {
                 clientAppCode = fromClient;

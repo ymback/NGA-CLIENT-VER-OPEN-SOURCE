@@ -11,7 +11,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListAction;
 import sp.phone.fragment.material.ArticleContainerFragment;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * 帖子详情页, 是否MD都用这个
@@ -81,7 +81,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
     }
 
     private int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";
@@ -120,7 +120,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
 //            tid = data.getThreadInfo().getTid();
 //        fid = data.getThreadInfo().getFid();
 //        getSupportActionBar().setTitle(
-//                StringUtil.unEscapeHtml(data.getThreadInfo().getSubject()));
+//                StringUtils.unEscapeHtml(data.getThreadInfo().getSubject()));
 //
 //        title = data.getThreadInfo().getSubject();
 //

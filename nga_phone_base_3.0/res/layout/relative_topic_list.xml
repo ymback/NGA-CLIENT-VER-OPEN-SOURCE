@@ -27,6 +27,7 @@
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="160dp"
             android:text="@string/sample_nick_name"
             android:textColor="@color/night_link_color"
             android:textIsSelectable="false"

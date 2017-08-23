@@ -24,7 +24,7 @@ import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public abstract class TopicListAdapter extends BaseAdapter implements OnTopListLoadFinishedListener {
@@ -118,7 +118,7 @@ public abstract class TopicListAdapter extends BaseAdapter implements OnTopListL
             holder.author.setTextColor(nightLinkColor);
 
         String lastPoster = entry.getLastposter_org();
-        if (StringUtil.isEmpty(lastPoster))
+        if (StringUtils.isEmpty(lastPoster))
             lastPoster = entry.getLastposter();
         holder.lastReply.setText(lastPoster);
         holder.num.setText("" + entry.getReplies());
@@ -145,14 +145,14 @@ public abstract class TopicListAdapter extends BaseAdapter implements OnTopListL
             needadd += " +";
         }
         int titlelength;
-        if (StringUtil.isEmpty(titile)) {
+        if (StringUtils.isEmpty(titile)) {
             titile = entry.getSubject();
-            titile = StringUtil.unEscapeHtml(titile);
+            titile = StringUtils.unEscapeHtml(titile);
             titlelength = titile.length();
             titile += needadd;
 
         } else {
-            titile = StringUtil.removeBrTag(StringUtil
+            titile = StringUtils.removeBrTag(StringUtils
                     .unEscapeHtml(titile));
             titlelength = titile.length();
             titile += needadd;
@@ -175,7 +175,7 @@ public abstract class TopicListAdapter extends BaseAdapter implements OnTopListL
         } else if ((type & 1024) == 1024 && totallength >= 4) {//只有锁定
             builder.setSpan(lockredSpan, totallength - 4, totallength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        if (!StringUtil.isEmpty(entry.getTopicMisc())) {
+        if (!StringUtils.isEmpty(entry.getTopicMisc())) {
             final String misc = entry.getTopicMisc();
             if (misc.indexOf("~") >= 0) {
                 if (misc.equals("~1~~") || misc.equals("~~~1")) {
@@ -246,7 +246,7 @@ public abstract class TopicListAdapter extends BaseAdapter implements OnTopListL
                 }
             }
         } else {
-            if (!StringUtil.isEmpty(entry.getTitlefont())) {
+            if (!StringUtils.isEmpty(entry.getTitlefont())) {
                 final String font = entry.getTitlefont();
                 if (font.indexOf("~") >= 0) {
                     if (font.equals("~1~~") || font.equals("~~~1")) {

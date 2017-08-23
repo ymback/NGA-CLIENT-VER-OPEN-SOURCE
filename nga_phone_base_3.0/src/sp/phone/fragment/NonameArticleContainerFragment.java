@@ -29,7 +29,7 @@ import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class NonameArticleContainerFragment extends BaseFragment implements
@@ -181,7 +181,7 @@ public class NonameArticleContainerFragment extends BaseFragment implements
     }
 
     private int getUrlParameter(String url, String paraName) {
-        if (StringUtil.isEmpty(url)) {
+        if (StringUtils.isEmpty(url)) {
             return 0;
         }
         final String pattern = paraName + "=";

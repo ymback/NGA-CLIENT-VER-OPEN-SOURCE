@@ -27,7 +27,7 @@ import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class RecentReplyAdapter extends BaseAdapter implements
         PreferenceKey {
@@ -132,7 +132,7 @@ public class RecentReplyAdapter extends BaseAdapter implements
 
         String userListString = share.getString(USER_LIST, "");
         List<User> userList = null;
-        if (!StringUtil.isEmpty(userListString)) {
+        if (!StringUtils.isEmpty(userListString)) {
             userList = JSON.parseArray(userListString, User.class);
             for (User u : userList) {
                 if (u.getUserId().equals(

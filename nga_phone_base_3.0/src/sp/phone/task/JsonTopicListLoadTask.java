@@ -18,7 +18,7 @@ import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListInfo> {
     private final static String TAG = JsonTopicListLoadTask.class.getSimpleName();
@@ -49,12 +49,12 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
         if (greatSeaUri.equals(uri)) {
             filter = true;
         }
-        String page = StringUtil.getStringBetween(uri, 0, "page=", "&").result;
-        if (StringUtil.isEmpty(page)) {
+        String page = StringUtils.getStringBetween(uri, 0, "page=", "&").result;
+        if (StringUtils.isEmpty(page)) {
             page = "1";
         }
 //        if(uri.indexOf("table=")>0){
-//        	table = StringUtil.getStringBetween(uri, 0, "table=", "&").result.trim();
+//        	table = StringUtils.getStringBetween(uri, 0, "table=", "&").result.trim();
 //        	if(context!=null){
 //            	String pattern1 = "^[0-"+context.getResources().getString(R.string.largesttablenum)+"]{1}$";//判断是否是搜索
 //        		Pattern pattern = Pattern.compile(pattern1);
@@ -224,7 +224,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
                     }
                     entry.setLastposter(sb.toString());
                 }
-                if (!StringUtil.isEmpty(rowObj.getString("topic_misc"))) {
+                if (!StringUtils.isEmpty(rowObj.getString("topic_misc"))) {
                     entry.setTopicMisc(rowObj.getString("topic_misc"));
                 }
                 if (rowObj.getIntValue("type") != 0) {
@@ -248,7 +248,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
                     entry.setAuthor(sb.toString());
                 }
                 if (PhoneConfiguration.getInstance().showStatic ||
-                        (StringUtil.isEmpty(entry.getTop_level()) && StringUtil.isEmpty(entry.getStatic_topic()))) {
+                        (StringUtils.isEmpty(entry.getTop_level()) && StringUtils.isEmpty(entry.getStatic_topic()))) {
                     if (PhoneConfiguration.getInstance().showLajibankuai) {
                         articleEntryList.add(entry);//显示的话，不用管直接加
                     } else {

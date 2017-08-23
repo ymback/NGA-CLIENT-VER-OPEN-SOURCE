@@ -38,7 +38,7 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.model.ArticleListTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /*
  * MD 帖子详情分页
@@ -155,7 +155,7 @@ public class ArticleListFragment extends BaseFragment {
                     }
                 }
                 MenuItem voteMenu = menu.findItem(R.id.menu_vote);
-                if (voteMenu != null && StringUtil.isEmpty(row.getVote())) {
+                if (voteMenu != null && StringUtils.isEmpty(row.getVote())) {
                     menu.removeItem(R.id.menu_vote);
                 }
                 return true;
@@ -230,7 +230,7 @@ public class ArticleListFragment extends BaseFragment {
                 final String postTime = row.getPostdate();
 
                 content = FunctionUtil.checkContent(content);
-                content = StringUtil.unEscapeHtml(content);
+                content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
                     postPrefix.append("[quote][pid=");
@@ -259,12 +259,12 @@ public class ArticleListFragment extends BaseFragment {
                     postPrefix.append("[/quote]\n");
                 }
 
-                if (!StringUtil.isEmpty(mention))
+                if (!StringUtils.isEmpty(mention))
                     intent.putExtra("mention", mention);
-                intent.putExtra("prefix", StringUtil.removeBrTag(postPrefix.toString()));
+                intent.putExtra("prefix", StringUtils.removeBrTag(postPrefix.toString()));
                 intent.putExtra("tid", tidStr);
                 intent.putExtra("action", "reply");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
                 } else {
                     intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
@@ -306,7 +306,7 @@ public class ArticleListFragment extends BaseFragment {
                     SharedPreferences.Editor editor = share.edit();
                     editor.putString(PreferenceKey.BLACK_LIST, blackListString);
                     editor.apply();
-                    if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
+                    if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
                         MyApp app = (MyApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
                     } else {
@@ -337,13 +337,13 @@ public class ArticleListFragment extends BaseFragment {
                     break;
                 }
                 Intent intentModify = new Intent();
-                intentModify.putExtra("prefix", StringUtil.unEscapeHtml(StringUtil.removeBrTag(content)));
+                intentModify.putExtra("prefix", StringUtils.unEscapeHtml(StringUtils.removeBrTag(content)));
                 intentModify.putExtra("tid", tidStr);
                 String pid = String.valueOf(row.getPid());// getPid(map.get("url"));
                 intentModify.putExtra("pid", pid);
-                intentModify.putExtra("title", StringUtil.unEscapeHtml(row.getSubject()));
+                intentModify.putExtra("title", StringUtils.unEscapeHtml(row.getSubject()));
                 intentModify.putExtra("action", "modify");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
                 } else {
                     intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
@@ -410,7 +410,7 @@ public class ArticleListFragment extends BaseFragment {
                 content = content.replaceAll(replay_regex1, "");
                 final String postTime1 = row.getPostdate();
                 content = FunctionUtil.checkContent(content);
-                content = StringUtil.unEscapeHtml(content);
+                content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     postPrefix.append("[quote][pid=");
                     postPrefix.append(row.getPid());
@@ -443,8 +443,8 @@ public class ArticleListFragment extends BaseFragment {
                 b.putInt("fid", row.getFid());
                 b.putInt("tid", mArticleListAction.getTid());
 
-                String prefix = StringUtil.removeBrTag(postPrefix.toString());
-                if (!StringUtil.isEmpty(prefix)) {
+                String prefix = StringUtils.removeBrTag(postPrefix.toString());
+                if (!StringUtils.isEmpty(prefix)) {
                     prefix = prefix + "\n";
                 }
                 showPostCommentDialog(prefix,b);
@@ -475,7 +475,7 @@ public class ArticleListFragment extends BaseFragment {
                     shareUrl = shareUrl + "tid=" + mArticleListAction.getTid() + " (分享自NGA安卓客户端开源版)";
                 }
                 String title = mData.getThreadInfo().getSubject();
-                if (!StringUtil.isEmpty(title)) {
+                if (!StringUtils.isEmpty(title)) {
                     shareUrl = "《" + title + "》 - 艾泽拉斯国家地理论坛，地址：" + shareUrl;
                 }
                 intent.putExtra(Intent.EXTRA_TEXT, shareUrl);

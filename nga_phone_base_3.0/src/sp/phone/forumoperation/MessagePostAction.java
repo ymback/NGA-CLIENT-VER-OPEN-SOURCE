@@ -3,7 +3,7 @@ package sp.phone.forumoperation;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class MessagePostAction {
     private String action_;
@@ -28,7 +28,7 @@ public class MessagePostAction {
 
     public void setTo_(String to) {
         to = to.replaceAll("，", ",");
-        to = StringUtil.encodeUrl(to, "GBK");
+        to = StringUtils.encodeUrl(to, "GBK");
         this.to_ = to;
     }
 
@@ -82,16 +82,16 @@ public class MessagePostAction {
         sb.append("&to=");
         sb.append(to_);
         sb.append("&subject=");
-        sb.append(StringUtil.encodeUrl(post_subject_, "GBK"));
+        sb.append(StringUtils.encodeUrl(post_subject_, "GBK"));
         sb.append("&content=");
-        sb.append(StringUtil.encodeUrl(post_content_, "GBK"));
+        sb.append(StringUtils.encodeUrl(post_content_, "GBK"));
         sb.append("&__ngaClientChecksum=");
         sb.append(__ngaClientChecksum);
         return sb.toString();
     }
 
     public void appendAttachments_(String attachments_) {
-        if (StringUtil.isEmpty(this.attachments_))
+        if (StringUtils.isEmpty(this.attachments_))
             this.attachments_ = attachments_;
         else {
             try {
@@ -103,7 +103,7 @@ public class MessagePostAction {
     }
 
     public void appendAttachments_check_(String attachments_check_) {
-        if (StringUtil.isEmpty(this.attachments_check_))
+        if (StringUtils.isEmpty(this.attachments_check_))
             this.attachments_check_ = attachments_check_;
         else {
             try {

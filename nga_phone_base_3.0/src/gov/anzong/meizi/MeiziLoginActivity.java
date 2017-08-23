@@ -28,7 +28,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.MD5Util;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
@@ -83,7 +83,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
     }
 
     private void updateThemeUI() {
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().db_cookie)) {
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().db_cookie)) {
             login_state.setText("已经登陆,你就是神");
         }
         ThemeManager tm = ThemeManager.getInstance();

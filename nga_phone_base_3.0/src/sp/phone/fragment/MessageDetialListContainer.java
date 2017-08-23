@@ -39,7 +39,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -132,8 +132,8 @@ public class MessageDetialListContainer extends BaseFragment implements
         url = getArguments().getString("url");
 
         if (url != null) {
-            String tmp = StringUtil.getStringBetween(url, 0, "mid=", "&").result;
-            if (!StringUtil.isEmpty(tmp)) {
+            String tmp = StringUtils.getStringBetween(url, 0, "mid=", "&").result;
+            if (!StringUtils.isEmpty(tmp)) {
                 mid = Integer.parseInt(tmp, 0);
             }
         } else {
@@ -345,7 +345,7 @@ public class MessageDetialListContainer extends BaseFragment implements
                 final String postTime = row.getTime();
 
                 content = FunctionUtil.checkContent(content);
-                content = StringUtil.unEscapeHtml(content);
+                content = StringUtils.unEscapeHtml(content);
                 postPrefix.append("[quote]");
                 postPrefix.append(" [b]Post by [uid=");
                 postPrefix.append(uid);
@@ -360,13 +360,13 @@ public class MessageDetialListContainer extends BaseFragment implements
                 // case R.id.r:
 
                 intent.putExtra("prefix",
-                        StringUtil.removeBrTag(postPrefix.toString()));
+                        StringUtils.removeBrTag(postPrefix.toString()));
                 intent.putExtra("mid", mid);
                 intent.putExtra("action", "reply");
                 intent.putExtra("title", title);
                 intent.putExtra("to", to);
                 intent.putExtra("messagemode", "yes");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     intent.setClass(
                             getActivity(),
                             PhoneConfiguration.getInstance().messagePostActivityClass);
@@ -417,7 +417,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         intent_bookmark.putExtra("to", row.getAuthor());
         intent_bookmark.putExtra("action", "new");
         intent_bookmark.putExtra("messagemode", "yes");
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
             intent_bookmark.setClass(getActivity(),
                     PhoneConfiguration.getInstance().messagePostActivityClass);
         } else {
@@ -502,7 +502,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         intent_bookmark.putExtra("to", to);
         intent_bookmark.putExtra("action", "reply");
         intent_bookmark.putExtra("messagemode", "yes");
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
             intent_bookmark
                     .setClass(
                             getActivity(),

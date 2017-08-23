@@ -1,6 +1,6 @@
 package sp.phone.forumoperation;
 
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class NonameThreadPostAction {
     private String tid_;
@@ -39,9 +39,9 @@ public class NonameThreadPostAction {
         sb.append("tid=");
         sb.append(tid_);
         sb.append("&title=");
-        sb.append(StringUtil.encodeUrl(post_subject_, "UTF-8"));
+        sb.append(StringUtils.encodeUrl(post_subject_, "UTF-8"));
         sb.append("&content=");
-        sb.append(StringUtil.encodeUrl(post_content_, "UTF-8"));
+        sb.append(StringUtils.encodeUrl(post_content_, "UTF-8"));
         return sb.toString();
     }
 

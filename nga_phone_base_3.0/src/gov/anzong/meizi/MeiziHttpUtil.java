@@ -26,7 +26,7 @@ import javax.net.ssl.SSLSession;
 
 import sp.phone.bean.ArticlePage;
 import sp.phone.utils.ArticleUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class MeiziHttpUtil {
 
@@ -240,7 +240,7 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtil.isEmpty(cookie))
+            if (!StringUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Charset", "GBK");
@@ -278,7 +278,7 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtil.isEmpty(cookie))
+            if (!StringUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", ios_ua);
             conn.setRequestProperty("Accept-Charset", "GBK");
@@ -336,12 +336,12 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtil.isEmpty(cookie))
+            if (!StringUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Charset", "GBK");
             conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-            if (!StringUtil.isEmpty(host)) {
+            if (!StringUtils.isEmpty(host)) {
                 conn.setRequestProperty("Host", host);
             }
             if (timeout > 0) {
@@ -370,7 +370,7 @@ public class MeiziHttpUtil {
         if (conn == null)
             return defaultValue;
         String contentType = conn.getHeaderField("Content-Type");
-        if (StringUtil.isEmpty(contentType))
+        if (StringUtils.isEmpty(contentType))
             return defaultValue;
         String startTag = "charset=";
         String endTag = " ";
@@ -429,11 +429,11 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtil.isEmpty(cookie))
+            if (!StringUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-            if (!StringUtil.isEmpty(referer)) {
+            if (!StringUtils.isEmpty(referer)) {
                 conn.setRequestProperty("Referer", referer);
             }
             if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {

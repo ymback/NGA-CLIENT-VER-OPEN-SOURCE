@@ -55,7 +55,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 
 /**
@@ -140,7 +140,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         String userListString = sp.getString(PreferenceKey.USER_LIST, "");
         mHeaderView.removeAllViews();
         final List<User> userList;
-        if (StringUtil.isEmpty(userListString)) {
+        if (StringUtils.isEmpty(userListString)) {
             userList = null;
             mHeaderView.addView(getUserView(null, 0));// 传递回一个未登入的
         } else {

@@ -6,10 +6,6 @@ import java.util.List;
 
 import sp.phone.bean.BoardCategory;
 
-/**
- * Created by Yang Yihang on 2017/7/25.
- */
-
 public interface BoardManager {
 
     void initialize(Context context);
@@ -33,7 +29,5 @@ public interface BoardManager {
     void swapBookmark(int from, int to);
 
     void removeBookmark(int index);
-
-
 
 }

@@ -19,7 +19,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 
 public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleListAdapter.UserViewHolder> {
@@ -47,7 +47,7 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
                 Context.MODE_PRIVATE);
 
         String userListString = share.getString(PreferenceKey.USER_LIST, "");
-        if (StringUtil.isEmpty(userListString)) {
+        if (StringUtils.isEmpty(userListString)) {
             mUserList = new ArrayList<>();
         } else {
             mUserList = JSON.parseArray(userListString, User.class);
@@ -113,7 +113,7 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
                 configuration.setCid("");
                 configuration.setReplyString("");
                 configuration.setReplyTotalNum(0);
-                configuration.blacklist = StringUtil.blackliststringtolisttohashset("");
+                configuration.blacklist = StringUtils.blackListStringToHashset("");
                 SharedPreferences.Editor editor = share.edit();
                 editor.putString(PreferenceKey.UID, "")
                 .putString(PreferenceKey.CID, "")
@@ -129,7 +129,7 @@ public class UserRecycleListAdapter extends RecyclerView.Adapter<UserRecycleList
                 configuration.setCid(user.getCid());
                 configuration.setReplyString(user.getReplyString());
                 configuration.setReplyTotalNum(user.getReplyTotalNum());
-                configuration.blacklist = StringUtil.blackliststringtolisttohashset(user.getBlackList());
+                configuration.blacklist = StringUtils.blackListStringToHashset(user.getBlackList());
             }
         }
 

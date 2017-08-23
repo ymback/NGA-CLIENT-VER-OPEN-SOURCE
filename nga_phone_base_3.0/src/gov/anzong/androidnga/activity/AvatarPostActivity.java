@@ -45,7 +45,7 @@ import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
@@ -333,7 +333,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 
     private void handleAvatar(ImageView avatarIV, String avatarUrl) {
         final String userId = PhoneConfiguration.getInstance().uid;
-        if (!StringUtil.isEmpty(avatarUrl)) {
+        if (!StringUtils.isEmpty(avatarUrl)) {
             final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
             new ChangeAvatarLoadTask(avatarIV, 0, this)
                     .execute(avatarUrl, avatarPath, userId);

@@ -33,7 +33,7 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/7/9.
@@ -143,7 +143,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         intent.putExtra("prefix", "");
         intent.putExtra("tid", tid);
         intent.putExtra("action", "reply");
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
             intent.setClass(getContext(),
                     PhoneConfiguration.getInstance().postActivityClass);
         } else {
@@ -183,7 +183,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
                 } else {
                     shareUrl = shareUrl + "tid=" + mArticleListAction.getTid()+ " (分享自NGA安卓客户端开源版)";
                 }
-                if (!StringUtil.isEmpty(mTitle)) {
+                if (!StringUtils.isEmpty(mTitle)) {
                     shareUrl = "《" + mTitle + "》 - 艾泽拉斯国家地理论坛，地址：" + shareUrl;
                 }
                 intent.putExtra(Intent.EXTRA_TEXT, shareUrl);

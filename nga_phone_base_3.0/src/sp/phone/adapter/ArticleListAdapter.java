@@ -40,7 +40,7 @@ import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.HtmlUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 
 /**
@@ -127,7 +127,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         AvatarTag tag = new AvatarTag(lou, true);
         avatarIV.setImageBitmap(defaultAvatar);
         avatarIV.setTag(tag);
-        if (!StringUtil.isEmpty(avatarUrl)) {
+        if (!StringUtils.isEmpty(avatarUrl)) {
             final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
             if (avatarPath != null) {
                 File f = new File(avatarPath);
@@ -234,7 +234,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         floorTV.setText("[" + floor + " 楼]");
         floorTV.setTextColor(fgColor);
 
-        if (!StringUtil.isEmpty(row.getFromClientModel())) {
+        if (!StringUtils.isEmpty(row.getFromClientModel())) {
             ClientListener clientListener = new ClientListener(position, data, activity);
             String from_client_model = row.getFromClientModel();
             if (from_client_model.equals("ios")) {

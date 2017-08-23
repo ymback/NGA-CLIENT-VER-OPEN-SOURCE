@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.BaseMvpFragment;
 import sp.phone.presenter.contract.LoginContract;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Yang Yihang on 2017/7/5.
@@ -52,7 +52,7 @@ public class LoginWebFragment extends BaseMvpFragment implements LoginContract.V
         public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
             if (message.contains("成功")) {
                 String cookieStr = CookieManager.getInstance().getCookie(view.getUrl());
-                if (!StringUtil.isEmpty(cookieStr)) {
+                if (!StringUtils.isEmpty(cookieStr)) {
                     mPresenter.parseCookie(cookieStr);
                 }
             }

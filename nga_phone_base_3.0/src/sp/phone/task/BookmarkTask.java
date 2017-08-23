@@ -14,7 +14,7 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class BookmarkTask extends AsyncTask<String, Integer, String> {
     private final String url = Utils.getNGAHost() + "nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=add&tid=";
@@ -65,12 +65,12 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         ActivityUtils.getInstance().dismiss();
-        if (StringUtil.isEmpty(result))
+        if (StringUtils.isEmpty(result))
             return;
 
-        String msg = StringUtil.getStringBetween(result, 0, "{\"0\":\"", "\"},\"time\"").result;
+        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"},\"time\"").result;
         //android.R.drawable.ic_search_category_default
-        if (!StringUtil.isEmpty(msg)) {
+        if (!StringUtils.isEmpty(msg)) {
             Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
         }
     }

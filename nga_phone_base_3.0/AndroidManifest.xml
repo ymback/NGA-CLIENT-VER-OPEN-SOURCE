@@ -81,9 +81,6 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/SwipeBackTheme" />
         <activity
-            android:name=".activity.BookmarkActivity"
-            android:theme="@style/SwipeBackTheme" />
-        <activity
             android:name=".activity.FlexibleSignActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity

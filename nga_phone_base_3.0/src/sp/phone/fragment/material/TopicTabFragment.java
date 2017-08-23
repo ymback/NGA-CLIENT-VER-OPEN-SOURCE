@@ -29,7 +29,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.presenter.contract.TopicListContract;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.view.ScrollableViewPager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
@@ -56,6 +56,8 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
     private String mBoardName;
 
     private BoardManager mBoardManager;
+
+    private Menu mOptionMenu;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,6 +126,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.topic_list_menu, menu);
+        mOptionMenu = menu;
     }
 
 
@@ -163,7 +166,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                 Intent intent = new Intent();
                 intent.putExtra("fid", mRequestInfo.fid);
                 intent.putExtra("action", "search");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     handleSearch();
                 } else {
                     intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
@@ -175,9 +178,16 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                 break;
             case R.id.menu_add_bookmark:
                 mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+                showToast(R.string.toast_add_bookmark_board);
                 break;
             case R.id.menu_remove_bookmark:
                 mBoardManager.removeBookmark(String.valueOf(mRequestInfo.fid));
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
+                showToast(R.string.toast_remove_bookmark_board);
+                break;
             default:
                 return false;
         }
@@ -209,7 +219,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         Intent intent = new Intent();
         intent.putExtra("fid", mRequestInfo.fid);
         intent.putExtra("action", "new");
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
         } else {
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);

@@ -18,7 +18,7 @@ import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.bean.User;
 import sp.phone.fragment.MessageListContainer;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class MessageListFragment extends MaterialCompatFragment implements AdapterView.OnItemClickListener{
 
@@ -60,7 +60,7 @@ public class MessageListFragment extends MaterialCompatFragment implements Adapt
                 Intent intent_bookmark = new Intent();
                 intent_bookmark.putExtra("action", "new");
                 intent_bookmark.putExtra("messagemode", "yes");
-                if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
                     intent_bookmark.setClass(getActivity(),
                             PhoneConfiguration.getInstance().messagePostActivityClass);
                 } else {
@@ -84,7 +84,7 @@ public class MessageListFragment extends MaterialCompatFragment implements Adapt
         config.setNickname(u.getNickName());
         config.setReplyString(u.getReplyString());
         config.setReplyTotalNum(u.getReplyTotalNum());
-        config.blacklist = StringUtil.blackliststringtolisttohashset(u.getBlackList());
+        config.blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
         MessageListContainer fragment = (MessageListContainer) getChildFragmentManager().findFragmentById(getContainerId());
         if (fragment != null) {
             fragment.onCategoryChanged(position);

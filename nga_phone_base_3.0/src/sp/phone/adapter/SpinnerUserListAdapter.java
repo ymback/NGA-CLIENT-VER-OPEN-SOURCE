@@ -15,7 +15,7 @@ import java.util.List;
 
 import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class SpinnerUserListAdapter extends BaseAdapter
         implements PreferenceKey {
@@ -32,7 +32,7 @@ public class SpinnerUserListAdapter extends BaseAdapter
 
 
         //new ArrayList<User>();
-        if (StringUtil.isEmpty(userListString)) {
+        if (StringUtils.isEmpty(userListString)) {
             userList = new ArrayList<User>();
         } else {
             userList = JSON.parseArray(userListString, User.class);

@@ -12,7 +12,7 @@ import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class MyListenerForNonameReply implements OnClickListener {
     int mPosition;
@@ -62,11 +62,11 @@ public class MyListenerForNonameReply implements OnClickListener {
                 final long longposttime = row.ptime;
                 String postTime = "";
                 if (longposttime != 0) {
-                    postTime = StringUtil.TimeStamp2Date(String.valueOf(longposttime));
+                    postTime = StringUtils.TimeStamp2Date(String.valueOf(longposttime));
                 }
                 final String tidStr = String.valueOf(mData.data.tid);
                 content = FunctionUtil.checkContent(content);
-                content = StringUtil.unEscapeHtml(content);
+                content = StringUtils.unEscapeHtml(content);
                 mention = name;
                 postPrefix.append("[quote]");
                 postPrefix.append("[b]Post by [hip]");
@@ -76,10 +76,10 @@ public class MyListenerForNonameReply implements OnClickListener {
                 postPrefix.append("):[/b]\n");
                 postPrefix.append(content);
                 postPrefix.append("[/quote]\n");
-                if (!StringUtil.isEmpty(mention))
+                if (!StringUtils.isEmpty(mention))
                     intent.putExtra("mention", mention);
                 intent.putExtra("prefix",
-                        StringUtil.removeBrTag(postPrefix.toString()));
+                        StringUtils.removeBrTag(postPrefix.toString()));
                 if (tidStr != null)
                     intent.putExtra("tid", tidStr);
                 intent.putExtra("action", "reply");

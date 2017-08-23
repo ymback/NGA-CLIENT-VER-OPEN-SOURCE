@@ -29,7 +29,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -148,17 +148,17 @@ public class SignContainer extends BaseFragment implements
         String availablenums;
         String successnums;
 
-        if (StringUtil.isEmpty(PhoneConfiguration.getInstance().userName)) {
+        if (StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {
             userName = "未知";
         } else {
             userName = PhoneConfiguration.getInstance().userName;
         }
         String userId = "-9999";
-        if (!StringUtil.isEmpty(PhoneConfiguration.getInstance().uid)) {
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
             userId = PhoneConfiguration.getInstance().uid;
         }
         if (result != null) {
-            if (StringUtil.isEmpty(result.get__SignResult())) {
+            if (StringUtils.isEmpty(result.get__SignResult())) {
                 signstates = "未知";
             } else {
                 signstates = result.get__SignResult();
@@ -177,7 +177,7 @@ public class SignContainer extends BaseFragment implements
                     successnums = "0个";
                 }
             } else {
-                if (StringUtil.isEmpty(result.get__Last_time())) {
+                if (StringUtils.isEmpty(result.get__Last_time())) {
                     signtimes = "未知";
                 } else {
                     signtimes = result.get__Last_time();

@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class ReportTask extends AsyncTask<String, Integer, String> {
     final private Context context;
@@ -28,7 +28,7 @@ public class ReportTask extends AsyncTask<String, Integer, String> {
         if (arg0.length == 0)
             return null;
         final String uri = arg0[0];
-        if (StringUtil.isEmpty(uri))
+        if (StringUtils.isEmpty(uri))
             return null;
 
 
@@ -71,7 +71,7 @@ public class ReportTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (!StringUtil.isEmpty(result)) {
+        if (!StringUtils.isEmpty(result)) {
             Toast.makeText(context, R.string.report_success, Toast.LENGTH_SHORT).show();
         }
     }

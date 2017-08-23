@@ -63,7 +63,7 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import gov.anzong.meizi.SplitMeiziMainActivity;
 import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
-import sp.phone.utils.StringUtil;
+import sp.phone.utils.StringUtils;
 
 public class PhoneConfiguration implements PreferenceKey {
     public String userName;
@@ -302,7 +302,7 @@ public class PhoneConfiguration implements PreferenceKey {
     }
 
     public String getCookie() {
-        if (!StringUtil.isEmpty(uid) && !StringUtil.isEmpty(cid)) {
+        if (!StringUtils.isEmpty(uid) && !StringUtils.isEmpty(cid)) {
             return "ngaPassportUid=" + uid +
                     "; ngaPassportCid=" + cid;
         }
