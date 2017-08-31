@@ -1,6 +1,8 @@
 package gov.anzong.androidnga.gallery;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.bumptech.glide.Glide;
@@ -35,8 +37,7 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
                     .with(context)
                     .load(url)
                     .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .get() // needs to be called on background thread
-                    ;
+                    .get(); // needs to be called on background thread
         } catch (Exception ex) {
             return null;
         }
@@ -54,6 +55,8 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
         }
         String toast = context.getString(R.string.file_saved) + savePath;
         UiUtil.showToast(context, toast);
+        Uri uri = Uri.fromFile(new File(savePath));
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
     }
 
     public static void copyFile(File sourceFile, File desFile, boolean isDeleteSourceFile) throws IOException {
