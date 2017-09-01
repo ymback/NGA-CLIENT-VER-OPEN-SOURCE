@@ -129,6 +129,7 @@
 
         <android.preference.SwitchCompatPreference
             android:key="material_mode"
+            android:defaultValue="true"
             android:title="@string/setting_title_material_mode" />
 
         <SwitchPreference
