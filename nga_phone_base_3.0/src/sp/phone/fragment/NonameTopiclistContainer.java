@@ -286,7 +286,6 @@ public class NonameTopiclistContainer extends BaseFragment implements
             case R.id.night_mode://OK
                 nightMode(item);
                 break;
-            case R.id.threadlist_menu_item3:
             default:
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
