@@ -11,11 +11,11 @@ import sp.phone.forumoperation.ArticleListAction;
 import sp.phone.fragment.material.ArticleListFragment;
 
 /**
+ * 帖子详情分页Adapter
  * Created by Yang Yihang on 2017/7/9.
  */
 
 public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
-
 
     private SparseArray<ArticleListFragment> mRegisteredFragments = new SparseArray<>();
 

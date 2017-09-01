@@ -36,10 +36,11 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 
 /**
+ * 帖子详情Fragment
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleContainerFragment extends BaseFragment implements OnThreadPageLoadFinishedListener,PagerOwner,OnClickListener {
+public class ArticleContainerFragment extends BaseFragment implements OnThreadPageLoadFinishedListener, PagerOwner, OnClickListener {
 
     private ViewPager mViewPager;
 
@@ -66,17 +67,15 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         }
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         mViewPager = new ViewPager(getContext());
         mViewPager.setId(R.id.pager);
         mViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(),mArticleListAction);
+        mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(), mArticleListAction);
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 mPosition = position;
@@ -98,7 +97,6 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         super.onViewCreated(view, savedInstanceState);
     }
 
-
     private void updateFloatingMenu() {
         mActivity.findViewById(R.id.fab_post).setOnClickListener(this);
         mActivity.findViewById(R.id.fab_refresh).setOnClickListener(this);
@@ -106,7 +104,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         if (PhoneConfiguration.getInstance().isLeftHandMode()) {
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
             lp.gravity = Gravity.START | Gravity.BOTTOM;
-            mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP,FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
+            mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
             mFam.setLayoutParams(lp);
         }
     }
@@ -121,10 +119,9 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
 
     @Override
     public void finishLoad(ThreadData data) {
-
         mTitle = data.getThreadInfo().getSubject();
         setTitle(mTitle);
-        int replyCount = data.getThreadInfo().getReplies();
+        int replyCount = data.getThreadInfo().getReplies() + 1; //没有包括主楼, 所以+1
         int count = replyCount / 20;
         if (replyCount % 20 != 0) {
             count++;
@@ -181,7 +178,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
                 if (mArticleListAction.getPid() != 0) {
                     shareUrl = shareUrl + "pid=" + mArticleListAction.getPid() + " (分享自NGA安卓客户端开源版)";
                 } else {
-                    shareUrl = shareUrl + "tid=" + mArticleListAction.getTid()+ " (分享自NGA安卓客户端开源版)";
+                    shareUrl = shareUrl + "tid=" + mArticleListAction.getTid() + " (分享自NGA安卓客户端开源版)";
                 }
                 if (!StringUtils.isEmpty(mTitle)) {
                     shareUrl = "《" + mTitle + "》 - 艾泽拉斯国家地理论坛，地址：" + shareUrl;

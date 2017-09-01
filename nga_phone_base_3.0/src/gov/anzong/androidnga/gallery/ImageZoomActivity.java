@@ -63,7 +63,6 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
             DisplayMetrics dm = new DisplayMetrics();
             Display d = getWindowManager().getDefaultDisplay();
             d.getMetrics(dm);
-            //mRect = new Rect((int) (0.25 * dm.widthPixels), (int) (0.25 * dm.heightPixels), (int) (0.75 * dm.widthPixels), (int) (0.75 * dm.heightPixels));
             mRect = new Rect(0, 0, dm.widthPixels, dm.heightPixels);
         }
         String curUrl = intent.getStringExtra(KEY_GALLERY_CUR_URL);

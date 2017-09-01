@@ -262,7 +262,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 }
                 break;
             case R.id.vote_dialog:
-                FunctionUtil.Create_Vote_Dialog(row, getActivity(), scrollview,
+                FunctionUtil.createVoteDialog(row, getActivity(), scrollview,
                         toast);
                 break;
             case R.id.ban_thisone:

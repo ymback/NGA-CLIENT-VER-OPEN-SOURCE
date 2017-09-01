@@ -5,8 +5,6 @@
     <color name="text_color_disabled">#FFC4BEAE</color>
     <color name="window_background">@color/shit2</color>
     <color name="toolbar_text_color">#FFFFFF</color>
-    <color name="toolbar_popup_background">#fffafafa</color>
-
 
     <color name="colorAccent">#FF591804</color>
 

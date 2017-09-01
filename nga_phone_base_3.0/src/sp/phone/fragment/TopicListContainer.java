@@ -374,7 +374,6 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
                     }
                 }
                 break;
-            case R.id.threadlist_menu_item3:
             default:
                 // case android.R.id.home:
                 Intent intent = new Intent(getActivity(), MainActivity.class);

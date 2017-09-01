@@ -468,7 +468,7 @@ public class FunctionUtil {
     }
 
     @SuppressWarnings("unused")
-    public static void Create_Vote_Dialog(ThreadRowInfo row, final Context context, final View scrollview, Toast toast) {
+    public static void createVoteDialog(ThreadRowInfo row, final Context context, final View scrollview, Toast toast) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
         final View view = layoutInflater.inflate(R.layout.vote_dialog, null);
         String name = row.getAuthor();

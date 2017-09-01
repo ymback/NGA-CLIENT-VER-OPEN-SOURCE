@@ -51,7 +51,7 @@
 			
 			
 			<TextView
-			    android:id="@id/last_reply"
+			    android:id="@+id/last_reply"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_marginRight="9.0dip"
@@ -68,14 +68,14 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_marginRight="4.0dip"
-			    android:layout_toLeftOf="@id/num"
+			    android:layout_toLeftOf="@+id/num"
 			    android:contentDescription="@string/app_name"
 			    android:src="@drawable/replies_icon" >
 
 			</ImageView>
 
 			<TextView
-			    android:id="@id/num"
+			    android:id="@+id/num"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:layout_alignParentRight="true"

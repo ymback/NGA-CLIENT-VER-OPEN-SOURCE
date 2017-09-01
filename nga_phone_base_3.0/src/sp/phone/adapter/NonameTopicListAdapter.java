@@ -56,8 +56,7 @@ public class NonameTopicListAdapter extends BaseAdapter implements
             TextView num = (TextView) convertView.findViewById(R.id.num);
             TextView title = (TextView) convertView.findViewById(R.id.title);
             TextView author = (TextView) convertView.findViewById(R.id.author);
-            TextView lastReply = (TextView) convertView
-                    .findViewById(R.id.last_reply);
+            TextView lastReply = (TextView) convertView.findViewById(R.id.last_reply);
             holder = new ViewHolder();
             holder.num = num;
             holder.title = title;
