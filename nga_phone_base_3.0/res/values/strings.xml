@@ -249,7 +249,7 @@
     <string name="clientua">Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36 AndroidNGAOS/</string>
     <!-- string name="checksecret">4103ca8d364d2402e5e304ea07454a2a</string -->
     <string name="checksecret">3ebd769858c56bd345898154e4b44427</string>
-    
+
     <!-- d\o.jav 查System.currentTimeMillis()-->
 
     <string-array name="colorchoose">
@@ -341,4 +341,7 @@
 
     <string name="toast_add_bookmark_board">添加至我的收藏</string>
     <string name="toast_remove_bookmark_board">取消收藏</string>
+
+    <string name="like">顶</string>
+    <string name="dislike">踩</string>
 </resources>

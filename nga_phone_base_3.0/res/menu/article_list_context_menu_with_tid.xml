@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:androidnga="http://schemas.android.com/apk/res-auto" >
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_quote_subject"
-        android:title="@string/quote_subject"
         android:icon="@drawable/ic_menu_cc"
-        androidnga:showAsAction="ifRoom|withText"
-        android:showAsAction="ifRoom|withText" />
+        android:title="@string/quote_subject"
+        androidnga:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/menu_show_whole_thread"
-        android:title="@string/show_whole_thread"
         android:icon="@drawable/ic_action_storage"
-        androidnga:showAsAction="ifRoom|withText"
-        android:showAsAction="ifRoom|withText" />
+        android:title="@string/show_whole_thread"
+        androidnga:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_like"
+        android:title="@string/like"
+        android:icon="@drawable/ic_menu_thumbs_up"
+        androidnga:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_dislike"
+        android:title="@string/dislike"
+        android:icon="@drawable/ic_menu_thumbs_down"
+        androidnga:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/menu_search_subject"
         android:title="@string/search_subject"
-        android:showAsAction="ifRoom"
         androidnga:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_search_post"
         android:title="@string/search_post"
-        android:showAsAction="ifRoom"
         androidnga:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_send_message"
         android:title="@string/send_message"
-        android:showAsAction="never"
         androidnga:showAsAction="never" />
     <item
         android:id="@+id/menu_ban_this_one"
         android:title="@string/ban_thisone"
-        android:showAsAction="never"
         androidnga:showAsAction="never" />
     <item
         android:id="@+id/menu_show_profile"
         android:title="@string/showprofile"
-        android:showAsAction="never"
         androidnga:showAsAction="never" />
     <item
         android:id="@+id/menu_vote"
         android:title="@string/vote_dialog"
-        android:showAsAction="never"
         androidnga:showAsAction="never" />
     <item
         android:id="@+id/menu_share"
-        android:title="@string/share"
         android:icon="@drawable/ic_menu_share_holo_dark"
-        android:showAsAction="never"
+        android:title="@string/share"
         androidnga:showAsAction="never" />
 
 </menu>

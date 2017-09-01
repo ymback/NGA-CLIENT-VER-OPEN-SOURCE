@@ -837,8 +837,7 @@ public class StringUtils {
         return tips;
     }
 
-    public static StringFindResult getStringBetween(String data,
-                                                    int begPosition, String startStr, String endStr) {
+    public static StringFindResult getStringBetween(String data, int begPosition, String startStr, String endStr) {
         StringFindResult ret = new StringFindResult();
         do {
             if (isEmpty(data) || begPosition < 0

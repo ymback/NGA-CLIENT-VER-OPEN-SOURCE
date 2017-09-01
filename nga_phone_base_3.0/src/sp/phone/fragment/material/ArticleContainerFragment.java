@@ -36,6 +36,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 
 /**
+ * 帖子详情Fragment
  * Created by Yang Yihang on 2017/7/9.
  */
 
@@ -69,7 +70,6 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         mViewPager = new ViewPager(getContext());
         mViewPager.setId(R.id.pager);
         mViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));

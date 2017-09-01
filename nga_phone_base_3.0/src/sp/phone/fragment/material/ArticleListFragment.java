@@ -36,12 +36,13 @@ import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.PostCommentDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.model.ArticleListTask;
+import sp.phone.task.LikeTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtil;
 import sp.phone.utils.StringUtils;
 
 /*
- * MD 帖子详情分页
+ * MD 帖子详情每一页
  */
 public class ArticleListFragment extends BaseFragment {
 
@@ -81,13 +82,13 @@ public class ArticleListFragment extends BaseFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("page",mPage);
+        outState.putInt("page", mPage);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_article_list,container,false);
+        return inflater.inflate(R.layout.fragment_article_list, container, false);
     }
 
     @Override
@@ -130,15 +131,13 @@ public class ArticleListFragment extends BaseFragment {
 
     private void activeActionMode() {
         mActionModeCallback = new ActionMode.Callback() {
-
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 MenuInflater inflater = mode.getMenuInflater();
                 if (mArticleListAction.getPid() == 0) {
                     inflater.inflate(R.menu.article_list_context_menu, menu);
                 } else {
-                    inflater.inflate(R.menu.article_list_context_menu_with_tid,
-                            menu);
+                    inflater.inflate(R.menu.article_list_context_menu_with_tid, menu);
                 }
                 int position = mArticleAdapter.getSelectedItem();
                 ThreadRowInfo row = new ThreadRowInfo();
@@ -187,17 +186,14 @@ public class ArticleListFragment extends BaseFragment {
     public boolean onContextItemSelected(MenuItem item) {
 
         int page = mArticleListAction.getPageFromUrl();
-
         int tid = mArticleListAction.getTid();
-
         Log.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
 
         if (!getUserVisibleHint()) {
             return false;
         }
 
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-                .getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int position = mArticleAdapter.getSelectedItem();
         if (info != null) {
             position = info.position;
@@ -222,7 +218,6 @@ public class ArticleListFragment extends BaseFragment {
         Intent intent = new Intent();
         switch (item.getItemId()) {
             case R.id.menu_quote_subject:
-
                 final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
                 final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
                 content = content.replaceAll(quote_regex, "");
@@ -280,8 +275,9 @@ public class ArticleListFragment extends BaseFragment {
                             mListView);
                 }
                 break;
+
             case R.id.menu_vote:
-                FunctionUtil.Create_Vote_Dialog(row, getActivity(), mListView, mToast);
+                FunctionUtil.createVoteDialog(row, getActivity(), mListView, mToast);
                 break;
 
             case R.id.menu_ban_this_one:
@@ -314,6 +310,7 @@ public class ArticleListFragment extends BaseFragment {
                     }
                 }
                 break;
+
             case R.id.menu_show_profile:
                 if (isAnonymous) {
                     FunctionUtil.errordialog(getActivity(), mListView);
@@ -324,6 +321,7 @@ public class ArticleListFragment extends BaseFragment {
                     startActivity(intent);
                 }
                 break;
+
             case R.id.menu_avatar:
                 if (isAnonymous) {
                     FunctionUtil.errordialog(getActivity(), mListView);
@@ -331,6 +329,7 @@ public class ArticleListFragment extends BaseFragment {
                     FunctionUtil.Create_Avatar_Dialog(row, getActivity(), mListView);
                 }
                 break;
+
             case R.id.menu_edit:
                 if (FunctionUtil.isComment(row)) {
                     showToast(R.string.cannot_eidt_comment);
@@ -350,11 +349,12 @@ public class ArticleListFragment extends BaseFragment {
                 }
                 startActivity(intentModify);
                 break;
+
             case R.id.menu_copy:
                 FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(), mListView);
                 break;
-            case R.id.menu_show_this_person_only:
 
+            case R.id.menu_show_this_person_only:
                 if (null == getActivity().findViewById(R.id.item_detail_container)) {
                     Intent intentThis = new Intent();
                     intentThis.putExtra("tab", "1");
@@ -377,6 +377,7 @@ public class ArticleListFragment extends BaseFragment {
                     ft.commit();
                 }
                 break;
+
             case R.id.menu_show_whole_thread:
                 if (null == getActivity().findViewById(R.id.item_detail_container)) {
                     Intent intentThis = new Intent();
@@ -396,6 +397,7 @@ public class ArticleListFragment extends BaseFragment {
                     ft.commit();
                 }
                 break;
+
             case R.id.menu_send_message:
                 if (isAnonymous) {
                     FunctionUtil.errordialog(getActivity(), mListView);
@@ -403,6 +405,7 @@ public class ArticleListFragment extends BaseFragment {
                     FunctionUtil.start_send_message(getActivity(), row);
                 }
                 break;
+
             case R.id.menu_post_comment:
                 final String quote_regex1 = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
                 final String replay_regex1 = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
@@ -447,19 +450,21 @@ public class ArticleListFragment extends BaseFragment {
                 if (!StringUtils.isEmpty(prefix)) {
                     prefix = prefix + "\n";
                 }
-                showPostCommentDialog(prefix,b);
+                showPostCommentDialog(prefix, b);
                 break;
+
             case R.id.menu_report:
                 FunctionUtil.handleReport(row, tid, getFragmentManager());
                 break;
+
             case R.id.menu_search_post:
                 intent.putExtra("searchpost", 1);
             case R.id.menu_search_subject:
                 intent.putExtra("authorid", row.getAuthorid());
-                intent.setClass(getActivity(),
-                        PhoneConfiguration.getInstance().topicActivityClass);
+                intent.setClass(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
                 startActivity(intent);
                 break;
+
             case R.id.menu_share:
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("text/plain");
@@ -483,14 +488,29 @@ public class ArticleListFragment extends BaseFragment {
                 getContext().startActivity(Intent.createChooser(intent, text));
                 break;
 
+            case R.id.menu_like:
+                doLike(tid, row.getPid(), 1);
+                break;
+
+            case R.id.menu_dislike:
+                doLike(tid, row.getPid(), -1);
+                break;
+
+            default:
+                break;
         }
         return true;
+    }
+
+    private void doLike(int tid, int pid, int value) {
+        LikeTask lt = new LikeTask(getActivity(), tid, pid, value);
+        lt.execute();
     }
 
     public void setData(ThreadData data) {
         if (getParentFragment() instanceof OnThreadPageLoadFinishedListener) {
             ((OnThreadPageLoadFinishedListener) getParentFragment()).finishLoad(data);
-        } else if (getActivity() instanceof  OnThreadPageLoadFinishedListener) {
+        } else if (getActivity() instanceof OnThreadPageLoadFinishedListener) {
             ((OnThreadPageLoadFinishedListener) getActivity()).finishLoad(data);
         }
         mData = data;
@@ -511,7 +531,7 @@ public class ArticleListFragment extends BaseFragment {
         }
     }
 
-    public void showPostCommentDialog(String prefix,Bundle bundle) {
+    public void showPostCommentDialog(String prefix, Bundle bundle) {
         Intent intent = new Intent();
         final String dialog_tag = "post comment";
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
