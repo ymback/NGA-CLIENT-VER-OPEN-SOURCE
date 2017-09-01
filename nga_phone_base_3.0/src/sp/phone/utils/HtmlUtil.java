@@ -182,13 +182,13 @@ public class HtmlUtil {
     }
 
     private static String buildComment(ThreadRowInfo row, String fgColor, boolean showImage, int imageQuality, Context context) {
-        if (row == null || row.getComments() == null || row.getComments().size() == 0) {
+        if (row == null || row.getComments() == null || row.getComments().isEmpty()) {
             return "";
         }
 
         StringBuilder ret = new StringBuilder();
         ret.append("<br/></br>").append(comment).append("<hr/><br/>");
-        ret.append("<table border='1px' cellspacing='0px' style='border-collapse:collapse;");
+        ret.append("<table border='1px' cellspacing='0px' style='table-layout:fixed;word-break:break-all;border-collapse:collapse;");
         ret.append("color:");
         ret.append(fgColor);
         ret.append("'>");
@@ -231,7 +231,7 @@ public class HtmlUtil {
             }
             ret.append("' style= 'max-width:32;'>");
 
-            ret.append("</td><td>");
+            ret.append("</td><td width=\"70%\">");
             ret.append(StringUtils.decodeForumTag(comment.getContent(), showImage, imageQuality, null));
             ret.append("</td></tr>");
 
