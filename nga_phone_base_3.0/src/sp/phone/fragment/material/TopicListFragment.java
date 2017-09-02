@@ -202,6 +202,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
                 intent.putExtra("fromreplyactivity", 1);
             }
             mAdapter.setSelected(position);
+            mAdapter.notifyDataSetChanged();
             intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
             startActivity(intent);
         }
