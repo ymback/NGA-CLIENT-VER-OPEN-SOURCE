@@ -11,8 +11,7 @@ import sp.phone.common.PhoneConfiguration;
 /**
  * Created by Administrator on 13-9-29.
  */
-public class SwipeBackAppCompatActivity extends BaseActivity implements
-        SwipeBackActivityBase {
+public abstract class SwipeBackAppCompatActivity extends BaseActivity implements SwipeBackActivityBase {
     public static final int MY_EDGE_SIZE = 10;
     private SwipeBackActivityHelper mHelper;
 

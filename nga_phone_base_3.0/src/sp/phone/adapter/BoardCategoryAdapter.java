@@ -57,13 +57,14 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
     }
 
     @Override
-    public void onBindViewHolder(BoardViewHolder holder, final int position) {
+    public void onBindViewHolder(final BoardViewHolder holder, int position) {
         Drawable draw = getDrawable(position);
         holder.img.setImageDrawable(draw);
         holder.text.setText(mCategory.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int position = holder.getAdapterPosition();
                 if (mItemClickListener != null) {
                     mItemClickListener.onItemClick(null,v,position,getItemId(position));
                 }

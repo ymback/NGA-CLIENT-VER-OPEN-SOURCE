@@ -34,7 +34,7 @@
             android:textSize="11.0sp" />
 
         <TextView
-            android:id="@id/last_reply"
+            android:id="@+id/last_reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="9.0dip"
@@ -54,7 +54,7 @@
             android:src="@drawable/replies_icon" />
 
         <TextView
-            android:id="@id/num"
+            android:id="@+id/num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

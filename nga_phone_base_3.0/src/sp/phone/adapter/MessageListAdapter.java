@@ -63,8 +63,7 @@ public class MessageListAdapter extends BaseAdapter implements
             TextView author = (TextView) convertView.findViewById(R.id.author);
             TextView time = (TextView) convertView.findViewById(R.id.time);
             TextView lasttime = (TextView) convertView.findViewById(R.id.lasttime);
-            TextView lastReply = (TextView) convertView
-                    .findViewById(R.id.last_reply);
+            TextView lastReply = (TextView) convertView.findViewById(R.id.last_reply);
             holder = new ViewHolder();
             holder.num = num;
             holder.title = title;

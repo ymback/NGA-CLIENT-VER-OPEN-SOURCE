@@ -23,7 +23,7 @@ import static sp.phone.common.PreferenceKey.PERFERENCE;
 /**
  * Created by liuboyu on 16/6/28.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toast mToast;
 
