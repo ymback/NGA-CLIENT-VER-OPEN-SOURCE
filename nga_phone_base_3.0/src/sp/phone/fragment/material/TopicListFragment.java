@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,16 +29,15 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 
-public class TopicListFragment extends MaterialCompatFragment implements TopicListContract.View,AdapterView.OnItemLongClickListener{
+public class TopicListFragment extends MaterialCompatFragment implements TopicListContract.View, AdapterView.OnItemLongClickListener {
 
-    private  static final String TAG = TopicListFragment.class.getSimpleName();
+    private static final String TAG = TopicListFragment.class.getSimpleName();
 
     private TopicListRequestInfo mRequestInfo;
 
-    private PullToRefreshAttacher mAttacher = null;
-
     private AppendableTopicAdapter mAdapter;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mListView;
 
     private TopicListInfo mTopicListInfo;
@@ -61,12 +61,10 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getParentFragment() == null) {
-            return super.onCreateView(inflater,container,savedInstanceState);
+            return super.onCreateView(inflater, container, savedInstanceState);
         } else {
             return inflater.inflate(R.layout.fragment_topic_list, container, false);
         }
@@ -81,12 +79,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mListView = (RecyclerView) view.findViewById(R.id.list);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (getParentFragment() == null){
-            mAttacher = getAttacher();
-        } else  {
-            mAttacher = ((PullToRefreshAttacherOnwer) getParentFragment()).getAttacher();
-        }
-        mAdapter = new AppendableTopicAdapter(getContext(), mAttacher, new NextJsonTopicListLoader() {
+        mAdapter = new AppendableTopicAdapter(getContext(), null, new NextJsonTopicListLoader() {
             @Override
             public void loadNextPage(OnTopListLoadFinishedListener callback) {
                 mPresenter.loadNextPage(callback);
@@ -101,33 +94,22 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         if (mTopicListInfo != null) {
             mPresenter.jsonFinishLoad(mTopicListInfo);
         }
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.refresh();
+            }
+        });
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onResume() {
-        if (mTopicListInfo == null && getUserVisibleHint() && mPresenter != null){
+        if (mTopicListInfo == null && getUserVisibleHint() && mPresenter != null) {
             mPresenter.refresh();
         }
         super.onResume();
-    }
-
-    public void refreshSaying() {
-        DefaultHeaderTransformer transformer = null;
-
-        if (mAttacher != null) {
-            uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.HeaderTransformer headerTransformer;
-            headerTransformer = mAttacher.getHeaderTransformer();
-            if (headerTransformer != null && headerTransformer instanceof DefaultHeaderTransformer)
-                transformer = (DefaultHeaderTransformer) headerTransformer;
-        }
-
-        if (transformer == null)
-            ActivityUtils.getInstance().noticeSaying(this.getActivity());
-        else
-            transformer.setRefreshingText(ActivityUtils.getSaying());
-        if (mAttacher != null)
-            mAttacher.setRefreshing(true);
     }
 
     @Override
@@ -158,11 +140,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
     @Override
     public void setRefreshing(boolean refreshing) {
-        if (refreshing){
-            refreshSaying();
-        } else {
-            mAttacher.setRefreshComplete();
-        }
+        mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
     @Override
@@ -199,11 +177,11 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         return true;
     }
 
-    public class EnterJsonArticle implements AdapterView.OnItemClickListener {
+    private class EnterJsonArticle implements AdapterView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+                long id) {
             String guide = (String) mAdapter.getItem(position);
             if (StringUtils.isEmpty(guide)) {
                 return;

@@ -348,6 +348,11 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
     }
 
     @Override
+    public void onListLoadFailed() {
+        // Do nothing
+    }
+
+    @Override
     public void jsonFinishLoad(TopicListInfo result) {
         if (!result.get__SEARCHNORESULT()) {
             mTopicListInfo = result;

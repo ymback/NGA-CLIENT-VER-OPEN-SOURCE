@@ -73,6 +73,11 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
     }
 
     @Override
+    public void onListLoadFailed() {
+        mView.setRefreshing(false);
+    }
+
+    @Override
     public void removeBookmark(String tidId,int position) {
         DeleteBookmarkTask task = new DeleteBookmarkTask(
                 mView.getContext(), mView.getTopicListView(), position);

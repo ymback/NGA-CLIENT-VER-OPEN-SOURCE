@@ -298,6 +298,11 @@ public abstract class TopicListAdapter extends BaseAdapter implements OnTopListL
     }
 
     @Override
+    public void onListLoadFailed() {
+        // Do nothing
+    }
+
+    @Override
     public void jsonFinishLoad(TopicListInfo result) {
         if (!result.get__SEARCHNORESULT()) {
             this.topicListInfo = result;
