@@ -1,6 +1,5 @@
 package sp.phone.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -22,13 +21,12 @@ import java.util.HashSet;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.listener.MyListenerForNonameReply;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class NonameArticleListAdapter extends BaseAdapter implements
         OnLongClickListener {
@@ -242,24 +240,8 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(postTime);
         postTimeTV.setTextColor(fgColor);
-        if (ActivityUtils.isLessThan_4_3()) {
-            new Thread(new Runnable() {
-                public void run() {
-                    FunctionUtils.handleContentTV(contentTV, row, bgColor,
-                            fgColor, activity, null, client);
-                }
-            }).start();
-        } else if (ActivityUtils.isLessThan_4_4()) {
-            ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
-                public void run() {
-                    FunctionUtils.handleContentTV(contentTV, row, bgColor,
-                            fgColor, activity, null, client);
-                }
-            });
-        } else {
-            FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor,
+        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor,
                     activity, null, client);
-        }
         return view;
     }
 
