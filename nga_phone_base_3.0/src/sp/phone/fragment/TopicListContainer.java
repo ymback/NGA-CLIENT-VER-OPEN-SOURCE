@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -66,7 +65,6 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     private OnTopicListContainerListener mCallback;
 
     private ListView listView;
-    private FloatingActionButton mFab;
     private TopicListInfo mTopicListInfo;
     private int mListPosition;
     private int mListFirstTop;
@@ -109,7 +107,6 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         }
         View view = inflater.inflate(R.layout.fragment_topic_list_container, container, false);
         listView = (ListView) view.findViewById(R.id.topic_list);
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             listView.setNestedScrollingEnabled(true);
         }
@@ -121,12 +118,6 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         } catch (ClassCastException e) {
             Log.e(TAG, "father activity should implenent OnItemClickListener");
         }
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refresh();
-            }
-        });
 
         if (attacher != null)
             attacher.addRefreshableView(listView, new ListRefreshListener());

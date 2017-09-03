@@ -21,7 +21,7 @@ import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.presenter.MessagePostPresenter;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 
 public class MessagePostActivity extends BasePostActivity implements OnEmotionPickedListener {
@@ -56,7 +56,7 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
 
         mMessagePostAction = new MessagePostAction(mid, "", "");
         mMessagePostAction.setAction_(action);
-        mMessagePostAction.set__ngaClientChecksum(FunctionUtil.getngaClientChecksum(this));
+        mMessagePostAction.set__ngaClientChecksum(FunctionUtils.getngaClientChecksum(this));
 
         if (prefix != null && prefix.startsWith("[quote][pid=") && prefix.endsWith("[/quote]\n")) {
             SpannableString spanString = new SpannableString(prefix);

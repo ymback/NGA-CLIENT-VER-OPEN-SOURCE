@@ -136,20 +136,6 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         super.onResume();
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        if (mBoardName == null) {
-            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
-        } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
-            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-        } else {
-            menu.findItem(R.id.menu_add_bookmark).setVisible(true);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
-        }
-        super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -175,18 +161,6 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                         getActivity().overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
                     }
                 }
-                break;
-            case R.id.menu_add_bookmark:
-                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
-                item.setVisible(false);
-                mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-                showToast(R.string.toast_add_bookmark_board);
-                break;
-            case R.id.menu_remove_bookmark:
-                mBoardManager.removeBookmark(String.valueOf(mRequestInfo.fid));
-                item.setVisible(false);
-                mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
-                showToast(R.string.toast_remove_bookmark_board);
                 break;
             default:
                 return false;

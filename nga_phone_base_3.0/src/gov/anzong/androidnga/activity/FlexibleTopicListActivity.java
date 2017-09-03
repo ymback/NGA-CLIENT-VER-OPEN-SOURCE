@@ -3,8 +3,6 @@ package gov.anzong.androidnga.activity;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -37,6 +35,10 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.bean.TopicListRequestInfo;
+import sp.phone.common.BoardManager;
+import sp.phone.common.BoardManagerImpl;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.ArticleContainerFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.fragment.material.TopicListFragment;
@@ -52,10 +54,8 @@ import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 /**
@@ -92,6 +92,12 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     private PullToRefreshAttacher mPullToRefreshAttacher;
     private OnItemClickListener onItemClickNewActivity = null;
     private TopicListRequestInfo mRequestInfo;
+
+    private Menu mOptionMenu;
+
+    private BoardManager mBoardManager;
+
+    private String mBoardName;
 
     private int getUrlParameter(String url, String paraName) {
         if (StringUtils.isEmpty(url)) {
@@ -152,12 +158,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity, null);
-        Intent intent = getIntent();
-        boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
-        if (isfullScreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
         this.setContentView(view);
+        initRequestInfo();
+        mBoardManager = BoardManagerImpl.getInstance();
+        mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
         nightmode = ThemeManager.getInstance().getMode();
         if (!PhoneConfiguration.getInstance().isMaterialMode()) {
             PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
@@ -201,7 +205,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 fidgroup = getIntent().getExtras().getString("fidgroup");
             }
         }
-        initRequestInfo();
+
         if (authorid > 0 || searchpost > 0 || favor > 0
                 || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)
                 || !StringUtils.isEmpty(fidgroup)) {//!StringUtils.isEmpty(table) ||
@@ -314,6 +318,19 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         f1.onPrepareOptionsMenu(menu);
         if (f2 != null && dualScreen)
             f2.onPrepareOptionsMenu(menu);
+
+
+
+        if (mBoardName == null) {
+            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+        } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
+            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+            menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+        } else {
+            menu.findItem(R.id.menu_add_bookmark).setVisible(true);
+            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -370,6 +387,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        mOptionMenu = menu;
+
         if (!PhoneConfiguration.getInstance().isMaterialMode()){
             ReflectionUtil.actionBar_setDisplayOption(this, flags);
             return false;
@@ -381,11 +400,26 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.menu_add_bookmark:
+                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+                showToast(R.string.toast_add_bookmark_board);
+                break;
+            case R.id.menu_remove_bookmark:
+                mBoardManager.removeBookmark(String.valueOf(mRequestInfo.fid));
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
+                showToast(R.string.toast_remove_bookmark_board);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -394,12 +428,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             onModeChanged();
             invalidateOptionsMenu();
             nightmode = ThemeManager.getInstance().getMode();
-        }
-        int orientation = ThemeManager.getInstance().screenOrentation;
-        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orientation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
 
         if (asynTask != null) {

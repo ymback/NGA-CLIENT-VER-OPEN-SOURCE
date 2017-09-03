@@ -204,7 +204,7 @@ public class HtmlUtil {
             ret.append(comment.getAuthor());
             ret.append("</span><br/>");
             ret.append("<img src='");
-            String avatarUrl = FunctionUtil.parseAvatarUrl(comment.getJs_escap_avatar());
+            String avatarUrl = FunctionUtils.parseAvatarUrl(comment.getJs_escap_avatar());
             String avatarPath = ImageUtil.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
             if (downImg) {
                 if (StringUtils.isEmpty(avatarPath)) {

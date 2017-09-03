@@ -46,7 +46,7 @@ import sp.phone.fragment.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
@@ -105,7 +105,7 @@ public class SignPostActivity extends BasePostActivity implements
         bodyText.setSelected(true);
 
         act = new SignPostAction();
-        this.act.set__ngaClientChecksum(FunctionUtil.getngaClientChecksum(this));
+        this.act.set__ngaClientChecksum(FunctionUtils.getngaClientChecksum(this));
         loading = false;
         if (prefix != null) {
             if (prefix.startsWith("[quote][pid=")
@@ -178,7 +178,7 @@ public class SignPostActivity extends BasePostActivity implements
                 newFragment.show(ft, EMOTION_CATEGORY_TAG);
                 break;
             case R.id.supertext:
-                FunctionUtil.handleSupertext(bodyText, this, v);
+                FunctionUtils.handleSupertext(bodyText, this, v);
                 break;
             case R.id.send:
                 if (StringUtils.isEmpty(bodyText.getText().toString())) {
@@ -316,7 +316,7 @@ public class SignPostActivity extends BasePostActivity implements
     @Override
     public int finishUpload(String attachments, String attachmentsCheck,
                             String picUrl, Uri uri) {
-        String selectedImagePath2 = FunctionUtil.getPath(this, uri);
+        String selectedImagePath2 = FunctionUtils.getPath(this, uri);
         final int index = bodyText.getSelectionStart();
         String spantmp = "[img]./" + picUrl + "[/img]";
         if (!StringUtils.isEmpty(selectedImagePath2)) {
@@ -416,7 +416,7 @@ public class SignPostActivity extends BasePostActivity implements
         public void handleReply(View v1) {
 
             if (bodyText.getText().toString().length() > 0) {
-                act.setsign_(FunctionUtil.ColorTxtCheck(bodyText.getText()
+                act.setsign_(FunctionUtils.ColorTxtCheck(bodyText.getText()
                         .toString()));
                 new SignPostTask(SignPostActivity.this).execute(url,
                         act.toString());

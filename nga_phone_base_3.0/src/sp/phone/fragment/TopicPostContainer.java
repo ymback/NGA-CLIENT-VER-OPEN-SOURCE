@@ -27,7 +27,7 @@ import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.User;
 import sp.phone.presenter.contract.TopicPostContract;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
@@ -168,7 +168,7 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
                         u.getReplyTotalNum());
                 PhoneConfiguration.getInstance().blacklist = StringUtils
                         .blackListStringToHashset(u.getBlackList());
-                mPresenter.getTopicPostAction().set__ngaClientChecksum(FunctionUtil.getngaClientChecksum(getContext()));
+                mPresenter.getTopicPostAction().set__ngaClientChecksum(FunctionUtils.getngaClientChecksum(getContext()));
                 return true;
             }
 
@@ -289,7 +289,7 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.supertext:
-                FunctionUtil.handleSupertext(mBodyEditText, getContext(), getView());
+                FunctionUtils.handleSupertext(mBodyEditText, getContext(), getView());
                 break;
             case R.id.send:
                 mPresenter.post(mTitleEditText.getText().toString(),mBodyEditText.getText().toString(),mAnonyCheckBox.isChecked());

@@ -46,7 +46,7 @@ import sp.phone.fragment.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.NonameFileUploadTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
@@ -222,7 +222,7 @@ public class NonamePostActivity extends BasePostActivity implements
                 newFragment.show(ft, EMOTION_CATEGORY_TAG);
                 break;
             case R.id.supertext:
-                FunctionUtil.handleSupertext(bodyText, this, v);
+                FunctionUtils.handleSupertext(bodyText, this, v);
                 break;
             case R.id.send:
                 if (commitListener == null) {
@@ -343,7 +343,7 @@ public class NonamePostActivity extends BasePostActivity implements
     @SuppressWarnings("deprecation")
     @Override
     public int finishUpload(String picUrl, Uri uri) {
-        String selectedImagePath2 = FunctionUtil.getPath(this, uri);
+        String selectedImagePath2 = FunctionUtils.getPath(this, uri);
         final int index = bodyText.getSelectionStart();
         String spantmp = "[img]" + picUrl + "[/img]";
         if (!StringUtils.isEmpty(selectedImagePath2)) {
@@ -468,7 +468,7 @@ public class NonamePostActivity extends BasePostActivity implements
 
             act.setPost_subject_(titleText.getText().toString());
             if (bodyText.getText().toString().length() > 0) {
-                act.setPost_content_(FunctionUtil.ColorTxtCheck(bodyText
+                act.setPost_content_(FunctionUtils.ColorTxtCheck(bodyText
                         .getText().toString()));
                 new ArticlePostTask(NonamePostActivity.this).execute(url,
                         act.toString());

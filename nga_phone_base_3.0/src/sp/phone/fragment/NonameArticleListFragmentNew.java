@@ -36,7 +36,7 @@ import sp.phone.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -151,7 +151,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                             .valueOf(longposttime));
                 }
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 mention = name;
                 postPrefix.append("[quote]");
@@ -179,7 +179,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                             R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
-                FunctionUtil.CopyDialog(content, getActivity(), scrollview);
+                FunctionUtils.CopyDialog(content, getActivity(), scrollview);
                 break;
 
         }
@@ -254,7 +254,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                 .getBackgroundColor());
         if (mData != null) {
             for (int i = 0; i < mData.data.posts.length; i++) {
-                FunctionUtil.fillFormated_html_data(mData.data.posts[i], i,
+                FunctionUtils.fillFormated_html_data(mData.data.posts[i], i,
                         getActivity());
             }
             linear.removeAllViewsInLayout();
@@ -335,7 +335,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = getActivity().getResources().getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV);
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV);
         final String floor = String.valueOf(lou);
         TextView floorTV = holder.floorTV;
         floorTV.setText("[" + floor + " ¥]");
@@ -352,7 +352,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
         final WebView contentTV = holder.contentTV;
         final Callback mActionModeCallback = (Callback) activeActionMode(data,
                 position);
-        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
+        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor,
                 getActivity(), mActionModeCallback, client);
         holder.articlelistrelativelayout
                 .setOnLongClickListener(new OnLongClickListener() {

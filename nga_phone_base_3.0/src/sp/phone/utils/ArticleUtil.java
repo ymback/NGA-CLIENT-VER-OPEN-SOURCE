@@ -264,7 +264,7 @@ public class ArticleUtil {
                 row.setVote(vote);
             }
             fillUserInfo(row, userInfoMap);
-            FunctionUtil.fillFormated_html_data(row, i, context);
+            FunctionUtils.fillFormated_html_data(row, i, context);
             __R.add(row);
         }
         return __R;

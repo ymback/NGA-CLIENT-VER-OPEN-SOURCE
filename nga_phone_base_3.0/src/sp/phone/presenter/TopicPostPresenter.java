@@ -24,7 +24,7 @@ import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.DeviceUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -131,7 +131,7 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
         mTopicPostAction.set__isanony(isAnony);
         mTopicPostAction.setPost_subject_(title);
         if (body.length() > 0) {
-            mTopicPostAction.setPost_content_(FunctionUtil.ColorTxtCheck(body));
+            mTopicPostAction.setPost_content_(FunctionUtils.ColorTxtCheck(body));
             mModel.post();
         }
     }
@@ -182,7 +182,7 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
 
     @Override
     public int finishUpload(String attachments, String attachmentsCheck, String picUrl, Uri uri) {
-        String selectedImagePath2 = FunctionUtil.getPath(mView.getContext(), uri);
+        String selectedImagePath2 = FunctionUtils.getPath(mView.getContext(), uri);
         mTopicPostAction.appendAttachments_(attachments);
         mTopicPostAction.appendAttachments_check_(attachmentsCheck);
         String spantmp = "[img]./" + picUrl + "[/img]";

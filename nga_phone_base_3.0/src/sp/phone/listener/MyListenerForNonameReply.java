@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
@@ -65,7 +65,7 @@ public class MyListenerForNonameReply implements OnClickListener {
                     postTime = StringUtils.TimeStamp2Date(String.valueOf(longposttime));
                 }
                 final String tidStr = String.valueOf(mData.data.tid);
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 mention = name;
                 postPrefix.append("[quote]");

@@ -5,105 +5,126 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import java.util.Objects;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 public class ProfileSearchDialogFragment extends DialogFragment {
-    View view = null;
-    RadioGroup searchradio;
-    RadioButton profilesearch_name;
-    RadioButton profilesearch_id;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        //this.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        super.onCreate(savedInstanceState);
+    private RadioGroup mSearchRadio;
 
+    private RadioButton mSearchName;
+
+    private RadioButton mSearchId;
+
+    private EditText mEditText;
+
+    private void getViews(View view) {
+        mSearchRadio = (RadioGroup) view.findViewById(R.id.radioGroup);
+        mSearchName = (RadioButton) mSearchRadio.findViewById(R.id.profilesearch_name);
+        mSearchId = (RadioButton) view.findViewById(R.id.profilesearch_id);
+        mEditText = (EditText) view.findViewById(R.id.search_data);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mEditText.requestFocus();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this.getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        view = inflater.inflate(R.layout.profilesearch_dialog, null);
-        alert.setView(view);
-        alert.setTitle(R.string.profile_search_hint);
-        alert.setPositiveButton("查看", new PositiveOnClickListener());
-        profilesearch_name = (RadioButton) view.findViewById(R.id.profilesearch_name);
-        profilesearch_id = (RadioButton) view.findViewById(R.id.profilesearch_id);
-        searchradio = (RadioGroup) view.findViewById(R.id.radioGroup);
-        alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.dismiss();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = getActivity().getLayoutInflater().inflate(R.layout.profilesearch_dialog, null);
+        getViews(view);
+        mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event != null
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
+                        && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    handleSearch();
+                    return true;
+                }
+                return false;
             }
         });
-        return alert.show();
+        builder.setView(view)
+                .setTitle(R.string.profile_search_hint)
+                .setPositiveButton("查看", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        handleSearch();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        return builder.create();
     }
 
-    class PositiveOnClickListener implements DialogInterface.OnClickListener {
+    private void handleSearch() {
+        final String inputString = mEditText.getText().toString().trim().replaceAll("\\n", "");
+        if (mSearchRadio.getCheckedRadioButtonId() == mSearchName.getId()) {//用户名
+            searchName(inputString);
+        } else {
+            searchId(inputString);
+        }
+    }
 
-        EditText input = (EditText) view.findViewById(R.id.search_data);
-
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            // TODO Auto-generated method stub
-            String inputStringtp = input.getText().toString().trim();
-            final String inputString = inputStringtp.replaceAll("\\n", "");
-            Intent intent_search = new Intent(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
-            if (searchradio.getCheckedRadioButtonId() == profilesearch_name.getId()) {//用户名
-                if (!StringUtils.isEmpty(inputString)) {
-                    intent_search.putExtra("mode", "username");
-                    intent_search.putExtra("username", inputString);
-                    intent_search.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
-                    if (PhoneConfiguration.getInstance().showAnimation)
-                        getActivity().overridePendingTransition(R.anim.zoom_enter,
-                                R.anim.zoom_exit);
-                    startActivity(intent_search);
-                } else {
-                    String userName = PhoneConfiguration.getInstance().userName;
-                    if (userName != "") {
-                        intent_search.putExtra("mode", "username");
-                        intent_search.putExtra("username", userName);
-                        intent_search.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
-                        if (PhoneConfiguration.getInstance().showAnimation)
-                            getActivity().overridePendingTransition(R.anim.zoom_enter,
-                                    R.anim.zoom_exit);
-                        startActivity(intent_search);
-                    }
-                }
-
-            } else {
-                if (!StringUtils.isEmpty(inputString)) {
-                    intent_search.putExtra("mode", "uid");
-                    intent_search.putExtra("uid", inputString);
-                    intent_search.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
-                    if (PhoneConfiguration.getInstance().showAnimation)
-                        getActivity().overridePendingTransition(R.anim.zoom_enter,
-                                R.anim.zoom_exit);
-                    startActivity(intent_search);
-                } else {
-                    String userName = PhoneConfiguration.getInstance().userName;
-                    if (userName != "") {
-                        intent_search.putExtra("mode", "username");
-                        intent_search.putExtra("username", userName);
-                        intent_search.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
-                        if (PhoneConfiguration.getInstance().showAnimation)
-                            getActivity().overridePendingTransition(R.anim.zoom_enter,
-                                    R.anim.zoom_exit);
-                        startActivity(intent_search);
-                    }
-                }
+    private void searchName(String inputString) {
+        Intent intent = new Intent(getContext(), PhoneConfiguration.getInstance().topicActivityClass);
+        if (TextUtils.isEmpty(inputString)) {
+            inputString = PhoneConfiguration.getInstance().userName;
+            if (TextUtils.isEmpty(inputString)) {
+                return;
             }
         }
-
+        intent.putExtra("mode", "username");
+        intent.putExtra("username", inputString);
+        intent.setClass(getContext(), PhoneConfiguration.getInstance().profileActivityClass);
+        startActivity(intent);
     }
+
+    private void searchId(String inputString) {
+        Intent intent = new Intent(getContext(), PhoneConfiguration.getInstance().topicActivityClass);
+        if (!StringUtils.isEmpty(inputString)) {
+            intent.putExtra("mode", "uid");
+            intent.putExtra("uid", inputString);
+            intent.setClass(getContext(), PhoneConfiguration.getInstance().profileActivityClass);
+            startActivity(intent);
+        } else {
+            String userName = PhoneConfiguration.getInstance().userName;
+            if (!Objects.equals(userName, "")) {
+                intent.putExtra("mode", "username");
+                intent.putExtra("username", userName);
+                intent.setClass(getContext(), PhoneConfiguration.getInstance().profileActivityClass);
+                startActivity(intent);
+            }
+        }
+    }
+
 
 }

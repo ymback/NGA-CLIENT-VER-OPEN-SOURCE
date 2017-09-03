@@ -75,14 +75,6 @@ public class ActivityUtils {
         }
     }
 
-    public static boolean isLessThan_4_4() {
-        return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
-    }
-
-    public static boolean isLessThan_4_3() {
-        return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN;
-    }
-
     public static ActivityUtils getInstance() {
         if (instance == null) {
             instance = new ActivityUtils();

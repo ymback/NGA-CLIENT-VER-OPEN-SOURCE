@@ -43,7 +43,7 @@ import sp.phone.interfaces.ResetableArticle;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -353,7 +353,7 @@ public class ArticleListFragment extends BaseFragment implements
                 content = content.replaceAll(replay_regex, "");
                 final String postTime = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -402,14 +402,14 @@ public class ArticleListFragment extends BaseFragment implements
 
             case R.id.signature_dialog:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), listview);
+                    FunctionUtils.errordialog(getActivity(), listview);
                 } else {
-                    FunctionUtil.Create_Signature_Dialog(row, getActivity(),
+                    FunctionUtils.Create_Signature_Dialog(row, getActivity(),
                             listview);
                 }
                 break;
             case R.id.vote_dialog:
-                FunctionUtil.createVoteDialog(row, getActivity(), listview, mToast);
+                FunctionUtils.createVoteDialog(row, getActivity(), listview, mToast);
                 break;
 
             case R.id.ban_thisone:
@@ -444,7 +444,7 @@ public class ArticleListFragment extends BaseFragment implements
                 break;
             case R.id.show_profile:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), listview);
+                    FunctionUtils.errordialog(getActivity(), listview);
                 } else {
                     intent.putExtra("mode", "username");
                     intent.putExtra("username", row.getAuthor());
@@ -456,13 +456,13 @@ public class ArticleListFragment extends BaseFragment implements
                 break;
             case R.id.avatar_dialog:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), listview);
+                    FunctionUtils.errordialog(getActivity(), listview);
                 } else {
-                    FunctionUtil.Create_Avatar_Dialog(row, getActivity(), listview);
+                    FunctionUtils.Create_Avatar_Dialog(row, getActivity(), listview);
                 }
                 break;
             case R.id.edit:
-                if (FunctionUtil.isComment(row)) {
+                if (FunctionUtils.isComment(row)) {
                     showToast(R.string.cannot_eidt_comment);
                     break;
                 }
@@ -483,7 +483,7 @@ public class ArticleListFragment extends BaseFragment implements
                     getActivity().overridePendingTransition(R.anim.zoom_enter,  R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
-                FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(), listview);
+                FunctionUtils.CopyDialog(row.getFormated_html_data(), getActivity(), listview);
                 break;
             case R.id.show_this_person_only:
 
@@ -541,9 +541,9 @@ public class ArticleListFragment extends BaseFragment implements
                 break;
             case R.id.send_message:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), listview);
+                    FunctionUtils.errordialog(getActivity(), listview);
                 } else {
-                    FunctionUtil.start_send_message(getActivity(), row);
+                    FunctionUtils.start_send_message(getActivity(), row);
                 }
                 break;
             case R.id.post_comment:
@@ -554,7 +554,7 @@ public class ArticleListFragment extends BaseFragment implements
                 content = content.replaceAll(replay_regex1, "");
                 final String postTime1 = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -608,7 +608,7 @@ public class ArticleListFragment extends BaseFragment implements
 
                 break;
             case R.id.report:
-                FunctionUtil.handleReport(row, tid, getFragmentManager());
+                FunctionUtils.handleReport(row, tid, getFragmentManager());
                 break;
             case R.id.search_post:
                 intent.putExtra("searchpost", 1);
@@ -647,7 +647,7 @@ public class ArticleListFragment extends BaseFragment implements
         listview.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor());
         if (mData != null) {
             for (int i = 0; i < mData.getRowList().size(); i++) {
-                FunctionUtil.fillFormated_html_data(mData.getRowList().get(i), i, getActivity());
+                FunctionUtils.fillFormated_html_data(mData.getRowList().get(i), i, getActivity());
             }
             finishLoad(mData);
         }

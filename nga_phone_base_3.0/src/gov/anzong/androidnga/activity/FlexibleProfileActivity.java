@@ -39,7 +39,7 @@ import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
@@ -523,7 +523,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                signatureToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr),
+                signatureToHtmlText(ret, FunctionUtils.isShowImage(), FunctionUtils.showImageQuality(), fgColorStr, bgcolorStr),
                 "text/html", "utf-8", null);
     }
 
@@ -555,7 +555,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                adminToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
+                adminToHtmlText(ret, FunctionUtils.isShowImage(), FunctionUtils.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
     }
 
     private void handlefameWebview(WebView contentTV, ProfileData ret) {
@@ -586,7 +586,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                fameToHtmlText(ret, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
+                fameToHtmlText(ret, FunctionUtils.isShowImage(), FunctionUtils.showImageQuality(), fgColorStr, bgcolorStr), "text/html", "utf-8", null);
     }
 
     public String fameToHtmlText(final ProfileData ret, boolean showImage,
@@ -651,7 +651,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
     @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ProfileData row) {
 
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.get_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.get_avatar());//
         final String userId = String.valueOf(row.get_uid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
@@ -692,7 +692,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
                     }
 
                 } else {
-                    new AvatarLoadTask(avatarIV, null, FunctionUtil.isShowImage(), 0, this).execute(avatarUrl, avatarPath, userId);
+                    new AvatarLoadTask(avatarIV, null, FunctionUtils.isShowImage(), 0, this).execute(avatarUrl, avatarPath, userId);
                 }
             }
         }
