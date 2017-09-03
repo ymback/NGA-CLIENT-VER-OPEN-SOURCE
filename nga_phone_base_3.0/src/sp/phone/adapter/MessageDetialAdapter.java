@@ -27,7 +27,7 @@ import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -194,7 +194,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
         holder.floor.setTextColor(res.getColor(theme.getForegroundColor()));
 
 
-        FunctionUtil.handleNickName(entry, res.getColor(theme.getForegroundColor()), holder.nickName, context);
+        FunctionUtils.handleNickName(entry, res.getColor(theme.getForegroundColor()), holder.nickName, context);
         handleAvatar(holder.avatarImage, entry);
 
         int colorId = theme.getBackgroundColor(position + 1);
@@ -207,24 +207,24 @@ public class MessageDetialAdapter extends BaseAdapter implements
         if (ActivityUtils.isLessThan_4_3()) {
             new Thread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor, context);
+                    FunctionUtils.handleContentTV(holder.content, entry, bgColor, fgColor, context);
                 }
             }).start();
         } else if (ActivityUtils.isLessThan_4_4()) {
             ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor, context);
+                    FunctionUtils.handleContentTV(holder.content, entry, bgColor, fgColor, context);
                 }
             });
         } else {
-            FunctionUtil.handleContentTV(holder.content, entry, bgColor, fgColor, context);
+            FunctionUtils.handleContentTV(holder.content, entry, bgColor, fgColor, context);
         }
     }
 
     private void handleAvatar(ImageView avatarIV, MessageArticlePageInfo row) {
 
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = row.getFrom();
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);

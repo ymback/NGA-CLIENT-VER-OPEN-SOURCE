@@ -58,7 +58,7 @@ import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -203,7 +203,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 content = content.replaceAll(replay_regex, "");
                 final String postTime = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -255,14 +255,14 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.signature_dialog:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
-                    FunctionUtil.Create_Signature_Dialog(row, getActivity(),
+                    FunctionUtils.Create_Signature_Dialog(row, getActivity(),
                             scrollview);
                 }
                 break;
             case R.id.vote_dialog:
-                FunctionUtil.createVoteDialog(row, getActivity(), scrollview,
+                FunctionUtils.createVoteDialog(row, getActivity(), scrollview,
                         toast);
                 break;
             case R.id.ban_thisone:
@@ -333,7 +333,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.show_profile:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
                     intent.putExtra("mode", "username");
                     intent.putExtra("username", row.getAuthor());
@@ -347,14 +347,14 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.avatar_dialog:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
-                    FunctionUtil.Create_Avatar_Dialog(row, getActivity(),
+                    FunctionUtils.Create_Avatar_Dialog(row, getActivity(),
                             scrollview);
                 }
                 break;
             case R.id.edit:
-                if (FunctionUtil.isComment(row)) {
+                if (FunctionUtils.isComment(row)) {
                     if (toast != null) {
                         toast.setText(R.string.cannot_eidt_comment);
                         toast.setDuration(Toast.LENGTH_SHORT);
@@ -388,7 +388,7 @@ public class ArticleListFragmentNew extends Fragment implements
                             R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
-                FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(),
+                FunctionUtils.CopyDialog(row.getFormated_html_data(), getActivity(),
                         scrollview);
                 break;
             case R.id.show_this_person_only:
@@ -445,9 +445,9 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.send_message:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
-                    FunctionUtil.start_send_message(getActivity(), row);
+                    FunctionUtils.start_send_message(getActivity(), row);
                 }
                 break;
             case R.id.post_comment:
@@ -458,7 +458,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 content = content.replaceAll(replay_regex1, "");
                 final String postTime1 = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -512,7 +512,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
                 break;
             case R.id.report:
-                FunctionUtil.handleReport(row, tid, getFragmentManager());
+                FunctionUtils.handleReport(row, tid, getFragmentManager());
                 break;
             case R.id.search_post:
                 intent.putExtra("searchpost", 1);
@@ -620,7 +620,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 .getBackgroundColor());
         if (mData != null) {
             for (int i = 0; i < mData.getRowList().size(); i++) {
-                FunctionUtil.fillFormated_html_data(mData.getRowList().get(i),
+                FunctionUtils.fillFormated_html_data(mData.getRowList().get(i),
                         i, getActivity());
             }
             linear.removeAllViewsInLayout();
@@ -701,7 +701,7 @@ public class ArticleListFragmentNew extends Fragment implements
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = getActivity().getResources().getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, getActivity());
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, getActivity());
         final String floor = String.valueOf(lou);
         TextView floorTV = holder.floorTV;
         floorTV.setText("[" + floor + " 楼]");
@@ -727,7 +727,7 @@ public class ArticleListFragmentNew extends Fragment implements
         final WebView contentTV = holder.contentTV;
         final Callback mActionModeCallback = (Callback) activeActionMode(data,
                 position);
-        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, getActivity(), mActionModeCallback, client);
+        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, getActivity(), mActionModeCallback, client);
         holder.articlelistrelativelayout
                 .setOnLongClickListener(new OnLongClickListener() {
 
@@ -746,7 +746,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);

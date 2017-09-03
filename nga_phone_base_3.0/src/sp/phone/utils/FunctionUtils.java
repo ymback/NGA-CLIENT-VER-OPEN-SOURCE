@@ -72,7 +72,7 @@ import sp.phone.fragment.ReportDialogFragment;
 import sp.phone.proxy.ProxyBridge;
 
 @SuppressLint("DefaultLocale")
-public class FunctionUtil {
+public class FunctionUtils {
     static String userDistance = null;
     static String meter = null;
     static String kiloMeter = null;
@@ -362,7 +362,7 @@ public class FunctionUtil {
         contentTV
                 .loadDataWithBaseURL(
                         null,
-                        FunctionUtil.signatureToHtmlText_Message(row, showImage,
+                        FunctionUtils.signatureToHtmlText_Message(row, showImage,
                                 ArticleUtil.showImageQuality(), fgColorStr,
                                 bgcolorStr, context), "text/html", "utf-8", null);
         alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
@@ -444,7 +444,7 @@ public class FunctionUtil {
         contentTV
                 .loadDataWithBaseURL(
                         null,
-                        FunctionUtil.signatureToHtmlText(row, showImage,
+                        FunctionUtils.signatureToHtmlText(row, showImage,
                                 ArticleUtil.showImageQuality(), fgColorStr,
                                 bgcolorStr, context), "text/html", "utf-8", null);
         alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
@@ -590,7 +590,7 @@ public class FunctionUtil {
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                FunctionUtil.VoteToHtmlText(row, showImage, ArticleUtil.showImageQuality(),
+                FunctionUtils.VoteToHtmlText(row, showImage, ArticleUtil.showImageQuality(),
                         fgColorStr, bgcolorStr), "text/html", "utf-8", null);
         contentTV.requestLayout();
         alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
@@ -646,7 +646,7 @@ public class FunctionUtil {
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                FunctionUtil.avatarToHtmlText_Message(row, true, ArticleUtil.showImageQuality(),
+                FunctionUtils.avatarToHtmlText_Message(row, true, ArticleUtil.showImageQuality(),
                         fgColorStr, bgcolorStr, context), "text/html", "utf-8", null);
         alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
             @Override
@@ -700,7 +700,7 @@ public class FunctionUtil {
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
                 null,
-                FunctionUtil.avatarToHtmlText(row, true, ArticleUtil.showImageQuality(),
+                FunctionUtils.avatarToHtmlText(row, true, ArticleUtil.showImageQuality(),
                         fgColorStr, bgcolorStr, context), "text/html", "utf-8", null);
         alert.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
             @Override
@@ -889,7 +889,7 @@ public class FunctionUtil {
         try {
             ret = js_escap_avatar.substring(start, end);
         } catch (Exception e) {
-            Log.e("FunctionUtil", "cann't handle avatar url " + js_escap_avatar);
+            Log.e("FunctionUtils", "cann't handle avatar url " + js_escap_avatar);
         }
         return ret;
     }
@@ -1151,7 +1151,7 @@ public class FunctionUtil {
                         }
                         bslenth = bodyString.length();
                         txtsendout = txtsendout.substring(0, txtsendout.toLowerCase().lastIndexOf("[color"));
-                        quotetxt = "[quote]" + FunctionUtil.checkContent(quotetxt) + "[/quote]";
+                        quotetxt = "[quote]" + FunctionUtils.checkContent(quotetxt) + "[/quote]";
                         txtsendout += quotetxt + scolor[(int) (Math.random() * 23)];
                         break;
                     } else {
@@ -1160,7 +1160,7 @@ public class FunctionUtil {
                             quotetxt = quotetxt.substring(0, quotetxt.length() - 1);
                         }
                         txtsendout = txtsendout.substring(0, txtsendout.toLowerCase().lastIndexOf("[color"));
-                        quotetxt = "[quote]" + FunctionUtil.checkContent(quotetxt) + "[/quote]";
+                        quotetxt = "[quote]" + FunctionUtils.checkContent(quotetxt) + "[/quote]";
                         txtsendout += quotetxt + scolor[(int) (Math.random() * 23)];
                         i = bodyString.toLowerCase().indexOf("[/quote]", i) + 7;
                     }
@@ -1203,7 +1203,7 @@ public class FunctionUtil {
     public static String ColorTxtCheck(String text) {
         String xxtp = "";
         if (PhoneConfiguration.getInstance().showColortxt) {
-            xxtp = FunctionUtil.ColorTxt(text.trim());
+            xxtp = FunctionUtils.ColorTxt(text.trim());
         } else {
             xxtp = text;
         }
@@ -1806,5 +1806,13 @@ public class FunctionUtil {
                         System.currentTimeMillis() / 1000L).toString())
                         + System.currentTimeMillis() / 1000L;
         }
+    }
+
+    public static void share(Context context,String title,String content) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+        context.startActivity(Intent.createChooser(intent, title));
     }
 }

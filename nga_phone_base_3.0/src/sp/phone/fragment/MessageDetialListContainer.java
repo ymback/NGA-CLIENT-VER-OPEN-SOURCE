@@ -36,7 +36,7 @@ import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.task.JsonMessageDetialLoadTask;
 import sp.phone.task.JsonMessageListLoadTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -264,28 +264,28 @@ public class MessageDetialListContainer extends BaseFragment implements
         switch (item.getItemId()) {
             case R.id.signature_dialog:
                 if (isadmin) {
-                    FunctionUtil.errordialogadmin(getActivity(), listView);
+                    FunctionUtils.errordialogadmin(getActivity(), listView);
                 } else {
-                    FunctionUtil.Create_Signature_Dialog_Message(row, getActivity(), listView);
+                    FunctionUtils.Create_Signature_Dialog_Message(row, getActivity(), listView);
                 }
                 break;
             case R.id.avatar_dialog:
                 if (isadmin) {
-                    FunctionUtil.errordialogadmin(getActivity(), listView);
+                    FunctionUtils.errordialogadmin(getActivity(), listView);
                 } else {
-                    FunctionUtil.Create_Avatar_Dialog_Meaasge(row, getActivity(), listView);
+                    FunctionUtils.Create_Avatar_Dialog_Meaasge(row, getActivity(), listView);
                 }
                 break;
             case R.id.send_message:
                 if (isadmin) {
-                    FunctionUtil.errordialogadmin(getActivity(), listView);
+                    FunctionUtils.errordialogadmin(getActivity(), listView);
                 } else {
                     start_send_message(row);
                 }
                 break;
             case R.id.show_profile:
                 if (isadmin) {
-                    FunctionUtil.errordialogadmin(getActivity(), listView);
+                    FunctionUtils.errordialogadmin(getActivity(), listView);
                 } else {
                     intent.putExtra("mode", "username");
                     intent.putExtra("username", row.getAuthor());
@@ -299,7 +299,7 @@ public class MessageDetialListContainer extends BaseFragment implements
                 break;
             case R.id.search_post:
                 if (isadmin) {
-                    FunctionUtil.errordialogadmin(getActivity(), listView);
+                    FunctionUtils.errordialogadmin(getActivity(), listView);
                 } else {
                     intent.putExtra("searchpost", 1);
                     try {
@@ -317,7 +317,7 @@ public class MessageDetialListContainer extends BaseFragment implements
                 break;
             case R.id.search_subject:
                 if (isadmin) {
-                    FunctionUtil.errordialogadmin(getActivity(), listView);
+                    FunctionUtils.errordialogadmin(getActivity(), listView);
                 } else {
                     try {
                         intent.putExtra("authorid", Integer.parseInt(row.getFrom()));
@@ -333,7 +333,7 @@ public class MessageDetialListContainer extends BaseFragment implements
                 }
                 break;
             case R.id.copy_to_clipboard:
-                FunctionUtil.CopyDialog(content, getActivity(), listView);
+                FunctionUtils.CopyDialog(content, getActivity(), listView);
                 break;
 
             case R.id.quote_subject:
@@ -344,7 +344,7 @@ public class MessageDetialListContainer extends BaseFragment implements
                 content = content.replaceAll(replay_regex, "");
                 final String postTime = row.getTime();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 postPrefix.append("[quote]");
                 postPrefix.append(" [b]Post by [uid=");

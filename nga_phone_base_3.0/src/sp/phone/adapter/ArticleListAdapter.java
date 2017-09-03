@@ -36,7 +36,7 @@ import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HtmlUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
@@ -102,7 +102,7 @@ public class ArticleListAdapter extends BaseAdapter implements
     @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
@@ -223,7 +223,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = parent.getContext().getResources().getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, activity);
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, activity);
 
         final int bgColor = parent.getContext().getResources().getColor(colorId);
 
@@ -250,17 +250,17 @@ public class ArticleListAdapter extends BaseAdapter implements
         if (ActivityUtils.isLessThan_4_3()) {
             new Thread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
+                    FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
                 }
             }).start();
         } else if (ActivityUtils.isLessThan_4_4()) {
             ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
+                    FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
                 }
             });
         } else {
-            FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
+            FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
         }
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());

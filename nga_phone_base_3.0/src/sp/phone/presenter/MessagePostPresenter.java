@@ -19,7 +19,7 @@ import sp.phone.model.MessagePostModel;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 
 /**
  * Created by Yang Yihang on 2017/5/28.
@@ -55,7 +55,7 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
         mMessagePostAction.setTo_(to);
         mMessagePostAction.setPost_subject_(title);
         if (body.length() > 0) {
-            mMessagePostAction.setPost_content_(FunctionUtil.ColorTxtCheck(body));
+            mMessagePostAction.setPost_content_(FunctionUtils.ColorTxtCheck(body));
             mModel.postMessage(mMessagePostAction,this);
         }
     }

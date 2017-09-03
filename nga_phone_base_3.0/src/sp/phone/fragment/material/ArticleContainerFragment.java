@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +34,7 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtils;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -152,7 +154,6 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
         switch (item.getItemId()) {
             case R.id.menu_reply:
                 reply();
@@ -172,26 +173,27 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
                 createGotoDialog();
                 break;
             case R.id.menu_share:
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                String shareUrl = Utils.getNGAHost() + "read.php?";
-                if (mArticleListAction.getPid() != 0) {
-                    shareUrl = shareUrl + "pid=" + mArticleListAction.getPid() + " (分享自NGA安卓客户端开源版)";
-                } else {
-                    shareUrl = shareUrl + "tid=" + mArticleListAction.getTid() + " (分享自NGA安卓客户端开源版)";
-                }
-                if (!StringUtils.isEmpty(mTitle)) {
-                    shareUrl = "《" + mTitle + "》 - 艾泽拉斯国家地理论坛，地址：" + shareUrl;
-                }
-                intent.putExtra(Intent.EXTRA_TEXT, shareUrl);
-                String text = getResources().getString(R.string.share);
-                startActivity(Intent.createChooser(intent, text));
+                share();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
 
+    private void share() {
+        String title = getString(R.string.share);
+        StringBuilder builder = new StringBuilder();
+        if (!TextUtils.isEmpty(mTitle)) {
+            builder.append("《").append(mTitle).append("》 - 艾泽拉斯国家地理论坛，地址：");
+        }
+        builder.append(Utils.getNGAHost()).append("read.php?");
+        if (mArticleListAction.getPid() != 0) {
+            builder.append("pid=").append(mArticleListAction.getPid()).append(" (分享自NGA安卓客户端开源版)");
+        } else {
+            builder.append("tid=").append(mArticleListAction.getTid()).append(" (分享自NGA安卓客户端开源版)");
+        }
+        FunctionUtils.share(getContext(),title,builder.toString());
     }
 
     @Override

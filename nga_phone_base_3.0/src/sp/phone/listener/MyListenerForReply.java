@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
@@ -63,7 +63,7 @@ public class MyListenerForReply implements OnClickListener {
                 content = content.replaceAll(replay_regex, "");
                 final String postTime = row.getPostdate();
                 final String tidStr = String.valueOf(row.getTid());
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;

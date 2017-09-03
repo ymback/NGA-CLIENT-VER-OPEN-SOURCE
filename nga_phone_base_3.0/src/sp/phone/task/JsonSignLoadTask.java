@@ -16,7 +16,7 @@ import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -42,7 +42,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
         if (params.length == 0)
             return null;
         url = "http://nga.178.com/nuke.php?__lib=check_in&lite=js&noprefix&__act=check_in&action=add&__ngaClientChecksum="
-                + FunctionUtil.getngaClientChecksum(context);
+                + FunctionUtils.getngaClientChecksum(context);
 
         Log.d(TAG, "start to load:" + url);
 

@@ -34,7 +34,7 @@ import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -299,7 +299,7 @@ public class NonameArticleListFragment extends Fragment implements
                             .valueOf(longposttime));
                 }
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 mention = name;
                 postPrefix.append("[quote]");
@@ -327,7 +327,7 @@ public class NonameArticleListFragment extends Fragment implements
                             R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
-                FunctionUtil.CopyDialog(content, getActivity(), listview);
+                FunctionUtils.CopyDialog(content, getActivity(), listview);
                 break;
 
         }
@@ -339,7 +339,7 @@ public class NonameArticleListFragment extends Fragment implements
                 .getBackgroundColor());
         if (result != null) {
             for (int i = 0; i < result.data.posts.length; i++) {
-                FunctionUtil.fillFormated_html_data(result.data.posts[i], i,
+                FunctionUtils.fillFormated_html_data(result.data.posts[i], i,
                         getActivity());
             }
             finishLoad(result);

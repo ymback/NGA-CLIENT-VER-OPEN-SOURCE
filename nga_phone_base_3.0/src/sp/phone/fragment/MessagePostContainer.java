@@ -13,7 +13,7 @@ import android.widget.EditText;
 import gov.anzong.androidnga.R;
 import sp.phone.presenter.contract.MessagePostContract;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
@@ -135,7 +135,7 @@ public class MessagePostContainer extends BaseFragment implements MessagePostCon
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.supertext:
-                FunctionUtil.handleSupertext(mBodyEditText, getContext(), getView());
+                FunctionUtils.handleSupertext(mBodyEditText, getContext(), getView());
                 break;
             case R.id.send:
                 String title = mTitleEditText.getText().toString();

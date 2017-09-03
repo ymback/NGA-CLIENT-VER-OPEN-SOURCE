@@ -21,7 +21,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
 
 public class SignPageAdapter extends BaseAdapter implements
@@ -161,7 +161,7 @@ public class SignPageAdapter extends BaseAdapter implements
                 .getWebSize());
         setting.setJavaScriptEnabled(false);
         holder.content.setWebViewClient(client);
-        holder.content.loadDataWithBaseURL(null, infoToHtmlText(info, FunctionUtil.isShowImage(), FunctionUtil.showImageQuality(), fgColorStr, bgcolorStr),
+        holder.content.loadDataWithBaseURL(null, infoToHtmlText(info, FunctionUtils.isShowImage(), FunctionUtils.showImageQuality(), fgColorStr, bgcolorStr),
                 "text/html", "utf-8", null);
         holder.missionidtitle.setText("可完成任务ID:");
         if (entry.get__issuccessed() == true) {

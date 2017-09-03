@@ -25,7 +25,7 @@ import noname.gson.parse.NonameReadResponse;
 import sp.phone.listener.MyListenerForNonameReply;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
@@ -214,7 +214,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         final int fgColor = parent.getContext().getResources()
                 .getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV);
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV);
 
 		/*
 		 * TextView titleTV = holder.titleTV; if
@@ -245,19 +245,19 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         if (ActivityUtils.isLessThan_4_3()) {
             new Thread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor,
+                    FunctionUtils.handleContentTV(contentTV, row, bgColor,
                             fgColor, activity, null, client);
                 }
             }).start();
         } else if (ActivityUtils.isLessThan_4_4()) {
             ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
                 public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor,
+                    FunctionUtils.handleContentTV(contentTV, row, bgColor,
                             fgColor, activity, null, client);
                 }
             });
         } else {
-            FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
+            FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor,
                     activity, null, client);
         }
         return view;

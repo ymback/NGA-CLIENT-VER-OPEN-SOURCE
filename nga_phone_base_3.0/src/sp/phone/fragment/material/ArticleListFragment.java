@@ -38,7 +38,7 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.model.ArticleListTask;
 import sp.phone.task.LikeTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
 
 /*
@@ -224,7 +224,7 @@ public class ArticleListFragment extends BaseFragment {
                 content = content.replaceAll(replay_regex, "");
                 final String postTime = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -269,15 +269,15 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_signature:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
-                    FunctionUtil.Create_Signature_Dialog(row, getActivity(),
+                    FunctionUtils.Create_Signature_Dialog(row, getActivity(),
                             mListView);
                 }
                 break;
 
             case R.id.menu_vote:
-                FunctionUtil.createVoteDialog(row, getActivity(), mListView, mToast);
+                FunctionUtils.createVoteDialog(row, getActivity(), mListView, mToast);
                 break;
 
             case R.id.menu_ban_this_one:
@@ -313,7 +313,7 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_show_profile:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
                     intent.putExtra("mode", "username");
                     intent.putExtra("username", row.getAuthor());
@@ -324,14 +324,14 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_avatar:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
-                    FunctionUtil.Create_Avatar_Dialog(row, getActivity(), mListView);
+                    FunctionUtils.Create_Avatar_Dialog(row, getActivity(), mListView);
                 }
                 break;
 
             case R.id.menu_edit:
-                if (FunctionUtil.isComment(row)) {
+                if (FunctionUtils.isComment(row)) {
                     showToast(R.string.cannot_eidt_comment);
                     break;
                 }
@@ -351,7 +351,7 @@ public class ArticleListFragment extends BaseFragment {
                 break;
 
             case R.id.menu_copy:
-                FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(), mListView);
+                FunctionUtils.CopyDialog(row.getFormated_html_data(), getActivity(), mListView);
                 break;
 
             case R.id.menu_show_this_person_only:
@@ -400,9 +400,9 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_send_message:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
-                    FunctionUtil.start_send_message(getActivity(), row);
+                    FunctionUtils.start_send_message(getActivity(), row);
                 }
                 break;
 
@@ -412,7 +412,7 @@ public class ArticleListFragment extends BaseFragment {
                 content = content.replaceAll(quote_regex1, "");
                 content = content.replaceAll(replay_regex1, "");
                 final String postTime1 = row.getPostdate();
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     postPrefix.append("[quote][pid=");
@@ -454,7 +454,7 @@ public class ArticleListFragment extends BaseFragment {
                 break;
 
             case R.id.menu_report:
-                FunctionUtil.handleReport(row, tid, getFragmentManager());
+                FunctionUtils.handleReport(row, tid, getFragmentManager());
                 break;
 
             case R.id.menu_search_post:
