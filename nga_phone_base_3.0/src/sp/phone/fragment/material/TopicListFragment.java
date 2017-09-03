@@ -21,12 +21,8 @@ import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
 import sp.phone.presenter.contract.TopicListContract;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 
 public class TopicListFragment extends MaterialCompatFragment implements TopicListContract.View, AdapterView.OnItemLongClickListener {
@@ -45,8 +41,6 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
     private TopicListContract.Presenter mPresenter;
 
     private boolean mFromReplayActivity;
-
-    private boolean mIsVisible;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +73,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mListView = (RecyclerView) view.findViewById(R.id.list);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new AppendableTopicAdapter(getContext(), null, new NextJsonTopicListLoader() {
+        mAdapter = new AppendableTopicAdapter(getContext(), new NextJsonTopicListLoader() {
             @Override
             public void loadNextPage(OnTopListLoadFinishedListener callback) {
                 mPresenter.loadNextPage(callback);

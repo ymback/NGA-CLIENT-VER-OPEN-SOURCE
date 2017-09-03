@@ -12,13 +12,10 @@ import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.utils.ActivityUtils;
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class AppendableTopicAdapter extends TopicListAdapter {
 
     final private List<TopicListInfo> mInfoList;
-
-    final private PullToRefreshAttacher mAttacher;
 
     private final NextJsonTopicListLoader mLoader;
 
@@ -30,11 +27,10 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 
     private boolean mIsLoading = false;
 
-    public AppendableTopicAdapter(Context context, PullToRefreshAttacher attacher, NextJsonTopicListLoader loader) {
+    public AppendableTopicAdapter(Context context, NextJsonTopicListLoader loader) {
         super(context);
         mInfoList = new ArrayList<>();
         mTidSet = new HashSet<>();
-        mAttacher = attacher;
         mLoader = loader;
     }
 
@@ -52,11 +48,8 @@ public class AppendableTopicAdapter extends TopicListAdapter {
     @Override
     public void jsonFinishLoad(TopicListInfo result) {
         mIsLoading = false;
-
-        if (mAttacher != null)
-            mAttacher.setRefreshComplete();
         if (result.get__SEARCHNORESULT()) {
-            ActivityUtils.showToast(mContext,"结果已搜索完毕");
+            ActivityUtils.showToast(mContext, "结果已搜索完毕");
             mIsLoading = false;
         }
         ActivityUtils.getInstance().dismiss();
@@ -113,7 +106,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
         if (position + 1 == mCount && !mIsLoading) {
             if (mIsEndOfList) {
                 if (!mIsPrompted) {
-                    ActivityUtils.showToast(mContext,mContext.getString(R.string.last_page_prompt));
+                    ActivityUtils.showToast(mContext, mContext.getString(R.string.last_page_prompt));
                     mIsPrompted = true;
                 }
             } else {
