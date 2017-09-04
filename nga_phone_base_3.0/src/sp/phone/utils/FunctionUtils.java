@@ -889,7 +889,7 @@ public class FunctionUtils {
         try {
             ret = js_escap_avatar.substring(start, end);
         } catch (Exception e) {
-            Log.e("FunctionUtils", "cann't handle avatar url " + js_escap_avatar);
+            NLog.e("FunctionUtils", "cann't handle avatar url " + js_escap_avatar);
         }
         return ret;
     }

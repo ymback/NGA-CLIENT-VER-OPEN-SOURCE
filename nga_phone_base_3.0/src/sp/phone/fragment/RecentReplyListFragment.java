@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,14 +27,15 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.RecentReplyAdapter;
 import sp.phone.bean.NotificationObject;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonCleanRecentNotifierLoadTask;
 import sp.phone.task.JsonRecentNotifierLoadTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -56,12 +56,12 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
         lv.setLongClickable(false);
         mcontext = container.getContext();
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) getActivity();
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG,
+                    "father activity should implement PullToRefreshAttacherOwner");
         }
         if (attacher != null)
             attacher.addRefreshableView(lv, new ListRefreshListener());

@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,12 +47,13 @@ import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.utils.ActivityUtils;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
@@ -64,7 +64,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         implements OnTopListLoadFinishedListener, OnItemClickListener,
         OnThreadPageLoadFinishedListener, PagerOwner,
-        OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
+        OnChildFragmentRemovedListener, PullToRefreshAttacherOwner,
         OnItemLongClickListener,
         ArticleContainerFragment.OnArticleContainerFragmentListener,
         TopicListContainer.OnTopicListContainerListener {
@@ -116,7 +116,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
 
         return ret;
@@ -437,7 +437,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         long now = System.currentTimeMillis();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
         if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
-            Log.d(TAG, "start to check Reply Notification");
+            NLog.d(TAG, "start to check Reply Notification");
             asynTask = new CheckReplyNotificationTask(this);
             asynTask.execute(config.getCookie());
         }
@@ -459,7 +459,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             if (listener != null)
                 listener.jsonFinishLoad(result);
         } catch (ClassCastException e) {
-            Log.e(TAG, "topicContainer should implements " + OnTopListLoadFinishedListener.class.getCanonicalName());
+            NLog.e(TAG, "topicContainer should implements " + OnTopListLoadFinishedListener.class.getCanonicalName());
         }
     }
 
@@ -530,7 +530,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                                 .getSubject()));
             }
         } catch (ClassCastException e) {
-            Log.e(TAG, "detailContainer should implements OnThreadPageLoadFinishedListener");
+            NLog.e(TAG, "detailContainer should implements OnThreadPageLoadFinishedListener");
         }
     }
 
@@ -544,7 +544,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
+            NLog.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return 0;
         }
     }
@@ -557,7 +557,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
+            NLog.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return;
         }
     }

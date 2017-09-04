@@ -15,11 +15,11 @@ import android.widget.SpinnerAdapter;
 
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.BaseFragment;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.common.PhoneConfiguration;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public abstract class MaterialCompatFragment extends BaseFragment implements PullToRefreshAttacherOnwer {
+public abstract class MaterialCompatFragment extends BaseFragment implements PullToRefreshAttacherOwner {
 
     protected PhoneConfiguration mConfiguration = PhoneConfiguration.getInstance();
 

@@ -20,7 +20,7 @@ import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
@@ -84,7 +84,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         if (getParentFragment() == null){
             mAttacher = getAttacher();
         } else  {
-            mAttacher = ((PullToRefreshAttacherOnwer) getParentFragment()).getAttacher();
+            mAttacher = ((PullToRefreshAttacherOwner) getParentFragment()).getAttacher();
         }
         mAdapter = new AppendableTopicAdapter(getContext(), mAttacher, new NextJsonTopicListLoader() {
             @Override

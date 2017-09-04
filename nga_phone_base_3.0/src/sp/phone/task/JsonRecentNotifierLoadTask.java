@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -17,12 +16,13 @@ import java.util.List;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.NotificationObject;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PreferenceKey {
@@ -103,7 +103,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
         try {
             ojsonnoti = (JSONArray) ojson.get("0");
         } catch (Exception e) {
-            Log.i(TAG, "JSON DATA ERROR");
+            NLog.i(TAG, "JSON DATA ERROR");
         }
         if (ojsonnoti != null) {
             if (ojsonnoti.size() > 0) {

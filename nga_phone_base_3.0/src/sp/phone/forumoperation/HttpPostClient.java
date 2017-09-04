@@ -1,13 +1,12 @@
 package sp.phone.forumoperation;
 
-import android.util.Log;
-
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Locale;
 
 import gov.anzong.androidnga.activity.MyApp;
+import sp.phone.utils.NLog;
 
 public class HttpPostClient {
     private static final String LOG_TAG = HttpPostClient.class
@@ -77,12 +76,12 @@ public class HttpPostClient {
             out.close();
 
 
-            Log.i(LOG_TAG, conn.getResponseMessage());
+            NLog.i(LOG_TAG, conn.getResponseMessage());
 
         } catch (Exception e) {
             //sb.append(e.toString());
             conn = null;
-            Log.e(LOG_TAG, Log.getStackTraceString(e));
+            NLog.e(LOG_TAG, NLog.getStackTraceString(e));
         }
         return conn;
     }

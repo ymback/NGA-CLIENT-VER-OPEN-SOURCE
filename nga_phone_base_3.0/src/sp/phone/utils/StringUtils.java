@@ -329,7 +329,7 @@ public class StringUtils {
 		 * return ""; }
 		 */
         String ret = UriEncoderWithCharset.encode(s, null, charset);
-        // Log.i("111111", s+"----->"+ret);
+        // NLog.i("111111", s+"----->"+ret);
         return ret;
     }
 
@@ -878,7 +878,7 @@ public class StringUtils {
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e("getUrlParameter", "invalid url:" + url);
+            NLog.e("getUrlParameter", "invalid url:" + url);
         }
 
         return ret;

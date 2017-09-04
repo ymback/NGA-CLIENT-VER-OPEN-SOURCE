@@ -124,7 +124,7 @@ public class HttpUtil {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            Log.e(TAG, "failed to download img:" + uri + "," + e.getMessage());
+            NLog.e(TAG, "failed to download img:" + uri + "," + e.getMessage());
         }
     }
 
@@ -370,10 +370,10 @@ public class HttpUtil {
             long start = System.currentTimeMillis();
             String html = getHtml(uri, cookie);
             long end = System.currentTimeMillis();
-            Log.i("ArticlePage", "network const:" + (end - start));
+            NLog.i("ArticlePage", "network const:" + (end - start));
             ret = ArticleUtil.parserArticleList(html);
             long end2 = System.currentTimeMillis();
-            Log.i("ArticlePage", "parse action const:" + (end2 - end));
+            NLog.i("ArticlePage", "parse action const:" + (end2 - end));
         } catch (Exception e) {
             e.printStackTrace();
         }

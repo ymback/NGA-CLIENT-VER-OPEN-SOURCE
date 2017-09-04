@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -27,20 +26,21 @@ import gov.anzong.androidnga.R;
 import sp.phone.adapter.AppendableMessageDetialAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetialInfo;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonMessageDetialLoadTask;
 import sp.phone.task.JsonMessageListLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -82,17 +82,16 @@ public class MessageDetialListContainer extends BaseFragment implements
         }
 
         try {
-            PullToRefreshAttacherOnwer attacherOnwer;
+            PullToRefreshAttacherOwner attacherOwner;
             if (PhoneConfiguration.getInstance().isMaterialMode()){
-                attacherOnwer = (PullToRefreshAttacherOnwer) getParentFragment();
+                attacherOwner = (PullToRefreshAttacherOwner) getParentFragment();
             } else {
-                attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
+                attacherOwner = (PullToRefreshAttacherOwner) getActivity();
             }
-            attacher = attacherOnwer.getAttacher();
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
 
         listView = new ListView(getActivity());
@@ -121,7 +120,7 @@ public class MessageDetialListContainer extends BaseFragment implements
             // mPullRefreshListView.setOnItemClickListener(listener);
             listView.setOnItemClickListener(listener);
         } catch (ClassCastException e) {
-            Log.e(TAG, "father activity should implenent OnItemClickListener");
+            NLog.e(TAG, "father activity should implenent OnItemClickListener");
         }
 
         // mPullRefreshListView.setOnRefreshListener(new
@@ -225,7 +224,7 @@ public class MessageDetialListContainer extends BaseFragment implements
         try {
             father = (PagerOwner) getActivity();
         } catch (ClassCastException e) {
-            Log.e(TAG, "father activity does not implements interface "
+            NLog.e(TAG, "father activity does not implements interface "
                     + PagerOwner.class.getName());
             return true;
         }
@@ -536,7 +535,7 @@ public class MessageDetialListContainer extends BaseFragment implements
                     father = (OnChildFragmentRemovedListener) getActivity();
                     father.OnChildFragmentRemoved(getId());
                 } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
+                    NLog.e(TAG, "father activity does not implements interface "
                             + OnChildFragmentRemovedListener.class.getName());
 
                 }

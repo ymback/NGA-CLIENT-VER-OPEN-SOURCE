@@ -101,7 +101,7 @@ public class UploadCookieCollector {
         for (int i = 1; (key = conn.getHeaderFieldKey(i)) != null; i++) {
 
             if (key.equalsIgnoreCase("set-cookie")) {
-                Log.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":"
+                NLog.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":"
                         + conn.getHeaderField(i));
                 cookieVal = conn.getHeaderField(i);
                 UpdateCookie(cookieVal);

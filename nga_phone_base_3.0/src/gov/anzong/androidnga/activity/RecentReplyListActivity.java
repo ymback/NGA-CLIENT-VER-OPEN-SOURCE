@@ -12,14 +12,14 @@ import android.view.View;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.RecentReplyListFragment;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PreferenceKey, PullToRefreshAttacherOnwer {
+public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PreferenceKey, PullToRefreshAttacherOwner {
     FragmentManager fm;
     Fragment f;
     View v;

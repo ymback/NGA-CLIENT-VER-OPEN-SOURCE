@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,28 +27,29 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.AvatarTag;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
-        implements OnProfileLoadFinishedListener, AvatarLoadCompleteCallBack, PullToRefreshAttacherOnwer,
+        implements OnProfileLoadFinishedListener, AvatarLoadCompleteCallBack, PullToRefreshAttacherOwner,
         PreferenceKey {
     private static final String TAG = "FlexibleProfileActivity";
     private final Object lock = new Object();
@@ -156,12 +156,11 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         options.refreshOnUp = true;
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) this;
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
         refresh();
     }

@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,16 +20,17 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.AppendableNonameTopicAdapter;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonNonameTopicListLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -71,12 +71,11 @@ public class NonameTopiclistContainer extends BaseFragment implements
         }
 
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) getActivity();
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
 
         listView = new ListView(getActivity());
@@ -89,7 +88,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
             // mPullRefreshListView.setOnItemClickListener(listener);
             listView.setOnItemClickListener(listener);
         } catch (ClassCastException e) {
-            Log.e(TAG, "father activity should implenent OnItemClickListener");
+            NLog.e(TAG, "father activity should implement OnItemClickListener");
         }
 
         // mPullRefreshListView.setOnRefreshListener(new
@@ -343,7 +342,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
 
         return ret;

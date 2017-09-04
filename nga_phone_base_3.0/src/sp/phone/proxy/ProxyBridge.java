@@ -2,7 +2,6 @@ package sp.phone.proxy;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -17,9 +16,10 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public final class ProxyBridge {
@@ -91,7 +91,7 @@ public final class ProxyBridge {
                             o = (JSONObject) JSON.parseObject(js).get("data");
                             oerror = (JSONObject) JSON.parseObject(js).get("error");
                         } catch (Exception e) {
-                            Log.e("ProxyBridge", "can not parse :\n" + js);
+                            NLog.e("ProxyBridge", "can not parse :\n" + js);
                         }
                         if (o == null) {
                             if (oerror == null) {

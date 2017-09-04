@@ -23,7 +23,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziCategoryFragment.OnMeiziSelectedListener;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
@@ -31,7 +31,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 
 public class MeiziMainActivity extends ActionBarActivity implements
         OnMeiziSelectedListener,
-        OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer {
+        OnChildFragmentRemovedListener, PullToRefreshAttacherOwner {
 
     int flags = 7;
     boolean dualScreen = true;

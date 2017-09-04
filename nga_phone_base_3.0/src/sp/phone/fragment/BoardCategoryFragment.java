@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import sp.phone.adapter.BoardCategoryAdapter;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.utils.DeviceUtils;
+import sp.phone.utils.NLog;
 
 public class BoardCategoryFragment extends Fragment {
 
@@ -74,7 +74,7 @@ public class BoardCategoryFragment extends Fragment {
         } else if (getActivity() instanceof OnItemClickListener) {
             listener = (OnItemClickListener) getActivity();
         } else {
-            Log.e(TAG,
+            NLog.e(TAG,
                     "Activity or parentFragment should implements "
                             + OnItemClickListener.class.getSimpleName());
         }

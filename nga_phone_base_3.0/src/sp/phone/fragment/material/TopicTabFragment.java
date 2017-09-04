@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,6 +28,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.presenter.contract.TopicListContract;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.ScrollableViewPager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
@@ -185,7 +185,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         try {
             df.show(ft, dialogTag);
         } catch (Exception e) {
-            Log.e(TopicListContainer.class.getSimpleName(), Log.getStackTraceString(e));
+            NLog.e(TopicListContainer.class.getSimpleName(), NLog.getStackTraceString(e));
         }
     }
 

@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,9 +43,11 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
@@ -61,9 +62,8 @@ import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class ArticleListFragmentNew extends Fragment implements
         OnThreadPageLoadFinishedListener, PreferenceKey,
@@ -99,7 +99,7 @@ public class ArticleListFragmentNew extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         PhoneConfiguration.getInstance().setRefreshAfterPost(
                 false);
-        Log.d(TAG, "onCreate");
+        NLog.d(TAG, "onCreate");
         page = getArguments().getInt("page") + 1;
         tid = getArguments().getInt("id");
         pid = getArguments().getInt("pid", 0);
@@ -425,7 +425,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     try {
                         restNotifier = (ResetableArticle) getActivity();
                     } catch (ClassCastException e) {
-                        Log.e(TAG, "father activity does not implements interface "
+                        NLog.e(TAG, "father activity does not implements interface "
                                 + ResetableArticle.class.getName());
                         return true;
                     }
@@ -551,7 +551,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
+        NLog.d(TAG, "onResume pid=" + pid + "&page=" + page);
 
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
@@ -567,7 +567,7 @@ public class ArticleListFragmentNew extends Fragment implements
                         linear.removeAllViewsInLayout();
                     }
                 } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
+                    NLog.e(TAG, "father activity does not implements interface "
                             + PagerOwner.class.getName());
 
                 }
@@ -594,7 +594,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     private void loadPage() {
         if (needLoad) {
-            Log.d(TAG, "loadPage" + page);
+            NLog.d(TAG, "loadPage" + page);
             Activity activity = getActivity();
             JsonThreadLoadTask task = new JsonThreadLoadTask(activity, this);
             String url = HttpUtil.Server + "/read.php?" + "&page=" + page
@@ -630,7 +630,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     @Override
     public void finishLoad(ThreadData data) {
-        Log.d(TAG, "finishLoad");
+        NLog.d(TAG, "finishLoad");
         // ArticleListActivity father = (ArticleListActivity)
         // this.getActivity();
         if (null != data) {
@@ -644,7 +644,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 if (father != null)
                     father.finishLoad(data);
             } catch (ClassCastException e) {
-                Log.e(TAG,
+                NLog.e(TAG,
                         "father activity should implements OnThreadPageLoadFinishedListener");
             }
         }
@@ -765,9 +765,9 @@ public class ArticleListFragmentNew extends Fragment implements
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
-                // Log.d(TAG, "default avatar, skip recycle");
+                // NLog.d(TAG, "default avatar, skip recycle");
             }
         }
 

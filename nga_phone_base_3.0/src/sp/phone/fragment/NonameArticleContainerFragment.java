@@ -10,7 +10,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,14 +22,15 @@ import android.widget.ImageButton;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.adapter.NonameThreadFragmentAdapter;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class NonameArticleContainerFragment extends BaseFragment implements
         OnNonameThreadPageLoadFinishedListener, PreferenceKey, PagerOwner {
@@ -197,7 +197,7 @@ public class NonameArticleContainerFragment extends BaseFragment implements
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
 
         return ret;
@@ -263,8 +263,7 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                     father = (OnChildFragmentRemovedListener) getActivity();
                     father.OnChildFragmentRemoved(getId());
                 } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
-                            + OnChildFragmentRemovedListener.class.getName());
+                    NLog.e(TAG, "father activity does not implements interface " + OnChildFragmentRemovedListener.class.getName());
 
                 }
                 break;
