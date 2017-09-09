@@ -2,15 +2,15 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonameThreadResponse;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, NonameThreadResponse> {
@@ -29,11 +29,9 @@ public class JsonNonameTopicListLoadTask extends AsyncTask<String, Integer, Nona
 
     @Override
     protected NonameThreadResponse doInBackground(String... params) {
-
-
         if (params.length == 0)
             return null;
-        Log.d(TAG, "start to load " + params[0]);
+        NLog.d(TAG, "start to load " + params[0]);
         String uri = params[0];
         String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
         if (StringUtils.isEmpty(js)) {

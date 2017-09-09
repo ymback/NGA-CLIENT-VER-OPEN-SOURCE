@@ -22,7 +22,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +39,8 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonamePostResponse;
 import sp.phone.adapter.ExtensionEmotionAdapter;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
@@ -47,10 +48,9 @@ import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.NonameFileUploadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class NonamePostActivity extends BasePostActivity implements
         OnEmotionPickedListener, NonameFileUploadTask.onFileUploaded {
@@ -185,7 +185,7 @@ public class NonamePostActivity extends BasePostActivity implements
             return;
         switch (requestCode) {
             case REQUEST_CODE_SELECT_PIC:
-                Log.i(LOG_TAG, " select file :" + data.getDataString());
+                NLog.i(LOG_TAG, " select file :" + data.getDataString());
                 uploadTask = new NonameFileUploadTask(this, this, data.getData());
                 break;
             default:
@@ -542,7 +542,7 @@ public class NonamePostActivity extends BasePostActivity implements
                     keepActivity = true;
             } catch (IOException e) {
                 keepActivity = true;
-                Log.e(LOG_TAG, Log.getStackTraceString(e));
+                NLog.e(LOG_TAG, NLog.getStackTraceString(e));
 
             }
             return ret;

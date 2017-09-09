@@ -2,7 +2,6 @@ package sp.phone.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -17,6 +16,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.HttpUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -119,8 +119,8 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
             fid = Integer.parseInt(fidString);
         } catch (Exception e) {
             final String tag = this.getClass().getSimpleName();
-            Log.e(tag, Log.getStackTraceString(e));
-            Log.e(tag, "invalid fid " + fidString);
+            NLog.e(tag, NLog.getStackTraceString(e));
+            NLog.e(tag, "invalid fid " + fidString);
         }
         if (fid == 0) {
             String tip = fidString + "绝对不存在";
@@ -128,7 +128,7 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
             return;
         }
 
-        Log.i(this.getClass().getSimpleName(), "set host:" + HttpUtil.HOST);
+        NLog.i(this.getClass().getSimpleName(), "set host:" + HttpUtil.HOST);
 
         String url = HttpUtil.Server + "/thread.php?fid=" + fidString + "&rss=1";
         PhoneConfiguration config = PhoneConfiguration.getInstance();

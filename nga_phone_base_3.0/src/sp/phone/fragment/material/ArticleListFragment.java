@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +38,7 @@ import sp.phone.model.ArticleListTask;
 import sp.phone.task.LikeTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /*
@@ -66,12 +66,13 @@ public class ArticleListFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+        NLog.d(TAG, "onCreate");
         if (savedInstanceState != null) {
             mPage = savedInstanceState.getInt("page");
         }
         mArticleListAction = getArguments().getParcelable("ArticleListAction");
-        mArticleListAction.setPageFromUrl(mPage);
+        if (mArticleListAction != null)
+            mArticleListAction.setPageFromUrl(mPage);
         mTask = new ArticleListTask();
         super.onCreate(savedInstanceState);
     }
@@ -184,10 +185,9 @@ public class ArticleListFragment extends BaseFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         int page = mArticleListAction.getPageFromUrl();
         int tid = mArticleListAction.getTid();
-        Log.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
+        NLog.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
 
         if (!getUserVisibleHint()) {
             return false;

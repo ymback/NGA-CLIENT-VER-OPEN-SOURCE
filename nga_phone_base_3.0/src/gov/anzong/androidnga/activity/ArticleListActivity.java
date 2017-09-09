@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListAction;
 import sp.phone.fragment.material.ArticleContainerFragment;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -97,7 +97,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
 
         return ret;

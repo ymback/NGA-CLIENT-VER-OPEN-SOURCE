@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
 
@@ -11,9 +10,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.Utils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 
 /**
  * Created by Yang Yihang on 2017/6/6.
@@ -101,8 +101,7 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
                 mHasError = true;
         } catch (IOException e) {
             mHasError = true;
-            Log.e(LOG_TAG, Log.getStackTraceString(e));
-
+            NLog.e(LOG_TAG, NLog.getStackTraceString(e));
         }
         return ret;
     }
@@ -116,7 +115,6 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
         if (end < 0)
             return "发帖失败";
         return html.substring(start, end);
-
     }
 
     @Override

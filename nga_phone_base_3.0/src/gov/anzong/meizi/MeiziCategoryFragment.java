@@ -3,7 +3,6 @@ package gov.anzong.meizi;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,9 +24,10 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziLoadingFooterTask.ReloadListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.utils.NLog;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -81,12 +81,11 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
             throw new ClassCastException("must implement OnHeadlineSelectedListener");
         }
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) getActivity();
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
         View contentView = inflater.inflate(R.layout.fragment_category, null);
         mAdapterView = (MultiColumnPullToRefreshListView) contentView.findViewById(R.id.list);

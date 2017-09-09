@@ -1,7 +1,6 @@
 package sp.phone.task;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -10,6 +9,7 @@ import java.net.URLDecoder;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.model.LoginModel;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -53,7 +53,7 @@ public class LoginTask extends AsyncTask<String, Integer, Boolean> {
         String location = "";
 
         for (int i = 1; (key = conn.getHeaderFieldKey(i)) != null; i++) {
-            Log.d(LOG_TAG,
+            NLog.d(LOG_TAG,
                     conn.getHeaderFieldKey(i) + ":"
                             + conn.getHeaderField(i));
             if (key.equalsIgnoreCase("location")) {
@@ -106,7 +106,7 @@ public class LoginTask extends AsyncTask<String, Integer, Boolean> {
                 && location.contains("login_success&error=0")) {
             mLoginAction.setUid(uid);
             mLoginAction.setCid(cid);
-            Log.i(LOG_TAG, "uid =" + uid + ",csid=" + cid);
+            NLog.i(LOG_TAG, "uid =" + uid + ",csid=" + cid);
             return true;
         }
 

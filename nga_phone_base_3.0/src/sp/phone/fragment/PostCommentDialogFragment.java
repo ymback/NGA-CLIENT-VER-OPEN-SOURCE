@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -17,6 +16,7 @@ import java.lang.reflect.Field;
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnPostCommentFinishedListener;
 import sp.phone.task.PostCommentTask;
+import sp.phone.utils.NLog;
 
 public class PostCommentDialogFragment extends DialogFragment implements
         OnPostCommentFinishedListener {
@@ -87,7 +87,7 @@ public class PostCommentDialogFragment extends DialogFragment implements
     public void OnPostCommentFinished(String result, boolean success) {
         Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
         if (success == true) {
-            Log.i("TAG", "SUCCESS");
+            NLog.i("TAG", "SUCCESS");
             try {
                 Field field = OptionDialog.getClass().getSuperclass()
                         .getDeclaredField("mShowing");

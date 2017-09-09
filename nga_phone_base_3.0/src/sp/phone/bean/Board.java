@@ -19,8 +19,7 @@ public class Board implements Parcelable {
 
     }
 
-
-    public Board(String url, String name, int icon,int iconOld) {
+    public Board(String url, String name, int icon, int iconOld) {
         this.name = name;
         this.url = url;
         this.icon = icon;
@@ -28,12 +27,11 @@ public class Board implements Parcelable {
     }
 
     public Board(String url, String name, int icon) {
-        this(url,name,icon,0);
+        this(url, name, icon, 0);
     }
 
-
     public Board(String url, String name) {
-        this(url,name,0,0);
+        this(url, name, 0, 0);
     }
 
     protected Board(Parcel in) {

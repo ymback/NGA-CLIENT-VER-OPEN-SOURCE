@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +38,7 @@ import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HtmlUtil;
 import sp.phone.utils.ImageUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -118,7 +118,7 @@ public class ArticleListAdapter extends BaseAdapter implements
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             }
         }
 
@@ -184,7 +184,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         }
         if (cachedView != null) {
             if (((ViewHolder) cachedView.getTag()).position == position) {
-                Log.d(TAG, "get view from cache ,floor " + lou);
+                NLog.d(TAG, "get view from cache ,floor " + lou);
                 return cachedView;
             } else {
                 view = LayoutInflater.from(activity).inflate(R.layout.relative_aritclelist, parent, false);

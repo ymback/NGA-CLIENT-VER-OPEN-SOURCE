@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,11 +26,12 @@ import java.net.URLEncoder;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.UserListAdapter;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.task.AccountAuthCodeImageReloadTask;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class LoginFragment extends DialogFragment implements
@@ -144,7 +144,7 @@ public class LoginFragment extends DialogFragment implements
     @Override
     public void authCodeFinishLoad(Bitmap authimg, String authcode) {
         // TODO Auto-generated method stub
-        Log.i("TAG", authcode);
+        NLog.i("TAG", authcode);
         this.authcode_cookie = authcode;
         authcodeImg.setImageBitmap(authimg);
     }
@@ -279,7 +279,7 @@ public class LoginFragment extends DialogFragment implements
                 String location = "";
 
                 for (int i = 1; (key = conn.getHeaderFieldKey(i)) != null; i++) {
-                    Log.d(LOG_TAG,
+                    NLog.d(LOG_TAG,
                             conn.getHeaderFieldKey(i) + ":"
                                     + conn.getHeaderField(i));
                     if (key.equalsIgnoreCase("location")) {
@@ -299,7 +299,7 @@ public class LoginFragment extends DialogFragment implements
                         cookieVal = conn.getHeaderField(i);
                         cookieVal = cookieVal.substring(0,
                                 cookieVal.indexOf(';'));
-                        Log.i("loginac", cookieVal);
+                        NLog.i("loginac", cookieVal);
                         if (cookieVal.indexOf("_sid=") == 0)
                             cid = cookieVal.substring(5);
                         if (cookieVal.indexOf("_178c=") == 0) {
@@ -334,7 +334,7 @@ public class LoginFragment extends DialogFragment implements
                         && location.indexOf("login_success&error=0") != -1) {
                     this.uid = uid;
                     this.cid = cid;
-                    Log.i(LOG_TAG, "uid =" + uid + ",csid=" + cid);
+                    NLog.i(LOG_TAG, "uid =" + uid + ",csid=" + cid);
                     return true;
                 }
 

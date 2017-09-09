@@ -7,7 +7,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 
@@ -27,6 +26,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.utils.HttpUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class MyApp extends Application implements PreferenceKey {
@@ -37,7 +37,7 @@ public class MyApp extends Application implements PreferenceKey {
 
     @Override
     public void onCreate() {
-        Log.w(TAG, "app nga androind start");
+        NLog.w(TAG, "app nga androind start");
         if (config == null)
             config = PhoneConfiguration.getInstance();
         loadConfig();
@@ -284,7 +284,7 @@ public class MyApp extends Application implements PreferenceKey {
             if (!bookmarkJson.equals(""))
                 bookmarks = JSON.parseArray(bookmarkJson, Bookmark.class);
         } catch (Exception e) {
-            Log.e("JSON_error", Log.getStackTraceString(e));
+            NLog.e("JSON_error", NLog.getStackTraceString(e));
         }
         PhoneConfiguration.getInstance().setBookmarks(bookmarks);
 

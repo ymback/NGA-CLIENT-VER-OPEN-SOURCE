@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import sp.phone.fragment.MessageDetialListContainer;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class MessageDetailFragment extends MaterialCompatFragment {
@@ -65,7 +65,7 @@ public class MessageDetailFragment extends MaterialCompatFragment {
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
         return ret;
     }

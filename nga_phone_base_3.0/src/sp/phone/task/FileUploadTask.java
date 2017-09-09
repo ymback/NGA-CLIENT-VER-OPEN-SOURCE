@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
@@ -21,6 +20,7 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 import sp.phone.utils.UploadCookieCollector;
 
@@ -112,7 +112,7 @@ public class FileUploadTask extends
         do {
             if (StringUtils.isEmpty(result))
                 break;
-            Log.i(TAG, result);
+            NLog.i(TAG, result);
             int start = result.indexOf(attachmentsStartFlag);
             if (start == -1)
                 break;
@@ -175,7 +175,7 @@ public class FileUploadTask extends
             }
 
 
-            Log.d(LOG_TAG, "file size =" + filesize);
+            NLog.d(LOG_TAG, "file size =" + filesize);
             pfd.close();
             if (is == null)
                 is = cr.openInputStream(uri);
@@ -196,7 +196,7 @@ public class FileUploadTask extends
         URL url;
         try {
             url = new URL(ATTACHMENT_SERVER);
-            //Log.d(LOG_TAG, "cookie:" + cookie);
+            //NLog.d(LOG_TAG, "cookie:" + cookie);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type",
@@ -231,7 +231,7 @@ public class FileUploadTask extends
             publishProgress(100);
 
         } catch (Exception e) {
-            Log.e(LOG_TAG, Log.getStackTraceString(e));
+            NLog.e(LOG_TAG, NLog.getStackTraceString(e));
         }
 
         return html;

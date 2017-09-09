@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -24,6 +23,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ImageUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
@@ -139,12 +139,11 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
                 is = new ByteArrayInputStream(img);
             }
 
-            Log.d(LOG_TAG, "file size =" + filesize);
+            NLog.d(LOG_TAG, "file size =" + filesize);
             pfd.close();
             if (is == null)
                 is = cr.openInputStream(uri);
         } catch (Exception e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
             errorStr = context.getResources().getString(
                     R.string.img_cannot_read);
@@ -161,7 +160,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
         URL url;
         try {
             url = new URL(ATTACHMENT_SERVER);
-            // Log.d(LOG_TAG, "cookie:" + cookie);
+            // NLog.d(LOG_TAG, "cookie:" + cookie);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type",
@@ -197,7 +196,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             errorStr = context.getResources().getString(
                     R.string.net_work_error);
-            Log.e(LOG_TAG, Log.getStackTraceString(e));
+            NLog.e(LOG_TAG, NLog.getStackTraceString(e));
             return null;
         }
 

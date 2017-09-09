@@ -228,9 +228,9 @@ public class MessageDetialAdapter extends BaseAdapter implements
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
-                // Log.d(TAG, "default avatar, skip recycle");
+                // NLog.d(TAG, "default avatar, skip recycle");
             }
         }
 

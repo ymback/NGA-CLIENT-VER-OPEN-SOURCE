@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.FileInputStream;
@@ -14,6 +13,7 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
+import sp.phone.utils.NLog;
 
 public class AvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
     static final String TAG = AvatarLoadTask.class.getSimpleName();
@@ -49,7 +49,7 @@ public class AvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
         try {
             is = new FileInputStream(avatarLocalPath);
         } catch (FileNotFoundException e) {
-            //Log.d(TAG,
+            //NLog.d(TAG,
             //		"avatar:" + avatarLocalPath + " is not cached" );
         }
 
@@ -58,17 +58,17 @@ public class AvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
             HttpUtil.downImage(avatarUrl, avatarLocalPath);
             try {
                 is = new FileInputStream(avatarLocalPath);
-                //Log.d(TAG,
+                //NLog.d(TAG,
                 //		"download avatar from " + avatarUrl);
 
             } catch (FileNotFoundException e) {
-                Log.d(TAG,
+                NLog.d(TAG,
                         "avatar " + avatarUrl + " is failed to download");
             }
         }
 
         if (is != null) {
-            //Log.d(TAG,"load avatar from file: " + avatarLocalPath);
+            //NLog.d(TAG,"load avatar from file: " + avatarLocalPath);
             bitmap = ImageUtil.loadAvatarFromSdcard(avatarLocalPath);
         }
 

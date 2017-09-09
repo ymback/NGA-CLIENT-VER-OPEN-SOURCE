@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,22 +14,23 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.SignData;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.MessageDetialListContainer;
 import sp.phone.fragment.material.MessageDetailFragment;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
         OnSignPageLoadFinishedListener, PagerOwner, OnItemClickListener,
-        OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer {
+        OnChildFragmentRemovedListener, PullToRefreshAttacherOwner {
 
     boolean dualScreen = true;
     int flags = ThemeManager.ACTION_BAR_FLAG;
@@ -127,7 +127,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
         return ret;
     }
@@ -199,7 +199,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
             if (listener != null)
                 listener.jsonfinishLoad(result);
         } catch (ClassCastException e) {
-            Log.e(TAG, "topicContainer should implements "
+            NLog.e(TAG, "topicContainer should implements "
                     + OnSignPageLoadFinishedListener.class.getCanonicalName());
         }
     }
@@ -217,13 +217,10 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwner.class.getName());
+            NLog.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return 0;
         }
     }
-
 
     @Override
     public void setCurrentItem(int index) {
@@ -235,7 +232,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
             child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG,
+            NLog.e(TAG,
                     "fragment in R.id.item_detail_container does not implements interface "
                             + PagerOwner.class.getName());
             return;

@@ -68,7 +68,7 @@ public class LikeTask extends AsyncTask<String, Integer, String> {
         if (StringUtils.isEmpty(result))
             return;
 
-        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\",\"1\":1").result;
+        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"").result;
         if (!StringUtils.isEmpty(msg)) {
             Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
         }

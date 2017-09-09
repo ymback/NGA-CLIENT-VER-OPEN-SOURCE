@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +34,8 @@ import java.net.HttpURLConnection;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.forumoperation.AvatarPostAction;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
@@ -43,10 +44,9 @@ import sp.phone.task.ChangeAvatarLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
         AvatarFileUploadTask.onFileUploaded, ChangeAvatarLoadCompleteCallBack {
@@ -294,7 +294,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
             return;
         switch (requestCode) {
             case REQUEST_CODE_SELECT_PIC:
-                Log.i(LOG_TAG, " select file :" + data.getDataString());
+                NLog.i(LOG_TAG, " select file :" + data.getDataString());
                 uploadTask = new AvatarFileUploadTask(this, this, data.getData());
                 break;
             default:
@@ -475,7 +475,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
                     keepActivity = true;
             } catch (IOException e) {
                 keepActivity = true;
-                Log.e(LOG_TAG, Log.getStackTraceString(e));
+                NLog.e(LOG_TAG, NLog.getStackTraceString(e));
 
             }
             return ret;
@@ -496,13 +496,13 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
             try {
                 o = (JSONObject) JSON.parseObject(js).get("data");
             } catch (Exception e) {
-                Log.e("TAG", "can not parse :\n" + js);
+                NLog.e("TAG", "can not parse :\n" + js);
             }
             if (o == null) {
                 try {
                     o = (JSONObject) JSON.parseObject(js).get("error");
                 } catch (Exception e) {
-                    Log.e("TAG", "can not parse :\n" + js);
+                    NLog.e("TAG", "can not parse :\n" + js);
                 }
                 if (o == null) {
                     return "发送失败";
