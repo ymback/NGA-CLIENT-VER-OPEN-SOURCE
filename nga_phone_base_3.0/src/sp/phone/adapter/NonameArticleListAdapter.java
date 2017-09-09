@@ -2,7 +2,6 @@ package sp.phone.adapter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ import sp.phone.common.ThemeManager;
 import sp.phone.listener.MyListenerForNonameReply;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class NonameArticleListAdapter extends BaseAdapter implements
@@ -173,7 +173,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         }
         if (cachedView != null) {
             if (((ViewHolder) cachedView.getTag()).position == position) {
-                Log.d(TAG, "get view from cache ,floor " + lou);
+                NLog.d(TAG, "get view from cache ,floor " + lou);
                 return cachedView;
             } else {
                 view = LayoutInflater.from(activity).inflate(

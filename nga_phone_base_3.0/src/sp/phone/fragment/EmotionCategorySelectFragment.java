@@ -1,7 +1,6 @@
 package sp.phone.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,6 +8,7 @@ import android.view.ViewGroup;
 
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
+import sp.phone.utils.NLog;
 
 public class EmotionCategorySelectFragment extends NoframeDialogFragment {
 
@@ -29,7 +29,7 @@ public class EmotionCategorySelectFragment extends NoframeDialogFragment {
                 try {
                     father = (EmotionCategorySelectedListener) getActivity();
                 } catch (ClassCastException e) {
-                    Log.e(EmotionCategorySelectFragment.class.getSimpleName(), e.getMessage());
+                    NLog.e(EmotionCategorySelectFragment.class.getSimpleName(), e.getMessage());
                 }
 
                 if (father != null) {

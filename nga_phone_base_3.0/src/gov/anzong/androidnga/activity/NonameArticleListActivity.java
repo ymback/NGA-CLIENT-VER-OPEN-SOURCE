@@ -9,7 +9,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,24 +20,25 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.adapter.TabsAdapter;
 import sp.phone.adapter.ThreadFragmentAdapter;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.fragment.NonameArticleListFragment;
 import sp.phone.fragment.NonameArticleListFragmentNew;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         implements PagerOwner, OnNonameThreadPageLoadFinishedListener,
-        PullToRefreshAttacherOnwer, PreferenceKey {
+        PullToRefreshAttacherOwner, PreferenceKey {
     private static final String TAG = "ArticleListActivity";
     private static final String GOTO_TAG = "goto";
     TabHost tabhost;
@@ -112,12 +112,12 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
             mViewPager.setCurrentItem(pageFromUrl);
         }
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) this;
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG,
+                    "father activity should implement PullToRefreshAttacherOwner");
         }
 
         PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
@@ -125,12 +125,11 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         options.refreshOnUp = true;
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) this;
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
 
         if (PhoneConfiguration.getInstance().fullscreen) {
@@ -178,7 +177,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
 
         return ret;
@@ -405,7 +404,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         // TODO Auto-generated method stub
 
         int exactCount = data.data.totalpage;
-        Log.i(TAG, String.valueOf(exactCount));
+        NLog.i(TAG, String.valueOf(exactCount));
         if (mTabsAdapter.getCount() != exactCount) {
             mTabsAdapter.setCount(exactCount);
         }

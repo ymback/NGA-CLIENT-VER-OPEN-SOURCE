@@ -2,7 +2,6 @@ package sp.phone.model;
 
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -17,11 +16,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import sp.phone.bean.json.TopicPostBean;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 
 /**
  * Created by Yang Yihang on 2017/6/10.
@@ -80,7 +80,7 @@ public class TopicPostModel implements TopicPostContract.Model{
                     String result = body.string();
                     int index = result.indexOf("=");
                     if (index < 0) {
-                        Log.e(TAG,"prepare post info failed !!");
+                        NLog.e(TAG,"prepare post info failed !!");
                         return;
                     }
                     result = result.substring(index+1);
@@ -93,10 +93,10 @@ public class TopicPostModel implements TopicPostContract.Model{
                     if (bean != null) {
                         act.setAuth(bean.getData().getAuth());
                     } else {
-                        Log.e(TAG,"prepare post info failed !!");
+                        NLog.e(TAG,"prepare post info failed !!");
                     }
                 } else {
-                    Log.e(TAG,"prepare post info failed !!");
+                    NLog.e(TAG,"prepare post info failed !!");
                 }
             }
         });

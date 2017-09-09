@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -28,7 +27,9 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.adapter.NonameArticleListAdapter;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.task.JsonNonameThreadLoadTask;
@@ -36,9 +37,8 @@ import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class NonameArticleListFragment extends Fragment implements
         OnNonameThreadPageLoadFinishedListener, PreferenceKey {
@@ -159,7 +159,7 @@ public class NonameArticleListFragment extends Fragment implements
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
+        NLog.d(TAG, "onResume pid=" + pid + "&page=" + page);
         // setHasOptionsMenu(true);
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
@@ -174,7 +174,7 @@ public class NonameArticleListFragment extends Fragment implements
                         this.needLoad = true;
                     }
                 } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
+                    NLog.e(TAG, "father activity does not implements interface "
                             + PagerOwner.class.getName());
 
                 }
@@ -241,12 +241,12 @@ public class NonameArticleListFragment extends Fragment implements
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        Log.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
+        NLog.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
         PagerOwner father = null;
         try {
             father = (PagerOwner) getActivity();
         } catch (ClassCastException e) {
-            Log.e(TAG, "father activity does not implements interface "
+            NLog.e(TAG, "father activity does not implements interface "
                     + PagerOwner.class.getName());
             return true;
         }
@@ -348,7 +348,7 @@ public class NonameArticleListFragment extends Fragment implements
 
     @Override
     public void finishLoad(NonameReadResponse data) {
-        Log.d(TAG, "finishLoad");
+        NLog.d(TAG, "finishLoad");
         if (null != data) {
             result = data;
             articleAdpater.setData(data);
@@ -361,7 +361,7 @@ public class NonameArticleListFragment extends Fragment implements
                 if (father != null)
                     father.finishLoad(data);
             } catch (ClassCastException e) {
-                Log.e(TAG,
+                NLog.e(TAG,
                         "father activity should implements OnThreadPageLoadFinishedListener");
             }
 

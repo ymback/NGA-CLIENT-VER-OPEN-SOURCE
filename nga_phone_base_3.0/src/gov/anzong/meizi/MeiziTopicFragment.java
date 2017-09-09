@@ -2,7 +2,6 @@ package gov.anzong.meizi;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.utils.ActivityUtils;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFinishedListener {
 
@@ -145,8 +145,7 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
                     father = (OnChildFragmentRemovedListener) getActivity();
                     father.OnChildFragmentRemoved(getId());
                 } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
-                            + OnChildFragmentRemovedListener.class.getName());
+                    NLog.e(TAG, "father activity does not implements interface " + OnChildFragmentRemovedListener.class.getName());
 
                 }
                 break;

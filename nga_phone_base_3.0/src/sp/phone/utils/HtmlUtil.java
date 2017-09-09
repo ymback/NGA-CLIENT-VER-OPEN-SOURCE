@@ -237,7 +237,7 @@ public class HtmlUtil {
 
         }
         ret.append("</tbody></table>");
-        Log.i(TAG, ret.toString());
+        NLog.i(TAG, ret.toString());
         return ret.toString();
     }
 

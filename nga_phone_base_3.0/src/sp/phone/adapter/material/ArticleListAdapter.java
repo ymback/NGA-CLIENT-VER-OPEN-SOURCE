@@ -246,7 +246,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             }
         }
 

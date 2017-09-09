@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +22,8 @@ import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.NonameTopicListAdapter;
 import sp.phone.bean.ThreadPageInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.NonameArticleContainerFragment;
 import sp.phone.fragment.NonameTopiclistContainer;
 import sp.phone.interfaces.EnterJsonNonameArticle;
@@ -30,12 +31,11 @@ import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
@@ -45,7 +45,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
         OnNonameThreadPageLoadFinishedListener,
         PagerOwner,
         OnChildFragmentRemovedListener,
-        PullToRefreshAttacherOnwer,
+        PullToRefreshAttacherOwner,
         NonameArticleContainerFragment.OnNonameArticleContainerFragmentListener,
         NonameTopiclistContainer.OnNonameTopiclistContainerListener {
 
@@ -165,7 +165,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
             if (listener != null)
                 listener.jsonfinishLoad(result);
         } catch (ClassCastException e) {
-            Log.e(TAG,
+            NLog.e(TAG,
                     "topicContainer should implements "
                             + OnNonameTopListLoadFinishedListener.class
                             .getCanonicalName());
@@ -243,30 +243,21 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwner.class.getName());
+            NLog.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return 0;
         }
-
     }
 
     @Override
     public void setCurrentItem(int index) {
         PagerOwner child = null;
         try {
-
-            Fragment articleContainer = getSupportFragmentManager()
-                    .findFragmentById(R.id.item_detail_container);
+            Fragment articleContainer = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
             child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "fragment in R.id.item_detail_container does not implements interface "
-                            + PagerOwner.class.getName());
-            return;
+            NLog.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
         }
-
     }
 
     @Override
@@ -308,7 +299,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
                         StringUtils.unEscapeHtml(data.data.title));
             }
         } catch (ClassCastException e) {
-            Log.e(TAG,
+            NLog.e(TAG,
                     "detailContainer should implements OnThreadPageLoadFinishedListener");
         }
     }

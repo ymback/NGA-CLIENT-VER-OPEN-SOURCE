@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,23 +23,24 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.NearbyUsersAdapter;
 import sp.phone.bean.NearbyUser;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.AlertDialogFragment;
 import sp.phone.fragment.NearbyAlertDialogFragment;
 import sp.phone.interfaces.OnNearbyLoadComplete;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.NearbyUserTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.DeviceUtils;
+import sp.phone.utils.NLog;
 import sp.phone.utils.PermissionUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public class NearbyUserActivity extends SwipeBackAppCompatActivity
-        implements PreferenceKey, OnNearbyLoadComplete, PullToRefreshAttacherOnwer {
+public class NearbyUserActivity extends SwipeBackAppCompatActivity implements PreferenceKey, OnNearbyLoadComplete, PullToRefreshAttacherOwner {
+
     final private String ALERT_DIALOG_TAG = "alertdialog";
     NearbyUserTask task = null;
     PullToRefreshAttacher attacher = null;
@@ -49,7 +49,6 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         //this.setContentView(R.layout.webview_layout);
         setTheme(R.style.AppTheme);
@@ -84,17 +83,16 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity
         options.refreshOnUp = true;
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) this;
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) this;
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e("NEARBYUSERACTIVITY",
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e("NEARBYUSERACTIVITY", "father activity should implement PullToRefreshAttacherOwner");
         }
     }
 
     void initLocation() {
-        if (!PermissionUtils.hasLocationPermission(this) && DeviceUtils.isGreaterEqual_6_0()){
+        if (!PermissionUtils.hasLocationPermission(this) && DeviceUtils.isGreaterEqual_6_0()) {
             PermissionUtils.requestLocationPermission(this);
             return;
         }

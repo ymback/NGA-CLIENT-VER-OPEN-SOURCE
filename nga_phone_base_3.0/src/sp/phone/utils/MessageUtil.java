@@ -64,7 +64,7 @@ public class MessageUtil {
         final String start = "\"__P\":{\"aid\":";
         final String end = "\"this_visit_rows\":";
         if (js.indexOf(start) != -1 && js.indexOf(end) != -1) {
-            Log.w(TAG, "here comes an invalid response");
+            NLog.w(TAG, "here comes an invalid response");
             String validJs = js.substring(0, js.indexOf(start));
             validJs += js.substring(js.indexOf(end));
             js = validJs;
@@ -74,7 +74,7 @@ public class MessageUtil {
         try {
             o = (JSONObject) JSON.parseObject(js).get("data");
         } catch (Exception e) {
-            Log.e(TAG, "can not parse :\n" + js);
+            NLog.e(TAG, "can not parse :\n" + js);
         }
         if (o == null)
             return null;

@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,20 +18,21 @@ import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.SignData;
 import sp.phone.bean.User;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.SignContainer;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
         OnSignPageLoadFinishedListener,
-        OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer {
+        OnChildFragmentRemovedListener, PullToRefreshAttacherOwner {
 
     boolean dualScreen = true;
     int flags = 7;
@@ -181,8 +181,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
             if (listener != null)
                 listener.jsonfinishLoad(result);
         } catch (ClassCastException e) {
-            Log.e(TAG, "topicContainer should implements "
-                    + OnSignPageLoadFinishedListener.class.getCanonicalName());
+            NLog.e(TAG, "topicContainer should implements " + OnSignPageLoadFinishedListener.class.getCanonicalName());
         }
     }
 }

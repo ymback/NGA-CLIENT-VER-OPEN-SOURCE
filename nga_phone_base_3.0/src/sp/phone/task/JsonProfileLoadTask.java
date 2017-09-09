@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -15,14 +14,14 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
-public class JsonProfileLoadTask extends
-        AsyncTask<String, Integer, ProfileData> {
+public class JsonProfileLoadTask extends AsyncTask<String, Integer, ProfileData> {
     static final String TAG = JsonProfileLoadTask.class.getSimpleName();
     final private Context context;
     final private OnProfileLoadFinishedListener notifier;
@@ -63,7 +62,7 @@ public class JsonProfileLoadTask extends
         url = Utils.getNGAHost() + "nuke.php?__lib=ucp&__act=get&lite=js&noprefix&"
                 + params[0];
 
-        Log.d(TAG, "start to load:" + url);
+        NLog.d(TAG, "start to load:" + url);
 
         ProfileData result = this.loadAndParseJsonPage(url);
         return result;
@@ -73,7 +72,7 @@ public class JsonProfileLoadTask extends
         String js;
         js = HttpUtil
                 .getHtml(uri, PhoneConfiguration.getInstance().getCookie());
-        // Log.i(TAG,js);
+        // NLog.i(TAG,js);
         List<ReputationData> EntryList = new ArrayList<ReputationData>();
         List<adminForumsData> EntryList2 = new ArrayList<adminForumsData>();
 
@@ -92,7 +91,7 @@ public class JsonProfileLoadTask extends
             o = (JSONObject) JSON.parseObject(js).get("data");
             oerror = (JSONObject) JSON.parseObject(js).get("error");
         } catch (Exception e) {
-            Log.e(TAG, "can not parse :\n" + js);
+            NLog.e(TAG, "can not parse :\n" + js);
         }
         ProfileData ret = new ProfileData();
         if (o == null) {
@@ -110,7 +109,7 @@ public class JsonProfileLoadTask extends
             oadminForums = (JSONObject) o0.get("adminForums");
             oipLog = (JSONObject) o0.get("ipLog");
         } catch (Exception e) {
-            Log.e(TAG, "can not parse :\n" + js);
+            NLog.e(TAG, "can not parse :\n" + js);
         }
         if (null == o0) {
             error = "请重新登录";

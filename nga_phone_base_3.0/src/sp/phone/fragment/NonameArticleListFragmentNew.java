@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +27,9 @@ import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.listener.MyListenerForNonameReply;
@@ -38,9 +39,8 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class NonameArticleListFragmentNew extends Fragment implements
         OnNonameThreadPageLoadFinishedListener, PreferenceKey {
@@ -188,7 +188,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
+        NLog.d(TAG, "onResume pid=" + pid + "&page=" + page);
         // setHasOptionsMenu(true);
 
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
@@ -205,7 +205,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                         linear.removeAllViewsInLayout();
                     }
                 } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
+                    NLog.e(TAG, "father activity does not implements interface "
                             + PagerOwner.class.getName());
 
                 }
@@ -264,7 +264,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
 
     @Override
     public void finishLoad(NonameReadResponse data) {
-        Log.d(TAG, "finishLoad");
+        NLog.d(TAG, "finishLoad");
         // ArticleListActivity father = (ArticleListActivity)
         // this.getActivity();
         if (null != data) {
@@ -278,7 +278,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                 if (father != null)
                     father.finishLoad(data);
             } catch (ClassCastException e) {
-                Log.e(TAG,
+                NLog.e(TAG,
                         "father activity should implements OnThreadPageLoadFinishedListener");
             }
 

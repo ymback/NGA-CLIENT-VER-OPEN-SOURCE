@@ -7,7 +7,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -18,6 +17,8 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.util.Locale;
+
+import sp.phone.utils.NLog;
 
 
 /**
@@ -92,7 +93,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                Log.e(TAG, "Error : ", e);
+                NLog.e(TAG, "Error : ", e);
             }
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(10);
@@ -192,7 +193,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 VERSION_NAME = pi.versionName == null ? "not set" : pi.versionName;
             }
         } catch (NameNotFoundException e) {
-            Log.e(TAG, "Error while collect package info", e);
+            NLog.e(TAG, "Error while collect package info", e);
         }
     }
 }

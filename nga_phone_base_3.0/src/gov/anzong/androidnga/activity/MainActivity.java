@@ -19,7 +19,6 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,16 +33,17 @@ import java.util.Locale;
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.ProfileSearchDialogFragment;
 import sp.phone.presenter.BoardPresenter;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.PermissionUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class MainActivity extends BaseActivity {
 
@@ -255,7 +255,7 @@ public class MainActivity extends BaseActivity {
 
                 File file = new File(HttpUtil.PATH_NOMEDIA);
                 if (!file.exists()) {
-                    Log.i(getClass().getSimpleName(), "create .nomedia");
+                    NLog.i(getClass().getSimpleName(), "create .nomedia");
                     try {
                         file.createNewFile();
                     } catch (IOException e) {
