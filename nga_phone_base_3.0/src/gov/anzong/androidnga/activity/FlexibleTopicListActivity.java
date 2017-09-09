@@ -325,11 +325,15 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             //menu.findItem(R.id.menu_add_bookmark).setVisible(false);
           //  menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
         } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
-            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+            if (menu.findItem(R.id.menu_add_bookmark) != null) {
+                menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+                menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+            }
         } else {
-            menu.findItem(R.id.menu_add_bookmark).setVisible(true);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+            if (menu.findItem(R.id.menu_add_bookmark) != null) {
+                menu.findItem(R.id.menu_add_bookmark).setVisible(true);
+                menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+            }
         }
         return super.onPrepareOptionsMenu(menu);
     }
