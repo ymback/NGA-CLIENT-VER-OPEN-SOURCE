@@ -322,8 +322,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
 
         if (mBoardName == null) {
-            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+            //menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+          //  menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
         } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
             menu.findItem(R.id.menu_add_bookmark).setVisible(false);
             menu.findItem(R.id.menu_remove_bookmark).setVisible(true);

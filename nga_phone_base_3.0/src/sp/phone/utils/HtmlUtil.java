@@ -100,7 +100,7 @@ public class HtmlUtil {
                     + buildVote(row);
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
                     + buildHeader(row, fgColorStr)
-                    + "<body bgcolor= '#"
+                    + "<body style=word-break:break-all; bgcolor= '#"
                     + bgcolorStr
                     + "'>"
                     + "<font color='#"
