@@ -25,21 +25,23 @@
 
         <TextView
             android:id="@+id/author"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="160dp"
             android:text="@string/sample_nick_name"
+            android:maxLines="2"
             android:textColor="@color/night_link_color"
             android:textIsSelectable="false"
             android:textSize="11.0sp" />
 
         <TextView
             android:id="@+id/last_reply"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="9.0dip"
             android:layout_toLeftOf="@+id/im3"
+            android:gravity="right"
             android:text="@string/sample_nick_name"
+            android:maxLines="2"
             android:textColor="@color/night_link_color"
             android:textIsSelectable="false"
             android:textSize="11.0sp" />
