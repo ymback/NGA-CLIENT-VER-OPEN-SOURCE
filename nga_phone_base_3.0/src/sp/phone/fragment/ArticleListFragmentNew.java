@@ -40,7 +40,7 @@ import java.util.Set;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.ThreadData;
@@ -315,7 +315,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     editor.putString(BLACK_LIST, blickliststring);
                     editor.apply();
                     if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
-                        MyApp app = (MyApp) getActivity().getApplication();
+                        NgaClientApp app = (NgaClientApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
                     } else {
                         if (toast != null) {

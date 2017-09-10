@@ -31,6 +31,7 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import gov.anzong.androidnga.BuildConfig;
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity {
 
     //OK
     private void checkNewVersion() {
-        MyApp app = (MyApp) getApplication();
+        NgaClientApp app = (NgaClientApp) getApplication();
         if (app.isNewVersion()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.prompt).setMessage(StringUtils.getTips())

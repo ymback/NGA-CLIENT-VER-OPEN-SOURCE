@@ -31,7 +31,7 @@ import java.util.Set;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.NgaClientApp;
 import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
@@ -435,7 +435,7 @@ public class ArticleListFragment extends BaseFragment implements
                     editor.putString(BLACK_LIST, blickliststring);
                     editor.apply();
                     if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
-                        MyApp app = (MyApp) getActivity().getApplication();
+                        NgaClientApp app = (NgaClientApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
                     } else {
                         showToast(R.string.cannot_add_to_blacklist_cause_logout);

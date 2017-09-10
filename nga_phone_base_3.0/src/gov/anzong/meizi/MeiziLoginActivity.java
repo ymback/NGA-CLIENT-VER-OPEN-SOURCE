@@ -18,8 +18,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
@@ -240,7 +240,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 
                         toast.show();
                     }
-                    MyApp app = (MyApp) MeiziLoginActivity.this
+                    NgaClientApp app = (NgaClientApp) MeiziLoginActivity.this
                             .getApplication();
                     app.addToMeiziUserList(uid, sess);
                     alreadylogin = true;

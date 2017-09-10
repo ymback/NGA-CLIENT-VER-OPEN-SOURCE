@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.NgaClientApp;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
@@ -138,7 +138,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
         int id = 0;
         id = Integer.parseInt(result);
 
-        if (id <= MyApp.version) {
+        if (id <= NgaClientApp.version) {
             NLog.i(TAG, "application alread up to date");
             return;
         }

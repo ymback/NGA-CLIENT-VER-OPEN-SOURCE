@@ -51,7 +51,7 @@ public class HttpUtil {
     public static String MODEL = android.os.Build.MODEL.toUpperCase(Locale.US);
     public static String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);
 
-    //	public static final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("([Xiaomi MI 2S];Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+    //	public static final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(NgaClientApp.version).append("([Xiaomi MI 2S];Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
     //	public static final String USER_AGENT = new StringBuilder().append("Mozilla/5.0 (Linux; U; Android 2.3.3; zh-cn; SH12C Build/S4040) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1").toString();
     @SuppressWarnings("unused")
     public static void selectServer2() {

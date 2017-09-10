@@ -33,7 +33,6 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,8 +58,8 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.util.NetUtil;
 import noname.gson.parse.NonameReadBody;
 import sp.phone.adapter.NonameArticleListAdapter;
@@ -209,7 +208,7 @@ public class FunctionUtils {
             });
         }
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + ((MyApp) ((Activity) context).getApplication()).version);
+        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
         setting.setJavaScriptEnabled(false);
@@ -232,7 +231,7 @@ public class FunctionUtils {
 
 
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + ((MyApp) ((Activity) context).getApplication()).version);
+        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
         setting.setJavaScriptEnabled(false);
@@ -265,7 +264,7 @@ public class FunctionUtils {
 //			contentTV.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 //		}
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + ((MyApp) ((Activity) context).getApplication()).version);
+        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
         setting.setDefaultFontSize(PhoneConfiguration.getInstance().getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);

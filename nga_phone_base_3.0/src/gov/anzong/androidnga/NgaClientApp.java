@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.activity;
+package gov.anzong.androidnga;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -13,8 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import gov.anzong.androidnga.BuildConfig;
-import gov.anzong.androidnga.CrashHandler;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
 import sp.phone.bean.Bookmark;
@@ -27,9 +25,9 @@ import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
-public class MyApp extends Application implements PreferenceKey {
+public class NgaClientApp extends Application implements PreferenceKey {
     public final static int version = BuildConfig.VERSION_CODE;
-    final private static String TAG = MyApp.class.getSimpleName();
+    final private static String TAG = NgaClientApp.class.getSimpleName();
     boolean newVersion = false;
     private PhoneConfiguration config = null;
 

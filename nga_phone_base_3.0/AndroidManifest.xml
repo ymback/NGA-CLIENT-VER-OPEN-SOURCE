@@ -23,7 +23,7 @@
         android:required="false" />
 
     <application
-        android:name=".activity.MyApp"
+        android:name=".NgaClientApp"
         android:anyDensity="false"
         android:hardwareAccelerated="false"
         android:icon="@drawable/nga_bg"
