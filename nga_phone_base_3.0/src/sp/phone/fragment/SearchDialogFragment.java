@@ -95,6 +95,7 @@ public class SearchDialogFragment extends DialogFragment {
                 if (event != null
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER
                         && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    getDialog().dismiss();
                     handleSearch();
                     return true;
                 }
