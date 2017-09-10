@@ -1,6 +1,5 @@
 package gov.anzong.androidnga.activity;
 
-import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -13,18 +12,17 @@ import com.alibaba.fastjson.JSON;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.CrashHandler;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
 import sp.phone.bean.Bookmark;
-import sp.phone.bean.User;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
@@ -37,12 +35,13 @@ public class MyApp extends Application implements PreferenceKey {
 
     @Override
     public void onCreate() {
-        NLog.w(TAG, "app nga androind start");
+        NLog.w(TAG, "app nga android start");
         if (config == null)
             config = PhoneConfiguration.getInstance();
         loadConfig();
         initUserInfo();
         initPath();
+        UserManagerImpl.getInstance().initialize(this);
         BoardManagerImpl.getInstance().initialize(this);
 
         CrashHandler crashHandler = CrashHandler.getInstance();
@@ -55,7 +54,6 @@ public class MyApp extends Application implements PreferenceKey {
     }
 
 
-    @TargetApi(8)
     private void initPath() {
         File baseDir = getExternalCacheDir();
         if (baseDir != null)
@@ -77,29 +75,6 @@ public class MyApp extends Application implements PreferenceKey {
         SharedPreferences share = this.getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);
 
-        final String uid = share.getString(UID, "");
-        final String cid = share.getString(CID, "");
-        final String replystring = share.getString(PENDING_REPLYS, "");
-        final int replytotalnum = Integer.parseInt(share.getString(
-                REPLYTOTALNUM, "0"));
-        final String black = share.getString(BLACK_LIST, "");
-        final Set<Integer> blacklist = StringUtils.blackListStringToHashset(black);
-        if (!StringUtils.isEmpty(uid) && !StringUtils.isEmpty(cid)) {
-            config.setUid(uid);
-            config.setCid(cid);
-            config.setReplyString(replystring);
-            config.setReplyTotalNum(replytotalnum);
-            config.blacklist = blacklist;
-            String userListString = share.getString(USER_LIST, "");
-            final String name = share.getString(USER_NAME, "");
-            config.userName = name;
-            if (StringUtils.isEmpty(userListString)) {
-
-                addToUserList(uid, cid, name, replystring, replytotalnum, black);
-
-            }
-        }
-
         boolean downImgWithoutWifi = share.getBoolean(DOWNLOAD_IMG_NO_WIFI,
                 false);
         config.setDownImgNoWifi(downImgWithoutWifi);
@@ -111,63 +86,15 @@ public class MyApp extends Application implements PreferenceKey {
 
     }
 
+    @Deprecated
     public void addToUserList(String uid, String cid, String name,
                               String replyString, int replytotalnum, String blacklist) {
-        SharedPreferences share = this.getSharedPreferences(PERFERENCE,
-                MODE_PRIVATE);
-        if (blacklist == null) {
-            blacklist = "";
-        }
-        String userListString = share.getString(USER_LIST, "");
-
-        List<User> userList = null;
-        // new ArrayList<User>();
-        if (StringUtils.isEmpty(userListString)) {
-            userList = new ArrayList<User>();
-        } else {
-            userList = JSON.parseArray(userListString, User.class);
-            for (User u : userList) {
-                if (u.getUserId().equals(uid)) {
-                    userList.remove(u);
-                    break;
-                }
-
-            }
-        }
-
-        User user = new User();
-        user.setCid(cid);
-        user.setUserId(uid);
-        user.setNickName(name);
-        user.setReplyString(replyString);
-        user.setReplyTotalNum(replytotalnum);
-        user.setBlackList(blacklist);
-        userList.add(0, user);
-        userListString = JSON.toJSONString(userList);
-        share.edit().putString(UID, uid).putString(CID, cid)
-                .putString(USER_NAME, name)
-                .putString(PENDING_REPLYS, replyString)
-                .putString(REPLYTOTALNUM, String.valueOf(replytotalnum))
-                .putString(USER_LIST, userListString).putString(BLACK_LIST, blacklist).apply();
+        UserManagerImpl.getInstance().addUser(uid,cid,name,replyString,replytotalnum,blacklist);
     }
 
+    @Deprecated
     public void upgradeUserdata(String blacklist) {
-        SharedPreferences share = this.getSharedPreferences(PERFERENCE, MODE_PRIVATE);
-
-        String userListString = share.getString(USER_LIST, "");
-        List<User> userList = null;
-        if (StringUtils.isEmpty(userListString)) {
-            userList = new ArrayList<User>();
-        } else {
-            userList = JSON.parseArray(userListString, User.class);
-            for (User u : userList) {
-                if (u.getUserId().equals(PhoneConfiguration.getInstance().uid)) {
-                    addToUserList(u.getUserId(), u.getCid(), u.getNickName(), u.getReplyString(), u.getReplyTotalNum(), blacklist);
-                    break;
-                }
-
-            }
-        }
+        UserManagerImpl.getInstance().setBlackList(blacklist);
     }
 
     public void addToMeiziUserList(String uid, String sess) {
@@ -298,8 +225,5 @@ public class MyApp extends Application implements PreferenceKey {
         this.newVersion = newVersion;
     }
 
-    public PhoneConfiguration getConfig() {
-        return config;
-    }
 
 }

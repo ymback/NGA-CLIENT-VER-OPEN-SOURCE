@@ -1,6 +1,5 @@
 package sp.phone.task;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,13 +22,12 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.ReplyListActivity;
 import sp.phone.bean.MsgNotificationObject;
 import sp.phone.bean.NotificationObject;
-import sp.phone.bean.User;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
@@ -127,31 +125,7 @@ public class CheckReplyNotificationTask extends
                 List<NotificationObject> list = new ArrayList<NotificationObject>();
                 list = notificationList;
                 String recentstr = JSON.toJSONString(list);
-                PhoneConfiguration.getInstance().setReplyString(recentstr);
-                PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
-                String userListString = share.getString(USER_LIST, "");
-                List<User> userList = null;
-                if (!StringUtils.isEmpty(userListString)) {
-                    userList = JSON.parseArray(userListString, User.class);
-                    for (User u : userList) {
-                        if (u.getUserId().equals(
-                                PhoneConfiguration.getInstance().uid)) {
-                            MyApp app = (MyApp) ((Activity) context)
-                                    .getApplication();
-                            app.addToUserList(u.getUserId(), u.getCid(),
-                                    u.getNickName(), recentstr, list.size(),
-                                    u.getBlackList());
-                            break;
-                        }
-                    }
-                } else {
-                    PhoneConfiguration.getInstance().setReplyString(recentstr);
-                    PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
-                    Editor editor = share.edit();
-                    editor.putString(PENDING_REPLYS, recentstr);
-                    editor.putString(REPLYTOTALNUM, String.valueOf(list.size()));
-                    editor.apply();
-                }
+                UserManagerImpl.getInstance().setReplyString(list.size(),recentstr);
             }
 
             return;

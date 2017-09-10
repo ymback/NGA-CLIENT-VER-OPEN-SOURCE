@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,12 +22,11 @@ import com.alibaba.fastjson.JSON;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.RecentReplyAdapter;
 import sp.phone.bean.NotificationObject;
-import sp.phone.bean.User;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonCleanRecentNotifierLoadTask;
@@ -207,30 +204,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
     }
 
     public void removerecentlist() {
-        PhoneConfiguration.getInstance().setReplyString("");
-        PhoneConfiguration.getInstance().setReplyTotalNum(0);
-        SharedPreferences share = getActivity().getSharedPreferences(PERFERENCE,
-                Context.MODE_PRIVATE);
-        String userListString = share.getString(USER_LIST, "");
-        List<User> userList = null;
-        if (!StringUtils.isEmpty(userListString)) {
-            userList = JSON.parseArray(userListString, User.class);
-            for (User u : userList) {
-                if (u.getUserId().equals(
-                        PhoneConfiguration.getInstance().uid)) {
-                    MyApp app = ((MyApp) getActivity().getApplication());
-                    app.addToUserList(u.getUserId(), u.getCid(),
-                            u.getNickName(), "", 0, u.getBlackList());
-                    break;
-                }
-            }
-        } else {
-            Editor editor = share.edit();
-            editor.putString(PENDING_REPLYS, "");
-            editor.putString(REPLYTOTALNUM,
-                    "0");
-            editor.apply();
-        }
+        UserManagerImpl.getInstance().setReplyString(0,"");
         if (adapter != null) {
             adapter.clean();
         }

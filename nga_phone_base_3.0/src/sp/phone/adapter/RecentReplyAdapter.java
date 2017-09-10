@@ -1,9 +1,6 @@
 package sp.phone.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -21,13 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.NotificationObject;
 import sp.phone.common.PreferenceKey;
-import sp.phone.bean.User;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
 
 public class RecentReplyAdapter extends BaseAdapter implements
         PreferenceKey {
@@ -122,35 +116,8 @@ public class RecentReplyAdapter extends BaseAdapter implements
     public void remove(int position) {
         // TODO Auto-generated method stub
         list.remove(list.size() - 1 - position);
-
-        SharedPreferences share = mcontext.getSharedPreferences(PERFERENCE,
-                Context.MODE_PRIVATE);
         String str = JSON.toJSONString(list);
-        PhoneConfiguration.getInstance().setReplyString(str);
-        PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
-
-
-        String userListString = share.getString(USER_LIST, "");
-        List<User> userList = null;
-        if (!StringUtils.isEmpty(userListString)) {
-            userList = JSON.parseArray(userListString, User.class);
-            for (User u : userList) {
-                if (u.getUserId().equals(
-                        PhoneConfiguration.getInstance().uid)) {
-                    MyApp app = (MyApp) ((Activity) mcontext)
-                            .getApplication();
-                    app.addToUserList(u.getUserId(), u.getCid(),
-                            u.getNickName(), str, list.size(), u.getBlackList());
-                    break;
-                }
-            }
-        } else {
-            Editor editor = share.edit();
-            editor.putString(PENDING_REPLYS, str);
-            editor.putString(REPLYTOTALNUM,
-                    String.valueOf(list.size()));
-            editor.apply();
-        }
+        UserManagerImpl.getInstance().setReplyString(list.size(),str);
         this.notifyDataSetInvalidated();
     }
 

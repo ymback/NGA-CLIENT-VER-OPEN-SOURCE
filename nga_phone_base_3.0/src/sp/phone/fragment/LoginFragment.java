@@ -1,8 +1,5 @@
 package sp.phone.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,10 +21,10 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.UserListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.task.AccountAuthCodeImageReloadTask;
@@ -366,27 +363,7 @@ public class LoginFragment extends DialogFragment implements
 						 * intent.setClass(v.getContext(), MainActivity.class);
 						 * intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						 */
-                        SharedPreferences share = getActivity()
-                                .getSharedPreferences(PERFERENCE,
-                                        Context.MODE_PRIVATE);
-                        Editor editor = share.edit();
-                        editor.putString(UID, uid);
-                        editor.putString(CID, cid);
-                        editor.putString(PENDING_REPLYS, "");
-                        editor.putString(REPLYTOTALNUM, "0");
-                        editor.putString(USER_NAME, name);
-                        editor.putString(BLACK_LIST, "");
-                        editor.apply();
-                        MyApp app = (MyApp) getActivity().getApplication();
-                        app.addToUserList(uid, cid, name, "", 0, "");
-
-                        PhoneConfiguration.getInstance().setUid(uid);
-                        PhoneConfiguration.getInstance().setCid(cid);
-                        PhoneConfiguration.getInstance().userName = name;
-                        PhoneConfiguration.getInstance().setReplyString("");
-                        PhoneConfiguration.getInstance().setReplyTotalNum(0);
-                        PhoneConfiguration.getInstance().blacklist = StringUtils
-                                .blackListStringToHashset("");
+                        UserManagerImpl.getInstance().addUser(uid, cid, name, "", 0, "");
 
                         LoginFragment.this.dismiss();
                         // startActivity(intent);

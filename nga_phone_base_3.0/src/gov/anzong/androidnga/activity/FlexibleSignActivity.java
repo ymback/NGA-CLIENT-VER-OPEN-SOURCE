@@ -20,6 +20,7 @@ import sp.phone.bean.SignData;
 import sp.phone.bean.User;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.SignContainer;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
@@ -91,16 +92,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
             @Override
             public boolean onNavigationItemSelected(int itemPosition,
                                                     long itemId) {
-                User u = (User) categoryAdapter.getItem(itemPosition);
-                MyApp app = (MyApp) getApplication();
-                app.addToUserList(u.getUserId(), u.getCid(),
-                        u.getNickName(), u.getReplyString(), u.getReplyTotalNum(), u.getBlackList());
-                PhoneConfiguration.getInstance().setUid(u.getUserId());
-                PhoneConfiguration.getInstance().setCid(u.getCid());
-                PhoneConfiguration.getInstance().setNickname(u.getNickName());
-                PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
-                PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
-                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
+                UserManagerImpl.getInstance().setActiveUser(itemPosition);
                 SignContainer f1 = (SignContainer) getSupportFragmentManager().findFragmentById(R.id.sign_list);
                 if (f1 != null) {
                     f1.onCategoryChanged(itemPosition);
