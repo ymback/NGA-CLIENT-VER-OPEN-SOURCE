@@ -103,7 +103,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
     }
 
     @Override
-    public void onBindViewHolder(final TopicViewHolder holder, final int position) {
+    public void onBindViewHolder(final TopicViewHolder holder, int position) {
         ThemeManager cfg = ThemeManager.getInstance();
         int colorId = cfg.getBackgroundColor(position);
         if (position == mSelected) {
@@ -115,6 +115,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int position = holder.getAdapterPosition();
                 if (mItemClickListener != null) {
                     mItemClickListener.onItemClick(null,holder.itemView,position,getItemId(position));
                 }
@@ -123,6 +124,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                int position = holder.getAdapterPosition();
                 return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
             }
         });
