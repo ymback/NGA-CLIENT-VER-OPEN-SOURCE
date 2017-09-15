@@ -47,6 +47,9 @@ public class UserManagerImpl implements UserManager {
             mUserList = new ArrayList<>();
         } else {
             mUserList = JSON.parseArray(userListString, User.class);
+            if (mUserList == null) {
+                mUserList = new ArrayList<>();
+            }
         }
         mActiveIndex = sp.getInt(USER_ACTIVE_INDEX, 0);
 

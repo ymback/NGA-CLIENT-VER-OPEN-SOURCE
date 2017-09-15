@@ -196,7 +196,9 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
 
     @Override
     public void setResult(int result) {
-        getActivity().setResult(result);
+        if (getActivity() != null) {
+            getActivity().setResult(result);
+        }
     }
 
     @Override
