@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:androidnga="http://schemas.android.com/apk/res-auto" >
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/upload"
-        android:title="@string/upload"
-        androidnga:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_upload"
-        android:showAsAction="ifRoom"/>
+        android:id="@+id/emotion"
+        android:icon="@drawable/btn_ic_insert_emoticon"
+        android:title="@string/emotion"
+        androidnga:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/supertext"
+        android:icon="@drawable/btn_ic_text_fields"
         android:title="@string/richtext"
-        androidnga:showAsAction="never"
-        android:icon="@drawable/ic_action_supertext"
-        android:showAsAction="never"/>
-    <item android:id="@+id/emotion"
-        android:title="@string/emotion"
-        androidnga:showAsAction="never"
-        android:icon="@drawable/ic_action_new_emotion"
-        android:showAsAction="never"/>
-    
-    <item android:id="@+id/send"
-        androidnga:showAsAction="always"
-        android:title="@string/commit"
-        android:icon="@drawable/ic_menu_send"
-        android:showAsAction="always"/>
-    
+        androidnga:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/upload"
+        android:icon="@drawable/btn_ic_file_upload"
+        android:title="@string/upload"
+        androidnga:showAsAction="never" />
+
+    <item
+        android:id="@+id/send"
+        android:icon="@drawable/btn_ic_send"
+        android:title="@string/commit"
+        androidnga:showAsAction="never" />
 </menu>
 
 
