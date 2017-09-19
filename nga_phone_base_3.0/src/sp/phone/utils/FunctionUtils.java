@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,40 +16,26 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode.Callback;
 import android.text.Html;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StrikethroughSpan;
-import android.text.style.StyleSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +52,7 @@ import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.fragment.ReportDialogFragment;
+import sp.phone.fragment.dialog.SuperTextDialogFragment;
 import sp.phone.proxy.ProxyBridge;
 
 @SuppressLint("DefaultLocale")
@@ -1309,483 +1294,21 @@ public class FunctionUtils {
     }
 
     public static void handleSupertext(final EditText bodyText, final Context context, final View v) {
-        final int index = bodyText.getSelectionStart();
-        LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.supertext_dialog,
-                null);
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setView(view);
-        alert.setTitle(R.string.supertext_hint);
-        final Spinner fontcolorSpinner;
-        final Spinner fontsizeSpinner;
-        RadioGroup selectradio;
-        final TextView font_size;
-        final TextView font_color;
-        final RadioButton atsomeone_button;
-        final RadioButton urladd_button;
-        final RadioButton quoteadd_button;
-        final CheckBox bold_checkbox;// 加粗
-        final CheckBox italic_checkbox;// 斜体
-        final CheckBox underline_checkbox;// 下划线
-        final CheckBox fontcolor_checkbox;
-        final CheckBox fontsize_checkbox;
-        final CheckBox delline_checkbox;
-
-        font_size = (TextView) view.findViewById(R.id.font_size);
-        font_color = (TextView) view.findViewById(R.id.font_color);
-        atsomeone_button = (RadioButton) view.findViewById(R.id.atsomeone);
-        urladd_button = (RadioButton) view.findViewById(R.id.urladd);
-        quoteadd_button = (RadioButton) view.findViewById(R.id.quoteadd);
-        selectradio = (RadioGroup) view.findViewById(R.id.radioGroupA);
-        bold_checkbox = (CheckBox) view.findViewById(R.id.bold);
-        italic_checkbox = (CheckBox) view.findViewById(R.id.italic);
-        underline_checkbox = (CheckBox) view.findViewById(R.id.underline);
-        underline_checkbox.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        underline_checkbox.getPaint().setAntiAlias(true);// 抗锯齿
-        fontcolor_checkbox = (CheckBox) view.findViewById(R.id.fontcolor);
-        fontsize_checkbox = (CheckBox) view.findViewById(R.id.fontsize);
-        delline_checkbox = (CheckBox) view.findViewById(R.id.delline);
-        delline_checkbox.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        delline_checkbox.getPaint().setAntiAlias(true);// 抗锯齿
-
-        final float defaultFontSize = font_size.getTextSize();
-
-        final EditText input = (EditText) view
-                .findViewById(R.id.inputsupertext_dataa);
-
-        fontcolorSpinner = (Spinner) view.findViewById(R.id.font_color_spinner);
-        fontsizeSpinner = (Spinner) view.findViewById(R.id.fontsize_spinner);
-        final int scolorspan[] = {-16777216, -7876885, -13149723, -16776961,
-                -16777077, -23296, -47872, -2354116, -65536, -5103070,
-                -7667712, -16744448, -13447886, -13726889, -16744320, -60269,
-                -40121, -32944, -8388480, -11861886, -2180985, -744352,
-                -6270419, -2987746, -4144960,};
-
-        final String scolor[] = {"[color=skyblue]", "[color=royalblue]",
-                "[color=blue]", "[color=darkblue]", "[color=orange]",
-                "[color=orangered]", "[color=crimson]", "[color=red]",
-                "[color=firebrick]", "[color=darkred]", "[color=green]",
-                "[color=limegreen]", "[color=seagreen]", "[color=teal]",
-                "[color=deeppink]", "[color=tomato]", "[color=coral]",
-                "[color=purple]", "[color=indigo]", "[color=burlywood]",
-                "[color=sandybrown]", "[color=sienna]", "[color=chocolate]",
-                "[color=silver]"};
-        final String ssize[] = {"[size=100%]", "[size=110%]", "[size=120%]",
-                "[size=130%]", "[size=150%]", "[size=200%]", "[size=250%]",
-                "[size=300%]", "[size=400%]", "[size=500%]"};
-        final float ssizespan[] = {1.0f, 1.1f, 1.2f, 1.3f, 1.5f, 2.0f, 2.5f,
-                3.0f, 4.0f, 5.0f, 1.2f};
-
-        BaseAdapter adapterfontcolor = new BaseAdapter() {
-
-            @Override
-            public int getCount() {
-                // TODO Auto-generated method stub
-                return view.getResources().getStringArray(R.array.colorchoose).length; // 选项总个数
-            }
-
-            @Override
-            public Object getItem(int arg0) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-
-            @Override
-            public View getView(int arg0, View arg1, ViewGroup arg2) {
-                // TODO Auto-generated method stub
-                LinearLayout ll = new LinearLayout(context);
-                ll.setOrientation(LinearLayout.HORIZONTAL); // 设置朝向
-                TextView tv = new TextView(context);
-                tv.setText(view.getResources().getStringArray(
-                        R.array.colorchoose)[arg0]);// 设置内容
-                tv.setTextColor(scolorspan[arg0]);// 设置字体颜色
-                ll.addView(tv); // 添加到LinearLayout中
-                return ll;
-            }
-        };
-        fontcolorSpinner.setAdapter(adapterfontcolor);
-        fontcolorSpinner.setSelection(0);
-
-        BaseAdapter adapterfontsize = new BaseAdapter() {
-
-            @Override
-            public int getCount() {
-                // TODO Auto-generated method stub
-                return view.getResources().getStringArray(
-                        R.array.fontsizechoose).length; // 选项总个数
-            }
-
-            @Override
-            public Object getItem(int arg0) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-
-            @Override
-            public View getView(int arg0, View arg1, ViewGroup arg2) {
-                // TODO Auto-generated method stub
-                LinearLayout ll = new LinearLayout(context);
-                ll.setOrientation(LinearLayout.HORIZONTAL); // 设置朝向
-                TextView tv = new TextView(context);
-                tv.setText(view.getResources().getStringArray(
-                        R.array.fontsizechoose)[arg0]);// 设置内容
-                tv.setTextSize(ssizespan[arg0] * defaultFontSize);// 设置字体大小
-                ll.addView(tv); // 添加到LinearLayout中
-                return ll;
-            }
-        };
-        fontsizeSpinner.setAdapter(adapterfontsize);
-        fontsizeSpinner.setSelection(0);
-
-        // 开始下面两个选项没有的
-        font_size.setVisibility(View.GONE);
-        font_color.setVisibility(View.GONE);
-        fontsizeSpinner.setVisibility(View.GONE);
-        fontcolorSpinner.setVisibility(View.GONE);
-        // 选中上面那排，下面的就不能选
-        selectradio
-                .setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        // TODO Auto-generated method stub
-                        bold_checkbox.setChecked(false);
-                        italic_checkbox.setChecked(false);
-                        underline_checkbox.setChecked(false);
-                        fontcolor_checkbox.setChecked(false);
-                        fontsize_checkbox.setChecked(false);
-                        delline_checkbox.setChecked(false);
-                        font_size.setVisibility(View.GONE);
-                        font_color.setVisibility(View.GONE);
-                        fontsizeSpinner.setVisibility(View.GONE);
-                        fontcolorSpinner.setVisibility(View.GONE);
-                    }
-
-                });
-
-        // 选中下面那排，上面的别选了,加粗
-        bold_checkbox
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        // TODO Auto-generated method stub
-                        if (isChecked) {
-                            atsomeone_button.setChecked(false);
-                            urladd_button.setChecked(false);
-                            quoteadd_button.setChecked(false);
-                        }
-                    }
-
-                });
-
-        // 选中下面那排，上面的别选了，斜体
-        italic_checkbox
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        // TODO Auto-generated method stub
-                        if (isChecked) {
-                            atsomeone_button.setChecked(false);
-                            urladd_button.setChecked(false);
-                            quoteadd_button.setChecked(false);
-                        }
-                    }
-
-                });
-
-        // 选中下面那排，上面的别选了，下划线
-        underline_checkbox
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        // TODO Auto-generated method stub
-                        if (isChecked) {
-                            atsomeone_button.setChecked(false);
-                            urladd_button.setChecked(false);
-                            quoteadd_button.setChecked(false);
-                        }
-                    }
-
-                });
-
-        // 选中下面那排，上面的别选了，颜色
-        fontcolor_checkbox
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        // TODO Auto-generated method stub
-                        if (isChecked) {
-                            atsomeone_button.setChecked(false);
-                            urladd_button.setChecked(false);
-                            quoteadd_button.setChecked(false);
-                            font_color.setVisibility(View.VISIBLE);
-                            fontcolorSpinner.setVisibility(View.VISIBLE);
-                        } else {
-                            font_color.setVisibility(View.GONE);
-                            fontcolorSpinner.setVisibility(View.GONE);
-                        }
-                    }
-
-                });
-
-        // 选中下面那排，上面的别选了，字号
-        fontsize_checkbox
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        // TODO Auto-generated method stub
-                        if (isChecked) {
-                            atsomeone_button.setChecked(false);
-                            urladd_button.setChecked(false);
-                            quoteadd_button.setChecked(false);
-                            font_size.setVisibility(View.VISIBLE);
-                            fontsizeSpinner.setVisibility(View.VISIBLE);
-                        } else {
-                            font_size.setVisibility(View.GONE);
-                            fontsizeSpinner.setVisibility(View.GONE);
-                        }
-                    }
-
-                });
-
-        // 选中下面那排，上面的别选了，删除线
-        delline_checkbox
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView,
-                                                 boolean isChecked) {
-                        // TODO Auto-generated method stub
-                        if (isChecked) {
-                            atsomeone_button.setChecked(false);
-                            urladd_button.setChecked(false);
-                            quoteadd_button.setChecked(false);
-                        }
-                    }
-
-                });
-
-        alert.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @SuppressWarnings("unused")
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String inputdata = input.getText().toString();
-                Toast toast = null;
-                // TODO Auto-generated method stub
-                if (!inputdata.replaceAll("\\n", "").trim().equals("")) {
-                    if (atsomeone_button.isChecked()) {
-                        inputdata = "[@" + inputdata + "]";
-                    } else if (urladd_button.isChecked()) {
-                        if (inputdata.startsWith("http:")
-                                || inputdata.startsWith("https:")
-                                || inputdata.startsWith("ftp:")
-                                || inputdata.startsWith("gopher:")
-                                || inputdata.startsWith("news:")
-                                || inputdata.startsWith("telnet:")
-                                || inputdata.startsWith("mms:")
-                                || inputdata.startsWith("rtsp:")) {
-                            inputdata = "[url]" + inputdata + "[/url]";
-                        } else {
-
-                            if (toast != null) {
-                                toast.setText("URL需以http|https|ftp|gopher|news|telnet|mms|rtsp开头");
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                toast = Toast
-                                        .makeText(
-                                                context,
-                                                "URL需以http|https|ftp|gopher|news|telnet|mms|rtsp开头",
-                                                Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                        }
-                    } else if (quoteadd_button.isChecked()) {
-                        inputdata = "[quote]" + inputdata + "[/quote]";
-                    } else {
-                        if (fontcolor_checkbox.isChecked()) {
-                            if (fontcolorSpinner.getSelectedItemPosition() > 0) {
-                                inputdata = scolor[fontcolorSpinner
-                                        .getSelectedItemPosition() - 1]
-                                        + inputdata + "[/color]";
-                            }
-                        }
-                        if (italic_checkbox.isChecked()) {
-                            inputdata = "[i]" + inputdata + "[/i]";
-                        }
-                        if (bold_checkbox.isChecked()) {
-                            inputdata = "[b]" + inputdata + "[/b]";
-                        }
-                        if (underline_checkbox.isChecked()) {
-                            inputdata = "[u]" + inputdata + "[/u]";
-                        }
-                        if (delline_checkbox.isChecked()) {
-                            inputdata = "[del]" + inputdata + "[/del]";
-                        }
-                        if (fontsize_checkbox.isChecked()) {
-                            if (fontsizeSpinner.getSelectedItemPosition() < 10) {
-                                inputdata = ssize[fontsizeSpinner
-                                        .getSelectedItemPosition()]
-                                        + inputdata
-                                        + "[/size]";
-                            } else {
-                                inputdata = "[h]" + inputdata + "[/h]";
-                            }
-                        }
-                    }
-                    SpannableString spanString = new SpannableString(inputdata);
-
-                    if (atsomeone_button.isChecked()) {
-                        spanString.setSpan(new ForegroundColorSpan(Color.BLUE),
-                                0, inputdata.length(),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    } else if (urladd_button.isChecked()) {
-                        if (input.getText().toString().startsWith("http:")
-                                || input.getText().toString()
-                                .startsWith("https:")
-                                || input.getText().toString()
-                                .startsWith("ftp:")
-                                || input.getText().toString()
-                                .startsWith("gopher:")
-                                || input.getText().toString()
-                                .startsWith("news:")
-                                || input.getText().toString()
-                                .startsWith("telnet:")
-                                || input.getText().toString()
-                                .startsWith("mms:")
-                                || input.getText().toString()
-                                .startsWith("rtsp:")) {
-                            spanString.setSpan(new URLSpan(input.getText()
-                                            .toString()), 0, inputdata.length(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                    } else if (quoteadd_button.isChecked()) {
-                        spanString.setSpan(new BackgroundColorSpan(-1513240),
-                                0, inputdata.length(),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    } else {
-                        if (fontcolor_checkbox.isChecked()) {
-                            spanString.setSpan(
-                                    new ForegroundColorSpan(
-                                            scolorspan[fontcolorSpinner
-                                                    .getSelectedItemPosition()]),
-                                    0, inputdata.length(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        if (italic_checkbox.isChecked()) {
-                            spanString.setSpan(new StyleSpan(
-                                            android.graphics.Typeface.ITALIC), 0,
-                                    inputdata.length(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        if (bold_checkbox.isChecked()) {
-                            spanString.setSpan(new StyleSpan(
-                                            android.graphics.Typeface.BOLD), 0,
-                                    inputdata.length(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        if (underline_checkbox.isChecked()) {
-                            spanString.setSpan(new UnderlineSpan(), 0,
-                                    inputdata.length(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        if (delline_checkbox.isChecked()) {
-                            spanString.setSpan(new StrikethroughSpan(), 0,
-                                    inputdata.length(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        if (fontsize_checkbox.isChecked()) {
-                            if (fontsizeSpinner.getSelectedItemPosition() < 10) {
-                                spanString.setSpan(
-                                        new RelativeSizeSpan(
-                                                ssizespan[fontsizeSpinner
-                                                        .getSelectedItemPosition()]),
-                                        0, inputdata.length(),
-                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else {
-                                spanString.setSpan(new BackgroundColorSpan(
-                                                Color.GRAY), 0, inputdata.length(),
-                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                spanString.setSpan(new RelativeSizeSpan(1.2f),
-                                        0, inputdata.length(),
-                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                            }
-                        }
-                    }
-                    if (bodyText.getText().toString().replaceAll("\\n", "")
-                            .trim().equals("")) {// NO INPUT DATA
-                        bodyText.setText("");
-                        bodyText.append(spanString);
-                    } else {
-                        if (index <= 0 || index >= bodyText.length()) {// pos @
-                            // begin
-                            // / end
-                            bodyText.append(spanString);
-                        } else {
-                            bodyText.getText().insert(index, spanString);
-                        }
-                    }
-                    InputMethodManager imm = (InputMethodManager) bodyText
-                            .getContext().getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                } else {
-                    bodyText.setFocusableInTouchMode(true);
-                    bodyText.setFocusable(true);
-                    InputMethodManager imm = (InputMethodManager) bodyText
-                            .getContext().getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                    dialog.dismiss();
-                }
-            }
-        });
-        alert.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                InputMethodManager imm = (InputMethodManager) bodyText
-                        .getContext().getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                dialog.dismiss();
-            }
-        });
-        final AlertDialog dialog = alert.create();
-        dialog.show();
-        dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-
-            @Override
-            public void onDismiss(DialogInterface arg0) {
-                // TODO Auto-generated method stub
-                dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(v);
-                }
-            }
-
-        });
+        Bundle arg = new Bundle();
+        DialogFragment df = new SuperTextDialogFragment(bodyText);
+        df.setArguments(arg);
+        final String dialogTag = SuperTextDialogFragment.class.getCanonicalName();
+        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment prev = fm.findFragmentByTag(dialogTag);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        try {
+            df.show(ft, dialogTag);
+        } catch (Exception e) {
+            NLog.e(SuperTextDialogFragment.class.getSimpleName(), NLog.getStackTraceString(e));
+        }
     }// OK
 
     public static String getngaClientChecksum(Context context) {
