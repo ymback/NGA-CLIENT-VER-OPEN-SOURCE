@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:androidnga="http://schemas.android.com/apk/res-auto" >
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/upload"
-        android:title="@string/upload"
-        androidnga:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_upload"
-        android:showAsAction="ifRoom"/>
+        android:orderInCategory="4"
+        android:title="@string/upload"
+        androidnga:showAsAction="ifRoom"/>
     <item
         android:id="@+id/supertext"
-        android:title="@string/richtext"
-        androidnga:showAsAction="never"
         android:icon="@drawable/ic_action_supertext"
-        android:showAsAction="never"/>
-    <item android:id="@+id/emotion"
-        android:title="@string/emotion"
-        androidnga:showAsAction="never"
+        android:orderInCategory="3"
+        android:title="@string/richtext"
+        androidnga:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/emotion"
         android:icon="@drawable/ic_action_new_emotion"
-        android:showAsAction="never"/>
-    
-    <item android:id="@+id/send"
-        androidnga:showAsAction="always"
-        android:title="@string/commit"
+        android:orderInCategory="2"
+        android:title="@string/emotion"
+        androidnga:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/send"
         android:icon="@drawable/ic_menu_send"
-        android:showAsAction="always"/>
-    
-
+        android:orderInCategory="1"
+        android:title="@string/commit"
+        androidnga:showAsAction="ifRoom"/>
 </menu>
-
-
