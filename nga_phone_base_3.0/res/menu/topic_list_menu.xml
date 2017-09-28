@@ -7,12 +7,14 @@
         android:id="@+id/menu_add_bookmark"
         android:icon="@drawable/btn_ic_star_off"
         android:title="@string/menu_add_bookmark_board"
+        android:visible="false"
         androidnga:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_remove_bookmark"
         android:icon="@drawable/btn_ic_star_on"
         android:title="@string/menu_remove_bookmark_board"
+        android:visible="false"
         androidnga:showAsAction="ifRoom" />
 
     <item

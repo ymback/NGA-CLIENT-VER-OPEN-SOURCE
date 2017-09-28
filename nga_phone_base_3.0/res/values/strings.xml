@@ -344,4 +344,6 @@
 
     <string name="like">顶</string>
     <string name="dislike">踩</string>
+    <string name="player_plugin_hint">播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装</string>
+    <string name="about">关于</string>
 </resources>

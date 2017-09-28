@@ -67,4 +67,6 @@ public interface PreferenceKey {
     String HARDWARE_ACCELERATED = "hardware_accelerated";
 
     String BOOKMARK_BOARD = "bookmark_board";
+
+    String USER_ACTIVE_INDEX = "user_active_index";
 }

@@ -18,7 +18,6 @@ public class BoardManagerImpl implements BoardManager {
 
     private List<BoardCategory> mCategoryList;
 
-
     private static class BoardManagerHolder {
         static BoardManager sInstance = new BoardManagerImpl();
     }
@@ -27,14 +26,12 @@ public class BoardManagerImpl implements BoardManager {
         return BoardManagerHolder.sInstance;
     }
 
-
     @Override
     public void initialize(Context context) {
         mContext = context.getApplicationContext();
         mCategoryList = new ArrayList<>();
         loadBookmarkBoards();
         loadPreloadBoards();
-
     }
 
     private void loadPreloadBoards() {
@@ -54,8 +51,8 @@ public class BoardManagerImpl implements BoardManager {
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
         category.add(new Board("-7", "大漩涡", 354, 354));
-        category.add(new Board("-343809", "汽车俱乐部", 343809));
-        category.add(new Board("-81981", "生命之杯", 81981));
+        category.add(new Board("-343809", "汽车俱乐部", 343809, 343809));
+        category.add(new Board("-81981", "生命之杯", 81981, 81981));
         category.add(new Board("-576177", "影音讨论区", 576177));
         category.add(new Board("-43", "军事历史", 43));
         category.add(new Board("414", "游戏综合讨论", 414, 414));
@@ -67,7 +64,7 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("340", "无聊图", 340));
         category.add(new Board("456", "冲水区", 456));
         category.add(new Board("-187579", "大漩涡历史博物馆", 187579));
-        category.add(new Board("485", "篮球", 485));
+        category.add(new Board("485", "篮球", 485, 485));
         category.add(new Board("491", "议会", 491));
 
 
@@ -271,7 +268,6 @@ public class BoardManagerImpl implements BoardManager {
 
     }
 
-
     @Override
     public List<BoardCategory> getCategoryList() {
         return mCategoryList;
@@ -355,5 +351,4 @@ public class BoardManagerImpl implements BoardManager {
         }
         return null;
     }
-
 }

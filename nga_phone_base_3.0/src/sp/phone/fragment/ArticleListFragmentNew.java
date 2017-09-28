@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,12 +40,14 @@ import java.util.Set;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
@@ -58,12 +59,11 @@ import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class ArticleListFragmentNew extends Fragment implements
         OnThreadPageLoadFinishedListener, PreferenceKey,
@@ -99,7 +99,7 @@ public class ArticleListFragmentNew extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         PhoneConfiguration.getInstance().setRefreshAfterPost(
                 false);
-        Log.d(TAG, "onCreate");
+        NLog.d(TAG, "onCreate");
         page = getArguments().getInt("page") + 1;
         tid = getArguments().getInt("id");
         pid = getArguments().getInt("pid", 0);
@@ -203,7 +203,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 content = content.replaceAll(replay_regex, "");
                 final String postTime = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -255,14 +255,14 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.signature_dialog:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
-                    FunctionUtil.Create_Signature_Dialog(row, getActivity(),
+                    FunctionUtils.Create_Signature_Dialog(row, getActivity(),
                             scrollview);
                 }
                 break;
             case R.id.vote_dialog:
-                FunctionUtil.createVoteDialog(row, getActivity(), scrollview,
+                FunctionUtils.createVoteDialog(row, getActivity(), scrollview,
                         toast);
                 break;
             case R.id.ban_thisone:
@@ -315,7 +315,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     editor.putString(BLACK_LIST, blickliststring);
                     editor.apply();
                     if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
-                        MyApp app = (MyApp) getActivity().getApplication();
+                        NgaClientApp app = (NgaClientApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
                     } else {
                         if (toast != null) {
@@ -333,7 +333,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.show_profile:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
                     intent.putExtra("mode", "username");
                     intent.putExtra("username", row.getAuthor());
@@ -347,14 +347,14 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.avatar_dialog:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
-                    FunctionUtil.Create_Avatar_Dialog(row, getActivity(),
+                    FunctionUtils.Create_Avatar_Dialog(row, getActivity(),
                             scrollview);
                 }
                 break;
             case R.id.edit:
-                if (FunctionUtil.isComment(row)) {
+                if (FunctionUtils.isComment(row)) {
                     if (toast != null) {
                         toast.setText(R.string.cannot_eidt_comment);
                         toast.setDuration(Toast.LENGTH_SHORT);
@@ -388,7 +388,7 @@ public class ArticleListFragmentNew extends Fragment implements
                             R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
-                FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(),
+                FunctionUtils.CopyDialog(row.getFormated_html_data(), getActivity(),
                         scrollview);
                 break;
             case R.id.show_this_person_only:
@@ -425,7 +425,7 @@ public class ArticleListFragmentNew extends Fragment implements
                     try {
                         restNotifier = (ResetableArticle) getActivity();
                     } catch (ClassCastException e) {
-                        Log.e(TAG, "father activity does not implements interface "
+                        NLog.e(TAG, "father activity does not implements interface "
                                 + ResetableArticle.class.getName());
                         return true;
                     }
@@ -445,9 +445,9 @@ public class ArticleListFragmentNew extends Fragment implements
                 break;
             case R.id.send_message:
                 if (isanonymous) {
-                    FunctionUtil.errordialog(getActivity(), scrollview);
+                    FunctionUtils.errordialog(getActivity(), scrollview);
                 } else {
-                    FunctionUtil.start_send_message(getActivity(), row);
+                    FunctionUtils.start_send_message(getActivity(), row);
                 }
                 break;
             case R.id.post_comment:
@@ -458,7 +458,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 content = content.replaceAll(replay_regex1, "");
                 final String postTime1 = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -512,7 +512,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
                 break;
             case R.id.report:
-                FunctionUtil.handleReport(row, tid, getFragmentManager());
+                FunctionUtils.handleReport(row, tid, getFragmentManager());
                 break;
             case R.id.search_post:
                 intent.putExtra("searchpost", 1);
@@ -551,7 +551,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume pid=" + pid + "&page=" + page);
+        NLog.d(TAG, "onResume pid=" + pid + "&page=" + page);
 
         if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
             if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
@@ -567,7 +567,7 @@ public class ArticleListFragmentNew extends Fragment implements
                         linear.removeAllViewsInLayout();
                     }
                 } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface "
+                    NLog.e(TAG, "father activity does not implements interface "
                             + PagerOwner.class.getName());
 
                 }
@@ -594,7 +594,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     private void loadPage() {
         if (needLoad) {
-            Log.d(TAG, "loadPage" + page);
+            NLog.d(TAG, "loadPage" + page);
             Activity activity = getActivity();
             JsonThreadLoadTask task = new JsonThreadLoadTask(activity, this);
             String url = HttpUtil.Server + "/read.php?" + "&page=" + page
@@ -620,7 +620,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 .getBackgroundColor());
         if (mData != null) {
             for (int i = 0; i < mData.getRowList().size(); i++) {
-                FunctionUtil.fillFormated_html_data(mData.getRowList().get(i),
+                FunctionUtils.fillFormated_html_data(mData.getRowList().get(i),
                         i, getActivity());
             }
             linear.removeAllViewsInLayout();
@@ -630,7 +630,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     @Override
     public void finishLoad(ThreadData data) {
-        Log.d(TAG, "finishLoad");
+        NLog.d(TAG, "finishLoad");
         // ArticleListActivity father = (ArticleListActivity)
         // this.getActivity();
         if (null != data) {
@@ -644,7 +644,7 @@ public class ArticleListFragmentNew extends Fragment implements
                 if (father != null)
                     father.finishLoad(data);
             } catch (ClassCastException e) {
-                Log.e(TAG,
+                NLog.e(TAG,
                         "father activity should implements OnThreadPageLoadFinishedListener");
             }
         }
@@ -701,7 +701,7 @@ public class ArticleListFragmentNew extends Fragment implements
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = getActivity().getResources().getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, getActivity());
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, getActivity());
         final String floor = String.valueOf(lou);
         TextView floorTV = holder.floorTV;
         floorTV.setText("[" + floor + " 楼]");
@@ -727,7 +727,7 @@ public class ArticleListFragmentNew extends Fragment implements
         final WebView contentTV = holder.contentTV;
         final Callback mActionModeCallback = (Callback) activeActionMode(data,
                 position);
-        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, getActivity(), mActionModeCallback, client);
+        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, getActivity(), mActionModeCallback, client);
         holder.articlelistrelativelayout
                 .setOnLongClickListener(new OnLongClickListener() {
 
@@ -746,7 +746,7 @@ public class ArticleListFragmentNew extends Fragment implements
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
@@ -765,9 +765,9 @@ public class ArticleListFragmentNew extends Fragment implements
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
-                // Log.d(TAG, "default avatar, skip recycle");
+                // NLog.d(TAG, "default avatar, skip recycle");
             }
         }
 

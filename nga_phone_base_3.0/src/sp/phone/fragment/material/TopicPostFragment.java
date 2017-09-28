@@ -18,14 +18,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.PostActivity;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
-import sp.phone.bean.User;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.presenter.contract.TopicPostContract;
-import sp.phone.utils.FunctionUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -108,19 +106,7 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
-                    User u = (User) parent.getItemAtPosition(position);
-                    MyApp app = (MyApp) getActivity().getApplication();
-                    app.addToUserList(u.getUserId(), u.getCid(),
-                            u.getNickName(), u.getReplyString(),
-                            u.getReplyTotalNum(), u.getBlackList());
-                    PhoneConfiguration.getInstance().setUid(u.getUserId());
-                    PhoneConfiguration.getInstance().setCid(u.getCid());
-                    PhoneConfiguration.getInstance().setReplyString(
-                            u.getReplyString());
-                    PhoneConfiguration.getInstance().setReplyTotalNum(
-                            u.getReplyTotalNum());
-                    PhoneConfiguration.getInstance().blacklist = StringUtils
-                            .blackListStringToHashset(u.getBlackList());
+                    UserManagerImpl.getInstance().setActiveUser(position);
 
                 }
 
@@ -210,7 +196,9 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
 
     @Override
     public void setResult(int result) {
-        getActivity().setResult(result);
+        if (getActivity() != null) {
+            getActivity().setResult(result);
+        }
     }
 
     @Override
@@ -222,7 +210,7 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.supertext:
-                FunctionUtil.handleSupertext(mBodyEditText, getContext(), getView());
+                FunctionUtils.handleSupertext(mBodyEditText, getContext(), getView());
                 break;
             case R.id.send:
                 mPresenter.post(mTitleEditText.getText().toString(),mBodyEditText.getText().toString(),mAnonyCheckBox.isChecked());

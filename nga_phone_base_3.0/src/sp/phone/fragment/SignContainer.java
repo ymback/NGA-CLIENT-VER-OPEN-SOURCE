@@ -3,7 +3,6 @@ package sp.phone.fragment;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,17 +19,18 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.SignPageAdapter;
 import sp.phone.bean.AvatarTag;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.SignData;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonSignLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -71,12 +71,12 @@ public class SignContainer extends BaseFragment implements
         }
         this.inflatera = inflater;
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) getActivity();
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG,
-                    "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG,
+                    "father activity should implement PullToRefreshAttacherOwner");
         }
 
         return initListView();
@@ -118,7 +118,7 @@ public class SignContainer extends BaseFragment implements
 
     @SuppressWarnings("unused")
     public void refreshheadviewdata(View headview) {
-        Log.i("SignPageAdapter", "SignPageAdapter");
+        NLog.i("SignPageAdapter", "SignPageAdapter");
         int colorId = R.color.shit1;
         boolean isnight = false;
         if (cfg.getMode() == ThemeManager.MODE_NIGHT) {
@@ -323,9 +323,9 @@ public class SignContainer extends BaseFragment implements
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             } else {
-                // Log.d(TAG, "default avatar, skip recycle");
+                // NLog.d(TAG, "default avatar, skip recycle");
             }
         }
         AvatarTag tag = new AvatarTag(Integer.parseInt(userId), true);

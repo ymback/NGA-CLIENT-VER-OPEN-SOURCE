@@ -120,7 +120,7 @@ public class AppendableTopicAdapter extends TopicListAdapter {
 
     public void remove(int position) {
         for (int i = 0; i < mInfoList.size(); i++) {
-            if (position < mInfoList.get(i).get__T__ROWS()) {
+            if (position >= 0 && position < mInfoList.get(i).get__T__ROWS()) {
                 mInfoList.get(i).getArticleEntryList().remove(position);
                 mInfoList.get(i).set__T__ROWS(mInfoList.get(i).getArticleEntryList().size());
                 mCount--;

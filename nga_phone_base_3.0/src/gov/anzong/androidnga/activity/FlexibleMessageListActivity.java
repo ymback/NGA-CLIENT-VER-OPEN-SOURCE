@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +31,9 @@ import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.bean.User;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.MessageDetialListContainer;
 import sp.phone.fragment.MessageListContainer;
 import sp.phone.fragment.TopicListContainer;
@@ -40,18 +42,17 @@ import sp.phone.interfaces.EnterJsonMessageThread;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
         implements OnMessageListLoadFinishedListener, OnItemClickListener,
         PagerOwner,
-        OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
+        OnChildFragmentRemovedListener, PullToRefreshAttacherOwner,
         MessageDetialListContainer.OnMessageDetialListContainerListener, MessageListContainer.OnMessagelistContainerListener {
 
     boolean dualScreen = true;
@@ -149,16 +150,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
             @Override
             public boolean onNavigationItemSelected(int itemPosition,
                                                     long itemId) {
-                User u = (User) categoryAdapter.getItem(itemPosition);
-                MyApp app = (MyApp) getApplication();
-                app.addToUserList(u.getUserId(), u.getCid(),
-                        u.getNickName(), u.getReplyString(), u.getReplyTotalNum(), u.getBlackList());
-                PhoneConfiguration.getInstance().setUid(u.getUserId());
-                PhoneConfiguration.getInstance().setCid(u.getCid());
-                PhoneConfiguration.getInstance().setNickname(u.getNickName());
-                PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
-                PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
-                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
+                UserManagerImpl.getInstance().setActiveUser(itemPosition);
                 MessageListContainer f1 = (MessageListContainer) getSupportFragmentManager().findFragmentById(R.id.item_list);
                 if (f1 != null) {
                     f1.onCategoryChanged(itemPosition);
@@ -251,15 +243,12 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
             if (listener != null)
                 listener.jsonfinishLoad(result);
         } catch (ClassCastException e) {
-            Log.e(TAG, "topicContainer should implements "
-                    + OnMessageListLoadFinishedListener.class.getCanonicalName());
+            NLog.e(TAG, "topicContainer should implements " + OnMessageListLoadFinishedListener.class.getCanonicalName());
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (!dualScreen) {// 非平板
             if (null == onItemClickNewActivity) {
                 onItemClickNewActivity = new EnterJsonMessageThread(this);
@@ -315,7 +304,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG,
+            NLog.e(TAG,
                     "fragment in R.id.item_detail_container does not implements interface "
                             + PagerOwner.class.getName());
             return 0;
@@ -333,7 +322,7 @@ public class FlexibleMessageListActivity extends SwipeBackAppCompatActivity
             child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG,
+            NLog.e(TAG,
                     "fragment in R.id.item_detail_container does not implements interface "
                             + PagerOwner.class.getName());
             return;

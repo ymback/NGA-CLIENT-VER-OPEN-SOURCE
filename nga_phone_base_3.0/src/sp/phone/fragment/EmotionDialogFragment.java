@@ -4,7 +4,6 @@ package sp.phone.fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.utils.ImageUtil;
+import sp.phone.utils.NLog;
 
 
 public class EmotionDialogFragment extends NoframeDialogFragment {
@@ -48,7 +48,7 @@ public class EmotionDialogFragment extends NoframeDialogFragment {
                 try {
                     father = (OnEmotionPickedListener) getActivity();
                 } catch (ClassCastException e) {
-                    Log.e(this.getClass().getSimpleName(), "father shold implements " + OnEmotionPickedListener.class.getCanonicalName());
+                    NLog.e(this.getClass().getSimpleName(), "father shold implements " + OnEmotionPickedListener.class.getCanonicalName());
                 }
                 if (father != null)
                     father.onEmotionPicked(emotion);

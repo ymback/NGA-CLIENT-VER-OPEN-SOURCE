@@ -43,6 +43,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.bean.AvatarTag;
@@ -59,10 +60,11 @@ import sp.phone.utils.StringUtils;
 
 
 /**
+ * 首页左侧抽屉
  * Created by Yang Yihang on 2017/6/29.
  */
 
-public class BoardFragment extends BaseFragment implements BoardContract.View,AdapterView.OnItemClickListener {
+public class BoardFragment extends BaseFragment implements BoardContract.View, AdapterView.OnItemClickListener {
 
     private BoardContract.Presenter mPresenter;
 
@@ -83,7 +85,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_board,container,false);
+        return inflater.inflate(R.layout.fragment_board, container, false);
     }
 
     @Override
@@ -95,7 +97,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        DrawerLayout drawerLayout = (DrawerLayout)view.findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -123,7 +125,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         NavigationMenuView menuView = (NavigationMenuView) navigationView.getChildAt(0);
         menuView.setVerticalScrollBarEnabled(false);
         MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_gun);
-        View actionView = getLayoutInflater().inflate(R.layout.nav_menu_action_view_gun,null);
+        View actionView = getLayoutInflater().inflate(R.layout.nav_menu_action_view_gun, null);
         menuItem.setActionView(actionView);
         menuItem.expandActionView();
         mReplyCountView = (TextView) actionView.findViewById(R.id.reply_count);
@@ -178,6 +180,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         switch (item.getItemId()) {
             case R.id.menu_add:
                 showAddBoardDialog();
+                //gotoForumList();
                 break;
             case R.id.menu_login:
                 jumpToLogin();
@@ -187,10 +190,13 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
                 break;
             default:
                 return getActivity().onOptionsItemSelected(item);
-
         }
         return true;
+    }
 
+    private void gotoForumList() {
+        Intent intent = new Intent(getActivity(), ForumListActivity.class);
+        startActivity(intent);
     }
 
     public boolean isTablet() {
@@ -222,25 +228,22 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
             @SuppressWarnings("unused")
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 String name = addFidNameView.getText().toString();
                 String fid = addFidIdView.getText().toString();
-                canDismiss(dialog,mPresenter.addBoard(fid,name));
+                canDismiss(dialog, mPresenter.addBoard(fid, name));
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                canDismiss(dialog,true);
+                canDismiss(dialog, true);
             }
         });
         builder.create().show();
     }
 
-
-    private void canDismiss(DialogInterface dialog,boolean canDismiss) {
+    private void canDismiss(DialogInterface dialog, boolean canDismiss) {
         try {
             Field field = dialog.getClass().getSuperclass()
                     .getDeclaredField("mShowing");
@@ -325,7 +328,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
         } else {
             tag.isDefault = true;
         }
-
     }
 
     public Bitmap toRoundCorner(Bitmap bitmap, float ratio) { // 绝无问题
@@ -383,14 +385,13 @@ public class BoardFragment extends BaseFragment implements BoardContract.View,Ad
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         String fidString;
         if (parent != null) {
-             fidString = (String) parent.getItemAtPosition(position);
+            fidString = (String) parent.getItemAtPosition(position);
         } else {
             fidString = String.valueOf(id);
         }
 
-        mPresenter.toTopicListPage(position,fidString);
+        mPresenter.toTopicListPage(position, fidString);
     }
 }

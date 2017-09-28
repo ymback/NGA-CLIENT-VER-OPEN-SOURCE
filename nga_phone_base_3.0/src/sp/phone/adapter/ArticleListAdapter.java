@@ -1,13 +1,11 @@
 package sp.phone.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,18 +28,18 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.listener.ClientListener;
 import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HtmlUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 /**
  * 帖子详情列表Adapter
@@ -102,7 +100,7 @@ public class ArticleListAdapter extends BaseAdapter implements
     @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
@@ -120,7 +118,7 @@ public class ArticleListAdapter extends BaseAdapter implements
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             }
         }
 
@@ -186,7 +184,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         }
         if (cachedView != null) {
             if (((ViewHolder) cachedView.getTag()).position == position) {
-                Log.d(TAG, "get view from cache ,floor " + lou);
+                NLog.d(TAG, "get view from cache ,floor " + lou);
                 return cachedView;
             } else {
                 view = LayoutInflater.from(activity).inflate(R.layout.relative_aritclelist, parent, false);
@@ -223,7 +221,7 @@ public class ArticleListAdapter extends BaseAdapter implements
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = parent.getContext().getResources().getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, activity);
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, activity);
 
         final int bgColor = parent.getContext().getResources().getColor(colorId);
 
@@ -247,21 +245,9 @@ public class ArticleListAdapter extends BaseAdapter implements
             holder.clientBtn.setVisibility(View.VISIBLE);
             holder.clientBtn.setOnClickListener(clientListener);
         }
-        if (ActivityUtils.isLessThan_4_3()) {
-            new Thread(new Runnable() {
-                public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
-                }
-            }).start();
-        } else if (ActivityUtils.isLessThan_4_4()) {
-            ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
-                public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
-                }
-            });
-        } else {
-            FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
-        }
+
+        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, activity, null, client);
+
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());
         postTimeTV.setTextColor(fgColor);

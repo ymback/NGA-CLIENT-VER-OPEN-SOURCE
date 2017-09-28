@@ -23,7 +23,7 @@ import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.presenter.TopicPostPresenter;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.PermissionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -74,7 +74,7 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
         TopicPostAction act = new TopicPostAction(tid, "", "");
         act.setAction_(action);
         act.setFid_(fid);
-        act.set__ngaClientChecksum(FunctionUtil.getngaClientChecksum(this));
+        act.set__ngaClientChecksum(FunctionUtils.getngaClientChecksum(this));
         if (!StringUtils.isEmpty(mention))
             act.setMention_(mention);
         if (pid != null)

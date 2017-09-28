@@ -13,11 +13,10 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
-import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.ActionBarUserListAdapter;
-import sp.phone.bean.User;
-import sp.phone.fragment.MessageListContainer;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManagerImpl;
+import sp.phone.fragment.MessageListContainer;
 import sp.phone.utils.StringUtils;
 
 public class MessageListFragment extends MaterialCompatFragment implements AdapterView.OnItemClickListener{
@@ -74,17 +73,7 @@ public class MessageListFragment extends MaterialCompatFragment implements Adapt
 
     @Override
     protected void onSpinnerItemSelected(Spinner spinner,int position) {
-        User u = (User) spinner.getAdapter().getItem(position);
-        MyApp app = (MyApp) mActivity.getApplication();
-        app.addToUserList(u.getUserId(), u.getCid(),
-                u.getNickName(), u.getReplyString(), u.getReplyTotalNum(), u.getBlackList());
-        PhoneConfiguration config = PhoneConfiguration.getInstance();
-        config.setUid(u.getUserId());
-        config.setCid(u.getCid());
-        config.setNickname(u.getNickName());
-        config.setReplyString(u.getReplyString());
-        config.setReplyTotalNum(u.getReplyTotalNum());
-        config.blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
+        UserManagerImpl.getInstance().setActiveUser(position);
         MessageListContainer fragment = (MessageListContainer) getChildFragmentManager().findFragmentById(getContainerId());
         if (fragment != null) {
             fragment.onCategoryChanged(position);

@@ -1,9 +1,7 @@
 package sp.phone.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +20,13 @@ import java.util.HashSet;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.listener.MyListenerForNonameReply;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;
+import sp.phone.listener.MyListenerForNonameReply;
+import sp.phone.utils.ArticleListWebClient;
+import sp.phone.utils.FunctionUtils;
+import sp.phone.utils.NLog;
+import sp.phone.utils.StringUtils;
 
 public class NonameArticleListAdapter extends BaseAdapter implements
         OnLongClickListener {
@@ -175,7 +173,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         }
         if (cachedView != null) {
             if (((ViewHolder) cachedView.getTag()).position == position) {
-                Log.d(TAG, "get view from cache ,floor " + lou);
+                NLog.d(TAG, "get view from cache ,floor " + lou);
                 return cachedView;
             } else {
                 view = LayoutInflater.from(activity).inflate(
@@ -214,7 +212,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         final int fgColor = parent.getContext().getResources()
                 .getColor(fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV);
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV);
 
 		/*
 		 * TextView titleTV = holder.titleTV; if
@@ -242,24 +240,8 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(postTime);
         postTimeTV.setTextColor(fgColor);
-        if (ActivityUtils.isLessThan_4_3()) {
-            new Thread(new Runnable() {
-                public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor,
-                            fgColor, activity, null, client);
-                }
-            }).start();
-        } else if (ActivityUtils.isLessThan_4_4()) {
-            ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
-                public void run() {
-                    FunctionUtil.handleContentTV(contentTV, row, bgColor,
-                            fgColor, activity, null, client);
-                }
-            });
-        } else {
-            FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor,
+        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor,
                     activity, null, client);
-        }
         return view;
     }
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
+import sp.phone.utils.NLog;
 
 public class TabsAdapter extends ThreadFragmentAdapter implements
         TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
@@ -60,17 +60,17 @@ public class TabsAdapter extends ThreadFragmentAdapter implements
     }
 
     public void setCount(int pageCount) {
-        //Log.i(TAG, "setCount current page count:" + this.pageCount );
+        //NLog.i(TAG, "setCount current page count:" + this.pageCount );
         this.pageCount = pageCount;
         int tabCount = mTabHost.getTabWidget().getChildCount();
-        //Log.i(TAG, "setCount current tab count:" + tabCount );
+        //NLog.i(TAG, "setCount current tab count:" + tabCount );
         int tabsToDisplay = MAX_TAB < pageCount ? MAX_TAB : pageCount;
-        //Log.i(TAG, "setCount set page count  Count to:" + pageCount);
+        //NLog.i(TAG, "setCount set page count  Count to:" + pageCount);
         if (tabCount < tabsToDisplay) {
             for (int i = tabCount; i < tabsToDisplay; ++i) {
                 TextView tv = new TextView(mContext);
                 tv.setTextSize(20);
-                //	Log.i(TAG, "add tab:" + (i+1));
+                //	NLog.i(TAG, "add tab:" + (i+1));
                 String tag = String.valueOf(i + 1);
                 tv.setText(tag);
                 tv.setGravity(Gravity.CENTER);
@@ -97,10 +97,10 @@ public class TabsAdapter extends ThreadFragmentAdapter implements
 
     @Override
     public Fragment getItem(int position) {
-        Log.i(TAG, "getItem " + position + "current offset=" + offset);
+        NLog.i(TAG, "getItem " + position + "current offset=" + offset);
         Bundle args = new Bundle(arguments);
         args.putInt("page", position);
-        Log.i(TAG, "again+" + String.valueOf(position));
+        NLog.i(TAG, "again+" + String.valueOf(position));
         Fragment f = Fragment.instantiate(mContext, clss.getName(), args);
 
         return f;
@@ -127,7 +127,7 @@ public class TabsAdapter extends ThreadFragmentAdapter implements
     public void onTabChanged(String tabId) {
         int position = mTabHost.getCurrentTab();
 
-        Log.d(TAG, "onTabChanged:" + tabId + ",current offset=" + offset);
+        NLog.d(TAG, "onTabChanged:" + tabId + ",current offset=" + offset);
 
 
         TextView v = (TextView) mTabHost.getCurrentTabView();
@@ -136,10 +136,10 @@ public class TabsAdapter extends ThreadFragmentAdapter implements
             v = (TextView) mTabHost.getTabWidget().getChildAt(i);
             //v.setText(String.valueOf(i+offset+1));
             if (mTabHost.getCurrentTab() == i) {
-                Log.d(TAG, "set tab:" + (i + offset + 1) + "to holo blue");
+                NLog.d(TAG, "set tab:" + (i + offset + 1) + "to holo blue");
                 v.setTextColor(mContext.getResources().getColor(R.color.holo_blue_light));
             } else {
-                Log.d(TAG, "set tab:" + (i + offset + 1) + "to default color");
+                NLog.d(TAG, "set tab:" + (i + offset + 1) + "to default color");
                 v.setTextColor(defaultColor);
             }
         }
@@ -158,16 +158,16 @@ public class TabsAdapter extends ThreadFragmentAdapter implements
         // The jerk.
         // This hack tries to prevent this from pulling focus out of our
         // ViewPager.
-        Log.d(TAG, "onPageSelected:" + position);
+        NLog.d(TAG, "onPageSelected:" + position);
         TabWidget widget = mTabHost.getTabWidget();
         int oldFocusability = widget.getDescendantFocusability();
         widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
         offset = position / MAX_TAB * MAX_TAB;
-        Log.d(TAG, "onPageSelected current offset=" + offset);
+        NLog.d(TAG, "onPageSelected current offset=" + offset);
         if (offset + MAX_TAB > pageCount && offset > 0) {
             offset = pageCount - MAX_TAB;
-            Log.i(TAG, "onPageSelected current offset=" + offset);
+            NLog.i(TAG, "onPageSelected current offset=" + offset);
 
         }
 

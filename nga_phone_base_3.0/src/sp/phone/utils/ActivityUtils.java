@@ -75,14 +75,6 @@ public class ActivityUtils {
         }
     }
 
-    public static boolean isLessThan_4_4() {
-        return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
-    }
-
-    public static boolean isLessThan_4_3() {
-        return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN;
-    }
-
     public static ActivityUtils getInstance() {
         if (instance == null) {
             instance = new ActivityUtils();
@@ -229,7 +221,7 @@ public class ActivityUtils {
 
         if (c == null)
             return;
-        Log.d(TAG, "saying dialog");
+        NLog.d(TAG, "saying dialog");
         Bundle b = new Bundle();
         b.putString("title", title);
         b.putString("content", content);
@@ -252,7 +244,7 @@ public class ActivityUtils {
                 df.show(fm, dialogTag);
                 this.df = df;
             } catch (Exception e) {
-                Log.e(this.getClass().getSimpleName(), Log.getStackTraceString(e));
+                NLog.e(this.getClass().getSimpleName(), NLog.getStackTraceString(e));
 
             }
 
@@ -264,7 +256,7 @@ public class ActivityUtils {
 
         if (c == null)
             return;
-        Log.d(TAG, "saying dialog");
+        NLog.d(TAG, "saying dialog");
         Bundle b = new Bundle();
         b.putString("title", title);
         b.putString("content", content);
@@ -287,7 +279,7 @@ public class ActivityUtils {
                 df.show(fm, dialogTag);
                 this.df = df;
             } catch (Exception e) {
-                Log.e(this.getClass().getSimpleName(), Log.getStackTraceString(e));
+                NLog.e(this.getClass().getSimpleName(), NLog.getStackTraceString(e));
 
             }
 
@@ -296,7 +288,7 @@ public class ActivityUtils {
     }
 
     public void noticebarsetprogress(int i) {
-        Log.d(TAG, "trying setprocess" + String.valueOf(i));
+        NLog.d(TAG, "trying setprocess" + String.valueOf(i));
         if (df != null && df.getActivity() != null) {
             if (df instanceof SayingDialogFragmentWithProgressBar) {
                 ((SayingDialogFragmentWithProgressBar) df).setProgress(i);
@@ -313,11 +305,11 @@ public class ActivityUtils {
     public void dismiss() {
 
         synchronized (lock) {
-            Log.d(TAG, "trying dissmiss dialog");
+            NLog.d(TAG, "trying dissmiss dialog");
 
 
             if (df != null && df.getActivity() != null) {
-                Log.d(TAG, "dissmiss dialog");
+                NLog.d(TAG, "dissmiss dialog");
 
                 try {
                     FragmentActivity fa = (FragmentActivity) (df.getActivity());
@@ -332,7 +324,7 @@ public class ActivityUtils {
 
                     ft.commit();
                 } catch (Exception e) {
-                    Log.e(this.getClass().getSimpleName(), Log.getStackTraceString(e));
+                    NLog.e(this.getClass().getSimpleName(), NLog.getStackTraceString(e));
                 }
 
                 df = null;

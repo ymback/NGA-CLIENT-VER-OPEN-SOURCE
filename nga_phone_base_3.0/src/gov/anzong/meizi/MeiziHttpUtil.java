@@ -2,7 +2,6 @@ package gov.anzong.meizi;
 
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 
@@ -26,6 +25,7 @@ import javax.net.ssl.SSLSession;
 
 import sp.phone.bean.ArticlePage;
 import sp.phone.utils.ArticleUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class MeiziHttpUtil {
@@ -139,7 +139,7 @@ public class MeiziHttpUtil {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            Log.e(TAG, "failed to download img:" + uri + "," + e.getMessage());
+            NLog.e(TAG, "failed to download img:" + uri + "," + e.getMessage());
         }
     }
 
@@ -393,10 +393,10 @@ public class MeiziHttpUtil {
             long start = System.currentTimeMillis();
             String html = getHtml(uri, cookie);
             long end = System.currentTimeMillis();
-            Log.i("ArticlePage", "network const:" + (end - start));
+            NLog.i("ArticlePage", "network const:" + (end - start));
             ret = ArticleUtil.parserArticleList(html);
             long end2 = System.currentTimeMillis();
-            Log.i("ArticlePage", "parse action const:" + (end2 - end));
+            NLog.i("ArticlePage", "parse action const:" + (end2 - end));
         } catch (Exception e) {
             e.printStackTrace();
         }

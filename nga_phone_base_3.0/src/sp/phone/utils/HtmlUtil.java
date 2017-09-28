@@ -100,7 +100,7 @@ public class HtmlUtil {
                     + buildVote(row);
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
                     + buildHeader(row, fgColorStr)
-                    + "<body bgcolor= '#"
+                    + "<body style=word-break:break-all; bgcolor= '#"
                     + bgcolorStr
                     + "'>"
                     + "<font color='#"
@@ -204,7 +204,7 @@ public class HtmlUtil {
             ret.append(comment.getAuthor());
             ret.append("</span><br/>");
             ret.append("<img src='");
-            String avatarUrl = FunctionUtil.parseAvatarUrl(comment.getJs_escap_avatar());
+            String avatarUrl = FunctionUtils.parseAvatarUrl(comment.getJs_escap_avatar());
             String avatarPath = ImageUtil.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
             if (downImg) {
                 if (StringUtils.isEmpty(avatarPath)) {
@@ -237,7 +237,7 @@ public class HtmlUtil {
 
         }
         ret.append("</tbody></table>");
-        Log.i(TAG, ret.toString());
+        NLog.i(TAG, ret.toString());
         return ret.toString();
     }
 

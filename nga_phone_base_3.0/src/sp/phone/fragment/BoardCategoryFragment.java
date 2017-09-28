@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import sp.phone.adapter.BoardCategoryAdapter;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.utils.DeviceUtils;
+import sp.phone.utils.NLog;
 
 public class BoardCategoryFragment extends Fragment {
 
@@ -38,12 +38,10 @@ public class BoardCategoryFragment extends Fragment {
         args.putParcelable("category", category);
         f.setArguments(args);
         return f;
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mBoardCategory = getArguments().getParcelable("category");
@@ -51,15 +49,12 @@ public class BoardCategoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_board_category,container,false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         mListView = (RecyclerView) view.findViewById(R.id.list);
         if (DeviceUtils.isLandscape(getContext())) {
             mListView.setLayoutManager(new GridLayoutManager(getContext(),COLUMN_NUMBER_LAND));
@@ -74,9 +69,7 @@ public class BoardCategoryFragment extends Fragment {
         } else if (getActivity() instanceof OnItemClickListener) {
             listener = (OnItemClickListener) getActivity();
         } else {
-            Log.e(TAG,
-                    "Activity or parentFragment should implements "
-                            + OnItemClickListener.class.getSimpleName());
+            NLog.e(TAG, "Activity or parentFragment should implements " + OnItemClickListener.class.getSimpleName());
         }
         mAdapter = new BoardCategoryAdapter(getActivity(),mBoardCategory);
         mAdapter.setOnItemClickListener(listener);
@@ -99,10 +92,6 @@ public class BoardCategoryFragment extends Fragment {
             });
             touchHelper.attachToRecyclerView(mListView);
         }
-
-
-
         mListView.setAdapter(mAdapter);
     }
-
 }

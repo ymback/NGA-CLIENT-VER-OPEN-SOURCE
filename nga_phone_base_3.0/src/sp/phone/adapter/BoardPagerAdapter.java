@@ -24,7 +24,6 @@ public class BoardPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-
         return mPageCategoryOwner.getCategoryCount();
     }
 

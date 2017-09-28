@@ -1,21 +1,17 @@
 package sp.phone.presenter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
-import sp.phone.common.PreferenceKey;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.model.LoginModel;
 import sp.phone.presenter.contract.LoginContract;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -170,24 +166,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private void saveCookie(String uid,String cid,String userName) {
         mView.showToast(R.string.login_successfully);
-        SharedPreferences sp = getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
-        sp.edit().putString(PreferenceKey.UID, uid)
-                .putString(PreferenceKey.CID, cid).putString(PreferenceKey.PENDING_REPLYS, "")
-                .putString(PreferenceKey.REPLYTOTALNUM, "0")
-                .putString(PreferenceKey.USER_NAME, uid)
-                .putString(PreferenceKey.BLACK_LIST, "")
-                .apply();
-        MyApp app = (MyApp) ((Activity)mView.getContext()).getApplication();
-        app.addToUserList(uid, cid, userName, "", 0, "");
-
-        PhoneConfiguration config = PhoneConfiguration.getInstance();
-
-        config.setUid(uid);
-        config.setCid(cid);
-        config.userName = userName;
-        config.setReplyTotalNum(0);
-        config.setReplyString("");
-        config.blacklist = StringUtils.blackListStringToHashset("");
+        UserManagerImpl.getInstance().addUser(uid,cid,userName,"",0,"");
         mView.setResult(true);
       //  mView.finish();
     }

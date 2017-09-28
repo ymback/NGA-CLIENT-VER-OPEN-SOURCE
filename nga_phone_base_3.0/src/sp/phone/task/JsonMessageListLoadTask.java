@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -13,10 +12,11 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageListInfo> {
@@ -39,7 +39,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 
         if (params.length == 0)
             return null;
-        Log.d(TAG, "start to load " + params[0]);
+        NLog.d(TAG, "start to load " + params[0]);
         String uri = params[0];
         String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
         String page = StringUtils.getStringBetween(uri, 0, "page=", "&").result;
@@ -61,13 +61,13 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
         try {
             o = (JSONObject) JSON.parseObject(js).get("data");
         } catch (Exception e) {
-            Log.e(TAG, "can not parse :\n" + js);
+            NLog.e(TAG, "can not parse :\n" + js);
         }
         if (o == null) {
             try {
                 o = (JSONObject) JSON.parseObject(js).get("error");
             } catch (Exception e) {
-                Log.e(TAG, "can not parse :\n" + js);
+                NLog.e(TAG, "can not parse :\n" + js);
             }
             if (o == null) {
                 error = "请重新登录";

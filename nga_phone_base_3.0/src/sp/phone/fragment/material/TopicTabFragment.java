@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,6 +28,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.presenter.contract.TopicListContract;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.ScrollableViewPager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
@@ -136,20 +136,6 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         super.onResume();
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        if (mBoardName == null) {
-            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
-        } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
-            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-        } else {
-            menu.findItem(R.id.menu_add_bookmark).setVisible(true);
-            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
-        }
-        super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -176,18 +162,6 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                     }
                 }
                 break;
-            case R.id.menu_add_bookmark:
-                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
-                item.setVisible(false);
-                mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-                showToast(R.string.toast_add_bookmark_board);
-                break;
-            case R.id.menu_remove_bookmark:
-                mBoardManager.removeBookmark(String.valueOf(mRequestInfo.fid));
-                item.setVisible(false);
-                mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
-                showToast(R.string.toast_remove_bookmark_board);
-                break;
             default:
                 return false;
         }
@@ -211,7 +185,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         try {
             df.show(ft, dialogTag);
         } catch (Exception e) {
-            Log.e(TopicListContainer.class.getSimpleName(), Log.getStackTraceString(e));
+            NLog.e(TopicListContainer.class.getSimpleName(), NLog.getStackTraceString(e));
         }
     }
 

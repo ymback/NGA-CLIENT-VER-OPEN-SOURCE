@@ -2,18 +2,18 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleUtil;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 
 public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
     static final String TAG = JsonThreadLoadTask.class.getSimpleName();
@@ -21,8 +21,7 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
     final private OnThreadPageLoadFinishedListener notifier;
     private String errorStr;
 
-    public JsonThreadLoadTask(Context context,
-                              OnThreadPageLoadFinishedListener notifier) {
+    public JsonThreadLoadTask(Context context, OnThreadPageLoadFinishedListener notifier) {
         super();
         this.context = context;
         this.notifier = notifier;
@@ -34,21 +33,18 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
             return null;
 
         final String url = params[0];
-        Log.d(TAG, "start to load:" + url);
+        NLog.d(TAG, "start to load:" + url);
 
         ThreadData result = this.loadAndParseJsonPage(url);
-        int orignalTid = 0;
+        int originalTid = 0;
         if (null != result && null != result.getThreadInfo()) {
-            orignalTid = result.getThreadInfo().getQuote_from();
+            originalTid = result.getThreadInfo().getQuote_from();
         }
-        if (null != result && orignalTid != 0) {
-
-            String origUrl = url.replaceAll("tid=(\\d+)", "tid=" + orignalTid);
-            Log.i(TAG, "quoted page,load from orignal article,tid="
-                    + orignalTid);
+        if (null != result && originalTid != 0) {
+            String origUrl = url.replaceAll("tid=(\\d+)", "tid=" + originalTid);
+            NLog.i(TAG, "quoted page,load from orignal article,tid=" + originalTid);
             result = loadAndParseJsonPage(origUrl);
         }
-
         return result;
     }
 
@@ -130,5 +126,4 @@ public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
         ActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
-
 }

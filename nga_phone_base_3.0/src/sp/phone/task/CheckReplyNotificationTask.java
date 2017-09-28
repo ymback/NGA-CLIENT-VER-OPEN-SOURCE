@@ -1,6 +1,5 @@
 package sp.phone.task;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,7 +12,6 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -24,14 +22,14 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.ReplyListActivity;
 import sp.phone.bean.MsgNotificationObject;
 import sp.phone.bean.NotificationObject;
-import sp.phone.common.PreferenceKey;
-import sp.phone.bean.User;
-import sp.phone.utils.HttpUtil;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.UserManagerImpl;
+import sp.phone.utils.HttpUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class CheckReplyNotificationTask extends
@@ -56,7 +54,7 @@ public class CheckReplyNotificationTask extends
 
         PhoneConfiguration.getInstance().lastMessageCheck = System
                 .currentTimeMillis();
-        Log.i(this.getClass().getSimpleName(), "get message:" + result);
+        NLog.i(this.getClass().getSimpleName(), "get message:" + result);
         // return
         // "[truncated]window.script_muti_get_var_store={0:[{\"0\":1,\"1\":20174851,\"2\":\"\326\361\276\256\324\212\277\227\300\357\",\"3\":20174851,\"4\":\"\326\361\276\256\324\212\277\227\300\357\",\"5\":\"\277\264\262\273\265\275\316\322\",\"9\":1403393562,\"6\":71387683,\"7\":133146646,\"10\":1}] }";
 //		return "get message:<html><head><meta http-equiv='Content-Type' content='text/html; charset=GBK'></head><body><script>window.script_muti_get_var_store={\"data\":{\"0\":{\"0\":[{\"9\":1418355735 ,\"0\":1,\"1\":20174851,\"2\":\"竹井詩織里\",\"3\":20174851,\"4\":\"竹井詩織里\",\"5\":\"我喜欢测试\",\"6\":7638703,\"7\":143928028,\"10\":1}],\"unread\":0}},\"time\":1418357357}</script></body></html>";
@@ -91,7 +89,7 @@ public class CheckReplyNotificationTask extends
             ojsonnoti = (JSONArray) ojson.get("0");
             ojsonmsg = (JSONArray) ojson.get("1");
         } catch (Exception e) {
-            Log.i(TAG, "JSON DATA ERROR");
+            NLog.i(TAG, "JSON DATA ERROR");
         }
         if (unread < 1) {//都读了，顺便刷新一次数据
             if (ojsonnoti != null) {
@@ -127,31 +125,7 @@ public class CheckReplyNotificationTask extends
                 List<NotificationObject> list = new ArrayList<NotificationObject>();
                 list = notificationList;
                 String recentstr = JSON.toJSONString(list);
-                PhoneConfiguration.getInstance().setReplyString(recentstr);
-                PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
-                String userListString = share.getString(USER_LIST, "");
-                List<User> userList = null;
-                if (!StringUtils.isEmpty(userListString)) {
-                    userList = JSON.parseArray(userListString, User.class);
-                    for (User u : userList) {
-                        if (u.getUserId().equals(
-                                PhoneConfiguration.getInstance().uid)) {
-                            MyApp app = (MyApp) ((Activity) context)
-                                    .getApplication();
-                            app.addToUserList(u.getUserId(), u.getCid(),
-                                    u.getNickName(), recentstr, list.size(),
-                                    u.getBlackList());
-                            break;
-                        }
-                    }
-                } else {
-                    PhoneConfiguration.getInstance().setReplyString(recentstr);
-                    PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
-                    Editor editor = share.edit();
-                    editor.putString(PENDING_REPLYS, recentstr);
-                    editor.putString(REPLYTOTALNUM, String.valueOf(list.size()));
-                    editor.apply();
-                }
+                UserManagerImpl.getInstance().setReplyString(list.size(),recentstr);
             }
 
             return;
@@ -342,7 +316,7 @@ public class CheckReplyNotificationTask extends
             return;
         }
 
-        Log.i(this.getClass().getSimpleName(), "showNotification: pid=" + pid
+        NLog.i(this.getClass().getSimpleName(), "showNotification: pid=" + pid
                 + ",tid=" + tid);
 
         Intent intent = new Intent(context,
@@ -353,7 +327,7 @@ public class CheckReplyNotificationTask extends
             if (!StringUtils.isEmpty(pid))
                 pidValue = Integer.valueOf(pid);
         } catch (Exception e) {
-            Log.e(this.getClass().getSimpleName(), "invalid pid: " + pid);
+            NLog.e(this.getClass().getSimpleName(), "invalid pid: " + pid);
         }
         Resources res = context.getResources();
         String url = res.getString(R.string.myscheme) + "://"

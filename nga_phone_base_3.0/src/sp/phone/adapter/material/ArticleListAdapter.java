@@ -31,7 +31,7 @@ import sp.phone.listener.MyListenerForReply;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.DeviceUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HtmlUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.StringUtils;
@@ -159,7 +159,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = ContextCompat.getColor(mContext,fgColorId);
 
-        FunctionUtil.handleNickName(row, fgColor, holder.nickNameTV, mContext);
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
 
         final int bgColor = ContextCompat.getColor(mContext,colorId);
 
@@ -187,7 +187,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             holder.clientBtn.setVisibility(View.VISIBLE);
             holder.clientBtn.setOnClickListener(clientListener);
         }
-        FunctionUtil.handleContentTV(contentTV, row, bgColor, fgColor, mContext, null, mWebViewClient);
+        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, mContext, null, mWebViewClient);
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());
         postTimeTV.setTextColor(fgColor);
@@ -228,7 +228,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final int lou = row.getLou();
-        final String avatarUrl = FunctionUtil.parseAvatarUrl(row.getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final String userId = String.valueOf(row.getAuthorid());
         if (PhoneConfiguration.getInstance().nikeWidth < 3) {
             avatarIV.setImageBitmap(null);
@@ -246,7 +246,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             AvatarTag origTag = (AvatarTag) tagObj;
             if (!origTag.isDefault) {
                 ImageUtil.recycleImageView(avatarIV);
-                // Log.d(TAG, "recycle avatar:" + origTag.lou);
+                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
             }
         }
 

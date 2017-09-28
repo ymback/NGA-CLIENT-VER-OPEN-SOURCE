@@ -1,7 +1,5 @@
 package sp.phone.utils;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -11,7 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
+import gov.anzong.androidnga.NgaClientApp;
 import sp.phone.common.PhoneConfiguration;
 
 public class UploadCookieCollector {
@@ -66,7 +64,7 @@ public class UploadCookieCollector {
         if (machine.length() < 19) {
             machine = "[" + machine + "]";
         }
-        final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(MyApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+        final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(NgaClientApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 
         try {
             URL url = new URL(urlString);
@@ -101,7 +99,7 @@ public class UploadCookieCollector {
         for (int i = 1; (key = conn.getHeaderFieldKey(i)) != null; i++) {
 
             if (key.equalsIgnoreCase("set-cookie")) {
-                Log.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":"
+                NLog.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":"
                         + conn.getHeaderField(i));
                 cookieVal = conn.getHeaderField(i);
                 UpdateCookie(cookieVal);

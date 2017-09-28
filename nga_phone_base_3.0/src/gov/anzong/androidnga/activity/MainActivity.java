@@ -19,7 +19,6 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,18 +31,20 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import gov.anzong.androidnga.BuildConfig;
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.ProfileSearchDialogFragment;
 import sp.phone.presenter.BoardPresenter;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.PermissionUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class MainActivity extends BaseActivity {
 
@@ -75,19 +76,18 @@ public class MainActivity extends BaseActivity {
 
     //OK
     private void checkNewVersion() {
-        MyApp app = (MyApp) getApplication();
+        NgaClientApp app = (NgaClientApp) getApplication();
         if (app.isNewVersion()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.prompt).setMessage(StringUtils.getTips())
                     .setPositiveButton(R.string.i_know, null);
             builder.create().show();
             app.setNewVersion(false);
-            showToast("播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装");
+            showToast(getString(R.string.player_plugin_hint));
         }
     }
 
     private void initView() {
-
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(BoardFragment.class.getSimpleName());
         if (fragment == null) {
@@ -97,13 +97,11 @@ public class MainActivity extends BaseActivity {
         mPresenter = new BoardPresenter((BoardContract.View) fragment);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_option_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -149,7 +147,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void searchProfile() {
-
         DialogFragment df;
         final String dialogTag = "searchpaofile_dialog";
         FragmentManager fm = getSupportFragmentManager();
@@ -159,7 +156,6 @@ public class MainActivity extends BaseActivity {
             df.show(fm, dialogTag);
         }
     }
-
 
     private void signmission() {
         Intent intent = new Intent();
@@ -171,21 +167,18 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, mConfig.messageActivityClass);
         startActivity(intent);
-
     }
 
     private void noname() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, mConfig.nonameActivityClass);
         startActivity(intent);
-
     }
-
 
     private void aboutNgaClient() {
         final View view = getLayoutInflater().inflate(R.layout.client_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view).setTitle("关于");
+        builder.setView(view).setTitle(R.string.about);
         String versionName = BuildConfig.VERSION_NAME;
         int versionCode = BuildConfig.VERSION_CODE;
         TextView contentView = (TextView) view
@@ -212,7 +205,6 @@ public class MainActivity extends BaseActivity {
         builder.create().show();
     }
 
-
     private void delay(final String text) {
         runOnUiThread(new Runnable() {
             @Override
@@ -226,7 +218,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 initDate();
             }
         }
@@ -234,14 +226,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initDate() {
-
         if (!PermissionUtils.hasStoragePermission(this)) {
             PermissionUtils.requestStoragePermission(this);
             return;
         }
         new Thread() {
             public void run() {
-
                 File fileBase = new File(HttpUtil.PATH);
                 if (!fileBase.exists()) {
                     delay(getString(R.string.create_cache_dir));
@@ -255,19 +245,16 @@ public class MainActivity extends BaseActivity {
 
                 File file = new File(HttpUtil.PATH_NOMEDIA);
                 if (!file.exists()) {
-                    Log.i(getClass().getSimpleName(), "create .nomedia");
+                    NLog.i(getClass().getSimpleName(), "create .nomedia");
                     try {
                         file.createNewFile();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-
             }
         }.start();
-
     }
-
 
     private void jumpToSetting() {
         Intent intent = new Intent();
@@ -282,7 +269,6 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-
     }
 
     private void jumpToNearby() {
@@ -421,7 +407,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 try {
                     Field field = dialog.getClass().getSuperclass()
                             .getDeclaredField("mShowing");
@@ -437,7 +422,6 @@ public class MainActivity extends BaseActivity {
 
 
     public class MyURLSpan extends ClickableSpan {
-
         private String mUrl;
 
         MyURLSpan(String url) {
@@ -453,6 +437,4 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         }
     }
-
-
 }

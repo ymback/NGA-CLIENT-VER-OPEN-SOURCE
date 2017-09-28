@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -14,11 +13,12 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
@@ -42,16 +42,16 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
         if (params.length == 0)
             return null;
         url = "http://nga.178.com/nuke.php?__lib=check_in&lite=js&noprefix&__act=check_in&action=add&__ngaClientChecksum="
-                + FunctionUtil.getngaClientChecksum(context);
+                + FunctionUtils.getngaClientChecksum(context);
 
-        Log.d(TAG, "start to load:" + url);
+        NLog.d(TAG, "start to load:" + url);
 
         SignData result = this.loadAndParseJsonPage(url);
         return result;
     }
 
     private SignData loadAndParseJsonPage(String uri) {
-        // Log.d(TAG, "start to load:" + uri);
+        // NLog.d(TAG, "start to load:" + uri);
         String js;
         List<MissionDetialData> EntryList = new ArrayList<MissionDetialData>();
         js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
@@ -82,7 +82,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
             o = (JSONObject) JSON.parseObject(js).get("data");
             oerror = (JSONObject) JSON.parseObject(js).get("error");
         } catch (Exception e) {
-            Log.e(TAG, "can not parse :\n" + js);
+            NLog.e(TAG, "can not parse :\n" + js);
         }
         SignData ret = new SignData();
         if (o == null) {

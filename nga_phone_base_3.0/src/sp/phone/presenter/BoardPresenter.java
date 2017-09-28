@@ -2,38 +2,42 @@ package sp.phone.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.BoardCategory;
 import sp.phone.bean.User;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.HttpUtil;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
+ * 版块管理
  * Created by Yang Yihang on 2017/6/29.
  */
 
 public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwner {
 
-
     private BoardContract.View mView;
 
     private BoardManager mBoardManager;
+
+    private UserManager mUserManager;
 
     public BoardPresenter(BoardContract.View view) {
         mView = view;
         mView.setPresenter(this);
         mBoardManager = BoardManagerImpl.getInstance();
+        mUserManager = UserManagerImpl.getInstance();
     }
 
     @Override
@@ -90,19 +94,8 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
     public void toggleUser(List<User> userList) {
         if (userList != null && userList.size() > 1) {
             int index = mView.switchToNextUser();
-            User user = userList.get(index);
-            MyApp app = (MyApp) getContext().getApplicationContext();
-            PhoneConfiguration config = PhoneConfiguration.getInstance();
-            app.addToUserList(user.getUserId(), user.getCid(),
-                    user.getNickName(), user.getReplyString(),
-                    user.getReplyTotalNum(), user.getBlackList());
-            config.setUid(user.getUserId());
-            config.setNickname(user.getNickName());
-            config.setCid(user.getCid());
-            config.setReplyString(user.getReplyString());
-            config.setReplyTotalNum(user.getReplyTotalNum());
-            config.blacklist = StringUtils.blackListStringToHashset(user.getBlackList());
-            mView.showToast("切换账户成功,当前账户名:" + user.getNickName());
+            mUserManager.setActiveUser(index);
+            mView.showToast("切换账户成功,当前账户名:" + mUserManager.getActiveUser().getNickName());
         } else {
             mView.jumpToLogin();
         }
@@ -119,8 +112,8 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
             fid = Integer.parseInt(fidString);
         } catch (Exception e) {
             final String tag = this.getClass().getSimpleName();
-            Log.e(tag, Log.getStackTraceString(e));
-            Log.e(tag, "invalid fid " + fidString);
+            NLog.e(tag, NLog.getStackTraceString(e));
+            NLog.e(tag, "invalid fid " + fidString);
         }
         if (fid == 0) {
             String tip = fidString + "绝对不存在";
@@ -128,7 +121,7 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
             return;
         }
 
-        Log.i(this.getClass().getSimpleName(), "set host:" + HttpUtil.HOST);
+        NLog.i(this.getClass().getSimpleName(), "set host:" + HttpUtil.HOST);
 
         String url = HttpUtil.Server + "/thread.php?fid=" + fidString + "&rss=1";
         PhoneConfiguration config = PhoneConfiguration.getInstance();

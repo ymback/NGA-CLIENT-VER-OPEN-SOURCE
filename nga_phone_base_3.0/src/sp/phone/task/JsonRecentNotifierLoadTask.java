@@ -1,11 +1,8 @@
 package sp.phone.task;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -15,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.bean.NotificationObject;
 import sp.phone.common.PreferenceKey;
-import sp.phone.bean.User;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, String> implements PreferenceKey {
@@ -58,30 +54,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
     @Override
     protected void onPostExecute(String result) {
         if (StringUtils.isEmpty(result)) {
-            PhoneConfiguration.getInstance().setReplyString("");
-            PhoneConfiguration.getInstance().setReplyTotalNum(0);
-            SharedPreferences share = context.getSharedPreferences(PERFERENCE,
-                    Context.MODE_PRIVATE);
-            String userListString = share.getString(USER_LIST, "");
-            List<User> userList = null;
-            if (!StringUtils.isEmpty(userListString)) {
-                userList = JSON.parseArray(userListString, User.class);
-                for (User u : userList) {
-                    if (u.getUserId().equals(
-                            PhoneConfiguration.getInstance().uid)) {
-                        MyApp app = ((MyApp) ((Activity) context).getApplication());
-                        app.addToUserList(u.getUserId(), u.getCid(),
-                                u.getNickName(), "", 0, u.getBlackList());
-                        break;
-                    }
-                }
-            } else {
-                Editor editor = share.edit();
-                editor.putString(PENDING_REPLYS, "");
-                editor.putString(REPLYTOTALNUM,
-                        "0");
-                editor.apply();
-            }
+            UserManagerImpl.getInstance().setReplyString(0,"");
             notifier.jsonfinishLoad();
             return;
         }
@@ -103,7 +76,7 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
         try {
             ojsonnoti = (JSONArray) ojson.get("0");
         } catch (Exception e) {
-            Log.i(TAG, "JSON DATA ERROR");
+            NLog.i(TAG, "JSON DATA ERROR");
         }
         if (ojsonnoti != null) {
             if (ojsonnoti.size() > 0) {
@@ -138,31 +111,9 @@ public class JsonRecentNotifierLoadTask extends AsyncTask<String, Integer, Strin
             List<NotificationObject> list = new ArrayList<NotificationObject>();
             list = notificationList;
             String recentstr = JSON.toJSONString(list);
-            PhoneConfiguration.getInstance().setReplyString(recentstr);
-            PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
-            String userListString = share.getString(USER_LIST, "");
-            List<User> userList = null;
-            if (!StringUtils.isEmpty(userListString)) {
-                userList = JSON.parseArray(userListString, User.class);
-                for (User u : userList) {
-                    if (u.getUserId().equals(
-                            PhoneConfiguration.getInstance().uid)) {
-                        MyApp app = (MyApp) ((Activity) context)
-                                .getApplication();
-                        app.addToUserList(u.getUserId(), u.getCid(),
-                                u.getNickName(), recentstr, list.size(),
-                                u.getBlackList());
-                        break;
-                    }
-                }
-            } else {
-                PhoneConfiguration.getInstance().setReplyString(recentstr);
-                PhoneConfiguration.getInstance().setReplyTotalNum(list.size());
-                Editor editor = share.edit();
-                editor.putString(PENDING_REPLYS, recentstr);
-                editor.putString(REPLYTOTALNUM, String.valueOf(list.size()));
-                editor.apply();
-            }
+
+            UserManagerImpl.getInstance().setReplyString(list.size(),recentstr);
+
         }
         notifier.jsonfinishLoad();
         super.onPostExecute(result);

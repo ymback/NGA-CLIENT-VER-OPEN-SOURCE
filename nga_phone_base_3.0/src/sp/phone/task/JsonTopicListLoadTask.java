@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -14,10 +13,11 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListInfo> {
@@ -41,7 +41,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
 
         if (params.length == 0)
             return null;
-        Log.d(TAG, "start to load " + params[0]);
+        NLog.d(TAG, "start to load " + params[0]);
         String uri = params[0];
         String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
         boolean filter = false;
@@ -78,7 +78,7 @@ public class JsonTopicListLoadTask extends AsyncTask<String, Integer, TopicListI
         try {
             o = (JSONObject) JSON.parseObject(js).get("data");
         } catch (Exception e) {
-            Log.e(TAG, "can not parse :\n" + js);
+            NLog.e(TAG, "can not parse :\n" + js);
         }
         if (o == null) {
             error = "请重新登录";

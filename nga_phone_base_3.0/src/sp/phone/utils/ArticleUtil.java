@@ -45,8 +45,8 @@ public class ArticleUtil {
 		 *
 		 * if(html ==null || html.equals("")) return null; Parser myParser; try{
 		 * myParser = new Parser(html); }catch(Exception e){
-		 * Log.e(ArticleUtil.class.getSimpleName(),"fail to parse page " +
-		 * Log.getStackTraceString(e)); Log.e(ArticleUtil.class.getSimpleName(),
+		 * NLog.e(ArticleUtil.class.getSimpleName(),"fail to parse page " +
+		 * NLog.getStackTraceString(e)); NLog.e(ArticleUtil.class.getSimpleName(),
 		 * html); return null; } NodeList nodeList = myParser.parse(orFilter);
 		 *
 		 * ArticlePage articlePage = new ArticlePage();
@@ -182,7 +182,7 @@ public class ArticleUtil {
         try {
             o = (JSONObject) JSON.parseObject(js).get("data");
         } catch (Exception e) {
-            Log.e(TAG, "can not parse :\n" + js);
+            NLog.e(TAG, "can not parse :\n" + js);
         }
         if (o == null)
             return null;
@@ -198,7 +198,7 @@ public class ArticleUtil {
             pageInfo = JSONObject.toJavaObject(o1, ThreadPageInfo.class);
             data.setThreadInfo(pageInfo);
         } catch (RuntimeException e) {
-            Log.e(TAG, o1.toJSONString());
+            NLog.e(TAG, o1.toJSONString());
             return null;
         }
 
@@ -223,7 +223,7 @@ public class ArticleUtil {
         if (rowMap == null)
             return null;
         List<ThreadRowInfo> __R = new ArrayList<ThreadRowInfo>();
-        Log.d("ArticleUtil", "convertJSobjToList");
+        NLog.d("ArticleUtil", "convertJSobjToList");
         for (int i = 0; i < count; i++) {
             Object obj = rowMap.get(String.valueOf(i));
             JSONObject rowObj = null;
@@ -264,7 +264,7 @@ public class ArticleUtil {
                 row.setVote(vote);
             }
             fillUserInfo(row, userInfoMap);
-            FunctionUtil.fillFormated_html_data(row, i, context);
+            FunctionUtils.fillFormated_html_data(row, i, context);
             __R.add(row);
         }
         return __R;

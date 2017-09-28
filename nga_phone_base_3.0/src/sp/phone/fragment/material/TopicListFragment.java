@@ -21,6 +21,7 @@ import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.utils.StringUtils;
 
@@ -73,7 +74,12 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mListView = (RecyclerView) view.findViewById(R.id.list);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new AppendableTopicAdapter(getContext(), new NextJsonTopicListLoader() {
+        if (getParentFragment() == null){
+            mAttacher = getAttacher();
+        } else  {
+            mAttacher = ((PullToRefreshAttacherOwner) getParentFragment()).getAttacher();
+        }
+        mAdapter = new AppendableTopicAdapter(getContext(), mAttacher, new NextJsonTopicListLoader() {
             @Override
             public void loadNextPage(OnTopListLoadFinishedListener callback) {
                 mPresenter.loadNextPage(callback);

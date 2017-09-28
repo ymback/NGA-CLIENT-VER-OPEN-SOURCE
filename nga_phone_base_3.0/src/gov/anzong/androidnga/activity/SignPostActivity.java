@@ -20,7 +20,6 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,17 +39,18 @@ import java.net.HttpURLConnection;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ExtensionEmotionAdapter;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.SignPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.FunctionUtils;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class SignPostActivity extends BasePostActivity implements
         FileUploadTask.onFileUploaded, OnEmotionPickedListener {
@@ -105,7 +105,7 @@ public class SignPostActivity extends BasePostActivity implements
         bodyText.setSelected(true);
 
         act = new SignPostAction();
-        this.act.set__ngaClientChecksum(FunctionUtil.getngaClientChecksum(this));
+        this.act.set__ngaClientChecksum(FunctionUtils.getngaClientChecksum(this));
         loading = false;
         if (prefix != null) {
             if (prefix.startsWith("[quote][pid=")
@@ -178,7 +178,7 @@ public class SignPostActivity extends BasePostActivity implements
                 newFragment.show(ft, EMOTION_CATEGORY_TAG);
                 break;
             case R.id.supertext:
-                FunctionUtil.handleSupertext(bodyText, this, v);
+                FunctionUtils.handleSupertext(bodyText, this, v);
                 break;
             case R.id.send:
                 if (StringUtils.isEmpty(bodyText.getText().toString())) {
@@ -283,7 +283,7 @@ public class SignPostActivity extends BasePostActivity implements
             return;
         switch (requestCode) {
             case REQUEST_CODE_SELECT_PIC:
-                Log.i(LOG_TAG, " select file :" + data.getDataString());
+                NLog.i(LOG_TAG, " select file :" + data.getDataString());
                 uploadTask = new FileUploadTask(this, this, data.getData());
                 break;
             default:
@@ -316,7 +316,7 @@ public class SignPostActivity extends BasePostActivity implements
     @Override
     public int finishUpload(String attachments, String attachmentsCheck,
                             String picUrl, Uri uri) {
-        String selectedImagePath2 = FunctionUtil.getPath(this, uri);
+        String selectedImagePath2 = FunctionUtils.getPath(this, uri);
         final int index = bodyText.getSelectionStart();
         String spantmp = "[img]./" + picUrl + "[/img]";
         if (!StringUtils.isEmpty(selectedImagePath2)) {
@@ -416,7 +416,7 @@ public class SignPostActivity extends BasePostActivity implements
         public void handleReply(View v1) {
 
             if (bodyText.getText().toString().length() > 0) {
-                act.setsign_(FunctionUtil.ColorTxtCheck(bodyText.getText()
+                act.setsign_(FunctionUtils.ColorTxtCheck(bodyText.getText()
                         .toString()));
                 new SignPostTask(SignPostActivity.this).execute(url,
                         act.toString());
@@ -494,7 +494,7 @@ public class SignPostActivity extends BasePostActivity implements
                     keepActivity = true;
             } catch (IOException e) {
                 keepActivity = true;
-                Log.e(LOG_TAG, Log.getStackTraceString(e));
+                NLog.e(LOG_TAG, NLog.getStackTraceString(e));
 
             }
             return ret;
@@ -514,13 +514,13 @@ public class SignPostActivity extends BasePostActivity implements
             try {
                 o = (JSONObject) JSON.parseObject(js).get("data");
             } catch (Exception e) {
-                Log.e("TAG", "can not parse :\n" + js);
+                NLog.e("TAG", "can not parse :\n" + js);
             }
             if (o == null) {
                 try {
                     o = (JSONObject) JSON.parseObject(js).get("error");
                 } catch (Exception e) {
-                    Log.e("TAG", "can not parse :\n" + js);
+                    NLog.e("TAG", "can not parse :\n" + js);
                 }
                 if (o == null) {
                     return "发送失败";

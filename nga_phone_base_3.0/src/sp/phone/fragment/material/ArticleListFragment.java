@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,9 +22,9 @@ import android.widget.AdapterView;
 
 import java.util.Set;
 
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.activity.MyApp;
 import sp.phone.adapter.material.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
@@ -38,7 +37,8 @@ import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.model.ArticleListTask;
 import sp.phone.task.LikeTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtil;
+import sp.phone.utils.FunctionUtils;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /*
@@ -66,12 +66,13 @@ public class ArticleListFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+        NLog.d(TAG, "onCreate");
         if (savedInstanceState != null) {
             mPage = savedInstanceState.getInt("page");
         }
         mArticleListAction = getArguments().getParcelable("ArticleListAction");
-        mArticleListAction.setPageFromUrl(mPage);
+        if (mArticleListAction != null)
+            mArticleListAction.setPageFromUrl(mPage);
         mTask = new ArticleListTask();
         super.onCreate(savedInstanceState);
     }
@@ -184,10 +185,9 @@ public class ArticleListFragment extends BaseFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         int page = mArticleListAction.getPageFromUrl();
         int tid = mArticleListAction.getTid();
-        Log.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
+        NLog.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
 
         if (!getUserVisibleHint()) {
             return false;
@@ -224,7 +224,7 @@ public class ArticleListFragment extends BaseFragment {
                 content = content.replaceAll(replay_regex, "");
                 final String postTime = row.getPostdate();
 
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     mention = name;
@@ -269,15 +269,15 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_signature:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
-                    FunctionUtil.Create_Signature_Dialog(row, getActivity(),
+                    FunctionUtils.Create_Signature_Dialog(row, getActivity(),
                             mListView);
                 }
                 break;
 
             case R.id.menu_vote:
-                FunctionUtil.createVoteDialog(row, getActivity(), mListView, mToast);
+                FunctionUtils.createVoteDialog(row, getActivity(), mListView, mToast);
                 break;
 
             case R.id.menu_ban_this_one:
@@ -303,7 +303,7 @@ public class ArticleListFragment extends BaseFragment {
                     editor.putString(PreferenceKey.BLACK_LIST, blackListString);
                     editor.apply();
                     if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
-                        MyApp app = (MyApp) getActivity().getApplication();
+                        NgaClientApp app = (NgaClientApp) getActivity().getApplication();
                         app.upgradeUserdata(blacklist.toString());
                     } else {
                         showToast(R.string.cannot_add_to_blacklist_cause_logout);
@@ -313,7 +313,7 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_show_profile:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
                     intent.putExtra("mode", "username");
                     intent.putExtra("username", row.getAuthor());
@@ -324,14 +324,14 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_avatar:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
-                    FunctionUtil.Create_Avatar_Dialog(row, getActivity(), mListView);
+                    FunctionUtils.Create_Avatar_Dialog(row, getActivity(), mListView);
                 }
                 break;
 
             case R.id.menu_edit:
-                if (FunctionUtil.isComment(row)) {
+                if (FunctionUtils.isComment(row)) {
                     showToast(R.string.cannot_eidt_comment);
                     break;
                 }
@@ -351,7 +351,7 @@ public class ArticleListFragment extends BaseFragment {
                 break;
 
             case R.id.menu_copy:
-                FunctionUtil.CopyDialog(row.getFormated_html_data(), getActivity(), mListView);
+                FunctionUtils.CopyDialog(row.getFormated_html_data(), getActivity(), mListView);
                 break;
 
             case R.id.menu_show_this_person_only:
@@ -400,9 +400,9 @@ public class ArticleListFragment extends BaseFragment {
 
             case R.id.menu_send_message:
                 if (isAnonymous) {
-                    FunctionUtil.errordialog(getActivity(), mListView);
+                    FunctionUtils.errordialog(getActivity(), mListView);
                 } else {
-                    FunctionUtil.start_send_message(getActivity(), row);
+                    FunctionUtils.start_send_message(getActivity(), row);
                 }
                 break;
 
@@ -412,7 +412,7 @@ public class ArticleListFragment extends BaseFragment {
                 content = content.replaceAll(quote_regex1, "");
                 content = content.replaceAll(replay_regex1, "");
                 final String postTime1 = row.getPostdate();
-                content = FunctionUtil.checkContent(content);
+                content = FunctionUtils.checkContent(content);
                 content = StringUtils.unEscapeHtml(content);
                 if (row.getPid() != 0) {
                     postPrefix.append("[quote][pid=");
@@ -454,7 +454,7 @@ public class ArticleListFragment extends BaseFragment {
                 break;
 
             case R.id.menu_report:
-                FunctionUtil.handleReport(row, tid, getFragmentManager());
+                FunctionUtils.handleReport(row, tid, getFragmentManager());
                 break;
 
             case R.id.menu_search_post:

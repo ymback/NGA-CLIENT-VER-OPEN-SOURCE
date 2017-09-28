@@ -3,8 +3,6 @@ package gov.anzong.androidnga.activity;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -16,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +34,10 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.bean.TopicListRequestInfo;
+import sp.phone.common.BoardManager;
+import sp.phone.common.BoardManagerImpl;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.ArticleContainerFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.fragment.material.TopicListFragment;
@@ -46,16 +47,15 @@ import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 /**
@@ -64,7 +64,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         implements OnTopListLoadFinishedListener, OnItemClickListener,
         OnThreadPageLoadFinishedListener, PagerOwner,
-        OnChildFragmentRemovedListener, PullToRefreshAttacherOnwer,
+        OnChildFragmentRemovedListener, PullToRefreshAttacherOwner,
         OnItemLongClickListener,
         ArticleContainerFragment.OnArticleContainerFragmentListener,
         TopicListContainer.OnTopicListContainerListener {
@@ -93,6 +93,12 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     private OnItemClickListener onItemClickNewActivity = null;
     private TopicListRequestInfo mRequestInfo;
 
+    private Menu mOptionMenu;
+
+    private BoardManager mBoardManager;
+
+    private String mBoardName;
+
     private int getUrlParameter(String url, String paraName) {
         if (StringUtils.isEmpty(url)) {
             return 0;
@@ -110,7 +116,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
 
         return ret;
@@ -152,12 +158,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity, null);
-        Intent intent = getIntent();
-        boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
-        if (isfullScreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
         this.setContentView(view);
+        initRequestInfo();
+        mBoardManager = BoardManagerImpl.getInstance();
+        mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
         nightmode = ThemeManager.getInstance().getMode();
         if (!PhoneConfiguration.getInstance().isMaterialMode()) {
             PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
@@ -201,7 +205,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 fidgroup = getIntent().getExtras().getString("fidgroup");
             }
         }
-        initRequestInfo();
+
         if (authorid > 0 || searchpost > 0 || favor > 0
                 || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)
                 || !StringUtils.isEmpty(fidgroup)) {//!StringUtils.isEmpty(table) ||
@@ -314,6 +318,23 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         f1.onPrepareOptionsMenu(menu);
         if (f2 != null && dualScreen)
             f2.onPrepareOptionsMenu(menu);
+
+
+
+        if (mBoardName == null) {
+            //menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+          //  menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+        } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
+            if (menu.findItem(R.id.menu_add_bookmark) != null) {
+                menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+                menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+            }
+        } else {
+            if (menu.findItem(R.id.menu_add_bookmark) != null) {
+                menu.findItem(R.id.menu_add_bookmark).setVisible(true);
+                menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+            }
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -370,6 +391,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        mOptionMenu = menu;
+
         if (!PhoneConfiguration.getInstance().isMaterialMode()){
             ReflectionUtil.actionBar_setDisplayOption(this, flags);
             return false;
@@ -381,11 +404,26 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.menu_add_bookmark:
+                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
+                showToast(R.string.toast_add_bookmark_board);
+                break;
+            case R.id.menu_remove_bookmark:
+                mBoardManager.removeBookmark(String.valueOf(mRequestInfo.fid));
+                item.setVisible(false);
+                mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
+                showToast(R.string.toast_remove_bookmark_board);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -395,12 +433,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             invalidateOptionsMenu();
             nightmode = ThemeManager.getInstance().getMode();
         }
-        int orientation = ThemeManager.getInstance().screenOrentation;
-        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orientation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
 
         if (asynTask != null) {
             asynTask.cancel(true);
@@ -409,7 +441,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         long now = System.currentTimeMillis();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
         if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
-            Log.d(TAG, "start to check Reply Notification");
+            NLog.d(TAG, "start to check Reply Notification");
             asynTask = new CheckReplyNotificationTask(this);
             asynTask.execute(config.getCookie());
         }
@@ -431,7 +463,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             if (listener != null)
                 listener.jsonFinishLoad(result);
         } catch (ClassCastException e) {
-            Log.e(TAG, "topicContainer should implements " + OnTopListLoadFinishedListener.class.getCanonicalName());
+            NLog.e(TAG, "topicContainer should implements " + OnTopListLoadFinishedListener.class.getCanonicalName());
         }
     }
 
@@ -508,7 +540,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                                 .getSubject()));
             }
         } catch (ClassCastException e) {
-            Log.e(TAG, "detailContainer should implements OnThreadPageLoadFinishedListener");
+            NLog.e(TAG, "detailContainer should implements OnThreadPageLoadFinishedListener");
         }
     }
 
@@ -522,7 +554,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 return 0;
             return child.getCurrentPage();
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
+            NLog.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return 0;
         }
     }
@@ -535,7 +567,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             child = (PagerOwner) articleContainer;
             child.setCurrentItem(index);
         } catch (ClassCastException e) {
-            Log.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
+            NLog.e(TAG, "fragment in R.id.item_detail_container does not implements interface " + PagerOwner.class.getName());
             return;
         }
     }

@@ -23,7 +23,7 @@ public class ReflectionUtil {
 			setDisplayMethod = actionBar.getClass().getMethod("setDisplayOptions", int.class);
 			 setDisplayMethod.invoke(actionBar, flags);
 		} catch (Exception e){
-			Log.i(activity.getClass().getSimpleName(),"fail to set actionBar");
+			NLog.i(activity.getClass().getSimpleName(),"fail to set actionBar");
 			ret = false;
 		}*/
         activity.getSupportActionBar().setDisplayOptions(flags);
@@ -40,7 +40,7 @@ public class ReflectionUtil {
             setMethod = v.getClass().getMethod(methodName, int.class);
             setMethod.invoke(v, flags);
         } catch (Exception e) {
-            Log.i(v.getClass().getSimpleName(), "fail to set gravity");
+            NLog.i(v.getClass().getSimpleName(), "fail to set gravity");
         }
         return ret;
     }
@@ -52,7 +52,7 @@ public class ReflectionUtil {
             setMethod = MenuItem.class.getMethod(methodName, int.class);
             setMethod.invoke(item, actionEnum);
         } catch (Exception e) {
-            Log.i(MenuItem.class.getSimpleName(), "fail to setShowAsAction");
+            NLog.i(MenuItem.class.getSimpleName(), "fail to setShowAsAction");
         }
 
     }

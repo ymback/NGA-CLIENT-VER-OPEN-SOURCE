@@ -5,12 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,17 +27,18 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import sp.phone.adapter.AppendableTopicAdapter;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.TopicListInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOnwer;
+import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -66,7 +65,6 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
     private OnTopicListContainerListener mCallback;
 
     private ListView listView;
-    private FloatingActionButton mFab;
     private TopicListInfo mTopicListInfo;
     private int mListPosition;
     private int mListFirstTop;
@@ -101,15 +99,14 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         }
 
         try {
-            PullToRefreshAttacherOnwer attacherOnwer = (PullToRefreshAttacherOnwer) getActivity();
-            attacher = attacherOnwer.getAttacher();
+            PullToRefreshAttacherOwner attacherOwner = (PullToRefreshAttacherOwner) getActivity();
+            attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            Log.e(TAG, "father activity should implement PullToRefreshAttacherOnwer");
+            NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
         View view = inflater.inflate(R.layout.fragment_topic_list_container, container, false);
         listView = (ListView) view.findViewById(R.id.topic_list);
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             listView.setNestedScrollingEnabled(true);
         }
@@ -119,14 +116,8 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
             OnItemClickListener listener = (OnItemClickListener) getActivity();
             listView.setOnItemClickListener(listener);
         } catch (ClassCastException e) {
-            Log.e(TAG, "father activity should implenent OnItemClickListener");
+            NLog.e(TAG, "father activity should implenent OnItemClickListener");
         }
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refresh();
-            }
-        });
 
         if (attacher != null)
             attacher.addRefreshableView(listView, new ListRefreshListener());
@@ -431,7 +422,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         try {
             df.show(ft, dialogTag);
         } catch (Exception e) {
-            Log.e(TopicListContainer.class.getSimpleName(), Log.getStackTraceString(e));
+            NLog.e(TopicListContainer.class.getSimpleName(), NLog.getStackTraceString(e));
         }
     }
 
@@ -452,7 +443,7 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
         try {
             ret = Integer.parseInt(value);
         } catch (Exception e) {
-            Log.e(TAG, "invalid url:" + url);
+            NLog.e(TAG, "invalid url:" + url);
         }
         return ret;
     }

@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
+import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 public class AccountAuthCodeImageReloadTask extends
@@ -66,7 +66,7 @@ public class AccountAuthCodeImageReloadTask extends
                         cookieVal = conn.getHeaderField(i);
                         cookieVal = cookieVal.substring(0,
                                 cookieVal.indexOf(';'));
-                        Log.i(TAG, cookieVal);
+                        NLog.i(TAG, cookieVal);
                         if (cookieVal.indexOf("reg_vcode=") == 0 && cookieVal.indexOf("deleted") < 0)
                             authcode = cookieVal.substring(10);
                     }

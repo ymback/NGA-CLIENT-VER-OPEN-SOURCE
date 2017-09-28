@@ -3,7 +3,6 @@ package gov.anzong.meizi;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,17 +18,18 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.MyApp;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.MD5Util;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
         PreferenceKey {
@@ -201,9 +201,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
                 String sess = "";
 
                 for (int i = 1; (key = conn.getHeaderFieldKey(i)) != null; i++) {
-                    Log.d(LOG_TAG,
-                            conn.getHeaderFieldKey(i) + ":"
-                                    + conn.getHeaderField(i));
+                    NLog.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":" + conn.getHeaderField(i));
                     if (key.equalsIgnoreCase("set-cookie")) {
                         cookieVal = conn.getHeaderField(i);
                         cookieVal = cookieVal.substring(0,
@@ -242,7 +240,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 
                         toast.show();
                     }
-                    MyApp app = (MyApp) MeiziLoginActivity.this
+                    NgaClientApp app = (NgaClientApp) MeiziLoginActivity.this
                             .getApplication();
                     app.addToMeiziUserList(uid, sess);
                     alreadylogin = true;

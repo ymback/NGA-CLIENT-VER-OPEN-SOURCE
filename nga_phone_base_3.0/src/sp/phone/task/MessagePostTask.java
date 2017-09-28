@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -13,9 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.utils.NLog;
 
 /**
  * Created by Yang Yihang on 2017/5/28.
@@ -100,7 +100,7 @@ public class MessagePostTask extends AsyncTask<String, Integer, String> {
                 mSuccess = false;
         } catch (IOException e) {
             mSuccess = false;
-            Log.e(LOG_TAG, Log.getStackTraceString(e));
+            NLog.e(LOG_TAG, NLog.getStackTraceString(e));
 
         }
         return ret;
@@ -120,13 +120,13 @@ public class MessagePostTask extends AsyncTask<String, Integer, String> {
         try {
             o = (JSONObject) JSON.parseObject(js).get("data");
         } catch (Exception e) {
-            Log.e("TAG", "can not parse :\n" + js);
+            NLog.e("TAG", "can not parse :\n" + js);
         }
         if (o == null) {
             try {
                 o = (JSONObject) JSON.parseObject(js).get("error");
             } catch (Exception e) {
-                Log.e("TAG", "can not parse :\n" + js);
+                NLog.e("TAG", "can not parse :\n" + js);
             }
             if (o == null) {
                 return "发送失败";
