@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile "com.android.support:support-v4:$Version_AndroidSupport"
+    compile "com.android.support:support-v4:" + project.androidSupportVersion
 }
 
 android {
-    compileSdkVersion General_CompileSdkVersion as int
-    buildToolsVersion General_BuildToolsVersion
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
 
     sourceSets {
         main {

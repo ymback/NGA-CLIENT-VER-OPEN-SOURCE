@@ -18,7 +18,7 @@ import sp.phone.utils.StringUtils;
  * Created by Yang Yihang on 2017/6/3.
  */
 
-public class TopicListPresenter implements TopicListContract.Presenter,OnTopListLoadFinishedListener{
+public class TopicListPresenter implements TopicListContract.Presenter, OnTopListLoadFinishedListener {
 
 
     private TopicListContract.View mView;
@@ -33,15 +33,28 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
     public void refresh() {
         TopicListRequestInfo requestInfo = mView.getTopicListRequestInfo();
         mView.setRefreshing(true);
-        JsonTopicListLoadTask task = new JsonTopicListLoadTask(mView.getContext(),this);
-        task.execute(getUrl(1,requestInfo));
+        JsonTopicListLoadTask task = new JsonTopicListLoadTask(mView.getContext(), this);
+        task.execute(getUrl(1, requestInfo));
     }
 
     @Override
-    public void loadNextPage(OnTopListLoadFinishedListener callback) {
-        JsonTopicListLoadTask task = new JsonTopicListLoadTask(mView.getContext(), callback);
+    public void loadNextPage(final OnTopListLoadFinishedListener callback) {
+        JsonTopicListLoadTask task = new JsonTopicListLoadTask(
+                mView.getContext(), new OnTopListLoadFinishedListener() {
+            @Override
+            public void jsonFinishLoad(TopicListInfo result) {
+                mView.setRefreshing(false);
+                callback.jsonFinishLoad(result);
+            }
+
+            @Override
+            public void onListLoadFailed() {
+                mView.setRefreshing(false);
+            }
+        });
         mView.setRefreshing(true);
-        task.executeOnExecutor(JsonTopicListLoadTask.THREAD_POOL_EXECUTOR, getUrl(mView.getNextPage(), mView.getTopicListRequestInfo()));
+        task.executeOnExecutor(JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
+                getUrl(mView.getNextPage(), mView.getTopicListRequestInfo()));
     }
 
     @Override
@@ -62,7 +75,7 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
         if (pageCount * lines < result.get__ROWS())
             pageCount++;
 
-        if (requestInfo.searchPost != 0){ // can not get exact row counts
+        if (requestInfo.searchPost != 0) { // can not get exact row counts
             int page = result.get__ROWS();
             pageCount = page;
             if (result.get__T__ROWS() == lines)
@@ -73,7 +86,12 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
     }
 
     @Override
-    public void removeBookmark(String tidId,int position) {
+    public void onListLoadFailed() {
+        mView.setRefreshing(false);
+    }
+
+    @Override
+    public void removeBookmark(String tidId, int position) {
         DeleteBookmarkTask task = new DeleteBookmarkTask(
                 mView.getContext(), mView.getTopicListView(), position);
         task.execute(tidId);
@@ -84,7 +102,7 @@ public class TopicListPresenter implements TopicListContract.Presenter,OnTopList
         mView.scrollTo(0);
     }
 
-    public String getUrl(int page,TopicListRequestInfo requestInfo) {
+    public String getUrl(int page, TopicListRequestInfo requestInfo) {
         String jsonUri = HttpUtil.Server + "/thread.php?";
         if (0 != requestInfo.authorId)
             jsonUri += "authorid=" + requestInfo.authorId + "&";

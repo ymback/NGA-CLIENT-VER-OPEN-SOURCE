@@ -468,6 +468,11 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     }
 
     @Override
+    public void onListLoadFailed() {
+        // Do nothing
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (!dualScreen) {// 非平板
             if (null == onItemClickNewActivity) {
@@ -508,6 +513,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             }
             adapter.setSelected(position);
             listview.setItemChecked(position, true);
+            adapter.notifyDataSetChanged();
         }
     }
 

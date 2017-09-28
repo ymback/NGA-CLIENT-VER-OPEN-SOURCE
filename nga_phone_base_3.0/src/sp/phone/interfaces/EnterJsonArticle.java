@@ -57,6 +57,7 @@ public class EnterJsonArticle implements OnItemClickListener {
         }
         adapter.setSelected(position);
         listview.setItemChecked(position, true);
+        adapter.notifyDataSetChanged();
 
         intent.setClass(activity, PhoneConfiguration.getInstance().articleActivityClass);
         activity.startActivity(intent);

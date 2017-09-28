@@ -493,6 +493,11 @@ public class TopicListContainer extends BaseFragment implements OnTopListLoadFin
             ActivityUtils.getInstance().dismiss();
     }
 
+    @Override
+    public void onListLoadFailed() {
+        // Do nothing
+    }
+
     @TargetApi(11)
     private void RunParallen(JsonTopicListLoadTask task) {
         task.executeOnExecutor(JsonTopicListLoadTask.THREAD_POOL_EXECUTOR, getUrl(adapter.getNextPage(), adapter.getIsEnd(), false));

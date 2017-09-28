@@ -6,6 +6,10 @@ static def getDate() {
     return formattedDate
 }
 
+def isJenkins() {
+    return project.hasProperty('IS_JENKINS') && IS_JENKINS == 'true'
+}
+
 buildscript {
     repositories {
         maven {
@@ -21,21 +25,8 @@ buildscript {
 }
 
 android {
-    compileSdkVersion General_CompileSdkVersion as int
-    buildToolsVersion General_BuildToolsVersion
-
-    signingConfigs {
-        signingConfig {
-            if (IS_JENKINS == "true") {
-                storeFile file('../../android19910914.keystore')
-            } else {
-                storeFile file('..\\..\\android19910914.keystore')
-            }
-            storePassword '19910914'
-            keyAlias 'android.keystore'
-            keyPassword '19910914'
-        }
-    }
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
 
     packagingOptions {
         exclude 'lib/arm64-v8a/*.so'
@@ -52,8 +43,8 @@ android {
         multiDexEnabled true
         resConfigs "zh", "en"
 
-        versionCode APP_VERSION_CODE as int
-        versionName APP_VERSION_NAME
+        versionCode project.appVersionCode
+        versionName project.appVersionName
     }
 
     buildTypes {
@@ -64,7 +55,6 @@ android {
             pseudoLocalesEnabled false
             minifyEnabled false
             zipAlignEnabled true
-            signingConfig signingConfigs.signingConfig
         }
 
         debug {
@@ -106,34 +96,30 @@ android {
         variant.outputs.each { output ->
             def newName
             def timeNow
-            def outDirectory
-            if (IS_JENKINS == "true") {
+            if (isJenkins()) {
                 timeNow = JENKINS_TIME
-                outDirectory = '/auto-build/tomcat/webapps/download/'
-                newName = 'NGA-v' + APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
+                newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
             } else {
                 timeNow = getDate()
-                outDirectory = WINDOWS_PATH
                 if (variant.buildType.name == 'debug') {
-                    newName = "NGA-v${APP_VERSION_NAME}-debug.apk"
+                    newName = 'NGA-v' + project.appVersionName + '-debug.apk'
                 } else {
-                    newName = "NGA-v${APP_VERSION_NAME}-" + timeNow + '-' + variant.buildType.name + '.apk'
+                    newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
                 }
             }
-            output.outputFile = new File(outDirectory, newName)
+            output.outputFile = new File(output.outputFile.parent, newName)
         }
     }
 }
 
-
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile fileTree(include: '*.jar', dir: 'libs')
     compile project(':SwipeBackLayoutLibrary')
     compile project(':ActionBar-PullToRefresh')
     compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
     compile (name:'floatingactionmenu', ext:'aar')
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
-    compile "com.android.support:support-v4:$Version_AndroidSupport"
-    compile "com.android.support:design:$Version_AndroidSupport"
+    compile "com.android.support:support-v4:" + project.androidSupportVersion
+    compile "com.android.support:design:" + project.androidSupportVersion
 }
