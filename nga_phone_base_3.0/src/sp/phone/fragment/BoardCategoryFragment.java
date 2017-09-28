@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.util.Collections;
+
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.BoardCategoryAdapter;
 import sp.phone.bean.BoardCategory;
@@ -78,6 +80,7 @@ public class BoardCategoryFragment extends Fragment {
             ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN|ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT,0) {
                 @Override
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    Collections.swap(mBoardCategory.getBoardList(),viewHolder.getAdapterPosition(),target.getAdapterPosition());
                     BoardManagerImpl.getInstance().swapBookmark(viewHolder.getAdapterPosition(),target.getAdapterPosition());
                     mListView.getAdapter().notifyItemMoved(viewHolder.getAdapterPosition(),target.getAdapterPosition());
                     return true;
