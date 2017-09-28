@@ -21,11 +21,11 @@ import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
+ * 版块管理
  * Created by Yang Yihang on 2017/6/29.
  */
 
 public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwner {
-
 
     private BoardContract.View mView;
 

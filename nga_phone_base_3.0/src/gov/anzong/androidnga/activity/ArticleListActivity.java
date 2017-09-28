@@ -69,7 +69,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
         setContentView(getContentViewId());
         setupActionBar((Toolbar) findViewById(R.id.toolbar));
         setupFragment();
-
     }
 
     private int getContentViewId() {

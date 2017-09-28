@@ -18,7 +18,6 @@ public class BoardManagerImpl implements BoardManager {
 
     private List<BoardCategory> mCategoryList;
 
-
     private static class BoardManagerHolder {
         static BoardManager sInstance = new BoardManagerImpl();
     }
@@ -27,14 +26,12 @@ public class BoardManagerImpl implements BoardManager {
         return BoardManagerHolder.sInstance;
     }
 
-
     @Override
     public void initialize(Context context) {
         mContext = context.getApplicationContext();
         mCategoryList = new ArrayList<>();
         loadBookmarkBoards();
         loadPreloadBoards();
-
     }
 
     private void loadPreloadBoards() {
@@ -271,7 +268,6 @@ public class BoardManagerImpl implements BoardManager {
 
     }
 
-
     @Override
     public List<BoardCategory> getCategoryList() {
         return mCategoryList;
@@ -355,5 +351,4 @@ public class BoardManagerImpl implements BoardManager {
         }
         return null;
     }
-
 }

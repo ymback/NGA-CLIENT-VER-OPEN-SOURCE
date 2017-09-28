@@ -67,7 +67,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
     }
 
     private void initUserInfo() {
-
         PhoneConfiguration config = PhoneConfiguration.getInstance();
 
         SharedPreferences share = this.getSharedPreferences(PERFERENCE,
@@ -81,7 +80,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
         config.setDownAvatarNoWifi(downAvatarNoWifi);
 
         config.setDb_Cookie(share.getString(DBCOOKIE, ""));
-
     }
 
     @Deprecated
@@ -222,6 +220,4 @@ public class NgaClientApp extends Application implements PreferenceKey {
     public void setNewVersion(boolean newVersion) {
         this.newVersion = newVersion;
     }
-
-
 }

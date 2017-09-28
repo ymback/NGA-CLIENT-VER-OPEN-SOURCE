@@ -83,12 +83,11 @@ public class MainActivity extends BaseActivity {
                     .setPositiveButton(R.string.i_know, null);
             builder.create().show();
             app.setNewVersion(false);
-            showToast("播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装");
+            showToast(getString(R.string.player_plugin_hint));
         }
     }
 
     private void initView() {
-
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(BoardFragment.class.getSimpleName());
         if (fragment == null) {
@@ -98,13 +97,11 @@ public class MainActivity extends BaseActivity {
         mPresenter = new BoardPresenter((BoardContract.View) fragment);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_option_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -150,7 +147,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void searchProfile() {
-
         DialogFragment df;
         final String dialogTag = "searchpaofile_dialog";
         FragmentManager fm = getSupportFragmentManager();
@@ -160,7 +156,6 @@ public class MainActivity extends BaseActivity {
             df.show(fm, dialogTag);
         }
     }
-
 
     private void signmission() {
         Intent intent = new Intent();
@@ -172,21 +167,18 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, mConfig.messageActivityClass);
         startActivity(intent);
-
     }
 
     private void noname() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, mConfig.nonameActivityClass);
         startActivity(intent);
-
     }
-
 
     private void aboutNgaClient() {
         final View view = getLayoutInflater().inflate(R.layout.client_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view).setTitle("关于");
+        builder.setView(view).setTitle(R.string.about);
         String versionName = BuildConfig.VERSION_NAME;
         int versionCode = BuildConfig.VERSION_CODE;
         TextView contentView = (TextView) view
@@ -213,7 +205,6 @@ public class MainActivity extends BaseActivity {
         builder.create().show();
     }
 
-
     private void delay(final String text) {
         runOnUiThread(new Runnable() {
             @Override
@@ -227,7 +218,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 initDate();
             }
         }
@@ -235,14 +226,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initDate() {
-
         if (!PermissionUtils.hasStoragePermission(this)) {
             PermissionUtils.requestStoragePermission(this);
             return;
         }
         new Thread() {
             public void run() {
-
                 File fileBase = new File(HttpUtil.PATH);
                 if (!fileBase.exists()) {
                     delay(getString(R.string.create_cache_dir));
@@ -263,12 +252,9 @@ public class MainActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
-
             }
         }.start();
-
     }
-
 
     private void jumpToSetting() {
         Intent intent = new Intent();
@@ -283,7 +269,6 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-
     }
 
     private void jumpToNearby() {
@@ -422,7 +407,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 try {
                     Field field = dialog.getClass().getSuperclass()
                             .getDeclaredField("mShowing");
@@ -438,7 +422,6 @@ public class MainActivity extends BaseActivity {
 
 
     public class MyURLSpan extends ClickableSpan {
-
         private String mUrl;
 
         MyURLSpan(String url) {
@@ -454,6 +437,4 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         }
     }
-
-
 }

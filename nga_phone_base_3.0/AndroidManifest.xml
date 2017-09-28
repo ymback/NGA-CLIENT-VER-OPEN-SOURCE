@@ -217,6 +217,9 @@
             android:name=".gallery.ImageZoomActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
+            android:name=".activity.ForumListActivity"
+            android:theme="@style/SwipeBackTheme" />
+        <activity
             android:name=".activity.WebViewerActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
