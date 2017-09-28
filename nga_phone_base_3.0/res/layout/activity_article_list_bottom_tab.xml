@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.CoordinatorLayout
 
@@ -46,14 +47,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fab_title="@string/new_thread"
-                app:srcCompat="@drawable/content_edit" />
+                app:srcCompat="@drawable/btn_ic_create"
+                tools:ignore="VectorDrawableCompat"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_title="刷新"
-                app:srcCompat="@drawable/ic_refresh" />
+                app:srcCompat="@drawable/btn_ic_refresh"
+                tools:ignore="VectorDrawableCompat" />
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
