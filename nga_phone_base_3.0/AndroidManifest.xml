@@ -232,65 +232,6 @@
             android:name=".activity.RecentReplyListActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
-            android:name=".activity.SplitRecentReplyListActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitFlexibleTopicListActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitFlexibleMessageListActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitFlexibleNonameTopicListActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitFlexibleSignActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitFlexibleProfileActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitPostActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".activity.SplitSignPostActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".activity.SplitNonamePostActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".activity.SplitMessagePostActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".activity.SplitArticleListActivity"
-            android:multiprocess="true"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitNonameArticleListActivity"
-            android:multiprocess="true"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
-            android:name=".activity.SplitMessageDetialActivity"
-            android:multiprocess="true"
-            android:theme="@style/SwipeBackTheme"
-            android:uiOptions="splitActionBarWhenNarrow" />
-        <activity
             android:name="gov.anzong.meizi.MeiziMainActivity"
             android:icon="@drawable/anzong_foot"
             android:label="@string/app_meizi"

@@ -21,23 +21,8 @@ import gov.anzong.androidnga.activity.NonamePostActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.RecentReplyListActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
-import gov.anzong.androidnga.activity.SplitArticleListActivity;
-import gov.anzong.androidnga.activity.SplitFlexibleMessageListActivity;
-import gov.anzong.androidnga.activity.SplitFlexibleNonameTopicListActivity;
-import gov.anzong.androidnga.activity.SplitFlexibleProfileActivity;
-import gov.anzong.androidnga.activity.SplitFlexibleSignActivity;
-import gov.anzong.androidnga.activity.SplitFlexibleTopicListActivity;
-import gov.anzong.androidnga.activity.SplitMessageDetialActivity;
-import gov.anzong.androidnga.activity.SplitMessagePostActivity;
-import gov.anzong.androidnga.activity.SplitNonameArticleListActivity;
-import gov.anzong.androidnga.activity.SplitNonamePostActivity;
-import gov.anzong.androidnga.activity.SplitPostActivity;
-import gov.anzong.androidnga.activity.SplitRecentReplyListActivity;
-import gov.anzong.androidnga.activity.SplitSignPostActivity;
 import gov.anzong.meizi.MeiziMainActivity;
 import gov.anzong.meizi.MeiziTopicActivity;
-import gov.anzong.meizi.SplitMeiziMainActivity;
-import gov.anzong.meizi.SplitMeiziTopicActivity;
 import sp.phone.bean.Bookmark;
 import sp.phone.utils.StringUtils;
 
@@ -318,146 +303,21 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public void setUiFlag(int uiFlag) {
         this.uiFlag = uiFlag;
-        switch (uiFlag) {
-
-            case UI_FLAG_SPLIT:/*仅开启菜单在下方，则文章和主题用split，发还是普通的*/
-                topicActivityClass = SplitFlexibleTopicListActivity.class;
-                messageActivityClass = SplitFlexibleMessageListActivity.class;
-                nonameActivityClass = SplitFlexibleNonameTopicListActivity.class;
-                articleActivityClass = SplitArticleListActivity.class;
-                nonameArticleActivityClass = SplitNonameArticleListActivity.class;
-                messageDetialActivity = SplitMessageDetialActivity.class;
-                postActivityClass = PostActivity.class;
-                signPostActivityClass = SignPostActivity.class;
-                nonamePostActivityClass = NonamePostActivity.class;
-                messagePostActivityClass = MessagePostActivity.class;
-                signActivityClass = SplitFlexibleSignActivity.class;//
-                profileActivityClass = SplitFlexibleProfileActivity.class;
-                recentReplyListActivityClass = SplitRecentReplyListActivity.class;
-                MeiziMainActivityClass = SplitMeiziMainActivity.class;
-                MeiziTopicActivityClass = SplitMeiziTopicActivity.class;
-                break;
-            case UI_FLAG_HA:/*仅开启硬件加速，全部都要加速，所以发的也要硬件加速的*/
-                topicActivityClass = FlexibleTopicListActivity.class;
-                articleActivityClass = ArticleListActivity.class;
-                nonameArticleActivityClass = NonameArticleListActivity.class;
-                messageDetialActivity = MessageDetialActivity.class;
-                messageActivityClass = FlexibleMessageListActivity.class;
-                nonameActivityClass = FlexibleNonameTopicListActivity.class;
-                postActivityClass = PostActivity.class;
-                signPostActivityClass = SignPostActivity.class;
-                nonamePostActivityClass = NonamePostActivity.class;
-                messagePostActivityClass = MessagePostActivity.class;
-                signActivityClass = FlexibleSignActivity.class;//OK
-                profileActivityClass = FlexibleProfileActivity.class;
-                recentReplyListActivityClass = RecentReplyListActivity.class;
-                MeiziMainActivityClass = MeiziMainActivity.class;
-                MeiziTopicActivityClass = MeiziTopicActivity.class;
-                break;
-            case UI_FLAG_REPLYSPLIT:/*仅开启发在下面，则菜单和硬件加速都用普通的，发用Split版本的*/
-                topicActivityClass = FlexibleTopicListActivity.class;
-                messageActivityClass = FlexibleMessageListActivity.class;
-                nonameActivityClass = FlexibleNonameTopicListActivity.class;
-                articleActivityClass = ArticleListActivity.class;
-                nonameArticleActivityClass = NonameArticleListActivity.class;
-                messageDetialActivity = MessageDetialActivity.class;
-                postActivityClass = SplitPostActivity.class;
-                signPostActivityClass = SplitSignPostActivity.class;
-                nonamePostActivityClass = SplitNonamePostActivity.class;
-                messagePostActivityClass = SplitMessagePostActivity.class;
-                signActivityClass = FlexibleSignActivity.class;//
-                profileActivityClass = FlexibleProfileActivity.class;
-                recentReplyListActivityClass = RecentReplyListActivity.class;
-                MeiziMainActivityClass = MeiziMainActivity.class;
-                MeiziTopicActivityClass = MeiziTopicActivity.class;
-                break;
-            case (UI_FLAG_SPLIT + UI_FLAG_HA):/*开启硬件加速和普通菜单在下面，则普通需要下面和加速，加速需要普通和加速，菜单只要加速*/
-                topicActivityClass = SplitFlexibleTopicListActivity.class;
-                messageActivityClass = SplitFlexibleMessageListActivity.class;
-                nonameActivityClass = SplitFlexibleNonameTopicListActivity.class;
-                articleActivityClass = SplitArticleListActivity.class;
-                nonameArticleActivityClass = SplitNonameArticleListActivity.class;
-                messageDetialActivity = SplitMessageDetialActivity.class;
-                postActivityClass = PostActivity.class;
-                signPostActivityClass = SignPostActivity.class;
-                nonamePostActivityClass = NonamePostActivity.class;
-                messagePostActivityClass = MessagePostActivity.class;
-                signActivityClass = SplitFlexibleSignActivity.class;//
-                profileActivityClass = SplitFlexibleProfileActivity.class;
-                recentReplyListActivityClass = SplitRecentReplyListActivity.class;
-                MeiziMainActivityClass = SplitMeiziMainActivity.class;
-                MeiziTopicActivityClass = SplitMeiziTopicActivity.class;
-                break;
-            case (UI_FLAG_SPLIT + UI_FLAG_REPLYSPLIT):/*开启2个下面，则就是所有split不用ha*/
-                topicActivityClass = SplitFlexibleTopicListActivity.class;
-                messageActivityClass = SplitFlexibleMessageListActivity.class;
-                nonameActivityClass = SplitFlexibleNonameTopicListActivity.class;
-                articleActivityClass = SplitArticleListActivity.class;
-                nonameArticleActivityClass = SplitNonameArticleListActivity.class;
-                messageDetialActivity = SplitMessageDetialActivity.class;
-                postActivityClass = SplitPostActivity.class;
-                signPostActivityClass = SplitSignPostActivity.class;
-                nonamePostActivityClass = SplitNonamePostActivity.class;
-                messagePostActivityClass = SplitMessagePostActivity.class;
-                signActivityClass = SplitFlexibleSignActivity.class;//
-                profileActivityClass = SplitFlexibleProfileActivity.class;
-                recentReplyListActivityClass = SplitRecentReplyListActivity.class;
-                MeiziMainActivityClass = SplitMeiziMainActivity.class;
-                MeiziTopicActivityClass = SplitMeiziTopicActivity.class;
-                break;
-            case (UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*开启加速和下面，则普通只要加速，加速也只要加速，菜单需要加速和split*/
-                topicActivityClass = FlexibleTopicListActivity.class;
-                messageActivityClass = FlexibleMessageListActivity.class;
-                nonameActivityClass = FlexibleNonameTopicListActivity.class;
-                articleActivityClass = ArticleListActivity.class;
-                nonameArticleActivityClass = NonameArticleListActivity.class;
-                messageDetialActivity = MessageDetialActivity.class;
-                postActivityClass = SplitPostActivity.class;
-                signPostActivityClass = SplitSignPostActivity.class;
-                nonamePostActivityClass = SplitNonamePostActivity.class;
-                messagePostActivityClass = MessagePostActivity.class;
-                signActivityClass = FlexibleSignActivity.class;//
-                profileActivityClass = FlexibleProfileActivity.class;
-                recentReplyListActivityClass = RecentReplyListActivity.class;
-                MeiziMainActivityClass = MeiziMainActivity.class;
-                MeiziTopicActivityClass = MeiziTopicActivity.class;
-                break;
-            case (UI_FLAG_SPLIT + UI_FLAG_HA + UI_FLAG_REPLYSPLIT):/*全开就全开*/
-                topicActivityClass = SplitFlexibleTopicListActivity.class;
-                messageActivityClass = SplitFlexibleMessageListActivity.class;
-                nonameActivityClass = SplitFlexibleNonameTopicListActivity.class;
-                articleActivityClass = SplitArticleListActivity.class;
-                nonameArticleActivityClass = SplitNonameArticleListActivity.class;
-                messageDetialActivity = SplitMessageDetialActivity.class;
-                postActivityClass = SplitPostActivity.class;
-                signPostActivityClass = SplitSignPostActivity.class;
-                nonamePostActivityClass = SplitNonamePostActivity.class;
-                messagePostActivityClass = SplitMessagePostActivity.class;
-                signActivityClass = SplitFlexibleSignActivity.class;//
-                profileActivityClass = SplitFlexibleProfileActivity.class;
-                recentReplyListActivityClass = SplitRecentReplyListActivity.class;
-                MeiziMainActivityClass = SplitMeiziMainActivity.class;
-                MeiziTopicActivityClass = SplitMeiziTopicActivity.class;
-                break;
-            case 0:
-            default:
-                topicActivityClass = FlexibleTopicListActivity.class;
-                articleActivityClass = ArticleListActivity.class;
-                nonameArticleActivityClass = NonameArticleListActivity.class;
-                messageDetialActivity = MessageDetialActivity.class;
-                postActivityClass = PostActivity.class;
-                signPostActivityClass = SignPostActivity.class;
-                messagePostActivityClass = MessagePostActivity.class;
-                signActivityClass = FlexibleSignActivity.class;
-                profileActivityClass = FlexibleProfileActivity.class;
-                recentReplyListActivityClass = RecentReplyListActivity.class;
-                MeiziMainActivityClass = MeiziMainActivity.class;
-                MeiziTopicActivityClass = MeiziTopicActivity.class;
-                messageActivityClass = FlexibleMessageListActivity.class;
-                nonameActivityClass = FlexibleNonameTopicListActivity.class;
-                nonamePostActivityClass = NonamePostActivity.class;
-        }
+        topicActivityClass = FlexibleTopicListActivity.class;
+        articleActivityClass = ArticleListActivity.class;
+        nonameArticleActivityClass = NonameArticleListActivity.class;
+        messageDetialActivity = MessageDetialActivity.class;
+        postActivityClass = PostActivity.class;
+        signPostActivityClass = SignPostActivity.class;
+        messagePostActivityClass = MessagePostActivity.class;
+        signActivityClass = FlexibleSignActivity.class;
+        profileActivityClass = FlexibleProfileActivity.class;
+        recentReplyListActivityClass = RecentReplyListActivity.class;
+        MeiziMainActivityClass = MeiziMainActivity.class;
+        MeiziTopicActivityClass = MeiziTopicActivity.class;
+        messageActivityClass = FlexibleMessageListActivity.class;
+        nonameActivityClass = FlexibleNonameTopicListActivity.class;
+        nonamePostActivityClass = NonamePostActivity.class;
     }
-
 }
 
