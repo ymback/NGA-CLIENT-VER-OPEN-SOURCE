@@ -118,11 +118,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         } catch (Exception e) {
             NLog.e(TAG, "invalid url:" + url);
         }
-
         return ret;
     }
 
-    private void initRequestInfo(){
+    private void initRequestInfo() {
         Bundle bundle = getIntent().getExtras();
         mRequestInfo = new TopicListRequestInfo();
 
@@ -157,7 +156,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity, null);
+        view = LayoutInflater.from(this).inflate(R.layout.activity_topic_list, null);
         this.setContentView(view);
         initRequestInfo();
         mBoardManager = BoardManagerImpl.getInstance();
@@ -212,23 +211,23 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
             fromreplyactivity = true;
         }
         if (f1 == null) {
-            if (PhoneConfiguration.getInstance().isMaterialMode()){
-                if (favor != 0 || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)){
+            if (PhoneConfiguration.getInstance().isMaterialMode()) {
+                if (favor != 0 || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)) {
                     f1 = new TopicListFragment();
                     new TopicListPresenter((TopicListContract.View) f1);
                 } else {
+                    // 首页点击版块进帖子列表走这里
                     f1 = new TopicTabFragment();
                 }
-
             } else {
                 f1 = new TopicListContainer();
             }
-            Bundle args = new Bundle();// (getIntent().getExtras());
+            Bundle args = new Bundle();
             if (null != getIntent().getExtras()) {
                 args.putAll(getIntent().getExtras());
             }
-            if (PhoneConfiguration.getInstance().isMaterialMode()){
-                args.putParcelable("requestInfo",mRequestInfo);
+            if (PhoneConfiguration.getInstance().isMaterialMode()) {
+                args.putParcelable("requestInfo", mRequestInfo);
             }
             args.putString("url", getIntent().getDataString());
             f1.setArguments(args);
@@ -311,20 +310,16 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        Fragment f1 = getSupportFragmentManager().findFragmentById(
-                R.id.item_list);
-        Fragment f2 = getSupportFragmentManager().findFragmentById(
-                R.id.item_detail_container);
+        Fragment f1 = getSupportFragmentManager().findFragmentById(R.id.item_list);
+        Fragment f2 = getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
         f1.onPrepareOptionsMenu(menu);
         if (f2 != null && dualScreen)
             f2.onPrepareOptionsMenu(menu);
 
-
-
         if (mBoardName == null) {
             //menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-          //  menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
-        } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))){
+            //  menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
+        } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))) {
             if (menu.findItem(R.id.menu_add_bookmark) != null) {
                 menu.findItem(R.id.menu_add_bookmark).setVisible(false);
                 menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
@@ -340,9 +335,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @TargetApi(11)
     private void setNavigation() {
-
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null){
+        if (actionBar == null) {
             return;
         }
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -390,10 +384,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         mOptionMenu = menu;
 
-        if (!PhoneConfiguration.getInstance().isMaterialMode()){
+        if (!PhoneConfiguration.getInstance().isMaterialMode()) {
             ReflectionUtil.actionBar_setDisplayOption(this, flags);
             return false;
         } else {
@@ -409,7 +402,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 finish();
                 break;
             case R.id.menu_add_bookmark:
-                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid),mBoardName);
+                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid), mBoardName);
                 item.setVisible(false);
                 mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
                 showToast(R.string.toast_add_bookmark_board);

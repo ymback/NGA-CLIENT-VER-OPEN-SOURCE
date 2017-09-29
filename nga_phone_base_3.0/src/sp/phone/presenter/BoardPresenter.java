@@ -101,6 +101,11 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
         }
     }
 
+    /**
+     * 跳转到对应版块
+     * @param position
+     * @param fidString
+     */
     @Override
     public void toTopicListPage(int position, String fidString) {
 

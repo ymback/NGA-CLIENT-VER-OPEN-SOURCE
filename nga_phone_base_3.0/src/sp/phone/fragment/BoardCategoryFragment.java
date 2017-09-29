@@ -20,6 +20,9 @@ import sp.phone.common.BoardManagerImpl;
 import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.NLog;
 
+/**
+ * 版块分页
+ */
 public class BoardCategoryFragment extends Fragment {
 
     private static final String TAG = BoardCategoryFragment.class.getSimpleName();

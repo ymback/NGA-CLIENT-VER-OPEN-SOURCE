@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
@@ -27,8 +26,7 @@ public class GetAllForumsTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String js = HttpUtil.getHtml(mUrl, PhoneConfiguration.getInstance().getCookie());
-        return js;
+        return HttpUtil.getHtml(mUrl, PhoneConfiguration.getInstance().getCookie());
     }
 
     @Override
@@ -42,10 +40,6 @@ public class GetAllForumsTask extends AsyncTask<String, Integer, String> {
         if (StringUtils.isEmpty(result))
             return;
 
-        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"").result;
-        if (!StringUtils.isEmpty(msg)) {
-            Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

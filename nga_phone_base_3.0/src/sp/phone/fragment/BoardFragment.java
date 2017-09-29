@@ -60,7 +60,7 @@ import sp.phone.utils.StringUtils;
 
 
 /**
- * 首页左侧抽屉
+ * 首页的容器
  * Created by Yang Yihang on 2017/6/29.
  */
 
@@ -245,8 +245,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     private void canDismiss(DialogInterface dialog, boolean canDismiss) {
         try {
-            Field field = dialog.getClass().getSuperclass()
-                    .getDeclaredField("mShowing");
+            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
             field.setAccessible(true);
             field.set(dialog, canDismiss);
         } catch (Exception e) {
@@ -340,8 +339,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
                     (bitmap.getHeight() - bitmap.getWidth()) / 2,
                     bitmap.getWidth(), bitmap.getWidth());
         }
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 
         final Paint paint = new Paint();

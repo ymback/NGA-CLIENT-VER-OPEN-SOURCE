@@ -34,10 +34,11 @@ import sp.phone.view.ScrollableViewPager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 /**
+ * 帖子列表
  * Created by Yang Yihang on 2017/6/3.
  */
 
-public class TopicTabFragment extends MaterialCompatFragment implements View.OnClickListener{
+public class TopicTabFragment extends MaterialCompatFragment implements View.OnClickListener {
 
     private PullToRefreshAttacher mAttacher = null;
 
@@ -65,10 +66,10 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         setLayoutId(R.layout.fragment_material_topic_list);
         mBoardManager = BoardManagerImpl.getInstance();
         mRequestInfo = getArguments().getParcelable("requestInfo");
-        mBoardName = mRequestInfo.boardName;
-        if (mBoardName == null) {
-            mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
-            if (mBoardName != null) {
+        if (mRequestInfo != null) {
+            mBoardName = mRequestInfo.boardName;
+            if (mBoardName == null) {
+                mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
                 getActivity().setTitle(mBoardName);
             }
         }
@@ -80,13 +81,13 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         ViewPager viewPager = new ScrollableViewPager(getContext());
         viewPager.setId(R.id.pager);
         viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        final TopicViewPagerAdapter adapter = new TopicViewPagerAdapter(getChildFragmentManager(),mPresenters,mRequestInfo);
+        final TopicViewPagerAdapter adapter = new TopicViewPagerAdapter(getChildFragmentManager(), mPresenters, mRequestInfo);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 mCurrentIndex = position;
-                if (!mPreloadFlags[position]){
+                if (!mPreloadFlags[position]) {
                     mPreloadFlags[position] = true;
                     getCurrentPresenter().refresh();
                 }
@@ -108,20 +109,19 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
     }
 
     private void updateFloatingMenu() {
-
-        View rootView =  getView();
+        View rootView = getView();
+        if (rootView == null)
+            return;
         rootView.findViewById(R.id.fab_post).setOnClickListener(this);
         rootView.findViewById(R.id.fab_refresh).setOnClickListener(this);
         mFam = (FloatingActionsMenu) rootView.findViewById(R.id.fab_menu);
         if (mConfiguration.isLeftHandMode()) {
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
             lp.gravity = Gravity.START | Gravity.BOTTOM;
-            mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP,FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
+            mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
             mFam.setLayoutParams(lp);
         }
     }
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -129,13 +129,11 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         mOptionMenu = menu;
     }
 
-
     @Override
     public void onResume() {
         mFam.collapse();
         super.onResume();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,7 +165,6 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         }
         return true;
     }
-
 
     private void handleSearch() {
         Bundle arg = new Bundle();
@@ -205,10 +202,9 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
         return true;
     }
 
-    private TopicListContract.Presenter getCurrentPresenter(){
+    private TopicListContract.Presenter getCurrentPresenter() {
         return mPresenters[mCurrentIndex];
     }
-
 
     @Override
     public void onClick(View v) {
