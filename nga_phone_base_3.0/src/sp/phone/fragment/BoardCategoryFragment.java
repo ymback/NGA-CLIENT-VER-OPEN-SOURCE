@@ -33,7 +33,7 @@ public class BoardCategoryFragment extends Fragment {
 
     private BoardCategory mBoardCategory;
 
-    private static final int COLUMN_NUMBER = 3;
+    public static final int COLUMN_NUMBER = 3;
 
     private static final int COLUMN_NUMBER_LAND = 5;
 

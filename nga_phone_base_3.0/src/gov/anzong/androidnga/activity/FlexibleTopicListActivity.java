@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,6 +151,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 if (bundle.getString("searchmode").equals("true"))
                     mRequestInfo.searchMode = true;
             }
+            mBoardName = bundle.getString("board_name");
         }
     }
 
@@ -160,7 +162,9 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         this.setContentView(view);
         initRequestInfo();
         mBoardManager = BoardManagerImpl.getInstance();
-        mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
+        if (TextUtils.isEmpty(mBoardName))
+            mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
+
         nightmode = ThemeManager.getInstance().getMode();
         if (!PhoneConfiguration.getInstance().isMaterialMode()) {
             PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();

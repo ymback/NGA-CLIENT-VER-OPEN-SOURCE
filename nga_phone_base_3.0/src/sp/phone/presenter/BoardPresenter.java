@@ -108,7 +108,6 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
      */
     @Override
     public void toTopicListPage(int position, String fidString) {
-
         if (position != 0 && !HttpUtil.HOST_PORT.equals("")) {
             HttpUtil.HOST = HttpUtil.HOST_PORT + HttpUtil.Servlet_timer;
         }

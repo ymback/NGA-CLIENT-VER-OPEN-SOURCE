@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.PhoneConfiguration;
@@ -24,18 +26,16 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
     private AdapterView.OnItemClickListener mItemClickListener;
 
     class BoardViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView img;
-
-        TextView text;
+        @BindView(R.id.icon_board_img)
+        public ImageView icon;
+        @BindView(R.id.text_board_name)
+        public TextView name;
 
         BoardViewHolder(View itemView) {
             super(itemView);
-            img = (ImageView) itemView.findViewById(R.id.board_imgicon);
-            text = (TextView) itemView.findViewById(R.id.board_name_view);
+            ButterKnife.bind(this, itemView);
         }
     }
-
 
     public BoardCategoryAdapter(Activity activity, BoardCategory category) {
         mActivity = activity;
@@ -52,21 +52,21 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
     @Override
     public BoardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.board_icon,parent,false);
+        View view = getLayoutInflater().inflate(R.layout.board_icon, parent, false);
         return new BoardViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final BoardViewHolder holder, int position) {
         Drawable draw = getDrawable(position);
-        holder.img.setImageDrawable(draw);
-        holder.text.setText(mCategory.get(position).getName());
+        holder.icon.setImageDrawable(draw);
+        holder.name.setText(mCategory.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick(null,v,position,getItemId(position));
+                    mItemClickListener.onItemClick(null, v, position, getItemId(position));
                 }
             }
         });
@@ -86,14 +86,14 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         Drawable drawable;
         String resName;
         if (PhoneConfiguration.getInstance().iconmode) {
-            resName = "oldp"+ mCategory.get(position).getIconOld();
+            resName = "oldp" + mCategory.get(position).getIconOld();
         } else {
-            resName = "p"+ mCategory.get(position).getIcon();
+            resName = "p" + mCategory.get(position).getIcon();
         }
 
-        int resId = mActivity.getResources().getIdentifier(resName,"drawable",mActivity.getPackageName());
+        int resId = mActivity.getResources().getIdentifier(resName, "drawable", mActivity.getPackageName());
         if (resId != 0) {
-            drawable = ContextCompat.getDrawable(mActivity,resId);
+            drawable = ContextCompat.getDrawable(mActivity, resId);
         } else {
             if (PhoneConfiguration.getInstance().iconmode) {
                 drawable = ContextCompat.getDrawable(mActivity, R.drawable.oldpdefault);
@@ -112,7 +112,6 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
     public LayoutInflater getLayoutInflater() {
         return mActivity.getLayoutInflater();
     }
-
 
 
 }
