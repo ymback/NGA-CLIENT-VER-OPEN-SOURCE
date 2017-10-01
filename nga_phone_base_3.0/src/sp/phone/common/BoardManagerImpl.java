@@ -337,7 +337,15 @@ public class BoardManagerImpl implements BoardManager {
     @Override
     public void swapBookmark(int from, int to) {
         List<Board> boards = mCategoryList.get(0).getBoardList();
-        Collections.swap(boards,from,to);
+        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(boards, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(boards, i, i - 1);
+            }
+        }
         saveBookmark();
     }
 
