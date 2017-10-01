@@ -101,9 +101,13 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
         }
     }
 
+    /**
+     * 跳转到对应版块
+     * @param position
+     * @param fidString
+     */
     @Override
     public void toTopicListPage(int position, String fidString) {
-
         if (position != 0 && !HttpUtil.HOST_PORT.equals("")) {
             HttpUtil.HOST = HttpUtil.HOST_PORT + HttpUtil.Servlet_timer;
         }

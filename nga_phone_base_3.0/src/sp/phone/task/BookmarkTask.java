@@ -18,10 +18,7 @@ import sp.phone.utils.StringUtils;
 
 public class BookmarkTask extends AsyncTask<String, Integer, String> {
     private final String url = Utils.getNGAHost() + "nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=add&tid=";
-    //String url = Utils.getNGAHost() + "nuke.php?func=topicfavor&action=del";
-    //post tidarray:3092111
     private Context context;
-
 
     public BookmarkTask(Context context) {
         super();
@@ -30,8 +27,6 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-
-
         String tid = params[0];
         HttpPostClient c = new HttpPostClient(url + tid);
         String cookie = PhoneConfiguration.getInstance().getCookie();
@@ -50,9 +45,7 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
                 ret = html;//getPostResult(html);
 
             }
-
         } catch (IOException e) {
-
         }
         return ret;
     }
@@ -69,7 +62,6 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
             return;
 
         String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"},\"time\"").result;
-        //android.R.drawable.ic_search_category_default
         if (!StringUtils.isEmpty(msg)) {
             Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
         }
@@ -84,6 +76,4 @@ public class BookmarkTask extends AsyncTask<String, Integer, String> {
     protected void onCancelled() {
         ActivityUtils.getInstance().dismiss();
     }
-
-
 }

@@ -18,6 +18,9 @@ import sp.phone.common.BoardManagerImpl;
 import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.NLog;
 
+/**
+ * 版块分页
+ */
 public class BoardCategoryFragment extends Fragment {
 
     private static final String TAG = BoardCategoryFragment.class.getSimpleName();
@@ -28,7 +31,7 @@ public class BoardCategoryFragment extends Fragment {
 
     private BoardCategory mBoardCategory;
 
-    private static final int COLUMN_NUMBER = 3;
+    public static final int COLUMN_NUMBER = 3;
 
     private static final int COLUMN_NUMBER_LAND = 5;
 

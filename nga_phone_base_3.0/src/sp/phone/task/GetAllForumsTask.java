@@ -2,20 +2,22 @@ package sp.phone.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
 
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.activity.ForumListActivity;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.model.ForumsListModel;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.StringUtils;
 
 /**
  * 版块列表
  * Created by elrond on 2017/9/28.
  */
 
-public class GetAllForumsTask extends AsyncTask<String, Integer, String> {
+public class GetAllForumsTask extends AsyncTask<String, Integer, ForumsListModel> {
     private static final String URL = "app_api.php?__lib=home&__act=category";
     private Context context;
     private String mUrl;
@@ -26,9 +28,9 @@ public class GetAllForumsTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
-        String js = HttpUtil.getHtml(mUrl, PhoneConfiguration.getInstance().getCookie());
-        return js;
+    protected ForumsListModel doInBackground(String... params) {
+        String json = HttpUtil.getHtml(mUrl, PhoneConfiguration.getInstance().getCookie());
+        return JSON.parseObject(json, ForumsListModel.class);
     }
 
     @Override
@@ -37,19 +39,17 @@ public class GetAllForumsTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(ForumsListModel result) {
         ActivityUtils.getInstance().dismiss();
-        if (StringUtils.isEmpty(result))
-            return;
-
-        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"").result;
-        if (!StringUtils.isEmpty(msg)) {
-            Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
+        if (result == null) {
+            ActivityUtils.getInstance().noticeError("", context);
+        } else if (context instanceof ForumListActivity) {
+            ((ForumListActivity) context).notifyResult(result);
         }
     }
 
     @Override
-    protected void onCancelled(String result) {
+    protected void onCancelled(ForumsListModel result) {
         this.onCancelled();
     }
 

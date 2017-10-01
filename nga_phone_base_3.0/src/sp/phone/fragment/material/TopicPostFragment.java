@@ -134,13 +134,12 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
         } else {
             mBodyEditText.getText().insert(index, text);
         }
-
-
     }
 
     @Override
     public void finish() {
-        getActivity().finish();
+        if (getActivity() != null)
+            getActivity().finish();
     }
 
     @Override
