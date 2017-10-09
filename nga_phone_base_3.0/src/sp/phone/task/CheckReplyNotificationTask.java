@@ -528,6 +528,6 @@ public class CheckReplyNotificationTask extends
         notification1.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
         NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(R.layout.messagelist_activity, notification1); // 通过通知管理器发送通知
+        nm.notify(R.layout.activity_message_list, notification1); // 通过通知管理器发送通知
     }
 }

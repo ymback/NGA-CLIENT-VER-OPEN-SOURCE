@@ -14,6 +14,7 @@ import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnMessageListLoadFinishedListener;
+import sp.phone.presenter.contract.tmp.MessageListContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
@@ -24,7 +25,6 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
     private final Context context;
     final private OnMessageListLoadFinishedListener notifier;
     private String error;
-
 
     public JsonMessageListLoadTask(Context context,
                                    OnMessageListLoadFinishedListener notifier) {
@@ -130,14 +130,12 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
 
     @Override
     protected void onPostExecute(MessageListInfo result) {
-        ActivityUtils.getInstance().dismiss();
-        if (result == null) {
-            if (!StringUtils.isEmpty(error))
-                ActivityUtils.getInstance().noticeError
-                        (error, context);
-        }
-        if (null != notifier)
+        if (null != notifier) {
             notifier.jsonfinishLoad(result);
+            if (result == null && notifier instanceof MessageListContract.Presenter) {
+                ((MessageListContract.Presenter) notifier).showMessage(error);
+            }
+        }
         super.onPostExecute(result);
     }
 

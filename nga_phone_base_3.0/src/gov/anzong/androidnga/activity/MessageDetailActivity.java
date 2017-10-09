@@ -28,7 +28,7 @@ import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
+public class MessageDetailActivity extends SwipeBackAppCompatActivity implements
         OnSignPageLoadFinishedListener, PagerOwner, OnItemClickListener,
         OnChildFragmentRemovedListener, PullToRefreshAttacherOwner {
 
@@ -36,7 +36,7 @@ public class MessageDetialActivity extends SwipeBackAppCompatActivity implements
     int flags = ThemeManager.ACTION_BAR_FLAG;
     int mid;
     int nightmode;
-    private String TAG = MessageDetialActivity.class.getSimpleName();
+    private String TAG = MessageDetailActivity.class.getSimpleName();
     private PullToRefreshAttacher mPullToRefreshAttacher;
     private MessageDetailFragment mFragment;
 

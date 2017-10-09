@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.FlexibleMessageListActivity;
+import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.FlexibleNonameTopicListActivity;
 import gov.anzong.androidnga.activity.FlexibleProfileActivity;
 import gov.anzong.androidnga.activity.FlexibleSignActivity;
 import gov.anzong.androidnga.activity.FlexibleTopicListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
-import gov.anzong.androidnga.activity.MessageDetialActivity;
+import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessagePostActivity;
 import gov.anzong.androidnga.activity.NonameArticleListActivity;
 import gov.anzong.androidnga.activity.NonamePostActivity;
@@ -72,9 +72,9 @@ public class PhoneConfiguration implements PreferenceKey {
     public Class<?> recentReplyListActivityClass = RecentReplyListActivity.class;
     public Class<?> MeiziMainActivityClass = MeiziMainActivity.class;
     public Class<?> MeiziTopicActivityClass = MeiziTopicActivity.class;
-    public Class<?> messageActivityClass = FlexibleMessageListActivity.class;
+    public Class<?> messageActivityClass = MessageListActivity.class;
     public Class<?> nonameActivityClass = FlexibleNonameTopicListActivity.class;
-    public Class<?> messageDetialActivity = MessageDetialActivity.class;
+    public Class<?> messageDetialActivity = MessageDetailActivity.class;
     public String replyString;
     List<Bookmark> bookmarks;// url<-->tilte
     private boolean refreshAfterPost;
@@ -306,7 +306,7 @@ public class PhoneConfiguration implements PreferenceKey {
         topicActivityClass = FlexibleTopicListActivity.class;
         articleActivityClass = ArticleListActivity.class;
         nonameArticleActivityClass = NonameArticleListActivity.class;
-        messageDetialActivity = MessageDetialActivity.class;
+        messageDetialActivity = MessageDetailActivity.class;
         postActivityClass = PostActivity.class;
         signPostActivityClass = SignPostActivity.class;
         messagePostActivityClass = MessagePostActivity.class;
@@ -315,7 +315,7 @@ public class PhoneConfiguration implements PreferenceKey {
         recentReplyListActivityClass = RecentReplyListActivity.class;
         MeiziMainActivityClass = MeiziMainActivity.class;
         MeiziTopicActivityClass = MeiziTopicActivity.class;
-        messageActivityClass = FlexibleMessageListActivity.class;
+        messageActivityClass = MessageListActivity.class;
         nonameActivityClass = FlexibleNonameTopicListActivity.class;
         nonamePostActivityClass = NonamePostActivity.class;
     }

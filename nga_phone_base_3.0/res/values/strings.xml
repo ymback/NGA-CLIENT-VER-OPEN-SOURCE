@@ -346,4 +346,10 @@
     <string name="dislike">踩</string>
     <string name="player_plugin_hint">播放器现已插件化,请到关于中下载或PLAY商店搜索BambooPlayer安装</string>
     <string name="about">关于</string>
+
+    <!-- label -->
+    <string name="label_activity_message_list">短消息</string>
+
+    <!-- error -->
+    <string name="error_load_failed">加载失败，请重试！</string>
 </resources>

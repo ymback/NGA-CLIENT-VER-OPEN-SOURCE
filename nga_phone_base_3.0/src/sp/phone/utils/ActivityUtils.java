@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleListActivity;
+import gov.anzong.androidnga.activity.MessageListActivity;
 import sp.phone.bean.BoardHolder;
 import sp.phone.common.PhoneConfiguration;
 
@@ -31,10 +32,10 @@ public class ActivityUtils {
     static ActivityUtils instance;
     static Object lock = new Object();
     private DialogFragment df = null;
-    private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","FlexibleMessageListActivity","MessageDetialActivity"
+    private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity","MessageListActivity","MessageDetailActivity"
             ,"MessagePostActivity","FlexibleTopicListActivity","PostActivity"};
 
-    private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity","MainActivity", ArticleListActivity.class.getSimpleName()};
+    private static String[] sSupportNewUi = { "SettingsActivity" ,"LoginActivity","MainActivity", ArticleListActivity.class.getSimpleName(), MessageListActivity.class.getSimpleName()};
 
     public static final int REQUEST_CODE_LOGIN = 1;
 

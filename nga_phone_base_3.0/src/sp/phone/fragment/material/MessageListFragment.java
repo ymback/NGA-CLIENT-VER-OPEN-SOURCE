@@ -1,87 +1,101 @@
 package sp.phone.fragment.material;
 
-
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
-import sp.phone.adapter.ActionBarUserListAdapter;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.MessageListContainer;
-import sp.phone.utils.StringUtils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import gov.anzong.androidnga.R;
+import sp.phone.adapter.material.AppendableMessageListAdapter;
+import sp.phone.bean.MessageListInfo;
+import sp.phone.presenter.MessageListPresenter;
+import sp.phone.presenter.contract.tmp.MessageListContract;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.view.RecyclerViewEx;
 
-public class MessageListFragment extends MaterialCompatFragment implements AdapterView.OnItemClickListener{
+public class MessageListFragment extends BaseMvpFragment implements SwipeRefreshLayout.OnRefreshListener,MessageListContract.View{
+
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @BindView(R.id.progress_panel)
+    ViewGroup mProgressPanel;
+
+    private View.OnClickListener mClickListener;
+
+    private MessageListContract.Presenter mPresenter;
+
+    private AppendableMessageListAdapter mAdapter;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mPresenter = new MessageListPresenter();
+        setPresenter(mPresenter);
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("短消息");
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_message_list,container,false);
+        ButterKnife.bind(this,view);
+
+        mAdapter = new AppendableMessageListAdapter(getContext(),mPresenter);
+        mAdapter.setOnClickListener(mClickListener);
+
+        RecyclerViewEx listView = (RecyclerViewEx) view.findViewById(R.id.list);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.setEmptyView(view.findViewById(R.id.empty_view));
+        listView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        TextView sayView = (TextView) view.findViewById(R.id.saying);
+        sayView.setText(ActivityUtils.getSaying());
+
+        return view;
     }
 
     @Override
-    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentManager fm = getChildFragmentManager();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mPresenter.loadPage(1);
+        super.onViewCreated(view, savedInstanceState);
+    }
 
-
-        Fragment fragment = fm.findFragmentById(getContainerId());
-        if (fragment == null) {
-            fragment = new MessageListContainer();
-            Bundle args = new Bundle();// (getIntent().getExtras());
-            if (null != mActivity.getIntent().getExtras()) {
-                args.putAll(mActivity.getIntent().getExtras());
-            }
-            fragment.setArguments(args);
-            fm.beginTransaction().add(getContainerId(), fragment).commit();
+    @Override
+    public void onAttach(Context context) {
+        if (context instanceof View.OnClickListener) {
+            mClickListener = (View.OnClickListener) context;
         }
-        return super.onCreateContainerView(inflater, container, savedInstanceState);
+        super.onAttach(context);
     }
 
     @Override
-    protected SpinnerAdapter getSpinnerAdapter() {
-        return new ActionBarUserListAdapter(getContext());
+    public void onRefresh() {
+        mPresenter.loadPage(1);
     }
 
     @Override
-    protected View.OnClickListener getFabClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent_bookmark = new Intent();
-                intent_bookmark.putExtra("action", "new");
-                intent_bookmark.putExtra("messagemode", "yes");
-                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-                    intent_bookmark.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().messagePostActivityClass);
-                } else {
-                    intent_bookmark.setClass(getActivity(),
-                            PhoneConfiguration.getInstance().loginActivityClass);
-                }
-                startActivityForResult(intent_bookmark, 321);
-            }
-        };
+    public void hideProgressBar() {
+        mProgressPanel.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
-    protected void onSpinnerItemSelected(Spinner spinner,int position) {
-        UserManagerImpl.getInstance().setActiveUser(position);
-        MessageListContainer fragment = (MessageListContainer) getChildFragmentManager().findFragmentById(getContainerId());
-        if (fragment != null) {
-            fragment.onCategoryChanged(position);
-        }
+    public void setData(MessageListInfo listInfo) {
+        mAdapter.setData(listInfo);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+    public void setRefreshing(boolean refreshing) {
+        mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 }
