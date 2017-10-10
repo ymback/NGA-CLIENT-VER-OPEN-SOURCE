@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.material.MessageListFragment;
 import sp.phone.utils.StringUtils;
@@ -51,8 +52,11 @@ public class MessageListActivity extends SwipeBackAppCompatActivity
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UserManagerImpl.getInstance().setActiveUser(position);
-                initFragment();
+                UserManager um = UserManagerImpl.getInstance();
+                if (position != um.getActiveUserIndex()) {
+                    um.setActiveUser(position);
+                    initFragment();
+                }
             }
 
             @Override

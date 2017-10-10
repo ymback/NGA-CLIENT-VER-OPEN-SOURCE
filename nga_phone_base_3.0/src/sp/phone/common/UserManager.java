@@ -12,6 +12,8 @@ public interface UserManager {
 
     User getActiveUser();
 
+    int getActiveUserIndex();
+
     List<User> getUserList();
 
     void setActiveUser(int index);

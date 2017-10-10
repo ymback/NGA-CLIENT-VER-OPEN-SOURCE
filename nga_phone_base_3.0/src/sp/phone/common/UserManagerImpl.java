@@ -74,6 +74,10 @@ public class UserManagerImpl implements UserManager {
         }
     }
 
+    @Override
+    public int getActiveUserIndex() {
+        return mActiveIndex;
+    }
 
     @Nullable
     @Override

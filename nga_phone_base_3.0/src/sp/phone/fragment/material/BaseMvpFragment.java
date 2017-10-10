@@ -29,12 +29,6 @@ public abstract class BaseMvpFragment extends BaseFragment {
         super.onPause();
     }
 
-    @Override
-    public void onDestroy() {
-        mPresenter = null;
-        super.onDestroy();
-    }
-
     public void setPresenter(BaseContract.Presenter presenter) {
         mPresenter = presenter;
     }
