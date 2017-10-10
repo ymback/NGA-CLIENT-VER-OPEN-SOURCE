@@ -25,7 +25,7 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.AppendableMessageDetialAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.MessageDetialInfo;
+import sp.phone.bean.MessageDetailInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
@@ -558,7 +558,7 @@ public class MessageDetialListContainer extends BaseFragment implements
     }
 
     @Override
-    public void finishLoad(MessageDetialInfo result) {
+    public void finishLoad(MessageDetailInfo result) {
         if (attacher != null)
             attacher.setRefreshComplete();
 

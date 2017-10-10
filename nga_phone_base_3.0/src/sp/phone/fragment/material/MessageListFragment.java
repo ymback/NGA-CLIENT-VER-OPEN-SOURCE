@@ -20,7 +20,7 @@ import sp.phone.presenter.contract.tmp.MessageListContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class MessageListFragment extends BaseMvpFragment implements SwipeRefreshLayout.OnRefreshListener,MessageListContract.View{
+public class MessageListFragment extends BaseMvpFragment implements SwipeRefreshLayout.OnRefreshListener,MessageListContract.IMessageView{
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -30,7 +30,7 @@ public class MessageListFragment extends BaseMvpFragment implements SwipeRefresh
 
     private View.OnClickListener mClickListener;
 
-    private MessageListContract.Presenter mPresenter;
+    private MessageListContract.IMessagePresenter mPresenter;
 
     private AppendableMessageListAdapter mAdapter;
 

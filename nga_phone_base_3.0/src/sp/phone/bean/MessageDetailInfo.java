@@ -2,7 +2,7 @@ package sp.phone.bean;
 
 import java.util.List;
 
-public class MessageDetialInfo {
+public class MessageDetailInfo {
     int nextPage;
     int currentPage;
     String alluser;

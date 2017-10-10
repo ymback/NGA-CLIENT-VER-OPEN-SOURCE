@@ -12,12 +12,12 @@ import sp.phone.utils.HttpUtil;
  * Created by Justwen on 2017/10/9.
  */
 
-public class MessageListPresenter implements MessageListContract.Presenter,OnMessageListLoadFinishedListener {
+public class MessageListPresenter implements MessageListContract.IMessagePresenter,OnMessageListLoadFinishedListener {
 
-    private MessageListContract.View mView;
+    private MessageListContract.IMessageView mView;
 
     @Override
-    public void attachView(MessageListContract.View view) {
+    public void attachView(MessageListContract.IMessageView view) {
         mView = view;
     }
 

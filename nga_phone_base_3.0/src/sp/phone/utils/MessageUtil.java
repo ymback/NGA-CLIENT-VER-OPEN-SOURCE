@@ -3,7 +3,6 @@ package sp.phone.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -13,7 +12,7 @@ import java.util.List;
 
 import sp.phone.adapter.MessageDetialAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.MessageDetialInfo;
+import sp.phone.bean.MessageDetailInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 
@@ -54,7 +53,7 @@ public class MessageUtil {
      * @param page
      * @return
      */
-    public MessageDetialInfo parseJsonThreadPage(String js, int page) {
+    public MessageDetailInfo parseJsonThreadPage(String js, int page) {
         js = js.replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",");
         js = js.replaceAll("\"subject\":\\+(\\d+),", "\"subject\":\"+$1\",");
 
@@ -79,7 +78,7 @@ public class MessageUtil {
         if (o == null)
             return null;
 
-        MessageDetialInfo data = new MessageDetialInfo();
+        MessageDetailInfo data = new MessageDetailInfo();
 
         JSONObject o1;
         o1 = (JSONObject) o.get("0");

@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.MessageDetialInfo;
+import sp.phone.bean.MessageDetailInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
 import sp.phone.utils.ActivityUtils;
@@ -16,7 +16,7 @@ import sp.phone.utils.MessageUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
-public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, MessageDetialInfo> {
+public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, MessageDetailInfo> {
     private final static String TAG = JsonMessageDetialLoadTask.class.getSimpleName();
     private final Context context;
     final private OnMessageDetialLoadFinishedListener notifier;
@@ -33,7 +33,7 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
     }
 
     @Override
-    protected MessageDetialInfo doInBackground(String... params) {
+    protected MessageDetailInfo doInBackground(String... params) {
         if (params.length == 0)
             return null;
         NLog.d(TAG, "start to load " + params[0]);
@@ -79,12 +79,12 @@ public class JsonMessageDetialLoadTask extends AsyncTask<String, Integer, Messag
             }
             return null;
         }
-        MessageDetialInfo ret = new MessageUtil(context).parseJsonThreadPage(js, Integer.parseInt(page));
+        MessageDetailInfo ret = new MessageUtil(context).parseJsonThreadPage(js, Integer.parseInt(page));
         return ret;
     }
 
     @Override
-    protected void onPostExecute(MessageDetialInfo result) {
+    protected void onPostExecute(MessageDetailInfo result) {
         ActivityUtils.getInstance().dismiss();
         if (result == null) {
             if (!StringUtils.isEmpty(error))

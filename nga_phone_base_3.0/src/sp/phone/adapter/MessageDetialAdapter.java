@@ -21,7 +21,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.AvatarTag;
 import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.MessageDetialInfo;
+import sp.phone.bean.MessageDetailInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
@@ -48,7 +48,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
     protected Context context;
     protected int count = 0;
     private LayoutInflater inflater;
-    private MessageDetialInfo messageListInfo = null;
+    private MessageDetailInfo messageListInfo = null;
     private int selected = -1;
     private Bitmap defaultAvatar = null;
 
@@ -299,7 +299,7 @@ public class MessageDetialAdapter extends BaseAdapter implements
     }
 
     @Override
-    public void finishLoad(MessageDetialInfo result) {
+    public void finishLoad(MessageDetailInfo result) {
         this.messageListInfo = result;
         count = messageListInfo.getMessageEntryList().size();
         this.notifyDataSetChanged();

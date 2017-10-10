@@ -10,7 +10,7 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.MessageDetialInfo;
+import sp.phone.bean.MessageDetailInfo;
 import sp.phone.interfaces.NextJsonMessageDetialLoader;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
@@ -19,7 +19,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
 
 public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
     static Context context;
-    final private List<MessageDetialInfo> infoList;
+    final private List<MessageDetailInfo> infoList;
     final private PullToRefreshAttacher attacher;
     private final NextJsonMessageDetialLoader loader;
     Toast toast = null;
@@ -32,7 +32,7 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
     public AppendableMessageDetialAdapter(Context context, PullToRefreshAttacher attacher, NextJsonMessageDetialLoader loader) {
         super(context);
         this.context = context;
-        infoList = new ArrayList<MessageDetialInfo>();
+        infoList = new ArrayList<MessageDetailInfo>();
         this.attacher = attacher;
         this.loader = loader;
     }
@@ -45,7 +45,7 @@ public class AppendableMessageDetialAdapter extends MessageDetialAdapter {
     }//FIXED FC BUG
 
     @Override
-    public void finishLoad(MessageDetialInfo result) {
+    public void finishLoad(MessageDetailInfo result) {
         isLoading = false;
         if (attacher != null)
             attacher.setRefreshComplete();

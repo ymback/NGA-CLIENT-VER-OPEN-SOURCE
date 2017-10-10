@@ -18,7 +18,7 @@ import sp.phone.presenter.contract.tmp.MessageListContract;
 
 public class AppendableMessageListAdapter extends MessageListAdapter {
 
-    private MessageListContract.Presenter mPresenter;
+    private MessageListContract.IMessagePresenter mPresenter;
 
     private List<MessageListInfo> mInfoList = new ArrayList<>();
 
@@ -32,7 +32,7 @@ public class AppendableMessageListAdapter extends MessageListAdapter {
 
     private int mCount;
 
-    public AppendableMessageListAdapter(Context context, MessageListContract.Presenter presenter) {
+    public AppendableMessageListAdapter(Context context, MessageListContract.IMessagePresenter presenter) {
         super(context);
         mPresenter = presenter;
     }
