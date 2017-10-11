@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
@@ -62,7 +64,12 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
     @Override
     public void onBindViewHolder(final BoardViewHolder holder, int position) {
         Drawable draw = getDrawable(position);
-        holder.icon.setImageDrawable(draw);
+        if (draw == null) {
+            long resId = getItemId(position);
+            Glide.with(mActivity).load("http://img4.nga.cn/ngabbs/nga_classic/f/" + resId + ".png").placeholder(R.drawable.default_icon).dontAnimate().into(holder.icon);
+        } else {
+            holder.icon.setImageDrawable(draw);
+        }
         holder.name.setText(mCategory.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,24 +92,21 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         return mCategory.size();
     }
 
-    private Drawable getDrawable(int position) {
-        Drawable drawable;
+    private int getResId(int position) {
         String resName;
         if (PhoneConfiguration.getInstance().iconmode) {
             resName = "oldp" + mCategory.get(position).getIconOld();
         } else {
             resName = "p" + mCategory.get(position).getIcon();
         }
+        return mActivity.getResources().getIdentifier(resName, "drawable", mActivity.getPackageName());
+    }
 
-        int resId = mActivity.getResources().getIdentifier(resName, "drawable", mActivity.getPackageName());
+    private Drawable getDrawable(int position) {
+        Drawable drawable = null;
+        int resId = getResId(position);
         if (resId != 0) {
             drawable = ContextCompat.getDrawable(mActivity, resId);
-        } else {
-            if (PhoneConfiguration.getInstance().iconmode) {
-                drawable = ContextCompat.getDrawable(mActivity, R.drawable.oldpdefault);
-            } else {
-                drawable = ContextCompat.getDrawable(mActivity, R.drawable.pdefault);
-            }
         }
         return drawable;
     }

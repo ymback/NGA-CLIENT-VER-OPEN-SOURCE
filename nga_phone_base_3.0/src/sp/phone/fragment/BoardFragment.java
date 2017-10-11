@@ -367,6 +367,8 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             if (((PageCategoryOwner) mPresenter).getCategory(0).size() == 0) {
                 mViewPager.setCurrentItem(1);
             }
+        } else {
+            mBoardPagerAdapter.notifyDataSetChanged();
         }
         mReplyCountView.setText(String.valueOf(PhoneConfiguration.getInstance().getReplyTotalNum()));
         super.onResume();
