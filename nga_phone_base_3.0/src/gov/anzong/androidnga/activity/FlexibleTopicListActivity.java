@@ -70,24 +70,21 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         ArticleContainerFragment.OnArticleContainerFragmentListener,
         TopicListContainer.OnTopicListContainerListener {
 
-    boolean dualScreen = true;
-    String strs[] = {"全部", "精华", "推荐"};
-    ArrayAdapter<String> categoryAdapter;
-    int flags = 7;
-    int toDeleteTid = 0;
-    TopicListInfo result = null;
-    View view;
-    int nightmode;
-    String guidtmp;
-    int authorid;
-    int searchpost;
-    int favor;
-    int content;
-    String key;
-    //	String table;
-    String fidgroup;
-    String author;
-    boolean fromreplyactivity = false;
+    private boolean dualScreen = true;
+    private String strs[] = {"全部", "精华", "推荐"};
+    private int flags = 7;
+    private TopicListInfo result = null;
+    private View view;
+    private int nightmode;
+    private String guidtmp;
+    private int authorid;
+    private int searchpost;
+    private int favor;
+    private int content;
+    private String key;
+    private String fidgroup;
+    private String author;
+    private boolean fromreplyactivity = false;
     private String TAG = FlexibleTopicListActivity.class.getSimpleName();
     private CheckReplyNotificationTask asynTask;
     private PullToRefreshAttacher mPullToRefreshAttacher;
@@ -97,8 +94,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
     private Menu mOptionMenu;
 
     private BoardManager mBoardManager;
-
-    private String mBoardName;
 
     private int getUrlParameter(String url, String paraName) {
         if (StringUtils.isEmpty(url)) {
@@ -151,7 +146,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 if (bundle.getString("searchmode").equals("true"))
                     mRequestInfo.searchMode = true;
             }
-            mBoardName = bundle.getString("board_name");
+            mRequestInfo.boardName = bundle.getString("board_name");
         }
     }
 
@@ -162,8 +157,8 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         this.setContentView(view);
         initRequestInfo();
         mBoardManager = BoardManagerImpl.getInstance();
-        if (TextUtils.isEmpty(mBoardName))
-            mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
+        if (TextUtils.isEmpty(mRequestInfo.boardName))
+            mRequestInfo.boardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
 
         nightmode = ThemeManager.getInstance().getMode();
         if (!PhoneConfiguration.getInstance().isMaterialMode()) {
@@ -320,7 +315,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         if (f2 != null && dualScreen)
             f2.onPrepareOptionsMenu(menu);
 
-        if (mBoardName == null) {
+        if (mRequestInfo.boardName == null) {
             //menu.findItem(R.id.menu_add_bookmark).setVisible(false);
             //  menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
         } else if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestInfo.fid))) {
@@ -345,7 +340,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
         }
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-        categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, strs);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, strs);
         OnNavigationListener callback = new OnNavigationListener() {
 
             @Override
@@ -361,7 +356,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
 
         };
         actionBar.setListNavigationCallbacks(categoryAdapter, callback);
-
     }
 
     @TargetApi(14)
@@ -406,7 +400,7 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity
                 finish();
                 break;
             case R.id.menu_add_bookmark:
-                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid), mBoardName);
+                mBoardManager.addBookmark(String.valueOf(mRequestInfo.fid), mRequestInfo.boardName);
                 item.setVisible(false);
                 mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
                 showToast(R.string.toast_add_bookmark_board);

@@ -97,14 +97,14 @@ public class ForumsListModel {
     }
 
     public static class Forum {
-        public String id;
+        public int id;
         public String name;
 
-        public String getId() {
+        public int getId() {
             return id;
         }
 
-        public void setId(String id) {
+        public void setId(int id) {
             this.id = id;
         }
 
@@ -123,14 +123,14 @@ public class ForumsListModel {
 
             Forum forum = (Forum) o;
 
-            if (id != null ? !id.equals(forum.id) : forum.id != null) return false;
+            if (id != forum.id) return false;
             return name != null ? name.equals(forum.name) : forum.name == null;
 
         }
 
         @Override
         public int hashCode() {
-            int result = id != null ? id.hashCode() : 0;
+            int result = id;
             result = 31 * result + (name != null ? name.hashCode() : 0);
             return result;
         }

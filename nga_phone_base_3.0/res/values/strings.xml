@@ -102,6 +102,7 @@
     <string name="search">搜索</string>
     <string name="menu_nearby_user">yooooo</string>
     <string name="add_fid">添加版面</string>
+    <string name="add_fid_id">添加版面ID</string>
     <string name="nearby_no_login">没登录不能yoooo</string>
     <string name="fail_to_locate">无法定位</string>
     <string name="nearby_no_user">附近没有其他用户</string>

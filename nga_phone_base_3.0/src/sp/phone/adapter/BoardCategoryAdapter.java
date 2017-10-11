@@ -17,6 +17,9 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.PhoneConfiguration;
 
+/**
+ * 版块Grid Adapter
+ */
 public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdapter.BoardViewHolder> {
 
     private BoardCategory mCategory;
@@ -108,10 +111,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         mItemClickListener = listener;
     }
 
-
     public LayoutInflater getLayoutInflater() {
         return mActivity.getLayoutInflater();
     }
-
-
 }

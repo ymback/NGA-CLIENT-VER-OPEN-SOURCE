@@ -179,8 +179,10 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
+                gotoForumList();
+                break;
+            case R.id.menu_add_id:
                 showAddBoardDialog();
-                //gotoForumList();
                 break;
             case R.id.menu_login:
                 jumpToLogin();

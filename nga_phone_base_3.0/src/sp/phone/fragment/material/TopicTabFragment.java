@@ -22,8 +22,6 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.TopicViewPagerAdapter;
 import sp.phone.bean.TopicListRequestInfo;
-import sp.phone.common.BoardManager;
-import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
@@ -31,7 +29,6 @@ import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.ScrollableViewPager;
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 /**
  * 帖子列表
@@ -39,8 +36,6 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAt
  */
 
 public class TopicTabFragment extends MaterialCompatFragment implements View.OnClickListener {
-
-    private PullToRefreshAttacher mAttacher = null;
 
     private static final String TAG = TopicTabFragment.class.getSimpleName();
 
@@ -54,30 +49,18 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
 
     private FloatingActionsMenu mFam;
 
-    private String mBoardName;
-
-    private BoardManager mBoardManager;
-
-    private Menu mOptionMenu;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutId(R.layout.fragment_material_topic_list);
-        mBoardManager = BoardManagerImpl.getInstance();
         mRequestInfo = getArguments().getParcelable("requestInfo");
         if (mRequestInfo != null) {
-            mBoardName = mRequestInfo.boardName;
-            if (mBoardName == null) {
-                mBoardName = mBoardManager.getBoardName(String.valueOf(mRequestInfo.fid));
-                getActivity().setTitle(mBoardName);
-            }
+            getActivity().setTitle(mRequestInfo.boardName);
         }
     }
 
     @Override
     public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mAttacher = getAttacher();
         ViewPager viewPager = new ScrollableViewPager(getContext());
         viewPager.setId(R.id.pager);
         viewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -126,7 +109,6 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.topic_list_menu, menu);
-        mOptionMenu = menu;
     }
 
     @Override

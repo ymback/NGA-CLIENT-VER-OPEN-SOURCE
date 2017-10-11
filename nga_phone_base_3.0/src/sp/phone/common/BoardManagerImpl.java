@@ -265,7 +265,6 @@ public class BoardManagerImpl implements BoardManager {
             }
         }
         mCategoryList.add(category);
-
     }
 
     @Override

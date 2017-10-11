@@ -12,6 +12,10 @@
                 android:icon="@drawable/ic_action_add_to_queue"
                 android:title="@string/add_fid" />
             <item
+                android:id="@+id/menu_add_id"
+                android:icon="@drawable/ic_action_add_to_queue"
+                android:title="@string/add_fid_id" />
+            <item
                 android:id="@+id/menu_forward"
                 android:icon="@drawable/ic_action_forward"
                 android:title="由URL读取" />
