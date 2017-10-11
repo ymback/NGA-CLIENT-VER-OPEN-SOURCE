@@ -1,7 +1,4 @@
-package sp.phone.task;
-
-import android.content.Context;
-import android.os.AsyncTask;
+package sp.phone.model.convert;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -9,45 +6,25 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.interfaces.OnMessageListLoadFinishedListener;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
-public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageListInfo> {
-    private final static String TAG = JsonMessageListLoadTask.class.getSimpleName();
-    private final Context context;
-    final private OnMessageListLoadFinishedListener notifier;
-    private String error;
+/**
+ * Created by Justwen on 2017/10/10.
+ */
 
-    public JsonMessageListLoadTask(Context context,
-                                   OnMessageListLoadFinishedListener notifier) {
-        super();
-        this.context = context;
-        this.notifier = notifier;
-    }
+public class MessageConvertFactory {
 
-    @Override
-    protected MessageListInfo doInBackground(String... params) {
+    private String mErrorMsg = "";
+
+    private static final String TAG = MessageConvertFactory.class.getSimpleName();
+
+    public MessageListInfo getMessageListInfo(String js) {
 
 
-        if (params.length == 0)
-            return null;
-        NLog.d(TAG, "start to load " + params[0]);
-        String uri = params[0];
-        String js = HttpUtil.getHtml(uri, PhoneConfiguration.getInstance().getCookie());
-        String page = StringUtils.getStringBetween(uri, 0, "page=", "&").result;
-        if (StringUtils.isEmpty(page)) {
-            page = "1";
-        }
-        if (js == null) {
-            if (context != null)
-                error = context.getResources().getString(R.string.network_error);
+        if (js == null || js.isEmpty()) {
             return null;
         }
         js = js.replaceAll("window.script_muti_get_var_store=", "");
@@ -69,11 +46,11 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
                 NLog.e(TAG, "can not parse :\n" + js);
             }
             if (o == null) {
-                error = "请重新登录";
+                mErrorMsg = "请重新登录";
             } else {
-                error = o.getString("0");
-                if (StringUtils.isEmpty(error))
-                    error = "请重新登录";
+                mErrorMsg = o.getString("0");
+                if (StringUtils.isEmpty(mErrorMsg))
+                    mErrorMsg = "请重新登录";
             }
             return null;
         }
@@ -81,7 +58,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
         MessageListInfo ret = new MessageListInfo();
         JSONObject o1 = (JSONObject) o.get("0");
         if (o1 == null) {
-            error = "请重新登录";
+            mErrorMsg = "请重新登录";
             return null;
         }
         ret.set__nextPage(o1.getIntValue("nextPage"));
@@ -89,7 +66,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
         ret.set__rowsPerPage(o1.getIntValue("rowsPerPage"));
 
 
-        List<MessageThreadPageInfo> messageEntryList = new ArrayList<MessageThreadPageInfo>();
+        List<MessageThreadPageInfo> messageEntryList = new ArrayList<>();
         JSONObject rowObj = (JSONObject) o1.get("0");
         for (int i = 1; rowObj != null; i++) {
             try {
@@ -115,7 +92,7 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
                 rowObj = (JSONObject) o1.get(String.valueOf(i));
             } catch (Exception e) {
                 /*ThreadPageInfo entry = new ThreadPageInfo();
-				String error = rowObj.getString("error");
+                String error = rowObj.getString("error");
 				entry.setSubject(error);
 				entry.setAuthor("");
 				entry.setLastposter("");
@@ -123,23 +100,10 @@ public class JsonMessageListLoadTask extends AsyncTask<String, Integer, MessageL
             }
         }
         ret.setMessageEntryList(messageEntryList);
-
         return ret;
     }
 
-    @Override
-    protected void onPostExecute(MessageListInfo result) {
-        if (null != notifier) {
-            notifier.jsonfinishLoad(result);
-        }
-        super.onPostExecute(result);
+    public String getErrorMsg() {
+        return mErrorMsg;
     }
-
-    @Override
-    protected void onCancelled() {
-        ActivityUtils.getInstance().dismiss();
-        super.onCancelled();
-    }
-
-
 }

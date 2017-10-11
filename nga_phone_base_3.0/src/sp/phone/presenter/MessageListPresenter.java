@@ -2,52 +2,76 @@ package sp.phone.presenter;
 
 import android.support.annotation.StringRes;
 
+import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
-import sp.phone.interfaces.OnMessageListLoadFinishedListener;
+import sp.phone.listener.OnHttpCallBack;
+import sp.phone.model.MessageListModel;
 import sp.phone.presenter.contract.tmp.MessageListContract;
-import sp.phone.task.JsonMessageListLoadTask;
-import sp.phone.utils.HttpUtil;
 
 /**
  * Created by Justwen on 2017/10/9.
  */
 
-public class MessageListPresenter implements MessageListContract.IMessagePresenter,OnMessageListLoadFinishedListener {
+public class MessageListPresenter implements MessageListContract.IMessagePresenter {
 
-    private MessageListContract.IMessageView mView;
+    private MessageListContract.IMessageView mMessageView;
+
+    private MessageListContract.IMessageModel mMessageModel;
+
+    private OnHttpCallBack<MessageListInfo> mCallBack = new OnHttpCallBack<MessageListInfo>() {
+        @Override
+        public void onError(String text) {
+            if (!isAttached()) {
+                return;
+            }
+            mMessageView.setRefreshing(false);
+            mMessageView.hideProgressBar();
+            if (text.isEmpty()) {
+                showMessage(R.string.error_network);
+            } else {
+                showMessage(text);
+            }
+        }
+
+        @Override
+        public void onSuccess(MessageListInfo data) {
+            if (!isAttached()) {
+                return;
+            }
+            mMessageView.setRefreshing(false);
+            mMessageView.hideProgressBar();
+            mMessageView.setData(data);
+        }
+    };
+
+    public MessageListPresenter() {
+        mMessageModel = new MessageListModel();
+    }
 
     @Override
     public void attachView(MessageListContract.IMessageView view) {
-        mView = view;
+        mMessageView = view;
     }
 
     @Override
     public void detachView() {
-        mView = null;
+        mMessageView = null;
     }
 
     @Override
     public boolean isAttached() {
-        return mView != null;
+        return mMessageView != null;
     }
 
     @Override
     public void loadPage(int page) {
-        JsonMessageListLoadTask task = new JsonMessageListLoadTask(mView.getContext(), this);
-        task.execute(getUrl(page));
+        mMessageModel.loadPage(page, mCallBack);
     }
 
     @Override
     public void loadNextPage(int page) {
-        mView.setRefreshing(true);
-        JsonMessageListLoadTask task = new JsonMessageListLoadTask(mView.getContext(), this);
-        task.execute(getUrl(page));
-    }
-
-    private String getUrl(int page) {
-        String jsonUri = HttpUtil.Server + "/nuke.php?__lib=message&__act=message&act=list&";
-        jsonUri += "page=" + page + "&lite=js&noprefix";
-        return jsonUri;
+        mMessageView.setRefreshing(true);
+        mMessageModel.loadPage(page, mCallBack);
     }
 
     @Override
@@ -55,7 +79,7 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
         if (!isAttached()) {
             return;
         }
-        mView.showToast(id);
+        mMessageView.showToast(id);
     }
 
     @Override
@@ -63,16 +87,6 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
         if (!isAttached()) {
             return;
         }
-        mView.showToast(text);
-    }
-
-    @Override
-    public void jsonfinishLoad(MessageListInfo result) {
-        if (!isAttached()) {
-            return;
-        }
-        mView.setRefreshing(false);
-        mView.hideProgressBar();
-        mView.setData(result);
+        mMessageView.showToast(text);
     }
 }

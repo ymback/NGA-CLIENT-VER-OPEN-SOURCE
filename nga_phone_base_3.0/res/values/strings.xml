@@ -353,4 +353,6 @@
 
     <!-- error -->
     <string name="error_load_failed">加载失败，请重试！</string>
+    <string name="error_login_again">请重新登录！</string>
+    <string name="error_network">网络错误</string>
 </resources>
