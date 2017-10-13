@@ -28,6 +28,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 
 /**
+ * 显示图片
  * Created by Elrond on 2015/11/18.
  */
 public class ImageZoomActivity extends SwipeBackAppCompatActivity {
