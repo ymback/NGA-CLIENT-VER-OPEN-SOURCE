@@ -62,6 +62,7 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setEmptyView(view.findViewById(R.id.empty_view));
         listView.setAdapter(mAdapter);
+        listView.setItemViewCacheSize(20);
 
         TextView sayView = (TextView) view.findViewById(R.id.saying);
         sayView.setText(ActivityUtils.getSaying());

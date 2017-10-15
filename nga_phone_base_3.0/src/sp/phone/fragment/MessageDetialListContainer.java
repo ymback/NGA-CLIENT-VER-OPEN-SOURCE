@@ -35,7 +35,6 @@ import sp.phone.interfaces.OnMessageDetialLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonMessageDetialLoadTask;
-import sp.phone.task.JsonMessageListLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HttpUtil;
@@ -577,7 +576,7 @@ public class MessageDetialListContainer extends BaseFragment implements
 
     @TargetApi(11)
     private void RunParallen(JsonMessageDetialLoadTask task) {
-        task.executeOnExecutor(JsonMessageListLoadTask.THREAD_POOL_EXECUTOR,
+        task.executeOnExecutor(JsonMessageDetialLoadTask.THREAD_POOL_EXECUTOR,
                 getUrl(adapter.getNextPage(), mid, adapter.getIsEnd(), false));
     }
 
