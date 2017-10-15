@@ -23,6 +23,7 @@ import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
+import sp.phone.utils.ResourceUtils;
 import sp.phone.utils.StringUtils;
 
 public class NgaClientApp extends Application implements PreferenceKey {
@@ -41,7 +42,7 @@ public class NgaClientApp extends Application implements PreferenceKey {
         initPath();
         UserManagerImpl.getInstance().initialize(this);
         BoardManagerImpl.getInstance().initialize(this);
-
+        ResourceUtils.setContext(this);
         CrashHandler crashHandler = CrashHandler.getInstance();
         // 注册crashHandler
         crashHandler.init(getApplicationContext());

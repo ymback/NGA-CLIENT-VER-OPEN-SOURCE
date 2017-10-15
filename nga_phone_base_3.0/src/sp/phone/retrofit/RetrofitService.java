@@ -12,9 +12,7 @@ import retrofit2.http.QueryMap;
 
 public interface RetrofitService {
 
-    /**
-     *  http://bbs.nga.cn/nuke.php?__lib=message&__act=message&act=list&page=1&lite=js
-     */
     @GET("nuke.php")
-    Observable<String> getMessageListInfo(@QueryMap Map<String,String> map);
+    Observable<String> getInfo(@QueryMap Map<String,String> map);
+
 }

@@ -92,6 +92,7 @@
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name=".activity.MessageDetailActivity"
+            android:label="@string/label_activity_message_detail"
             android:theme="@style/SwipeBackTheme" />
         <activity
             android:name=".activity.NonameArticleListActivity"

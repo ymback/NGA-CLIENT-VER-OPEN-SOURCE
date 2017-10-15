@@ -49,6 +49,7 @@ public class MessageListActivity extends SwipeBackAppCompatActivity
             return;
         }
         spinner.setAdapter(new ActionBarUserListAdapter(this));
+        spinner.setSelection(UserManagerImpl.getInstance().getActiveUserIndex());
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

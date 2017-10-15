@@ -6,9 +6,13 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.anzong.androidnga.R;
+import sp.phone.bean.MessageDetailInfo;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
+import sp.phone.utils.MessageUtil;
 import sp.phone.utils.NLog;
+import sp.phone.utils.ResourceUtils;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -100,6 +104,46 @@ public class MessageConvertFactory {
             }
         }
         ret.setMessageEntryList(messageEntryList);
+        return ret;
+    }
+
+    public MessageDetailInfo getMessageDetailInfo(String js,int page) {
+
+        if (js == null) {
+            mErrorMsg = ResourceUtils.getString(R.string.network_error);
+            return null;
+        }
+        js = js.replaceAll("window.script_muti_get_var_store=", "");
+        if (js.indexOf("/*error fill content") > 0)
+            js = js.substring(0, js.indexOf("/*error fill content"));
+        js = js.replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",");
+        js = js.replaceAll("\"subject\":\\+(\\d+),", "\"subject\":\"+$1\",");
+        js = js.replaceAll("/\\*\\$js\\$\\*/", "");
+        js = js.replaceAll("\\[img\\]./mon_", "[img]http://img6.nga.178.com/attachments/mon_");
+
+        JSONObject o = null;
+        try {
+            o = (JSONObject) JSON.parseObject(js).get("data");
+        } catch (Exception e) {
+            NLog.e(TAG, "can not parse :\n" + js);
+        }
+        if (o == null) {
+
+            try {
+                o = (JSONObject) JSON.parseObject(js).get("error");
+            } catch (Exception e) {
+                NLog.e(TAG, "can not parse :\n" + js);
+            }
+            if (o == null) {
+                mErrorMsg = "请重新登录";
+            } else {
+                mErrorMsg = o.getString("0");
+                if (StringUtils.isEmpty(mErrorMsg))
+                    mErrorMsg = "请重新登录";
+            }
+            return null;
+        }
+        MessageDetailInfo ret = new MessageUtil(ResourceUtils.getContext()).parseJsonThreadPage(js, page);
         return ret;
     }
 
