@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <gov.anzong.androidnga.gallery.CommonGestureControlGalleryView
+    <gov.anzong.androidnga.gallery.HackyViewPager
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,8 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:contentDescription="下载保存"
             android:layout_marginRight="10dp"
+            android:contentDescription="下载保存"
             android:scaleType="center"
             android:src="@drawable/ic_menu_save"
             android:visibility="visible" />

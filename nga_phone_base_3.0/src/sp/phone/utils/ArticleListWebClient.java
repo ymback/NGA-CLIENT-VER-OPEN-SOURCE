@@ -25,7 +25,6 @@ public class ArticleListWebClient extends WebViewClient {
     static private final String ANDROIDNGAUSERNAME_START = "http://bbs.ngacn.cc/nuke.php?func=ucp&username=";
     static private final String ANDROIDNGAUSERNAME_END = "&";
 
-
     private final Context fa;
 
     public ArticleListWebClient(Context fa) {
