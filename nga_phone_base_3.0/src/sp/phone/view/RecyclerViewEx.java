@@ -2,17 +2,37 @@ package sp.phone.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
 /**
  * Created by Justwen on 2017/10/9.
+ * <p>
+ * 支持emptyView 和 上滑加载更多
  */
-
 public class RecyclerViewEx extends RecyclerView {
 
     private View mEmptyView;
+
+    private OnNextPageLoadListener mNextPageLoadListener;
+
+    private IAppendAbleAdapter mAppendAbleAdapter;
+
+    private int mLastVisibleItemPosition;
+
+    public interface IAppendAbleAdapter {
+
+        int getNextPage();
+
+        boolean hasNextPage();
+    }
+
+    public interface OnNextPageLoadListener {
+
+        void loadNextPage();
+    }
 
     private AdapterDataObserver mAdapterDataObserver = new AdapterDataObserver() {
         @Override
@@ -56,8 +76,15 @@ public class RecyclerViewEx extends RecyclerView {
         }
     }
 
+    public void setOnNextPageLoadListener(OnNextPageLoadListener loadListener) {
+        mNextPageLoadListener = loadListener;
+    }
+
     @Override
     public void setAdapter(Adapter adapter) {
+        if (adapter instanceof IAppendAbleAdapter) {
+            mAppendAbleAdapter = (IAppendAbleAdapter) adapter;
+        }
         Adapter oldAdapter = getAdapter();
         if (oldAdapter != null) {
             oldAdapter.unregisterAdapterDataObserver(mAdapterDataObserver);
@@ -67,5 +94,28 @@ public class RecyclerViewEx extends RecyclerView {
             adapter.registerAdapterDataObserver(mAdapterDataObserver);
         }
         checkIfEmpty();
+    }
+
+    @Override
+    public void onScrollStateChanged(int state) {
+        super.onScrollStateChanged(state);
+        int totalCount = getAdapter().getItemCount();
+        if (state == RecyclerView.SCROLL_STATE_IDLE
+                && mLastVisibleItemPosition + 1 == totalCount
+                && mAppendAbleAdapter != null
+                && mNextPageLoadListener != null
+                && mAppendAbleAdapter.hasNextPage()
+                && !canScrollVertically(1)) {
+            mNextPageLoadListener.loadNextPage();
+        }
+    }
+
+    @Override
+    public void onScrolled(int dx, int dy) {
+        super.onScrolled(dx, dy);
+        LayoutManager lm = getLayoutManager();
+        if (lm instanceof LinearLayoutManager) {
+            mLastVisibleItemPosition = ((LinearLayoutManager) lm).findLastCompletelyVisibleItemPosition();
+        }
     }
 }

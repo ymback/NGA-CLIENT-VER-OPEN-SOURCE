@@ -1,8 +1,10 @@
 package sp.phone.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -24,6 +26,7 @@ import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
 import sp.phone.bean.BoardHolder;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManagerImpl;
 
 public class ActivityUtils {
 
@@ -409,6 +412,15 @@ public class ActivityUtils {
         }
 
 
+    }
+
+    public static void startMessagePostActivity(Activity activity, Intent intent) {
+        if (UserManagerImpl.getInstance().getActiveUser() == null) {// 登入了才能发
+            intent.setClass(activity, PhoneConfiguration.getInstance().messagePostActivityClass);
+        } else {
+            intent.setClass(activity, PhoneConfiguration.getInstance().loginActivityClass);
+        }
+        activity.startActivity(intent);
     }
 
 }

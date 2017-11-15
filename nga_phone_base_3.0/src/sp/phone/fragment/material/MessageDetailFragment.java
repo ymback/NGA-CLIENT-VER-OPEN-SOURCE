@@ -15,13 +15,11 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.material.AppendableMessageDetailAdapter;
+import sp.phone.adapter.material.MessageDetailAdapter;
 import sp.phone.bean.MessageDetailInfo;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.presenter.MessageDetailPresenter;
 import sp.phone.presenter.contract.tmp.MessageDetailContract;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 public class MessageDetailFragment extends BaseMvpFragment implements MessageDetailContract.IMessageView {
@@ -29,8 +27,8 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @BindView(R.id.progress_panel)
-    ViewGroup mProgressPanel;
+    @BindView(R.id.loading_view)
+    ViewGroup mLoadingView;
 
     private int mMid;
 
@@ -40,7 +38,16 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
 
     private MessageDetailContract.IMessagePresenter mPresenter;
 
-    private AppendableMessageDetailAdapter mAdapter;
+    private MessageDetailAdapter mAdapter;
+
+    private RecyclerViewEx.OnNextPageLoadListener mNextPageLoadListener = new RecyclerViewEx.OnNextPageLoadListener() {
+        @Override
+        public void loadNextPage() {
+            if (!isRefreshing()) {
+                mPresenter.loadPage(mAdapter.getNextPage(), mMid);
+            }
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,21 +63,22 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
         View view = inflater.inflate(R.layout.fragment_message_detail,container,false);
         ButterKnife.bind(this,view);
 
-        mAdapter = new AppendableMessageDetailAdapter(getContext(),mPresenter,mMid);
+        mAdapter = new MessageDetailAdapter(getContext());
 
         RecyclerViewEx listView = (RecyclerViewEx) view.findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setEmptyView(view.findViewById(R.id.empty_view));
         listView.setAdapter(mAdapter);
         listView.setItemViewCacheSize(20);
+        listView.setOnNextPageLoadListener(mNextPageLoadListener);
 
-        TextView sayView = (TextView) view.findViewById(R.id.saying);
+        TextView sayView = (TextView) mLoadingView.findViewById(R.id.saying);
         sayView.setText(ActivityUtils.getSaying());
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.loadPage(1,mMid);
+                mPresenter.loadPage(1, mMid);
             }
         });
 
@@ -78,7 +86,7 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startArticleReply();
+                startMessagePost();
             }
         });
 
@@ -87,15 +95,16 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mPresenter.loadPage(1,mMid);
+        mPresenter.loadPage(1, mMid);
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
-    public void hideProgressBar() {
-        mProgressPanel.setVisibility(View.GONE);
+    public void hideLoadingView() {
+        mLoadingView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setVisibility(View.VISIBLE);
     }
+
 
     @Override
     public void setData(MessageDetailInfo listInfo) {
@@ -112,26 +121,18 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
     }
 
     @Override
-    public void clearData() {
-        mAdapter.clear();
+    public boolean isRefreshing() {
+        return mSwipeRefreshLayout.isRefreshing();
     }
 
-    private void startArticleReply(){
+    private void startMessagePost(){
         Intent intent = new Intent();
         intent.putExtra("mid", mMid);
         intent.putExtra("title", mTitle);
         intent.putExtra("to", mRecipient);
         intent.putExtra("action", "reply");
         intent.putExtra("messagemode", "yes");
-        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
-            intent.setClass(
-                            getActivity(),
-                            PhoneConfiguration.getInstance().messagePostActivityClass);
-        } else {
-            intent.setClass(getActivity(),
-                    PhoneConfiguration.getInstance().loginActivityClass);
-        }
-        startActivity(intent);
+        ActivityUtils.startMessagePostActivity(getActivity(),intent);
     }
 
 }

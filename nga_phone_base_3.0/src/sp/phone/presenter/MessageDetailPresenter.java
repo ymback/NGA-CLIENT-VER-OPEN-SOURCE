@@ -1,7 +1,5 @@
 package sp.phone.presenter;
 
-import android.support.annotation.StringRes;
-
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.listener.OnHttpCallBack;
@@ -27,11 +25,11 @@ public class MessageDetailPresenter implements MessageDetailContract.IMessagePre
                 return;
             }
             mMessageView.setRefreshing(false);
-            mMessageView.hideProgressBar();
+            mMessageView.hideLoadingView();
             if (text.isEmpty()) {
-                showMessage(R.string.error_network);
+                mMessageView.showToast(R.string.error_network);
             } else {
-                showMessage(text);
+                mMessageView.showToast(text);
             }
         }
 
@@ -41,7 +39,7 @@ public class MessageDetailPresenter implements MessageDetailContract.IMessagePre
                 return;
             }
             mMessageView.setRefreshing(false);
-            mMessageView.hideProgressBar();
+            mMessageView.hideLoadingView();
             mMessageView.setData(data);
         }
     };
@@ -52,7 +50,6 @@ public class MessageDetailPresenter implements MessageDetailContract.IMessagePre
 
     @Override
     public void attachView(MessageDetailContract.IMessageView view) {
-
         mMessageView = view;
     }
 
@@ -67,27 +64,9 @@ public class MessageDetailPresenter implements MessageDetailContract.IMessagePre
     }
 
     @Override
-    public void loadPage(int page,int mid) {
-        mMessageModel.loadPage(page,mid,mCallBack);
-
-    }
-
-    @Override
-    public void loadNextPage(int page,int mid) {
+    public void loadPage(int page, int mid) {
         mMessageView.setRefreshing(true);
-        mMessageModel.loadPage(page,mid,mCallBack);
-    }
+        mMessageModel.loadPage(page, mid, mCallBack);
 
-    @Override
-    public void showMessage(@StringRes int id) {
-        if (!isAttached()) {
-            return;
-        }
-        mMessageView.showToast(id);
-    }
-
-    @Override
-    public void showMessage(String text) {
-        mMessageView.showToast(text);
     }
 }
