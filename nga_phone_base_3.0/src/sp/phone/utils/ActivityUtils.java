@@ -416,11 +416,21 @@ public class ActivityUtils {
 
     public static void startMessagePostActivity(Activity activity, Intent intent) {
         if (UserManagerImpl.getInstance().getActiveUser() == null) {// 登入了才能发
-            intent.setClass(activity, PhoneConfiguration.getInstance().messagePostActivityClass);
-        } else {
             intent.setClass(activity, PhoneConfiguration.getInstance().loginActivityClass);
+        } else {
+            intent.setClass(activity, PhoneConfiguration.getInstance().messagePostActivityClass);
         }
         activity.startActivity(intent);
+    }
+
+    public static void startMessagePostActivityForResult(Activity activity, Intent intent,int requestCode) {
+        if (UserManagerImpl.getInstance().getActiveUser() == null) {// 登入了才能发
+            intent.setClass(activity, PhoneConfiguration.getInstance().loginActivityClass);
+            activity.startActivity(intent);
+        } else {
+            intent.setClass(activity, PhoneConfiguration.getInstance().messagePostActivityClass);
+            activity.startActivityForResult(intent,requestCode);
+        }
     }
 
 }

@@ -13,26 +13,35 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.material.AppendableMessageListAdapter;
+import sp.phone.adapter.material.MessageListAdapter;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.presenter.MessageListPresenter;
 import sp.phone.presenter.contract.tmp.MessageListContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class MessageListFragment extends BaseMvpFragment implements SwipeRefreshLayout.OnRefreshListener,MessageListContract.IMessageView{
+public class MessageListFragment extends BaseMvpFragment implements SwipeRefreshLayout.OnRefreshListener, MessageListContract.IMessageView {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @BindView(R.id.progress_panel)
-    ViewGroup mProgressPanel;
+    @BindView(R.id.loading_view)
+    ViewGroup mLoadView;
 
     private View.OnClickListener mClickListener;
 
     private MessageListContract.IMessagePresenter mPresenter;
 
-    private AppendableMessageListAdapter mAdapter;
+    private MessageListAdapter mAdapter;
+
+    private RecyclerViewEx.OnNextPageLoadListener mNextPageLoadListener = new RecyclerViewEx.OnNextPageLoadListener() {
+        @Override
+        public void loadNextPage() {
+            if (!isRefreshing()) {
+                mPresenter.loadPage(mAdapter.getNextPage());
+            }
+        }
+    };
 
 
     @Override
@@ -45,16 +54,17 @@ public class MessageListFragment extends BaseMvpFragment implements SwipeRefresh
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_message_list,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_message_list, container, false);
+        ButterKnife.bind(this, view);
 
-        mAdapter = new AppendableMessageListAdapter(getContext(),mPresenter);
+        mAdapter = new MessageListAdapter(getContext());
         mAdapter.setOnClickListener(mClickListener);
 
         RecyclerViewEx listView = (RecyclerViewEx) view.findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setEmptyView(view.findViewById(R.id.empty_view));
         listView.setAdapter(mAdapter);
+        listView.setOnNextPageLoadListener(mNextPageLoadListener);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -84,9 +94,14 @@ public class MessageListFragment extends BaseMvpFragment implements SwipeRefresh
     }
 
     @Override
-    public void hideProgressBar() {
-        mProgressPanel.setVisibility(View.GONE);
+    public void hideLoadingView() {
+        mLoadView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean isRefreshing() {
+        return mSwipeRefreshLayout.isRefreshing();
     }
 
     @Override
@@ -96,6 +111,8 @@ public class MessageListFragment extends BaseMvpFragment implements SwipeRefresh
 
     @Override
     public void setRefreshing(boolean refreshing) {
-        mSwipeRefreshLayout.setRefreshing(refreshing);
+        if (mSwipeRefreshLayout.isShown()) {
+            mSwipeRefreshLayout.setRefreshing(refreshing);
+        }
     }
 }

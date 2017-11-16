@@ -1,7 +1,5 @@
 package sp.phone.presenter.contract.tmp;
 
-import android.support.annotation.StringRes;
-
 import sp.phone.bean.MessageListInfo;
 import sp.phone.listener.OnHttpCallBack;
 
@@ -13,7 +11,9 @@ public interface MessageListContract {
 
     interface IMessageView extends BaseContract.View {
 
-        void hideProgressBar();
+        void hideLoadingView();
+
+        boolean isRefreshing();
 
         void setData(MessageListInfo listInfo);
 
@@ -24,11 +24,6 @@ public interface MessageListContract {
 
         void loadPage(int page);
 
-        void loadNextPage(int page);
-
-        void showMessage(@StringRes int id);
-
-        void showMessage(String text);
     }
 
     interface IMessageModel extends BaseContract.Model {

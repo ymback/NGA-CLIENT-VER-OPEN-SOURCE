@@ -1,7 +1,5 @@
 package sp.phone.presenter;
 
-import android.support.annotation.StringRes;
-
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.listener.OnHttpCallBack;
@@ -25,11 +23,11 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
                 return;
             }
             mMessageView.setRefreshing(false);
-            mMessageView.hideProgressBar();
+            mMessageView.hideLoadingView();
             if (text.isEmpty()) {
-                showMessage(R.string.error_network);
+                mMessageView.showToast(R.string.error_network);
             } else {
-                showMessage(text);
+                mMessageView.showToast(text);
             }
         }
 
@@ -39,7 +37,7 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
                 return;
             }
             mMessageView.setRefreshing(false);
-            mMessageView.hideProgressBar();
+            mMessageView.hideLoadingView();
             mMessageView.setData(data);
         }
     };
@@ -65,28 +63,8 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
 
     @Override
     public void loadPage(int page) {
-        mMessageModel.loadPage(page, mCallBack);
-    }
-
-    @Override
-    public void loadNextPage(int page) {
         mMessageView.setRefreshing(true);
         mMessageModel.loadPage(page, mCallBack);
     }
 
-    @Override
-    public void showMessage(@StringRes int id) {
-        if (!isAttached()) {
-            return;
-        }
-        mMessageView.showToast(id);
-    }
-
-    @Override
-    public void showMessage(String text) {
-        if (!isAttached()) {
-            return;
-        }
-        mMessageView.showToast(text);
-    }
 }

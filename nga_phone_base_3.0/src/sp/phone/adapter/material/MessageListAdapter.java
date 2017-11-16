@@ -1,13 +1,16 @@
 package sp.phone.adapter.material;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,30 +19,55 @@ import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
+import sp.phone.utils.ResourceUtils;
 import sp.phone.utils.StringUtils;
+import sp.phone.view.RecyclerViewEx;
 
 /**
  * Created by Justwen on 2017/10/1.
  */
 
-public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.MessageViewHolder> {
+public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.MessageViewHolder> implements RecyclerViewEx.IAppendAbleAdapter {
+
+    private List<MessageListInfo> mInfoList = new ArrayList<>();
+
+    private boolean mPrompted;
+
+    private boolean mEndOfList;
+
+    private int mTotalCount;
+
+    private Context mContext;
 
     private View.OnClickListener mClickListener;
 
-    private LayoutInflater mLayoutInflater;
-
-    private MessageListInfo mListInfo;
-
-    private Resources mResources;
-
     public MessageListAdapter(Context context) {
-        mLayoutInflater = LayoutInflater.from(context);
-        mResources = context.getResources();
+        mContext = context;
+    }
+
+    protected MessageThreadPageInfo getEntry(int position) {
+        for (int i = 0; i < mInfoList.size(); i++) {
+            if (position < (mInfoList.get(i).get__currentPage() * mInfoList.get(i).get__rowsPerPage())) {
+                return mInfoList.get(i).getMessageEntryList().get(position);
+            }
+            position -= mInfoList.get(i).get__rowsPerPage();
+        }
+        return null;
+    }
+
+    @Override
+    public int getNextPage() {
+        return mInfoList.size() + 1;
+    }
+
+    @Override
+    public boolean hasNextPage() {
+        return !mEndOfList;
     }
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessageViewHolder(mLayoutInflater.inflate(R.layout.relative_messgae_list, parent, false));
+        return new MessageViewHolder(LayoutInflater.from(mContext).inflate(R.layout.relative_messgae_list, parent, false));
     }
 
     @Override
@@ -50,20 +78,12 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         }
         holder.itemView.setTag(getMidString(position));
 
-    }
-
-    public void setOnClickListener(View.OnClickListener listener) {
-        mClickListener = listener;
-    }
-
-    @Override
-    public int getItemCount() {
-        return mListInfo == null ? 0 : mListInfo.getMessageEntryList().size();
-    }
-
-    public void setData(MessageListInfo listInfo) {
-        mListInfo = listInfo;
-        notifyDataSetChanged();
+        if (position + 1 == getItemCount()
+                && !hasNextPage()
+                && !mPrompted) {
+            Toast.makeText(mContext, R.string.last_page_prompt_message, Toast.LENGTH_SHORT).show();
+            mPrompted = true;
+        }
     }
 
     private String getMidString(int position) {
@@ -94,7 +114,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         }
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.getPosts()));
-        holder.title.setTextColor(mResources.getColor(theme.getForegroundColor()));
+        holder.title.setTextColor(ResourceUtils.getColor(theme.getForegroundColor()));
         float size = PhoneConfiguration.getInstance().getTextSize();
 
         String title = entry.getSubject();
@@ -116,10 +136,34 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     }
 
-    protected MessageThreadPageInfo getEntry(int position) {
-        return mListInfo == null ? null : mListInfo.getMessageEntryList().get(position);
+    public void setOnClickListener(View.OnClickListener listener) {
+        mClickListener = listener;
     }
 
+    @Override
+    public int getItemCount() {
+        return mTotalCount;
+    }
+
+    private void reset() {
+        mTotalCount = 0;
+        mPrompted = false;
+        mInfoList.clear();
+    }
+
+    public void setData(MessageListInfo result) {
+        if (result == null) {
+            return;
+        } else if (result.get__currentPage() == 1) {
+            reset();
+        }
+
+        mInfoList.add(result);
+        mTotalCount += result.getMessageEntryList().size();
+        mEndOfList = result.get__nextPage() <= 0;
+        notifyDataSetChanged();
+
+    }
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
 
