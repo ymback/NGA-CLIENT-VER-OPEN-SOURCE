@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,22 +13,27 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.material.AppendableTopicAdapter;
 import sp.phone.bean.TopicListInfo;
-import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.forumoperation.TopicListParam;
+import sp.phone.fragment.BaseFragment;
 import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
+import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 
 
-public class TopicListFragment extends MaterialCompatFragment implements TopicListContract.View, AdapterView.OnItemLongClickListener {
+public class TopicListFragment extends BaseFragment implements TopicListContract.View, AdapterView.OnItemLongClickListener, View.OnClickListener {
 
     private static final String TAG = TopicListFragment.class.getSimpleName();
 
-    private TopicListRequestInfo mRequestInfo;
+    private TopicListParam mRequestInfo;
 
     private AppendableTopicAdapter mAdapter;
 
@@ -42,10 +46,13 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
     private boolean mFromReplayActivity;
 
+    private FloatingActionsMenu mFam;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        mPresenter = new TopicListPresenter(this);
         super.onCreate(savedInstanceState);
-        mRequestInfo = getArguments().getParcelable("requestInfo");
+        mRequestInfo = getArguments().getParcelable("requestParam");
         if (mRequestInfo.authorId > 0 || mRequestInfo.searchPost > 0 || mRequestInfo.favor > 0
                 || !StringUtils.isEmpty(mRequestInfo.key) || !StringUtils.isEmpty(mRequestInfo.author)
                 || !StringUtils.isEmpty(mRequestInfo.fidGroup)) {//!StringUtils.isEmpty(table) ||
@@ -57,17 +64,17 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getParentFragment() == null) {
-            return super.onCreateView(inflater, container, savedInstanceState);
-        } else {
-            return inflater.inflate(R.layout.fragment_topic_list, container, false);
-        }
-    }
-
-    @Override
-    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        if (getParentFragment() == null) {
+//            return super.onCreateView(inflater, container, savedInstanceState);
+//        } else {
         return inflater.inflate(R.layout.fragment_topic_list, container, false);
+//        }
     }
+//
+//    @Override
+//    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        return inflater.inflate(R.layout.fragment_topic_list, container, false);
+//    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -95,6 +102,15 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
                 mPresenter.refresh();
             }
         });
+
+        mFam = (FloatingActionsMenu) getActivity().findViewById(R.id.fab_menu);
+        if (!getArguments().getBoolean("normal")) {
+            mFam.setVisibility(View.GONE);
+        } else {
+            mFam.findViewById(R.id.fab_refresh).setOnClickListener(this);
+            mFam.findViewById(R.id.fab_post).setOnClickListener(this);
+        }
+
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -103,6 +119,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         if (mTopicListInfo == null && getUserVisibleHint() && mPresenter != null) {
             mPresenter.refresh();
         }
+        mFam.collapse();
         super.onResume();
     }
 
@@ -112,7 +129,7 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
     }
 
     @Override
-    public TopicListRequestInfo getTopicListRequestInfo() {
+    public TopicListParam getTopicListRequestInfo() {
         return mRequestInfo;
     }
 
@@ -171,11 +188,30 @@ public class TopicListFragment extends MaterialCompatFragment implements TopicLi
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        mFam.collapse();
+        switch (v.getId()) {
+            case R.id.fab_refresh:
+                mPresenter.refresh();
+                scrollTo(0);
+                break;
+            case R.id.fab_post:
+                Intent intent = new Intent();
+                intent.putExtra("fid", mRequestInfo.fid);
+                intent.putExtra("action", "new");
+                ActivityUtils.startPostActivity(getContext(),intent);
+                break;
+            default:
+                break;
+        }
+    }
+
     private class EnterJsonArticle implements AdapterView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
-                long id) {
+                                long id) {
             String guide = (String) mAdapter.getItem(position);
             if (StringUtils.isEmpty(guide)) {
                 return;

@@ -1,7 +1,7 @@
 package sp.phone.presenter.contract;
 
 import sp.phone.bean.TopicListInfo;
-import sp.phone.bean.TopicListRequestInfo;
+import sp.phone.forumoperation.TopicListParam;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 
 /**
@@ -31,7 +31,7 @@ public interface TopicListContract {
 
         int getNextPage();
 
-        TopicListRequestInfo getTopicListRequestInfo();
+        TopicListParam getTopicListRequestInfo();
 
         android.view.View getTopicListView();
 

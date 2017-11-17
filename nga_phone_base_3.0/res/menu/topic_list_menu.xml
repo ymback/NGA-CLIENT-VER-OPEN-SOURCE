@@ -18,16 +18,22 @@
         androidnga:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/menu_search"
         android:icon="@drawable/btn_ic_search"
         android:title="@string/menu_search"
-        androidnga:showAsAction="ifRoom" />
+        androidnga:showAsAction="never" />
 
     <item
-        android:id="@+id/goto_bookmark_item"
+        android:id="@+id/menu_recommend"
+        android:icon="@drawable/btn_ic_search"
+        android:title="@string/menu_recommend"
+        androidnga:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_favorite"
         android:icon="@drawable/btn_ic_collections"
         android:title="@string/menu_bookmark_post"
-        androidnga:showAsAction="ifRoom" />
+        androidnga:showAsAction="never" />
 
 
 </menu>

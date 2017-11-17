@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import sp.phone.bean.TopicListInfo;
-import sp.phone.bean.TopicListRequestInfo;
+import sp.phone.forumoperation.TopicListParam;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.presenter.contract.TopicListContract;
 import sp.phone.task.DeleteBookmarkTask;
@@ -31,7 +31,7 @@ public class TopicListPresenter implements TopicListContract.Presenter, OnTopLis
 
     @Override
     public void refresh() {
-        TopicListRequestInfo requestInfo = mView.getTopicListRequestInfo();
+        TopicListParam requestInfo = mView.getTopicListRequestInfo();
         mView.setRefreshing(true);
         JsonTopicListLoadTask task = new JsonTopicListLoadTask(mView.getContext(), this);
         task.execute(getUrl(1, requestInfo));
@@ -59,7 +59,7 @@ public class TopicListPresenter implements TopicListContract.Presenter, OnTopLis
 
     @Override
     public void jsonFinishLoad(TopicListInfo result) {
-        final TopicListRequestInfo requestInfo = mView.getTopicListRequestInfo();
+        final TopicListParam requestInfo = mView.getTopicListRequestInfo();
         mView.setRefreshing(false);
         if (result == null) {
             return;
@@ -102,7 +102,7 @@ public class TopicListPresenter implements TopicListContract.Presenter, OnTopLis
         mView.scrollTo(0);
     }
 
-    public String getUrl(int page, TopicListRequestInfo requestInfo) {
+    public String getUrl(int page, TopicListParam requestInfo) {
         String jsonUri = HttpUtil.Server + "/thread.php?";
         if (0 != requestInfo.authorId)
             jsonUri += "authorid=" + requestInfo.authorId + "&";

@@ -21,8 +21,8 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.TopicViewPagerAdapter;
-import sp.phone.bean.TopicListRequestInfo;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
 import sp.phone.presenter.contract.TopicListContract;
@@ -39,7 +39,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
 
     private static final String TAG = TopicTabFragment.class.getSimpleName();
 
-    private TopicListRequestInfo mRequestInfo;
+    private TopicListParam mRequestInfo;
 
     private TopicListContract.Presenter[] mPresenters = new TopicListContract.Presenter[3];
 

@@ -216,6 +216,7 @@ public class ArticleListFragment extends BaseFragment {
         boolean isAnonymous = row.getISANONYMOUS();
         String mention = null;
         Intent intent = new Intent();
+        Bundle bundle = new Bundle();
         switch (item.getItemId()) {
             case R.id.menu_quote_subject:
                 final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
@@ -458,9 +459,11 @@ public class ArticleListFragment extends BaseFragment {
                 break;
 
             case R.id.menu_search_post:
-                intent.putExtra("searchpost", 1);
+                bundle.putInt("searchpost", 1);
             case R.id.menu_search_subject:
-                intent.putExtra("authorid", row.getAuthorid());
+                bundle.putInt("authorid", row.getAuthorid());
+                bundle.putString("author",row.getAuthor());
+                intent.putExtras(bundle);
                 intent.setClass(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
                 startActivity(intent);
                 break;

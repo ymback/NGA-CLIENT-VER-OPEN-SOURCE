@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import sp.phone.bean.TopicListRequestInfo;
+import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.material.TopicListFragment;
 import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
@@ -19,14 +19,14 @@ public class TopicViewPagerAdapter extends FragmentPagerAdapter {
 
     private String mTabs[] = {"全部", "精华"};
 
-    private TopicListRequestInfo mRequestInfo;
+    private TopicListParam mRequestInfo;
 
     private Fragment[] mFragments = new Fragment[3];
 
     private TopicListContract.Presenter[] mPresenters;
 
 
-    public TopicViewPagerAdapter(FragmentManager fm, TopicListContract.Presenter[] presenters,TopicListRequestInfo requestInfo) {
+    public TopicViewPagerAdapter(FragmentManager fm, TopicListContract.Presenter[] presenters,TopicListParam requestInfo) {
         super(fm);
         mRequestInfo = requestInfo;
         mPresenters = presenters;
@@ -37,7 +37,7 @@ public class TopicViewPagerAdapter extends FragmentPagerAdapter {
         if (mFragments[position] == null){
             mFragments[position] = new TopicListFragment();
             try {
-                TopicListRequestInfo info = (TopicListRequestInfo) mRequestInfo.clone();
+                TopicListParam info = (TopicListParam) mRequestInfo.clone();
                 info.category = position;
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("requestInfo",info);

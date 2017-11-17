@@ -1,4 +1,4 @@
-package sp.phone.bean;
+package sp.phone.forumoperation;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Yang Yihang on 2017/6/3.
  */
 
-public class TopicListRequestInfo implements Cloneable,Parcelable {
+public class TopicListParam implements Cloneable,Parcelable {
 
     public int authorId;
 
@@ -31,7 +31,7 @@ public class TopicListRequestInfo implements Cloneable,Parcelable {
 
     public String boardName;
 
-    protected TopicListRequestInfo(Parcel in) {
+    protected TopicListParam(Parcel in) {
         authorId = in.readInt();
         searchPost = in.readInt();
         favor = in.readInt();
@@ -45,7 +45,7 @@ public class TopicListRequestInfo implements Cloneable,Parcelable {
         boardName = in.readString();
     }
 
-    public  TopicListRequestInfo() {
+    public TopicListParam() {
     }
 
     @Override
@@ -68,15 +68,15 @@ public class TopicListRequestInfo implements Cloneable,Parcelable {
         return 0;
     }
 
-    public static final Creator<TopicListRequestInfo> CREATOR = new Creator<TopicListRequestInfo>() {
+    public static final Creator<TopicListParam> CREATOR = new Creator<TopicListParam>() {
         @Override
-        public TopicListRequestInfo createFromParcel(Parcel in) {
-            return new TopicListRequestInfo(in);
+        public TopicListParam createFromParcel(Parcel in) {
+            return new TopicListParam(in);
         }
 
         @Override
-        public TopicListRequestInfo[] newArray(int size) {
-            return new TopicListRequestInfo[size];
+        public TopicListParam[] newArray(int size) {
+            return new TopicListParam[size];
         }
     };
 

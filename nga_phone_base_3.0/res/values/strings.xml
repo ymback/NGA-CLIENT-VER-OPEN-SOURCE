@@ -338,6 +338,7 @@
     <string name="menu_add_bookmark_board">添加至我的收藏</string>
     <string name="menu_remove_bookmark_board">取消收藏</string>
     <string name="menu_search">搜索</string>
+    <string name="menu_recommend">精华区</string>
     <string name="menu_bookmark_post">收藏夹</string>
 
     <string name="toast_add_bookmark_board">添加至我的收藏</string>
