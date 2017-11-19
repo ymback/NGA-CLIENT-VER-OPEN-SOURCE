@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import gov.anzong.androidnga.R;
@@ -12,6 +11,8 @@ import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicListParam;
+import sp.phone.fragment.material.TopicListBoardFragment;
+import sp.phone.fragment.material.TopicListFavoriteFragment;
 import sp.phone.fragment.material.TopicListFragment;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.utils.ActivityUtils;
@@ -30,8 +31,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity {
     private CheckReplyNotificationTask asynTask;
 
     private TopicListParam mRequestParam;
-
-    private Menu mOptionMenu;
 
     private BoardManager mBoardManager;
 
@@ -89,9 +88,6 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity {
         mBoardManager = BoardManagerImpl.getInstance();
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topic_list);
-        setupActionBar();
-        setupTitle();
         setupFragment();
 
 //        if (authorid > 0 || searchpost > 0 || favor > 0
@@ -103,62 +99,22 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity {
     }
 
     private void setupFragment() {
-        Fragment fragment = new TopicListFragment();
+        Fragment fragment;
+        if (mRequestParam.favor != 0) {
+            fragment = new TopicListFavoriteFragment();
+        } else if (isBoardTopicList()){
+            fragment = new TopicListBoardFragment();
+        }else {
+            fragment = new TopicListFragment();
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable("requestParam", mRequestParam);
-        bundle.putBoolean("normal", isNormalTopicList());
         fragment.setArguments(bundle);
         fragment.setHasOptionsMenu(true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
     }
 
-    private void setupTitle() {
-        if (mRequestParam.favor != 0) {
-            setTitle(R.string.bookmark_title);
-        } else if (!StringUtils.isEmpty(mRequestParam.key)) {
-            if (mRequestParam.content == 1) {
-                if (!StringUtils.isEmpty(mRequestParam.fidGroup)) {
-                    setTitle("搜索全站(包含正文):" + mRequestParam.key);
-                } else {
-                    setTitle("搜索(包含正文):" + mRequestParam.key);
-                }
-            } else {
-                if (!StringUtils.isEmpty(mRequestParam.fidGroup)) {
-                    setTitle("搜索全站:" + mRequestParam.key);
-                } else {
-                    setTitle("搜索:" + mRequestParam.key);
-                }
-            }
-        } else if (!StringUtils.isEmpty(mRequestParam.author)) {
-            if (mRequestParam.searchPost > 0) {
-                final String title = "搜索" + mRequestParam.author + "的回复";
-                setTitle(title);
-            } else {
-                final String title = "搜索" + mRequestParam.author + "的主题";
-                setTitle(title);
-            }
-        } else if (mRequestParam.category == 1) {
-            setTitle(mRequestParam.boardName + " - 精华区");
-        } else {
-            setTitle(mRequestParam.boardName);
-        }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (menu.findItem(R.id.menu_add_bookmark) != null) {
-            if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestParam.fid))) {
-                menu.findItem(R.id.menu_add_bookmark).setVisible(false);
-                menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-            } else {
-                menu.findItem(R.id.menu_add_bookmark).setVisible(true);
-                menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
-            }
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    private boolean isNormalTopicList() {
+    private boolean isBoardTopicList() {
         return mRequestParam.category == 0
                 && mRequestParam.key == null
                 && mRequestParam.favor == 0
@@ -166,31 +122,10 @@ public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (isNormalTopicList()) {
-            getMenuInflater().inflate(R.menu.topic_list_menu, menu);
-            mOptionMenu = menu;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                break;
-            case R.id.menu_add_bookmark:
-                mBoardManager.addBookmark(String.valueOf(mRequestParam.fid), mRequestParam.boardName);
-                item.setVisible(false);
-                mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-                showToast(R.string.toast_add_bookmark_board);
-                break;
-            case R.id.menu_remove_bookmark:
-                mBoardManager.removeBookmark(String.valueOf(mRequestParam.fid));
-                item.setVisible(false);
-                mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
-                showToast(R.string.toast_remove_bookmark_board);
                 break;
             case R.id.menu_favorite:
                 ActivityUtils.startFavoriteTopicActivity(this);

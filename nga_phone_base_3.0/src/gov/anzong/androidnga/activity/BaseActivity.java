@@ -81,7 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setupActionBar() {
+    public void setupActionBar() {
         setupActionBar((Toolbar) findViewById(R.id.toolbar));
     }
 

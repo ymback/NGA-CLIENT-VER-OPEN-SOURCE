@@ -1,7 +1,5 @@
 package sp.phone.fragment.material;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,11 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
+import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.adapter.material.AppendableTopicAdapter;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.common.PhoneConfiguration;
@@ -25,59 +22,79 @@ import sp.phone.interfaces.NextJsonTopicListLoader;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.TopicListContract;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 
 
-public class TopicListFragment extends BaseFragment implements TopicListContract.View, AdapterView.OnItemLongClickListener, View.OnClickListener {
+public class TopicListFragment extends BaseFragment implements TopicListContract.View {
 
     private static final String TAG = TopicListFragment.class.getSimpleName();
 
-    private TopicListParam mRequestInfo;
+    protected TopicListParam mRequestParam;
 
-    private AppendableTopicAdapter mAdapter;
+    protected AppendableTopicAdapter mAdapter;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
     private RecyclerView mListView;
 
     private TopicListInfo mTopicListInfo;
 
-    private TopicListContract.Presenter mPresenter;
+    protected TopicListContract.Presenter mPresenter;
 
     private boolean mFromReplayActivity;
-
-    private FloatingActionsMenu mFam;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mPresenter = new TopicListPresenter(this);
         super.onCreate(savedInstanceState);
-        mRequestInfo = getArguments().getParcelable("requestParam");
-        if (mRequestInfo.authorId > 0 || mRequestInfo.searchPost > 0 || mRequestInfo.favor > 0
-                || !StringUtils.isEmpty(mRequestInfo.key) || !StringUtils.isEmpty(mRequestInfo.author)
-                || !StringUtils.isEmpty(mRequestInfo.fidGroup)) {//!StringUtils.isEmpty(table) ||
+        mRequestParam = getArguments().getParcelable("requestParam");
+        if (mRequestParam.authorId > 0 || mRequestParam.searchPost > 0 || mRequestParam.favor > 0
+                || !StringUtils.isEmpty(mRequestParam.key) || !StringUtils.isEmpty(mRequestParam.author)
+                || !StringUtils.isEmpty(mRequestParam.fidGroup)) {//!StringUtils.isEmpty(table) ||
             mFromReplayActivity = true;
         }
-        setRetainInstance(true);
+        setTitle();
+    }
+
+    protected void setTitle() {
+        if (!StringUtils.isEmpty(mRequestParam.key)) {
+            if (mRequestParam.content == 1) {
+                if (!StringUtils.isEmpty(mRequestParam.fidGroup)) {
+                    setTitle("搜索全站(包含正文):" + mRequestParam.key);
+                } else {
+                    setTitle("搜索(包含正文):" + mRequestParam.key);
+                }
+            } else {
+                if (!StringUtils.isEmpty(mRequestParam.fidGroup)) {
+                    setTitle("搜索全站:" + mRequestParam.key);
+                } else {
+                    setTitle("搜索:" + mRequestParam.key);
+                }
+            }
+        } else if (!StringUtils.isEmpty(mRequestParam.author)) {
+            if (mRequestParam.searchPost > 0) {
+                final String title = "搜索" + mRequestParam.author + "的回复";
+                setTitle(title);
+            } else {
+                final String title = "搜索" + mRequestParam.author + "的主题";
+                setTitle(title);
+            }
+        } else if (mRequestParam.category == 1) {
+            setTitle(mRequestParam.boardName + " - 精华区");
+        }
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        if (getParentFragment() == null) {
-//            return super.onCreateView(inflater, container, savedInstanceState);
-//        } else {
         return inflater.inflate(R.layout.fragment_topic_list, container, false);
-//        }
     }
-//
-//    @Override
-//    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_topic_list, container, false);
-//    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
+        ((BaseActivity) getActivity()).setupActionBar();
+
         mListView = (RecyclerView) view.findViewById(R.id.list);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new AppendableTopicAdapter(getContext(), new NextJsonTopicListLoader() {
@@ -87,10 +104,6 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
             }
         });
         mAdapter.setOnItemClickListener(new EnterJsonArticle());
-        if (mRequestInfo.favor != 0) {
-            Toast.makeText(getActivity(), "长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
-            mAdapter.setOnItemLongClickListener(this);
-        }
         mListView.setAdapter(mAdapter);
         if (mTopicListInfo != null) {
             mPresenter.jsonFinishLoad(mTopicListInfo);
@@ -103,14 +116,6 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
             }
         });
 
-        mFam = (FloatingActionsMenu) getActivity().findViewById(R.id.fab_menu);
-        if (!getArguments().getBoolean("normal")) {
-            mFam.setVisibility(View.GONE);
-        } else {
-            mFam.findViewById(R.id.fab_refresh).setOnClickListener(this);
-            mFam.findViewById(R.id.fab_post).setOnClickListener(this);
-        }
-
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -119,7 +124,6 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
         if (mTopicListInfo == null && getUserVisibleHint() && mPresenter != null) {
             mPresenter.refresh();
         }
-        mFam.collapse();
         super.onResume();
     }
 
@@ -130,7 +134,7 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
 
     @Override
     public TopicListParam getTopicListRequestInfo() {
-        return mRequestInfo;
+        return mRequestParam;
     }
 
     @Override
@@ -159,52 +163,6 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
         mTopicListInfo = result;
         mAdapter.clear();
         mAdapter.jsonFinishLoad(result);
-    }
-
-    @Override
-    public boolean onItemLongClick(final AdapterView<?> parent, final View view, int position, long id) {
-        final int finalPosition = position;
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        mPresenter.removeBookmark(mAdapter.getTidArray(finalPosition), finalPosition);
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        // Do nothing
-                        break;
-                }
-            }
-        };
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(this.getString(R.string.delete_favo_confirm_text))
-                .setPositiveButton(R.string.confirm, dialogClickListener)
-                .setNegativeButton(R.string.cancle, dialogClickListener);
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        mFam.collapse();
-        switch (v.getId()) {
-            case R.id.fab_refresh:
-                mPresenter.refresh();
-                scrollTo(0);
-                break;
-            case R.id.fab_post:
-                Intent intent = new Intent();
-                intent.putExtra("fid", mRequestInfo.fid);
-                intent.putExtra("action", "new");
-                ActivityUtils.startPostActivity(getContext(),intent);
-                break;
-            default:
-                break;
-        }
     }
 
     private class EnterJsonArticle implements AdapterView.OnItemClickListener {
