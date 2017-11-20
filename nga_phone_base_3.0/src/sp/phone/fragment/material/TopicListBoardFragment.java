@@ -2,6 +2,8 @@ package sp.phone.fragment.material;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,7 @@ import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ActivityUtils;
 
 /**
@@ -50,6 +53,16 @@ public class TopicListBoardFragment extends TopicListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        updateFloatingMenu();
+    }
+
+    private void updateFloatingMenu() {
+        if (PhoneConfiguration.getInstance().isLeftHandMode()) {
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
+            lp.gravity = Gravity.START | Gravity.BOTTOM;
+            mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
+            mFam.setLayoutParams(lp);
+        }
     }
 
     @Override
@@ -61,7 +74,7 @@ public class TopicListBoardFragment extends TopicListFragment {
     @OnClick(R.id.fab_refresh)
     public void refresh() {
         mFam.collapse();
-        mPresenter.loadPage(1,mRequestParam);
+        mPresenter.loadPage(1, mRequestParam);
     }
 
     @OnClick(R.id.fab_post)

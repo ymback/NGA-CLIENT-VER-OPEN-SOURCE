@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,7 +94,7 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
         ((BaseActivity) getActivity()).setupActionBar();
 
         mAdapter = new TopicListAdapter(getContext());
-        mAdapter.setOnItemClickListener(new EnterJsonArticle());
+        mAdapter.setOnClickListener(new EnterJsonArticle());
 
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setOnNextPageLoadListener(new RecyclerViewEx.OnNextPageLoadListener() {
@@ -152,21 +151,19 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
         mAdapter.clear();
     }
 
-    private class EnterJsonArticle implements AdapterView.OnItemClickListener {
+    private class EnterJsonArticle implements View.OnClickListener {
 
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
-            String guide = (String) view.getTag(R.id.title);
-            if (StringUtils.isEmpty(guide)) {
+        public void onClick(View view) {
+            String url = (String) view.getTag(R.id.title);
+            if (StringUtils.isEmpty(url)) {
                 return;
             }
 
-            guide = guide.trim();
+            url = url.trim();
 
-            int pid = StringUtils.getUrlParameter(guide, "pid");
-            int tid = StringUtils.getUrlParameter(guide, "tid");
-            int authorId = StringUtils.getUrlParameter(guide, "authorid");
+            int pid = StringUtils.getUrlParameter(url, "pid");
+            int tid = StringUtils.getUrlParameter(url, "tid");
+            int authorId = StringUtils.getUrlParameter(url, "authorid");
 
             Intent intent = new Intent();
             intent.putExtra("tab", "1");
@@ -179,7 +176,6 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
             intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
             startActivity(intent);
         }
-
     }
 
 

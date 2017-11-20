@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
@@ -47,7 +49,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
     private int mTotalCount;
 
-    private AdapterView.OnItemClickListener mItemClickListener;
+    private View.OnClickListener mClickListener;
 
     private AdapterView.OnItemLongClickListener mItemLongClickListener;
 
@@ -150,15 +152,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
         ThemeManager cfg = ThemeManager.getInstance();
         int colorId = cfg.getBackgroundColor(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick(null, holder.itemView, position, getItemId(position));
-                }
-            }
-        });
+        holder.itemView.setOnClickListener(mClickListener);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -398,8 +392,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         return null;
     }
 
-    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        mItemClickListener = listener;
+    public void setOnClickListener(View.OnClickListener listener) {
+        mClickListener = listener;
     }
 
     public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
@@ -408,17 +402,21 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
     public class TopicViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.num)
         public TextView num;
+
+        @BindView(R.id.title)
         public TextView title;
+
+        @BindView(R.id.author)
         public TextView author;
+
+        @BindView(R.id.last_reply)
         public TextView lastReply;
 
         public TopicViewHolder(View itemView) {
             super(itemView);
-            num = (TextView) itemView.findViewById(R.id.num);
-            title = (TextView) itemView.findViewById(R.id.title);
-            author = (TextView) itemView.findViewById(R.id.author);
-            lastReply = (TextView) itemView.findViewById(R.id.last_reply);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

@@ -21,7 +21,7 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/btn_ic_search"
         android:title="@string/menu_search"
-        androidnga:showAsAction="never" />
+        androidnga:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_recommend"
