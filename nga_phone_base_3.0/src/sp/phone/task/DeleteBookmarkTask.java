@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.AppendableTopicAdapter;
+import sp.phone.adapter.material.TopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.utils.ActivityUtils;
@@ -94,9 +95,9 @@ public class DeleteBookmarkTask extends AsyncTask<String, Integer, String> {
                     adapter.remove(position);
                     adapter.notifyDataSetChanged();
                 } else if (parent instanceof RecyclerView) {
-                    sp.phone.adapter.material.AppendableTopicAdapter adapter = (sp.phone.adapter.material.AppendableTopicAdapter) ((RecyclerView) parent).getAdapter();
+                    TopicListAdapter adapter = (TopicListAdapter) ((RecyclerView) parent).getAdapter();
                     adapter.remove(position);
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(position);
                 }
             }
         }

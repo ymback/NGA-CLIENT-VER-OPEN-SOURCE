@@ -25,7 +25,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.SearchDialogFragment;
 import sp.phone.fragment.TopicListContainer;
-import sp.phone.presenter.contract.TopicListContract;
+import sp.phone.presenter.contract.tmp.TopicListContract;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.ScrollableViewPager;
@@ -72,7 +72,7 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
                 mCurrentIndex = position;
                 if (!mPreloadFlags[position]) {
                     mPreloadFlags[position] = true;
-                    getCurrentPresenter().refresh();
+              //      getCurrentPresenter().refresh();
                 }
                 super.onPageSelected(position);
             }
@@ -192,8 +192,8 @@ public class TopicTabFragment extends MaterialCompatFragment implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_refresh:
-                getCurrentPresenter().refresh();
-                getCurrentPresenter().showFirstItem();
+               // getCurrentPresenter().refresh();
+         //       getCurrentPresenter().showFirstItem();
                 mFam.collapse();
                 break;
             case R.id.fab_post:

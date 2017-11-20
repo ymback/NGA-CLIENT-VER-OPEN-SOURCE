@@ -4,40 +4,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
-import sp.phone.adapter.material.AppendableTopicAdapter;
+import sp.phone.adapter.material.TopicListAdapter;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.fragment.BaseFragment;
-import sp.phone.interfaces.NextJsonTopicListLoader;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.presenter.TopicListPresenter;
-import sp.phone.presenter.contract.TopicListContract;
+import sp.phone.presenter.contract.tmp.TopicListContract;
 import sp.phone.utils.StringUtils;
+import sp.phone.view.RecyclerViewEx;
 
 
-public class TopicListFragment extends BaseFragment implements TopicListContract.View {
+public class TopicListFragment extends BaseMvpFragment implements TopicListContract.View {
 
     private static final String TAG = TopicListFragment.class.getSimpleName();
 
     protected TopicListParam mRequestParam;
 
-    protected AppendableTopicAdapter mAdapter;
+    protected TopicListAdapter mAdapter;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.swipe_refresh)
+    public SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private RecyclerView mListView;
-
-    private TopicListInfo mTopicListInfo;
+    @BindView(R.id.list)
+    public RecyclerViewEx mListView;
 
     protected TopicListContract.Presenter mPresenter;
 
@@ -45,7 +43,8 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mPresenter = new TopicListPresenter(this);
+        mPresenter = new TopicListPresenter();
+        setPresenter(mPresenter);
         super.onCreate(savedInstanceState);
         mRequestParam = getArguments().getParcelable("requestParam");
         if (mRequestParam.authorId > 0 || mRequestParam.searchPost > 0 || mRequestParam.favor > 0
@@ -95,46 +94,30 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
         ButterKnife.bind(this, view);
         ((BaseActivity) getActivity()).setupActionBar();
 
-        mListView = (RecyclerView) view.findViewById(R.id.list);
+        mAdapter = new TopicListAdapter(getContext());
+        mAdapter.setOnItemClickListener(new EnterJsonArticle());
+
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new AppendableTopicAdapter(getContext(), new NextJsonTopicListLoader() {
+        mListView.setOnNextPageLoadListener(new RecyclerViewEx.OnNextPageLoadListener() {
             @Override
-            public void loadNextPage(OnTopListLoadFinishedListener callback) {
-                mPresenter.loadNextPage(callback);
+            public void loadNextPage() {
+                if (!isRefreshing()) {
+                    mPresenter.loadPage(mAdapter.getNextPage(), mRequestParam);
+                }
             }
         });
-        mAdapter.setOnItemClickListener(new EnterJsonArticle());
         mListView.setAdapter(mAdapter);
-        if (mTopicListInfo != null) {
-            mPresenter.jsonFinishLoad(mTopicListInfo);
-        }
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.refresh();
+                mPresenter.loadPage(1, mRequestParam);
             }
         });
 
+        mPresenter.loadPage(1, mRequestParam);
+
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        if (mTopicListInfo == null && getUserVisibleHint() && mPresenter != null) {
-            mPresenter.refresh();
-        }
-        super.onResume();
-    }
-
-    @Override
-    public int getNextPage() {
-        return mAdapter.getNextPage();
-    }
-
-    @Override
-    public TopicListParam getTopicListRequestInfo() {
-        return mRequestParam;
     }
 
     @Override
@@ -147,22 +130,26 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
         mListView.scrollToPosition(position);
     }
 
-
     @Override
-    public void setPresenter(TopicListContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setRefreshing(boolean refreshing) {
+        if (mSwipeRefreshLayout.isShown()) {
+            mSwipeRefreshLayout.setRefreshing(refreshing);
+        }
     }
 
     @Override
-    public void setRefreshing(boolean refreshing) {
-        mSwipeRefreshLayout.setRefreshing(refreshing);
+    public boolean isRefreshing() {
+        return mSwipeRefreshLayout.isRefreshing();
     }
 
     @Override
     public void setData(TopicListInfo result) {
-        mTopicListInfo = result;
+        mAdapter.setData(result);
+    }
+
+    @Override
+    public void clearData() {
         mAdapter.clear();
-        mAdapter.jsonFinishLoad(result);
     }
 
     private class EnterJsonArticle implements AdapterView.OnItemClickListener {
@@ -170,7 +157,7 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            String guide = (String) mAdapter.getItem(position);
+            String guide = (String) view.getTag(R.id.title);
             if (StringUtils.isEmpty(guide)) {
                 return;
             }
@@ -189,8 +176,6 @@ public class TopicListFragment extends BaseFragment implements TopicListContract
             if (mFromReplayActivity) {
                 intent.putExtra("fromreplyactivity", 1);
             }
-            mAdapter.setSelected(position);
-            mAdapter.notifyDataSetChanged();
             intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
             startActivity(intent);
         }

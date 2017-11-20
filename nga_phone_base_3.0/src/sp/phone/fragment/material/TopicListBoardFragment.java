@@ -61,7 +61,7 @@ public class TopicListBoardFragment extends TopicListFragment {
     @OnClick(R.id.fab_refresh)
     public void refresh() {
         mFam.collapse();
-        mPresenter.refresh();
+        mPresenter.loadPage(1,mRequestParam);
     }
 
     @OnClick(R.id.fab_post)

@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.material.TopicListFragment;
-import sp.phone.presenter.TopicListPresenter;
-import sp.phone.presenter.contract.TopicListContract;
+import sp.phone.presenter.contract.tmp.TopicListContract;
 
 /**
  * Created by Yang Yihang on 2017/6/3.
@@ -53,7 +52,7 @@ public class TopicViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container,position);
-        mPresenters[position] = new TopicListPresenter((TopicListContract.View) fragment);
+     //   mPresenters[position] = new TopicListPresenter((TopicListContract.View) fragment);
         return fragment;
     }
 

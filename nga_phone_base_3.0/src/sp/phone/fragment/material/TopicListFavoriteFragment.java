@@ -28,14 +28,14 @@ public class TopicListFavoriteFragment extends TopicListFragment implements Adap
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
         final int finalPosition = position;
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        mPresenter.removeBookmark(mAdapter.getTidArray(finalPosition), finalPosition);
+                        mPresenter.removeBookmark((String) view.getTag(R.id.num), finalPosition);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
