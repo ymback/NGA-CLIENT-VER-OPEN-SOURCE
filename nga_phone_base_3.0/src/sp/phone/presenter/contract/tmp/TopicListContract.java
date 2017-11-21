@@ -40,6 +40,8 @@ public interface TopicListContract {
     interface Model extends BaseContract.Model {
 
         void removeTopic(String tidArray, OnHttpCallBack<String> callBack);
+
+        void loadTopicList(String url,OnHttpCallBack<TopicListInfo> callBack);
     }
 
 }

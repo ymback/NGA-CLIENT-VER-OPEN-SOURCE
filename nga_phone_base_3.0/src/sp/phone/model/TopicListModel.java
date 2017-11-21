@@ -3,10 +3,16 @@ package sp.phone.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import sp.phone.bean.TopicListInfo;
 import sp.phone.listener.OnHttpCallBack;
+import sp.phone.model.convert.TopicConvertFactory;
 import sp.phone.presenter.contract.tmp.TopicListContract;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
@@ -56,6 +62,46 @@ public class TopicListModel implements TopicListContract.Model {
                         } else {
                             callBack.onError("操作失败!");
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void loadTopicList(final String url, final OnHttpCallBack<TopicListInfo> callBack) {
+        mService.get(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map(new Function<String, TopicListInfo>() {
+                    @Override
+                    public TopicListInfo apply(@NonNull String s) throws Exception {
+                        TopicConvertFactory factory = new TopicConvertFactory();
+                        TopicListInfo result = factory.getTopicListInfo(s, url);
+                        if (result == null) {
+                            throw new Exception(factory.getErrorMsg());
+                        }
+                        return result;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<TopicListInfo>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable disposable) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull TopicListInfo listInfo) {
+                        callBack.onSuccess(listInfo);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable throwable) {
+                        callBack.onError(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

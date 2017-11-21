@@ -70,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setupActionBar(Toolbar toolbar){
+    public void setupActionBar(Toolbar toolbar){
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             ActionBar actionBar = getSupportActionBar();

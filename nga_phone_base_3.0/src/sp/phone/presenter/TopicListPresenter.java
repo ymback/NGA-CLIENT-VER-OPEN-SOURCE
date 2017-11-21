@@ -5,16 +5,14 @@ import java.net.URLEncoder;
 
 import sp.phone.bean.TopicListInfo;
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.interfaces.OnTopListLoadFinishedListener;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.model.TopicListModel;
 import sp.phone.presenter.contract.tmp.TopicListContract;
-import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.StringUtils;
 
 /**
- * Created by Yang Yihang on 2017/6/3.
+ * Created by Justwen on 2017/6/3.
  */
 
 public class TopicListPresenter implements TopicListContract.Presenter {
@@ -23,45 +21,45 @@ public class TopicListPresenter implements TopicListContract.Presenter {
 
     private TopicListContract.Model mTopicModel;
 
-    private OnTopListLoadFinishedListener mLoadFinishedListener = new OnTopListLoadFinishedListener() {
+    private OnHttpCallBack<TopicListInfo> mCallBack = new OnHttpCallBack<TopicListInfo>() {
         @Override
-        public void jsonFinishLoad(TopicListInfo result) {
+        public void onError(String text) {
+            if (isAttached()) {
+                mTopicView.setRefreshing(false);
+                mTopicView.showToast(text);
+            }
+        }
+
+        @Override
+        public void onSuccess(TopicListInfo data) {
             if (!isAttached()) {
                 return;
-            } else if (result.get__SEARCHNORESULT()) {
+            } else if (data.get__SEARCHNORESULT()) {
                 mTopicView.showToast("结果已搜索完毕");
                 return;
             }
             mTopicView.clearData();
             mTopicView.scrollTo(0);
-            setData(result);
-        }
-
-        @Override
-        public void onListLoadFailed() {
-            if (!isAttached()) {
-                return;
-            }
-            mTopicView.setRefreshing(false);
+            setData(data);
         }
     };
 
-    private OnTopListLoadFinishedListener mNextPageLoadFinishedListener = new OnTopListLoadFinishedListener() {
+    private OnHttpCallBack<TopicListInfo> mNextPageCallBack = new OnHttpCallBack<TopicListInfo>() {
         @Override
-        public void jsonFinishLoad(TopicListInfo result) {
-            if (!isAttached()) {
-                return;
+        public void onError(String text) {
+            if (isAttached()) {
+                mTopicView.setRefreshing(false);
+                mTopicView.setNextPageEnabled(false);
+                mTopicView.showToast(text);
             }
-            setData(result);
         }
 
         @Override
-        public void onListLoadFailed() {
+        public void onSuccess(TopicListInfo data) {
             if (!isAttached()) {
                 return;
             }
-            mTopicView.setRefreshing(false);
-            mTopicView.setNextPageEnabled(false);
+            setData(data);
         }
     };
 
@@ -83,7 +81,6 @@ public class TopicListPresenter implements TopicListContract.Presenter {
                 if (isAttached()) {
                     mTopicView.showToast(text);
                 }
-
             }
 
             @Override
@@ -99,66 +96,58 @@ public class TopicListPresenter implements TopicListContract.Presenter {
     @Override
     public void loadPage(int page, TopicListParam requestInfo) {
         mTopicView.setRefreshing(true);
-        JsonTopicListLoadTask task = new JsonTopicListLoadTask(
-                mTopicView.getContext(), mLoadFinishedListener);
-        task.executeOnExecutor(JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
-                getUrl(page, requestInfo));
+        mTopicModel.loadTopicList(getUrl(page, requestInfo), mCallBack);
     }
 
     @Override
     public void loadNextPage(int page, TopicListParam requestInfo) {
         mTopicView.setRefreshing(true);
-        JsonTopicListLoadTask task = new JsonTopicListLoadTask(
-                mTopicView.getContext(), mNextPageLoadFinishedListener);
-        task.executeOnExecutor(JsonTopicListLoadTask.THREAD_POOL_EXECUTOR,
-                getUrl(page, requestInfo));
+        mTopicModel.loadTopicList(getUrl(page, requestInfo), mNextPageCallBack);
     }
 
     private String getUrl(int page, TopicListParam requestInfo) {
-        String jsonUri = HttpUtil.Server + "/thread.php?";
+        StringBuilder jsonUri = new StringBuilder(HttpUtil.Server + "/thread.php?");
         if (0 != requestInfo.authorId) {
-            jsonUri += "authorid=" + requestInfo.authorId + "&";
+            jsonUri.append("authorid=").append(requestInfo.authorId).append("&");
         }
         if (requestInfo.searchPost != 0) {
-            jsonUri += "searchpost=" + requestInfo.searchPost + "&";
+            jsonUri.append("searchpost=").append(requestInfo.searchPost).append("&");
         }
         if (requestInfo.favor != 0) {
-            jsonUri += "favor=" + requestInfo.favor + "&";
+            jsonUri.append("favor=").append(requestInfo.favor).append("&");
         }
         if (requestInfo.content != 0) {
-            jsonUri += "content=" + requestInfo.content + "&";
+            jsonUri.append("content=").append(requestInfo.content).append("&");
         }
 
         if (!StringUtils.isEmpty(requestInfo.author)) {
             try {
                 if (requestInfo.author.endsWith("&searchpost=1")) {
-                    jsonUri += "author="
-                            + URLEncoder.encode(
+                    jsonUri.append("author=").append(URLEncoder.encode(
                             requestInfo.author.substring(0, requestInfo.author.length() - 13),
-                            "GBK") + "&searchpost=1&";
+                            "GBK")).append("&searchpost=1&");
                 } else {
-                    jsonUri += "author="
-                            + URLEncoder.encode(requestInfo.author, "GBK") + "&";
+                    jsonUri.append("author=").append(URLEncoder.encode(requestInfo.author, "GBK")).append("&");
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         } else {
             if (0 != requestInfo.fid) {
-                jsonUri += "fid=" + requestInfo.fid + "&";
+                jsonUri.append("fid=").append(requestInfo.fid).append("&");
             }
             if (!StringUtils.isEmpty(requestInfo.key)) {
-                jsonUri += "key=" + StringUtils.encodeUrl(requestInfo.key, "UTF-8") + "&";
+                jsonUri.append("key=").append(StringUtils.encodeUrl(requestInfo.key, "UTF-8")).append("&");
             }
             if (!StringUtils.isEmpty(requestInfo.fidGroup)) {
-                jsonUri += "fidgroup=" + requestInfo.fidGroup + "&";
+                jsonUri.append("fidgroup=").append(requestInfo.fidGroup).append("&");
             }
         }
-        jsonUri += "page=" + page + "&lite=js&noprefix";
+        jsonUri.append("page=").append(page).append("&lite=js&noprefix");
         if (requestInfo.category == 1) {
-            jsonUri += "&recommend=1&order_by=postdatedesc&user=1";
+            jsonUri.append("&recommend=1&order_by=postdatedesc&user=1");
         }
-        return jsonUri;
+        return jsonUri.toString();
     }
 
     @Override
