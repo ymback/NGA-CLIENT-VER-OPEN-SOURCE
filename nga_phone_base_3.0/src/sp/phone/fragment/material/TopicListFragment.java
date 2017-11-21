@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.presenter.TopicListPresenter;
 import sp.phone.presenter.contract.tmp.TopicListContract;
+import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
@@ -35,6 +37,9 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
 
     @BindView(R.id.list)
     public RecyclerViewEx mListView;
+
+    @BindView(R.id.loading_view)
+    public View mLoadingView;
 
     protected TopicListContract.Presenter mPresenter;
 
@@ -105,14 +110,19 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
                 }
             }
         });
+        mListView.setEmptyView(view.findViewById(R.id.empty_view));
         mListView.setAdapter(mAdapter);
 
+        mSwipeRefreshLayout.setVisibility(View.GONE);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mPresenter.loadPage(1, mRequestParam);
             }
         });
+
+        TextView sayingView = (TextView) mLoadingView.findViewById(R.id.saying);
+        sayingView.setText(ActivityUtils.getSaying());
 
         mPresenter.loadPage(1, mRequestParam);
 
@@ -135,6 +145,12 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
     }
 
     @Override
+    public void hideLoadingView() {
+        mLoadingView.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void setRefreshing(boolean refreshing) {
         if (mSwipeRefreshLayout.isShown()) {
             mSwipeRefreshLayout.setRefreshing(refreshing);
@@ -143,7 +159,7 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
 
     @Override
     public boolean isRefreshing() {
-        return mSwipeRefreshLayout.isRefreshing();
+        return mSwipeRefreshLayout.isShown() ? mSwipeRefreshLayout.isRefreshing() : mLoadingView.isShown();
     }
 
     @Override

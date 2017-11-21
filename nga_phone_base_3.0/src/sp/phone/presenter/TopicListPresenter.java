@@ -27,6 +27,7 @@ public class TopicListPresenter implements TopicListContract.Presenter {
             if (isAttached()) {
                 mTopicView.setRefreshing(false);
                 mTopicView.showToast(text);
+                mTopicView.hideLoadingView();
             }
         }
 
@@ -41,6 +42,7 @@ public class TopicListPresenter implements TopicListContract.Presenter {
             mTopicView.clearData();
             mTopicView.scrollTo(0);
             setData(data);
+            mTopicView.hideLoadingView();
         }
     };
 

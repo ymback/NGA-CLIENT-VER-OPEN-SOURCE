@@ -2,7 +2,9 @@ package sp.phone.fragment.material;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +36,12 @@ public class TopicListBoardFragment extends TopicListFragment {
     @BindView(R.id.fab_menu)
     public FloatingActionsMenu mFam;
 
+    @BindView(R.id.appbar)
+    public AppBarLayout mAppBarLayout;
+
+    @BindView(R.id.toolbar)
+    public Toolbar mToolbar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mBoardManager = BoardManagerImpl.getInstance();
@@ -63,6 +71,21 @@ public class TopicListBoardFragment extends TopicListFragment {
             mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
             mFam.setLayoutParams(lp);
         }
+    }
+
+    @Override
+    public void hideLoadingView() {
+        AppBarLayout.LayoutParams lp = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
+        lp.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
+        super.hideLoadingView();
+    }
+
+    @Override
+    public void scrollTo(int position) {
+        if (position == 0) {
+            mAppBarLayout.setExpanded(true,true);
+        }
+        super.scrollTo(position);
     }
 
     @Override

@@ -12,7 +12,7 @@ import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.FlexibleNonameTopicListActivity;
 import gov.anzong.androidnga.activity.FlexibleProfileActivity;
 import gov.anzong.androidnga.activity.FlexibleSignActivity;
-import gov.anzong.androidnga.activity.FlexibleTopicListActivity;
+import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessagePostActivity;
@@ -59,7 +59,7 @@ public class PhoneConfiguration implements PreferenceKey {
     public int replytotalnum = 0;
     public Set<Integer> blacklist = new HashSet<Integer>();
     public String db_cookie;
-    public Class<?> topicActivityClass = FlexibleTopicListActivity.class;
+    public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
     public Class<?> nonameArticleActivityClass = NonameArticleListActivity.class;
     public Class<?> postActivityClass = PostActivity.class;
@@ -303,7 +303,7 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public void setUiFlag(int uiFlag) {
         this.uiFlag = uiFlag;
-        topicActivityClass = FlexibleTopicListActivity.class;
+        topicActivityClass = TopicListActivity.class;
         articleActivityClass = ArticleListActivity.class;
         nonameArticleActivityClass = NonameArticleListActivity.class;
         messageDetialActivity = MessageDetailActivity.class;

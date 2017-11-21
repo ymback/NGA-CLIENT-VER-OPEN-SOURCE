@@ -22,9 +22,9 @@ import sp.phone.utils.StringUtils;
 /**
  * 帖子列表
  */
-public class FlexibleTopicListActivity extends SwipeBackAppCompatActivity {
+public class TopicListActivity extends SwipeBackAppCompatActivity {
 
-    private static String TAG = FlexibleTopicListActivity.class.getSimpleName();
+    private static String TAG = TopicListActivity.class.getSimpleName();
 
     private boolean fromreplyactivity = false;
 

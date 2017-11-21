@@ -35,6 +35,8 @@ public interface TopicListContract {
 
         void removeTopic(int position);
 
+        void hideLoadingView();
+
     }
 
     interface Model extends BaseContract.Model {

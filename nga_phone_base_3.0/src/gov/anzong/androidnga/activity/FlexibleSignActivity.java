@@ -17,7 +17,6 @@ import gov.anzong.androidnga.R;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.SignData;
-import sp.phone.bean.User;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
@@ -28,7 +27,6 @@ import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
@@ -38,7 +36,7 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
     boolean dualScreen = true;
     int flags = 7;
     ArrayAdapter<String> categoryAdapter;
-    private String TAG = FlexibleTopicListActivity.class.getSimpleName();
+    private String TAG = TopicListActivity.class.getSimpleName();
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
     @Override

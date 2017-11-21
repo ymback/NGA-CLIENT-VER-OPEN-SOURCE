@@ -98,7 +98,7 @@
             android:name=".activity.NonameArticleListActivity"
             android:theme="@style/SwipeBackTheme" />
         <activity
-            android:name=".activity.FlexibleTopicListActivity"
+            android:name=".activity.TopicListActivity"
             android:exported="true"
             android:theme="@style/SwipeBackTheme">
             <intent-filter>

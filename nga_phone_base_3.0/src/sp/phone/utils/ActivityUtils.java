@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.FlexibleTopicListActivity;
+import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
 import sp.phone.bean.BoardHolder;
@@ -38,10 +38,10 @@ public class ActivityUtils {
     static Object lock = new Object();
     private DialogFragment df = null;
     private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity", "MessageListActivity", "MessageDetailActivity"
-            , "MessagePostActivity", "FlexibleTopicListActivity", "PostActivity"};
+            , "MessagePostActivity", "TopicListActivity", "PostActivity"};
 
     private static String[] sSupportNewUi = {"SettingsActivity", "LoginActivity", "MainActivity",
-            FlexibleTopicListActivity.class.getSimpleName(),
+            TopicListActivity.class.getSimpleName(),
             MessageDetailActivity.class.getSimpleName(),
             ArticleListActivity.class.getSimpleName(), MessageListActivity.class.getSimpleName()};
 
