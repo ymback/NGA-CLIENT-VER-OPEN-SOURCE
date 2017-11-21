@@ -42,7 +42,7 @@ public class TopicListPresenter implements TopicListContract.Presenter {
             mTopicView.setRefreshing(false);
         }
     };
-    
+
     private OnTopListLoadFinishedListener mNextPageLoadFinishedListener = new OnTopListLoadFinishedListener() {
         @Override
         public void jsonFinishLoad(TopicListInfo result) {
@@ -58,9 +58,10 @@ public class TopicListPresenter implements TopicListContract.Presenter {
                 return;
             }
             mTopicView.setRefreshing(false);
+            mTopicView.setNextPageEnabled(false);
         }
     };
-    
+
     private void setData(TopicListInfo result) {
         mTopicView.setRefreshing(false);
         mTopicView.setData(result);
@@ -96,16 +97,20 @@ public class TopicListPresenter implements TopicListContract.Presenter {
                 getUrl(page, requestInfo));
     }
 
-    public String getUrl(int page, TopicListParam requestInfo) {
+    private String getUrl(int page, TopicListParam requestInfo) {
         String jsonUri = HttpUtil.Server + "/thread.php?";
-        if (0 != requestInfo.authorId)
+        if (0 != requestInfo.authorId) {
             jsonUri += "authorid=" + requestInfo.authorId + "&";
-        if (requestInfo.searchPost != 0)
+        }
+        if (requestInfo.searchPost != 0) {
             jsonUri += "searchpost=" + requestInfo.searchPost + "&";
-        if (requestInfo.favor != 0)
+        }
+        if (requestInfo.favor != 0) {
             jsonUri += "favor=" + requestInfo.favor + "&";
-        if (requestInfo.content != 0)
+        }
+        if (requestInfo.content != 0) {
             jsonUri += "content=" + requestInfo.content + "&";
+        }
 
         if (!StringUtils.isEmpty(requestInfo.author)) {
             try {
@@ -122,8 +127,9 @@ public class TopicListPresenter implements TopicListContract.Presenter {
                 e.printStackTrace();
             }
         } else {
-            if (0 != requestInfo.fid)
+            if (0 != requestInfo.fid) {
                 jsonUri += "fid=" + requestInfo.fid + "&";
+            }
             if (!StringUtils.isEmpty(requestInfo.key)) {
                 jsonUri += "key=" + StringUtils.encodeUrl(requestInfo.key, "UTF-8") + "&";
             }

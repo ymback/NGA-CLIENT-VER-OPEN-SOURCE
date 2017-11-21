@@ -100,7 +100,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         }
         mInfoList.add(result);
         mTotalCount += result.get__T__ROWS();
-        mEndOfList = mTotalCount >= result.get__ROWS() - 1;
+        mEndOfList = mTotalCount >= result.get__ROWS();
         notifyDataSetChanged();
     }
 
@@ -133,6 +133,14 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
     @Override
     public boolean hasNextPage() {
         return !mEndOfList;
+    }
+
+    public void setNextPageEnabled(boolean enabled) {
+        mEndOfList = !enabled;
+        if (!hasNextPage() && !mIsPrompted) {
+            ActivityUtils.showToast(mContext, mContext.getString(R.string.last_page_prompt));
+            mIsPrompted = true;
+        }
     }
 
     @Override

@@ -32,6 +32,8 @@ public interface TopicListContract {
 
         void scrollTo(int position);
 
+        void setNextPageEnabled(boolean enabled);
+
     }
 
 }

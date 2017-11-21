@@ -101,7 +101,7 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
             @Override
             public void loadNextPage() {
                 if (!isRefreshing()) {
-                    mPresenter.loadPage(mAdapter.getNextPage(), mRequestParam);
+                    mPresenter.loadNextPage(mAdapter.getNextPage(), mRequestParam);
                 }
             }
         });
@@ -127,6 +127,11 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
     @Override
     public void scrollTo(int position) {
         mListView.scrollToPosition(position);
+    }
+
+    @Override
+    public void setNextPageEnabled(boolean enabled) {
+        mAdapter.setNextPageEnabled(enabled);
     }
 
     @Override
