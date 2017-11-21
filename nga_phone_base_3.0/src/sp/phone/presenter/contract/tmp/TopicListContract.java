@@ -2,6 +2,7 @@ package sp.phone.presenter.contract.tmp;
 
 import sp.phone.bean.TopicListInfo;
 import sp.phone.forumoperation.TopicListParam;
+import sp.phone.listener.OnHttpCallBack;
 
 /**
  * Created by Yang Yihang on 2017/6/3.
@@ -11,7 +12,7 @@ public interface TopicListContract {
 
     interface Presenter extends BaseContract.Presenter<View> {
 
-        void removeBookmark(String tidId, int position);
+        void removeTopic(String tidArray, int position);
 
         void loadPage(int page, TopicListParam requestInfo);
 
@@ -28,12 +29,17 @@ public interface TopicListContract {
 
         void clearData();
 
-        android.view.View getTopicListView();
-
         void scrollTo(int position);
 
         void setNextPageEnabled(boolean enabled);
 
+        void removeTopic(int position);
+
+    }
+
+    interface Model extends BaseContract.Model {
+
+        void removeTopic(String tidArray, OnHttpCallBack<String> callBack);
     }
 
 }

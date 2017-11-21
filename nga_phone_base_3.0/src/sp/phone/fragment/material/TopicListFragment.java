@@ -120,11 +120,6 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
     }
 
     @Override
-    public View getTopicListView() {
-        return mListView;
-    }
-
-    @Override
     public void scrollTo(int position) {
         mListView.scrollToPosition(position);
     }
@@ -132,6 +127,11 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
     @Override
     public void setNextPageEnabled(boolean enabled) {
         mAdapter.setNextPageEnabled(enabled);
+    }
+
+    @Override
+    public void removeTopic(int position) {
+
     }
 
     @Override

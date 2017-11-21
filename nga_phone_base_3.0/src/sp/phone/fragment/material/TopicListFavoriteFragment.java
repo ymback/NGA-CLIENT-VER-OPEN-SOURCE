@@ -35,7 +35,7 @@ public class TopicListFavoriteFragment extends TopicListFragment implements Adap
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        mPresenter.removeBookmark((String) view.getTag(R.id.num), finalPosition);
+                        mPresenter.removeTopic((String) view.getTag(R.id.num), finalPosition);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -52,5 +52,11 @@ public class TopicListFavoriteFragment extends TopicListFragment implements Adap
         final AlertDialog dialog = builder.create();
         dialog.show();
         return true;
+    }
+
+    @Override
+    public void removeTopic(int position) {
+        mAdapter.remove(position);
+        mAdapter.notifyItemRemoved(position);
     }
 }

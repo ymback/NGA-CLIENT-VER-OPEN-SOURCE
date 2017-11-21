@@ -1,6 +1,7 @@
 package sp.phone.fragment.material;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -13,20 +14,26 @@ public abstract class BaseMvpFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mPresenter.attachView(this);
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void onResume() {
-        mPresenter.attachView(this);
-        super.onResume();
+    public void onAttach(Context context) {
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
+        super.onAttach(context);
     }
 
     @Override
-    public void onPause() {
-        mPresenter.detachView();
-        super.onPause();
+    public void onDetach() {
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+        super.onDetach();
     }
 
     public void setPresenter(BaseContract.Presenter presenter) {

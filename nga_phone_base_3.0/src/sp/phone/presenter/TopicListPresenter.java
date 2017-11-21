@@ -6,8 +6,9 @@ import java.net.URLEncoder;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.interfaces.OnTopListLoadFinishedListener;
+import sp.phone.listener.OnHttpCallBack;
+import sp.phone.model.TopicListModel;
 import sp.phone.presenter.contract.tmp.TopicListContract;
-import sp.phone.task.DeleteBookmarkTask;
 import sp.phone.task.JsonTopicListLoadTask;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.StringUtils;
@@ -19,6 +20,8 @@ import sp.phone.utils.StringUtils;
 public class TopicListPresenter implements TopicListContract.Presenter {
 
     private TopicListContract.View mTopicView;
+
+    private TopicListContract.Model mTopicModel;
 
     private OnTopListLoadFinishedListener mLoadFinishedListener = new OnTopListLoadFinishedListener() {
         @Override
@@ -69,14 +72,28 @@ public class TopicListPresenter implements TopicListContract.Presenter {
 
 
     public TopicListPresenter() {
-
+        mTopicModel = new TopicListModel();
     }
 
     @Override
-    public void removeBookmark(String tidId, int position) {
-        DeleteBookmarkTask task = new DeleteBookmarkTask(
-                mTopicView.getContext(), mTopicView.getTopicListView(), position);
-        task.execute(tidId);
+    public void removeTopic(String tidArray, final int position) {
+        mTopicModel.removeTopic(tidArray, new OnHttpCallBack<String>() {
+            @Override
+            public void onError(String text) {
+                if (isAttached()) {
+                    mTopicView.showToast(text);
+                }
+
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                if (isAttached()) {
+                    mTopicView.showToast(data);
+                    mTopicView.removeTopic(position);
+                }
+            }
+        });
     }
 
     @Override
