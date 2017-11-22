@@ -27,8 +27,6 @@ public class TopicListParam implements Cloneable,Parcelable {
 
     public String author;
 
-    public boolean searchMode;
-
     public String boardName;
 
     protected TopicListParam(Parcel in) {
@@ -41,7 +39,6 @@ public class TopicListParam implements Cloneable,Parcelable {
         key = in.readString();
         fidGroup = in.readString();
         author = in.readString();
-        searchMode = in.readByte() != 0;
         boardName = in.readString();
     }
 
@@ -59,7 +56,6 @@ public class TopicListParam implements Cloneable,Parcelable {
         dest.writeString(key);
         dest.writeString(fidGroup);
         dest.writeString(author);
-        dest.writeByte((byte) (searchMode ? 1 : 0));
         dest.writeString(boardName);
     }
 

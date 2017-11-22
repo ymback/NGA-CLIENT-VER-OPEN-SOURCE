@@ -26,8 +26,6 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
 
     private static String TAG = TopicListActivity.class.getSimpleName();
 
-    private boolean fromreplyactivity = false;
-
     private CheckReplyNotificationTask asynTask;
 
     private TopicListParam mRequestParam;
@@ -58,7 +56,6 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
             requestParam.key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
             requestParam.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
             requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
-            requestParam.searchMode = false;
             requestParam.content = StringUtils.getUrlParameter(url, "content");
             requestParam.boardName = mBoardManager.getBoardName(String.valueOf(requestParam.fid));
 
@@ -71,10 +68,6 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
             requestParam.key = bundle.getString("key");
             requestParam.author = bundle.getString("author");
             requestParam.fidGroup = bundle.getString("fidgroup");
-            if (!StringUtils.isEmpty(bundle.getString("searchmode"))) {
-                if ("true".equals(bundle.getString("searchmode")))
-                    requestParam.searchMode = true;
-            }
             requestParam.boardName = bundle.getString("board_name");
             if (TextUtils.isEmpty(requestParam.boardName)) {
                 requestParam.boardName = mBoardManager.getBoardName(String.valueOf(requestParam.fid));
@@ -89,13 +82,6 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
         setupFragment();
-
-//        if (authorid > 0 || searchpost > 0 || favor > 0
-//                || !StringUtils.isEmpty(key) || !StringUtils.isEmpty(author)
-//                || !StringUtils.isEmpty(fidgroup)) {//!StringUtils.isEmpty(table) ||
-//            fromreplyactivity = true;
-//        }
-
     }
 
     private void setupFragment() {

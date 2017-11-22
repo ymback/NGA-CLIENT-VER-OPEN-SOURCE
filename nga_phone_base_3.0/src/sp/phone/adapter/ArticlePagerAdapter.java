@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import sp.phone.forumoperation.ArticleListAction;
+import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.fragment.material.ArticleListFragment;
 
 /**
@@ -19,21 +19,21 @@ public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
 
     private SparseArray<ArticleListFragment> mRegisteredFragments = new SparseArray<>();
 
-    private ArticleListAction mArticleListAction;
+    private ArticleListParam mArticleListParam;
 
     private int mCount = 1;
 
 
-    public ArticlePagerAdapter(FragmentManager fm, ArticleListAction action) {
+    public ArticlePagerAdapter(FragmentManager fm, ArticleListParam action) {
         super(fm);
-        mArticleListAction = action;
+        mArticleListParam = action;
     }
 
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = new ArticleListFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("ArticleListAction",mArticleListAction);
+        bundle.putParcelable("articleListParam", mArticleListParam);
         fragment.setArguments(bundle);
         return fragment;
     }

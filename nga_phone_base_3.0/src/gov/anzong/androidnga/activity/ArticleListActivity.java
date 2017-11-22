@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.forumoperation.ArticleListAction;
-import sp.phone.fragment.material.ArticleContainerFragment;
+import sp.phone.forumoperation.ArticleListParam;
+import sp.phone.fragment.material.ArticleTabFragment;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
@@ -22,19 +22,19 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
 
     private void setupFragment() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(ArticleContainerFragment.class.getSimpleName());
+        Fragment fragment = fm.findFragmentByTag(ArticleTabFragment.class.getSimpleName());
         if (fragment == null) {
-            fragment = new ArticleContainerFragment();
+            fragment = new ArticleTabFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable("ArticleListAction",getArticleListAction());
+            bundle.putParcelable("articleListParam",getArticleListAction());
             fragment.setArguments(bundle);
-            fm.beginTransaction().replace(R.id.container,fragment,ArticleContainerFragment.class.getSimpleName()).commit();
+            fm.beginTransaction().replace(R.id.container,fragment,ArticleTabFragment.class.getSimpleName()).commit();
         }
         fragment.setHasOptionsMenu(true);
     }
 
-    private ArticleListAction getArticleListAction() {
-        ArticleListAction articleListAction = new ArticleListAction();
+    private ArticleListParam getArticleListAction() {
+        ArticleListParam articleListParam = new ArticleListParam();
         int tid;
         int pid;
         int authorId;
@@ -55,12 +55,12 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
         if (authorId != 0) {
             fromReplyActivity = 1;
         }
-        articleListAction.setTid(tid);
-        articleListAction.setPageFromUrl(pageFromUrl);
-        articleListAction.setPid(pid);
-        articleListAction.setAuthorId(authorId);
-        articleListAction.setFromReplyActivity(fromReplyActivity);
-        return articleListAction;
+        articleListParam.setTid(tid);
+        articleListParam.setPageFromUrl(pageFromUrl);
+        articleListParam.setPid(pid);
+        articleListParam.setAuthorId(authorId);
+        articleListParam.setFromReplyActivity(fromReplyActivity);
+        return articleListParam;
     }
 
     @Override

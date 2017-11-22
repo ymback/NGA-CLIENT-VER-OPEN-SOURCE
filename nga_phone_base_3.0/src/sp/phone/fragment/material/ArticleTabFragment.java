@@ -27,7 +27,7 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ArticlePagerAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.forumoperation.ArticleListAction;
+import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
@@ -42,7 +42,7 @@ import sp.phone.utils.StringUtils;
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleContainerFragment extends BaseFragment implements OnThreadPageLoadFinishedListener, PagerOwner, OnClickListener {
+public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoadFinishedListener, PagerOwner, OnClickListener {
 
     private ViewPager mViewPager;
 
@@ -50,7 +50,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
 
     private int mPosition;
 
-    private ArticleListAction mArticleListAction;
+    private ArticleListParam mArticleListParam;
 
     private TabLayout mTabLayout;
 
@@ -65,7 +65,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null) {
-            mArticleListAction = args.getParcelable("ArticleListAction");
+            mArticleListParam = args.getParcelable("articleListParam");
         }
     }
 
@@ -75,7 +75,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
         mViewPager = new ViewPager(getContext());
         mViewPager.setId(R.id.pager);
         mViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(), mArticleListAction);
+        mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(), mArticleListParam);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -138,7 +138,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
 
     private void reply() {
         Intent intent = new Intent();
-        String tid = String.valueOf(mArticleListAction.getTid());
+        String tid = String.valueOf(mArticleListParam.getTid());
         intent.putExtra("prefix", "");
         intent.putExtra("tid", tid);
         intent.putExtra("action", "reply");
@@ -164,7 +164,7 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
                 break;
             case R.id.menu_add_bookmark:
                 BookmarkTask bt = new BookmarkTask(getContext());
-                bt.execute(String.valueOf(mArticleListAction.getTid()));
+                bt.execute(String.valueOf(mArticleListParam.getTid()));
                 break;
 //            case R.id.menu_orientation_lock:
 //                handleLockOrientation(item);
@@ -188,10 +188,10 @@ public class ArticleContainerFragment extends BaseFragment implements OnThreadPa
             builder.append("《").append(mTitle).append("》 - 艾泽拉斯国家地理论坛，地址：");
         }
         builder.append(Utils.getNGAHost()).append("read.php?");
-        if (mArticleListAction.getPid() != 0) {
-            builder.append("pid=").append(mArticleListAction.getPid()).append(" (分享自NGA安卓客户端开源版)");
+        if (mArticleListParam.getPid() != 0) {
+            builder.append("pid=").append(mArticleListParam.getPid()).append(" (分享自NGA安卓客户端开源版)");
         } else {
-            builder.append("tid=").append(mArticleListAction.getTid()).append(" (分享自NGA安卓客户端开源版)");
+            builder.append("tid=").append(mArticleListParam.getTid()).append(" (分享自NGA安卓客户端开源版)");
         }
         FunctionUtils.share(getContext(),title,builder.toString());
     }

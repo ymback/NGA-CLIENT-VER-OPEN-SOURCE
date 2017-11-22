@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleListAction implements Parcelable{
+public class ArticleListParam implements Parcelable{
 
     int pid;
 
@@ -19,11 +19,11 @@ public class ArticleListAction implements Parcelable{
 
     int pageFromUrl;
 
-    public ArticleListAction() {
+    public ArticleListParam() {
 
     }
 
-    protected ArticleListAction(Parcel in) {
+    protected ArticleListParam(Parcel in) {
         pid = in.readInt();
         tid = in.readInt();
         authorId = in.readInt();
@@ -31,15 +31,15 @@ public class ArticleListAction implements Parcelable{
         pageFromUrl = in.readInt();
     }
 
-    public static final Creator<ArticleListAction> CREATOR = new Creator<ArticleListAction>() {
+    public static final Creator<ArticleListParam> CREATOR = new Creator<ArticleListParam>() {
         @Override
-        public ArticleListAction createFromParcel(Parcel in) {
-            return new ArticleListAction(in);
+        public ArticleListParam createFromParcel(Parcel in) {
+            return new ArticleListParam(in);
         }
 
         @Override
-        public ArticleListAction[] newArray(int size) {
-            return new ArticleListAction[size];
+        public ArticleListParam[] newArray(int size) {
+            return new ArticleListParam[size];
         }
     };
 

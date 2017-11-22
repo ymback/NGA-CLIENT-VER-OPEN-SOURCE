@@ -2,7 +2,7 @@ package sp.phone.model;
 
 import android.content.Context;
 
-import sp.phone.forumoperation.ArticleListAction;
+import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.utils.HttpUtil;
@@ -17,7 +17,7 @@ public class ArticleListTask {
 
     private static final String TAG = ArticleListTask.class.getSimpleName();
 
-    public void loadPage(Context context, ArticleListAction action, OnThreadPageLoadFinishedListener listener) {
+    public void loadPage(Context context, ArticleListParam action, OnThreadPageLoadFinishedListener listener) {
         int page = action.getPageFromUrl();
         int tid = action.getTid();
         int pid = action.getPid();

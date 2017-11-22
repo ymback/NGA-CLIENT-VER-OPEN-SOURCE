@@ -30,7 +30,7 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.forumoperation.ArticleListAction;
+import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.PostCommentDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
@@ -56,7 +56,7 @@ public class ArticleListFragment extends BaseFragment {
 
     private ActionMode.Callback mActionModeCallback;
 
-    private ArticleListAction mArticleListAction;
+    private ArticleListParam mArticleListParam;
 
     private int mPage;
 
@@ -70,9 +70,9 @@ public class ArticleListFragment extends BaseFragment {
         if (savedInstanceState != null) {
             mPage = savedInstanceState.getInt("page");
         }
-        mArticleListAction = getArguments().getParcelable("ArticleListAction");
-        if (mArticleListAction != null)
-            mArticleListAction.setPageFromUrl(mPage);
+        mArticleListParam = getArguments().getParcelable("articleListParam");
+        if (mArticleListParam != null)
+            mArticleListParam.setPageFromUrl(mPage);
         mTask = new ArticleListTask();
         super.onCreate(savedInstanceState);
     }
@@ -116,9 +116,9 @@ public class ArticleListFragment extends BaseFragment {
     }
 
     public void loadPage() {
-        mArticleListAction.setPageFromUrl(mPage);
+        mArticleListParam.setPageFromUrl(mPage);
         showProgress();
-        mTask.loadPage(getContext(), mArticleListAction, new OnThreadPageLoadFinishedListener() {
+        mTask.loadPage(getContext(), mArticleListParam, new OnThreadPageLoadFinishedListener() {
             @Override
             public void finishLoad(ThreadData data) {
                 if (data != null) {
@@ -135,7 +135,7 @@ public class ArticleListFragment extends BaseFragment {
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 MenuInflater inflater = mode.getMenuInflater();
-                if (mArticleListAction.getPid() == 0) {
+                if (mArticleListParam.getPid() == 0) {
                     inflater.inflate(R.menu.article_list_context_menu, menu);
                 } else {
                     inflater.inflate(R.menu.article_list_context_menu_with_tid, menu);
@@ -185,8 +185,8 @@ public class ArticleListFragment extends BaseFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        int page = mArticleListAction.getPageFromUrl();
-        int tid = mArticleListAction.getTid();
+        int page = mArticleListParam.getPageFromUrl();
+        int tid = mArticleListParam.getTid();
         NLog.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
 
         if (!getUserVisibleHint()) {
@@ -418,7 +418,7 @@ public class ArticleListFragment extends BaseFragment {
                 if (row.getPid() != 0) {
                     postPrefix.append("[quote][pid=");
                     postPrefix.append(row.getPid());
-                    postPrefix.append(',').append(tidStr).append(",").append(mArticleListAction.getPageFromUrl());
+                    postPrefix.append(',').append(tidStr).append(",").append(mArticleListParam.getPageFromUrl());
                     postPrefix.append("]");// Topic
                     postPrefix.append("Reply");
                     if (row.getISANONYMOUS()) {// 是匿名的人
@@ -445,7 +445,7 @@ public class ArticleListFragment extends BaseFragment {
                 Bundle b = new Bundle();
                 b.putInt("pid", row.getPid());
                 b.putInt("fid", row.getFid());
-                b.putInt("tid", mArticleListAction.getTid());
+                b.putInt("tid", mArticleListParam.getTid());
 
                 String prefix = StringUtils.removeBrTag(postPrefix.toString());
                 if (!StringUtils.isEmpty(prefix)) {
@@ -480,7 +480,7 @@ public class ArticleListFragment extends BaseFragment {
                 if (rowInfo.getPid() != 0) {
                     shareUrl = shareUrl + "pid=" + rowInfo.getPid() + " (分享自NGA安卓客户端开源版)";
                 } else {
-                    shareUrl = shareUrl + "tid=" + mArticleListAction.getTid() + " (分享自NGA安卓客户端开源版)";
+                    shareUrl = shareUrl + "tid=" + mArticleListParam.getTid() + " (分享自NGA安卓客户端开源版)";
                 }
                 String title = mData.getThreadInfo().getSubject();
                 if (!StringUtils.isEmpty(title)) {

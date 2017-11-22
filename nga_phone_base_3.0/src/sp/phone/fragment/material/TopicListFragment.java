@@ -43,19 +43,12 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
 
     protected TopicListContract.Presenter mPresenter;
 
-    private boolean mFromReplayActivity;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mPresenter = new TopicListPresenter();
         setPresenter(mPresenter);
         super.onCreate(savedInstanceState);
         mRequestParam = getArguments().getParcelable("requestParam");
-        if (mRequestParam.authorId > 0 || mRequestParam.searchPost > 0 || mRequestParam.favor > 0
-                || !StringUtils.isEmpty(mRequestParam.key) || !StringUtils.isEmpty(mRequestParam.author)
-                || !StringUtils.isEmpty(mRequestParam.fidGroup)) {//!StringUtils.isEmpty(table) ||
-            mFromReplayActivity = true;
-        }
         setTitle();
     }
 
@@ -191,9 +184,7 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
             intent.putExtra("tid", tid);
             intent.putExtra("pid", pid);
             intent.putExtra("authorid", authorId);
-            if (mFromReplayActivity) {
-                intent.putExtra("fromreplyactivity", 1);
-            }
+            intent.putExtra("searchPost",mRequestParam.searchPost);
             intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
             startActivity(intent);
         }
