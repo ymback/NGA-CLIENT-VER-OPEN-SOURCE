@@ -108,18 +108,21 @@ android {
         variant.outputs.each { output ->
             def newName
             def timeNow
+            def outDirectory
             if (isJenkins()) {
                 timeNow = JENKINS_TIME
-                newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
+                outDirectory = '/auto-build/tomcat/webapps/download/'
+                newName = 'NGA-v' + APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
             } else {
                 timeNow = getDate()
+                outDirectory = output.outputFile.parent
                 if (variant.buildType.name == 'debug') {
                     newName = 'NGA-v' + project.appVersionName + '-debug.apk'
                 } else {
                     newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
                 }
             }
-            output.outputFile = new File(output.outputFile.parent, newName)
+            output.outputFile = new File(outDirectory, newName)
         }
     }
 }
