@@ -17,11 +17,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ArticlePagerAdapter;
@@ -42,9 +44,10 @@ import sp.phone.utils.StringUtils;
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoadFinishedListener, PagerOwner, OnClickListener {
+public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoadFinishedListener, PagerOwner {
 
-    private ViewPager mViewPager;
+    @BindView(R.id.pager)
+    public ViewPager mViewPager;
 
     private ArticlePagerAdapter mPagerAdapter;
 
@@ -52,13 +55,13 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
 
     private ArticleListParam mArticleListParam;
 
-    private TabLayout mTabLayout;
+    @BindView(R.id.tabs)
+    public TabLayout mTabLayout;
 
     private static final String GOTO_TAG = "goto";
 
-    private String mTitle;
-
-    private FloatingActionsMenu mFam;
+    @BindView(R.id.fab_menu)
+    public FloatingActionsMenu mFam;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,9 +75,18 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mViewPager = new ViewPager(getContext());
-        mViewPager.setId(R.id.pager);
-        mViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        if (PhoneConfiguration.getInstance().isShownBottomTab()) {
+            return inflater.inflate(R.layout.fragment_article_tab_bottom, container, false);
+        } else {
+            return inflater.inflate(R.layout.fragment_article_tab, container, false);
+        }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
+        updateFloatingMenu();
         mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(), mArticleListParam);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -85,24 +97,12 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
             }
         });
 
-        mTabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
-        if (mTabLayout != null) {
-            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-            mTabLayout.setupWithViewPager(mViewPager);
-        }
-        return mViewPager;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        updateFloatingMenu();
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.setupWithViewPager(mViewPager);
         super.onViewCreated(view, savedInstanceState);
     }
 
     private void updateFloatingMenu() {
-        mActivity.findViewById(R.id.fab_post).setOnClickListener(this);
-        mActivity.findViewById(R.id.fab_refresh).setOnClickListener(this);
-        mFam = (FloatingActionsMenu) mActivity.findViewById(R.id.fab_menu);
         if (PhoneConfiguration.getInstance().isLeftHandMode()) {
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
             lp.gravity = Gravity.START | Gravity.BOTTOM;
@@ -121,22 +121,26 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
 
     @Override
     public void finishLoad(ThreadData data) {
-        mTitle = data.getThreadInfo().getSubject();
-        setTitle(mTitle);
+        if (data == null) {
+            return;
+        }
         int replyCount = data.getThreadInfo().getReplies() + 1; //没有包括主楼, 所以+1
         int count = replyCount / 20;
         if (replyCount % 20 != 0) {
             count++;
         }
-        if (count <= 5) {
-            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        } else {
-            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        if (count > mPagerAdapter.getCount()) {
+            if (count <= 5) {
+                mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+            } else {
+                mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            }
+            mPagerAdapter.setCount(count);
         }
-        mPagerAdapter.setCount(count);
     }
 
-    private void reply() {
+    @OnClick(R.id.fab_post)
+    public void reply() {
         Intent intent = new Intent();
         String tid = String.valueOf(mArticleListParam.getTid());
         intent.putExtra("prefix", "");
@@ -150,6 +154,12 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
                     PhoneConfiguration.getInstance().loginActivityClass);
         }
         startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
+    }
+
+    @OnClick(R.id.fab_refresh)
+    public void refresh() {
+        mPagerAdapter.getChildAt(mPosition).loadPage();
+        mFam.collapse();
     }
 
     @Override
@@ -166,9 +176,6 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
                 BookmarkTask bt = new BookmarkTask(getContext());
                 bt.execute(String.valueOf(mArticleListParam.getTid()));
                 break;
-//            case R.id.menu_orientation_lock:
-//                handleLockOrientation(item);
-//                break;
             case R.id.menu_goto_floor:
                 createGotoDialog();
                 break;
@@ -184,8 +191,8 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
     private void share() {
         String title = getString(R.string.share);
         StringBuilder builder = new StringBuilder();
-        if (!TextUtils.isEmpty(mTitle)) {
-            builder.append("《").append(mTitle).append("》 - 艾泽拉斯国家地理论坛，地址：");
+        if (!TextUtils.isEmpty(getActivity().getTitle())) {
+            builder.append("《").append(getActivity().getTitle()).append("》 - 艾泽拉斯国家地理论坛，地址：");
         }
         builder.append(Utils.getNGAHost()).append("read.php?");
         if (mArticleListParam.getPid() != 0) {
@@ -193,21 +200,12 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
         } else {
             builder.append("tid=").append(mArticleListParam.getTid()).append(" (分享自NGA安卓客户端开源版)");
         }
-        FunctionUtils.share(getContext(),title,builder.toString());
+        FunctionUtils.share(getContext(), title, builder.toString());
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.article_list_option_menu, menu);
-
-//        MenuItem lock = menu.findItem(R.id.article_menuitem_lock);
-//        int orientation = ThemeManager.getInstance().screenOrentation;
-//        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-//                ||  orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-//            lock.setTitle(R.string.unlock_orientation);
-//            lock.setIcon(R.drawable.ic_menu_always_landscape_portrait);
-//
-//        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -258,63 +256,6 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
     public void setCurrentItem(int index) {
         mViewPager.setCurrentItem(index);
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab_post:
-                reply();
-                break;
-            case R.id.fab_refresh:
-                mPagerAdapter.getChildAt(mPosition).loadPage();
-                mFam.collapse();
-                break;
-        }
-    }
-
-    //    @SuppressWarnings({"unused", "deprecation"})
-//    private void handleLockOrientation(MenuItem item) {
-//        int preOrentation = ThemeManager.getInstance().screenOrentation;
-//        int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-//        ImageButton compat_item = null;// getActionItem(R.id.actionbar_compat_item_lock);
-//
-//        if (preOrentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-//                || preOrentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-//            // restore
-//            // int newOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
-//            ThemeManager.getInstance().screenOrentation = newOrientation;
-//
-//            setRequestedOrientation(newOrientation);
-//            item.setTitle(R.string.lock_orientation);
-//            item.setIcon(R.drawable.ic_lock_screen);
-//            if (compat_item != null)
-//                compat_item.setImageResource(R.drawable.ic_lock_screen);
-//
-//        } else {
-//            newOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-//            Display dis = getWindowManager().getDefaultDisplay();
-//            // Point p = new Point();
-//            // dis.getSize(p);
-//            if (dis.getWidth() < dis.getHeight()) {
-//                newOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-//            }
-//
-//            ThemeManager.getInstance().screenOrentation = newOrientation;
-//            setRequestedOrientation(newOrientation);
-//            item.setTitle(R.string.unlock_orientation);
-//            item.setIcon(R.drawable.ic_menu_always_landscape_portrait);
-//            if (compat_item != null)
-//                compat_item
-//                        .setImageResource(R.drawable.ic_menu_always_landscape_portrait);
-//        }
-//
-//        SharedPreferences share = getSharedPreferences(PERFERENCE,
-//                MODE_MULTI_PROCESS);
-//        SharedPreferences.Editor editor = share.edit();
-//        editor.putInt(SCREEN_ORENTATION, newOrientation);
-//        editor.apply();
-//
-//    }
 
 
 }

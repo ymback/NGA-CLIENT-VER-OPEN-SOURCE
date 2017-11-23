@@ -3,14 +3,12 @@ package gov.anzong.androidnga.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.Toolbar;
 
-import gov.anzong.androidnga.R;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
+import sp.phone.fragment.material.ArticleListFragment;
+import sp.phone.fragment.material.ArticleListReplyFragment;
 import sp.phone.fragment.material.ArticleTabFragment;
-import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -22,18 +20,24 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
 
     private void setupFragment() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(ArticleTabFragment.class.getSimpleName());
+        Fragment fragment = fm.findFragmentByTag(ArticleListFragment.class.getSimpleName());
         if (fragment == null) {
-            fragment = new ArticleTabFragment();
+            ArticleListParam param = getArticleListParam();
+            if (param.getFromReplyActivity() == 0) {
+                fragment = new ArticleTabFragment();
+            } else {
+                fragment = new ArticleListReplyFragment();
+            }
+            fragment.setHasOptionsMenu(true);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("articleListParam",getArticleListAction());
+            bundle.putParcelable("articleListParam", getArticleListParam());
             fragment.setArguments(bundle);
-            fm.beginTransaction().replace(R.id.container,fragment,ArticleTabFragment.class.getSimpleName()).commit();
+            fm.beginTransaction().replace(android.R.id.content, fragment, ArticleTabFragment.class.getSimpleName()).commit();
         }
         fragment.setHasOptionsMenu(true);
     }
 
-    private ArticleListParam getArticleListAction() {
+    private ArticleListParam getArticleListParam() {
         ArticleListParam articleListParam = new ArticleListParam();
         int tid;
         int pid;
@@ -41,17 +45,17 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
         int pageFromUrl = 0;
         String url = getIntent().getDataString();
         if (null != url) {
-            tid = getUrlParameter(url, "tid");
-            pid = getUrlParameter(url, "pid");
-            authorId = getUrlParameter(url, "authorid");
-            pageFromUrl = getUrlParameter(url, "page");
+            tid = StringUtils.getUrlParameter(url, "tid");
+            pid = StringUtils.getUrlParameter(url, "pid");
+            authorId = StringUtils.getUrlParameter(url, "authorid");
+            pageFromUrl = StringUtils.getUrlParameter(url, "page");
         } else {
             tid = getIntent().getIntExtra("tid", 0);
             pid = getIntent().getIntExtra("pid", 0);
             authorId = getIntent().getIntExtra("authorid", 0);
         }
 
-        int fromReplyActivity = getIntent().getIntExtra("fromreplyactivity", 0);
+        int fromReplyActivity = getIntent().getIntExtra("searchpost", 0);
         if (authorId != 0) {
             fromReplyActivity = 1;
         }
@@ -66,64 +70,11 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentViewId());
-        setupActionBar((Toolbar) findViewById(R.id.toolbar));
         setupFragment();
-    }
-
-    private int getContentViewId() {
-        if (PhoneConfiguration.getInstance().isShownBottomTab()) {
-            return R.layout.activity_article_list_bottom_tab;
-        } else {
-            return R.layout.activity_article_list;
+        if (getIntent().getStringExtra("title") != null) {
+            setTitle(getIntent().getStringExtra("title"));
         }
     }
 
-    private int getUrlParameter(String url, String paraName) {
-        if (StringUtils.isEmpty(url)) {
-            return 0;
-        }
-        final String pattern = paraName + "=";
-        int start = url.indexOf(pattern);
-        if (start == -1)
-            return 0;
-        start += pattern.length();
-        int end = url.indexOf("&", start);
-        if (end == -1)
-            end = url.length();
-        String value = url.substring(start, end);
-        int ret = 0;
-        try {
-            ret = Integer.parseInt(value);
-        } catch (Exception e) {
-            NLog.e(TAG, "invalid url:" + url);
-        }
-
-        return ret;
-    }
-
-//
-//    @Override
-//    public void finishLoad(ThreadData data) {
-//        int exactCount = 1 + data.getThreadInfo().getReplies() / 20;
-//        if (mTabsAdapter.getCount() != exactCount && this.authorid == 0) {
-//            if (this.pid != 0)
-//                exactCount = 1;
-//            mTabsAdapter.setCount(exactCount);
-//        }
-//        if (this.authorid > 0) {
-//            exactCount = 1 + data.get__ROWS() / 20;
-//            mTabsAdapter.setCount(exactCount);
-//        }
-//        if (tid != data.getThreadInfo().getTid()) // mirror thread
-//            tid = data.getThreadInfo().getTid();
-//        fid = data.getThreadInfo().getFid();
-//        getSupportActionBar().setTitle(
-//                StringUtils.unEscapeHtml(data.getThreadInfo().getSubject()));
-//
-//        title = data.getThreadInfo().getSubject();
-//
-//        attacher.setRefreshComplete();
-//    }
 
 }

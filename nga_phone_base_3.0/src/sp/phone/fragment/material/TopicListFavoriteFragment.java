@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
+import sp.phone.bean.ThreadPageInfo;
 
 /**
  * Created by Justwen on 2017/11/19.
@@ -28,14 +29,16 @@ public class TopicListFavoriteFragment extends TopicListFragment implements Adap
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, final long id) {
         final int finalPosition = position;
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        mPresenter.removeTopic((String) view.getTag(R.id.num), finalPosition);
+                        ThreadPageInfo info = (ThreadPageInfo) view.getTag();
+                        String tidArray = info.getTidarray();
+                        mPresenter.removeTopic(tidArray, finalPosition);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:

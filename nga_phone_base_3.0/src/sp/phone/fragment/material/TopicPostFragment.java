@@ -21,6 +21,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.PostActivity;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
+import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.presenter.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtils;
@@ -101,12 +102,16 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
         if (userSpinner != null) {
             SpinnerUserListAdapter adapter = new ActionBarUserListAdapter(getContext());
             userSpinner.setAdapter(adapter);
+            userSpinner.setSelection(UserManagerImpl.getInstance().getActiveUserIndex());
             userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
-                    UserManagerImpl.getInstance().setActiveUser(position);
+                    UserManager um = UserManagerImpl.getInstance();
+                    if (position != um.getActiveUserIndex()) {
+                        um.setActiveUser(position);
+                    }
 
                 }
 

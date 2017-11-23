@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.adapter.material.TopicListAdapter;
+import sp.phone.bean.ThreadPageInfo;
 import sp.phone.bean.TopicListInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicListParam;
@@ -168,7 +169,11 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
     private class EnterJsonArticle implements View.OnClickListener {
 
         public void onClick(View view) {
-            String url = (String) view.getTag(R.id.title);
+            ThreadPageInfo info = (ThreadPageInfo) view.getTag();
+            String url = "tid=" + info.getTid();
+            if (info.getPid() != 0) {
+                url = url +  "&pid=" + info.getPid();
+            }
             if (StringUtils.isEmpty(url)) {
                 return;
             }
@@ -184,7 +189,8 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
             intent.putExtra("tid", tid);
             intent.putExtra("pid", pid);
             intent.putExtra("authorid", authorId);
-            intent.putExtra("searchPost",mRequestParam.searchPost);
+            intent.putExtra("searchpost",mRequestParam.searchPost);
+            intent.putExtra("title",info.getSubject());
             intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
             startActivity(intent);
         }

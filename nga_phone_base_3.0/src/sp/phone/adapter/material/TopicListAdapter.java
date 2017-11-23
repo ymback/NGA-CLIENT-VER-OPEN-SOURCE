@@ -111,20 +111,6 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         mIsPrompted = false;
     }
 
-    private String getUrl(int position) {
-        ThreadPageInfo entry = getEntry(position);
-        if (entry == null || entry.getTid() == 0) {
-            return null;
-        }
-
-        String ret = "tid=" + entry.getTid();
-        if (entry.getPid() != 0) {
-            return ret + "&pid=" + entry.getPid();
-        } else {
-            return ret;
-        }
-    }
-
     @Override
     public int getNextPage() {
         return mInfoList.size() + 1;
@@ -168,8 +154,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
                 return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
             }
         });
-        holder.itemView.setTag(R.id.title, getUrl(position));
-        holder.itemView.setTag(R.id.num, getTidArray(position));
+        holder.itemView.setTag(getEntry(position));
         holder.itemView.setBackgroundResource(colorId);
         handleJsonList(holder, position);
     }
@@ -388,16 +373,6 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
             }
             position -= mInfoList.get(i).get__T__ROWS();
         }
-    }
-
-    private String getTidArray(int position) {
-        for (int i = 0; i < mInfoList.size(); i++) {
-            if (position < mInfoList.get(i).get__T__ROWS()) {
-                return mInfoList.get(i).getArticleEntryList().get(position).getTidarray();
-            }
-            position -= mInfoList.get(i).get__T__ROWS();
-        }
-        return null;
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
