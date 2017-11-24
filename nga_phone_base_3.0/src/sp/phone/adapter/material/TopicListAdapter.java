@@ -16,14 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import io.reactivex.functions.Consumer;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.model.entity.ThreadPageInfo;
@@ -97,7 +101,15 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
         ThreadPageInfo info = mThreadPageList.get(position);
         info.setPosition(position);
-        holder.itemView.setOnClickListener(mClickListener);
+        //避免双击
+        RxView.clicks(holder.itemView)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        mClickListener.onClick(holder.itemView);
+                    }
+                });
         holder.itemView.setOnLongClickListener(mLongClickListener);
         holder.itemView.setTag(info);
 

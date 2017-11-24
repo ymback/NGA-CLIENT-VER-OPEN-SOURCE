@@ -28,6 +28,8 @@ public class ThreadPageInfo {
 
     private int mPosition;
 
+    private boolean mIsAnonymity;
+
     public int getTid() {
         return mTid;
     }
@@ -130,6 +132,14 @@ public class ThreadPageInfo {
 
     public void setPosition(int position) {
         mPosition = position;
+    }
+
+    public boolean isAnonymity() {
+        return mIsAnonymity;
+    }
+
+    public void setAnonymity(boolean anonymity) {
+        mIsAnonymity = anonymity;
     }
 
     @Override
