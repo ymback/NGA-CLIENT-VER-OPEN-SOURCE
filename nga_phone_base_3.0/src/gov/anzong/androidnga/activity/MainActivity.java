@@ -37,7 +37,7 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.fragment.BoardFragment;
-import sp.phone.fragment.ProfileSearchDialogFragment;
+import sp.phone.fragment.dialog.ProfileSearchDialogFragment;
 import sp.phone.presenter.BoardPresenter;
 import sp.phone.presenter.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;

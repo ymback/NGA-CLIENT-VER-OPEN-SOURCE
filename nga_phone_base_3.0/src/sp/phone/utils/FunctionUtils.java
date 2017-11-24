@@ -51,7 +51,7 @@ import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
-import sp.phone.fragment.ReportDialogFragment;
+import sp.phone.fragment.dialog.ReportDialogFragment;
 import sp.phone.fragment.dialog.SuperTextDialogFragment;
 import sp.phone.proxy.ProxyBridge;
 

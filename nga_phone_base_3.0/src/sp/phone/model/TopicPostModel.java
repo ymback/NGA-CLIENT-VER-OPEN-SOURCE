@@ -15,7 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import sp.phone.bean.json.TopicPostBean;
+import sp.phone.bean.TopicPostBean;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.presenter.contract.TopicPostContract;
@@ -27,7 +27,7 @@ import sp.phone.utils.NLog;
  * Created by Yang Yihang on 2017/6/10.
  */
 
-public class TopicPostModel implements TopicPostContract.Model{
+public class TopicPostModel implements TopicPostContract.Model {
 
     private static final String HOST = Utils.getNGAHost() + "post.php?";
 
@@ -36,7 +36,6 @@ public class TopicPostModel implements TopicPostContract.Model{
     private TopicPostContract.Presenter mPresenter;
 
     private OkHttpClient mOkHttpClient;
-
 
     public TopicPostModel(TopicPostContract.Presenter presenter) {
         mOkHttpClient = new OkHttpClient();
@@ -50,15 +49,15 @@ public class TopicPostModel implements TopicPostContract.Model{
 
         StringBuilder builder = new StringBuilder(HOST);
         builder.append("fid=").append(act.getFid_()).append("&lite=js");
-        if (act.getAction() != null){
+        if (act.getAction() != null) {
             builder.append("&action=").append(act.getAction());
         }
 
-        if (act.getPid() != null){
+        if (act.getPid() != null) {
             builder.append("&pid=").append(act.getPid());
         }
 
-        if (act.getTid() != null){
+        if (act.getTid() != null) {
             builder.append("&tid=").append(act.getTid());
         }
 
@@ -72,18 +71,19 @@ public class TopicPostModel implements TopicPostContract.Model{
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
                 ResponseBody body = response.body();
-                if ("ok".equalsIgnoreCase(response.message()) && body != null){
+                if ("ok".equalsIgnoreCase(response.message()) && body != null) {
                     String result = body.string();
                     int index = result.indexOf("=");
                     if (index < 0) {
-                        NLog.e(TAG,"prepare post info failed !!");
+                        NLog.e(TAG, "prepare post info failed !!");
                         return;
                     }
-                    result = result.substring(index+1);
+                    result = result.substring(index + 1);
                     TopicPostBean bean = null;
                     try {
                         bean = JSON.parseObject(result, TopicPostBean.class);
@@ -93,10 +93,10 @@ public class TopicPostModel implements TopicPostContract.Model{
                     if (bean != null) {
                         act.setAuth(bean.getData().getAuth());
                     } else {
-                        NLog.e(TAG,"prepare post info failed !!");
+                        NLog.e(TAG, "prepare post info failed !!");
                     }
                 } else {
-                    NLog.e(TAG,"prepare post info failed !!");
+                    NLog.e(TAG, "prepare post info failed !!");
                 }
             }
         });
@@ -112,7 +112,7 @@ public class TopicPostModel implements TopicPostContract.Model{
     @Override
     public void uploadFile(Uri uri) {
         TopicPostAction act = mPresenter.getTopicPostAction();
-        FileUploadTask fileUploadTask = new FileUploadTask(mPresenter.getContext(), (FileUploadTask.onFileUploaded) mPresenter, uri,act.getAuth());
+        FileUploadTask fileUploadTask = new FileUploadTask(mPresenter.getContext(), (FileUploadTask.onFileUploaded) mPresenter, uri, act.getAuth());
         fileUploadTask.executeOnExecutor(FileUploadTask.THREAD_POOL_EXECUTOR);
     }
 

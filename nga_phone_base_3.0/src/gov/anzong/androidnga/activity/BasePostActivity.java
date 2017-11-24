@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import sp.phone.fragment.EmotionDialogFragment;
+import sp.phone.fragment.dialog.EmotionDialogFragment;
 import sp.phone.fragment.ExtensionEmotionFragment;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
 

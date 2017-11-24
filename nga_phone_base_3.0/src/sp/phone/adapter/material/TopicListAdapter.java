@@ -14,44 +14,36 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.TopicListInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.model.entity.ThreadPageInfo;
+import sp.phone.model.entity.TopicListInfo;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.TopicViewHolder> implements RecyclerViewEx.IAppendAbleAdapter {
 
-    private final List<TopicListInfo> mInfoList = new ArrayList<>();
-
-    private Set<Integer> mTidSet = new HashSet<>();
-
-    private boolean mEndOfList = false;
-
-    private boolean mIsPrompted = false;
+    private List<ThreadPageInfo> mThreadPageList = new ArrayList<>();
 
     private Context mContext;
 
-    private int mTotalCount;
+    private boolean mHaveNextPage = true;
+
+    private int mTotalPage;
 
     private View.OnClickListener mClickListener;
 
-    private AdapterView.OnItemLongClickListener mItemLongClickListener;
+    private View.OnLongClickListener mLongClickListener;
 
     private final static int _FONT_RED = 1, _FONT_BLUE = 2, _FONT_GREEN = 4,
             _FONT_ORANGE = 8, _FONT_SILVER = 16, _FONT_B = 32, _FONT_I = 64,
@@ -61,72 +53,38 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         mContext = context;
     }
 
-    protected ThreadPageInfo getEntry(int position) {
-        for (int i = 0; i < mInfoList.size(); i++) {
-            if (position < mInfoList.get(i).get__T__ROWS()) {
-                return mInfoList.get(i).getArticleEntryList().get(position);
-            }
-            position -= mInfoList.get(i).get__T__ROWS();
-        }
-        return null;
-    }
 
     public void setData(TopicListInfo result) {
-        if (mTotalCount != 0) {
-            List<ThreadPageInfo> threadList = new ArrayList<>();
-            for (int i = 0; i < result.getArticleEntryList().size(); i++) {
-                ThreadPageInfo info = result.getArticleEntryList().get(i);
-                if (info == null) {
-                    continue;
-                }
-                int tid = info.getTid();
-                if (!mTidSet.contains(tid)) {
-                    threadList.add(info);
-                    mTidSet.add(tid);
-                }
-            }
-            result.set__T__ROWS(threadList.size());
-            result.setArticleEntryList(threadList);
-        } else {
-            for (int i = 0; i < result.getArticleEntryList().size(); i++) {
-                ThreadPageInfo info = result.getArticleEntryList().get(i);
-                if (info == null) {
-                    continue;
-                }
-                int tid = info.getTid();
-                mTidSet.add(tid);
-            }
 
+        int oldCount = mThreadPageList.size();
+
+        for (ThreadPageInfo info : result.getThreadPageList()) {
+            if (!mThreadPageList.contains(info)) {
+                mThreadPageList.add(info);
+            }
         }
-        mInfoList.add(result);
-        mTotalCount += result.get__T__ROWS();
-        mEndOfList = mTotalCount >= result.get__ROWS();
-        notifyDataSetChanged();
+        mTotalPage++;
+        notifyItemRangeInserted(oldCount, mThreadPageList.size() - oldCount);
     }
 
     public void clear() {
-        mTotalCount = 0;
-        mInfoList.clear();
-        mTidSet.clear();
-        mIsPrompted = false;
+        mTotalPage = 0;
+        mHaveNextPage = true;
+        mThreadPageList.clear();
     }
 
     @Override
     public int getNextPage() {
-        return mInfoList.size() + 1;
+        return mTotalPage + 1;
     }
 
     @Override
     public boolean hasNextPage() {
-        return !mEndOfList;
+        return mHaveNextPage;
     }
 
     public void setNextPageEnabled(boolean enabled) {
-        mEndOfList = !enabled;
-        if (!hasNextPage() && !mIsPrompted) {
-            ActivityUtils.showToast(mContext, mContext.getString(R.string.last_page_prompt));
-            mIsPrompted = true;
-        }
+        mHaveNextPage = enabled;
     }
 
     @Override
@@ -137,30 +95,19 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
     @Override
     public void onBindViewHolder(final TopicViewHolder holder, int position) {
 
-        if (position + 1 == mTotalCount
-                && !hasNextPage()
-                && !mIsPrompted) {
-            ActivityUtils.showToast(mContext, mContext.getString(R.string.last_page_prompt));
-            mIsPrompted = true;
-        }
+        ThreadPageInfo info = mThreadPageList.get(position);
+        info.setPosition(position);
+        holder.itemView.setOnClickListener(mClickListener);
+        holder.itemView.setOnLongClickListener(mLongClickListener);
+        holder.itemView.setTag(info);
 
         ThemeManager cfg = ThemeManager.getInstance();
         int colorId = cfg.getBackgroundColor(position);
-        holder.itemView.setOnClickListener(mClickListener);
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                int position = holder.getAdapterPosition();
-                return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
-            }
-        });
-        holder.itemView.setTag(getEntry(position));
         holder.itemView.setBackgroundResource(colorId);
-        handleJsonList(holder, position);
+        handleJsonList(holder, info);
     }
 
-    private void handleJsonList(TopicViewHolder holder, int position) {
-        ThreadPageInfo entry = getEntry(position);
+    private void handleJsonList(TopicViewHolder holder, ThreadPageInfo entry) {
 
         if (entry == null) {
             return;
@@ -174,9 +121,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         if (night)
             holder.author.setTextColor(nightLinkColor);
 
-        String lastPoster = entry.getLastposter_org();
-        if (StringUtils.isEmpty(lastPoster))
-            lastPoster = entry.getLastposter();
+        String lastPoster = entry.getLastPoster();
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.getReplies()));
         if (night) {
@@ -191,7 +136,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         float size = PhoneConfiguration.getInstance().getTextSize();
         view.setTextColor(ContextCompat.getColor(mContext, theme.getForegroundColor()));
         view.setTextSize(size);
-        String title = entry.getContent();
+        String title = entry.getSubject();
         int type = entry.getType();
         String needAdd = "";
         if ((type & 1024) == 1024) {
@@ -308,8 +253,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
                 }
             }
         } else {
-            if (!StringUtils.isEmpty(entry.getTitlefont())) {
-                final String font = entry.getTitlefont();
+            if (!StringUtils.isEmpty(entry.getTitleFont())) {
+                final String font = entry.getTitleFont();
                 if (font.contains("~")) {
                     if (font.equals("~1~~") || font.equals("~~~1")) {
                         builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -361,26 +306,20 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
     @Override
     public int getItemCount() {
-        return mTotalCount;
+        return mThreadPageList.size();
     }
 
     public void remove(int position) {
-        for (int i = 0; i < mInfoList.size(); i++) {
-            if (position >= 0 && position < mInfoList.get(i).get__T__ROWS()) {
-                mInfoList.get(i).getArticleEntryList().remove(position);
-                mInfoList.get(i).set__T__ROWS(mInfoList.get(i).getArticleEntryList().size());
-                mTotalCount--;
-            }
-            position -= mInfoList.get(i).get__T__ROWS();
-        }
+        mThreadPageList.remove(position);
+        notifyItemRemoved(position);
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
         mClickListener = listener;
     }
 
-    public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
-        mItemLongClickListener = listener;
+    public void setOnLongClickListener(View.OnLongClickListener listener) {
+        mLongClickListener = listener;
     }
 
     public class TopicViewHolder extends RecyclerView.ViewHolder {

@@ -1,6 +1,6 @@
 package sp.phone.interfaces;
 
-import sp.phone.bean.TopicListInfo;
+import sp.phone.model.entity.TopicListInfo;
 
 public interface OnTopListLoadFinishedListener {
     void jsonFinishLoad(TopicListInfo result);

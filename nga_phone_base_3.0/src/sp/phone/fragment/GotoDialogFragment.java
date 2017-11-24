@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 import gov.anzong.androidnga.R;
+import sp.phone.fragment.dialog.NoframeDialogFragment;
 import sp.phone.interfaces.PagerOwner;
 
 public class GotoDialogFragment extends NoframeDialogFragment {

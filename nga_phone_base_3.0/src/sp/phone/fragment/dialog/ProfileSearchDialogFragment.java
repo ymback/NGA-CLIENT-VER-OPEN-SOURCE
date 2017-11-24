@@ -1,4 +1,4 @@
-package sp.phone.fragment;
+package sp.phone.fragment.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

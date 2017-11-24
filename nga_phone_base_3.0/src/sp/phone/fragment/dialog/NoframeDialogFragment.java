@@ -1,4 +1,4 @@
-package sp.phone.fragment;
+package sp.phone.fragment.dialog;
 
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;

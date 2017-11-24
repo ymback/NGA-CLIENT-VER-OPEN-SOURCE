@@ -1,7 +1,6 @@
 package sp.phone.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -13,7 +12,7 @@ import java.util.Set;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.ArticlePage;
 import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadPageInfo;
+import sp.phone.model.entity.ThreadPageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 

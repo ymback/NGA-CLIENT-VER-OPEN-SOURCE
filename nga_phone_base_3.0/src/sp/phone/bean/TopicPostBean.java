@@ -1,18 +1,10 @@
-package sp.phone.bean.json;
+package sp.phone.bean;
 
 /**
- * Created by Yang Yihang on 2017/6/10.
+ * Created by Justwen on 2017/6/10.
  */
 
 public class TopicPostBean {
-
-
-    /**
-     * data : {"action":"new","fid":7,"auth":"0244c130593bd0eaa56459ba18fe7d1e3273c3dfaadf31a6","if_moderator":0,"tid":"","__CU":{"uid":38060336,"group_bit":622816,"admincheck":"","rvrc":10},"__GLOBAL":"./template/js/nga_global.xml","__F":{"bit_data":10280,"fid":7,"name":"����-˹������ - Hall of Azeroth"},"attach_url":"http://img7.ngacn.cc:8080/attach.php"}
-     * encode : gbk
-     * time : 1497092330
-     * debug : null
-     */
 
     private DataBean data;
     private String encode;
@@ -52,17 +44,6 @@ public class TopicPostBean {
     }
 
     public static class DataBean {
-        /**
-         * action : new
-         * fid : 7
-         * auth : 0244c130593bd0eaa56459ba18fe7d1e3273c3dfaadf31a6
-         * if_moderator : 0
-         * tid :
-         * __CU : {"uid":38060336,"group_bit":622816,"admincheck":"","rvrc":10}
-         * __GLOBAL : ./template/js/nga_global.xml
-         * __F : {"bit_data":10280,"fid":7,"name":"����-˹������ - Hall of Azeroth"}
-         * attach_url : http://img7.ngacn.cc:8080/attach.php
-         */
 
         private String action;
         private int fid;
@@ -147,12 +128,6 @@ public class TopicPostBean {
         }
 
         public static class CUBean {
-            /**
-             * uid : 38060336
-             * group_bit : 622816
-             * admincheck :
-             * rvrc : 10
-             */
 
             private int uid;
             private int group_bit;
@@ -193,11 +168,6 @@ public class TopicPostBean {
         }
 
         public static class FBean {
-            /**
-             * bit_data : 10280
-             * fid : 7
-             * name : ����-˹������ - Hall of Azeroth
-             */
 
             private int bit_data;
             private int fid;

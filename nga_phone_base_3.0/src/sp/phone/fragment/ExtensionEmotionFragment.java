@@ -10,6 +10,7 @@ import android.widget.GridView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
+import sp.phone.fragment.dialog.NoframeDialogFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.utils.NLog;
 

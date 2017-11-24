@@ -1,4 +1,4 @@
-package sp.phone.fragment;
+package sp.phone.fragment.noname;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -23,6 +23,7 @@ import sp.phone.adapter.AppendableNonameTopicAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.fragment.BaseFragment;
 import sp.phone.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;

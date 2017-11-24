@@ -1,4 +1,4 @@
-package sp.phone.fragment;
+package sp.phone.fragment.noname;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import sp.phone.adapter.NonameThreadFragmentAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.fragment.BaseFragment;
+import sp.phone.fragment.GotoDialogFragment;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;

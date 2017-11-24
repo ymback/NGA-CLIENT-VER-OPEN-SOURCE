@@ -27,7 +27,7 @@ import gov.anzong.androidnga.activity.MessageListActivity;
 import sp.phone.bean.BoardHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.SearchDialogFragment;
+import sp.phone.fragment.dialog.SearchDialogFragment;
 
 public class ActivityUtils {
 

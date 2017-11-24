@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import gov.anzong.androidnga.R;
+import sp.phone.fragment.dialog.NoframeDialogFragment;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
 import sp.phone.utils.NLog;
 

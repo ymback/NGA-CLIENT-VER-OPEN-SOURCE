@@ -14,8 +14,8 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.adapter.material.TopicListAdapter;
-import sp.phone.bean.ThreadPageInfo;
-import sp.phone.bean.TopicListInfo;
+import sp.phone.model.entity.ThreadPageInfo;
+import sp.phone.model.entity.TopicListInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.presenter.TopicListPresenter;
@@ -171,9 +171,9 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
         public void onClick(View view) {
             ThreadPageInfo info = (ThreadPageInfo) view.getTag();
             String url = "tid=" + info.getTid();
-            if (info.getPid() != 0) {
-                url = url +  "&pid=" + info.getPid();
-            }
+//            if (info.getPid() != 0) {
+//                url = url +  "&pid=" + info.getPid();
+//            }
             if (StringUtils.isEmpty(url)) {
                 return;
             }
@@ -181,14 +181,12 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
             url = url.trim();
 
             int pid = StringUtils.getUrlParameter(url, "pid");
-            int tid = StringUtils.getUrlParameter(url, "tid");
-            int authorId = StringUtils.getUrlParameter(url, "authorid");
 
             Intent intent = new Intent();
             intent.putExtra("tab", "1");
-            intent.putExtra("tid", tid);
-            intent.putExtra("pid", pid);
-            intent.putExtra("authorid", authorId);
+            intent.putExtra("tid", info.getTid());
+          //  intent.putExtra("pid", pid);
+            intent.putExtra("authorid", info.getAuthorId());
             intent.putExtra("searchpost",mRequestParam.searchPost);
             intent.putExtra("title",info.getSubject());
             intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);

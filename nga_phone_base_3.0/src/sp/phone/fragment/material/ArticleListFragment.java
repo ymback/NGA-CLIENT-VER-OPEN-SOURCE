@@ -27,7 +27,7 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.fragment.PostCommentDialogFragment;
+import sp.phone.fragment.dialog.PostCommentDialogFragment;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.presenter.ArticleListPresenter;
 import sp.phone.presenter.contract.tmp.ArticleListContract;

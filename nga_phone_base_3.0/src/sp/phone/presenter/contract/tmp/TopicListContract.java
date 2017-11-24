@@ -1,18 +1,19 @@
 package sp.phone.presenter.contract.tmp;
 
-import sp.phone.bean.TopicListInfo;
+import sp.phone.model.entity.ThreadPageInfo;
+import sp.phone.model.entity.TopicListInfo;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.listener.OnHttpCallBack;
 
 /**
- * Created by Yang Yihang on 2017/6/3.
+ * Created by Justwen on 2017/6/3.
  */
 
 public interface TopicListContract {
 
     interface Presenter extends BaseContract.Presenter<View> {
 
-        void removeTopic(String tidArray, int position);
+        void removeTopic(ThreadPageInfo info, int position);
 
         void loadPage(int page, TopicListParam requestInfo);
 
@@ -41,9 +42,9 @@ public interface TopicListContract {
 
     interface Model extends BaseContract.Model {
 
-        void removeTopic(String tidArray, OnHttpCallBack<String> callBack);
+        void removeTopic(ThreadPageInfo info, OnHttpCallBack<String> callBack);
 
-        void loadTopicList(String url,OnHttpCallBack<TopicListInfo> callBack);
+        void loadTopicList(int page,TopicListParam param,OnHttpCallBack<TopicListInfo> callBack);
     }
 
 }
