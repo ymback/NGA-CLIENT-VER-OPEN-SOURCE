@@ -2,7 +2,6 @@ package sp.phone.utils;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -395,29 +394,29 @@ public class StringUtils {
                 "哭笑", "哼", "喘", "喷", "嘲笑", "嘲笑1", "囧", "委屈", "心", "忧伤", "怒",
                 "怕", "惊", "愁", "抓狂", "抠鼻", "擦汗", "无语", "晕", "汗", "瞎", "羞",
                 "羡慕", "花痴", "茶", "衰", "计划通", "赞同", "闪光", "黑枪"};// (0-44)
-        final String acniangappadd[] = {"-47218_5052bca81a77f.png",
-                "-47218_5052bd3b4b3bd.png", "-1324875_50e597f5ce78d.png",
-                "-47218_5052bcba15fcf.png", "-47218_5052bcb6e96d1.png",
-                "-47218_5052bd2a0d49a.png", "-47218_5052c10aa0303.png",
-                "-47218_5052bcaaacb45.png", "-1324875_50e597c090c58.png",
-                "-47218_5052c104b8e27.png", "-47218_5052bc587c6f9.png",
-                "-47218_5052c1076f119.png", "-47218_5052bd2497822.png",
-                "-47218_5052bd2fa0790.png", "-47218_5052c0f6da079.png",
-                "-47218_5052bc4cc6331.png", "-47218_5052bcf37c4c9.png",
-                "-1324875_513394fbc54e1.gif", "-47218_5052bc4f51be7.png",
-                "-47218_5052c1101747c.png", "-47218_5052c10d1f08c.png",
-                "-47218_5052bcdd279bc.png", "-47218_5052bce27ab4d.png",
-                "-47218_5052bd35aec58.png", "-47218_5052bcdfd9c69.png",
-                "-47218_5052bc835856c.png", "-47218_5052bce4f2963.png",
-                "-47218_5052bd330dfad.png", "-47218_5052bc7d91913.png",
-                "-47218_5052c112b3b1b.png", "-47218_5052bcf0ba2db.png",
-                "-47218_5052bc8638067.png", "-47218_5052bca55cb6e.png",
-                "-47218_5052bc521c04b.png", "-47218_5052bca2a2f43.png",
-                "-47218_5052bcad49530.png", "-47218_5052bceb823da.png",
-                "-47218_5052bc80140e3.png", "-47218_5052bcb3b8944.png",
-                "-1324875_50d841a63a673.png", "-47218_5052bcf68ddc2.png",
-                "-1324875_50e597e9d6319.png", "-47218_5052bd27520ef.png",
-                "-47218_5052bcbe35760.png", "-1324875_50e597f190a11.png"// 0-44
+        final String acniangappadd[] = {"-47218_5052bca81a77f.webp",
+                "-47218_5052bd3b4b3bd.webp", "-1324875_50e597f5ce78d.webp",
+                "-47218_5052bcba15fcf.webp", "-47218_5052bcb6e96d1.webp",
+                "-47218_5052bd2a0d49a.webp", "-47218_5052c10aa0303.webp",
+                "-47218_5052bcaaacb45.webp", "-1324875_50e597c090c58.webp",
+                "-47218_5052c104b8e27.webp", "-47218_5052bc587c6f9.webp",
+                "-47218_5052c1076f119.webp", "-47218_5052bd2497822.webp",
+                "-47218_5052bd2fa0790.webp", "-47218_5052c0f6da079.webp",
+                "-47218_5052bc4cc6331.webp", "-47218_5052bcf37c4c9.webp",
+                "-1324875_513394fbc54e1.gif", "-47218_5052bc4f51be7.webp",
+                "-47218_5052c1101747c.webp", "-47218_5052c10d1f08c.webp",
+                "-47218_5052bcdd279bc.webp", "-47218_5052bce27ab4d.webp",
+                "-47218_5052bd35aec58.webp", "-47218_5052bcdfd9c69.webp",
+                "-47218_5052bc835856c.webp", "-47218_5052bce4f2963.webp",
+                "-47218_5052bd330dfad.webp", "-47218_5052bc7d91913.webp",
+                "-47218_5052c112b3b1b.webp", "-47218_5052bcf0ba2db.webp",
+                "-47218_5052bc8638067.webp", "-47218_5052bca55cb6e.webp",
+                "-47218_5052bc521c04b.webp", "-47218_5052bca2a2f43.webp",
+                "-47218_5052bcad49530.webp", "-47218_5052bceb823da.webp",
+                "-47218_5052bc80140e3.webp", "-47218_5052bcb3b8944.webp",
+                "-1324875_50d841a63a673.webp", "-47218_5052bcf68ddc2.webp",
+                "-1324875_50e597e9d6319.webp", "-47218_5052bd27520ef.webp",
+                "-47218_5052bcbe35760.webp", "-1324875_50e597f190a11.webp"// 0-44
         };
         final String newacniangofubbcode[] = {
                 "goodjob", "诶嘿", "偷笑", "怒", "笑",
