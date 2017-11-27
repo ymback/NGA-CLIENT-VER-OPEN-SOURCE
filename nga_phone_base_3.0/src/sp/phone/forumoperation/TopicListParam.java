@@ -4,10 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Yang Yihang on 2017/6/3.
+ * Created by Justwen on 2017/6/3.
  */
 
-public class TopicListParam implements Cloneable,Parcelable {
+public class TopicListParam implements Cloneable, Parcelable {
 
     public int authorId;
 
@@ -19,15 +19,18 @@ public class TopicListParam implements Cloneable,Parcelable {
 
     public int fid;
 
-    public int category;
-
     public String key;
 
     public String fidGroup;
 
     public String author;
 
-    public String boardName;
+    public int recommend;
+
+    public String title;
+
+    public TopicListParam() {
+    }
 
     protected TopicListParam(Parcel in) {
         authorId = in.readInt();
@@ -35,14 +38,11 @@ public class TopicListParam implements Cloneable,Parcelable {
         favor = in.readInt();
         content = in.readInt();
         fid = in.readInt();
-        category = in.readInt();
         key = in.readString();
         fidGroup = in.readString();
         author = in.readString();
-        boardName = in.readString();
-    }
-
-    public TopicListParam() {
+        recommend = in.readInt();
+        title = in.readString();
     }
 
     @Override
@@ -52,11 +52,11 @@ public class TopicListParam implements Cloneable,Parcelable {
         dest.writeInt(favor);
         dest.writeInt(content);
         dest.writeInt(fid);
-        dest.writeInt(category);
         dest.writeString(key);
         dest.writeString(fidGroup);
         dest.writeString(author);
-        dest.writeString(boardName);
+        dest.writeInt(recommend);
+        dest.writeString(title);
     }
 
     @Override
@@ -77,7 +77,12 @@ public class TopicListParam implements Cloneable,Parcelable {
     };
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+
     }
 }

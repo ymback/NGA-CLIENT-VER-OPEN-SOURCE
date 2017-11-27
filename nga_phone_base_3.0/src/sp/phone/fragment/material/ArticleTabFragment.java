@@ -26,14 +26,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import io.reactivex.annotations.NonNull;
 import sp.phone.adapter.ArticlePagerAdapter;
-import sp.phone.bean.ThreadData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.fragment.BaseFragment;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.GotoDialogFragment;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwner;
+import sp.phone.lab.rxjava.RxBus;
+import sp.phone.lab.rxjava.RxEvent;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
@@ -44,16 +44,14 @@ import sp.phone.utils.StringUtils;
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoadFinishedListener, PagerOwner {
+public class ArticleTabFragment extends sp.phone.lab.fragment.BaseRxFragment {
 
     @BindView(R.id.pager)
     public ViewPager mViewPager;
 
     private ArticlePagerAdapter mPagerAdapter;
 
-    private int mPosition;
-
-    private ArticleListParam mArticleListParam;
+    private ArticleListParam mRequestParam;
 
     @BindView(R.id.tabs)
     public TabLayout mTabLayout;
@@ -68,7 +66,27 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null) {
-            mArticleListParam = args.getParcelable("articleListParam");
+            mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
+        }
+        registerRxBus();
+    }
+
+    @Override
+    protected void accept(@NonNull RxEvent rxEvent) {
+        if (rxEvent.what == RxEvent.EVENT_ARTICLE_TAB_UPDATE) {
+            int replyCount = rxEvent.arg + 1; //没有包括主楼, 所以+1
+            int count = replyCount / 20;
+            if (replyCount % 20 != 0) {
+                count++;
+            }
+            if (count > mPagerAdapter.getCount()) {
+                if (count <= 5) {
+                    mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+                } else {
+                    mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                }
+                mPagerAdapter.setCount(count);
+            }
         }
     }
 
@@ -87,15 +105,8 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         updateFloatingMenu();
-        mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(), mArticleListParam);
+        mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(), mRequestParam);
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                mPosition = position;
-                super.onPageSelected(position);
-            }
-        });
 
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -119,30 +130,10 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
         super.onResume();
     }
 
-    @Override
-    public void finishLoad(ThreadData data) {
-        if (data == null) {
-            return;
-        }
-        int replyCount = data.getThreadInfo().getReplies() + 1; //没有包括主楼, 所以+1
-        int count = replyCount / 20;
-        if (replyCount % 20 != 0) {
-            count++;
-        }
-        if (count > mPagerAdapter.getCount()) {
-            if (count <= 5) {
-                mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-            } else {
-                mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-            }
-            mPagerAdapter.setCount(count);
-        }
-    }
-
     @OnClick(R.id.fab_post)
     public void reply() {
         Intent intent = new Intent();
-        String tid = String.valueOf(mArticleListParam.getTid());
+        String tid = String.valueOf(mRequestParam.tid);
         intent.putExtra("prefix", "");
         intent.putExtra("tid", tid);
         intent.putExtra("action", "reply");
@@ -158,23 +149,16 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
 
     @OnClick(R.id.fab_refresh)
     public void refresh() {
-        mPagerAdapter.getChildAt(mPosition).loadPage();
+        RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem()));
         mFam.collapse();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_reply:
-                reply();
-
-                break;
-            case R.id.menu_refresh:
-                mPagerAdapter.getChildAt(mPosition).loadPage();
-                break;
             case R.id.menu_add_bookmark:
                 BookmarkTask bt = new BookmarkTask(getContext());
-                bt.execute(String.valueOf(mArticleListParam.getTid()));
+                bt.execute(String.valueOf(mRequestParam.tid));
                 break;
             case R.id.menu_goto_floor:
                 createGotoDialog();
@@ -195,10 +179,10 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
             builder.append("《").append(getActivity().getTitle()).append("》 - 艾泽拉斯国家地理论坛，地址：");
         }
         builder.append(Utils.getNGAHost()).append("read.php?");
-        if (mArticleListParam.getPid() != 0) {
-            builder.append("pid=").append(mArticleListParam.getPid()).append(" (分享自NGA安卓客户端开源版)");
+        if (mRequestParam.pid != 0) {
+            builder.append("pid=").append(mRequestParam.pid).append(" (分享自NGA安卓客户端开源版)");
         } else {
-            builder.append("tid=").append(mArticleListParam.getTid()).append(" (分享自NGA安卓客户端开源版)");
+            builder.append("tid=").append(mRequestParam.tid).append(" (分享自NGA安卓客户端开源版)");
         }
         FunctionUtils.share(getContext(), title, builder.toString());
     }
@@ -241,21 +225,10 @@ public class ArticleTabFragment extends BaseFragment implements OnThreadPageLoad
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ActivityUtils.REQUEST_CODE_TOPIC_POST && resultCode == Activity.RESULT_OK) {
             if (mViewPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
-                mPagerAdapter.getChildAt(mViewPager.getCurrentItem()).loadPage();
+                //  mPagerAdapter.getChildAt(mViewPager.getCurrentItem()).loadPage();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    public int getCurrentPage() {
-        return mViewPager.getCurrentItem();
-    }
-
-    @Override
-    public void setCurrentItem(int index) {
-        mViewPager.setCurrentItem(index);
-    }
-
 
 }

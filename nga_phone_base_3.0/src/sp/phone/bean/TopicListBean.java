@@ -241,6 +241,7 @@ public class TopicListBean {
             private String titlefont;
             private int admin_ui;
             private String tpcurl;
+            private PBean __P;
             /**
              * 0 : 275
              * 2 : 测试版面
@@ -397,6 +398,91 @@ public class TopicListBean {
 
             public void setParent(Map<String, String> parent) {
                 this.parent = parent;
+            }
+
+            public PBean get__P() {
+                return __P;
+            }
+
+            public void set__P(PBean __P) {
+                this.__P = __P;
+            }
+
+
+            public static class PBean {
+                /**
+                 * tid : 12937812
+                 * pid : 253178256
+                 * authorid : 39454545
+                 * type : 512
+                 * postdate : 1511787523
+                 * subject :
+                 * content : [quote][pid=253176649,12937812,2]Reply[/pid] [b]Post by [uid=42132919]宇宙超级无敌大帅逼[/uid] (2017-11-27 20:42):[/b]<br/><br/>大号术士痛苦75:毁灭75:恶魔73(恶魔圣物都只有两个)<br/>小号战士武器75:狂暴75:防御72<br/>肝还好，战士因为有地图炮真心清世界任务节约不少时间。配合组队插件，感觉刷小入侵和某些世界任务才是刷能量最快的方式，一天两波，打完下线。(其实有车队大米开车也还可以，比如噬魂这种本来就很快的本，不过现在找钥匙比以前慢了好多，而且一天一天毫无新意的循环，让人有点想吐，几个基友都已经AFK了，不知道我还能坚持多久，唉[s:ac:囧])[/quote]<br/><br/>老哥你真的算很肝的哦……两个号75
+                 */
+
+                private int tid;
+                private int pid;
+                private int authorid;
+                private int type;
+                private int postdate;
+                private String subject;
+                private String content;
+
+                public int getTid() {
+                    return tid;
+                }
+
+                public void setTid(int tid) {
+                    this.tid = tid;
+                }
+
+                public int getPid() {
+                    return pid;
+                }
+
+                public void setPid(int pid) {
+                    this.pid = pid;
+                }
+
+                public int getAuthorid() {
+                    return authorid;
+                }
+
+                public void setAuthorid(int authorid) {
+                    this.authorid = authorid;
+                }
+
+                public int getType() {
+                    return type;
+                }
+
+                public void setType(int type) {
+                    this.type = type;
+                }
+
+                public int getPostdate() {
+                    return postdate;
+                }
+
+                public void setPostdate(int postdate) {
+                    this.postdate = postdate;
+                }
+
+                public String getSubject() {
+                    return subject;
+                }
+
+                public void setSubject(String subject) {
+                    this.subject = subject;
+                }
+
+                public String getContent() {
+                    return content;
+                }
+
+                public void setContent(String content) {
+                    this.content = content;
+                }
             }
         }
     }

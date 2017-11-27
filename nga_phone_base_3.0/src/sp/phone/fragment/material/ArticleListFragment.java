@@ -22,15 +22,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import io.reactivex.annotations.NonNull;
 import sp.phone.adapter.material.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListParam;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.dialog.PostCommentDialogFragment;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.presenter.ArticleListPresenter;
-import sp.phone.presenter.contract.tmp.ArticleListContract;
+import sp.phone.lab.mvp.contract.ArticleListContract;
+import sp.phone.lab.mvp.presenter.ArticleListPresenter;
+import sp.phone.lab.rxjava.RxBus;
+import sp.phone.lab.rxjava.RxEvent;
 import sp.phone.task.LikeTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
@@ -41,7 +44,7 @@ import sp.phone.view.RecyclerViewEx;
 /*
  * MD 帖子详情每一页
  */
-public class ArticleListFragment extends BaseMvpFragment implements ArticleListContract.View, ActionMode.Callback {
+public class ArticleListFragment extends sp.phone.lab.fragment.BaseMvpFragment<ArticleListPresenter> implements ArticleListContract.View, ActionMode.Callback {
 
     private final static String TAG = ArticleListFragment.class.getSimpleName();
 
@@ -58,34 +61,28 @@ public class ArticleListFragment extends BaseMvpFragment implements ArticleListC
 
     private ActionMode mActionMode;
 
-    protected ArticleListParam mArticleListParam;
-
-    private int mPage;
-
-    private ArticleListContract.Presenter mPresenter;
+    protected ArticleListParam mRequestParam;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         NLog.d(TAG, "onCreate");
-        mArticleListParam = getArguments().getParcelable("articleListParam");
-        if (savedInstanceState != null) {
-            mPage = savedInstanceState.getInt("page");
-            mArticleListParam.setPageFromUrl(mPage);
-        }
-        mPresenter = new ArticleListPresenter();
-        setPresenter(mPresenter);
+        mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
+        registerRxBus();
         super.onCreate(savedInstanceState);
     }
 
-    public void setPage(int page) {
-        mPage = page;
+    @Override
+    protected void accept(@NonNull RxEvent rxEvent) {
+        if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE && rxEvent.what + 1 == mRequestParam.page) {
+            loadPage();
+        }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("page", mArticleListParam.getPageFromUrl());
-        super.onSaveInstanceState(outState);
+    protected ArticleListPresenter onCreatePresenter() {
+        return new ArticleListPresenter();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -124,14 +121,13 @@ public class ArticleListFragment extends BaseMvpFragment implements ArticleListC
     }
 
     public void loadPage() {
-        mArticleListParam.setPageFromUrl(mPage);
-        mPresenter.loadPage(mArticleListParam);
+        mPresenter.loadPage(mRequestParam);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        int page = mArticleListParam.getPageFromUrl();
-        int tid = mArticleListParam.getTid();
+        int page = mRequestParam.page;
+        int tid = mRequestParam.tid;
         NLog.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
 
         if (!getUserVisibleHint()) {
@@ -160,7 +156,7 @@ public class ArticleListFragment extends BaseMvpFragment implements ArticleListC
         Bundle bundle = new Bundle();
         switch (item.getItemId()) {
             case R.id.menu_quote_subject:
-                mPresenter.quote(mArticleListParam, row);
+                mPresenter.quote(mRequestParam, row);
                 break;
 
             case R.id.menu_signature:
@@ -242,7 +238,7 @@ public class ArticleListFragment extends BaseMvpFragment implements ArticleListC
                 break;
 
             case R.id.menu_post_comment:
-                mPresenter.postComment(mArticleListParam, row);
+                mPresenter.postComment(mRequestParam, row);
                 break;
 
             case R.id.menu_report:
@@ -279,10 +275,8 @@ public class ArticleListFragment extends BaseMvpFragment implements ArticleListC
 
     @Override
     public void setData(ThreadData data) {
-        if (getParentFragment() instanceof OnThreadPageLoadFinishedListener) {
-            ((OnThreadPageLoadFinishedListener) getParentFragment()).finishLoad(data);
-        } else if (getActivity() instanceof OnThreadPageLoadFinishedListener) {
-            ((OnThreadPageLoadFinishedListener) getActivity()).finishLoad(data);
+        if (data != null) {
+            RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_TAB_UPDATE, data.getThreadInfo().getReplies()));
         }
         mArticleAdapter.setData(data);
         mArticleAdapter.notifyDataSetChanged();
@@ -343,7 +337,7 @@ public class ArticleListFragment extends BaseMvpFragment implements ArticleListC
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
-        if (mArticleListParam.getPid() == 0) {
+        if (mRequestParam.pid == 0) {
             inflater.inflate(R.menu.article_list_context_menu, menu);
         } else {
             inflater.inflate(R.menu.article_list_context_menu_with_tid, menu);

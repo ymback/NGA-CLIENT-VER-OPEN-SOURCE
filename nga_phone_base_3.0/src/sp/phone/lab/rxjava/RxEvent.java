@@ -6,6 +6,10 @@ package sp.phone.lab.rxjava;
 
 public class RxEvent {
 
+    public static final int EVENT_ARTICLE_UPDATE = 0;
+
+    public static final int EVENT_ARTICLE_TAB_UPDATE = 1;
+
     public int what;
 
     public int arg;

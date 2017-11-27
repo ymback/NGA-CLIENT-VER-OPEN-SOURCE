@@ -14,18 +14,20 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.adapter.material.TopicListAdapter;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.forumoperation.ArticleListParam;
+import sp.phone.forumoperation.ParamKey;
+import sp.phone.forumoperation.TopicListParam;
+import sp.phone.lab.mvp.contract.TopicListContract;
+import sp.phone.lab.mvp.presenter.TopicListPresenter;
 import sp.phone.model.entity.ThreadPageInfo;
 import sp.phone.model.entity.TopicListInfo;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.forumoperation.TopicListParam;
-import sp.phone.presenter.TopicListPresenter;
-import sp.phone.presenter.contract.tmp.TopicListContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 
-public class TopicListFragment extends BaseMvpFragment implements TopicListContract.View {
+public class TopicListFragment extends sp.phone.lab.fragment.BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
 
     private static final String TAG = TopicListFragment.class.getSimpleName();
 
@@ -42,15 +44,16 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
     @BindView(R.id.loading_view)
     public View mLoadingView;
 
-    protected TopicListContract.Presenter mPresenter;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mPresenter = new TopicListPresenter();
-        setPresenter(mPresenter);
         super.onCreate(savedInstanceState);
-        mRequestParam = getArguments().getParcelable("requestParam");
+        mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
         setTitle();
+    }
+
+    @Override
+    protected TopicListPresenter onCreatePresenter() {
+        return new TopicListPresenter();
     }
 
     protected void setTitle() {
@@ -76,8 +79,8 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
                 final String title = "搜索" + mRequestParam.author + "的主题";
                 setTitle(title);
             }
-        } else if (mRequestParam.category == 1) {
-            setTitle(mRequestParam.boardName + " - 精华区");
+        } else if (mRequestParam.recommend == 1) {
+            setTitle(mRequestParam.title + " - 精华区");
         }
     }
 
@@ -93,7 +96,7 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
         ((BaseActivity) getActivity()).setupActionBar();
 
         mAdapter = new TopicListAdapter(getContext());
-        mAdapter.setOnClickListener(new EnterJsonArticle());
+        mAdapter.setOnClickListener(this);
 
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setOnNextPageLoadListener(new RecyclerViewEx.OnNextPageLoadListener() {
@@ -166,33 +169,26 @@ public class TopicListFragment extends BaseMvpFragment implements TopicListContr
         mAdapter.clear();
     }
 
-    private class EnterJsonArticle implements View.OnClickListener {
+    @Override
+    public void onClick(View view) {
+        ThreadPageInfo info = (ThreadPageInfo) view.getTag();
 
-        public void onClick(View view) {
-            ThreadPageInfo info = (ThreadPageInfo) view.getTag();
-            String url = "tid=" + info.getTid();
-//            if (info.getPid() != 0) {
-//                url = url +  "&pid=" + info.getPid();
-//            }
-            if (StringUtils.isEmpty(url)) {
-                return;
-            }
-
-            url = url.trim();
-
-            int pid = StringUtils.getUrlParameter(url, "pid");
-
-            Intent intent = new Intent();
-            intent.putExtra("tab", "1");
-            intent.putExtra("tid", info.getTid());
-          //  intent.putExtra("pid", pid);
-            intent.putExtra("authorid", info.getAuthorId());
-            intent.putExtra("searchpost",mRequestParam.searchPost);
-            intent.putExtra("title",info.getSubject());
-            intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
-            startActivity(intent);
+        ArticleListParam param = new ArticleListParam();
+        param.tid = info.getTid();
+        param.page = info.getPage();
+        param.title = info.getSubject();
+        if (mRequestParam.searchPost != 0) {
+            param.pid = info.getPid();
+            param.authorId = info.getAuthorId();
+            param.searchPost = mRequestParam.searchPost;
         }
-    }
 
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ParamKey.KEY_PARAM, param);
+        intent.putExtras(bundle);
+        intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
+        startActivity(intent);
+    }
 
 }

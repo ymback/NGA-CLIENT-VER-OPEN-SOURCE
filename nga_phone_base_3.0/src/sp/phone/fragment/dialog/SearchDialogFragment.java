@@ -136,14 +136,14 @@ public class SearchDialogFragment extends DialogFragment {
     private void searchUserTopic(String inputString) {
         Intent intent = new Intent(getContext(), PhoneConfiguration.getInstance().topicActivityClass);
         if (!StringUtils.isEmpty(inputString)) {
-            intent.putExtra("fid", getArguments().getInt("id", -7));
+            intent.putExtra("fid", getArguments().getInt("fid", -7));
             intent.putExtra("author", inputString);
             intent.putExtra("authorid", getArguments().getInt("authorid", 0));
             startActivity(intent);
         } else {
             String userName = PhoneConfiguration.getInstance().userName;
             if (!Objects.equals(userName, "")) {
-                intent.putExtra("fid", getArguments().getInt("id", -7));
+                intent.putExtra("fid", getArguments().getInt("fid", -7));
                 intent.putExtra("author", userName);
                 intent.putExtra("authorid", getArguments().getInt("authorid", 0));
                 startActivity(intent);
@@ -154,14 +154,14 @@ public class SearchDialogFragment extends DialogFragment {
     private void searchUserReply(String inputString) {
         Intent intent = new Intent(getContext(), PhoneConfiguration.getInstance().topicActivityClass);
         if (!StringUtils.isEmpty(inputString)) {
-            intent.putExtra("fid", getArguments().getInt("id", -7));
+            intent.putExtra("fid", getArguments().getInt("fid", -7));
             intent.putExtra("author", inputString + "&searchpost=1");
             intent.putExtra("authorid", getArguments().getInt("authorid", 0));
             startActivity(intent);
         } else {
             String userName = PhoneConfiguration.getInstance().userName;
             if (!Objects.equals(userName, "")) {
-                intent.putExtra("fid", getArguments().getInt("id", -7));
+                intent.putExtra("fid", getArguments().getInt("fid", -7));
                 intent.putExtra("author", userName + "&searchpost=1");
                 intent.putExtra("authorid", getArguments().getInt("authorid", 0));
                 startActivity(intent);
@@ -175,7 +175,7 @@ public class SearchDialogFragment extends DialogFragment {
             if (mContentCheckBox.isChecked()) {
                 intent.putExtra("content", 1);
             }
-            intent.putExtra("fid", getArguments().getInt("id", -7));
+            intent.putExtra("fid", getArguments().getInt("fid", -7));
             intent.putExtra("key", inputString);
             intent.putExtra("table", getString(R.string.largesttablenum));
             intent.putExtra("authorid", getArguments().getInt("authorid", 0));

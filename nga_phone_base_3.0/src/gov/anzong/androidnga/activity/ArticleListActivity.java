@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.material.ArticleListFragment;
 import sp.phone.fragment.material.ArticleListReplyFragment;
 import sp.phone.fragment.material.ArticleTabFragment;
@@ -16,63 +17,62 @@ import sp.phone.utils.StringUtils;
  */
 public class ArticleListActivity extends SwipeBackAppCompatActivity implements PreferenceKey {
 
-    private static final String TAG = "ArticleListActivity";
+    private ArticleListParam mRequestParam;
 
     private void setupFragment() {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(ArticleListFragment.class.getSimpleName());
+
         if (fragment == null) {
-            ArticleListParam param = getArticleListParam();
-            if (param.getFromReplyActivity() == 0) {
+            if (mRequestParam.searchPost == 0) {
                 fragment = new ArticleTabFragment();
             } else {
                 fragment = new ArticleListReplyFragment();
             }
             fragment.setHasOptionsMenu(true);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("articleListParam", getArticleListParam());
+            bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
             fragment.setArguments(bundle);
             fm.beginTransaction().replace(android.R.id.content, fragment, ArticleTabFragment.class.getSimpleName()).commit();
         }
-        fragment.setHasOptionsMenu(true);
     }
 
     private ArticleListParam getArticleListParam() {
-        ArticleListParam articleListParam = new ArticleListParam();
-        int tid;
-        int pid;
-        int authorId;
-        int pageFromUrl = 0;
-        String url = getIntent().getDataString();
-        if (null != url) {
-            tid = StringUtils.getUrlParameter(url, "tid");
-            pid = StringUtils.getUrlParameter(url, "pid");
-            authorId = StringUtils.getUrlParameter(url, "authorid");
-            pageFromUrl = StringUtils.getUrlParameter(url, "page");
+
+        Bundle bundle = getIntent().getExtras();
+        ArticleListParam param;
+
+        if (bundle != null) {
+            param = bundle.getParcelable(ParamKey.KEY_PARAM);
+            if (param == null) {
+                param = new ArticleListParam();
+                param.tid = bundle.getInt(ParamKey.KEY_TID, 0);
+                param.pid = bundle.getInt(ParamKey.KEY_PID, 0);
+                param.authorId = bundle.getInt(ParamKey.KEY_AUTHOR_ID, 0);
+                param.searchPost = bundle.getInt(ParamKey.KEY_SEARCH_POST, 0);
+                param.title = bundle.getString(ParamKey.KEY_TITLE);
+            }
         } else {
-            tid = getIntent().getIntExtra("tid", 0);
-            pid = getIntent().getIntExtra("pid", 0);
-            authorId = getIntent().getIntExtra("authorid", 0);
+            String url = getIntent().getDataString();
+            param = new ArticleListParam();
+            if (url != null) {
+                param.tid = StringUtils.getUrlParameter(url, "tid");
+                param.pid = StringUtils.getUrlParameter(url, "pid");
+                param.authorId = StringUtils.getUrlParameter(url, "authorid");
+                param.page = StringUtils.getUrlParameter(url, "page");
+            }
         }
 
-        int fromReplyActivity = getIntent().getIntExtra("searchpost", 0);
-        if (authorId != 0) {
-            fromReplyActivity = 1;
-        }
-        articleListParam.setTid(tid);
-        articleListParam.setPageFromUrl(pageFromUrl);
-        articleListParam.setPid(pid);
-        articleListParam.setAuthorId(authorId);
-        articleListParam.setFromReplyActivity(fromReplyActivity);
-        return articleListParam;
+        return param;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mRequestParam = getArticleListParam();
         super.onCreate(savedInstanceState);
         setupFragment();
-        if (getIntent().getStringExtra("title") != null) {
-            setTitle(getIntent().getStringExtra("title"));
+        if (mRequestParam.title != null) {
+            setTitle(mRequestParam.title);
         }
     }
 

@@ -158,7 +158,7 @@ public class TopicListModel implements TopicListContract.Model {
             }
         }
         jsonUri.append("page=").append(page).append("&lite=js&noprefix");
-        if (requestInfo.category == 1) {
+        if (requestInfo.recommend == 1) {
             jsonUri.append("&recommend=1&order_by=postdatedesc&user=1");
         }
         return jsonUri.toString();

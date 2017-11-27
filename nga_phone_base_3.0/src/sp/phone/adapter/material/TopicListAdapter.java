@@ -60,15 +60,13 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
     public void setData(TopicListInfo result) {
 
-        int oldCount = mThreadPageList.size();
-
         for (ThreadPageInfo info : result.getThreadPageList()) {
             if (!mThreadPageList.contains(info)) {
                 mThreadPageList.add(info);
             }
         }
         mTotalPage++;
-        notifyItemRangeInserted(oldCount, mThreadPageList.size() - oldCount);
+        notifyDataSetChanged();
     }
 
     public void clear() {

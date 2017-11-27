@@ -1,9 +1,10 @@
-package sp.phone.model;
+package sp.phone.lab.mvp.model;
 
 import android.content.Context;
 
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
+import sp.phone.lab.mvp.contract.ArticleListContract;
 import sp.phone.task.JsonThreadLoadTask;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
@@ -13,9 +14,9 @@ import sp.phone.utils.NLog;
  * Created by Yang Yihang on 2017/7/10.
  */
 
-public class ArticleListTask {
+public class ArticleListModel extends BaseModel implements ArticleListContract.Model {
 
-    private static final String TAG = ArticleListTask.class.getSimpleName();
+    private static final String TAG = ArticleListModel.class.getSimpleName();
 
     public void loadPage(Context context, ArticleListParam action, OnThreadPageLoadFinishedListener listener) {
         int page = action.page;
@@ -25,6 +26,17 @@ public class ArticleListTask {
 
         NLog.d(TAG, "loadPage" + page);
 
+        String url = getUrl(action);
+
+        JsonThreadLoadTask task = new JsonThreadLoadTask(context, listener);
+        task.executeOnExecutor(JsonThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+    }
+
+    private String getUrl(ArticleListParam param) {
+        int page = param.page;
+        int tid = param.tid;
+        int pid = param.pid;
+        int authorId = param.authorId;
         String url = HttpUtil.Server + "/read.php?" + "&page=" + page + "&lite=js&noprefix&v2";
         if (tid != 0) {
             url = url + "&tid=" + tid;
@@ -37,7 +49,7 @@ public class ArticleListTask {
             url = url + "&authorid=" + authorId;
         }
 
-        JsonThreadLoadTask task = new JsonThreadLoadTask(context, listener);
-        task.executeOnExecutor(JsonThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+        return url;
+
     }
 }

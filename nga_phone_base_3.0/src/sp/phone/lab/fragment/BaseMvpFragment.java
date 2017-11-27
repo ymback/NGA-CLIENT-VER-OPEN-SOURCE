@@ -1,20 +1,17 @@
-package sp.phone.lab.mvp;
+package sp.phone.lab.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import io.reactivex.annotations.NonNull;
+import sp.phone.lab.mvp.contract.BaseContract;
 import sp.phone.lab.mvp.presenter.BasePresenter;
-import sp.phone.lab.rxjava.BaseSubscriber;
-import sp.phone.lab.rxjava.RxBus;
-import sp.phone.lab.rxjava.RxEvent;
 
 /**
  * Created by Justwen on 2017/11/25.
  */
 
-public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragment {
+public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseRxFragment implements BaseContract.View {
 
     protected T mPresenter;
 
@@ -41,20 +38,6 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragm
             mPresenter.detach();
         }
         super.onDetach();
-    }
-
-    protected void registerRxBus() {
-        RxBus.getInstance().register(RxEvent.class)
-                .subscribe(new BaseSubscriber<RxEvent>() {
-                    @Override
-                    public void onNext(@NonNull RxEvent rxEvent) {
-                        accept(rxEvent);
-                    }
-                });
-    }
-
-    protected void accept(@NonNull RxEvent rxEvent) {
-
     }
 
     protected abstract T onCreatePresenter();

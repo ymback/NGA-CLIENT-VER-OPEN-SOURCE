@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.forumoperation.ParamKey;
 
 /**
  * Created by Justwen on 2017/11/22.
@@ -38,8 +39,8 @@ public class ArticleListReplyFragment extends ArticleListFragment {
         if (item.getItemId() == R.id.menu_show_whole_thread) {
             Intent intentThis = new Intent();
             intentThis.putExtra("tab", "1");
-            intentThis.putExtra("tid", mArticleListParam.getTid());
-            intentThis.putExtra("title",getActivity().getTitle());
+            intentThis.putExtra("tid", mRequestParam.tid);
+            intentThis.putExtra(ParamKey.KEY_TITLE,getActivity().getTitle());
             intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
             startActivity(intentThis);
             return true;

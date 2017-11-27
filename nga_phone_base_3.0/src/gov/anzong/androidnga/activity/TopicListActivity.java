@@ -7,9 +7,9 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.material.TopicListBoardFragment;
 import sp.phone.fragment.material.TopicListFavoriteFragment;
@@ -30,55 +30,48 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
 
     private TopicListParam mRequestParam;
 
-    private BoardManager mBoardManager;
-
     private TopicListParam getRequestParam() {
+
         Bundle bundle = getIntent().getExtras();
-
-        TopicListParam requestParam = null;
+        TopicListParam requestParam;
         if (bundle != null) {
-            requestParam = bundle.getParcelable("requestParam");
-        }
-
-        if (requestParam != null) {
-            return requestParam;
-        } else {
-            requestParam = new TopicListParam();
-        }
-
-        String url = getIntent().getDataString();
-
-        if (url != null) {
-            requestParam.fid = StringUtils.getUrlParameter(url, "fid");
-            requestParam.authorId = StringUtils.getUrlParameter(url, "authorid");
-            requestParam.searchPost = StringUtils.getUrlParameter(url, "searchpost");
-            requestParam.favor = StringUtils.getUrlParameter(url, "favor");
-            requestParam.key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
-            requestParam.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
-            requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
-            requestParam.content = StringUtils.getUrlParameter(url, "content");
-            requestParam.boardName = mBoardManager.getBoardName(String.valueOf(requestParam.fid));
-
-        } else if (bundle != null) {
-            requestParam.fid = bundle.getInt("fid", 0);
-            requestParam.authorId = bundle.getInt("authorid", 0);
-            requestParam.content = bundle.getInt("content", 0);
-            requestParam.searchPost = bundle.getInt("searchpost", 0);
-            requestParam.favor = bundle.getInt("favor", 0);
-            requestParam.key = bundle.getString("key");
-            requestParam.author = bundle.getString("author");
-            requestParam.fidGroup = bundle.getString("fidgroup");
-            requestParam.boardName = bundle.getString("board_name");
-            if (TextUtils.isEmpty(requestParam.boardName)) {
-                requestParam.boardName = mBoardManager.getBoardName(String.valueOf(requestParam.fid));
+            requestParam = bundle.getParcelable(ParamKey.KEY_PARAM);
+            if (requestParam == null) {
+                requestParam = new TopicListParam();
+                requestParam.fid = bundle.getInt(ParamKey.KEY_FID, 0);
+                requestParam.authorId = bundle.getInt(ParamKey.KEY_AUTHOR_ID, 0);
+                requestParam.content = bundle.getInt(ParamKey.KEY_CONTENT, 0);
+                requestParam.searchPost = bundle.getInt(ParamKey.KEY_SEARCH_POST, 0);
+                requestParam.favor = bundle.getInt(ParamKey.KEY_FAVOR, 0);
+                requestParam.key = bundle.getString(ParamKey.KEY_KEY);
+                requestParam.author = bundle.getString(ParamKey.KEY_AUTHOR);
+                requestParam.fidGroup = bundle.getString(ParamKey.KEY_FID_GROUP);
+                requestParam.title = bundle.getString(ParamKey.KEY_TITLE);
+                requestParam.recommend = bundle.getInt(ParamKey.KEY_RECOMMEND, 0);
             }
+        } else {
+            String url = getIntent().getDataString();
+            requestParam = new TopicListParam();
+            if (url != null) {
+                requestParam.fid = StringUtils.getUrlParameter(url, "fid");
+                requestParam.authorId = StringUtils.getUrlParameter(url, "authorid");
+                requestParam.searchPost = StringUtils.getUrlParameter(url, "searchpost");
+                requestParam.favor = StringUtils.getUrlParameter(url, "favor");
+                requestParam.key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
+                requestParam.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
+                requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
+                requestParam.content = StringUtils.getUrlParameter(url, "content");
+            }
+        }
+
+        if (TextUtils.isEmpty(requestParam.title)) {
+            requestParam.title = BoardManagerImpl.getInstance().getBoardName(String.valueOf(requestParam.fid));
         }
         return requestParam;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mBoardManager = BoardManagerImpl.getInstance();
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
         setupFragment();
@@ -88,23 +81,24 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
         Fragment fragment;
         if (mRequestParam.favor != 0) {
             fragment = new TopicListFavoriteFragment();
-        } else if (isBoardTopicList()){
+        } else if (isBoardTopicList()) {
             fragment = new TopicListBoardFragment();
-        }else {
+        } else {
             fragment = new TopicListFragment();
         }
         Bundle bundle = new Bundle();
-        bundle.putParcelable("requestParam", mRequestParam);
+        bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
         fragment.setArguments(bundle);
         fragment.setHasOptionsMenu(true);
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
     }
 
     private boolean isBoardTopicList() {
-        return mRequestParam.category == 0
+        return mRequestParam.recommend == 0
                 && mRequestParam.key == null
                 && mRequestParam.favor == 0
-                && mRequestParam.author == null;
+                && mRequestParam.authorId == 0
+                && mRequestParam.searchPost == 0;
     }
 
     @Override
@@ -121,7 +115,7 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
                 break;
             case R.id.menu_search:
                 Bundle bundle = new Bundle();
-                bundle.putInt("id", mRequestParam.fid);
+                bundle.putInt("fid", mRequestParam.fid);
                 bundle.putInt("authorid", mRequestParam.authorId);
                 ActivityUtils.startSearchDialog(this, bundle);
                 break;
@@ -132,11 +126,11 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
     }
 
     private void showRecommendTopicList() {
-        TopicListParam param = getRequestParam();
-        param.category = 1;
+        TopicListParam param = (TopicListParam) mRequestParam.clone();
+        param.recommend = 1;
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("requestParam", param);
+        bundle.putParcelable(ParamKey.KEY_PARAM, param);
         intent.putExtras(bundle);
         ActivityUtils.startRecommendTopicActivity(this, intent);
     }

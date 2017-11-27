@@ -43,6 +43,11 @@ public class TopicConvertFactory extends ErrorConvertFactory {
                 pageInfo.setTitleFont(tBean.getTitlefont());
                 pageInfo.setTid(tBean.getTid());
                 pageInfo.setPage(page);
+                TopicListBean.DataBean.TBean.PBean pBean = tBean.get__P();
+                if (pBean != null) {
+                    pageInfo.setPid(pBean.getPid());
+                }
+
                 listInfo.addThreadPage(pageInfo);
             }
             return listInfo;

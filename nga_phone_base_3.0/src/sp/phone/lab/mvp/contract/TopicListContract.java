@@ -20,7 +20,7 @@ public interface TopicListContract {
         void loadNextPage(int page, TopicListParam requestInfo);
     }
 
-    interface View extends BaseContract.View {
+    interface View {
 
         void setRefreshing(boolean refreshing);
 

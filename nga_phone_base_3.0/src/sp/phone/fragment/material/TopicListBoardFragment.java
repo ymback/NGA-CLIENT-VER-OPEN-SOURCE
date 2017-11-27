@@ -50,7 +50,9 @@ public class TopicListBoardFragment extends TopicListFragment {
 
     @Override
     protected void setTitle() {
-        setTitle(mRequestParam.boardName);
+        if (mRequestParam.title != null) {
+            setTitle(mRequestParam.title);
+        }
     }
 
     @Override
@@ -83,7 +85,7 @@ public class TopicListBoardFragment extends TopicListFragment {
     @Override
     public void scrollTo(int position) {
         if (position == 0) {
-            mAppBarLayout.setExpanded(true,true);
+            mAppBarLayout.setExpanded(true, true);
         }
         super.scrollTo(position);
     }
@@ -131,7 +133,7 @@ public class TopicListBoardFragment extends TopicListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_bookmark:
-                mBoardManager.addBookmark(String.valueOf(mRequestParam.fid), mRequestParam.boardName);
+                mBoardManager.addBookmark(String.valueOf(mRequestParam.fid), mRequestParam.title);
                 item.setVisible(false);
                 mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
                 showToast(R.string.toast_add_bookmark_board);
