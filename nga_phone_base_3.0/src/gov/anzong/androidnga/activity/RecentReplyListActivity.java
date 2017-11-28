@@ -1,6 +1,5 @@
 package gov.anzong.androidnga.activity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,12 +10,10 @@ import android.view.View;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.fragment.RecentReplyListFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
-import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PreferenceKey, PullToRefreshAttacherOwner {
@@ -60,22 +57,6 @@ public class RecentReplyListActivity extends SwipeBackAppCompatActivity implemen
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onResume() {
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(v);
-        }
-        super.onResume();
-    }
 
     @Override
     public PullToRefreshAttacher getAttacher() {

@@ -27,6 +27,7 @@ import sp.phone.bean.NotificationObject;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.interfaces.OnRecentNotifierFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonCleanRecentNotifierLoadTask;
@@ -102,6 +103,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
                 intent.putExtra("pid", no.getPid());
                 intent.putExtra("authorid", 0);
                 intent.putExtra("fromreplyactivity", 1);
+                intent.putExtra(ParamKey.KEY_SEARCH_POST,1);
 
                 intent.setClass(getActivity(),
                         PhoneConfiguration.getInstance().articleActivityClass);

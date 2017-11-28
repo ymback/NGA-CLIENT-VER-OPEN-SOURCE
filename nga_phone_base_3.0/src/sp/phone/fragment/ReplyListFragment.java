@@ -19,6 +19,7 @@ import java.util.List;
 import sp.phone.adapter.PendingReplyAdapter;
 import sp.phone.bean.NotificationObject;
 import sp.phone.common.PreferenceKey;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -60,6 +61,7 @@ public class ReplyListFragment extends Fragment implements PreferenceKey {
                 intent.putExtra("pid", no.getPid());
                 intent.putExtra("authorid", 0);
                 intent.putExtra("fromreplyactivity", "1");
+                intent.putExtra(ParamKey.KEY_SEARCH_POST,1);
 
                 intent.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
                 getActivity().startActivity(intent);
