@@ -13,7 +13,7 @@ import sp.phone.utils.NLog;
  * Created by Justwen on 2017/11/21.
  */
 
-public class TopicConvertFactory extends ErrorConvertFactory {
+public class TopicConvertFactory {
 
     private static final String TAG = TopicConvertFactory.class.getSimpleName();
 

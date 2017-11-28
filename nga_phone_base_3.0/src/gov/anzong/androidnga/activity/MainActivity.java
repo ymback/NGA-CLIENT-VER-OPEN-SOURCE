@@ -294,7 +294,8 @@ public class MainActivity extends BaseActivity {
         }
 
         if (isReply) {
-            intent.putExtra("author", userName + "&searchpost=1");
+            intent.putExtra("author", userName);
+            intent.putExtra("searchpost",1);
         } else {
             intent.putExtra("author", userName);
         }

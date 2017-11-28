@@ -1,6 +1,7 @@
 package sp.phone.mvp.contract;
 
 import com.trello.rxlifecycle2.LifecycleProvider;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
 /**
  * Created by Justwen on 2017/11/25.
@@ -21,7 +22,7 @@ public interface BaseContract {
 
         void detach();
 
-        void setLifecycleProvider(LifecycleProvider provider);
+        void setLifecycleProvider(LifecycleProvider<FragmentEvent> provider);
     }
 
     interface View {

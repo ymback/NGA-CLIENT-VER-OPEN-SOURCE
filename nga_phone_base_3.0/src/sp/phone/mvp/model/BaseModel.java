@@ -1,6 +1,7 @@
 package sp.phone.mvp.model;
 
 import com.trello.rxlifecycle2.LifecycleProvider;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import sp.phone.mvp.contract.BaseContract;
 
@@ -10,7 +11,7 @@ import sp.phone.mvp.contract.BaseContract;
 
 public abstract class BaseModel implements BaseContract.Model {
 
-    private LifecycleProvider mProvider;
+    private LifecycleProvider<FragmentEvent> mProvider;
 
     @Override
     public void detach() {
@@ -18,11 +19,11 @@ public abstract class BaseModel implements BaseContract.Model {
     }
 
     @Override
-    public void setLifecycleProvider(LifecycleProvider provider) {
+    public void setLifecycleProvider(LifecycleProvider<FragmentEvent> provider) {
         mProvider = provider;
     }
 
-    protected LifecycleProvider getLifecycleProvider() {
+    protected LifecycleProvider<FragmentEvent> getLifecycleProvider() {
         return mProvider;
     }
 }

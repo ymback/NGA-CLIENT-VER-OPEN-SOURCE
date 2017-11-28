@@ -3,6 +3,8 @@ package sp.phone.mvp.model.convert;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import java.net.UnknownHostException;
+
 import gov.anzong.androidnga.R;
 import sp.phone.utils.ResourceUtils;
 
@@ -28,6 +30,16 @@ public class ErrorConvertFactory {
                 return "二哥玩坏了或者你需要重新登录";
             }
         }
+    }
+
+    public static String getErrorMessage(Throwable throwable) {
+        String error;
+        if (throwable instanceof UnknownHostException) {
+            error = ResourceUtils.getString(R.string.network_error);
+        } else {
+            error = throwable.getMessage();
+        }
+        return error;
     }
 
 }

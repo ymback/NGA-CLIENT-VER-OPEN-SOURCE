@@ -1,28 +1,27 @@
 package sp.phone.mvp.model;
 
+import com.trello.rxlifecycle2.android.FragmentEvent;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import gov.anzong.androidnga.R;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.mvp.contract.TopicListContract;
-import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.listener.OnHttpCallBack;
+import sp.phone.mvp.contract.TopicListContract;
+import sp.phone.mvp.model.convert.ErrorConvertFactory;
 import sp.phone.mvp.model.convert.TopicConvertFactory;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
+import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
-import sp.phone.utils.ResourceUtils;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -56,8 +55,8 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         mFieldMap.put("tidarray", String.valueOf(info.getTid()));
         mService.post(mFieldMap)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onNext(@NonNull String s) {
@@ -75,35 +74,24 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         String url = getUrl(page, param);
         mService.get(url)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .map(new Function<String, TopicListInfo>() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
+                .subscribe(new BaseSubscriber<String>() {
+
                     @Override
-                    public TopicListInfo apply(@NonNull String js) throws Exception {
+                    public void onNext(@NonNull String js) {
                         NLog.d(js);
                         TopicListInfo result = TopicConvertFactory.getTopicListInfo(js, page);
                         if (result == null) {
-                            throw new Exception(TopicConvertFactory.getErrorMessage(js));
+                            callBack.onError(ErrorConvertFactory.getErrorMessage(js));
+                        } else {
+                            callBack.onSuccess(result);
                         }
-                        return result;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<TopicListInfo>() {
-
-                    @Override
-                    public void onNext(@NonNull TopicListInfo listInfo) {
-                        callBack.onSuccess(listInfo);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
-                        String error;
-                        if (throwable instanceof UnknownHostException) {
-                            error = ResourceUtils.getString(R.string.network_error);
-                        } else {
-                            error = throwable.getMessage();
-                        }
-                        callBack.onError(error);
+                        callBack.onError(ErrorConvertFactory.getErrorMessage(throwable));
                     }
 
                 });
