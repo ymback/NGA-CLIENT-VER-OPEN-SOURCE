@@ -226,7 +226,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ActivityUtils.REQUEST_CODE_TOPIC_POST && resultCode == Activity.RESULT_OK) {
             if (mViewPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
-                //  mPagerAdapter.getChildAt(mViewPager.getCurrentItem()).loadPage();
+                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem()));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

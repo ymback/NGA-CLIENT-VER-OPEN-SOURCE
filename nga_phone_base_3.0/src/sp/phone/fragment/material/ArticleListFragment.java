@@ -73,7 +73,7 @@ public class ArticleListFragment extends sp.phone.mvp.BaseMvpFragment<ArticleLis
 
     @Override
     protected void accept(@NonNull RxEvent rxEvent) {
-        if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE && rxEvent.what + 1 == mRequestParam.page) {
+        if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE && rxEvent.arg + 1 == mRequestParam.page) {
             loadPage();
         }
     }
