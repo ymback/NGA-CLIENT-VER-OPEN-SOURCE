@@ -1,4 +1,4 @@
-package sp.phone.presenter;
+package sp.phone.mvp.presenter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,8 +15,8 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.MessagePostAction;
-import sp.phone.model.MessagePostModel;
-import sp.phone.presenter.contract.MessagePostContract;
+import sp.phone.mvp.model.MessagePostModel;
+import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;

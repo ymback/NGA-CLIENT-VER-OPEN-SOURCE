@@ -18,7 +18,8 @@ import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.BaseMvpFragment;
-import sp.phone.presenter.contract.LoginContract;
+import sp.phone.mvp.presenter.LoginPresenter;
+import sp.phone.mvp.contract.LoginContract;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -140,7 +141,7 @@ public class LoginWebFragment extends BaseMvpFragment implements LoginContract.V
 
     @Override
     protected Class getPresenterClass() {
-        return sp.phone.presenter.LoginPresenter.class;
+        return LoginPresenter.class;
     }
 
 

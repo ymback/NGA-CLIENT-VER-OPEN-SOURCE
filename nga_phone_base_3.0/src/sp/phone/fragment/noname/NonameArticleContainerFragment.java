@@ -21,7 +21,7 @@ import android.widget.ImageButton;
 
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.adapter.NonameThreadFragmentAdapter;
+import sp.phone.adapter.noname.NonameThreadFragmentAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;

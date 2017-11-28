@@ -19,7 +19,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.MainActivity;
 import noname.gson.parse.NonameThreadResponse;
-import sp.phone.adapter.AppendableNonameTopicAdapter;
+import sp.phone.adapter.noname.AppendableNonameTopicAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;

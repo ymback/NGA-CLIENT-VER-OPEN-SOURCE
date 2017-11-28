@@ -26,7 +26,7 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.adapter.NonameArticleListAdapter;
+import sp.phone.adapter.noname.NonameArticleListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;

@@ -15,8 +15,8 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.MessageListAdapter;
 import sp.phone.bean.MessageListInfo;
-import sp.phone.presenter.MessageListPresenter;
-import sp.phone.presenter.contract.tmp.MessageListContract;
+import sp.phone.mvp.presenter.MessageListPresenter;
+import sp.phone.mvp.contract.MessageListContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 

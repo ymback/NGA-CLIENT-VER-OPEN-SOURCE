@@ -1,10 +1,12 @@
-package sp.phone.presenter.contract;
+package sp.phone.mvp.contract;
 
 import android.graphics.Bitmap;
 
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.model.LoginModel;
+import sp.phone.mvp.model.LoginModel;
+import sp.phone.presenter.contract.*;
+import sp.phone.presenter.contract.BaseContract;
 
 /**
  * Created by Yang Yihang on 2017/6/16.
@@ -12,7 +14,7 @@ import sp.phone.model.LoginModel;
 
 public interface LoginContract {
 
-    interface Presenter extends BaseContract.Presenter<View> {
+    interface Presenter extends sp.phone.presenter.contract.BaseContract.Presenter<View> {
 
         void loadAuthCode();
 
@@ -26,7 +28,7 @@ public interface LoginContract {
 
     }
 
-    interface View extends BaseContract.View<Presenter> {
+    interface View extends sp.phone.presenter.contract.BaseContract.View<Presenter> {
 
         void setAuthCodeImg(Bitmap bitmap);
 

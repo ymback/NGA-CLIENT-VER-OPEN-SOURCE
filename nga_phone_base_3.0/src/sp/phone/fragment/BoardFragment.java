@@ -51,7 +51,7 @@ import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.PageCategoryOwner;
-import sp.phone.presenter.contract.BoardContract;
+import sp.phone.mvp.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;

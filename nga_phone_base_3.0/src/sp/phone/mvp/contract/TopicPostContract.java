@@ -1,8 +1,10 @@
-package sp.phone.presenter.contract;
+package sp.phone.mvp.contract;
 
 import android.net.Uri;
 
 import sp.phone.forumoperation.TopicPostAction;
+import sp.phone.presenter.contract.*;
+import sp.phone.presenter.contract.BaseContract;
 
 /**
  * Created by Yang Yihang on 2017/6/6.
@@ -10,7 +12,7 @@ import sp.phone.forumoperation.TopicPostAction;
 
 public interface TopicPostContract {
 
-    interface Presenter extends BaseContract.Presenter{
+    interface Presenter extends sp.phone.presenter.contract.BaseContract.Presenter {
 
         void prepare();
 
@@ -28,7 +30,7 @@ public interface TopicPostContract {
 
     }
 
-    interface View extends BaseContract.View<Presenter>{
+    interface View extends sp.phone.presenter.contract.BaseContract.View<Presenter> {
 
         void insertBodyText(CharSequence text);
 

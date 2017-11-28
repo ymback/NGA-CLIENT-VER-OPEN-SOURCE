@@ -1,22 +1,24 @@
-package sp.phone.presenter;
+package sp.phone.mvp.presenter;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.MessageListInfo;
+import sp.phone.bean.MessageDetailInfo;
 import sp.phone.listener.OnHttpCallBack;
-import sp.phone.model.MessageListModel;
-import sp.phone.presenter.contract.tmp.MessageListContract;
+import sp.phone.mvp.model.MessageDetailModel;
+import sp.phone.mvp.contract.MessageDetailContract;
 
 /**
- * Created by Justwen on 2017/10/9.
+ * Created by Justwen on 2017/10/11.
  */
 
-public class MessageListPresenter implements MessageListContract.IMessagePresenter {
+public class MessageDetailPresenter implements MessageDetailContract.IMessagePresenter {
 
-    private MessageListContract.IMessageView mMessageView;
 
-    private MessageListContract.IMessageModel mMessageModel;
+    private MessageDetailContract.IMessageModel mMessageModel;
 
-    private OnHttpCallBack<MessageListInfo> mCallBack = new OnHttpCallBack<MessageListInfo>() {
+    private MessageDetailContract.IMessageView mMessageView;
+
+
+    private OnHttpCallBack<MessageDetailInfo> mCallBack = new OnHttpCallBack<MessageDetailInfo>() {
         @Override
         public void onError(String text) {
             if (!isAttached()) {
@@ -32,7 +34,7 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
         }
 
         @Override
-        public void onSuccess(MessageListInfo data) {
+        public void onSuccess(MessageDetailInfo data) {
             if (!isAttached()) {
                 return;
             }
@@ -42,12 +44,12 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
         }
     };
 
-    public MessageListPresenter() {
-        mMessageModel = new MessageListModel();
+    public MessageDetailPresenter() {
+        mMessageModel = new MessageDetailModel();
     }
 
     @Override
-    public void attachView(MessageListContract.IMessageView view) {
+    public void attachView(MessageDetailContract.IMessageView view) {
         mMessageView = view;
     }
 
@@ -62,9 +64,9 @@ public class MessageListPresenter implements MessageListContract.IMessagePresent
     }
 
     @Override
-    public void loadPage(int page) {
+    public void loadPage(int page, int mid) {
         mMessageView.setRefreshing(true);
-        mMessageModel.loadPage(page, mCallBack);
-    }
+        mMessageModel.loadPage(page, mid, mCallBack);
 
+    }
 }

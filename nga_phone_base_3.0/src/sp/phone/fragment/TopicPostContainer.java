@@ -27,7 +27,7 @@ import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.presenter.contract.TopicPostContract;
+import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;

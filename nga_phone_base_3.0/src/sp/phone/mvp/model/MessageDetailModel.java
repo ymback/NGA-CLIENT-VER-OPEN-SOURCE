@@ -1,4 +1,4 @@
-package sp.phone.model;
+package sp.phone.mvp.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.model.convert.MessageConvertFactory;
-import sp.phone.presenter.contract.tmp.MessageDetailContract;
+import sp.phone.mvp.contract.MessageDetailContract;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 

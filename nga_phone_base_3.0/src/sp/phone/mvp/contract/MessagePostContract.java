@@ -1,6 +1,8 @@
-package sp.phone.presenter.contract;
+package sp.phone.mvp.contract;
 
 import sp.phone.forumoperation.MessagePostAction;
+import sp.phone.presenter.contract.*;
+import sp.phone.presenter.contract.BaseContract;
 import sp.phone.task.MessagePostTask;
 
 /**
@@ -9,7 +11,7 @@ import sp.phone.task.MessagePostTask;
 
 public interface MessagePostContract {
 
-    interface Presenter extends BaseContract.Presenter {
+    interface Presenter extends sp.phone.presenter.contract.BaseContract.Presenter {
 
         void commit(String title,String to,String body);
 
@@ -19,7 +21,7 @@ public interface MessagePostContract {
 
     }
 
-    interface View extends BaseContract.View<Presenter> {
+    interface View extends sp.phone.presenter.contract.BaseContract.View<Presenter> {
 
         void finish(int resultCode);
 

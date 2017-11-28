@@ -1,8 +1,10 @@
-package sp.phone.presenter.contract;
+package sp.phone.mvp.contract;
 
 import java.util.List;
 
 import sp.phone.bean.User;
+import sp.phone.presenter.contract.*;
+import sp.phone.presenter.contract.BaseContract;
 
 /**
  * Created by Yang Yihang on 2017/6/29.
@@ -10,7 +12,7 @@ import sp.phone.bean.User;
 
 public interface BoardContract {
 
-    interface Presenter extends BaseContract.Presenter {
+    interface Presenter extends sp.phone.presenter.contract.BaseContract.Presenter {
 
         void loadBoardInfo();
 
@@ -26,7 +28,7 @@ public interface BoardContract {
 
     }
 
-    interface View extends BaseContract.View<Presenter> {
+    interface View extends sp.phone.presenter.contract.BaseContract.View<Presenter> {
 
         int switchToNextUser();
 

@@ -23,7 +23,7 @@ import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.presenter.contract.TopicPostContract;
+import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
 

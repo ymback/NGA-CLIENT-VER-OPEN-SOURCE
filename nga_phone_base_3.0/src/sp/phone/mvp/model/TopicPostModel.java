@@ -1,4 +1,4 @@
-package sp.phone.model;
+package sp.phone.mvp.model;
 
 
 import android.net.Uri;
@@ -18,7 +18,7 @@ import okhttp3.ResponseBody;
 import sp.phone.bean.TopicPostBean;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicPostAction;
-import sp.phone.presenter.contract.TopicPostContract;
+import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
 import sp.phone.utils.NLog;

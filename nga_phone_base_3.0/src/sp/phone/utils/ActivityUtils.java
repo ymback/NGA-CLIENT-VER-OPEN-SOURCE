@@ -163,12 +163,6 @@ public class ActivityUtils {
         return Math.round(s * 1000);
     }
 
-    public static void appendStaticBoard(BoardHolder boards) {
-        if (null == boards)
-            return;
-
-    }
-
     static public String getSaying() {
         String str = StringUtils.getSaying();
         if (str.indexOf(";") != -1) {

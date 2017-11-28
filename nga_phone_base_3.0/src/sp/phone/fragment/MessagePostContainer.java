@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
-import sp.phone.presenter.contract.MessagePostContract;
+import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;

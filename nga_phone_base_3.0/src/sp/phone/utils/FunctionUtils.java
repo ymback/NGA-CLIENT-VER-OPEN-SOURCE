@@ -46,7 +46,7 @@ import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
 import noname.gson.parse.NonameReadBody;
-import sp.phone.adapter.NonameArticleListAdapter;
+import sp.phone.adapter.noname.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;

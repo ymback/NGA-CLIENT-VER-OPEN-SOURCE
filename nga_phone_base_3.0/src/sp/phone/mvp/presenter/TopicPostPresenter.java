@@ -1,4 +1,4 @@
-package sp.phone.presenter;
+package sp.phone.mvp.presenter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,8 +18,8 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.TopicPostAction;
-import sp.phone.model.TopicPostModel;
-import sp.phone.presenter.contract.TopicPostContract;
+import sp.phone.mvp.model.TopicPostModel;
+import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
 import sp.phone.utils.ActivityUtils;

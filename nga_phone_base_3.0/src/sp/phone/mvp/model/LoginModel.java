@@ -1,11 +1,11 @@
-package sp.phone.model;
+package sp.phone.mvp.model;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.presenter.contract.LoginContract;
+import sp.phone.mvp.contract.LoginContract;
 import sp.phone.task.AccountAuthCodeImageReloadTask;
 import sp.phone.task.LoginTask;
 

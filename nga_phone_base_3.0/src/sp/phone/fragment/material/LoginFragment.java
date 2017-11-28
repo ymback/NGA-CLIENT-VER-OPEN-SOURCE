@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.UserRecycleListAdapter;
-import sp.phone.presenter.contract.LoginContract;
+import sp.phone.mvp.contract.LoginContract;
 
 public class LoginFragment extends MaterialCompatFragment implements View.OnClickListener,LoginContract.View {
 

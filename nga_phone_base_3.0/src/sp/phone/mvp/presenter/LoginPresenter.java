@@ -1,4 +1,4 @@
-package sp.phone.presenter;
+package sp.phone.mvp.presenter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,8 +10,8 @@ import gov.anzong.androidnga.R;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.model.LoginModel;
-import sp.phone.presenter.contract.LoginContract;
+import sp.phone.mvp.model.LoginModel;
+import sp.phone.mvp.contract.LoginContract;
 import sp.phone.utils.StringUtils;
 
 /**

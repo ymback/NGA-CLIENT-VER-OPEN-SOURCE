@@ -1,4 +1,4 @@
-package sp.phone.presenter;
+package sp.phone.mvp.presenter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.PageCategoryOwner;
-import sp.phone.presenter.contract.BoardContract;
+import sp.phone.mvp.contract.BoardContract;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;

@@ -1,4 +1,4 @@
-package sp.phone.adapter;
+package sp.phone.adapter.noname;
 
 import android.content.Context;
 import android.content.res.Resources;

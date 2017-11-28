@@ -1,7 +1,7 @@
-package sp.phone.model;
+package sp.phone.mvp.model;
 
 import sp.phone.forumoperation.MessagePostAction;
-import sp.phone.presenter.contract.MessagePostContract;
+import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
 
 /**

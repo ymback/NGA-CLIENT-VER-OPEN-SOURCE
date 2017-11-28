@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
-import sp.phone.adapter.NonameTopicListAdapter;
+import sp.phone.adapter.noname.NonameTopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
