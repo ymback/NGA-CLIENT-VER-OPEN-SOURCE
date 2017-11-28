@@ -13,7 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.material.MessageListAdapter;
+import sp.phone.adapter.MessageListAdapter;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.presenter.MessageListPresenter;
 import sp.phone.presenter.contract.tmp.MessageListContract;

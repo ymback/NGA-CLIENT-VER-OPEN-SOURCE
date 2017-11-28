@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import sp.phone.model.entity.ThreadPageInfo;
+import sp.phone.mvp.model.entity.ThreadPageInfo;
 
 /**
  * Created by Justwen on 2017/11/19.

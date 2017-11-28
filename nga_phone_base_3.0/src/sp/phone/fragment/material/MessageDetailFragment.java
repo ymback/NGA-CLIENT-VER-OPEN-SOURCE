@@ -15,7 +15,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.material.MessageDetailAdapter;
+import sp.phone.adapter.MessageDetailAdapter;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.presenter.MessageDetailPresenter;
 import sp.phone.presenter.contract.tmp.MessageDetailContract;

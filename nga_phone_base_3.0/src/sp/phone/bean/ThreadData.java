@@ -3,7 +3,7 @@ package sp.phone.bean;
 import java.util.List;
 import java.util.Map;
 
-import sp.phone.model.entity.ThreadPageInfo;
+import sp.phone.mvp.model.entity.ThreadPageInfo;
 
 public class ThreadData {
     private List<ThreadRowInfo> rowList;

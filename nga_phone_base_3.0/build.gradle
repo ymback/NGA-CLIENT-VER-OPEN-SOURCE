@@ -57,6 +57,12 @@ android {
 
         versionCode project.appVersionCode
         versionName project.appVersionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
 
     buildTypes {
@@ -150,5 +156,7 @@ dependencies {
     compile 'com.github.chrisbanes:photoview:2.1.3'
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    compile 'com.alibaba:arouter-api:1.2.4'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
 
 }

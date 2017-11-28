@@ -23,7 +23,7 @@ import sp.phone.adapter.ThreadFragmentAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
-import sp.phone.fragment.GotoDialogFragment;
+import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.fragment.noname.NonameArticleListFragment;
 import sp.phone.fragment.noname.NonameArticleListFragmentNew;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;

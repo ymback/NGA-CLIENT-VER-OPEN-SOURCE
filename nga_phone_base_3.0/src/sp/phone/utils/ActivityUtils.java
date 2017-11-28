@@ -21,9 +21,9 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
+import gov.anzong.androidnga.activity.TopicListActivity;
 import sp.phone.bean.BoardHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
@@ -50,6 +50,13 @@ public class ActivityUtils {
     public static final int REQUEST_CODE_SETTING = 2;
 
     public static final int REQUEST_CODE_TOPIC_POST = 3;
+
+    public static final String PATH_LOGIN = "/activity/LoginActivity";
+
+    public static final String PATH_TOPIC_LIST = "/activity/TopicListActivity";
+
+    public static final String PATH_ARTICLE_LIST = "/activity/ArticleListActivity";
+
 
     private ActivityUtils() {
     }
@@ -170,21 +177,6 @@ public class ActivityUtils {
 
         return str;
 
-    }
-
-    public static void dismissSaying(FragmentActivity fa) {
-        if (null == fa)
-            return;
-        FragmentManager fm = fa.getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        Fragment prev = fm.findFragmentByTag(ActivityUtils.dialogTag);
-        if (prev != null) {
-            ft.remove(prev);
-
-        }
-
-        ft.commit();
     }
 
     public void setFullScreen(View v) {

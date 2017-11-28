@@ -31,9 +31,10 @@ import sp.phone.adapter.ArticlePagerAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
-import sp.phone.fragment.GotoDialogFragment;
-import sp.phone.lab.rxjava.RxBus;
-import sp.phone.lab.rxjava.RxEvent;
+import sp.phone.fragment.dialog.GotoDialogFragment;
+import sp.phone.mvp.BaseRxFragment;
+import sp.phone.rxjava.RxBus;
+import sp.phone.rxjava.RxEvent;
 import sp.phone.task.BookmarkTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
@@ -44,7 +45,7 @@ import sp.phone.utils.StringUtils;
  * Created by Yang Yihang on 2017/7/9.
  */
 
-public class ArticleTabFragment extends sp.phone.lab.fragment.BaseRxFragment {
+public class ArticleTabFragment extends BaseRxFragment {
 
     @BindView(R.id.pager)
     public ViewPager mViewPager;

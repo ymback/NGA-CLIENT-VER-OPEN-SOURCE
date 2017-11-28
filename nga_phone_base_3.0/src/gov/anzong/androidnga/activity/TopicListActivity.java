@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import gov.anzong.androidnga.R;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
@@ -22,6 +24,7 @@ import sp.phone.utils.StringUtils;
 /**
  * 帖子列表
  */
+@Route(path = ActivityUtils.PATH_TOPIC_LIST)
 public class TopicListActivity extends SwipeBackAppCompatActivity {
 
     private static String TAG = TopicListActivity.class.getSimpleName();
@@ -98,6 +101,7 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
                 && mRequestParam.key == null
                 && mRequestParam.favor == 0
                 && mRequestParam.authorId == 0
+                && mRequestParam.author == null
                 && mRequestParam.searchPost == 0;
     }
 

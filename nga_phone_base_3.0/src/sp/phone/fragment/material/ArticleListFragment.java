@@ -23,17 +23,17 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import io.reactivex.annotations.NonNull;
-import sp.phone.adapter.material.ArticleListAdapter;
+import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.dialog.PostCommentDialogFragment;
-import sp.phone.lab.mvp.contract.ArticleListContract;
-import sp.phone.lab.mvp.presenter.ArticleListPresenter;
-import sp.phone.lab.rxjava.RxBus;
-import sp.phone.lab.rxjava.RxEvent;
+import sp.phone.mvp.contract.ArticleListContract;
+import sp.phone.mvp.presenter.ArticleListPresenter;
+import sp.phone.rxjava.RxBus;
+import sp.phone.rxjava.RxEvent;
 import sp.phone.task.LikeTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
@@ -44,7 +44,7 @@ import sp.phone.view.RecyclerViewEx;
 /*
  * MD 帖子详情每一页
  */
-public class ArticleListFragment extends sp.phone.lab.fragment.BaseMvpFragment<ArticleListPresenter> implements ArticleListContract.View, ActionMode.Callback {
+public class ArticleListFragment extends sp.phone.mvp.BaseMvpFragment<ArticleListPresenter> implements ArticleListContract.View, ActionMode.Callback {
 
     private final static String TAG = ArticleListFragment.class.getSimpleName();
 

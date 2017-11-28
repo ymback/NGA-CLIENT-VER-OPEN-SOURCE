@@ -5,11 +5,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.fragment.material.LoginFragment;
 import sp.phone.fragment.material.LoginWebFragment;
+import sp.phone.utils.ActivityUtils;
 
+@Route(path = ActivityUtils.PATH_LOGIN)
 public class LoginActivity extends SwipeBackAppCompatActivity {
 
 

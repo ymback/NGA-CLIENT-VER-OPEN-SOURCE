@@ -21,7 +21,7 @@ import noname.gson.parse.NonameReadResponse;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import sp.phone.adapter.NonameTopicListAdapter;
-import sp.phone.model.entity.ThreadPageInfo;
+import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.fragment.noname.NonameArticleContainerFragment;

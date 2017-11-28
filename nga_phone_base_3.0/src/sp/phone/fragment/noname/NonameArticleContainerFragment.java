@@ -26,7 +26,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.fragment.BaseFragment;
-import sp.phone.fragment.GotoDialogFragment;
+import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
 import sp.phone.interfaces.PagerOwner;

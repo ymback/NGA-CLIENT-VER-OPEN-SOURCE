@@ -13,21 +13,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
-import sp.phone.adapter.material.TopicListAdapter;
+import sp.phone.adapter.TopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.lab.mvp.contract.TopicListContract;
-import sp.phone.lab.mvp.presenter.TopicListPresenter;
-import sp.phone.model.entity.ThreadPageInfo;
-import sp.phone.model.entity.TopicListInfo;
+import sp.phone.mvp.contract.TopicListContract;
+import sp.phone.mvp.presenter.TopicListPresenter;
+import sp.phone.mvp.model.entity.ThreadPageInfo;
+import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 
-public class TopicListFragment extends sp.phone.lab.fragment.BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
+public class TopicListFragment extends sp.phone.mvp.BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
 
     private static final String TAG = TopicListFragment.class.getSimpleName();
 

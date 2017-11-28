@@ -12,7 +12,7 @@ import java.util.Set;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.ArticlePage;
 import sp.phone.bean.ThreadData;
-import sp.phone.model.entity.ThreadPageInfo;
+import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 

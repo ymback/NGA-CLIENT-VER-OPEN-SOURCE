@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.model.ForumsListModel;
+import sp.phone.mvp.model.ForumsListModel;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 

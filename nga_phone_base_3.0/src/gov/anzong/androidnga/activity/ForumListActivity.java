@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.material.ForumListAdapter;
+import sp.phone.adapter.ForumListAdapter;
 import sp.phone.common.ThemeManager;
 import sp.phone.fragment.BoardCategoryFragment;
-import sp.phone.model.ForumsListModel;
+import sp.phone.mvp.model.ForumsListModel;
 import sp.phone.task.GetAllForumsTask;
 
 /**

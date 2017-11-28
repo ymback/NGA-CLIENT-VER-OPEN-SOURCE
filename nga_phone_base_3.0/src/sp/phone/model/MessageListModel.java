@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.presenter.contract.tmp.MessageListContract;
-import sp.phone.model.convert.MessageConvertFactory;
+import sp.phone.mvp.model.convert.MessageConvertFactory;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.retrofit.RetrofitHelper;
 
