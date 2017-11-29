@@ -44,9 +44,16 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
     private ArticleListParam getArticleListParam() {
 
         Bundle bundle = getIntent().getExtras();
-        ArticleListParam param;
-
-        if (bundle != null) {
+        String url = getIntent().getDataString();
+        ArticleListParam param = null;
+        if (url != null) {
+            param = new ArticleListParam();
+            param.tid = StringUtils.getUrlParameter(url, "tid");
+            param.pid = StringUtils.getUrlParameter(url, "pid");
+            param.authorId = StringUtils.getUrlParameter(url, "authorid");
+            param.page = StringUtils.getUrlParameter(url, "page");
+            param.searchPost = StringUtils.getUrlParameter(url,ParamKey.KEY_SEARCH_POST);
+        } else if (bundle != null) {
             param = bundle.getParcelable(ParamKey.KEY_PARAM);
             if (param == null) {
                 param = new ArticleListParam();
@@ -55,15 +62,6 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
                 param.authorId = bundle.getInt(ParamKey.KEY_AUTHOR_ID, 0);
                 param.searchPost = bundle.getInt(ParamKey.KEY_SEARCH_POST, 0);
                 param.title = bundle.getString(ParamKey.KEY_TITLE);
-            }
-        } else {
-            String url = getIntent().getDataString();
-            param = new ArticleListParam();
-            if (url != null) {
-                param.tid = StringUtils.getUrlParameter(url, "tid");
-                param.pid = StringUtils.getUrlParameter(url, "pid");
-                param.authorId = StringUtils.getUrlParameter(url, "authorid");
-                param.page = StringUtils.getUrlParameter(url, "page");
             }
         }
 

@@ -36,8 +36,18 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
     private TopicListParam getRequestParam() {
 
         Bundle bundle = getIntent().getExtras();
-        TopicListParam requestParam;
-        if (bundle != null) {
+        String url = getIntent().getDataString();
+        TopicListParam requestParam = null;
+        if (url != null) {
+            requestParam = new TopicListParam();
+            requestParam.authorId = StringUtils.getUrlParameter(url, "authorid");
+            requestParam.searchPost = StringUtils.getUrlParameter(url, "searchpost");
+            requestParam.favor = StringUtils.getUrlParameter(url, "favor");
+            requestParam.key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
+            requestParam.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
+            requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
+            requestParam.content = StringUtils.getUrlParameter(url, "content");
+        } else if (bundle != null) {
             requestParam = bundle.getParcelable(ParamKey.KEY_PARAM);
             if (requestParam == null) {
                 requestParam = new TopicListParam();
@@ -52,22 +62,9 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
                 requestParam.title = bundle.getString(ParamKey.KEY_TITLE);
                 requestParam.recommend = bundle.getInt(ParamKey.KEY_RECOMMEND, 0);
             }
-        } else {
-            String url = getIntent().getDataString();
-            requestParam = new TopicListParam();
-            if (url != null) {
-                requestParam.fid = StringUtils.getUrlParameter(url, "fid");
-                requestParam.authorId = StringUtils.getUrlParameter(url, "authorid");
-                requestParam.searchPost = StringUtils.getUrlParameter(url, "searchpost");
-                requestParam.favor = StringUtils.getUrlParameter(url, "favor");
-                requestParam.key = StringUtils.getStringBetween(url, 0, "key=", "&").result;
-                requestParam.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
-                requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
-                requestParam.content = StringUtils.getUrlParameter(url, "content");
-            }
         }
 
-        if (TextUtils.isEmpty(requestParam.title)) {
+        if (requestParam != null && TextUtils.isEmpty(requestParam.title)) {
             requestParam.title = BoardManagerImpl.getInstance().getBoardName(String.valueOf(requestParam.fid));
         }
         return requestParam;

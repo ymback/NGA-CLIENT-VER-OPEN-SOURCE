@@ -50,6 +50,7 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;
@@ -153,6 +154,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
                 for (int i = 0; i < userList.size(); i++) {
                     mHeaderView.addView(getUserView(userList, i));// 传递回一个未登入的
                 }
+                mHeaderView.setDisplayedChild(UserManagerImpl.getInstance().getActiveUserIndex());
             }
         }
         mHeaderView.setOnClickListener(new View.OnClickListener() {

@@ -333,7 +333,7 @@ public class CheckReplyNotificationTask extends
         String url = res.getString(R.string.myscheme) + "://"
                 + res.getString(R.string.myhost) + "/read.php?tid=" + tid;
         if (pidValue != 0) {
-            url = url + "&pid=" + pid;
+            url = url + "&pid=" + pid +"&searchpost=1";
         }
         intent.setData(Uri.parse(url));
         intent.putExtra("fromreplyactivity", 1);
