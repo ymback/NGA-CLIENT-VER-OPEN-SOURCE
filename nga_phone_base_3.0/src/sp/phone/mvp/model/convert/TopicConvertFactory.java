@@ -24,8 +24,14 @@ public class TopicConvertFactory {
         try {
             TopicListInfo listInfo = new TopicListInfo();
             Map<String, TopicListBean.DataBean.TBean> map = topicListBean.getData().get__T();
-            for (String key : map.keySet()) {
+            int count = 0;
+            while (count < map.size()) {
+                String key = String.valueOf(count);
                 TopicListBean.DataBean.TBean tBean = map.get(key);
+                if (tBean == null) {
+                    count++;
+                    continue;
+                }
                 ThreadPageInfo pageInfo = new ThreadPageInfo();
                 String author = tBean.getAuthor();
                 if (author.startsWith("#anony_")) {
@@ -49,6 +55,7 @@ public class TopicConvertFactory {
                 }
 
                 listInfo.addThreadPage(pageInfo);
+                count++;
             }
             return listInfo;
         } catch (NullPointerException e) {

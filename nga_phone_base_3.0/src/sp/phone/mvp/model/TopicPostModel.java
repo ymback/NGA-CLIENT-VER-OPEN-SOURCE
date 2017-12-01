@@ -24,7 +24,7 @@ import sp.phone.task.TopicPostTask;
 import sp.phone.utils.NLog;
 
 /**
- * Created by Yang Yihang on 2017/6/10.
+ * Created by Justwen on 2017/6/10.
  */
 
 public class TopicPostModel implements TopicPostContract.Model {
