@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -72,10 +71,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected void setTitle(int resId) {
         setTitle(getString(resId));
-    }
-
-    protected LayoutInflater getLayoutInflater() {
-        return mActivity != null ? mActivity.getLayoutInflater() : null;
     }
 
     protected FragmentManager getSupportFragmentManager() {

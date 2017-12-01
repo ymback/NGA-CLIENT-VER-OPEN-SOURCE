@@ -7,7 +7,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,7 +29,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public class MeiziMainActivity extends ActionBarActivity implements
+public class MeiziMainActivity extends AppCompatActivity implements
         OnMeiziSelectedListener,
         OnChildFragmentRemovedListener, PullToRefreshAttacherOwner {
 

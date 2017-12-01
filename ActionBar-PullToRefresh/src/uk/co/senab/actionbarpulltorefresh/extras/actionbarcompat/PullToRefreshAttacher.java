@@ -18,7 +18,7 @@ package uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 public class PullToRefreshAttacher extends
         uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher {
@@ -50,8 +50,8 @@ public class PullToRefreshAttacher extends
          * @return Context which should be used for inflating the header layout
          */
         public Context getContextForInflater(Activity activity) {
-            if (activity instanceof ActionBarActivity) {
-                return ((ActionBarActivity) activity).getSupportActionBar().getThemedContext();
+            if (activity instanceof AppCompatActivity) {
+                return ((AppCompatActivity) activity).getSupportActionBar().getThemedContext();
             }
             return super.getContextForInflater(activity);
         }
