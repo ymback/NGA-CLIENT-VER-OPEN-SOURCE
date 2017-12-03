@@ -1,13 +1,21 @@
 package sp.phone.mvp.model;
 
-import android.content.Context;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import sp.phone.bean.ThreadData;
 import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
+import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
-import sp.phone.task.JsonThreadLoadTask;
+import sp.phone.mvp.model.convert.ArticleConvertFactory;
+import sp.phone.mvp.model.convert.ErrorConvertFactory;
+import sp.phone.retrofit.RetrofitHelper;
+import sp.phone.retrofit.RetrofitService;
+import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
 
 /**
  * 加载帖子内容
@@ -18,18 +26,10 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
 
     private static final String TAG = ArticleListModel.class.getSimpleName();
 
-    public void loadPage(Context context, ArticleListParam action, OnThreadPageLoadFinishedListener listener) {
-        int page = action.page;
-        int tid = action.tid;
-        int pid = action.pid;
-        int authorId = action.authorId;
+    private RetrofitService mService;
 
-        NLog.d(TAG, "loadPage" + page);
-
-        String url = getUrl(action);
-
-        JsonThreadLoadTask task = new JsonThreadLoadTask(context, listener);
-        task.executeOnExecutor(JsonThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+    public ArticleListModel() {
+        mService = (RetrofitService) RetrofitHelper.getInstance().getService(RetrofitService.class);
     }
 
     private String getUrl(ArticleListParam param) {
@@ -51,5 +51,39 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
 
         return url;
 
+    }
+
+    @Override
+    public void loadPage(ArticleListParam param, final OnHttpCallBack<ThreadData> callBack) {
+        String url = getUrl(param);
+        mService.get(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
+                .map(new Function<String, ThreadData>() {
+                    @Override
+                    public ThreadData apply(@NonNull String s) throws Exception {
+                        ThreadData data = ArticleConvertFactory.getArticleInfo(s);
+                        if (data == null) {
+                            throw new Exception(ErrorConvertFactory.getErrorMessage(s));
+                        } else {
+                            return data;
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(getLifecycleProvider().<ThreadData>bindUntilEvent(FragmentEvent.DETACH))
+                .subscribe(new BaseSubscriber<ThreadData>() {
+
+                    @Override
+                    public void onNext(@NonNull ThreadData threadData) {
+                        callBack.onSuccess(threadData);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable throwable) {
+                        callBack.onError(ErrorConvertFactory.getErrorMessage(throwable));
+                    }
+                });
     }
 }

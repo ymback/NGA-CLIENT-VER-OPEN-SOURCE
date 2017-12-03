@@ -6,6 +6,7 @@ import android.os.Bundle;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.forumoperation.ArticleListParam;
+import sp.phone.listener.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/11/22.
@@ -42,5 +43,6 @@ public interface ArticleListContract {
 
     interface Model {
 
+        void loadPage(ArticleListParam param, OnHttpCallBack<ThreadData> callBack);
     }
 }

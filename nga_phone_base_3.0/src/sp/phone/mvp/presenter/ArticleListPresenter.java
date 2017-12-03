@@ -12,11 +12,10 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.fragment.material.ArticleListFragment;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
+import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.ArticleListModel;
 import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.ResourceUtils;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -25,11 +24,6 @@ import sp.phone.utils.StringUtils;
 
 public class ArticleListPresenter extends BasePresenter<ArticleListFragment, ArticleListModel> implements ArticleListContract.Presenter {
 
-    private ArticleListModel mTask;
-
-    public ArticleListPresenter() {
-        mTask = new ArticleListModel();
-    }
 
     @Override
     protected ArticleListModel onCreateModel() {
@@ -39,14 +33,19 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
     @Override
     public void loadPage(ArticleListParam param) {
         mBaseView.setRefreshing(true);
-        mTask.loadPage(ResourceUtils.getContext(), param, new OnThreadPageLoadFinishedListener() {
+        mBaseModel.loadPage(param, new OnHttpCallBack<ThreadData>() {
             @Override
-            public void finishLoad(ThreadData data) {
-                if (isAttached()) {
-                    mBaseView.hideLoadingView();
-                    mBaseView.setRefreshing(false);
-                    mBaseView.setData(data);
-                }
+            public void onError(String text) {
+                mBaseView.hideLoadingView();
+                mBaseView.setRefreshing(false);
+                mBaseView.showToast(text);
+            }
+
+            @Override
+            public void onSuccess(ThreadData data) {
+                mBaseView.hideLoadingView();
+                mBaseView.setRefreshing(false);
+                mBaseView.setData(data);
             }
         });
     }
