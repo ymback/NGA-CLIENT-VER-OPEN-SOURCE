@@ -131,6 +131,68 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
 
     }
 
+//    private void handleAvatar(ImageView avatarIV, MessageArticlePageInfo row) {
+//
+//        final int lou = row.getLou();
+//        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
+//        final String userId = row.getFrom();
+//        if (PhoneConfiguration.getInstance().nikeWidth < 3) {
+//            avatarIV.setImageBitmap(null);
+//            return;
+//        }
+//        if (defaultAvatar == null
+//                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
+//            Resources res = avatarIV.getContext().getResources();
+//            InputStream is = res.openRawResource(R.drawable.default_avatar);
+//            InputStream is2 = res.openRawResource(R.drawable.default_avatar);
+//            this.defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
+//        }
+//
+//        Object tagObj = avatarIV.getTag();
+//        if (tagObj instanceof AvatarTag) {
+//            AvatarTag origTag = (AvatarTag) tagObj;
+//            if (!origTag.isDefault) {
+//                ImageUtil.recycleImageView(avatarIV);
+//                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
+//            } else {
+//                // NLog.d(TAG, "default avatar, skip recycle");
+//            }
+//        }
+//
+//        AvatarTag tag = new AvatarTag(lou, true);
+//        avatarIV.setImageBitmap(defaultAvatar);
+//        avatarIV.setTag(tag);
+//        if (!StringUtils.isEmpty(avatarUrl)) {
+//            final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
+//            if (avatarPath != null) {
+//                File f = new File(avatarPath);
+//                if (f.exists() && !isPending(avatarUrl)) {
+//
+//                    Bitmap bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath);
+//                    if (bitmap != null) {
+//                        avatarIV.setImageBitmap(bitmap);
+//                        tag.isDefault = false;
+//                    } else
+//                        f.delete();
+//                    long date = f.lastModified();
+//                    if ((System.currentTimeMillis() - date) / 1000 > 30 * 24 * 3600) {
+//                        f.delete();
+//                    }
+//
+//                } else {
+//                    final boolean downImg = NetUtil.getInstance().isInWifi()
+//                            || PhoneConfiguration.getInstance()
+//                            .isDownAvatarNoWifi();
+//
+//                    new AvatarLoadTask(avatarIV, null, downImg, lou, this)
+//                            .execute(avatarUrl, avatarPath, userId);
+//
+//                }
+//            }
+//        }
+//
+//    }
+
     @Override
     public void onBindViewHolder(MessageViewHolder holder, int position) {
         handleJsonList(holder, position);

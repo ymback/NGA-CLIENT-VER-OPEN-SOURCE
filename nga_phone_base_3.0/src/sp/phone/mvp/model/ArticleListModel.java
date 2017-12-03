@@ -19,7 +19,7 @@ import sp.phone.utils.HttpUtil;
 
 /**
  * 加载帖子内容
- * Created by Yang Yihang on 2017/7/10.
+ * Created by Justwen on 2017/7/10.
  */
 
 public class ArticleListModel extends BaseModel implements ArticleListContract.Model {

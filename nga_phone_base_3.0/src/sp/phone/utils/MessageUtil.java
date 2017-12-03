@@ -8,9 +8,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-import sp.phone.adapter.MessageDetialAdapter;
+import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.common.PhoneConfiguration;
@@ -49,6 +50,7 @@ public class MessageUtil {
 
     /**
      * 解析页面内容
+     *
      * @param js
      * @param page
      * @return
@@ -175,10 +177,54 @@ public class MessageUtil {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        String formated_html_data = MessageDetialAdapter.convertToHtmlText(row,
+        String formated_html_data = convertToHtmlText(row,
                 isShowImage(), showImageQuality(), fgColorStr, bgcolorStr);
 
         row.setFormated_html_data(formated_html_data);
+    }
+
+    /**
+     * 转换函数
+     *
+     * @param row
+     * @param showImage
+     * @param imageQuality
+     * @param fgColorStr
+     * @param bgcolorStr
+     * @return
+     */
+    public static String convertToHtmlText(final MessageArticlePageInfo row,
+                                           boolean showImage, int imageQuality, final String fgColorStr,
+                                           final String bgcolorStr) {
+        HashSet<String> imageURLSet = new HashSet<String>();
+        String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage, imageQuality, imageURLSet);
+        if (imageURLSet.size() == 0) {
+            imageURLSet = null;
+        }
+        if (StringUtils.isEmpty(ngaHtml)) {
+            ngaHtml = "<font color='red'>[" + ResourceUtils.getString(R.string.hide) + "]</font>";
+        }
+        ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
+                + buildHeader(row, fgColorStr)
+                + "<body bgcolor= '#"
+                + bgcolorStr
+                + "'>"
+                + "<font color='#"
+                + fgColorStr
+                + "' size='2'>"
+                + ngaHtml
+                + "</font></body>";
+
+        return ngaHtml;
+    }
+
+    private static String buildHeader(MessageArticlePageInfo row, String fgColorStr) {
+        if (row == null || StringUtils.isEmpty(row.getSubject()))
+            return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("<h4 style='color:").append(fgColorStr).append("' >")
+                .append(row.getSubject()).append("</h4>");
+        return sb.toString();
     }
 
 }
