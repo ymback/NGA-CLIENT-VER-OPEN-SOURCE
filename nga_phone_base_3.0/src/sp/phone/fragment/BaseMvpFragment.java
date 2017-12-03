@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
-import sp.phone.presenter.contract.BaseContract;
+import sp.phone.mvp.contract.tmp.BaseContract;
 
 public abstract class BaseMvpFragment<T extends BaseContract.Presenter> extends BaseFragment {
 

@@ -27,7 +27,7 @@ import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 
-public class TopicListFragment extends sp.phone.mvp.BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
+public class TopicListFragment extends BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
 
     private static final String TAG = TopicListFragment.class.getSimpleName();
 

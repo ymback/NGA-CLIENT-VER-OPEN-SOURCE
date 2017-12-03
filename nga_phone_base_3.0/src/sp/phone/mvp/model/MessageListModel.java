@@ -20,7 +20,7 @@ import sp.phone.retrofit.RetrofitHelper;
  * Created by Justwen on 2017/10/10.
  */
 
-public class MessageListModel implements MessageListContract.IMessageModel {
+public class MessageListModel extends BaseModel implements MessageListContract.IMessageModel {
 
     private RetrofitService mService;
 

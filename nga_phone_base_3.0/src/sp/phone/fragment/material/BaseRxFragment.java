@@ -1,4 +1,4 @@
-package sp.phone.mvp;
+package sp.phone.fragment.material;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

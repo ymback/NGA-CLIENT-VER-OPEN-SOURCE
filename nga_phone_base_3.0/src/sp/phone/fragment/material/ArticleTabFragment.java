@@ -32,7 +32,6 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.dialog.GotoDialogFragment;
-import sp.phone.mvp.BaseRxFragment;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
 import sp.phone.task.BookmarkTask;

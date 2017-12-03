@@ -44,7 +44,7 @@ import sp.phone.view.RecyclerViewEx;
 /*
  * MD 帖子详情每一页
  */
-public class ArticleListFragment extends sp.phone.mvp.BaseMvpFragment<ArticleListPresenter> implements ArticleListContract.View, ActionMode.Callback {
+public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> implements ArticleListContract.View, ActionMode.Callback {
 
     private final static String TAG = ArticleListFragment.class.getSimpleName();
 

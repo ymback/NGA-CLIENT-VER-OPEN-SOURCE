@@ -1,4 +1,4 @@
-package sp.phone.presenter.contract;
+package sp.phone.mvp.contract.tmp;
 
 import android.content.Context;
 

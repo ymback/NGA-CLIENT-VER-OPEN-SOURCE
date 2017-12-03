@@ -2,8 +2,6 @@ package sp.phone.mvp.contract;
 
 import sp.phone.bean.MessageListInfo;
 import sp.phone.listener.OnHttpCallBack;
-import sp.phone.presenter.contract.tmp.*;
-import sp.phone.presenter.contract.tmp.BaseContract;
 
 /**
  * Created by Justwen on 2017/10/9.
@@ -11,7 +9,7 @@ import sp.phone.presenter.contract.tmp.BaseContract;
 
 public interface MessageListContract {
 
-    interface IMessageView extends sp.phone.presenter.contract.tmp.BaseContract.View {
+    interface IMessageView  {
 
         void hideLoadingView();
 
@@ -22,13 +20,13 @@ public interface MessageListContract {
         void setRefreshing(boolean refreshing);
     }
 
-    interface IMessagePresenter extends sp.phone.presenter.contract.tmp.BaseContract.Presenter<IMessageView> {
+    interface IMessagePresenter  {
 
         void loadPage(int page);
 
     }
 
-    interface IMessageModel extends BaseContract.Model {
+    interface IMessageModel  {
 
         void loadPage(int page, OnHttpCallBack<MessageListInfo> callBack);
     }

@@ -15,12 +15,12 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.MessageListAdapter;
 import sp.phone.bean.MessageListInfo;
-import sp.phone.mvp.presenter.MessageListPresenter;
 import sp.phone.mvp.contract.MessageListContract;
+import sp.phone.mvp.presenter.MessageListPresenter;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class MessageListFragment extends BaseMvpFragment implements SwipeRefreshLayout.OnRefreshListener, MessageListContract.IMessageView {
+public class MessageListFragment extends BaseMvpFragment<MessageListPresenter> implements SwipeRefreshLayout.OnRefreshListener, MessageListContract.IMessageView {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -29,8 +29,6 @@ public class MessageListFragment extends BaseMvpFragment implements SwipeRefresh
     ViewGroup mLoadView;
 
     private View.OnClickListener mClickListener;
-
-    private MessageListContract.IMessagePresenter mPresenter;
 
     private MessageListAdapter mAdapter;
 
@@ -42,14 +40,6 @@ public class MessageListFragment extends BaseMvpFragment implements SwipeRefresh
             }
         }
     };
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        mPresenter = new MessageListPresenter();
-        setPresenter(mPresenter);
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -86,6 +76,11 @@ public class MessageListFragment extends BaseMvpFragment implements SwipeRefresh
             mClickListener = (View.OnClickListener) context;
         }
         super.onAttach(context);
+    }
+
+    @Override
+    protected MessageListPresenter onCreatePresenter() {
+        return new MessageListPresenter();
     }
 
     @Override

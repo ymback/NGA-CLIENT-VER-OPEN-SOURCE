@@ -22,7 +22,7 @@ import sp.phone.mvp.contract.MessageDetailContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class MessageDetailFragment extends BaseMvpFragment implements MessageDetailContract.IMessageView {
+public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresenter> implements MessageDetailContract.IMessageView {
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -35,8 +35,6 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
     private String mTitle;
 
     private String mRecipient;
-
-    private MessageDetailContract.IMessagePresenter mPresenter;
 
     private MessageDetailAdapter mAdapter;
 
@@ -51,10 +49,13 @@ public class MessageDetailFragment extends BaseMvpFragment implements MessageDet
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mPresenter = new MessageDetailPresenter();
-        setPresenter(mPresenter);
         super.onCreate(savedInstanceState);
         mMid = getArguments().getInt("mid");
+    }
+
+    @Override
+    protected MessageDetailPresenter onCreatePresenter() {
+        return new MessageDetailPresenter();
     }
 
     @Nullable
