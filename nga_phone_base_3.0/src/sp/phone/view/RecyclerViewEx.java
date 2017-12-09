@@ -100,12 +100,10 @@ public class RecyclerViewEx extends RecyclerView {
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
         int totalCount = getAdapter().getItemCount();
-        if (state == RecyclerView.SCROLL_STATE_IDLE
-                && mLastVisibleItemPosition + 1 == totalCount
+        if (mLastVisibleItemPosition + 1 == totalCount
                 && mAppendAbleAdapter != null
                 && mNextPageLoadListener != null
-                && mAppendAbleAdapter.hasNextPage()
-                && !canScrollVertically(1)) {
+                && mAppendAbleAdapter.hasNextPage()) {
             mNextPageLoadListener.loadNextPage();
         }
     }

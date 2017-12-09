@@ -9,6 +9,7 @@ import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.listener.OnHttpCallBack;
@@ -74,26 +75,32 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         String url = getUrl(page, param);
         mService.get(url)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
-                .subscribe(new BaseSubscriber<String>() {
-
+                .map(new Function<String, TopicListInfo>() {
                     @Override
-                    public void onNext(@NonNull String js) {
+                    public TopicListInfo apply(@NonNull String js) throws Exception {
                         NLog.d(js);
                         TopicListInfo result = TopicConvertFactory.getTopicListInfo(js, page);
-                        if (result == null) {
-                            callBack.onError(ErrorConvertFactory.getErrorMessage(js));
+                        if (result != null) {
+                            return result;
                         } else {
-                            callBack.onSuccess(result);
+                            throw new Exception(ErrorConvertFactory.getErrorMessage(js));
                         }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(getLifecycleProvider().<TopicListInfo>bindUntilEvent(FragmentEvent.DETACH))
+                .subscribe(new BaseSubscriber<TopicListInfo>() {
+                    @Override
+                    public void onNext(@NonNull TopicListInfo topicListInfo) {
+                        callBack.onSuccess(topicListInfo);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
                         callBack.onError(ErrorConvertFactory.getErrorMessage(throwable));
                     }
-
                 });
     }
 
