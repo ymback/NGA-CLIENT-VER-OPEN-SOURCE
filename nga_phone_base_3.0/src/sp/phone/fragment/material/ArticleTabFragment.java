@@ -61,6 +61,8 @@ public class ArticleTabFragment extends BaseRxFragment {
     @BindView(R.id.fab_menu)
     public FloatingActionsMenu mFam;
 
+    private int mReplyCount;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,20 +75,24 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     @Override
     protected void accept(@NonNull RxEvent rxEvent) {
-        if (rxEvent.what == RxEvent.EVENT_ARTICLE_TAB_UPDATE) {
-            int replyCount = rxEvent.arg + 1; //没有包括主楼, 所以+1
-            int count = replyCount / 20;
-            if (replyCount % 20 != 0) {
-                count++;
-            }
-            if (count > mPagerAdapter.getCount()) {
-                if (count <= 5) {
-                    mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-                } else {
-                    mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        switch (rxEvent.what) {
+            case RxEvent.EVENT_ARTICLE_TAB_UPDATE:
+                mReplyCount = rxEvent.arg + 1; //没有包括主楼, 所以+1
+                int count = mReplyCount / 20;
+                if (mReplyCount % 20 != 0) {
+                    count++;
                 }
-                mPagerAdapter.setCount(count);
-            }
+                if (count > mPagerAdapter.getCount()) {
+                    if (count <= 5) {
+                        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+                    } else {
+                        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                    }
+                    mPagerAdapter.setCount(count);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -199,19 +205,21 @@ public class ArticleTabFragment extends BaseRxFragment {
             menu.findItem(R.id.menu_reply).setVisible(false);
             menu.findItem(R.id.menu_refresh).setVisible(false);
         }
+        menu.findItem(R.id.menu_goto_floor).setVisible(mReplyCount != 0);
         super.onPrepareOptionsMenu(menu);
     }
 
     private void createGotoDialog() {
 
-        int count = mPagerAdapter.getCount();
         Bundle args = new Bundle();
-        args.putInt("count", count);
+        args.putInt("page", mPagerAdapter.getCount());
+        args.putInt("floor", mReplyCount);
 
         DialogFragment df = new GotoDialogFragment();
         df.setArguments(args);
+        df.setTargetFragment(this, ActivityUtils.REQUEST_CODE_JUMP_PAGE);
 
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
 
         Fragment prev = fm.findFragmentByTag(GOTO_TAG);
         if (prev != null) {
@@ -227,8 +235,18 @@ public class ArticleTabFragment extends BaseRxFragment {
             if (mViewPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
                 RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem()));
             }
+        } else if (requestCode == ActivityUtils.REQUEST_CODE_JUMP_PAGE) {
+            if (data.hasExtra("page")) {
+                mViewPager.setCurrentItem(data.getIntExtra("page",0));
+            } else {
+                int floor = data.getIntExtra("floor",0);
+                mViewPager.setCurrentItem(floor / 20);
+                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_GO_FLOOR,mViewPager.getCurrentItem(), floor % 20));
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
 }

@@ -75,6 +75,10 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
     protected void accept(@NonNull RxEvent rxEvent) {
         if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE && rxEvent.arg + 1 == mRequestParam.page) {
             loadPage();
+        } else if (rxEvent.what == RxEvent.EVENT_ARTICLE_GO_FLOOR
+                && rxEvent.arg + 1 == mRequestParam.page
+                && rxEvent.obj != null) {
+            mListView.scrollToPosition((Integer) rxEvent.obj);
         }
     }
 
