@@ -75,9 +75,19 @@ public class TopicConvertFactory {
             int pos;
             if (j == 0 || j == 3) {
                 pos = Integer.valueOf(author.substring(i + 1, i + 2), 16);
+                if (pos >= prefix.length()) {
+                    pos = prefix.length() - 1;
+                } else if (pos < 0) {
+                    pos = 0;
+                }
                 sb.append(prefix.charAt(pos));
             } else {
                 pos = Integer.valueOf(author.substring(i, i + 2), 16);
+                if (pos >= suffix.length()) {
+                    pos = suffix.length() - 1;
+                } else if (pos < 0) {
+                    pos = 0;
+                }
                 sb.append(suffix.charAt(pos));
             }
             i += 2;
