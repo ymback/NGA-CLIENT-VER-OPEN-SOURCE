@@ -162,6 +162,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mConfiguration.iconmode = (boolean) newValue;
                 getActivity().setResult(Activity.RESULT_OK);
                 break ;
+
+            case PreferenceKey.SORT_BY_POST:
+                mConfiguration.putData(PreferenceKey.SORT_BY_POST,(boolean) newValue);
+                break;
         }
         return true;
     }

@@ -334,6 +334,7 @@
     <string name="setting_title_left_hand">左手模式</string>
     <string name="setting_title_hardware_accelerated">硬件加速</string>
     <string name="setting_summary_hardware_accelerated">主题详情页面闪退可尝试关闭此项</string>
+    <string name="setting_title_sort_by_post">按发帖顺序排序</string>
 
     <string name="menu_add_bookmark_board">添加至我的收藏</string>
     <string name="menu_remove_bookmark_board">取消收藏</string>

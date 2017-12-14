@@ -11,12 +11,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.alibaba.fastjson.JSON;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Board;
-import sp.phone.bean.Bookmark;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
@@ -35,6 +33,7 @@ public class NgaClientApp extends Application implements PreferenceKey {
 
     @Override
     public void onCreate() {
+        ResourceUtils.setContext(this);
         NLog.w(TAG, "app nga android start");
         if (config == null)
             config = PhoneConfiguration.getInstance();
@@ -43,7 +42,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
         initPath();
         UserManagerImpl.getInstance().initialize(this);
         BoardManagerImpl.getInstance().initialize(this);
-        ResourceUtils.setContext(this);
         CrashHandler crashHandler = CrashHandler.getInstance();
         // 注册crashHandler
         crashHandler.init(getApplicationContext());
@@ -207,17 +205,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
 //            config.setUiFlag(uiFlag);
 //        }
         config.setUiFlag(0);
-
-        // bookmarks
-        String bookmarkJson = share.getString(BOOKMARKS, "");
-        List<Bookmark> bookmarks = new ArrayList<Bookmark>();
-        try {
-            if (!bookmarkJson.equals(""))
-                bookmarks = JSON.parseArray(bookmarkJson, Bookmark.class);
-        } catch (Exception e) {
-            NLog.e("JSON_error", NLog.getStackTraceString(e));
-        }
-        PhoneConfiguration.getInstance().setBookmarks(bookmarks);
 
     }
 

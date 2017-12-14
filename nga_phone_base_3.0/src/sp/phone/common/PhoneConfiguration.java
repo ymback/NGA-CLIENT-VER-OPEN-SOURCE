@@ -1,29 +1,31 @@
 package sp.phone.common;
 
+import android.content.SharedPreferences;
 import android.location.Location;
+import android.preference.PreferenceManager;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.FlexibleNonameTopicListActivity;
 import gov.anzong.androidnga.activity.FlexibleProfileActivity;
 import gov.anzong.androidnga.activity.FlexibleSignActivity;
-import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
+import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.MessagePostActivity;
 import gov.anzong.androidnga.activity.NonameArticleListActivity;
 import gov.anzong.androidnga.activity.NonamePostActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.RecentReplyListActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
+import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.meizi.MeiziMainActivity;
 import gov.anzong.meizi.MeiziTopicActivity;
-import sp.phone.bean.Bookmark;
+import sp.phone.utils.ResourceUtils;
 import sp.phone.utils.StringUtils;
 
 public class PhoneConfiguration implements PreferenceKey {
@@ -76,7 +78,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public Class<?> nonameActivityClass = FlexibleNonameTopicListActivity.class;
     public Class<?> messageDetialActivity = MessageDetailActivity.class;
     public String replyString;
-    List<Bookmark> bookmarks;// url<-->tilte
     private boolean refreshAfterPost;
     private float textSize;
     private int webSize;
@@ -88,6 +89,8 @@ public class PhoneConfiguration implements PreferenceKey {
 
     private boolean mHaMode;
 
+    private Map<String,Boolean> mBooleanMap = new HashMap<>();
+
 
     private static class PhoneConfigurationHolder {
 
@@ -96,9 +99,21 @@ public class PhoneConfiguration implements PreferenceKey {
 
 
     private PhoneConfiguration() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ResourceUtils.getContext());
+        initBooleanMap(sp);
 
-        bookmarks = new ArrayList<>();
+    }
 
+    private void initBooleanMap(SharedPreferences sp) {
+        mBooleanMap.put(PreferenceKey.SORT_BY_POST,sp.getBoolean(PreferenceKey.SORT_BY_POST,false));
+    }
+
+    public void putData(String key,boolean data) {
+        mBooleanMap.put(key,data);
+    }
+
+    public boolean getBoolean(String key) {
+        return mBooleanMap.get(key);
     }
 
     public static PhoneConfiguration getInstance() {
@@ -254,13 +269,6 @@ public class PhoneConfiguration implements PreferenceKey {
         this.refreshAfterPost = refreshAfterPost;
     }
 
-    public List<Bookmark> getBookmarks() {
-        return bookmarks;
-    }
-
-    public void setBookmarks(List<Bookmark> bookmarks) {
-        this.bookmarks = bookmarks;
-    }
 
     public String getCookie() {
         if (!StringUtils.isEmpty(uid) && !StringUtils.isEmpty(cid)) {
@@ -270,31 +278,6 @@ public class PhoneConfiguration implements PreferenceKey {
         return "";
     }
 
-    public boolean addBookmark(String url, String title) {
-        boolean ret = true;
-        for (Bookmark b : bookmarks) {
-            if (b.getUrl().equals(url))
-                return false;
-
-        }
-        Bookmark newBookmark = new Bookmark();
-        newBookmark.setTitle(title);
-        newBookmark.setUrl(url);
-        bookmarks.add(newBookmark);
-        return ret;
-    }
-
-    public boolean removeBookmark(String url) {
-
-        for (Bookmark b : bookmarks) {
-            if (b.getUrl().equals(url)) {
-                bookmarks.remove(b);
-                return true;
-            }
-        }
-        return false;
-
-    }
 
 
     public int getUiFlag() {

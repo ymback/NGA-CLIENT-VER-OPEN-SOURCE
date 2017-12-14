@@ -83,7 +83,6 @@ public class MainActivity extends BaseActivity {
                     .setPositiveButton(R.string.i_know, null);
             builder.create().show();
             app.setNewVersion(false);
-            showToast(getString(R.string.player_plugin_hint));
         }
     }
 

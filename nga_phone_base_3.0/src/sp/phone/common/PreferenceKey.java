@@ -69,4 +69,6 @@ public interface PreferenceKey {
     String BOOKMARK_BOARD = "bookmark_board";
 
     String USER_ACTIVE_INDEX = "user_active_index";
+
+    String SORT_BY_POST = "sort_by_post";
 }

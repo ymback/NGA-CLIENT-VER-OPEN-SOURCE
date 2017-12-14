@@ -30,6 +30,16 @@ public class ThreadPageInfo {
 
     private boolean mIsAnonymity;
 
+    private int mPostDate;
+
+    public int getPostDate() {
+        return mPostDate;
+    }
+
+    public void setPostDate(int postDate) {
+        mPostDate = postDate;
+    }
+
     public int getTid() {
         return mTid;
     }

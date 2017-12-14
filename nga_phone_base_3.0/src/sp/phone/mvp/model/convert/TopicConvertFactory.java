@@ -2,9 +2,14 @@ package sp.phone.mvp.model.convert;
 
 import com.alibaba.fastjson.JSON;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 import sp.phone.bean.TopicListBean;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.utils.NLog;
@@ -54,13 +59,29 @@ public class TopicConvertFactory {
                     pageInfo.setPid(pBean.getPid());
                 }
 
+                pageInfo.setPostDate(tBean.getPostdate());
+
                 listInfo.addThreadPage(pageInfo);
                 count++;
             }
+
+            sort(listInfo.getThreadPageList());
             return listInfo;
         } catch (NullPointerException e) {
             NLog.e(TAG, "can not parse :\n" + js);
             return null;
+        }
+
+    }
+
+    private static void sort(List<ThreadPageInfo> list) {
+        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SORT_BY_POST)) {
+            Collections.sort(list, new Comparator<ThreadPageInfo>() {
+                @Override
+                public int compare(ThreadPageInfo o1, ThreadPageInfo o2) {
+                    return o1.getPostDate() < o2.getPostDate() ? 1 : -1;
+                }
+            });
         }
 
     }
