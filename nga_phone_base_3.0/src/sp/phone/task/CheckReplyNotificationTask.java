@@ -98,11 +98,11 @@ public class CheckReplyNotificationTask extends
                         try {
                             JSONObject ojsonnotidata = (JSONObject) ojsonnoti
                                     .get(i);
-                            String authorId = ojsonnotidata.getString("1");
-                            String nickName = ojsonnotidata.getString("2");
-                            String tid = ojsonnotidata.getString("6");
-                            String pid = ojsonnotidata.getString("7");
-                            String title = ojsonnotidata.getString("5");
+                            String authorId = ojsonnotidata.get(1).toString();
+                            String nickName = ojsonnotidata.get(2).toString();
+                            String tid = ojsonnotidata.get(6).toString();
+                            String pid = ojsonnotidata.get(7).toString();
+                            String title = ojsonnotidata.get(5).toString();
                             if (!StringUtils.isEmpty(authorId)
                                     && !StringUtils.isEmpty(nickName)
                                     && !StringUtils.isEmpty(tid)
@@ -137,11 +137,11 @@ public class CheckReplyNotificationTask extends
                     try {
                         JSONObject ojsonnotidata = (JSONObject) ojsonnoti
                                 .get(i);
-                        String authorId = ojsonnotidata.getString("1");
-                        String nickName = ojsonnotidata.getString("2");
-                        String tid = ojsonnotidata.getString("6");
-                        String pid = ojsonnotidata.getString("7");
-                        String title = ojsonnotidata.getString("5");
+                        String authorId = ojsonnotidata.get(1).toString();
+                        String nickName = ojsonnotidata.get(2).toString();
+                        String tid = ojsonnotidata.get(6).toString();
+                        String pid = ojsonnotidata.get(7).toString();
+                        String title = ojsonnotidata.get(5).toString();
                         if (!StringUtils.isEmpty(authorId)
                                 && !StringUtils.isEmpty(nickName)
                                 && !StringUtils.isEmpty(tid)
@@ -160,9 +160,9 @@ public class CheckReplyNotificationTask extends
             if (ojsonmsg.size() > 0) {
                 for (int i = 0; i < ojsonmsg.size(); i++) {
                     JSONObject ojsonmsgdata = (JSONObject) ojsonmsg.get(i);
-                    String authorId = ojsonmsgdata.getString("1");
-                    String mid = ojsonmsgdata.getString("6");
-                    String title = ojsonmsgdata.getString("2");
+                    String authorId = ojsonmsgdata.get(1).toString();
+                    String mid = ojsonmsgdata.get(6).toString();
+                    String title = ojsonmsgdata.get(2).toString();
                     if (!StringUtils.isEmpty(authorId)
                             && !StringUtils.isEmpty(mid)
                             && !StringUtils.isEmpty(title)) {
