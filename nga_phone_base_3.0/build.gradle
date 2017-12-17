@@ -10,19 +10,6 @@ def isJenkins() {
     return project.hasProperty('IS_JENKINS') && IS_JENKINS == 'true'
 }
 
-buildscript {
-    repositories {
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
-        maven {
-            url 'http://oss.sonatype.org/content/repositories/snapshots'
-        }
-        mavenCentral()
-        jcenter()
-    }
-}
-
 android {
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion

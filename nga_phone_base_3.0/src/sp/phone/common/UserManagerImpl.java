@@ -8,13 +8,22 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import sp.phone.bean.User;
 import sp.phone.utils.StringUtils;
 
-import static sp.phone.common.PreferenceKey.*;
+import static sp.phone.common.PreferenceKey.BLACK_LIST;
+import static sp.phone.common.PreferenceKey.CID;
+import static sp.phone.common.PreferenceKey.PENDING_REPLYS;
+import static sp.phone.common.PreferenceKey.PERFERENCE;
+import static sp.phone.common.PreferenceKey.REPLYTOTALNUM;
+import static sp.phone.common.PreferenceKey.UID;
+import static sp.phone.common.PreferenceKey.USER_ACTIVE_INDEX;
+import static sp.phone.common.PreferenceKey.USER_LIST;
+import static sp.phone.common.PreferenceKey.USER_NAME;
 
 
 public class UserManagerImpl implements UserManager {
@@ -231,5 +240,19 @@ public class UserManagerImpl implements UserManager {
         } else {
             return "";
         }
+    }
+
+    @Override
+    public void swapUser(int from, int to) {
+        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(mUserList, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(mUserList, i, i - 1);
+            }
+        }
+        commit();
     }
 }

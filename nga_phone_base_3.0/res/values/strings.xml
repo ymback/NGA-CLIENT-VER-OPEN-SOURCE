@@ -323,6 +323,7 @@
     <string name="setting_picshow">使用移动网络时图片显示设置</string>
     <string name="setting_uishow">界面设置</string>
     <string name="setting_option">功能设置</string>
+    <string name="setting_category_user">用户设置</string>
 
     <string name="swipeback">启用侧滑返回</string>
     <string name="file_saved">图片已保存在：</string>
@@ -335,12 +336,15 @@
     <string name="setting_title_hardware_accelerated">硬件加速</string>
     <string name="setting_summary_hardware_accelerated">主题详情页面闪退可尝试关闭此项</string>
     <string name="setting_title_sort_by_post">按发帖顺序排序</string>
+    <string name="setting_title_user">用户管理</string>
+    <string name="setting_title_black_list">黑名单</string>
 
     <string name="menu_add_bookmark_board">添加至我的收藏</string>
     <string name="menu_remove_bookmark_board">取消收藏</string>
     <string name="menu_search">搜索</string>
     <string name="menu_recommend">精华区</string>
     <string name="menu_bookmark_post">收藏夹</string>
+    <string name="menu_add_user">添加用户</string>
 
     <string name="toast_add_bookmark_board">添加至我的收藏</string>
     <string name="toast_remove_bookmark_board">取消收藏</string>

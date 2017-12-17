@@ -1,108 +1,88 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.util.TypedValue;
+import android.graphics.Bitmap;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
+import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.User;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import sp.phone.common.UserManager;
+import sp.phone.common.UserManagerImpl;
+import sp.phone.utils.ImageUtil;
 
-public class UserListAdapter extends SpinnerUserListAdapter
-        implements OnClickListener {
 
-    public static EditText userText;
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
 
-    @SuppressWarnings("static-access")
-    public UserListAdapter(Context context, EditText userText) {
-        super(context);
-        this.context = context;
-        this.userText = userText;
+    private Context mContext;
+
+    private List<User> mUserList;
+
+    private View.OnClickListener mOnClickListener;
+
+    private UserManager mUserManager;
+
+    private Bitmap mDefaultAvatar;
+
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.user_name)
+        TextView userNameView;
+
+        @BindView(R.id.avatar)
+        ImageView avatarView;
+
+        @BindView(R.id.check)
+        Switch checkView;
+
+        public UserViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 
+    public UserListAdapter(Context context) {
+        mContext = context;
+        mUserManager = UserManagerImpl.getInstance();
+        mUserList = mUserManager.getUserList();
+        mDefaultAvatar = ImageUtil.loadDefaultAvatar();
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        mOnClickListener = listener;
+    }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        TextView tv = null;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.user_list, parent, false);
-        }
-
-        tv = (TextView) convertView.findViewById(R.id.user_name);
-        ImageButton b = (ImageButton) convertView.findViewById(R.id.delete_user);
-        b.setTag(position);
-        b.setOnClickListener(this);
-
-        tv.setText(userList.get(position).getNickName());
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        tv.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if (userText != null) {
-                    userText.setText(((TextView) v).getText());
-                    userText.selectAll();
-                }
-            }
-
-        });
-        return convertView;
+    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_user_list_item, parent, false);
+        UserViewHolder holder = new UserViewHolder(convertView);
+        holder.itemView.setOnClickListener(mOnClickListener);
+        holder.checkView.setOnClickListener(mOnClickListener);
+        holder.avatarView.setImageBitmap(mDefaultAvatar);
+        return holder;
     }
 
     @Override
-    public void onClick(View v) {
-        ImageButton b = (ImageButton) v;
-        int position = (Integer) b.getTag();
-        userList.remove(position);
-
-        SharedPreferences share = context.getSharedPreferences(PERFERENCE,
-                Context.MODE_PRIVATE);
-
-        String userListString = JSON.toJSONString(userList);
-        share.edit().putString(USER_LIST, userListString).commit();
-
-        if (position == 0) {
-            if (userList.size() == 0) {
-                PhoneConfiguration.getInstance().setUid("");
-                PhoneConfiguration.getInstance().setNickname("");
-                PhoneConfiguration.getInstance().setCid("");
-                PhoneConfiguration.getInstance().setReplyString("");
-                PhoneConfiguration.getInstance().setReplyTotalNum(0);
-                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset("");
-                Editor editor = share.edit();
-                editor.putString(UID, "");
-                editor.putString(CID, "");
-                editor.putString(USER_NAME, "");
-                editor.putString(PENDING_REPLYS, "");
-                editor.putString(REPLYTOTALNUM, "0");
-                editor.putString(BLACK_LIST, "");
-                editor.apply();
-            } else {
-                User u = userList.get(0);
-                PhoneConfiguration.getInstance().setUid(u.getUserId());
-                PhoneConfiguration.getInstance().setNickname(u.getNickName());
-                PhoneConfiguration.getInstance().setCid(u.getCid());
-                PhoneConfiguration.getInstance().setReplyString(u.getReplyString());
-                PhoneConfiguration.getInstance().setReplyTotalNum(u.getReplyTotalNum());
-                PhoneConfiguration.getInstance().blacklist = StringUtils.blackListStringToHashset(u.getBlackList());
-            }
-        }
-
-        this.notifyDataSetInvalidated();
-
-
+    public void onBindViewHolder(UserViewHolder holder, int position) {
+        holder.userNameView.setText(mUserList.get(position).getNickName());
+        holder.checkView.setChecked(mUserManager.getActiveUserIndex() == position);
+        holder.itemView.setTag(position);
+        holder.checkView.setTag(position);
     }
+
+    @Override
+    public int getItemCount() {
+        return mUserList.size();
+    }
+
 
 }

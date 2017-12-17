@@ -21,7 +21,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.UserListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
@@ -73,7 +72,7 @@ public class LoginFragment extends DialogFragment implements
                 .findViewById(R.id.login_authcode_edittext);
         authcodeImg = (ImageView) view.findViewById(R.id.authcode_img);
         userList = (ListView) view.findViewById(R.id.user_list);
-        userList.setAdapter(new UserListAdapter(getActivity(), userText));
+      //  userList.setAdapter(new UserListAdapter(getActivity(), userText));
         String postUrl = "http://account.178.com/q_account.php?_act=login&print=login";
 
         String userName = PhoneConfiguration.getInstance().userName;

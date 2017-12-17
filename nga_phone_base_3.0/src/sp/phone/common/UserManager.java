@@ -32,4 +32,6 @@ public interface UserManager {
 
     String getCookie();
 
+    void swapUser(int from, int to);
+
 }

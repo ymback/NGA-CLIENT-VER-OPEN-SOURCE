@@ -3,6 +3,7 @@ package sp.phone.fragment.material;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -20,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.SettingsSubActivity;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import sp.phone.common.PhoneConfiguration;
@@ -43,10 +45,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         configPreference();
     }
 
-    private void mapping(PreferenceGroup group){
-        for (int i = 0 ; i < group.getPreferenceCount(); i++){
+    private void mapping(PreferenceGroup group) {
+        for (int i = 0; i < group.getPreferenceCount(); i++) {
             Preference preference = group.getPreference(i);
-            if (preference instanceof PreferenceGroup){
+            if (preference instanceof PreferenceGroup) {
                 mapping((PreferenceGroup) preference);
             } else {
                 preference.setOnPreferenceChangeListener(this);
@@ -68,7 +70,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden){
+        if (!hidden) {
             getActivity().setTitle(R.string.menu_setting);
         }
         super.onHiddenChanged(hidden);
@@ -77,7 +79,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        switch (preference.getKey()){
+        switch (preference.getKey()) {
             case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
                 mConfiguration.imageQuality = Integer.parseInt((String) newValue);
                 break;
@@ -88,7 +90,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mConfiguration.setMaterialMode((Boolean) newValue);
                 break;
             case PreferenceKey.NIGHT_MODE:
-                ThemeManager.getInstance().setMode((boolean)newValue ? ThemeManager.MODE_NIGHT : ThemeManager.MODE_NORMAL);
+                ThemeManager.getInstance().setMode((boolean) newValue ? ThemeManager.MODE_NIGHT : ThemeManager.MODE_NORMAL);
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;
@@ -161,18 +163,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.SHOW_ICON_MODE:
                 mConfiguration.iconmode = (boolean) newValue;
                 getActivity().setResult(Activity.RESULT_OK);
-                break ;
+                break;
 
             case PreferenceKey.SORT_BY_POST:
-                mConfiguration.putData(PreferenceKey.SORT_BY_POST,(boolean) newValue);
+                mConfiguration.putData(PreferenceKey.SORT_BY_POST, (boolean) newValue);
                 break;
         }
         return true;
     }
 
-    private void showBlackGunSound(int which){
-        AudioManager audioManager = (AudioManager)mContext.getSystemService(
-                        Context.AUDIO_SERVICE);
+    private void showBlackGunSound(int which) {
+        AudioManager audioManager = (AudioManager) mContext.getSystemService(
+                Context.AUDIO_SERVICE);
         AssetFileDescriptor afd;
         MediaPlayer mp = new MediaPlayer();
         switch (which) {
@@ -240,9 +242,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         }
     }
 
-    private void setFullScreen(boolean fullScreen){
+    private void setFullScreen(boolean fullScreen) {
         int flag;
-        if (fullScreen){
+        if (fullScreen) {
             flag = WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         } else {
             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -251,10 +253,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         getActivity().getWindow().addFlags(flag);
     }
 
-    private void updateSwipeBackOption(boolean isChecked){
+    private void updateSwipeBackOption(boolean isChecked) {
         if (isChecked) {
             final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
-            ((SwipeBackAppCompatActivity)getActivity()).getSwipeBackLayout().setEdgeSize(
+            ((SwipeBackAppCompatActivity) getActivity()).getSwipeBackLayout().setEdgeSize(
                     (int) (SwipeBackAppCompatActivity.MY_EDGE_SIZE * density + 0.5f));// 10dp
             int pos;
             switch (PhoneConfiguration.getInstance().swipeenablePosition) {
@@ -271,25 +273,33 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     pos = SwipeBackLayout.EDGE_ALL;
                     break;
             }
-            ((SwipeBackAppCompatActivity)getActivity()).getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+            ((SwipeBackAppCompatActivity) getActivity()).getSwipeBackLayout().setEdgeTrackingEnabled(pos);
         } else {
-            ((SwipeBackAppCompatActivity)getActivity()).getSwipeBackLayout().setEdgeSize(0);
+            ((SwipeBackAppCompatActivity) getActivity()).getSwipeBackLayout().setEdgeSize(0);
         }
     }
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        switch (preference.getKey()){
+        switch (preference.getKey()) {
             case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
-                Toast.makeText(mContext,R.string.image_quality_claim,Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.image_quality_claim, Toast.LENGTH_SHORT).show();
                 break;
             case PhoneConfiguration.ADJUST_SIZE:
                 FragmentManager fm = getActivity().getFragmentManager();
-                fm.beginTransaction().hide(this).add(R.id.container,new SettingsSizeFragment()).addToBackStack(null).commit();
+                fm.beginTransaction().hide(this).add(R.id.container, new SettingsSizeFragment()).addToBackStack(null).commit();
                 break;
+            case PreferenceKey.PREF_USER:
+            case PreferenceKey.PREF_BLACK_LIST:
+                Intent intent = new Intent(getContext(), SettingsSubActivity.class);
+                intent.putExtra("fragment", preference.getFragment());
+                startActivity(intent);
+                break;
+            default:
+                return super.onPreferenceTreeClick(preferenceScreen, preference);
 
         }
-        return super.onPreferenceTreeClick(preferenceScreen, preference);
+        return true;
     }
 
 }

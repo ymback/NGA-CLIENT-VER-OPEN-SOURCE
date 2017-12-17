@@ -2,6 +2,7 @@ package sp.phone.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -21,23 +22,25 @@ public class ResourceUtils {
         sContext = context.getApplicationContext();
     }
 
-    public static String getString(@StringRes int resId){
-       return sContext.getString(resId);
+    public static String getString(@StringRes int resId) {
+        return sContext.getString(resId);
     }
 
     public static int getColor(@ColorRes int resId) {
-        return ContextCompat.getColor(sContext,resId);
+        return ContextCompat.getColor(sContext, resId);
     }
 
     public static Drawable getDrawable(@DrawableRes int resId) {
-        return ContextCompat.getDrawable(sContext,resId);
+        return ContextCompat.getDrawable(sContext, resId);
     }
 
     public static Context getContext() {
         return sContext;
     }
 
-
+    public static Resources getResources() {
+        return sContext.getResources();
+    }
 
 
 }

@@ -1,7 +1,6 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
@@ -128,7 +126,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     @Override
     public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item,parent,false);
+        View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item, parent, false);
         return new ArticleViewHolder(view);
     }
 
@@ -157,11 +155,11 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         handleAvatar(holder.avatarIV, row);
 
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
-        final int fgColor = ContextCompat.getColor(mContext,fgColorId);
+        final int fgColor = ContextCompat.getColor(mContext, fgColorId);
 
         FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
 
-        final int bgColor = ContextCompat.getColor(mContext,colorId);
+        final int bgColor = ContextCompat.getColor(mContext, colorId);
 
         final WebView contentTV = holder.contentTV;
 
@@ -197,14 +195,14 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(null,holder.itemView,position,getItemId(position));
+                return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
             }
         });
         holder.contentTV.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (mItemLongClickListener != null) {
-                    mItemLongClickListener.onItemLongClick(null,holder.itemView,position,getItemId(position));
+                    mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
                 }
                 return true;
             }
@@ -225,7 +223,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         return mData == null ? 0 : mData.getRowNum();
     }
 
-    @SuppressWarnings("ResourceType")
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final int lou = row.getLou();
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
@@ -235,10 +232,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             return;
         }
         if (mDefaultAvatar == null || mDefaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
-            Resources res = avatarIV.getContext().getResources();
-            InputStream is = res.openRawResource(R.drawable.default_avatar);
-            InputStream is2 = res.openRawResource(R.drawable.default_avatar);
-            mDefaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
+            mDefaultAvatar = ImageUtil.loadDefaultAvatar();
         }
 
         Object tagObj = avatarIV.getTag();

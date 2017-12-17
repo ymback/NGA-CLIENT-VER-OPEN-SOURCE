@@ -1,5 +1,6 @@
 package sp.phone.utils;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 
 public class ImageUtil {
@@ -286,6 +288,14 @@ public class ImageUtil {
         }
 
         return bitmap;
+    }
+
+    @SuppressWarnings("ResourceType")
+    public static Bitmap loadDefaultAvatar() {
+        Resources res = ResourceUtils.getResources();
+        InputStream is = res.openRawResource(R.drawable.default_avatar);
+        InputStream is2 = res.openRawResource(R.drawable.default_avatar);
+        return loadAvatarFromStream(is,is2);
     }
 
     static public Bitmap loadAvatarFromStream(InputStream is, InputStream is2) {
