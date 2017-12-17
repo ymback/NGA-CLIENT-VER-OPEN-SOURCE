@@ -69,6 +69,10 @@ public class SettingsUserFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 mUserManager.removeUser(viewHolder.getAdapterPosition());
+                mListAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                for (int i = 0; i < mListAdapter.getItemCount(); i++) {
+                    mListAdapter.notifyItemChanged(i);
+                }
             }
         });
         //将recycleView和ItemTouchHelper绑定
