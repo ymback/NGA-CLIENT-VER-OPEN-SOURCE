@@ -47,7 +47,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
         }
     }
@@ -131,7 +131,6 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.41'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.github.bumptech.glide:glide:3.8.0'
     compile "com.android.support:support-v4:" + project.androidSupportVersion
     compile "com.android.support:design:" + project.androidSupportVersion
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -145,5 +144,7 @@ dependencies {
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
     compile 'com.alibaba:arouter-api:1.2.4'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+    compile 'com.github.bumptech.glide:glide:4.3.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
 
 }

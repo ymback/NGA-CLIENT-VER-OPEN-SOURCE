@@ -257,10 +257,6 @@
             android:theme="@style/SwipeBackTheme"
             android:uiOptions="splitActionBarWhenNarrow"/>
 
-        <meta-data
-            android:name="gov.anzong.androidnga.util.MyGlideModule"
-            android:value="GlideModule"/>
-
         <activity android:name=".activity.SettingsSubActivity"/>
 
     </application>

@@ -11,11 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.PhoneConfiguration;
 
@@ -66,7 +65,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         Drawable draw = getDrawable(position);
         if (draw == null) {
             long resId = getItemId(position);
-            Glide.with(mActivity).load("http://img4.nga.cn/ngabbs/nga_classic/f/" + resId + ".png").placeholder(R.drawable.default_icon).dontAnimate().into(holder.icon);
+            GlideApp.with(mActivity).load("http://img4.nga.cn/ngabbs/nga_classic/f/" + resId + ".png").placeholder(R.drawable.default_icon).dontAnimate().into(holder.icon);
         } else {
             holder.icon.setImageDrawable(draw);
         }
