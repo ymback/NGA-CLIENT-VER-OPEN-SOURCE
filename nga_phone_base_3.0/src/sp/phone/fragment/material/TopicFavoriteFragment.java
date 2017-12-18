@@ -13,7 +13,7 @@ import sp.phone.mvp.model.entity.ThreadPageInfo;
  * Created by Justwen on 2017/11/19.
  */
 
-public class TopicListFavoriteFragment extends TopicListFragment implements View.OnLongClickListener {
+public class TopicFavoriteFragment extends TopicSearchFragment implements View.OnLongClickListener {
 
     @Override
     protected void setTitle() {

@@ -13,9 +13,9 @@ import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.fragment.material.TopicListBoardFragment;
-import sp.phone.fragment.material.TopicListFavoriteFragment;
 import sp.phone.fragment.material.TopicListFragment;
+import sp.phone.fragment.material.TopicFavoriteFragment;
+import sp.phone.fragment.material.TopicSearchFragment;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
@@ -80,11 +80,11 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
     private void setupFragment() {
         Fragment fragment;
         if (mRequestParam.favor != 0) {
-            fragment = new TopicListFavoriteFragment();
+            fragment = new TopicFavoriteFragment();
         } else if (isBoardTopicList()) {
-            fragment = new TopicListBoardFragment();
-        } else {
             fragment = new TopicListFragment();
+        } else {
+            fragment = new TopicSearchFragment();
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);

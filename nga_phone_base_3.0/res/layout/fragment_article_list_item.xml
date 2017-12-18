@@ -20,8 +20,8 @@
             android:clickable="false"
             android:contentDescription="@string/avatar"
             android:focusable="false"
-            android:longClickable="false"
-            android:src="@drawable/open" />
+            android:scaleType="centerInside"
+            android:longClickable="false"/>
 
         <TextView
             android:id="@+id/nickName"

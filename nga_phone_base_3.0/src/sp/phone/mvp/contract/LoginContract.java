@@ -5,19 +5,18 @@ import android.graphics.Bitmap;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.mvp.model.LoginModel;
-import sp.phone.mvp.contract.tmp.BaseContract;
 
 /**
- * Created by Yang Yihang on 2017/6/16.
+ * Created by Justwen on 2017/6/16.
  */
 
 public interface LoginContract {
 
-    interface Presenter extends BaseContract.Presenter<View> {
+    interface Presenter {
 
         void loadAuthCode();
 
-        void login(String userName,String password,String authCode);
+        void login(String userName, String password, String authCode);
 
         void setLoginAction(LoginAction loginAction);
 
@@ -27,7 +26,7 @@ public interface LoginContract {
 
     }
 
-    interface View extends BaseContract.View<Presenter> {
+    interface View {
 
         void setAuthCodeImg(Bitmap bitmap);
 
@@ -38,7 +37,7 @@ public interface LoginContract {
         void setResult(boolean isChanged);
     }
 
-    interface Model extends BaseContract.Model {
+    interface Model {
 
         void login(LoginAction loginAction, LoginModel.OnLoginListener listener);
 

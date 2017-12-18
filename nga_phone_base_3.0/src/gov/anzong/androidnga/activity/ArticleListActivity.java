@@ -10,7 +10,7 @@ import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.material.ArticleListFragment;
-import sp.phone.fragment.material.ArticleListReplyFragment;
+import sp.phone.fragment.material.ArticleSearchFragment;
 import sp.phone.fragment.material.ArticleTabFragment;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
@@ -31,7 +31,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
             if (mRequestParam.searchPost == 0) {
                 fragment = new ArticleTabFragment();
             } else {
-                fragment = new ArticleListReplyFragment();
+                fragment = new ArticleSearchFragment();
             }
             fragment.setHasOptionsMenu(true);
             Bundle bundle = new Bundle();

@@ -1,4 +1,4 @@
-package sp.phone.fragment;
+package sp.phone.fragment.dialog;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -30,7 +30,7 @@ import sp.phone.task.AccountAuthCodeImageReloadTask;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
-public class LoginFragment extends DialogFragment implements
+public class LoginDialogFragment extends DialogFragment implements
         PreferenceKey, OnAuthCodeLoadFinishedListener {
 
     EditText userText;
@@ -48,7 +48,7 @@ public class LoginFragment extends DialogFragment implements
     private boolean loading = false;
     private Toast toast = null;
 
-    public LoginFragment() {
+    public LoginDialogFragment() {
         super();
     }
 
@@ -364,7 +364,7 @@ public class LoginFragment extends DialogFragment implements
 						 */
                         UserManagerImpl.getInstance().addUser(uid, cid, name, "", 0, "");
 
-                        LoginFragment.this.dismiss();
+                        LoginDialogFragment.this.dismiss();
                         // startActivity(intent);
                         super.onPostExecute(result);
                     } else {

@@ -13,7 +13,7 @@ import sp.phone.task.LoginTask;
  * Created by Yang Yihang on 2017/6/16.
  */
 
-public class LoginModel implements LoginContract.Model {
+public class LoginModel extends BaseModel implements LoginContract.Model {
 
     private AccountAuthCodeImageReloadTask mAuthCodeImageTask;
 
@@ -54,7 +54,7 @@ public class LoginModel implements LoginContract.Model {
         if (mAuthCodeImageTask != null && !mAuthCodeImageTask.isCancelled()) {
             mAuthCodeImageTask.cancel(true);
         }
-        mAuthCodeImageTask = new AccountAuthCodeImageReloadTask(mPresenter.getContext(),listener);
-        mAuthCodeImageTask.execute();
+       // mAuthCodeImageTask = new AccountAuthCodeImageReloadTask(mPresenter.getContext(),listener);
+       // mAuthCodeImageTask.execute();
     }
 }

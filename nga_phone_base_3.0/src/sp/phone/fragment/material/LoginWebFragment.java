@@ -17,16 +17,15 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.BaseMvpFragment;
-import sp.phone.mvp.presenter.LoginPresenter;
 import sp.phone.mvp.contract.LoginContract;
+import sp.phone.mvp.presenter.LoginPresenter;
 import sp.phone.utils.StringUtils;
 
 /**
- * Created by Yang Yihang on 2017/7/5.
+ * Created by Justwen on 2017/7/5.
  */
 
-public class LoginWebFragment extends BaseMvpFragment implements LoginContract.View{
+public class LoginWebFragment extends BaseMvpFragment<LoginPresenter> implements LoginContract.View {
 
     private ProgressBar mProgressBar;
 
@@ -34,7 +33,10 @@ public class LoginWebFragment extends BaseMvpFragment implements LoginContract.V
 
     private static final String LOGIN_URL = "https://bbs.ngacn.cc/nuke.php?__lib=login&__act=login_ui";
 
-    private LoginContract.Presenter mPresenter;
+    @Override
+    protected LoginPresenter onCreatePresenter() {
+        return new LoginPresenter();
+    }
 
     private class LoginWebChromeClient extends WebChromeClient {
 
@@ -84,17 +86,6 @@ public class LoginWebFragment extends BaseMvpFragment implements LoginContract.V
 
 
     @Override
-    public void onResume() {
-        initPresenter();
-        super.onResume();
-    }
-
-    private void initPresenter() {
-        mPresenter = (LoginContract.Presenter) getPresenter();
-        mPresenter.setView(this);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         WebView webView = (WebView) view.findViewById(R.id.webview);
@@ -109,12 +100,6 @@ public class LoginWebFragment extends BaseMvpFragment implements LoginContract.V
         super.onViewCreated(view, savedInstanceState);
     }
 
-
-    @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-
-  //      mPresenter = presenter;
-    }
 
     @Override
     public void setAuthCodeImg(Bitmap bitmap) {
@@ -137,12 +122,4 @@ public class LoginWebFragment extends BaseMvpFragment implements LoginContract.V
             getActivity().setResult(Activity.RESULT_OK);
         }
     }
-
-
-    @Override
-    protected Class getPresenterClass() {
-        return LoginPresenter.class;
-    }
-
-
 }

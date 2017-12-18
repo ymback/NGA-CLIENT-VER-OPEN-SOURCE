@@ -30,7 +30,7 @@ public class LoginActivity extends SwipeBackAppCompatActivity {
         Fragment fragment = fm.findFragmentByTag(LoginFragment.class.getSimpleName());
         if (fragment == null){
             // 暂时使用网页版登录
-            //fragment = new LoginFragment();
+            //fragment = new LoginDialogFragment();
             fragment = new LoginWebFragment();
             fm.beginTransaction().replace(R.id.container,fragment,LoginFragment.class.getSimpleName()).commit();
         }

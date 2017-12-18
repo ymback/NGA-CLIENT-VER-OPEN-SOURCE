@@ -1,7 +1,6 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,31 +13,26 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.util.HashSet;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.AvatarTag;
+import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
-import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.listener.ClientListener;
 import sp.phone.listener.MyListenerForReply;
-import sp.phone.task.AvatarLoadTask;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HtmlUtil;
-import sp.phone.utils.ImageUtil;
 import sp.phone.utils.StringUtils;
 
 /**
  * 帖子详情列表Adapter
  */
-public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ArticleViewHolder> implements
-        AvatarLoadCompleteCallBack {
+public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ArticleViewHolder> {
 
     private static final String TAG = ArticleListAdapter.class.getSimpleName();
 
@@ -46,13 +40,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private final WebViewClient mWebViewClient;
 
-    private final Object lock = new Object();
-
-    private final HashSet<String> mUrlSet = new HashSet<>();
-
     private ThreadData mData;
-
-    private Bitmap mDefaultAvatar;
 
     private LayoutInflater mLayoutInflater;
 
@@ -94,7 +82,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     }
 
     public ArticleListAdapter(Context context) {
-        super();
         mContext = context;
         if (HtmlUtil.userDistance == null) {
             HtmlUtil.initStaticStrings(mContext);
@@ -127,7 +114,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     @Override
     public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item, parent, false);
-        return new ArticleViewHolder(view);
+        ArticleViewHolder viewHolder = new ArticleViewHolder(view);
+        ViewGroup.LayoutParams lp = viewHolder.avatarIV.getLayoutParams();
+        lp.width = lp.height = PhoneConfiguration.getInstance().getNikeWidth();
+        return viewHolder;
     }
 
     @Override
@@ -224,79 +214,18 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     }
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
-        final int lou = row.getLou();
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
-        final String userId = String.valueOf(row.getAuthorid());
-        if (PhoneConfiguration.getInstance().nikeWidth < 3) {
-            avatarIV.setImageBitmap(null);
-            return;
-        }
-        if (mDefaultAvatar == null || mDefaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
-            mDefaultAvatar = ImageUtil.loadDefaultAvatar();
-        }
-
-        Object tagObj = avatarIV.getTag();
-        if (tagObj instanceof AvatarTag) {
-            AvatarTag origTag = (AvatarTag) tagObj;
-            if (!origTag.isDefault) {
-                ImageUtil.recycleImageView(avatarIV);
-                // NLog.d(TAG, "recycle avatar:" + origTag.lou);
-            }
-        }
-
-        AvatarTag tag = new AvatarTag(lou, true);
-        avatarIV.setImageBitmap(mDefaultAvatar);
-        avatarIV.setTag(tag);
-        if (!StringUtils.isEmpty(avatarUrl)) {
-            final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
-            if (avatarPath != null) {
-                File f = new File(avatarPath);
-                if (f.exists() && !isPending(avatarUrl)) {
-
-                    Bitmap bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath);
-                    if (bitmap != null) {
-                        avatarIV.setImageBitmap(bitmap);
-                        tag.isDefault = false;
-                    } else
-                        f.delete();
-                    long date = f.lastModified();
-                    if ((System.currentTimeMillis() - date) / 1000 > 30 * 24 * 3600) {
-                        f.delete();
-                    }
-
-                } else {
-                    final boolean downImg = DeviceUtils.isWifiConnected(mContext)
-                            || PhoneConfiguration.getInstance()
-                            .isDownAvatarNoWifi();
-
-                    new AvatarLoadTask(avatarIV, null, downImg, lou, this).execute(avatarUrl, avatarPath, userId);
-                }
-            }
-        }
-
-    }
-
-    private boolean isPending(String url) {
-        boolean ret;
-        synchronized (lock) {
-            ret = mUrlSet.contains(url);
-        }
-        return ret;
-    }
-
-    @Override
-    public void OnAvatarLoadStart(String url) {
-        synchronized (lock) {
-            mUrlSet.add(url);
+        final boolean downImg = DeviceUtils.isWifiConnected(mContext)
+                || PhoneConfiguration.getInstance()
+                .isDownAvatarNoWifi();
+        if (avatarUrl != null) {
+            GlideApp.with(mContext)
+                    .load(avatarUrl)
+                    .placeholder(R.drawable.default_avatar)
+                    .onlyRetrieveFromCache(!downImg)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(avatarIV);
         }
     }
-
-    @Override
-    public void OnAvatarLoadComplete(String url) {
-        synchronized (lock) {
-            mUrlSet.remove(url);
-        }
-    }
-
 
 }

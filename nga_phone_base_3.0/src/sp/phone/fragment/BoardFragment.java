@@ -51,6 +51,7 @@ import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.fragment.dialog.LoginDialogFragment;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;
@@ -212,7 +213,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     @Override
     public void jumpToLogin() {
         if (isTablet()) {
-            DialogFragment df = new LoginFragment();
+            DialogFragment df = new LoginDialogFragment();
             df.show(getSupportFragmentManager(), "login");
         } else {
             Intent intent = new Intent();

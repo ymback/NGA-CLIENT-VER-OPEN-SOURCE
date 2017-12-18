@@ -19,13 +19,17 @@ public abstract class BasePresenter<T extends BaseContract.View, E extends BaseC
     @Override
     public void detach() {
         mBaseView = null;
-        mBaseModel.detach();
+        if (mBaseModel != null) {
+            mBaseModel.detach();
+        }
     }
 
     @Override
     public void attachView(T view) {
         mBaseView = view;
-        mBaseModel.setLifecycleProvider(view.getLifecycleProvider());
+        if (mBaseModel != null) {
+            mBaseModel.setLifecycleProvider(view.getLifecycleProvider());
+        }
     }
 
     @Override

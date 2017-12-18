@@ -17,7 +17,7 @@ import sp.phone.forumoperation.ParamKey;
  * Created by Justwen on 2017/11/22.
  */
 
-public class ArticleListReplyFragment extends ArticleListFragment {
+public class ArticleSearchFragment extends ArticleListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

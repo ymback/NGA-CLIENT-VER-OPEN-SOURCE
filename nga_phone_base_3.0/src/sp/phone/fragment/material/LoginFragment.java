@@ -69,11 +69,6 @@ public class LoginFragment extends MaterialCompatFragment implements View.OnClic
     }
 
     @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
     public void setAuthCodeImg(Bitmap bitmap) {
         mAuthCodeImg.setImageBitmap(bitmap);
     }

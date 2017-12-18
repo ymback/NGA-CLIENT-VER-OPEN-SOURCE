@@ -1,7 +1,7 @@
 package sp.phone.mvp.presenter;
 
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.fragment.material.TopicListFragment;
+import sp.phone.fragment.material.TopicSearchFragment;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.TopicListModel;
 import sp.phone.listener.OnHttpCallBack;
@@ -12,7 +12,7 @@ import sp.phone.mvp.model.entity.TopicListInfo;
  * Created by Justwen on 2017/6/3.
  */
 
-public class TopicListPresenter extends BasePresenter<TopicListFragment, TopicListModel> implements TopicListContract.Presenter {
+public class TopicListPresenter extends BasePresenter<TopicSearchFragment, TopicListModel> implements TopicListContract.Presenter {
 
     private OnHttpCallBack<TopicListInfo> mCallBack = new OnHttpCallBack<TopicListInfo>() {
         @Override
