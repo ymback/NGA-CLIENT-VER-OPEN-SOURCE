@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 
@@ -27,9 +28,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toast mToast;
 
+    protected PhoneConfiguration mConfig = PhoneConfiguration.getInstance();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        updateFullScreen();
+        updateWindowFlag();
         updateOrientation();
         if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtils.supportMaterialMode(this) || ActivityUtils.supportNewUi(this)) {
             updateThemeUi();
@@ -37,31 +40,31 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void updateThemeUi(){
+    protected void updateThemeUi() {
         ThemeManager tm = ThemeManager.getInstance();
         setTheme(tm.getTheme());
-        if (tm.isNightMode()){
+        if (tm.isNightMode()) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
-    private void updateFullScreen(){
+    private void updateWindowFlag() {
         int flag = 0;
-        if (PhoneConfiguration.getInstance().fullscreen){
+        if (PhoneConfiguration.getInstance().fullscreen) {
             flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         }
 
-        if (PhoneConfiguration.getInstance().getHardwareAcceleratedMode()) {
+        if (mConfig.getBoolean(PreferenceKey.HARDWARE_ACCELERATED)) {
             flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
     }
 
-    private void updateOrientation(){
+    private void updateOrientation() {
         int orientation = ThemeManager.getInstance().screenOrentation;
-        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -70,7 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void setupActionBar(Toolbar toolbar){
+    public void setupActionBar(Toolbar toolbar) {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             ActionBar actionBar = getSupportActionBar();
@@ -123,7 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;

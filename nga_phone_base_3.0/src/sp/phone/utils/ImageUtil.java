@@ -292,7 +292,7 @@ public class ImageUtil {
 
     @SuppressWarnings("ResourceType")
     public static Bitmap loadDefaultAvatar() {
-        Resources res = ResourceUtils.getResources();
+        Resources res = ApplicationContextHolder.getResources();
         InputStream is = res.openRawResource(R.drawable.default_avatar);
         InputStream is2 = res.openRawResource(R.drawable.default_avatar);
         return loadAvatarFromStream(is,is2);

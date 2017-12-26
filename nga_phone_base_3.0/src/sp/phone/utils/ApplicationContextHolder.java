@@ -13,7 +13,7 @@ import android.support.v4.content.ContextCompat;
  * Created by Justwen on 2017/10/15.
  */
 
-public class ResourceUtils {
+public class ApplicationContextHolder {
 
     @SuppressLint("StaticFieldLeak")
     private static Context sContext;

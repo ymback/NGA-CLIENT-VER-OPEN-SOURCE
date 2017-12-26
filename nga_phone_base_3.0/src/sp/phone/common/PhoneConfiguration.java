@@ -25,7 +25,7 @@ import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.meizi.MeiziMainActivity;
 import gov.anzong.meizi.MeiziTopicActivity;
-import sp.phone.utils.ResourceUtils;
+import sp.phone.utils.ApplicationContextHolder;
 import sp.phone.utils.StringUtils;
 
 public class PhoneConfiguration implements PreferenceKey {
@@ -87,29 +87,25 @@ public class PhoneConfiguration implements PreferenceKey {
 
     private boolean mLeftHandMode;
 
-    private boolean mHaMode;
-
-    private Map<String,Boolean> mBooleanMap = new HashMap<>();
-
+    private Map<String, Boolean> mBooleanMap = new HashMap<>();
 
     private static class PhoneConfigurationHolder {
 
         private static PhoneConfiguration sInstance = new PhoneConfiguration();
     }
 
-
     private PhoneConfiguration() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ResourceUtils.getContext());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext());
         initBooleanMap(sp);
-
     }
 
     private void initBooleanMap(SharedPreferences sp) {
-        mBooleanMap.put(PreferenceKey.SORT_BY_POST,sp.getBoolean(PreferenceKey.SORT_BY_POST,false));
+        mBooleanMap.put(PreferenceKey.SORT_BY_POST, sp.getBoolean(PreferenceKey.SORT_BY_POST, false));
+        mBooleanMap.put(PreferenceKey.HARDWARE_ACCELERATED, sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true));
     }
 
-    public void putData(String key,boolean data) {
-        mBooleanMap.put(key,data);
+    public void putData(String key, boolean data) {
+        mBooleanMap.put(key, data);
     }
 
     public boolean getBoolean(String key) {
@@ -135,14 +131,6 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public void setLeftHandMode(boolean leftHandMode) {
         mLeftHandMode = leftHandMode;
-    }
-
-    public void setHardwareAcceleratedMode(boolean value) {
-        mHaMode = value;
-    }
-
-    public boolean getHardwareAcceleratedMode() {
-        return mHaMode;
     }
 
     public String getDb_Cookie() {
@@ -177,11 +165,11 @@ public class PhoneConfiguration implements PreferenceKey {
         this.downImgNoWifi = downImgNoWifi;
     }
 
-    public boolean isMaterialMode(){
+    public boolean isMaterialMode() {
         return materialMode;
     }
 
-    public void setMaterialMode(boolean materialMode){
+    public void setMaterialMode(boolean materialMode) {
         this.materialMode = materialMode;
     }
 
@@ -277,7 +265,6 @@ public class PhoneConfiguration implements PreferenceKey {
         }
         return "";
     }
-
 
 
     public int getUiFlag() {

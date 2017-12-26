@@ -79,7 +79,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        switch (preference.getKey()) {
+        String key = preference.getKey();
+        switch (key) {
             case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
                 mConfiguration.imageQuality = Integer.parseInt((String) newValue);
                 break;
@@ -157,7 +158,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
             case PreferenceKey.HARDWARE_ACCELERATED:
                 sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
-                mConfiguration.setHardwareAcceleratedMode((Boolean) newValue);
+                mConfiguration.putData(key, (boolean) newValue);
                 break;
 
             case PreferenceKey.SHOW_ICON_MODE:
@@ -166,6 +167,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 break;
 
             case PreferenceKey.SORT_BY_POST:
+                sp.edit().putBoolean(key, (Boolean) newValue).apply();
                 mConfiguration.putData(PreferenceKey.SORT_BY_POST, (boolean) newValue);
                 break;
         }

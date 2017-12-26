@@ -20,9 +20,9 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.utils.ApplicationContextHolder;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
-import sp.phone.utils.ResourceUtils;
 import sp.phone.utils.StringUtils;
 
 public class NgaClientApp extends Application implements PreferenceKey {
@@ -33,7 +33,7 @@ public class NgaClientApp extends Application implements PreferenceKey {
 
     @Override
     public void onCreate() {
-        ResourceUtils.setContext(this);
+        ApplicationContextHolder.setContext(this);
         NLog.w(TAG, "app nga android start");
         if (config == null)
             config = PhoneConfiguration.getInstance();
@@ -115,7 +115,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
         tm.setTheme(Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0")));
         config.setShowBottomTab(sp.getBoolean(PreferenceKey.BOTTOM_TAB, false));
         config.setLeftHandMode(sp.getBoolean(PreferenceKey.LEFT_HAND, false));
-        config.setHardwareAcceleratedMode(sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true));
 
         SharedPreferences share = getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);

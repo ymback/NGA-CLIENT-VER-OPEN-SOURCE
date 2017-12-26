@@ -118,7 +118,7 @@ public class TopicConvertFactory {
 //
 //    public TopicListInfo getTopicListInfo(String js, String uri) {
 //        if (js == null || js.isEmpty()) {
-//            mErrorMsg = ResourceUtils.getString(R.string.network_error);
+//            mErrorMsg = ApplicationContextHolder.getString(R.string.network_error);
 //            return null;
 //        }
 //

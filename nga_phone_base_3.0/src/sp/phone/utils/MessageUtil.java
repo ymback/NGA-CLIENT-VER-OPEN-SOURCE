@@ -202,7 +202,7 @@ public class MessageUtil {
             imageURLSet = null;
         }
         if (StringUtils.isEmpty(ngaHtml)) {
-            ngaHtml = "<font color='red'>[" + ResourceUtils.getString(R.string.hide) + "]</font>";
+            ngaHtml = "<font color='red'>[" + ApplicationContextHolder.getString(R.string.hide) + "]</font>";
         }
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
                 + buildHeader(row, fgColorStr)
