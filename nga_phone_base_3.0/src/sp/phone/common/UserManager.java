@@ -4,13 +4,11 @@ import android.content.Context;
 
 import java.util.List;
 
-import sp.phone.bean.User;
-
 public interface UserManager {
 
-    void initialize(Context context);
-
     User getActiveUser();
+
+    void initialize(Context context);
 
     int getActiveUserIndex();
 
@@ -22,23 +20,42 @@ public interface UserManager {
 
     void addUser(User user);
 
-    void addUser(String uid, String cid, String name, String replyString, int replyTotalNum, String blackList);
+    void addUser(String uid, String cid, String name, String replyString, int replyTotalNum);
 
     void removeUser(int index);
 
-    void setReplyString(int count, String replyString);
+    void swapUser(int from, int to);
+
+    // User 类辅助接口
 
     String getCookie();
 
-    void swapUser(int from, int to);
+    String getUserId();
+
+    String getCid();
+
+    String getUserName();
+
+    // 被喷
+
+    int getReplyCount();
+
+    String getReplyString();
+
+    void setReplyString(int count, String replyString);
+
+
+    // 黑名单
 
     void addToBlackList(String authorName, String authorId);
+
+    void addToBlackList(User user);
 
     void removeFromBlackList(String authorId);
 
     boolean checkBlackList(String authorId);
 
-    List<sp.phone.common.User> getBlackList();
+    List<User> getBlackList();
 
     void removeAllBlackList();
 

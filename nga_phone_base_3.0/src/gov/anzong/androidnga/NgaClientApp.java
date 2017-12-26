@@ -7,13 +7,10 @@ import android.content.pm.ActivityInfo;
 import android.os.Environment;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.alibaba.fastjson.JSON;
 
 import java.io.File;
-import java.util.List;
 
 import gov.anzong.androidnga.util.NetUtil;
-import sp.phone.bean.Board;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
@@ -22,7 +19,6 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.ApplicationContextHolder;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
 
 public class NgaClientApp extends Application implements PreferenceKey {
     public final static int version = BuildConfig.VERSION_CODE;
@@ -41,9 +37,8 @@ public class NgaClientApp extends Application implements PreferenceKey {
         initPath();
         UserManagerImpl.getInstance().initialize(this);
         BoardManagerImpl.getInstance().initialize(this);
-        CrashHandler crashHandler = CrashHandler.getInstance();
         // 注册crashHandler
-        crashHandler.init(getApplicationContext());
+        CrashHandler.getInstance().init(this);
 
         NetUtil.init(this);
 
@@ -111,24 +106,7 @@ public class NgaClientApp extends Application implements PreferenceKey {
             Editor editor = share.edit();
             editor.putInt(VERSION, version);
             editor.putBoolean(REFRESH_AFTER_POST, false);
-
-            String recentStr = share.getString(RECENT_BOARD, "");
-            List<Board> recentList = null;
-            if (!StringUtils.isEmpty(recentStr)) {
-                recentList = JSON.parseArray(recentStr, Board.class);
-                if (recentList != null) {
-                    for (int j = 0; j < recentList.size(); j++) {
-                        //recentList.get(j).setIcon(R.drawable.pdefault);
-                    }
-                    recentStr = JSON.toJSONString(recentList);
-                    editor.putString(RECENT_BOARD, recentStr);
-                }
-            }
-            if (version_in_config < 2028) {
-                editor.putString(USER_LIST, "");
-            }
             editor.apply();
-
         }
 
         // refresh
@@ -170,8 +148,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
         config.notificationSound = notificationSound;
 
         config.nikeWidth = share.getInt(NICK_WIDTH, 100);
-
-        config.setUiFlag(0);
 
     }
 

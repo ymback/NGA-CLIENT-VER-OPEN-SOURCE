@@ -24,10 +24,8 @@ import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.meizi.MeiziMainActivity;
 import gov.anzong.meizi.MeiziTopicActivity;
 import sp.phone.utils.ApplicationContextHolder;
-import sp.phone.utils.StringUtils;
 
 public class PhoneConfiguration implements PreferenceKey {
-    public String userName;
     public int nikeWidth = 100;
     public boolean downAvatarNoWifi;
     public boolean downImgNoWifi;
@@ -40,8 +38,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean notification;
     public boolean notificationSound;
     public long lastMessageCheck = 0;
-    public String cid;
-    public String uid;
     public boolean showAnimation = false;
     public boolean showSignature = true;
     public boolean useViewCache;
@@ -56,7 +52,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean fullscreen = false;
     public boolean kitwebview = false;
     public boolean materialMode;
-    public int replytotalnum = 0;
     public String db_cookie;
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
@@ -74,7 +69,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public Class<?> messageActivityClass = MessageListActivity.class;
     public Class<?> nonameActivityClass = FlexibleNonameTopicListActivity.class;
     public Class<?> messageDetialActivity = MessageDetailActivity.class;
-    public String replyString;
     private boolean refreshAfterPost;
     private float textSize;
     private int webSize;
@@ -162,42 +156,6 @@ public class PhoneConfiguration implements PreferenceKey {
         this.materialMode = materialMode;
     }
 
-    public String getCid() {
-        return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
-    }
-
-    public void setNickname(String userName) {
-        this.userName = userName;
-    }
-
-    public int getReplyTotalNum() {
-        return replytotalnum;
-    }
-
-    public void setReplyTotalNum(int replytotalnum) {
-        this.replytotalnum = replytotalnum;
-    }
-
-    public String getReplyString() {
-        return replyString;
-    }
-
-    public void setReplyString(String replyString) {
-        this.replyString = replyString;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public float getTextSize() {
         return textSize;
     }
@@ -222,15 +180,9 @@ public class PhoneConfiguration implements PreferenceKey {
         this.refreshAfterPost = refreshAfterPost;
     }
 
-
     public String getCookie() {
-        if (!StringUtils.isEmpty(uid) && !StringUtils.isEmpty(cid)) {
-            return "ngaPassportUid=" + uid +
-                    "; ngaPassportCid=" + cid;
-        }
-        return "";
+        return UserManagerImpl.getInstance().getCookie();
     }
-
 
     public int getUiFlag() {
         return uiFlag;

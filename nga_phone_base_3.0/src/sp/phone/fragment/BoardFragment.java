@@ -47,8 +47,9 @@ import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.bean.AvatarTag;
-import sp.phone.common.PreferenceKey;
 import sp.phone.bean.User;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.LoginDialogFragment;
@@ -57,7 +58,6 @@ import sp.phone.mvp.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 
@@ -373,7 +373,10 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         } else {
             mBoardPagerAdapter.notifyDataSetChanged();
         }
-        mReplyCountView.setText(String.valueOf(PhoneConfiguration.getInstance().getReplyTotalNum()));
+        sp.phone.common.User user = UserManagerImpl.getInstance().getActiveUser();
+        if (user != null) {
+            mReplyCountView.setText(String.valueOf(user.getReplyCount()));
+        }
         super.onResume();
     }
 

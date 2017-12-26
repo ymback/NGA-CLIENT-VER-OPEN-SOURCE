@@ -33,6 +33,7 @@ import sp.phone.bean.adminForumsData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
@@ -221,10 +222,11 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
             iplog_title.setText(":: " + username + " 的IP ::");
             iplog.setText(Html.fromHtml(iplogdata));
         }
-        if (PhoneConfiguration.getInstance().userName == null) {
-            PhoneConfiguration.getInstance().userName = "";
+        String userName = UserManagerImpl.getInstance().getUserName();
+        if (userName == null) {
+            userName = "";
         }
-        if (!PhoneConfiguration.getInstance().userName.equals(username)) {
+        if (!userName.equals(username)) {
             message_button.setText("[向 " + username + " 发送论坛短消息]");
             message_button.setOnClickListener(new OnClickListener() {
 
@@ -237,7 +239,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
                     intent_bookmark.putExtra("to", username);
                     intent_bookmark.putExtra("action", "new");
                     intent_bookmark.putExtra("messagemode", "yes");
-                    if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                    if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {// 登入了才能发
                         intent_bookmark
                                 .setClass(view.getContext(),
                                         PhoneConfiguration.getInstance().messagePostActivityClass);
@@ -752,8 +754,8 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
             ActivityUtils.getInstance().setFullScreen(view);
         }
         if (!StringUtils.isEmpty(trueusername)) {
-            if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {
-                if (trueusername.equals(PhoneConfiguration.getInstance().userName)) {
+            if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {
+                if (trueusername.equals(UserManagerImpl.getInstance().getUserName())) {
                     avahahahb.setVisibility(View.GONE);
                     message_title.setVisibility(View.GONE);
                     change_avatar_button.setVisibility(View.VISIBLE);

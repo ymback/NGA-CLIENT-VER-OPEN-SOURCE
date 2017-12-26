@@ -27,6 +27,7 @@ import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.dialog.PostCommentDialogFragment;
@@ -211,7 +212,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 intentModify.putExtra("pid", pid);
                 intentModify.putExtra("title", StringUtils.unEscapeHtml(row.getSubject()));
                 intentModify.putExtra("action", "modify");
-                if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {// 登入了才能发
                     intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
                 } else {
                     intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
@@ -289,7 +290,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
     @Override
     public void startPostActivity(Intent intent) {
-        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {// 登入了才能发
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
         } else {
             intent.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);

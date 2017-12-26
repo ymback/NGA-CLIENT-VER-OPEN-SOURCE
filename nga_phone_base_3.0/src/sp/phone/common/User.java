@@ -19,7 +19,23 @@ public class User {
 
     private int mReplyCount;
 
+    private String mAvatarUrl;
+
     public User() {
+    }
+
+    public User(@NonNull String userId, String nickName, String cid) {
+        mUserId = userId;
+        mNickName = nickName;
+        mCid = cid;
+    }
+
+    public String getAvatarUrl() {
+        return mAvatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        mAvatarUrl = avatarUrl;
     }
 
     public String getUserId() {

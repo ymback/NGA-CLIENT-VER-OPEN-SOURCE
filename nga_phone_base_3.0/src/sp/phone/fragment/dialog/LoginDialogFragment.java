@@ -21,7 +21,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.HttpPostClient;
@@ -75,7 +74,7 @@ public class LoginDialogFragment extends DialogFragment implements
       //  userList.setAdapter(new UserListAdapter(getActivity(), userText));
         String postUrl = "http://account.178.com/q_account.php?_act=login&print=login";
 
-        String userName = PhoneConfiguration.getInstance().userName;
+        String userName = UserManagerImpl.getInstance().getUserName();
         if (userName != "") {
             userText.setText(userName);
             userText.selectAll();
@@ -362,7 +361,7 @@ public class LoginDialogFragment extends DialogFragment implements
 						 * intent.setClass(v.getContext(), MainActivity.class);
 						 * intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						 */
-                        UserManagerImpl.getInstance().addUser(uid, cid, name, "", 0, "");
+                        UserManagerImpl.getInstance().addUser(uid, cid, name, "", 0);
 
                         LoginDialogFragment.this.dismiss();
                         // startActivity(intent);

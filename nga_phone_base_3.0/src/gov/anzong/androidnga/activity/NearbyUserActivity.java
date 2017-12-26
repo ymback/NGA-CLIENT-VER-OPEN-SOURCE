@@ -26,6 +26,7 @@ import sp.phone.bean.NearbyUser;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.AlertDialogFragment;
 import sp.phone.fragment.dialog.NearbyAlertDialogFragment;
 import sp.phone.interfaces.OnNearbyLoadComplete;
@@ -113,7 +114,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
         } else {
             ActivityUtils.getInstance().noticeSaying(this);
             task = new NearbyUserTask(location.getLatitude(), location.getLongitude(),
-                    userName, PhoneConfiguration.getInstance().uid, this);
+                    userName, UserManagerImpl.getInstance().getUserId(), this);
             task.execute();
 
         }

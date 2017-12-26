@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -106,8 +107,7 @@ public class MyListenerForReply implements OnClickListener {
                     intent.putExtra("tid", tidStr);
                 intent.putExtra("action", "reply");
 
-                if (!StringUtils
-                        .isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+                if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
                     intent.setClass(
                             mcontext,
                             PhoneConfiguration.getInstance().postActivityClass);

@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
@@ -36,10 +35,12 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.User;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.dialog.ProfileSearchDialogFragment;
-import sp.phone.mvp.presenter.BoardPresenter;
 import sp.phone.mvp.contract.BoardContract;
+import sp.phone.mvp.presenter.BoardPresenter;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
@@ -286,15 +287,16 @@ public class MainActivity extends BaseActivity {
     private void jumpToMyPost(boolean isReply) {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, mConfig.topicActivityClass);
-        String userName = mConfig.userName;
-        if (TextUtils.isEmpty(userName)) {
+        User user = UserManagerImpl.getInstance().getActiveUser();
+
+        if (user == null) {
             showToast("你还没有登录");
             return;
         }
-
+        String userName = user.getNickName();
         if (isReply) {
             intent.putExtra("author", userName);
-            intent.putExtra("searchpost",1);
+            intent.putExtra("searchpost", 1);
         } else {
             intent.putExtra("author", userName);
         }

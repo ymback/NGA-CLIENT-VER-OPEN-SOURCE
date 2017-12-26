@@ -70,7 +70,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 //		lv.setRemoveListener(this);
-        String str = PhoneConfiguration.getInstance().getReplyString();
+        String str = UserManagerImpl.getInstance().getReplyString();
         if (!StringUtils.isEmpty(str)) {
             List<NotificationObject> list = JSON.parseArray(str,
                     NotificationObject.class);
@@ -103,7 +103,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
                 intent.putExtra("pid", no.getPid());
                 intent.putExtra("authorid", 0);
                 intent.putExtra("fromreplyactivity", 1);
-                intent.putExtra(ParamKey.KEY_SEARCH_POST,1);
+                intent.putExtra(ParamKey.KEY_SEARCH_POST, 1);
 
                 intent.setClass(getActivity(),
                         PhoneConfiguration.getInstance().articleActivityClass);
@@ -206,7 +206,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
     }
 
     public void removerecentlist() {
-        UserManagerImpl.getInstance().setReplyString(0,"");
+        UserManagerImpl.getInstance().setReplyString(0, "");
         if (adapter != null) {
             adapter.clean();
         }
@@ -217,7 +217,7 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
         // TODO Auto-generated method stub
         if (attacher != null)
             attacher.setRefreshComplete();
-        String str = PhoneConfiguration.getInstance().getReplyString();
+        String str = UserManagerImpl.getInstance().getReplyString();
         if (!StringUtils.isEmpty(str)) {
             List<NotificationObject> list = JSON.parseArray(str,
                     NotificationObject.class);

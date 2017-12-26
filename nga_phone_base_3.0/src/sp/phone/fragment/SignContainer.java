@@ -23,6 +23,7 @@ import sp.phone.bean.SignData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.JsonSignLoadTask;
@@ -148,14 +149,14 @@ public class SignContainer extends BaseFragment implements
         String availablenums;
         String successnums;
 
-        if (StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {
+        if (StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {
             userName = "未知";
         } else {
-            userName = PhoneConfiguration.getInstance().userName;
+            userName = UserManagerImpl.getInstance().getUserName();
         }
         String userId = "-9999";
-        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
-            userId = PhoneConfiguration.getInstance().uid;
+        if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserId())) {
+            userId = UserManagerImpl.getInstance().getUserId();
         }
         if (result != null) {
             if (StringUtils.isEmpty(result.get__SignResult())) {

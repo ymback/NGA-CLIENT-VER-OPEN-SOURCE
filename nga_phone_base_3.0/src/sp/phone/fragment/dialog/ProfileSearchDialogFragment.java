@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.StringUtils;
 
 public class ProfileSearchDialogFragment extends DialogFragment {
@@ -98,7 +99,7 @@ public class ProfileSearchDialogFragment extends DialogFragment {
     private void searchName(String inputString) {
         Intent intent = new Intent(getContext(), PhoneConfiguration.getInstance().topicActivityClass);
         if (TextUtils.isEmpty(inputString)) {
-            inputString = PhoneConfiguration.getInstance().userName;
+            inputString = UserManagerImpl.getInstance().getUserName();
             if (TextUtils.isEmpty(inputString)) {
                 return;
             }
@@ -117,7 +118,7 @@ public class ProfileSearchDialogFragment extends DialogFragment {
             intent.setClass(getContext(), PhoneConfiguration.getInstance().profileActivityClass);
             startActivity(intent);
         } else {
-            String userName = PhoneConfiguration.getInstance().userName;
+            String userName = UserManagerImpl.getInstance().getUserName();
             if (!Objects.equals(userName, "")) {
                 intent.putExtra("mode", "username");
                 intent.putExtra("username", userName);

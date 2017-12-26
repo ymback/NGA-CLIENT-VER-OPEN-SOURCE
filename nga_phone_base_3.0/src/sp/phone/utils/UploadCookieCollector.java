@@ -11,6 +11,7 @@ import java.util.Map;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.NgaClientApp;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManagerImpl;
 
 public class UploadCookieCollector {
     //static final String collectURL = "http://bbs.ngacn.cc/nuke.php";
@@ -32,7 +33,7 @@ public class UploadCookieCollector {
     }
 
     public String toString() {
-        ConcernCookies.put("ngaPassportUid=", PhoneConfiguration.getInstance().getUid());
+        ConcernCookies.put("ngaPassportUid=", UserManagerImpl.getInstance().getUserId());
         String ret = "";
         for (Map.Entry<String, String> entry : ConcernCookies.entrySet()) {
             ret = ret + entry.getKey() + entry.getValue() + "; ";
@@ -49,8 +50,8 @@ public class UploadCookieCollector {
 		c.setCookie(cookie);
 		
 		HttpURLConnection conn  = c.post_body(data);*/
-        final String urlString = collectURL + "?func=login&uid=" + config.getUid()
-                + "&cid=" + config.getCid() + "&expires=31536000";
+        final String urlString = collectURL + "?func=login&uid=" + UserManagerImpl.getInstance().getUserId()
+                + "&cid=" + UserManagerImpl.getInstance().getCid() + "&expires=31536000";
         //URL=http://bbs.ngacn.cc/nuke.php?func=login&uid=553736&cid=ca583128fd6a500fcee2ff9d5f6c656fffade423&expires=31536000
 
         String machine = "";

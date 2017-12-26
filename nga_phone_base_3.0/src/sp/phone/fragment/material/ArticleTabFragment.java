@@ -30,6 +30,7 @@ import io.reactivex.annotations.NonNull;
 import sp.phone.adapter.ArticlePagerAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.dialog.GotoDialogFragment;
@@ -42,7 +43,7 @@ import sp.phone.utils.StringUtils;
 
 /**
  * 帖子详情Fragment
- * Created by Yang Yihang on 2017/7/9.
+ * Created by Justwen on 2017/7/9.
  */
 
 public class ArticleTabFragment extends BaseRxFragment {
@@ -144,7 +145,7 @@ public class ArticleTabFragment extends BaseRxFragment {
         intent.putExtra("prefix", "");
         intent.putExtra("tid", tid);
         intent.putExtra("action", "reply");
-        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {// 登入了才能发
             intent.setClass(getContext(),
                     PhoneConfiguration.getInstance().postActivityClass);
         } else {

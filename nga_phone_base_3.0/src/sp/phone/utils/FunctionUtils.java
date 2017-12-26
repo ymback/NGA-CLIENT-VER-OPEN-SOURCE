@@ -50,6 +50,7 @@ import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.ReportDialogFragment;
 import sp.phone.fragment.dialog.SuperTextDialogFragment;
 import sp.phone.proxy.ProxyBridge;
@@ -972,7 +973,7 @@ public class FunctionUtils {
         intent_bookmark.putExtra("to", row.getAuthor());
         intent_bookmark.putExtra("action", "new");
         intent_bookmark.putExtra("messagemode", "yes");
-        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().userName)) {// 登入了才能发
+        if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
             intent_bookmark.setClass(context,
                     PhoneConfiguration.getInstance().messagePostActivityClass);
         } else {
@@ -1316,7 +1317,7 @@ public class FunctionUtils {
                 .getString(R.string.checksecret);
         try {
             str = MD5Util.MD5(new StringBuilder(String
-                    .valueOf(PhoneConfiguration.getInstance().getUid()))
+                    .valueOf(UserManagerImpl.getInstance().getUserId()))
                     .append(secret).append(System.currentTimeMillis() / 1000L)
                     .toString())
                     + System.currentTimeMillis() / 1000L;

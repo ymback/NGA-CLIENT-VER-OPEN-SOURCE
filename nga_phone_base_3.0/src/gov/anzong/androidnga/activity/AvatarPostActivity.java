@@ -36,6 +36,8 @@ import java.util.HashSet;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.AvatarPostAction;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
@@ -332,7 +334,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
     }
 
     private void handleAvatar(ImageView avatarIV, String avatarUrl) {
-        final String userId = PhoneConfiguration.getInstance().uid;
+        final String userId = UserManagerImpl.getInstance().getUserId();
         if (!StringUtils.isEmpty(avatarUrl)) {
             final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
             new ChangeAvatarLoadTask(avatarIV, 0, this)
@@ -528,7 +530,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
             }
             showToast("操作成功");
             ActivityUtils.getInstance().dismiss();
-            String userId = PhoneConfiguration.getInstance().uid;
+            String userId = UserManagerImpl.getInstance().getUserId();
             String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId + ".jpg";
             HttpUtil.downImage3(resultbitmap, avatarPath);
             if (!keepActivity) {

@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.StringUtils;
 
 public class SearchDialogFragment extends DialogFragment {
@@ -141,7 +142,7 @@ public class SearchDialogFragment extends DialogFragment {
             intent.putExtra("authorid", getArguments().getInt("authorid", 0));
             startActivity(intent);
         } else {
-            String userName = PhoneConfiguration.getInstance().userName;
+            String userName = UserManagerImpl.getInstance().getUserName();
             if (!Objects.equals(userName, "")) {
                 intent.putExtra("fid", getArguments().getInt("fid", -7));
                 intent.putExtra("author", userName);
@@ -159,7 +160,7 @@ public class SearchDialogFragment extends DialogFragment {
             intent.putExtra("authorid", getArguments().getInt("authorid", 0));
             startActivity(intent);
         } else {
-            String userName = PhoneConfiguration.getInstance().userName;
+            String userName = UserManagerImpl.getInstance().getUserName();
             if (!Objects.equals(userName, "")) {
                 intent.putExtra("fid", getArguments().getInt("fid", -7));
                 intent.putExtra("author", userName + "&searchpost=1");
