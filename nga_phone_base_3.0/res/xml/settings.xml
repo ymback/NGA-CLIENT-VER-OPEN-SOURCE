@@ -9,10 +9,10 @@
             android:key="pref_user"
             android:title="@string/setting_title_user"/>
 
-        <!--<PreferenceScreen-->
-            <!--android:fragment="sp.phone.fragment.SettingsBlackListFragment"-->
-            <!--android:key="pref_black_list"-->
-            <!--android:title="@string/setting_title_black_list"/>-->
+        <PreferenceScreen
+            android:fragment="sp.phone.fragment.SettingsBlackListFragment"
+            android:key="pref_black_list"
+            android:title="@string/setting_title_black_list"/>
 
     </PreferenceCategory>
 

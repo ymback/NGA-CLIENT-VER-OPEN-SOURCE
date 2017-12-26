@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ActivityUtils;
 
 /**
@@ -67,7 +67,7 @@ public class TopicListFragment extends TopicSearchFragment {
     }
 
     private void updateFloatingMenu() {
-        if (PhoneConfiguration.getInstance().isLeftHandMode()) {
+        if (mConfig.getBoolean(PreferenceKey.LEFT_HAND)) {
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
             lp.gravity = Gravity.START | Gravity.BOTTOM;
             mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);

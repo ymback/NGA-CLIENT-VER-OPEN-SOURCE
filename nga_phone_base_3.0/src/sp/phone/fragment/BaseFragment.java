@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import sp.phone.common.PhoneConfiguration;
 
 /**
  * Created by liuboyu on 16/6/28.
@@ -26,6 +27,8 @@ public abstract class BaseFragment extends Fragment {
     protected AppCompatActivity mActivity;
 
     protected Toast mToast;
+
+    protected PhoneConfiguration mConfig = PhoneConfiguration.getInstance();
 
     public void showToast(int res) {
         String str = getString(res);

@@ -3,12 +3,10 @@ package sp.phone.mvp.presenter;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.util.Set;
-
 import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.fragment.material.ArticleListFragment;
@@ -55,23 +53,15 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
         if (row.getISANONYMOUS()) {
             mBaseView.showToast(R.string.cannot_add_to_blacklist_cause_anony);
         } else {
-            Set<Integer> blacklist = PhoneConfiguration.getInstance().blacklist;
-            String blackListString;
-            if (row.get_isInBlackList()) {// 在屏蔽列表中，需要去除
+            UserManager um = UserManagerImpl.getInstance();
+            if (row.get_isInBlackList()) {
                 row.set_IsInBlackList(false);
-                blacklist.remove(row.getAuthorid());
+                um.removeFromBlackList(String.valueOf(row.getAuthorid()));
                 mBaseView.showToast(R.string.remove_from_blacklist_success);
             } else {
                 row.set_IsInBlackList(true);
-                blacklist.add(row.getAuthorid());
+                um.addToBlackList(row.getAuthor(), String.valueOf(row.getAuthorid()));
                 mBaseView.showToast(R.string.add_to_blacklist_success);
-            }
-            PhoneConfiguration.getInstance().blacklist = blacklist;
-            blackListString = blacklist.toString();
-            if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().uid)) {
-                UserManagerImpl.getInstance().setBlackList(blackListString);
-            } else {
-                mBaseView.showToast(R.string.cannot_add_to_blacklist_cause_logout);
             }
         }
     }

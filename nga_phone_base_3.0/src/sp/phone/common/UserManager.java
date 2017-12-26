@@ -28,10 +28,18 @@ public interface UserManager {
 
     void setReplyString(int count, String replyString);
 
-    void setBlackList(String blackList);
-
     String getCookie();
 
     void swapUser(int from, int to);
+
+    void addToBlackList(String authorName, String authorId);
+
+    void removeFromBlackList(String authorId);
+
+    boolean checkBlackList(String authorId);
+
+    List<sp.phone.common.User> getBlackList();
+
+    void removeAllBlackList();
 
 }

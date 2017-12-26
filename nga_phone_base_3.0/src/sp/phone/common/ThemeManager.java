@@ -8,6 +8,8 @@ import gov.anzong.androidnga.R;
 
 public class ThemeManager {
 
+    private PhoneConfiguration mConfig;
+
     public static final int MODE_NORMAL = 0;
     public static final int MODE_NIGHT = 1;
 
@@ -33,6 +35,11 @@ public class ThemeManager {
     private static class ThemeManagerHolder {
 
         private static ThemeManager sInstance = new ThemeManager();
+    }
+
+    private ThemeManager() {
+        mConfig = PhoneConfiguration.getInstance();
+        setTheme(mConfig.getInt(PreferenceKey.MATERIAL_THEME));
     }
 
     public static ThemeManager getInstance() {

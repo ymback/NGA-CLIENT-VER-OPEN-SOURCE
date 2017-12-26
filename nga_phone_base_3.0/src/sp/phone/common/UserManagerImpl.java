@@ -2,6 +2,7 @@ package sp.phone.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -10,7 +11,6 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import sp.phone.bean.User;
 import sp.phone.utils.StringUtils;
@@ -30,9 +30,15 @@ public class UserManagerImpl implements UserManager {
 
     private Context mContext;
 
-    private List<User> mUserList;
+    private List<User> mOldUserList;
 
     private int mActiveIndex;
+
+    private List<sp.phone.common.User> mBlackList;
+
+    private List<sp.phone.common.User> mUserList;
+
+    private SharedPreferences mPrefs;
 
     private static class SingletonHolder {
 
@@ -50,14 +56,15 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void initialize(Context context) {
         mContext = context.getApplicationContext();
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences sp = mContext.getSharedPreferences(PERFERENCE, Context.MODE_PRIVATE);
         String userListString = sp.getString(USER_LIST, "");
         if (TextUtils.isEmpty(userListString)) {
-            mUserList = new ArrayList<>();
+            mOldUserList = new ArrayList<>();
         } else {
-            mUserList = JSON.parseArray(userListString, User.class);
-            if (mUserList == null) {
-                mUserList = new ArrayList<>();
+            mOldUserList = JSON.parseArray(userListString, User.class);
+            if (mOldUserList == null) {
+                mOldUserList = new ArrayList<>();
             }
         }
         mActiveIndex = sp.getInt(USER_ACTIVE_INDEX, 0);
@@ -68,19 +75,47 @@ public class UserManagerImpl implements UserManager {
         final String cid = sp.getString(CID, "");
         final String replyString = sp.getString(PENDING_REPLYS, "");
         final int replyTotalNum = Integer.parseInt(sp.getString(REPLYTOTALNUM, "0"));
-        final Set<Integer> blackList = StringUtils.blackListStringToHashset(sp.getString(BLACK_LIST, ""));
         if (!StringUtils.isEmpty(uid) && !StringUtils.isEmpty(cid)) {
             config.setUid(uid);
             config.setCid(cid);
             config.setReplyString(replyString);
             config.setReplyTotalNum(replyTotalNum);
-            config.blacklist = blackList;
             final String name = sp.getString(USER_NAME, "");
             config.userName = name;
             if (StringUtils.isEmpty(userListString)) {
                 addUser(uid, cid, name, replyString, replyTotalNum, sp.getString(BLACK_LIST, ""));
             }
         }
+
+        String blackListStr = mPrefs.getString(PreferenceKey.BLACK_LIST, "");
+        if (TextUtils.isEmpty(blackListStr)) {
+            mBlackList = new ArrayList<>();
+        } else {
+            mBlackList = JSON.parseArray(blackListStr, sp.phone.common.User.class);
+        }
+
+        String userListStr = mPrefs.getString(PreferenceKey.USER_LIST, "");
+        if (TextUtils.isEmpty(userListStr)) {
+            mUserList = new ArrayList<>();
+        } else {
+            mUserList = JSON.parseArray(userListStr, sp.phone.common.User.class);
+        }
+
+        // versionUpgrade();
+    }
+
+    private void versionUpgrade() {
+        mUserList.clear();
+        for (User user : mOldUserList) {
+            sp.phone.common.User newUser = new sp.phone.common.User();
+            newUser.setNickName(user.getNickName());
+            newUser.setUserId(user.getUserId());
+            newUser.setCid(user.getCid());
+            newUser.setReplyCount(user.getReplyTotalNum());
+            newUser.setReplyString(user.getReplyString());
+            mUserList.add(newUser);
+        }
+        mPrefs.edit().putString(PreferenceKey.USER_LIST, JSON.toJSONString(mUserList)).putInt(USER_ACTIVE_INDEX, mActiveIndex).apply();
     }
 
     @Override
@@ -91,12 +126,12 @@ public class UserManagerImpl implements UserManager {
     @Nullable
     @Override
     public User getActiveUser() {
-        return mUserList.isEmpty() ? null : mUserList.get(mActiveIndex);
+        return mUserList.isEmpty() ? null : mOldUserList.get(mActiveIndex);
     }
 
     @Override
     public List<User> getUserList() {
-        return mUserList;
+        return mOldUserList;
     }
 
     @Override
@@ -111,10 +146,10 @@ public class UserManagerImpl implements UserManager {
         if (isNext) {
             mActiveIndex++;
         } else {
-            mActiveIndex = mActiveIndex + mUserList.size() - 1;
+            mActiveIndex = mActiveIndex + mOldUserList.size() - 1;
         }
 
-        mActiveIndex = mActiveIndex % mUserList.size();
+        mActiveIndex = mActiveIndex % mOldUserList.size();
         commit();
         return mActiveIndex;
 
@@ -123,37 +158,33 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void addUser(User user) {
 
-        for (int i = 0; i < mUserList.size(); i++) {
-            if (mUserList.get(i).getUserId().equals(user.getUserId())) {
-                mUserList.set(i, user);
+        for (int i = 0; i < mOldUserList.size(); i++) {
+            if (mOldUserList.get(i).getUserId().equals(user.getUserId())) {
+                mOldUserList.set(i, user);
                 commit();
                 return;
             }
         }
-        mUserList.add(user);
+        mOldUserList.add(user);
         commit();
     }
 
     @Override
     public void addUser(String uid, String cid, String name, String replyString, int replyTotalNum, String blackList) {
-        if (blackList == null) {
-            blackList = "";
-        }
         User user = new User();
         user.setCid(cid);
         user.setUserId(uid);
         user.setNickName(name);
         user.setReplyString(replyString);
         user.setReplyTotalNum(replyTotalNum);
-        user.setBlackList(blackList);
         addUser(user);
     }
 
     // TODO: need check more about this function
     @Override
     public void removeUser(int index) {
-        mUserList.remove(index);
-        if (mUserList.isEmpty() || mActiveIndex == index) {
+        mOldUserList.remove(index);
+        if (mOldUserList.isEmpty() || mActiveIndex == index) {
             mActiveIndex = 0;
         }
         commit();
@@ -177,7 +208,7 @@ public class UserManagerImpl implements UserManager {
     }
 
     private void commit() {
-        String userListString = JSON.toJSONString(mUserList);
+        String userListString = JSON.toJSONString(mOldUserList);
         User user = getActiveUser();
         SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
 
@@ -186,21 +217,18 @@ public class UserManagerImpl implements UserManager {
         String userName;
         String replyString;
         int replyCount;
-        String blackList;
         if (user != null) {
             uid = user.getUserId();
             cid = user.getCid();
             userName = user.getNickName();
             replyCount = user.getReplyTotalNum();
             replyString = user.getReplyString();
-            blackList = user.getBlackList();
         } else {
             uid = "";
             cid = "";
             userName = "";
             replyCount = 0;
             replyString = "";
-            blackList = "";
         }
         sp.edit().putString(USER_LIST, userListString)
                 .putInt(USER_ACTIVE_INDEX, mActiveIndex)
@@ -209,7 +237,6 @@ public class UserManagerImpl implements UserManager {
                 .putString(USER_NAME, userName)
                 .putString(PENDING_REPLYS, replyString)
                 .putString(REPLYTOTALNUM, String.valueOf(replyCount))
-                .putString(BLACK_LIST, blackList)
                 .apply();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
         config.setUid(uid);
@@ -217,17 +244,7 @@ public class UserManagerImpl implements UserManager {
         config.userName = userName;
         config.setReplyTotalNum(replyCount);
         config.setReplyString(replyString);
-        config.blacklist = StringUtils.blackListStringToHashset(blackList);
 
-    }
-
-    @Override
-    public void setBlackList(String blackList) {
-        User user = getActiveUser();
-        if (user != null) {
-            user.setBlackList(blackList);
-            commit();
-        }
     }
 
     @Override
@@ -246,13 +263,62 @@ public class UserManagerImpl implements UserManager {
     public void swapUser(int from, int to) {
         if (from < to) {
             for (int i = from; i < to; i++) {
-                Collections.swap(mUserList, i, i + 1);
+                Collections.swap(mOldUserList, i, i + 1);
             }
         } else {
             for (int i = from; i > to; i--) {
-                Collections.swap(mUserList, i, i - 1);
+                Collections.swap(mOldUserList, i, i - 1);
             }
         }
         commit();
+    }
+
+    @Override
+    public void addToBlackList(String authorName, String authorId) {
+        for (int i = 0; i < mBlackList.size(); i++) {
+            sp.phone.common.User user = mBlackList.get(i);
+            if (user.getUserId().equals(authorId)) {
+                return;
+            }
+        }
+        sp.phone.common.User user = new sp.phone.common.User();
+        user.setUserId(authorId);
+        user.setNickName(authorName);
+        mBlackList.add(user);
+        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+
+    }
+
+    @Override
+    public void removeFromBlackList(String authorId) {
+        for (int i = 0; i < mBlackList.size(); i++) {
+            sp.phone.common.User user = mBlackList.get(i);
+            if (user.getUserId().equals(authorId)) {
+                mBlackList.remove(i);
+                mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+                return;
+            }
+        }
+    }
+
+    @Override
+    public boolean checkBlackList(String authorId) {
+        for (sp.phone.common.User user : mBlackList) {
+            if (user.getUserId().equals(authorId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<sp.phone.common.User> getBlackList() {
+        return mBlackList;
+    }
+
+    @Override
+    public void removeAllBlackList() {
+        mBlackList.clear();
+        mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
     }
 }

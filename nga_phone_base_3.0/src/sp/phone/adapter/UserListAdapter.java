@@ -50,10 +50,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         }
     }
 
-    public UserListAdapter(Context context) {
+    public UserListAdapter(Context context, List<User> userList) {
         mContext = context;
         mUserManager = UserManagerImpl.getInstance();
-        mUserList = mUserManager.getUserList();
+        mUserList = userList;
         mDefaultAvatar = ImageUtil.loadDefaultAvatar();
     }
 

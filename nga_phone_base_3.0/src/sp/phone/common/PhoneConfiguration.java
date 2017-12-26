@@ -5,9 +5,7 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.FlexibleNonameTopicListActivity;
@@ -59,7 +57,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean kitwebview = false;
     public boolean materialMode;
     public int replytotalnum = 0;
-    public Set<Integer> blacklist = new HashSet<Integer>();
     public String db_cookie;
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
@@ -83,11 +80,9 @@ public class PhoneConfiguration implements PreferenceKey {
     private int webSize;
     private int uiFlag = 0;
 
-    private boolean mShowBottomTab;
-
-    private boolean mLeftHandMode;
-
     private Map<String, Boolean> mBooleanMap = new HashMap<>();
+
+    private Map<String, Integer> mIntegerMap = new HashMap<>();
 
     private static class PhoneConfigurationHolder {
 
@@ -97,11 +92,26 @@ public class PhoneConfiguration implements PreferenceKey {
     private PhoneConfiguration() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext());
         initBooleanMap(sp);
+        initIntegerMap(sp);
     }
 
     private void initBooleanMap(SharedPreferences sp) {
         mBooleanMap.put(PreferenceKey.SORT_BY_POST, sp.getBoolean(PreferenceKey.SORT_BY_POST, false));
         mBooleanMap.put(PreferenceKey.HARDWARE_ACCELERATED, sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true));
+        mBooleanMap.put(PreferenceKey.BOTTOM_TAB, sp.getBoolean(PreferenceKey.BOTTOM_TAB, false));
+        mBooleanMap.put(PreferenceKey.LEFT_HAND, sp.getBoolean(PreferenceKey.LEFT_HAND, false));
+    }
+
+    private void initIntegerMap(SharedPreferences sp) {
+        mIntegerMap.put(PreferenceKey.MATERIAL_THEME, Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0")));
+    }
+
+    public void putData(String key, int data) {
+        mIntegerMap.put(key, data);
+    }
+
+    public int getInt(String key) {
+        return mIntegerMap.get(key);
     }
 
     public void putData(String key, boolean data) {
@@ -116,23 +126,6 @@ public class PhoneConfiguration implements PreferenceKey {
         return PhoneConfigurationHolder.sInstance;
     }
 
-
-    public void setShowBottomTab(boolean value) {
-        mShowBottomTab = value;
-    }
-
-    public boolean isShownBottomTab() {
-        return mShowBottomTab;
-    }
-
-    public boolean isLeftHandMode() {
-        return mLeftHandMode;
-    }
-
-    public void setLeftHandMode(boolean leftHandMode) {
-        mLeftHandMode = leftHandMode;
-    }
-
     public String getDb_Cookie() {
         return db_cookie;
     }
@@ -143,10 +136,6 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public int getNikeWidth() {
         return nikeWidth;
-    }
-
-    public void setNikeWidth(int nikeWidth) {
-        this.nikeWidth = nikeWidth;
     }
 
     public boolean isDownAvatarNoWifi() {
@@ -171,30 +160,6 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public void setMaterialMode(boolean materialMode) {
         this.materialMode = materialMode;
-    }
-
-    public boolean isNotification() {
-        return notification;
-    }
-
-    public void setNotification(boolean notification) {
-        this.notification = notification;
-    }
-
-    public boolean isNotificationSound() {
-        return notificationSound;
-    }
-
-    public void setNotificationSound(boolean notificationSound) {
-        this.notificationSound = notificationSound;
-    }
-
-    public long getLastMessageCheck() {
-        return lastMessageCheck;
-    }
-
-    public void setLastMessageCheck(long lastMessageCheck) {
-        this.lastMessageCheck = lastMessageCheck;
     }
 
     public String getCid() {

@@ -15,10 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.UserRecycleListAdapter;
 import sp.phone.mvp.contract.LoginContract;
 
-public class LoginFragment extends MaterialCompatFragment implements View.OnClickListener,LoginContract.View {
+public class LoginFragment extends MaterialCompatFragment implements View.OnClickListener, LoginContract.View {
 
     private EditText mPasswordView;
 
@@ -41,7 +40,7 @@ public class LoginFragment extends MaterialCompatFragment implements View.OnClic
         rootView.findViewById(R.id.login_button).setOnClickListener(this);
         RecyclerView listView = (RecyclerView) rootView.findViewById(R.id.user_list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.setAdapter(new UserRecycleListAdapter(getContext(),this,listView));
+        //  listView.setAdapter(new UserRecycleListAdapter(getContext(),this,listView));
         return rootView;
     }
 
@@ -59,7 +58,7 @@ public class LoginFragment extends MaterialCompatFragment implements View.OnClic
                 mPresenter.loadAuthCode();
                 break;
             case R.id.login_button:
-                mPresenter.login(mUserNameView.getText().toString(),mPasswordView.getText().toString(),mAuthCodeView.getText().toString());
+                mPresenter.login(mUserNameView.getText().toString(), mPasswordView.getText().toString(), mAuthCodeView.getText().toString());
                 break;
             case R.id.user_name:
                 mUserNameView.setText(((TextView) v).getText());

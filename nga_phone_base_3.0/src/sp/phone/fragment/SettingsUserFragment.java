@@ -50,7 +50,7 @@ public class SettingsUserFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
 
-        mListAdapter = new UserListAdapter(getContext());
+        mListAdapter = new UserListAdapter(getContext(),mUserManager.getUserList());
         mListAdapter.setOnClickListener(this);
 
         mListView = view.findViewById(R.id.list);

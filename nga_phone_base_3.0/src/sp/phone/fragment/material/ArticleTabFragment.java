@@ -29,6 +29,7 @@ import gov.anzong.androidnga.Utils;
 import io.reactivex.annotations.NonNull;
 import sp.phone.adapter.ArticlePagerAdapter;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.dialog.GotoDialogFragment;
@@ -100,7 +101,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if (PhoneConfiguration.getInstance().isShownBottomTab()) {
+        if (mConfig.getBoolean(PreferenceKey.BOTTOM_TAB)) {
             return inflater.inflate(R.layout.fragment_article_tab_bottom, container, false);
         } else {
             return inflater.inflate(R.layout.fragment_article_tab, container, false);
@@ -120,7 +121,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     }
 
     private void updateFloatingMenu() {
-        if (PhoneConfiguration.getInstance().isLeftHandMode()) {
+        if (mConfig.getBoolean(PreferenceKey.LEFT_HAND)) {
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
             lp.gravity = Gravity.START | Gravity.BOTTOM;
             mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);

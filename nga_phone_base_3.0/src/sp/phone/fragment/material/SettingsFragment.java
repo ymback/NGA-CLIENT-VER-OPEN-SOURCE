@@ -144,16 +144,17 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.MATERIAL_THEME:
                 sp.edit().putString(PreferenceKey.MATERIAL_THEME, (String) newValue).apply();
                 ThemeManager.getInstance().setTheme(Integer.parseInt((String) newValue));
+                mConfiguration.putData(key, Integer.parseInt((String) newValue));
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;
             case PreferenceKey.BOTTOM_TAB:
                 sp.edit().putBoolean(PreferenceKey.BOTTOM_TAB, (Boolean) newValue).apply();
-                mConfiguration.setShowBottomTab((Boolean) newValue);
+                mConfiguration.putData(key, (Boolean) newValue);
                 break;
             case PreferenceKey.LEFT_HAND:
                 sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
-                mConfiguration.setLeftHandMode((Boolean) newValue);
+                mConfiguration.putData(key, (Boolean) newValue);
                 break;
 
             case PreferenceKey.HARDWARE_ACCELERATED:

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.alibaba.fastjson.JSON;
@@ -57,7 +56,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
         super.onCreate();
     }
 
-
     private void initPath() {
         File baseDir = getExternalCacheDir();
         if (baseDir != null)
@@ -88,17 +86,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
         config.setDb_Cookie(share.getString(DBCOOKIE, ""));
     }
 
-    @Deprecated
-    public void addToUserList(String uid, String cid, String name,
-                              String replyString, int replytotalnum, String blacklist) {
-        UserManagerImpl.getInstance().addUser(uid, cid, name, replyString, replytotalnum, blacklist);
-    }
-
-    @Deprecated
-    public void upgradeUserdata(String blacklist) {
-        UserManagerImpl.getInstance().setBlackList(blacklist);
-    }
-
     public void addToMeiziUserList(String uid, String sess) {
         SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
         String cookie = "uid=" + uid + "; sess=" + sess;
@@ -107,14 +94,8 @@ public class NgaClientApp extends Application implements PreferenceKey {
     }
 
     private void loadConfig() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        ThemeManager tm = ThemeManager.getInstance();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
-
-        tm.setTheme(Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0")));
-        config.setShowBottomTab(sp.getBoolean(PreferenceKey.BOTTOM_TAB, false));
-        config.setLeftHandMode(sp.getBoolean(PreferenceKey.LEFT_HAND, false));
 
         SharedPreferences share = getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);
@@ -190,19 +171,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
 
         config.nikeWidth = share.getInt(NICK_WIDTH, 100);
 
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            int flag = share.getInt(UI_FLAG, 0);
-//            if ((config.getUiFlag() & UI_FLAG_HA) != 0) {
-//                flag = flag & ~UI_FLAG_HA;
-//                Editor editor = share.edit();
-//                editor.putInt(UI_FLAG, flag);
-//                editor.apply();
-//            }
-//            PhoneConfiguration.getInstance().setUiFlag(flag);
-//        } else {
-//            int uiFlag = share.getInt(UI_FLAG, 0);
-//            config.setUiFlag(uiFlag);
-//        }
         config.setUiFlag(0);
 
     }
