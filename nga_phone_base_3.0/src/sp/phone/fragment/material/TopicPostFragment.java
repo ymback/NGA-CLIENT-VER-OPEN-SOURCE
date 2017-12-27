@@ -56,9 +56,9 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
     @Override
     public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_topic_post,container,false);
-        mTitleEditText = (EditText) rootView.findViewById(R.id.reply_titile_edittext);
-        mBodyEditText = (EditText) rootView.findViewById(R.id.reply_body_edittext);
-        mAnonyCheckBox = (CheckBox) rootView.findViewById(R.id.anony);
+        mTitleEditText = rootView.findViewById(R.id.reply_titile_edittext);
+        mBodyEditText = rootView.findViewById(R.id.reply_body_edittext);
+        mAnonyCheckBox = rootView.findViewById(R.id.anony);
         return rootView;
     }
 

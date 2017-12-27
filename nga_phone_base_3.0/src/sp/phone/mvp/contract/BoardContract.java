@@ -2,11 +2,11 @@ package sp.phone.mvp.contract;
 
 import java.util.List;
 
-import sp.phone.bean.User;
+import sp.phone.common.User;
 import sp.phone.mvp.contract.tmp.BaseContract;
 
 /**
- * Created by Yang Yihang on 2017/6/29.
+ * Created by Justwen on 2017/6/29.
  */
 
 public interface BoardContract {

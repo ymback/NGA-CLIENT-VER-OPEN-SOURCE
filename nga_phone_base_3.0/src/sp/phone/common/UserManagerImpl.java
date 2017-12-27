@@ -11,6 +11,9 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+
+import sp.phone.utils.StringUtils;
 
 import static sp.phone.common.PreferenceKey.PERFERENCE;
 import static sp.phone.common.PreferenceKey.USER_ACTIVE_INDEX;
@@ -94,8 +97,17 @@ public class UserManagerImpl implements UserManager {
                 newUser.setReplyCount(user.getReplyTotalNum());
                 newUser.setReplyString(user.getReplyString());
                 mUserList.add(newUser);
+                String blackListStr = user.getBlackList();
+                Set<Integer> blackSet = StringUtils.blackListStringToHashset(blackListStr);
+                for (Integer userId : blackSet) {
+                    User user1 = new User(userId.toString(), userId.toString());
+                    mBlackList.add(user1);
+                }
+
             }
-            mPrefs.edit().putString(PreferenceKey.USER_LIST, JSON.toJSONString(mUserList)).putInt(USER_ACTIVE_INDEX, mActiveIndex).apply();
+            mPrefs.edit().putString(PreferenceKey.USER_LIST, JSON.toJSONString(mUserList))
+                    .putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList))
+                    .putInt(USER_ACTIVE_INDEX, mActiveIndex).apply();
         }
     }
 

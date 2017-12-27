@@ -30,6 +30,11 @@ public class User {
         mCid = cid;
     }
 
+    public User(@NonNull String userId, String nickName) {
+        mUserId = userId;
+        mNickName = nickName;
+    }
+
     public String getAvatarUrl() {
         return mAvatarUrl;
     }

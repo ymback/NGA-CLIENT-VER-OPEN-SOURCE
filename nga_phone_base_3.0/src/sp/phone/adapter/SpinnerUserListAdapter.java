@@ -1,21 +1,18 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import sp.phone.common.PreferenceKey;
-import sp.phone.bean.User;
-import sp.phone.utils.StringUtils;
+import sp.phone.common.User;
+import sp.phone.common.UserManager;
+import sp.phone.common.UserManagerImpl;
 
 public class SpinnerUserListAdapter extends BaseAdapter
         implements PreferenceKey {
@@ -25,19 +22,8 @@ public class SpinnerUserListAdapter extends BaseAdapter
     public SpinnerUserListAdapter(Context context) {
         super();
         this.context = context;
-        SharedPreferences share = context.getSharedPreferences(PERFERENCE,
-                Context.MODE_PRIVATE);
-
-        String userListString = share.getString(USER_LIST, "");
-
-
-        //new ArrayList<User>();
-        if (StringUtils.isEmpty(userListString)) {
-            userList = new ArrayList<User>();
-        } else {
-            userList = JSON.parseArray(userListString, User.class);
-        }
-
+        UserManager um = UserManagerImpl.getInstance();
+        userList = um.getUserList();
     }
 
 
