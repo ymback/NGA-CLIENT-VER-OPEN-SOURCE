@@ -21,6 +21,7 @@ import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.listener.ClientListener;
 import sp.phone.listener.MyListenerForReply;
 import sp.phone.utils.ArticleListWebClient;
@@ -225,6 +226,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                     .onlyRetrieveFromCache(!downImg)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(avatarIV);
+            UserManagerImpl.getInstance().setAvatarUrl(row.getAuthorid(),avatarUrl);
         }
     }
 

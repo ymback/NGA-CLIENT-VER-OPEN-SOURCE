@@ -36,6 +36,8 @@ public interface UserManager {
 
     String getUserName();
 
+    void setAvatarUrl(int userId,String url);
+
     // 被喷
 
     int getReplyCount();

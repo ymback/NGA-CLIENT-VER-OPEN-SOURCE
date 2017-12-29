@@ -140,6 +140,29 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public void setAvatarUrl(int userId, String url) {
+        for (User user : mBlackList) {
+            if (user.getUserId().equals(String.valueOf(userId))) {
+                if (user.getAvatarUrl() == null) {
+                    user.setAvatarUrl(url);
+                    commit();
+                }
+                return;
+            }
+        }
+
+        for (User user : mUserList) {
+            if (user.getUserId().equals(String.valueOf(userId))) {
+                if (user.getAvatarUrl() == null) {
+                    user.setAvatarUrl(url);
+                    commit();
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
     public String getUserId() {
         User user = getActiveUser();
         return user != null ? user.getUserId() : "";
@@ -223,8 +246,10 @@ public class UserManagerImpl implements UserManager {
     }
 
     private void commit() {
-        String userListString = JSON.toJSONString(mUserList);
-        mPrefs.edit().putString(PreferenceKey.USER_LIST, userListString).apply();
+        mPrefs.edit()
+                .putString(PreferenceKey.USER_LIST, JSON.toJSONString(mUserList))
+                .putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList))
+                .apply();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +9,17 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.utils.ImageUtil;
 
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
@@ -30,8 +31,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     private View.OnClickListener mOnClickListener;
 
     private UserManager mUserManager;
-
-    private Bitmap mDefaultAvatar;
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
 
@@ -54,7 +53,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         mContext = context;
         mUserManager = UserManagerImpl.getInstance();
         mUserList = userList;
-        mDefaultAvatar = ImageUtil.loadDefaultAvatar();
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
@@ -67,16 +65,22 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         UserViewHolder holder = new UserViewHolder(convertView);
         holder.itemView.setOnClickListener(mOnClickListener);
         holder.checkView.setOnClickListener(mOnClickListener);
-        holder.avatarView.setImageBitmap(mDefaultAvatar);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
-        holder.userNameView.setText(mUserList.get(position).getNickName());
+        User user = mUserList.get(position);
+        holder.userNameView.setText(user.getNickName());
         holder.checkView.setChecked(mUserManager.getActiveUserIndex() == position);
         holder.itemView.setTag(position);
         holder.checkView.setTag(position);
+        String avatarUrl = user.getAvatarUrl();
+        GlideApp.with(mContext)
+                .load(avatarUrl)
+                .placeholder(R.drawable.default_avatar)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into(holder.avatarView);
     }
 
     @Override
