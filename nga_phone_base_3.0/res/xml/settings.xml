@@ -25,14 +25,14 @@
             android:key="down_load_without_wifi"
             android:title="@string/nowifi_downimg"/>
 
-        <android.preference.ListCompatPreference
-            android:defaultValue="0"
-            android:dependency="down_load_without_wifi"
-            android:dialogTitle="@string/image_quality_chooser_prompt"
-            android:entries="@array/image_quality_option"
-            android:entryValues="@array/image_quality_option_value"
-            android:key="download_img_quality_without_wifi"
-            android:title="@string/image_quality_info"/>
+        <!--<android.preference.ListCompatPreference-->
+            <!--android:defaultValue="0"-->
+            <!--android:dependency="down_load_without_wifi"-->
+            <!--android:dialogTitle="@string/image_quality_chooser_prompt"-->
+            <!--android:entries="@array/image_quality_option"-->
+            <!--android:entryValues="@array/image_quality_option_value"-->
+            <!--android:key="download_img_quality_without_wifi"-->
+            <!--android:title="@string/image_quality_info"/>-->
 
         <android.preference.SwitchCompatPreference
             android:defaultValue="false"
@@ -127,15 +127,15 @@
             android:key="left_hand"
             android:title="@string/setting_title_left_hand"/>
 
-        <SwitchCompatPreference
-            android:defaultValue="false"
-            android:key="showStatic"
-            android:title="@string/show_static"/>
+        <!--<SwitchCompatPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="showStatic"-->
+            <!--android:title="@string/show_static"/>-->
 
-        <SwitchCompatPreference
-            android:defaultValue="true"
-            android:key="showLajibankuai"
-            android:title="@string/show_lajibankuai"/>
+        <!--<SwitchCompatPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="showLajibankuai"-->
+            <!--android:title="@string/show_lajibankuai"/>-->
 
         <SwitchCompatPreference
             android:defaultValue="true"

@@ -31,7 +31,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean downImgNoWifi;
     public boolean iconmode;
     public boolean refresh_after_post_setting_mode = true;
-    public int imageQuality = 0;    //0 = original, 1 = small, 2= medium, 3 = large
     public int swipeenablePosition = 2;    //0 = left, 1 = right, 2= L&R, 3 = L&R&B
     public int HandSide = 0;    //0 = right, 1 = left
     public int blackgunsound = 0;    //0 = right, 1 = left
@@ -40,15 +39,11 @@ public class PhoneConfiguration implements PreferenceKey {
     public long lastMessageCheck = 0;
     public boolean showAnimation = false;
     public boolean showSignature = true;
-    public boolean useViewCache;
     public Location location = null;
     public boolean uploadLocation = false;
-    public boolean showStatic = false;
     public boolean showReplyButton = true;
     public boolean swipeBack = true;
     public boolean showColortxt = false;
-    public boolean showNewweiba = false;
-    public boolean showLajibankuai = true;
     public boolean fullscreen = false;
     public boolean kitwebview = false;
     public boolean materialMode;

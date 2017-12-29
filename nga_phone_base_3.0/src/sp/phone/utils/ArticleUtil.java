@@ -153,11 +153,12 @@ public class ArticleUtil {
     }
 
     public static int showImageQuality() {
-        if (NetUtil.getInstance().isInWifi()) {
-            return 0;
-        } else {
-            return PhoneConfiguration.getInstance().imageQuality;
-        }
+        return 0;
+//        if (NetUtil.getInstance().isInWifi()) {
+//            return 0;
+//        } else {
+//            return PhoneConfiguration.getInstance().imageQuality;
+//        }
     }
 
     private boolean isShowImage() {

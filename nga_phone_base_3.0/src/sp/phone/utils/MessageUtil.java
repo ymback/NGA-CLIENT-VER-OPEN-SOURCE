@@ -37,11 +37,12 @@ public class MessageUtil {
     }
 
     public static int showImageQuality() {
-        if (isInWifi()) {
-            return 0;
-        } else {
-            return PhoneConfiguration.getInstance().imageQuality;
-        }
+        return 0;
+//        if (isInWifi()) {
+//            return 0;
+//        } else {
+//            return PhoneConfiguration.getInstance().imageQuality;
+//        }
     }
 
     private boolean isShowImage() {

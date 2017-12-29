@@ -18,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.SettingsSubActivity;
@@ -81,9 +80,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String key = preference.getKey();
         switch (key) {
-            case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
-                mConfiguration.imageQuality = Integer.parseInt((String) newValue);
-                break;
             case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
                 mConfiguration.setDownImgNoWifi((Boolean) newValue);
                 break;
@@ -128,12 +124,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 break;
             case PreferenceKey.SHOW_SIGNATURE:
                 mConfiguration.showSignature = (boolean) newValue;
-                break;
-            case PreferenceKey.SHOW_STATIC:
-                mConfiguration.showStatic = (boolean) newValue;
-                break;
-            case PreferenceKey.SHOW_LAJIBANKUAI:
-                mConfiguration.showLajibankuai = (boolean) newValue;
                 break;
             case PreferenceKey.SHOW_REPLYBUTTON:
                 mConfiguration.showReplyButton = (boolean) newValue;
@@ -285,9 +275,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         switch (preference.getKey()) {
-            case PreferenceKey.DOWNLOAD_IMG_QUALITY_NO_WIFI:
-                Toast.makeText(mContext, R.string.image_quality_claim, Toast.LENGTH_SHORT).show();
-                break;
             case PhoneConfiguration.ADJUST_SIZE:
                 FragmentManager fm = getActivity().getFragmentManager();
                 fm.beginTransaction().hide(this).add(R.id.container, new SettingsSizeFragment()).addToBackStack(null).commit();

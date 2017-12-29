@@ -807,11 +807,12 @@ public class FunctionUtils {
     }
 
     public static int showImageQuality() {
-        if (NetUtil.getInstance().isInWifi()) {
-            return 0;
-        } else {
-            return PhoneConfiguration.getInstance().imageQuality;
-        }
+        return 0;
+//        if (NetUtil.getInstance().isInWifi()) {
+//            return 0;
+//        } else {
+//            return PhoneConfiguration.getInstance().imageQuality;
+//        }
     }
 
     public static String signatureToHtmlText(final ThreadRowInfo row,

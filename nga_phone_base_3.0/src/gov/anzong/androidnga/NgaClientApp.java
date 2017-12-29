@@ -114,15 +114,10 @@ public class NgaClientApp extends Application implements PreferenceKey {
 
         config.showAnimation = share.getBoolean(SHOW_ANIMATION, false);
         config.refresh_after_post_setting_mode = share.getBoolean(REFRESH_AFTERPOST_SETTING_MODE, true);
-        config.useViewCache = share.getBoolean(USE_VIEW_CACHE, true);
         config.showSignature = share.getBoolean(SHOW_SIGNATURE, false);
         config.uploadLocation = share.getBoolean(UPLOAD_LOCATION, false);
-        config.showStatic = share.getBoolean(SHOW_STATIC, false);
         config.showReplyButton = share.getBoolean(SHOW_REPLYBUTTON, true);
         config.showColortxt = share.getBoolean(SHOW_COLORTXT, false);
-        config.showNewweiba = share.getBoolean(SHOW_NEWWEIBA, false);
-        config.showLajibankuai = share.getBoolean(SHOW_LAJIBANKUAI, true);
-        config.imageQuality = share.getInt(DOWNLOAD_IMG_QUALITY_NO_WIFI, 0);
         config.HandSide = share.getInt(HANDSIDE, 0);
         config.fullscreen = share.getBoolean(FULLSCREENMODE, false);
         config.kitwebview = share.getBoolean(KITWEBVIEWMODE, false);
