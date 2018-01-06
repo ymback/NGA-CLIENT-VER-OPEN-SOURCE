@@ -36,8 +36,12 @@ public class TopicConvertFactory {
                 if (tBean == null) {
                     count++;
                     continue;
-                } else if (tBean.getParent() != null && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)) {
-                    NLog.d("屏蔽小版块帖子 " + tBean.getSubject());
+                } else if (tBean.getParent() != null
+                        // 暂时只对水区有效
+                        && topicListBean.getData().get__F() != null
+                        && topicListBean.getData().get__F().getFid() == -7
+                        && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)) {
+                    NLog.d("屏蔽子版块帖子 " + tBean.getSubject());
                     count++;
                     continue;
                 }

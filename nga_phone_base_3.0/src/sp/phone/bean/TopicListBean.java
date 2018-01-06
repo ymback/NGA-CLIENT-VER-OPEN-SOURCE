@@ -181,6 +181,15 @@ public class TopicListBean {
 
             private String topped_topic;
             private String sub_forums;
+            private int fid;
+
+            public int getFid() {
+                return fid;
+            }
+
+            public void setFid(int fid) {
+                this.fid = fid;
+            }
 
             public String getTopped_topic() {
                 return topped_topic;
