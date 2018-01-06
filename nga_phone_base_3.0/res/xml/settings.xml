@@ -20,7 +20,7 @@
         android:key="picshowtitle"
         android:title="@string/setting_picshow">
 
-        <android.preference.SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="down_load_without_wifi"
             android:title="@string/nowifi_downimg"/>
@@ -34,7 +34,7 @@
             <!--android:key="download_img_quality_without_wifi"-->
             <!--android:title="@string/image_quality_info"/>-->
 
-        <android.preference.SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="download_avatar_nowifi"
             android:title="@string/download_avatar_nowifi"/>
@@ -46,17 +46,17 @@
         android:key="optiontitle"
         android:title="@string/setting_option">
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="showColortxt"
             android:title="@string/color_txt"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="refresh_after_post_setting_mode"
             android:title="@string/refresh_after_post_setting_mode"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="swipeback"
             android:title="@string/swipeback"/>
@@ -70,7 +70,7 @@
             android:key="SwipeBackPosition"
             android:title="@string/swipeback_hand"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="fullscreen"
             android:title="@string/fullscreenmode"/>
@@ -80,12 +80,12 @@
             android:key="sort_by_post"
             android:title="@string/setting_title_sort_by_post"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="enableNotification"
             android:title="@string/notification_on"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:dependency="enableNotification"
             android:key="notificationSound"
@@ -107,17 +107,17 @@
         android:key="uishowtitle"
         android:title="@string/setting_uishow">
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="nightmode"
             android:title="@string/nightmode"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="showiconmode"
             android:title="@string/iconmode"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="showSignature"
             android:title="@string/showSignature"/>
@@ -127,17 +127,16 @@
             android:key="left_hand"
             android:title="@string/setting_title_left_hand"/>
 
-        <!--<SwitchCompatPreference-->
+        <!--<SwitchPreference-->
             <!--android:defaultValue="false"-->
             <!--android:key="showStatic"-->
             <!--android:title="@string/show_static"/>-->
 
-        <!--<SwitchCompatPreference-->
-            <!--android:defaultValue="true"-->
-            <!--android:key="showLajibankuai"-->
-            <!--android:title="@string/show_lajibankuai"/>-->
+        <SwitchPreference
+            android:key="filter_sub_board"
+            android:title="@string/setting_title_filter_sub_board"/>
 
-        <SwitchCompatPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="showReplyButton"
             android:title="@string/addreplybutton"/>
@@ -146,11 +145,6 @@
             android:defaultValue="false"
             android:key="bottom_tab"
             android:title="@string/setting_title_bottom_tab"/>
-
-        <android.preference.SwitchCompatPreference
-            android:defaultValue="true"
-            android:key="material_mode"
-            android:title="@string/setting_title_material_mode"/>
 
         <SwitchPreference
             android:defaultValue="true"

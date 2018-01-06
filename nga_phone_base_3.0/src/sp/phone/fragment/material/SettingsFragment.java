@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
@@ -39,6 +40,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mContext = getActivity();
         super.onCreate(savedInstanceState);
+        getPreferenceManager().setSharedPreferencesName(PreferenceKey.PERFERENCE);
         addPreferencesFromResource(R.xml.settings);
         mapping(getPreferenceScreen());
         configPreference();
@@ -51,9 +53,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mapping((PreferenceGroup) preference);
             } else {
                 preference.setOnPreferenceChangeListener(this);
+//                if (preference instanceof ListPreference) {
+//                    preference.setSummary(((ListPreference) preference).getEntry());
+//                }
             }
         }
     }
+
 
     private void configPreference() {
         if (ThemeManager.getInstance().isNightMode()) {
@@ -78,6 +84,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if (preference instanceof ListPreference) {
+            preference.setSummary(((ListPreference) preference).getEntry());
+        }
+
         String key = preference.getKey();
         switch (key) {
             case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
@@ -158,8 +169,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 break;
 
             case PreferenceKey.SORT_BY_POST:
+            case PreferenceKey.FILTER_SUB_BOARD:
                 sp.edit().putBoolean(key, (Boolean) newValue).apply();
-                mConfiguration.putData(PreferenceKey.SORT_BY_POST, (boolean) newValue);
+                mConfiguration.putData(key, (boolean) newValue);
                 break;
         }
         return true;

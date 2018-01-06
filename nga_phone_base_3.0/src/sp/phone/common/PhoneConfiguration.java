@@ -89,6 +89,7 @@ public class PhoneConfiguration implements PreferenceKey {
         mBooleanMap.put(PreferenceKey.HARDWARE_ACCELERATED, sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true));
         mBooleanMap.put(PreferenceKey.BOTTOM_TAB, sp.getBoolean(PreferenceKey.BOTTOM_TAB, false));
         mBooleanMap.put(PreferenceKey.LEFT_HAND, sp.getBoolean(PreferenceKey.LEFT_HAND, false));
+        mBooleanMap.put(PreferenceKey.FILTER_SUB_BOARD,sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD,false));
     }
 
     private void initIntegerMap(SharedPreferences sp) {
@@ -144,7 +145,7 @@ public class PhoneConfiguration implements PreferenceKey {
     }
 
     public boolean isMaterialMode() {
-        return materialMode;
+        return true;
     }
 
     public void setMaterialMode(boolean materialMode) {
@@ -181,25 +182,6 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public int getUiFlag() {
         return uiFlag;
-    }
-
-    public void setUiFlag(int uiFlag) {
-        this.uiFlag = uiFlag;
-        topicActivityClass = TopicListActivity.class;
-        articleActivityClass = ArticleListActivity.class;
-        nonameArticleActivityClass = NonameArticleListActivity.class;
-        messageDetialActivity = MessageDetailActivity.class;
-        postActivityClass = PostActivity.class;
-        signPostActivityClass = SignPostActivity.class;
-        messagePostActivityClass = MessagePostActivity.class;
-        signActivityClass = FlexibleSignActivity.class;
-        profileActivityClass = FlexibleProfileActivity.class;
-        recentReplyListActivityClass = RecentReplyListActivity.class;
-        MeiziMainActivityClass = MeiziMainActivity.class;
-        MeiziTopicActivityClass = MeiziTopicActivity.class;
-        messageActivityClass = MessageListActivity.class;
-        nonameActivityClass = FlexibleNonameTopicListActivity.class;
-        nonamePostActivityClass = NonamePostActivity.class;
     }
 }
 

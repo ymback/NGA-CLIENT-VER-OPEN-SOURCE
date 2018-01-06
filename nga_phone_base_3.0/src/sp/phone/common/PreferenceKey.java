@@ -75,4 +75,6 @@ public interface PreferenceKey {
     String PREF_BLACK_LIST = "pref_black_list";
 
     String PREF_USER = "pref_user";
+
+    String FILTER_SUB_BOARD = "filter_sub_board";
 }

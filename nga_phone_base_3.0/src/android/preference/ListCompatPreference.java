@@ -7,8 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import sp.phone.common.PreferenceKey;
-
 
 public class ListCompatPreference extends ListPreference {
 
@@ -21,15 +19,9 @@ public class ListCompatPreference extends ListPreference {
     }
 
     @Override
-    protected void onAttachedToHierarchy(PreferenceManager preferenceManager) {
-        preferenceManager.setSharedPreferencesName(PreferenceKey.PERFERENCE);
-        super.onAttachedToHierarchy(preferenceManager);
-    }
-
-    @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        TextView summaryView = (TextView) view.findViewById(android.R.id.summary);
+        TextView summaryView = view.findViewById(android.R.id.summary);
         summaryView.setVisibility(View.VISIBLE);
         summaryView.setText(getEntry());
     }

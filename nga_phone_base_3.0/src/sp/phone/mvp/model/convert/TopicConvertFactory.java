@@ -36,6 +36,10 @@ public class TopicConvertFactory {
                 if (tBean == null) {
                     count++;
                     continue;
+                } else if (tBean.getParent() != null && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)) {
+                    NLog.d("屏蔽小版块帖子 " + tBean.getSubject());
+                    count++;
+                    continue;
                 }
                 ThreadPageInfo pageInfo = new ThreadPageInfo();
                 String author = tBean.getAuthor();
