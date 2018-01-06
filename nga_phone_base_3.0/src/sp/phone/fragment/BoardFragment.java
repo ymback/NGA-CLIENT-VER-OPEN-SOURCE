@@ -6,12 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,16 +31,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import java.io.File;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+
 import java.lang.reflect.Field;
+import java.security.MessageDigest;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
+import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.adapter.BoardPagerAdapter;
-import sp.phone.bean.AvatarTag;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
@@ -52,7 +52,6 @@ import sp.phone.fragment.dialog.LoginDialogFragment;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 
 
@@ -72,6 +71,8 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     private TextView mReplyCountView;
 
     private BoardPagerAdapter mBoardPagerAdapter;
+
+    private Drawable mDefaultAvatar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -276,78 +277,37 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             if (userList.size() > 0) {
                 User user = userList.get(position);
                 loginId.setText("当前:" + user.getNickName() + "(" + user.getUserId() + ")");
-                handleUserAvatar(avatarImage, user.getUserId());
+                handleUserAvatar(avatarImage, user.getAvatarUrl());
             }
         }
         return privateView;
     }
 
-    public void handleUserAvatar(ImageView avatarIV, String userId) {// 绝无问题
-        Bitmap bitmap = null;
-        if (PhoneConfiguration.getInstance().nikeWidth < 3) {
-            return;
+    public void handleUserAvatar(ImageView avatarIV, String url) {
+        if (mDefaultAvatar == null) {
+            Bitmap defaultAvatar = BitmapFactory.decodeResource(getResources(), R.drawable.default_avatar);
+            mDefaultAvatar = new BitmapDrawable(getResources(), ImageUtil.toRoundCorner(defaultAvatar, 2));
         }
-        Object tagObj = avatarIV.getTag();
-        if (tagObj instanceof AvatarTag) {
-            AvatarTag origTag = (AvatarTag) tagObj;
-            if (!origTag.isDefault) {
-                ImageUtil.recycleImageView(avatarIV);
-            }
-        }
-        AvatarTag tag = new AvatarTag(Integer.parseInt(userId), true);
-        avatarIV.setTag(tag);
-        String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId;
-        String[] extension = {".jpg", ".png", ".gif", ".jpeg", ".bmp"};
-        for (int i = 0; i < 5; i++) {
-            File f = new File(avatarPath + extension[i]);
-            if (f.exists()) {
-                bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath
-                        + extension[i]);
-                if (bitmap == null) {
-                    f.delete();
-                }
-                long date = f.lastModified();
-                if ((System.currentTimeMillis() - date) / 1000 > 30 * 24 * 3600) {
-                    f.delete();
-                }
-                break;
-            }
-        }
-        if (bitmap != null) {
-            avatarIV.setImageTintList(null);
-            avatarIV.setImageBitmap(toRoundCorner(bitmap, 2));
-            tag.isDefault = false;
-        } else {
-            tag.isDefault = true;
-        }
-    }
 
-    public Bitmap toRoundCorner(Bitmap bitmap, float ratio) { // 绝无问题
-        if (bitmap.getWidth() > bitmap.getHeight()) {
-            bitmap = Bitmap.createBitmap(bitmap,
-                    (bitmap.getWidth() - bitmap.getHeight()) / 2, 0,
-                    bitmap.getHeight(), bitmap.getHeight());
-        } else if (bitmap.getWidth() < bitmap.getHeight()) {
-            bitmap = Bitmap.createBitmap(bitmap, 0,
-                    (bitmap.getHeight() - bitmap.getWidth()) / 2,
-                    bitmap.getWidth(), bitmap.getWidth());
-        }
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
+        avatarIV.setImageTintList(null);
+        GlideApp.with(this)
+                .load(url)
+                .placeholder(mDefaultAvatar)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .transforms(new BitmapTransformation() {
+                    @Override
+                    protected Bitmap transform(@NonNull BitmapPool bitmapPool, @NonNull Bitmap bitmap, int i, int i1) {
+                        Bitmap roundBitmap = ImageUtil.toRoundCorner(bitmap, 2);
+                        bitmapPool.put(roundBitmap);
+                        return roundBitmap;
+                    }
 
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
+                    @Override
+                    public void updateDiskCacheKey(MessageDigest messageDigest) {
 
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawRoundRect(rectF, bitmap.getWidth() / ratio,
-                bitmap.getHeight() / ratio, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return output;
+                    }
+                })
+                .into(avatarIV);
     }
 
     @Override

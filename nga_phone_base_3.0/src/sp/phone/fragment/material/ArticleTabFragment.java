@@ -239,11 +239,11 @@ public class ArticleTabFragment extends BaseRxFragment {
             }
         } else if (requestCode == ActivityUtils.REQUEST_CODE_JUMP_PAGE) {
             if (data.hasExtra("page")) {
-                mViewPager.setCurrentItem(data.getIntExtra("page",0));
+                mViewPager.setCurrentItem(data.getIntExtra("page", 0));
             } else {
-                int floor = data.getIntExtra("floor",0);
+                int floor = data.getIntExtra("floor", 0);
                 mViewPager.setCurrentItem(floor / 20);
-                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_GO_FLOOR,mViewPager.getCurrentItem(), floor % 20));
+                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_GO_FLOOR, mViewPager.getCurrentItem(), floor % 20));
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

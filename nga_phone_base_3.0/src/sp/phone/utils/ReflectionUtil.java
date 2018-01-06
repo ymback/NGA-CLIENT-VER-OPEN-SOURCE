@@ -1,12 +1,6 @@
 package sp.phone.utils;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView.OnItemClickListener;
-
-import java.lang.reflect.Method;
 
 public class ReflectionUtil {
     public static boolean actionBar_setDisplayOption(AppCompatActivity activity, int flags) {
@@ -30,45 +24,4 @@ public class ReflectionUtil {
         return ret;
 
     }
-
-    public static boolean view_setGravity(View v,
-                                          int flags) {
-        boolean ret = true;
-        String methodName = "setGravity";
-        Method setMethod;
-        try {//
-            setMethod = v.getClass().getMethod(methodName, int.class);
-            setMethod.invoke(v, flags);
-        } catch (Exception e) {
-            NLog.i(v.getClass().getSimpleName(), "fail to set gravity");
-        }
-        return ret;
-    }
-
-    public static void setShowAsAction(MenuItem item, int actionEnum) {
-        final String methodName = "setShowAsAction";
-        Method setMethod;
-        try {//
-            setMethod = MenuItem.class.getMethod(methodName, int.class);
-            setMethod.invoke(item, actionEnum);
-        } catch (Exception e) {
-            NLog.i(MenuItem.class.getSimpleName(), "fail to setShowAsAction");
-        }
-
-    }
-
-    public static OnItemClickListener getOnItemClickListener(Object o) {
-        OnItemClickListener listener = null;
-        try {
-
-            Method m = o.getClass().getMethod("getOnItemClickListener");
-            listener = (OnItemClickListener) m.invoke(o);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return listener;
-    }
-
 }
