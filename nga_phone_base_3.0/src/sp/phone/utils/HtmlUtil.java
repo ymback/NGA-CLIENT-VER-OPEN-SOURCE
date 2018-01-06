@@ -1,7 +1,6 @@
 package sp.phone.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.File;
 import java.util.HashSet;
@@ -15,6 +14,7 @@ import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 
 /**
@@ -196,7 +196,7 @@ public class HtmlUtil {
         ret.append("<tbody>");
 
         Iterator<ThreadRowInfo> it = row.getComments().iterator();
-        final boolean downImg = NetUtil.getInstance().isInWifi() || PhoneConfiguration.getInstance().isDownAvatarNoWifi();
+        final boolean downImg = NetUtil.getInstance().isInWifi() || PhoneConfiguration.getInstance().getBoolean(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI);
         while (it.hasNext()) {
             ThreadRowInfo comment = it.next();
             ret.append("<tr><td>");
@@ -245,7 +245,7 @@ public class HtmlUtil {
                                          int imageQuality) {
         if (row == null || row.getSignature() == null
                 || row.getSignature().length() == 0
-                || !PhoneConfiguration.getInstance().showSignature) {
+                || !PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SHOW_SIGNATURE)) {
             return "";
         }
         return "<br/></br>"

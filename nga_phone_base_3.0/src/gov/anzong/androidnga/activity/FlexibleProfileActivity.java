@@ -168,11 +168,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 
     void refresh() {
         JsonProfileLoadTask task = new JsonProfileLoadTask(this, this);
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            refresh_saying();
-        } else {
             ActivityUtils.getInstance().noticeSaying(this);
-        }
         task.execute(params);
     }// 读取JSON了
 
@@ -518,8 +514,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
@@ -550,8 +545,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
@@ -581,8 +575,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
@@ -654,12 +647,12 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.get_avatar());//
         final String userId = String.valueOf(row.get_uid());
-        if (PhoneConfiguration.getInstance().nikeWidth < 3) {
+        if (PhoneConfiguration.getInstance().getInt(PreferenceKey.NICK_WIDTH) < 3) {
             avatarIV.setImageBitmap(null);
             return;
         }
         if (defaultAvatar == null
-                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
+                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().getInt(PreferenceKey.NICK_WIDTH)) {
             Resources res = avatarIV.getContext().getResources(); InputStream is = res.openRawResource(R.drawable.default_avatar);
             InputStream is2 = res.openRawResource(R.drawable.default_avatar);
             this.defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
@@ -749,9 +742,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
             setRequestedOrientation(orentation);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
         }
         if (!StringUtils.isEmpty(trueusername)) {
             if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {

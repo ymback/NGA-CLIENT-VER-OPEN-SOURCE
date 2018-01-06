@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
-import sp.phone.utils.ActivityUtils;
 
 /**
  * Created by GDB437 on 9/3/13,nga_phone_base_3.0
@@ -30,10 +28,8 @@ public class ActionBarUserListAdapter extends SpinnerUserListAdapter {
         ((TextView) convertView).setText(userList.get(position).getNickName());
 
 
-        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtils.supportMaterialMode(context)){
-            convertView.setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(context));
-            ((TextView) convertView).setTextColor(ContextCompat.getColor(context,R.color.toolbar_text_color));
-        }
+        convertView.setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(context));
+        ((TextView) convertView).setTextColor(ContextCompat.getColor(context,R.color.toolbar_text_color));
         return convertView;
     }
 

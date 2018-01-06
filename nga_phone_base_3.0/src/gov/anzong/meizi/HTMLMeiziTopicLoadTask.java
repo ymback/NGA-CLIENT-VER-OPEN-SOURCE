@@ -14,6 +14,7 @@ import java.util.Locale;
 
 import gov.anzong.meizi.MeiziTopicMData.ContentItemType;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
+import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -41,7 +42,7 @@ public class HTMLMeiziTopicLoadTask extends
         String url = params[0];
         String htmlString;
         htmlString = MeiziHttpUtil.getHtmlFormeizi(url, PhoneConfiguration
-                .getInstance().getDb_Cookie());
+                .getInstance().getString(PreferenceKey.MEIZI_COOLIE));
         if (!StringUtils.isEmpty(htmlString)) {
             MeiziTopicMData resulTopicM = null;
             if (url.toLowerCase(Locale.US).indexOf("rosmm") > 0) {

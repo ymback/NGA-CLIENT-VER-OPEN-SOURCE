@@ -53,7 +53,7 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:key="refresh_after_post_setting_mode"
+            android:key="refreshAfterPost"
             android:title="@string/refresh_after_post_setting_mode"/>
 
         <SwitchPreference
@@ -61,7 +61,7 @@
             android:key="swipeback"
             android:title="@string/swipeback"/>
 
-        <android.preference.ListCompatPreference
+        <ListSummaryPreference
             android:defaultValue="2"
             android:dependency="swipeback"
             android:dialogTitle="@string/swipeback_chooser_prompt"
@@ -91,7 +91,7 @@
             android:key="notificationSound"
             android:title="@string/notification_sound"/>
 
-        <android.preference.ListCompatPreference
+        <ListSummaryPreference
             android:defaultValue="0"
             android:dependency="notificationSound"
             android:dialogTitle="@string/blackgun_sound_chooser_prompt"

@@ -8,11 +8,9 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.ArticlePage;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 
@@ -161,13 +159,13 @@ public class ArticleUtil {
 //        }
     }
 
-    private boolean isShowImage() {
-        return PhoneConfiguration.getInstance().isDownImgNoWifi() || NetUtil.getInstance().isInWifi();
-    }
+//    private boolean isShowImage() {
+//        return PhoneConfiguration.getInstance().isDownImgNoWifi() || NetUtil.getInstance().isInWifi();
+//    }
 
-    private boolean isShowAvatar() {
-        return PhoneConfiguration.getInstance().isDownAvatarNoWifi() || NetUtil.getInstance().isInWifi();
-    }
+//    private boolean isShowAvatar() {
+//        return PhoneConfiguration.getInstance().isDownAvatarNoWifi() || NetUtil.getInstance().isInWifi();
+//    }
 
     public ThreadData parseJsonThreadPage(String js) {
         js = js.replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",");

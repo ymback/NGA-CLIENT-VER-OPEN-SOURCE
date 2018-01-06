@@ -2,9 +2,8 @@ package gov.anzong.androidnga;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.ActivityInfo;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
@@ -20,20 +19,16 @@ import sp.phone.utils.ApplicationContextHolder;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 
-public class NgaClientApp extends Application implements PreferenceKey {
-    public final static int version = BuildConfig.VERSION_CODE;
-    final private static String TAG = NgaClientApp.class.getSimpleName();
-    boolean newVersion = false;
-    private PhoneConfiguration config = null;
+public class NgaClientApp extends Application {
+
+    private boolean mCheckNewVersion;
 
     @Override
     public void onCreate() {
         ApplicationContextHolder.setContext(this);
-        NLog.w(TAG, "app nga android start");
-        if (config == null)
-            config = PhoneConfiguration.getInstance();
+        NLog.d("app nga android start");
+        PhoneConfiguration.getInstance();
         loadConfig();
-        initUserInfo();
         initPath();
         UserManagerImpl.getInstance().initialize(this);
         BoardManagerImpl.getInstance().initialize(this);
@@ -65,92 +60,35 @@ public class NgaClientApp extends Application implements PreferenceKey {
                 Environment.DIRECTORY_PICTURES).getAbsolutePath();
     }
 
-    private void initUserInfo() {
-        PhoneConfiguration config = PhoneConfiguration.getInstance();
-
-        SharedPreferences share = this.getSharedPreferences(PERFERENCE,
-                MODE_PRIVATE);
-
-        boolean downImgWithoutWifi = share.getBoolean(DOWNLOAD_IMG_NO_WIFI,
-                false);
-        config.setDownImgNoWifi(downImgWithoutWifi);
-        boolean downAvatarNoWifi = share.getBoolean(DOWNLOAD_AVATAR_NO_WIFI,
-                false);
-        config.setDownAvatarNoWifi(downAvatarNoWifi);
-
-        config.setDb_Cookie(share.getString(DBCOOKIE, ""));
-    }
-
     public void addToMeiziUserList(String uid, String sess) {
-        SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
         String cookie = "uid=" + uid + "; sess=" + sess;
-        share.edit().putString(DBCOOKIE, cookie).apply();
-        config.setDb_Cookie(cookie);
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .edit()
+                .putString(PreferenceKey.MEIZI_COOLIE, cookie)
+                .apply();
+        PhoneConfiguration.getInstance().putData(PreferenceKey.MEIZI_COOLIE, cookie);
     }
 
     private void loadConfig() {
 
-        PhoneConfiguration config = PhoneConfiguration.getInstance();
-
-        SharedPreferences share = getSharedPreferences(PERFERENCE,
-                MODE_PRIVATE);
-        if (share.getBoolean(NIGHT_MODE, false))
-            ThemeManager.getInstance().setMode(1);
-
-        ThemeManager.getInstance().screenOrentation = share.getInt(
-                SCREEN_ORENTATION, ActivityInfo.SCREEN_ORIENTATION_USER);
-
-        int version_in_config = share.getInt(VERSION, 0);
-        if (version_in_config < version) {
-            newVersion = true;
-            Editor editor = share.edit();
-            editor.putInt(VERSION, version);
-            editor.putBoolean(REFRESH_AFTER_POST, false);
-            editor.apply();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        int oldVersion = sp.getInt(PreferenceKey.VERSION, 0);
+        if (oldVersion < BuildConfig.VERSION_CODE) {
+            sp.edit().putInt(PreferenceKey.VERSION, BuildConfig.VERSION_CODE).apply();
+            mCheckNewVersion = true;
         }
 
-        // refresh
-        config.setRefreshAfterPost(false);
-
-        config.showAnimation = share.getBoolean(SHOW_ANIMATION, false);
-        config.refresh_after_post_setting_mode = share.getBoolean(REFRESH_AFTERPOST_SETTING_MODE, true);
-        config.showSignature = share.getBoolean(SHOW_SIGNATURE, false);
-        config.uploadLocation = share.getBoolean(UPLOAD_LOCATION, false);
-        config.showReplyButton = share.getBoolean(SHOW_REPLYBUTTON, true);
-        config.showColortxt = share.getBoolean(SHOW_COLORTXT, false);
-        config.HandSide = share.getInt(HANDSIDE, 0);
-        config.fullscreen = share.getBoolean(FULLSCREENMODE, false);
-        config.kitwebview = share.getBoolean(KITWEBVIEWMODE, false);
-        config.blackgunsound = share.getInt(BLACKGUN_SOUND, 0);
-        config.iconmode = share.getBoolean(SHOW_ICON_MODE, false);
-        config.swipeBack = share.getBoolean(SWIPEBACK, true);
-        config.swipeenablePosition = share.getInt(SWIPEBACKPOSITION, 2);
-        config.materialMode = share.getBoolean(PreferenceKey.MATERIAL_MODE, true);
-
-        // font
-        final float defTextSize = 21.0f;// new TextView(this).getTextSize();
-        final int defWebSize = 16;// new
-        // WebView(this).getSettings().getDefaultFontSize();
-
-        final float textSize = share.getFloat(TEXT_SIZE, defTextSize);
-        final int webSize = share.getInt(WEB_SIZE, defWebSize);
-        config.setTextSize(textSize);
-        config.setWebSize(webSize);
-
-        boolean notification = share.getBoolean(ENABLE_NOTIFIACTION, true);
-        boolean notificationSound = share.getBoolean(NOTIFIACTION_SOUND, true);
-        config.notification = notification;
-        config.notificationSound = notificationSound;
-
-        config.nikeWidth = share.getInt(NICK_WIDTH, 100);
+        if (sp.getBoolean(PreferenceKey.NIGHT_MODE, false)) {
+            ThemeManager.getInstance().setMode(1);
+        }
 
     }
 
     public boolean isNewVersion() {
-        return newVersion;
+        return mCheckNewVersion;
     }
 
-    public void setNewVersion(boolean newVersion) {
-        this.newVersion = newVersion;
+    public void setNewVersion(boolean value) {
+        mCheckNewVersion = value;
     }
 }

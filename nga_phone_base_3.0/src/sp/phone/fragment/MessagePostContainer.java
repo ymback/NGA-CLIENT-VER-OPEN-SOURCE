@@ -11,13 +11,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
+import sp.phone.common.ThemeManager;
 import sp.phone.mvp.contract.MessagePostContract;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
 
 /**
  * Created by Yang Yihang on 2017/5/28.
@@ -95,16 +93,7 @@ public class MessagePostContainer extends BaseFragment implements MessagePostCon
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
-            int flag = PhoneConfiguration.getInstance().getUiFlag();
-            if (flag >= 4) {// 大于等于4肯定有
-                inflater.inflate(R.menu.messagepost_menu_left, menu);
-            } else {
-                inflater.inflate(R.menu.messagepost_menu, menu);
-            }
-        } else {
             inflater.inflate(R.menu.messagepost_menu, menu);
-        }
         final int flags = ThemeManager.ACTION_BAR_FLAG;
         /*
          * ActionBar.DISPLAY_SHOW_HOME;//2 flags |=
@@ -124,9 +113,6 @@ public class MessagePostContainer extends BaseFragment implements MessagePostCon
             }
         } else {
             mBodyEditText.requestFocus();
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(getView());
         }
         super.onResume();
     }

@@ -18,6 +18,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ArticleListWebClient;
@@ -157,8 +158,7 @@ public class SignPageAdapter extends BaseAdapter implements
         holder.content.setFocusable(false);
         holder.content.setLongClickable(false);
         WebSettings setting = holder.content.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
         setting.setJavaScriptEnabled(false);
         holder.content.setWebViewClient(client);
         holder.content.loadDataWithBaseURL(null, infoToHtmlText(info, FunctionUtils.isShowImage(), FunctionUtils.showImageQuality(), fgColorStr, bgcolorStr),

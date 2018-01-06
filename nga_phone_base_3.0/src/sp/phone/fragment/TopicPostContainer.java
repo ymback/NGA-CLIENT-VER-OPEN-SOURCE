@@ -24,7 +24,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.PostActivity;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.contract.TopicPostContract;
@@ -245,16 +244,7 @@ public class TopicPostContainer extends BaseFragment implements TopicPostContrac
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
-            int flag = PhoneConfiguration.getInstance().getUiFlag();
-            if (flag >= 4) {// 大于等于4肯定有
-                inflater.inflate(R.menu.post_menu_left, menu);
-            } else {
-                inflater.inflate(R.menu.post_menu, menu);
-            }
-        } else {
             inflater.inflate(R.menu.post_menu, menu);
-        }
         final int flags = 7;
         ReflectionUtil.actionBar_setDisplayOption(getBaseActivity(), flags);
     }

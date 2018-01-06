@@ -149,9 +149,6 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
         super.onResume();
     }
 

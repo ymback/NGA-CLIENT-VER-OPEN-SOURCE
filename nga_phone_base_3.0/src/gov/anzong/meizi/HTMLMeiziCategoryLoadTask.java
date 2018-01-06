@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -43,7 +44,7 @@ public class HTMLMeiziCategoryLoadTask extends
 
         if (url.toLowerCase(Locale.US).indexOf("52moe") > 0) {
             htmlString = MeiziHttpUtil.getHtmlFormeizi(url, PhoneConfiguration
-                    .getInstance().getDb_Cookie());
+                    .getInstance().getString(PreferenceKey.MEIZI_COOLIE));
             if (!StringUtils.isEmpty(htmlString)) {
                 MOE52CategoryDecoder mDecoder = new MOE52CategoryDecoder();
                 List<MeiziUrlData> result;
@@ -55,7 +56,7 @@ public class HTMLMeiziCategoryLoadTask extends
             isrosmm = true;
             if (url.toLowerCase(Locale.US).indexOf("ajax.php") < 0) {
                 htmlString = MeiziHttpUtil.getHtmlFormeizi(url,
-                        PhoneConfiguration.getInstance().getDb_Cookie(),
+                        PhoneConfiguration.getInstance().getString(PreferenceKey.MEIZI_COOLIE),
                         "http://www.rosmm.com/");
                 if (!StringUtils.isEmpty(htmlString)) {
                     String sid = StringUtils.getStringBetween(htmlString, 0,
@@ -72,7 +73,7 @@ public class HTMLMeiziCategoryLoadTask extends
                 }
             } else {
                 htmlString = MeiziHttpUtil.getHtmlFormeizi(url,
-                        PhoneConfiguration.getInstance().getDb_Cookie(),
+                        PhoneConfiguration.getInstance().getString(PreferenceKey.MEIZI_COOLIE),
                         "http://www.rosmm.com/");
                 if (!StringUtils.isEmpty(htmlString)) {
                     String sid = StringUtils.getStringBetween(htmlString, 0,

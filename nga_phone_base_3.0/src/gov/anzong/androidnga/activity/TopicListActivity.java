@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import gov.anzong.androidnga.R;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.material.TopicListFragment;
@@ -145,7 +146,7 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
         }
         long now = System.currentTimeMillis();
         PhoneConfiguration config = PhoneConfiguration.getInstance();
-        if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
+        if (now - config.lastMessageCheck > 30 * 1000 && mConfig.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION)) {// 30秒才爽啊艹
             NLog.d(TAG, "start to check Reply Notification");
             asynTask = new CheckReplyNotificationTask(this);
             asynTask.execute(config.getCookie());

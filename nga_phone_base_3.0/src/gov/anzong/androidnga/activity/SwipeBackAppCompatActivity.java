@@ -6,7 +6,7 @@ import android.view.View;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 
 /**
  * Created by Administrator on 13-9-29.
@@ -24,12 +24,12 @@ public abstract class SwipeBackAppCompatActivity extends BaseActivity implements
     private void setSwipeBack() {
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
-        if (PhoneConfiguration.getInstance().swipeBack) {
+        if (mConfig.getBoolean(PreferenceKey.SWIPEBACK)) {
             final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
             getSwipeBackLayout().setEdgeSize(
                     (int) (MY_EDGE_SIZE * density + 0.5f));// 10dp
-            int pos = SwipeBackLayout.EDGE_ALL;
-            switch (PhoneConfiguration.getInstance().swipeenablePosition) {
+            int pos;
+            switch (mConfig.getInt(PreferenceKey.SWIPEBACKPOSITION)) {
                 case 0:
                     pos = SwipeBackLayout.EDGE_LEFT;
                     break;

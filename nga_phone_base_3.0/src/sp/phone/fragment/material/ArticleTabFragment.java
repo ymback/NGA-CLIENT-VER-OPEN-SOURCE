@@ -233,7 +233,9 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ActivityUtils.REQUEST_CODE_TOPIC_POST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ActivityUtils.REQUEST_CODE_TOPIC_POST
+                && resultCode == Activity.RESULT_OK
+                && mConfig.getBoolean(PreferenceKey.REFRESH_AFTER_POST)) {
             if (mViewPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
                 RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem()));
             }

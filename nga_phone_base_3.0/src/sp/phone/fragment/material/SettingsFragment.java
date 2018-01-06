@@ -1,7 +1,6 @@
 package sp.phone.fragment.material;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,15 +31,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private PhoneConfiguration mConfiguration = PhoneConfiguration.getInstance();
 
-    private static final String ALERT_DIALOG_TAG = "alertdialog";
-
     private Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mContext = getActivity();
         super.onCreate(savedInstanceState);
-        getPreferenceManager().setSharedPreferencesName(PreferenceKey.PERFERENCE);
         addPreferencesFromResource(R.xml.settings);
         mapping(getPreferenceScreen());
         configPreference();
@@ -74,14 +70,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden) {
-            getActivity().setTitle(R.string.menu_setting);
-        }
-        super.onHiddenChanged(hidden);
-    }
-
-    @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -91,56 +79,26 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         String key = preference.getKey();
         switch (key) {
-            case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
-                mConfiguration.setDownImgNoWifi((Boolean) newValue);
-                break;
-            case PreferenceKey.MATERIAL_MODE:
-                mConfiguration.setMaterialMode((Boolean) newValue);
-                break;
             case PreferenceKey.NIGHT_MODE:
                 ThemeManager.getInstance().setMode((boolean) newValue ? ThemeManager.MODE_NIGHT : ThemeManager.MODE_NORMAL);
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;
-            case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
-                mConfiguration.downAvatarNoWifi = (boolean) newValue;
-                break;
-            case PreferenceKey.SHOW_COLORTXT:
-                mConfiguration.showColortxt = (boolean) newValue;
-                break;
-            case PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE:
-                mConfiguration.refresh_after_post_setting_mode = (boolean) newValue;
-                break;
             case PreferenceKey.SWIPEBACK:
-                mConfiguration.swipeBack = (boolean) newValue;
+                mConfiguration.putData(key, (boolean) newValue);
                 updateSwipeBackOption((Boolean) newValue);
                 break;
             case PreferenceKey.SWIPEBACKPOSITION:
-                mConfiguration.swipeenablePosition = Integer.parseInt((String) newValue);
+                mConfiguration.putData(key, Integer.parseInt((String) newValue));
                 updateSwipeBackOption(true);
                 break;
             case PreferenceKey.FULLSCREENMODE:
-                mConfiguration.fullscreen = (boolean) newValue;
+                mConfiguration.putData(key, (boolean) newValue);
                 setFullScreen((Boolean) newValue);
                 break;
-            case PreferenceKey.ENABLE_NOTIFIACTION:
-                mConfiguration.notification = (boolean) newValue;
-                break;
-            case PreferenceKey.NOTIFIACTION_SOUND:
-                mConfiguration.notificationSound = (boolean) newValue;
-                break;
             case PreferenceKey.BLACKGUN_SOUND:
-                mConfiguration.blackgunsound = Integer.parseInt((String) newValue);
-                showBlackGunSound(mConfiguration.blackgunsound);
-                break;
-            case PreferenceKey.SHOW_SIGNATURE:
-                mConfiguration.showSignature = (boolean) newValue;
-                break;
-            case PreferenceKey.SHOW_REPLYBUTTON:
-                mConfiguration.showReplyButton = (boolean) newValue;
-                break;
-            case PreferenceKey.SHOW_ANIMATION:
-                mConfiguration.showAnimation = (boolean) newValue;
+                mConfiguration.putData(key, Integer.parseInt(newValue.toString()));
+                showBlackGunSound(Integer.parseInt(newValue.toString()));
                 break;
             case PreferenceKey.MATERIAL_THEME:
                 sp.edit().putString(PreferenceKey.MATERIAL_THEME, (String) newValue).apply();
@@ -149,28 +107,23 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;
-            case PreferenceKey.BOTTOM_TAB:
-                sp.edit().putBoolean(PreferenceKey.BOTTOM_TAB, (Boolean) newValue).apply();
-                mConfiguration.putData(key, (Boolean) newValue);
-                break;
-            case PreferenceKey.LEFT_HAND:
-                sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
-                mConfiguration.putData(key, (Boolean) newValue);
-                break;
-
-            case PreferenceKey.HARDWARE_ACCELERATED:
-                sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
-                mConfiguration.putData(key, (boolean) newValue);
-                break;
-
             case PreferenceKey.SHOW_ICON_MODE:
-                mConfiguration.iconmode = (boolean) newValue;
+                mConfiguration.putData(key, (boolean) newValue);
                 getActivity().setResult(Activity.RESULT_OK);
                 break;
-
+            case PreferenceKey.HARDWARE_ACCELERATED:
             case PreferenceKey.SORT_BY_POST:
             case PreferenceKey.FILTER_SUB_BOARD:
-                sp.edit().putBoolean(key, (Boolean) newValue).apply();
+            case PreferenceKey.SHOW_REPLYBUTTON:
+            case PreferenceKey.SHOW_SIGNATURE:
+            case PreferenceKey.LEFT_HAND:
+            case PreferenceKey.BOTTOM_TAB:
+            case PreferenceKey.SHOW_COLORTXT:
+            case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
+            case PreferenceKey.REFRESH_AFTER_POST:
+            case PreferenceKey.ENABLE_NOTIFIACTION:
+            case PreferenceKey.NOTIFIACTION_SOUND:
+            case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
                 mConfiguration.putData(key, (boolean) newValue);
                 break;
         }
@@ -264,7 +217,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             ((SwipeBackAppCompatActivity) getActivity()).getSwipeBackLayout().setEdgeSize(
                     (int) (SwipeBackAppCompatActivity.MY_EDGE_SIZE * density + 0.5f));// 10dp
             int pos;
-            switch (PhoneConfiguration.getInstance().swipeenablePosition) {
+            switch (mConfiguration.getInt(PreferenceKey.SWIPEBACKPOSITION)) {
                 case 0:
                     pos = SwipeBackLayout.EDGE_LEFT;
                     break;
@@ -287,10 +240,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         switch (preference.getKey()) {
-            case PhoneConfiguration.ADJUST_SIZE:
-                FragmentManager fm = getActivity().getFragmentManager();
-                fm.beginTransaction().hide(this).add(R.id.container, new SettingsSizeFragment()).addToBackStack(null).commit();
-                break;
+            case PreferenceKey.ADJUST_SIZE:
             case PreferenceKey.PREF_USER:
             case PreferenceKey.PREF_BLACK_LIST:
                 Intent intent = new Intent(getContext(), SettingsSubActivity.class);

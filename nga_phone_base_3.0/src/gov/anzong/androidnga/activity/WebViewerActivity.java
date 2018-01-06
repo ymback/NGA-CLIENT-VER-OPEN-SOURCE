@@ -12,14 +12,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import gov.anzong.androidnga.NgaClientApp;
+import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
-import sp.phone.task.DownloadImageTask;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.ReflectionUtil;
 import sp.phone.common.ThemeManager;
+import sp.phone.task.DownloadImageTask;
+import sp.phone.utils.ArticleListWebClient;
+import sp.phone.utils.ReflectionUtil;
 
 public class WebViewerActivity extends SwipeBackAppCompatActivity {
     private WebView wv;
@@ -34,7 +32,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         wv = (WebView) findViewById(R.id.webview);
         WebViewClient client = new ArticleListWebClient(this);
         wv.setWebViewClient(client);
-        wv.getSettings().setUserAgentString(getString(R.string.clientua) + ((NgaClientApp) getApplication()).version);
+        wv.getSettings().setUserAgentString(getString(R.string.clientua) + BuildConfig.VERSION_CODE);
         wv.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
 
@@ -48,9 +46,6 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     @Override
     protected void onResume() {
         load();
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(wv);
-        }
         super.onResume();
     }
 

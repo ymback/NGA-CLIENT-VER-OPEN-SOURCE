@@ -21,6 +21,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.listener.MyListenerForNonameReply;
 import sp.phone.utils.ArticleListWebClient;
@@ -192,7 +193,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
             viewCache.put(position, new SoftReference<View>(view));
         }
 
-        if (!PhoneConfiguration.getInstance().showReplyButton) {
+        if (!PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SHOW_REPLYBUTTON)) {
             holder.viewBtn.setVisibility(View.GONE);
         } else {
             MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(

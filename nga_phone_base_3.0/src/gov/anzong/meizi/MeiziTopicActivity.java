@@ -42,13 +42,6 @@ public class MeiziTopicActivity extends SwipeBackAppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, mTopicFragment).commit();
     }
 
-    @Override
-    protected void onResume() {
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
-        super.onResume();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
