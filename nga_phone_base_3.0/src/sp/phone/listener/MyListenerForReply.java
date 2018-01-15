@@ -117,9 +117,6 @@ public class MyListenerForReply implements OnClickListener {
                             PhoneConfiguration.getInstance().loginActivityClass);
                 }
                 mcontext.startActivity(intent);
-                if (PhoneConfiguration.getInstance().showAnimation)
-                    ((Activity) mcontext).overridePendingTransition(
-                            R.anim.zoom_enter, R.anim.zoom_exit);
                 return null;
             }
         }).execute();

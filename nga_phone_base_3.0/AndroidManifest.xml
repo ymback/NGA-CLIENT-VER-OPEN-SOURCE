@@ -10,17 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.NFC"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
-    <uses-feature
-        android:name="android.hardware.LOCATION"
-        android:glEsVersion="0x00020000"
-        android:required="false"/>
-    <uses-feature
-        android:name="android.hardware.location.GPS"
-        android:glEsVersion="0x00020000"
-        android:required="false"/>
 
     <application
         android:name=".NgaClientApp"

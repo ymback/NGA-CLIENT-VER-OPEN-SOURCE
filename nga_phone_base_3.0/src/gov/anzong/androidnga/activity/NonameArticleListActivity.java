@@ -75,17 +75,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         }
 
         tabhost = (TabHost) findViewById(android.R.id.tabhost);
-        if (PhoneConfiguration.getInstance().kitwebview) {
-            if (tabhost != null) {
-                tabhost.setup();
-                mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
-                        NonameArticleListFragmentNew.class);
-            } else {
-                mTabsAdapter = new ThreadFragmentAdapter(this,
-                        getSupportFragmentManager(), mViewPager,
-                        NonameArticleListFragmentNew.class);
-            }
-        } else {
             if (tabhost != null) {
                 tabhost.setup();
                 mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
@@ -94,7 +83,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                 mTabsAdapter = new ThreadFragmentAdapter(this,
                         getSupportFragmentManager(), mViewPager,
                         NonameArticleListFragment.class);
-            }
         }
 
         mTabsAdapter.setArgument("id", tid);
@@ -254,9 +242,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                 intent.setClass(this,
                         PhoneConfiguration.getInstance().nonamePostActivityClass);
                 startActivity(intent);
-                if (PhoneConfiguration.getInstance().showAnimation) {
-                    overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-                }
                 break;
             case R.id.article_menuitem_refresh:
                 int current = mViewPager.getCurrentItem();

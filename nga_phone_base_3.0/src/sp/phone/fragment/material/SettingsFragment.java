@@ -139,9 +139,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.SHOW_REPLYBUTTON:
                 mConfiguration.showReplyButton = (boolean) newValue;
                 break;
-            case PreferenceKey.SHOW_ANIMATION:
-                mConfiguration.showAnimation = (boolean) newValue;
-                break;
             case PreferenceKey.MATERIAL_THEME:
                 sp.edit().putString(PreferenceKey.MATERIAL_THEME, (String) newValue).apply();
                 ThemeManager.getInstance().setTheme(Integer.parseInt((String) newValue));

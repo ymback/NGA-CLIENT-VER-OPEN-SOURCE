@@ -37,7 +37,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean notification;
     public boolean notificationSound;
     public long lastMessageCheck = 0;
-    public boolean showAnimation = false;
     public boolean showSignature = true;
     public Location location = null;
     public boolean uploadLocation = false;
@@ -45,7 +44,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean swipeBack = true;
     public boolean showColortxt = false;
     public boolean fullscreen = false;
-    public boolean kitwebview = false;
     public boolean materialMode;
     public String db_cookie;
     public Class<?> topicActivityClass = TopicListActivity.class;

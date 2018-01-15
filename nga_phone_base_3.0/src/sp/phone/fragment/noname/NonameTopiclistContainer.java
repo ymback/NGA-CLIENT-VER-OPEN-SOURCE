@@ -312,10 +312,6 @@ public class NonameTopiclistContainer extends BaseFragment implements
         intent.setClass(getActivity(),
                 PhoneConfiguration.getInstance().nonamePostActivityClass);
         startActivity(intent);
-        if (PhoneConfiguration.getInstance().showAnimation) {
-            getActivity().overridePendingTransition(R.anim.zoom_enter,
-                    R.anim.zoom_exit);
-        }
         return true;
     }
 

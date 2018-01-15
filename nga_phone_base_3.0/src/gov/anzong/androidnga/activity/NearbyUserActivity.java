@@ -173,9 +173,6 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
                             i.putExtra("mode", "username");
                             i.putExtra("username", texta);
                             i.setClass(lv.getContext(), PhoneConfiguration.getInstance().profileActivityClass);
-                            if (PhoneConfiguration.getInstance().showAnimation)
-                                overridePendingTransition(R.anim.zoom_enter,
-                                        R.anim.zoom_exit);
                             startActivity(i);
                         }
                     }

@@ -174,9 +174,6 @@ public class NonameArticleListFragmentNew extends Fragment implements
                 intent.setClass(getActivity(),
                         PhoneConfiguration.getInstance().nonamePostActivityClass);
                 startActivity(intent);
-                if (PhoneConfiguration.getInstance().showAnimation)
-                    getActivity().overridePendingTransition(R.anim.zoom_enter,
-                            R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
                 FunctionUtils.CopyDialog(content, getActivity(), scrollview);

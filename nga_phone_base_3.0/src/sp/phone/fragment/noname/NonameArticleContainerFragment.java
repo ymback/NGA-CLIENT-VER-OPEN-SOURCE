@@ -79,15 +79,9 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                 mcontainer.setBackgroundResource(R.color.night_bg_color);
         }
 
-        if (PhoneConfiguration.getInstance().kitwebview) {
             mTabsAdapter = new NonameThreadFragmentAdapter(getActivity(),
                     getChildFragmentManager(), mViewPager,
                     NonameArticleListFragment.class);
-        } else {
-            mTabsAdapter = new NonameThreadFragmentAdapter(getActivity(),
-                    getChildFragmentManager(), mViewPager,
-                    NonameArticleListFragment.class);
-        }
 
         mTabsAdapter.setArgument("id", tid);
 
@@ -137,15 +131,6 @@ public class NonameArticleContainerFragment extends BaseFragment implements
             }
         }
         if (mTabsAdapter != null) {
-            if (PhoneConfiguration.getInstance().kitwebview) {
-                try {
-                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
-                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
-                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
-                } catch (Exception e) {
-
-                }
-            } else {
                 try {
                     ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
                     ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
@@ -153,7 +138,6 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                 } catch (Exception e) {
 
                 }
-            }
         }
     }
 
@@ -236,9 +220,6 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                 intent.setClass(getActivity(),
                         PhoneConfiguration.getInstance().nonamePostActivityClass);
                 startActivity(intent);
-                if (PhoneConfiguration.getInstance().showAnimation)
-                    getActivity().overridePendingTransition(R.anim.zoom_enter,
-                            R.anim.zoom_exit);
                 break;
             case R.id.article_menuitem_refresh:
                 int current = mViewPager.getCurrentItem();
@@ -276,23 +257,13 @@ public class NonameArticleContainerFragment extends BaseFragment implements
     private void nightMode(final MenuItem menu) {
         changeNightMode(menu);
         if (mTabsAdapter != null) {
-            if (PhoneConfiguration.getInstance().kitwebview) {
-                try {
-                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
-                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
-                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
-                } catch (Exception e) {
+        }
+        try {
+            ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+            ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
+            ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() - 1)).modechange();
+        } catch (Exception e) {
 
-                }
-            } else {
-                try {
-                    ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
-                    ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
-                    ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() - 1)).modechange();
-                } catch (Exception e) {
-
-                }
-            }
         }
         if (mCallback != null)
             mCallback.onModeChanged();
