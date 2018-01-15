@@ -94,9 +94,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
                 mConfiguration.setDownImgNoWifi((Boolean) newValue);
                 break;
-            case PreferenceKey.MATERIAL_MODE:
-                mConfiguration.setMaterialMode((Boolean) newValue);
-                break;
             case PreferenceKey.NIGHT_MODE:
                 ThemeManager.getInstance().setMode((boolean) newValue ? ThemeManager.MODE_NIGHT : ThemeManager.MODE_NORMAL);
                 getActivity().finish();

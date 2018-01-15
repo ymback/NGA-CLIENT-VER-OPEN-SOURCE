@@ -123,7 +123,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
         config.iconmode = share.getBoolean(SHOW_ICON_MODE, false);
         config.swipeBack = share.getBoolean(SWIPEBACK, true);
         config.swipeenablePosition = share.getInt(SWIPEBACKPOSITION, 2);
-        config.materialMode = share.getBoolean(PreferenceKey.MATERIAL_MODE, true);
 
         // font
         final float defTextSize = 21.0f;// new TextView(this).getTextSize();

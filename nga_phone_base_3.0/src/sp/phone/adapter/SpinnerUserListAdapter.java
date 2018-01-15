@@ -11,38 +11,32 @@ import java.util.List;
 
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.User;
-import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 
-public class SpinnerUserListAdapter extends BaseAdapter
-        implements PreferenceKey {
-    protected List<User> userList;
-    protected Context context;
+public class SpinnerUserListAdapter extends BaseAdapter implements PreferenceKey {
+
+    protected List<User> mUserList;
+
+    protected Context mContext;
 
     public SpinnerUserListAdapter(Context context) {
-        super();
-        this.context = context;
-        UserManager um = UserManagerImpl.getInstance();
-        userList = um.getUserList();
+        mContext = context;
+        mUserList = UserManagerImpl.getInstance().getUserList();
     }
-
 
     @Override
     public int getCount() {
-        if (userList == null)
-            return 0;
-        return userList.size();
+        return mUserList == null ? 0 : mUserList.size();
     }
 
     @Override
     public Object getItem(int position) {
-
-        return userList.get(position);
+        return mUserList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        final String uid = userList.get(position).getUserId();
+        final String uid = mUserList.get(position).getUserId();
         long ret = 0;
         try {
             ret = Long.valueOf(uid);
@@ -57,9 +51,9 @@ public class SpinnerUserListAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = new TextView(context);
+            convertView = new TextView(mContext);
         }
-        ((TextView) convertView).setText(userList.get(position).getNickName());
+        ((TextView) convertView).setText(mUserList.get(position).getNickName());
         ((TextView) convertView).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
         return convertView;
     }

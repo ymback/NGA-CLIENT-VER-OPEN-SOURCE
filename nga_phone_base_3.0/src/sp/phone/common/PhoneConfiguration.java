@@ -44,7 +44,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean swipeBack = true;
     public boolean showColortxt = false;
     public boolean fullscreen = false;
-    public boolean materialMode;
     public String db_cookie;
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
@@ -140,14 +139,6 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public void setDownImgNoWifi(boolean downImgNoWifi) {
         this.downImgNoWifi = downImgNoWifi;
-    }
-
-    public boolean isMaterialMode() {
-        return true;
-    }
-
-    public void setMaterialMode(boolean materialMode) {
-        this.materialMode = materialMode;
     }
 
     public float getTextSize() {

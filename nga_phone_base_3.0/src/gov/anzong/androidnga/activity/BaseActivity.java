@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateWindowFlag();
         updateOrientation();
-        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtils.supportMaterialMode(this) || ActivityUtils.supportNewUi(this)) {
+        if (ActivityUtils.supportNewUi(this)) {
             updateThemeUi();
         }
         super.onCreate(savedInstanceState);

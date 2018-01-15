@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 
@@ -25,14 +24,14 @@ public class ActionBarUserListAdapter extends SpinnerUserListAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(android.R.layout.simple_list_item_1, parent, false);
         }
-        ((TextView) convertView).setText(userList.get(position).getNickName());
+        ((TextView) convertView).setText(mUserList.get(position).getNickName());
 
 
-        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtils.supportMaterialMode(context)){
-            convertView.setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(context));
-            ((TextView) convertView).setTextColor(ContextCompat.getColor(context,R.color.toolbar_text_color));
+        if (ActivityUtils.supportNewUi(mContext)){
+            convertView.setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(mContext));
+            ((TextView) convertView).setTextColor(ContextCompat.getColor(mContext,R.color.toolbar_text_color));
         }
         return convertView;
     }

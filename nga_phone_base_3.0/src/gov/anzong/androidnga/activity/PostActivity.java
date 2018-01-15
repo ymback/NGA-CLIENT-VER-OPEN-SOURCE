@@ -17,15 +17,12 @@ import android.view.MenuItem;
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
-import sp.phone.fragment.TopicPostContainer;
 import sp.phone.fragment.material.TopicPostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.mvp.presenter.TopicPostPresenter;
 import sp.phone.mvp.contract.TopicPostContract;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.mvp.presenter.TopicPostPresenter;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.PermissionUtils;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 public class PostActivity extends BasePostActivity implements OnEmotionPickedListener {
@@ -40,11 +37,6 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        if (PhoneConfiguration.getInstance().uploadLocation
-                && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtils.reflushLocation(this);
-        }
 
         Intent intent = this.getIntent();
         String prefix = intent.getStringExtra("prefix");
@@ -94,24 +86,20 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
                 prefix = spanString.toString();
             }
         }
-        Bundle bundle =  new Bundle();
-        bundle.putString("prefix",prefix);
-        bundle.putString("action",action);
-        bundle.putString("title",title);
+        Bundle bundle = new Bundle();
+        bundle.putString("prefix", prefix);
+        bundle.putString("action", action);
+        bundle.putString("title", title);
         Fragment fragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
-        if (fragment == null){
-            if (PhoneConfiguration.getInstance().isMaterialMode()){
-                fragment = new TopicPostFragment();
-            } else {
-                fragment = new TopicPostContainer();
-            }
-            mPresenter  = new TopicPostPresenter((TopicPostContract.View) fragment);
+        if (fragment == null) {
+            fragment = new TopicPostFragment();
+            mPresenter = new TopicPostPresenter((TopicPostContract.View) fragment);
             mPresenter.setTopicPostAction(act);
             fragment.setArguments(bundle);
             fragment.setHasOptionsMenu(true);
-            getSupportFragmentManager().beginTransaction().replace(android.R.id.content,fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
         } else {
-            mPresenter  = new TopicPostPresenter((TopicPostContract.View) fragment);
+            mPresenter = new TopicPostPresenter((TopicPostContract.View) fragment);
             mPresenter.setTopicPostAction(act);
         }
 
@@ -147,8 +135,8 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE){
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mPresenter.prepareUploadFile();
             }
         }

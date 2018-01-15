@@ -28,6 +28,7 @@ import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.HtmlUtil;
+import sp.phone.utils.PermissionUtils;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -70,15 +71,15 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         }
 
         private void initHolder(final View view) {
-            nickNameTV = (TextView) view.findViewById(R.id.nickName);
-            avatarIV = (ImageView) view.findViewById(R.id.avatarImage);
-            floorTV = (TextView) view.findViewById(R.id.floor);
-            postTimeTV = (TextView) view.findViewById(R.id.postTime);
-            contentTV = (WebView) view.findViewById(R.id.content);
+            nickNameTV = view.findViewById(R.id.nickName);
+            avatarIV =  view.findViewById(R.id.avatarImage);
+            floorTV =  view.findViewById(R.id.floor);
+            postTimeTV = view.findViewById(R.id.postTime);
+            contentTV =  view.findViewById(R.id.content);
             contentTV.setHorizontalScrollBarEnabled(false);
-            viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
-            clientBtn = (ImageButton) view.findViewById(R.id.clientbutton);
-            scoreTV = (TextView) view.findViewById(R.id.score);
+            viewBtn = view.findViewById(R.id.listviewreplybtn);
+            clientBtn =  view.findViewById(R.id.clientbutton);
+            scoreTV = view.findViewById(R.id.score);
         }
     }
 
@@ -215,6 +216,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     }
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
+        if (PermissionUtils.hasStoragePermission(mContext)) {
+            avatarIV.setImageResource(R.drawable.default_avatar);
+            return;
+        }
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final boolean downImg = DeviceUtils.isWifiConnected(mContext)
                 || PhoneConfiguration.getInstance()

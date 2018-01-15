@@ -38,14 +38,19 @@ public class ActivityUtils {
     static ActivityUtils instance;
     static Object lock = new Object();
     private DialogFragment df = null;
-    private static String[] sMaterialSupportList = {"SettingsActivity", "LoginActivity", "MessageListActivity", "MessageDetailActivity"
-            , "MessagePostActivity", "TopicListActivity", "PostActivity"};
 
-    private static String[] sSupportNewUi = {"SettingsActivity", "LoginActivity", "MainActivity",
-            TopicListActivity.class.getSimpleName(),
-            MessageDetailActivity.class.getSimpleName(),
+    private static String[] sSupportNewUi = {
+            "SettingsActivity",
+            "LoginActivity",
+            "MainActivity",
+            "MessageListActivity",
+            "MessageDetailActivity",
+            "MessagePostActivity",
+            "TopicListActivity",
+            "PostActivity",
             SettingsSubActivity.class.getSimpleName(),
-            ArticleListActivity.class.getSimpleName(), MessageListActivity.class.getSimpleName()};
+            ArticleListActivity.class.getSimpleName(),
+    };
 
     public static final int REQUEST_CODE_LOGIN = 1;
 
@@ -63,15 +68,6 @@ public class ActivityUtils {
 
 
     private ActivityUtils() {
-    }
-
-    public static boolean supportMaterialMode(Context context) {
-        for (int i = 0; i < sMaterialSupportList.length; i++) {
-            if (sMaterialSupportList[i].equals(context.getClass().getSimpleName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static boolean supportNewUi(Context context) {

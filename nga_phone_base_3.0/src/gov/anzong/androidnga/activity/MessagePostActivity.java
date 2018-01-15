@@ -15,14 +15,11 @@ import android.view.MenuItem;
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.MessagePostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
-import sp.phone.fragment.MessagePostContainer;
 import sp.phone.fragment.material.MessagePostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.mvp.presenter.MessagePostPresenter;
 import sp.phone.mvp.contract.MessagePostContract;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.mvp.presenter.MessagePostPresenter;
 import sp.phone.utils.FunctionUtils;
-import sp.phone.common.PhoneConfiguration;
 
 public class MessagePostActivity extends BasePostActivity implements OnEmotionPickedListener {
 
@@ -36,10 +33,6 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        if (PhoneConfiguration.getInstance().uploadLocation
-                && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtils.reflushLocation(this);
-        }
 
         Intent intent = this.getIntent();
         String prefix = intent.getStringExtra("prefix");
@@ -70,26 +63,22 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
             prefix = spanString.toString();
         }
         Bundle bundle = new Bundle();
-        bundle.putString("prefix",prefix);
-        bundle.putString("action",action);
-        bundle.putString("to",to);
-        bundle.putInt("mid",mid);
-        bundle.putString("title",title);
-        Fragment fragment =  getSupportFragmentManager().findFragmentById(android.R.id.content);
-        if (fragment != null){
+        bundle.putString("prefix", prefix);
+        bundle.putString("action", action);
+        bundle.putString("to", to);
+        bundle.putInt("mid", mid);
+        bundle.putString("title", title);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
+        if (fragment != null) {
             mPresenter = new MessagePostPresenter((MessagePostContract.View) fragment);
             mPresenter.setMessagePostAction(mMessagePostAction);
             return;
         }
-        if (PhoneConfiguration.getInstance().isMaterialMode()){
-            fragment = new MessagePostFragment();
-        } else {
-            fragment = new MessagePostContainer();
-        }
+        fragment = new MessagePostFragment();
         fragment.setArguments(bundle);
         mPresenter = new MessagePostPresenter((MessagePostContract.View) fragment);
         fragment.setHasOptionsMenu(true);
-        getSupportFragmentManager().beginTransaction().replace(android.R.id.content,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
 
         mPresenter.setMessagePostAction(mMessagePostAction);
     }
