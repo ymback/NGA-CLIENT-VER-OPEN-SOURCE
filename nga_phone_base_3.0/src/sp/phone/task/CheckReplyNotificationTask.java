@@ -52,7 +52,8 @@ public class CheckReplyNotificationTask extends
 
         result = HttpUtil.getHtml(url, cookie, null, 3000);
 
-        PhoneConfiguration.getInstance().lastMessageCheck = System.currentTimeMillis();
+        PhoneConfiguration.getInstance().lastMessageCheck = System
+                .currentTimeMillis();
         NLog.i(this.getClass().getSimpleName(), "get message:" + result);
         // return
         // "[truncated]window.script_muti_get_var_store={0:[{\"0\":1,\"1\":20174851,\"2\":\"\326\361\276\256\324\212\277\227\300\357\",\"3\":20174851,\"4\":\"\326\361\276\256\324\212\277\227\300\357\",\"5\":\"\277\264\262\273\265\275\316\322\",\"9\":1403393562,\"6\":71387683,\"7\":133146646,\"10\":1}] }";
@@ -275,9 +276,9 @@ public class CheckReplyNotificationTask extends
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.NOTIFIACTION_SOUND)
+        if (PhoneConfiguration.getInstance().notificationSound
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-            switch (PhoneConfiguration.getInstance().getInt(PreferenceKey.BLACKGUN_SOUND)) {
+            switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
                     defaults |= Notification.DEFAULT_SOUND;
                     break;
@@ -364,9 +365,9 @@ public class CheckReplyNotificationTask extends
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.NOTIFIACTION_SOUND)
+        if (PhoneConfiguration.getInstance().notificationSound
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-            switch (PhoneConfiguration.getInstance().getInt(PreferenceKey.BLACKGUN_SOUND)) {
+            switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
                     defaults |= Notification.DEFAULT_SOUND;
                     break;
@@ -404,7 +405,7 @@ public class CheckReplyNotificationTask extends
             return;
         }
         Intent intent = new Intent(context,
-                PhoneConfiguration.getInstance().messageDetailActivity);
+                PhoneConfiguration.getInstance().messageDetialActivity);
 
         Resources res = context.getResources();// .getString(R.string.myscheme)
         String url = res.getString(R.string.myscheme) + "://"
@@ -435,9 +436,9 @@ public class CheckReplyNotificationTask extends
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.NOTIFIACTION_SOUND)
+        if (PhoneConfiguration.getInstance().notificationSound
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-            switch (PhoneConfiguration.getInstance().getInt(PreferenceKey.BLACKGUN_SOUND)) {
+            switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
                     defaults |= Notification.DEFAULT_SOUND;
                     break;
@@ -497,9 +498,9 @@ public class CheckReplyNotificationTask extends
         AudioManager audioManager = (AudioManager) context
                 .getSystemService(Context.AUDIO_SERVICE);
 
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.NOTIFIACTION_SOUND)
+        if (PhoneConfiguration.getInstance().notificationSound
                 && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-            switch (PhoneConfiguration.getInstance().getInt(PreferenceKey.BLACKGUN_SOUND)) {
+            switch (PhoneConfiguration.getInstance().blackgunsound) {
                 case 0:
                     defaults |= Notification.DEFAULT_SOUND;
                     break;

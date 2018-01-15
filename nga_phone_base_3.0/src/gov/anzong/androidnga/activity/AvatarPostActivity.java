@@ -225,6 +225,10 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
                 ThemeManager.getInstance().getBackgroundColor()));
         this.setContentView(v);
 
+        if (PhoneConfiguration.getInstance().uploadLocation
+                && PhoneConfiguration.getInstance().location == null) {
+            ActivityUtils.reflushLocation(this);
+        }
         act = new AvatarPostAction();
         loading = false;
 
@@ -308,6 +312,9 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
             AvatarFileUploadTask temp = uploadTask;
             uploadTask = null;
             RunParallel(temp);
+        }
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }

@@ -41,7 +41,7 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
-import gov.anzong.androidnga.BuildConfig;
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
 import noname.gson.parse.NonameReadBody;
@@ -49,7 +49,6 @@ import sp.phone.adapter.noname.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.ReportDialogFragment;
@@ -165,6 +164,9 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
+                }
             }
 
         });
@@ -191,12 +193,14 @@ public class FunctionUtils {
             });
         }
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV.setTag(row.floor);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.loadDataWithBaseURL(null, fillFormated_html_data(row, position, context),
                 "text/html", "utf-8", null);
@@ -212,8 +216,9 @@ public class FunctionUtils {
 
 
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
 
@@ -244,8 +249,8 @@ public class FunctionUtils {
 //			contentTV.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 //		}
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(), "text/html", "utf-8", null);
@@ -273,6 +278,9 @@ public class FunctionUtils {
             public void onDismiss(DialogInterface arg0) {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(listView);
+                }
             }
 
         });
@@ -295,6 +303,9 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(listview);
+                }
             }
         });
     }
@@ -325,10 +336,11 @@ public class FunctionUtils {
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
-        boolean showImage = PhoneConfiguration.getInstance().getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI)
+        boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
                 || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV
@@ -350,6 +362,9 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
+                }
             }
         });
     }
@@ -403,10 +418,11 @@ public class FunctionUtils {
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
-        boolean showImage = PhoneConfiguration.getInstance().getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI)
+        boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
                 || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV
@@ -428,6 +444,9 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
+                }
             }
         });
     }
@@ -462,10 +481,11 @@ public class FunctionUtils {
             }
         });
         ((Activity) context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        boolean showImage = PhoneConfiguration.getInstance().getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI)
+        boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
                 || NetUtil.getInstance().isInWifi();
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(true);
         setting.setJavaScriptCanOpenWindowsAutomatically(true);
         contentTV.addJavascriptInterface(new ProxyBridge(context, toast), "ProxyBridge");
@@ -571,6 +591,9 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
+                }
             }
         });
     }
@@ -601,7 +624,8 @@ public class FunctionUtils {
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
@@ -620,6 +644,9 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
+                }
             }
 
         });
@@ -651,7 +678,8 @@ public class FunctionUtils {
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
         WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getInt(PreferenceKey.WEB_SIZE));
+        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
+                .getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
         contentTV.loadDataWithBaseURL(
@@ -670,6 +698,9 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    ActivityUtils.getInstance().setFullScreen(scrollview);
+                }
             }
 
         });
@@ -772,7 +803,7 @@ public class FunctionUtils {
     }
 
     public static boolean isShowImage() {
-        return PhoneConfiguration.getInstance().getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI) || NetUtil.getInstance().isInWifi();
+        return PhoneConfiguration.getInstance().isDownImgNoWifi() || NetUtil.getInstance().isInWifi();
     }
 
     public static int showImageQuality() {
@@ -1156,7 +1187,7 @@ public class FunctionUtils {
 
     public static String ColorTxtCheck(String text) {
         String xxtp = "";
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SHOW_COLORTXT)) {
+        if (PhoneConfiguration.getInstance().showColortxt) {
             xxtp = FunctionUtils.ColorTxt(text.trim());
         } else {
             xxtp = text;

@@ -8,6 +8,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
+import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import sp.phone.adapter.noname.NonameTopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
@@ -62,6 +63,8 @@ public class EnterJsonNonameArticle implements OnItemClickListener {
 
         intent.setClass(activity, PhoneConfiguration.getInstance().nonameArticleActivityClass);
         activity.startActivity(intent);
+        if (PhoneConfiguration.getInstance().showAnimation)
+            activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
 
     }

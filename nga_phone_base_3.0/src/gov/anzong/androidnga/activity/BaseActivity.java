@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateWindowFlag();
         updateOrientation();
-        if (ActivityUtils.supportNewUi(this)) {
+        if (PhoneConfiguration.getInstance().isMaterialMode() && ActivityUtils.supportMaterialMode(this) || ActivityUtils.supportNewUi(this)) {
             updateThemeUi();
         }
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void updateWindowFlag() {
         int flag = 0;
-        if (mConfig.getBoolean(PreferenceKey.FULLSCREENMODE)) {
+        if (PhoneConfiguration.getInstance().fullscreen) {
             flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         }
 

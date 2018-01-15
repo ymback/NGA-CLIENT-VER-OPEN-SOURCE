@@ -143,6 +143,9 @@ public class MeiziMainActivity extends AppCompatActivity implements
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(view);
+        }
         mAdapter = new MeiziDrawerAdapter(this, mDrawerList);
         mDrawerList.setAdapter(mAdapter);
         super.onResume();

@@ -83,7 +83,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
     }
 
     private void updateThemeUI() {
-        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().getString(PreferenceKey.MEIZI_COOLIE))) {
+        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().db_cookie)) {
             login_state.setText("已经登陆,你就是神");
         }
         ThemeManager tm = ThemeManager.getInstance();
@@ -102,6 +102,9 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 
     @Override
     protected void onResume() {
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(view);
+        }
         if (alreadylogin && needtopost) {
             finish();
         }

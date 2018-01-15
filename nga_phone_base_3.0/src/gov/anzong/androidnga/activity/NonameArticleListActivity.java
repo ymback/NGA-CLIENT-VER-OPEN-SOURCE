@@ -59,6 +59,10 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(getViewId());
 
+        if (PhoneConfiguration.getInstance().uploadLocation
+                && PhoneConfiguration.getInstance().location == null) {
+            ActivityUtils.reflushLocation(this);
+        }
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         int pageFromUrl = 0;
@@ -71,6 +75,17 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         }
 
         tabhost = (TabHost) findViewById(android.R.id.tabhost);
+        if (PhoneConfiguration.getInstance().kitwebview) {
+            if (tabhost != null) {
+                tabhost.setup();
+                mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
+                        NonameArticleListFragmentNew.class);
+            } else {
+                mTabsAdapter = new ThreadFragmentAdapter(this,
+                        getSupportFragmentManager(), mViewPager,
+                        NonameArticleListFragmentNew.class);
+            }
+        } else {
             if (tabhost != null) {
                 tabhost.setup();
                 mTabsAdapter = new TabsAdapter(this, tabhost, mViewPager,
@@ -80,6 +95,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                         getSupportFragmentManager(), mViewPager,
                         NonameArticleListFragment.class);
             }
+        }
 
         mTabsAdapter.setArgument("id", tid);
 
@@ -116,7 +132,11 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
             NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
 
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            refresh_saying();
+        } else {
             ActivityUtils.getInstance().noticeSaying(this);
+        }
 
     }
 
@@ -176,7 +196,16 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
+            int flag = PhoneConfiguration.getInstance().getUiFlag();
+            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 文章列表，UIFLAG为1或者1+2或者1+4或者1+2+4
+                inflater.inflate(R.menu.nonamearticlelist_menu_left, menu);
+            } else {
+                inflater.inflate(R.menu.nonamearticlelist_menu, menu);
+            }
+        } else {
             inflater.inflate(R.menu.nonamearticlelist_menu, menu);
+        }
         final int flags = ThemeManager.ACTION_BAR_FLAG;
 
         MenuItem lock = menu.findItem(R.id.article_menuitem_lock);
@@ -225,10 +254,17 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                 intent.setClass(this,
                         PhoneConfiguration.getInstance().nonamePostActivityClass);
                 startActivity(intent);
+                if (PhoneConfiguration.getInstance().showAnimation) {
+                    overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+                }
                 break;
             case R.id.article_menuitem_refresh:
                 int current = mViewPager.getCurrentItem();
+                if (PhoneConfiguration.getInstance().fullscreen) {
+                    refresh_saying();
+                } else {
                     ActivityUtils.getInstance().noticeSaying(this);
+                }
                 mViewPager.setAdapter(mTabsAdapter);
                 mViewPager.setCurrentItem(current);
 
@@ -329,6 +365,9 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
             setRequestedOrientation(orentation);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(mViewPager);
         }
         super.onResume();
     }

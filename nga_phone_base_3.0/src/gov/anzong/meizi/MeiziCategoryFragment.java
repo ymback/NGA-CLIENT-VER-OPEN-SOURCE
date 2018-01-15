@@ -24,6 +24,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziLoadingFooterTask.ReloadListener;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
@@ -191,16 +192,16 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        if (PhoneConfiguration.getInstance().HandSide == 1) {//lefthand
-//            int flag = PhoneConfiguration.getInstance().getUiFlag();
-//            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {//文章列表，UIFLAG为1或者1+2或者1+4或者1+2+4
-//                inflater.inflate(R.menu.meizi_main_left, menu);
-//            } else {
-//                inflater.inflate(R.menu.meizi_main, menu);
-//            }
-//        } else {
+        if (PhoneConfiguration.getInstance().HandSide == 1) {//lefthand
+            int flag = PhoneConfiguration.getInstance().getUiFlag();
+            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {//文章列表，UIFLAG为1或者1+2或者1+4或者1+2+4
+                inflater.inflate(R.menu.meizi_main_left, menu);
+            } else {
+                inflater.inflate(R.menu.meizi_main, menu);
+            }
+        } else {
             inflater.inflate(R.menu.meizi_main, menu);
- //       }
+        }
     }
 
 

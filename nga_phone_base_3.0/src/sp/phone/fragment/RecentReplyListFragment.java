@@ -114,6 +114,13 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
         });
     }
 
+    @Override
+    public void onResume() {
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(lv);
+        }
+        super.onResume();
+    }
 
     void refresh() {
         JsonRecentNotifierLoadTask task = new JsonRecentNotifierLoadTask(getActivity(),
@@ -182,6 +189,9 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
                     public void onDismiss(DialogInterface arg0) {
                         // TODO Auto-generated method stub
                         dialog.dismiss();
+                        if (PhoneConfiguration.getInstance().fullscreen) {
+                            ActivityUtils.getInstance().setFullScreen(lv);
+                        }
                     }
 
                 });
@@ -228,7 +238,16 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         int menuId;
+        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
+            int flag = PhoneConfiguration.getInstance().getUiFlag();
+            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 主题列表，UIFLAG为1或者1+2或者1+4或者1+2+4
+                menuId = R.menu.recent_reply_menu;
+            } else {
+                menuId = R.menu.recent_reply_menu;
+            }
+        } else {
             menuId = R.menu.recent_reply_menu;
+        }
         inflater.inflate(menuId, menu);
 
     }

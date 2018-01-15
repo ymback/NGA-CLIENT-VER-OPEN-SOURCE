@@ -17,10 +17,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.NgaClientApp;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
@@ -139,7 +138,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
         int id = 0;
         id = Integer.parseInt(result);
 
-        if (id <= BuildConfig.VERSION_CODE) {
+        if (id <= NgaClientApp.version) {
             NLog.i(TAG, "application alread up to date");
             return;
         }
@@ -166,7 +165,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
         // notification.number = 5;
 
         notification.defaults = Notification.DEFAULT_LIGHTS;
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.NOTIFIACTION_SOUND))
+        if (PhoneConfiguration.getInstance().notificationSound)
             notification.defaults |= Notification.DEFAULT_SOUND;
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         // Notification notification = new Notification(sp.phone.activity.R.drawable.defult_img,tickerText,

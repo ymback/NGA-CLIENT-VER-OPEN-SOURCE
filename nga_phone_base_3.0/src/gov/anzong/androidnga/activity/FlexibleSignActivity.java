@@ -143,6 +143,9 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
         }
 
         View view = findViewById(R.id.sign_list);
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(view);
+        }
         super.onResume();
     }
 

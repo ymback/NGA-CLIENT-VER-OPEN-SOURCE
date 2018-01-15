@@ -1,16 +1,18 @@
 package sp.phone.listener;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.FunctionUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 public class MyListenerForReply implements OnClickListener {
@@ -115,6 +117,9 @@ public class MyListenerForReply implements OnClickListener {
                             PhoneConfiguration.getInstance().loginActivityClass);
                 }
                 mcontext.startActivity(intent);
+                if (PhoneConfiguration.getInstance().showAnimation)
+                    ((Activity) mcontext).overridePendingTransition(
+                            R.anim.zoom_enter, R.anim.zoom_exit);
                 return null;
             }
         }).execute();

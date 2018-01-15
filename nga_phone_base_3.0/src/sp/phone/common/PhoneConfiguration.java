@@ -1,6 +1,7 @@
 package sp.phone.common;
 
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.preference.PreferenceManager;
 
 import java.util.HashMap;
@@ -25,7 +26,28 @@ import gov.anzong.meizi.MeiziTopicActivity;
 import sp.phone.utils.ApplicationContextHolder;
 
 public class PhoneConfiguration implements PreferenceKey {
+    public int nikeWidth = 100;
+    public boolean downAvatarNoWifi;
+    public boolean downImgNoWifi;
+    public boolean iconmode;
+    public boolean refresh_after_post_setting_mode = true;
+    public int swipeenablePosition = 2;    //0 = left, 1 = right, 2= L&R, 3 = L&R&B
+    public int HandSide = 0;    //0 = right, 1 = left
+    public int blackgunsound = 0;    //0 = right, 1 = left
+    public boolean notification;
+    public boolean notificationSound;
     public long lastMessageCheck = 0;
+    public boolean showAnimation = false;
+    public boolean showSignature = true;
+    public Location location = null;
+    public boolean uploadLocation = false;
+    public boolean showReplyButton = true;
+    public boolean swipeBack = true;
+    public boolean showColortxt = false;
+    public boolean fullscreen = false;
+    public boolean kitwebview = false;
+    public boolean materialMode;
+    public String db_cookie;
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
     public Class<?> nonameArticleActivityClass = NonameArticleListActivity.class;
@@ -41,13 +63,15 @@ public class PhoneConfiguration implements PreferenceKey {
     public Class<?> MeiziTopicActivityClass = MeiziTopicActivity.class;
     public Class<?> messageActivityClass = MessageListActivity.class;
     public Class<?> nonameActivityClass = FlexibleNonameTopicListActivity.class;
-    public Class<?> messageDetailActivity = MessageDetailActivity.class;
+    public Class<?> messageDetialActivity = MessageDetailActivity.class;
+    private boolean refreshAfterPost;
+    private float textSize;
+    private int webSize;
+    private int uiFlag = 0;
 
     private Map<String, Boolean> mBooleanMap = new HashMap<>();
 
     private Map<String, Integer> mIntegerMap = new HashMap<>();
-
-    private Map<String, String> mStringMap = new HashMap<>();
 
     private static class PhoneConfigurationHolder {
 
@@ -58,7 +82,6 @@ public class PhoneConfiguration implements PreferenceKey {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext());
         initBooleanMap(sp);
         initIntegerMap(sp);
-        initStringMap(sp);
     }
 
     private void initBooleanMap(SharedPreferences sp) {
@@ -66,51 +89,23 @@ public class PhoneConfiguration implements PreferenceKey {
         mBooleanMap.put(PreferenceKey.HARDWARE_ACCELERATED, sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true));
         mBooleanMap.put(PreferenceKey.BOTTOM_TAB, sp.getBoolean(PreferenceKey.BOTTOM_TAB, false));
         mBooleanMap.put(PreferenceKey.LEFT_HAND, sp.getBoolean(PreferenceKey.LEFT_HAND, false));
-        mBooleanMap.put(PreferenceKey.FILTER_SUB_BOARD, sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD, false));
-        mBooleanMap.put(PreferenceKey.SHOW_REPLYBUTTON, sp.getBoolean(PreferenceKey.SHOW_REPLYBUTTON, true));
-        mBooleanMap.put(PreferenceKey.SHOW_SIGNATURE, sp.getBoolean(PreferenceKey.SHOW_SIGNATURE, false));
-        mBooleanMap.put(PreferenceKey.SHOW_COLORTXT, sp.getBoolean(PreferenceKey.SHOW_COLORTXT, false));
-        mBooleanMap.put(PreferenceKey.FULLSCREENMODE, sp.getBoolean(PreferenceKey.FULLSCREENMODE, false));
-        mBooleanMap.put(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI, sp.getBoolean(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI, false));
-        mBooleanMap.put(PreferenceKey.REFRESH_AFTER_POST, sp.getBoolean(PreferenceKey.REFRESH_AFTER_POST, false));
-        mBooleanMap.put(PreferenceKey.SWIPEBACK, sp.getBoolean(PreferenceKey.SWIPEBACK, true));
-        mBooleanMap.put(PreferenceKey.ENABLE_NOTIFIACTION, sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true));
-        mBooleanMap.put(PreferenceKey.NOTIFIACTION_SOUND, sp.getBoolean(NOTIFIACTION_SOUND, true));
-        mBooleanMap.put(PreferenceKey.SHOW_ICON_MODE, sp.getBoolean(PreferenceKey.SHOW_ICON_MODE, false));
-        mBooleanMap.put(PreferenceKey.DOWNLOAD_IMG_NO_WIFI, sp.getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI, false));
+        mBooleanMap.put(PreferenceKey.FILTER_SUB_BOARD,sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD,false));
     }
 
     private void initIntegerMap(SharedPreferences sp) {
         mIntegerMap.put(PreferenceKey.MATERIAL_THEME, Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0")));
-        mIntegerMap.put(PreferenceKey.WEB_SIZE, sp.getInt(PreferenceKey.WEB_SIZE, 16));
-        mIntegerMap.put(PreferenceKey.TEXT_SIZE, sp.getInt(PreferenceKey.TEXT_SIZE, 21));
-        mIntegerMap.put(PreferenceKey.NICK_WIDTH, sp.getInt(PreferenceKey.NICK_WIDTH, 100));
-        mIntegerMap.put(PreferenceKey.SWIPEBACKPOSITION, Integer.parseInt(sp.getString(PreferenceKey.SWIPEBACKPOSITION, "2")));
-        mIntegerMap.put(PreferenceKey.BLACKGUN_SOUND, Integer.parseInt(sp.getString(PreferenceKey.BLACKGUN_SOUND, "0")));
-    }
-
-    private void initStringMap(SharedPreferences sp) {
-        mStringMap.put(PreferenceKey.MEIZI_COOLIE, sp.getString(PreferenceKey.MEIZI_COOLIE, ""));
     }
 
     public void putData(String key, int data) {
         mIntegerMap.put(key, data);
     }
 
-    public void putData(String key, String data) {
-        mStringMap.put(key, data);
-    }
-
-    public void putData(String key, boolean data) {
-        mBooleanMap.put(key, data);
-    }
-
     public int getInt(String key) {
         return mIntegerMap.get(key);
     }
 
-    public String getString(String key) {
-        return mStringMap.get(key);
+    public void putData(String key, boolean data) {
+        mBooleanMap.put(key, data);
     }
 
     public boolean getBoolean(String key) {
@@ -121,9 +116,72 @@ public class PhoneConfiguration implements PreferenceKey {
         return PhoneConfigurationHolder.sInstance;
     }
 
+    public String getDb_Cookie() {
+        return db_cookie;
+    }
+
+    public void setDb_Cookie(String db_cookie) {
+        this.db_cookie = db_cookie;
+    }
+
+    public int getNikeWidth() {
+        return nikeWidth;
+    }
+
+    public boolean isDownAvatarNoWifi() {
+        return downAvatarNoWifi;
+    }
+
+    public void setDownAvatarNoWifi(boolean downAvatarNoWifi) {
+        this.downAvatarNoWifi = downAvatarNoWifi;
+    }
+
+    public boolean isDownImgNoWifi() {
+        return downImgNoWifi;
+    }
+
+    public void setDownImgNoWifi(boolean downImgNoWifi) {
+        this.downImgNoWifi = downImgNoWifi;
+    }
+
+    public boolean isMaterialMode() {
+        return true;
+    }
+
+    public void setMaterialMode(boolean materialMode) {
+        this.materialMode = materialMode;
+    }
+
+    public float getTextSize() {
+        return textSize;
+    }
+
+    public void setTextSize(float textSize) {
+        this.textSize = textSize;
+    }
+
+    public int getWebSize() {
+        return webSize;
+    }
+
+    public void setWebSize(int webSize) {
+        this.webSize = webSize;
+    }
+
+    public boolean isRefreshAfterPost() {
+        return refreshAfterPost;
+    }
+
+    public void setRefreshAfterPost(boolean refreshAfterPost) {
+        this.refreshAfterPost = refreshAfterPost;
+    }
+
     public String getCookie() {
         return UserManagerImpl.getInstance().getCookie();
     }
 
+    public int getUiFlag() {
+        return uiFlag;
+    }
 }
 

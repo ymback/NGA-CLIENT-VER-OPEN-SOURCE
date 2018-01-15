@@ -86,7 +86,7 @@ public class MessageListActivity extends SwipeBackAppCompatActivity
         int mid = StringUtils.getUrlParameter(midString, "mid");
         Intent intent = new Intent();
         intent.putExtra("mid", mid);
-        intent.setClass(this, PhoneConfiguration.getInstance().messageDetailActivity);
+        intent.setClass(this, PhoneConfiguration.getInstance().messageDetialActivity);
         startActivity(intent);
     }
 }

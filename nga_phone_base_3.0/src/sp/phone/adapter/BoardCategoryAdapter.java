@@ -17,7 +17,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 
 /**
  * 版块Grid Adapter
@@ -94,7 +93,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
     private int getResId(int position) {
         String resName;
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SHOW_ICON_MODE)) {
+        if (PhoneConfiguration.getInstance().iconmode) {
             resName = "oldp" + mCategory.get(position).getIconOld();
         } else {
             resName = "p" + mCategory.get(position).getIcon();

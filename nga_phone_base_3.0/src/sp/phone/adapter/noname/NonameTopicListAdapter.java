@@ -12,7 +12,6 @@ import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
-import sp.phone.common.PreferenceKey;
 import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
@@ -117,7 +116,7 @@ public class NonameTopicListAdapter extends BaseAdapter implements
             holder.num.setTextColor(nightLinkColor);
         }
         holder.title.setTextColor(res.getColor(theme.getForegroundColor()));
-        float size = PhoneConfiguration.getInstance().getInt(PreferenceKey.TEXT_SIZE);
+        float size = PhoneConfiguration.getInstance().getTextSize();
 
         String titile = entry.title;
         if (StringUtils.isEmpty(titile)) {

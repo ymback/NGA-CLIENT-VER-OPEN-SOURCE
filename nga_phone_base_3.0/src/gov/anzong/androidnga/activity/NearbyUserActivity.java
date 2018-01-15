@@ -98,7 +98,10 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
             return;
         }
 
-        Location location = null;
+        if (PhoneConfiguration.getInstance().location == null)
+            ActivityUtils.reflushLocation(this);
+
+        Location location = PhoneConfiguration.getInstance().location;
 
         SharedPreferences share = getSharedPreferences(
                 PERFERENCE, MODE_PRIVATE);
@@ -130,12 +133,12 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
         } catch (Exception e) {
             return;
         }
-//        Location myloc = PhoneConfiguration.getInstance().location;
-//        for (int i = 0; i < list.size(); i++) {
-//            list.get(i).setJuli(String.valueOf(ActivityUtils.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
-//        }
+        Location myloc = PhoneConfiguration.getInstance().location;
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setJuli(String.valueOf(ActivityUtils.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
+        }
         attacher.setRefreshComplete();
-        if (list == null ||  list.size() == 0) {
+        if (list != null && list.size() == 0) {
             showToast(R.string.nearby_no_user);
         }
 
@@ -170,6 +173,9 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
                             i.putExtra("mode", "username");
                             i.putExtra("username", texta);
                             i.setClass(lv.getContext(), PhoneConfiguration.getInstance().profileActivityClass);
+                            if (PhoneConfiguration.getInstance().showAnimation)
+                                overridePendingTransition(R.anim.zoom_enter,
+                                        R.anim.zoom_exit);
                             startActivity(i);
                         }
                     }
@@ -223,6 +229,13 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
     }
 
 
+    @Override
+    protected void onResume() {
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(lv);
+        }
+        super.onResume();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

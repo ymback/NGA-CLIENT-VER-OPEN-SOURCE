@@ -18,14 +18,15 @@ import java.io.InputStream;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.TopicPostAction;
-import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
+import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.PermissionUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -165,6 +166,9 @@ public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPost
             mView.showToast(result);
         }
         ActivityUtils.getInstance().dismiss();
+        if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
+            PhoneConfiguration.getInstance().setRefreshAfterPost(true);
+        }
         if (isSuccess){
             mView.setResult(Activity.RESULT_OK);
             mView.finish();

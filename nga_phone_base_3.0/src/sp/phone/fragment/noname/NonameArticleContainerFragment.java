@@ -79,9 +79,15 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                 mcontainer.setBackgroundResource(R.color.night_bg_color);
         }
 
+        if (PhoneConfiguration.getInstance().kitwebview) {
             mTabsAdapter = new NonameThreadFragmentAdapter(getActivity(),
                     getChildFragmentManager(), mViewPager,
                     NonameArticleListFragment.class);
+        } else {
+            mTabsAdapter = new NonameThreadFragmentAdapter(getActivity(),
+                    getChildFragmentManager(), mViewPager,
+                    NonameArticleListFragment.class);
+        }
 
         mTabsAdapter.setArgument("id", tid);
 
@@ -131,6 +137,14 @@ public class NonameArticleContainerFragment extends BaseFragment implements
             }
         }
         if (mTabsAdapter != null) {
+            if (PhoneConfiguration.getInstance().kitwebview) {
+                try {
+                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
+                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
+                } catch (Exception e) {
+
+                }
             } else {
                 try {
                     ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
@@ -139,13 +153,23 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                 } catch (Exception e) {
 
                 }
+            }
         }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
+        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
+            int flag = PhoneConfiguration.getInstance().getUiFlag();
+            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 文章列表，UIFLAG为1或者1+2或者1+4或者1+2+4
+                inflater.inflate(R.menu.nonamearticlelist_menu_left, menu);
+            } else {
+                inflater.inflate(R.menu.nonamearticlelist_menu, menu);
+            }
+        } else {
             inflater.inflate(R.menu.nonamearticlelist_menu, menu);
+        }
 
         MenuItem lock = menu.findItem(R.id.article_menuitem_lock);
         int orentation = ThemeManager.getInstance().screenOrentation;
@@ -212,6 +236,9 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                 intent.setClass(getActivity(),
                         PhoneConfiguration.getInstance().nonamePostActivityClass);
                 startActivity(intent);
+                if (PhoneConfiguration.getInstance().showAnimation)
+                    getActivity().overridePendingTransition(R.anim.zoom_enter,
+                            R.anim.zoom_exit);
                 break;
             case R.id.article_menuitem_refresh:
                 int current = mViewPager.getCurrentItem();
@@ -249,6 +276,15 @@ public class NonameArticleContainerFragment extends BaseFragment implements
     private void nightMode(final MenuItem menu) {
         changeNightMode(menu);
         if (mTabsAdapter != null) {
+            if (PhoneConfiguration.getInstance().kitwebview) {
+                try {
+                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
+                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
+                    ((NonameArticleListFragmentNew) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
+                } catch (Exception e) {
+
+                }
+            } else {
                 try {
                     ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem())).modechange();
                     ((NonameArticleListFragment) mTabsAdapter.getRegisteredFragment(mViewPager.getCurrentItem() + 1)).modechange();
@@ -256,6 +292,7 @@ public class NonameArticleContainerFragment extends BaseFragment implements
                 } catch (Exception e) {
 
                 }
+            }
         }
         if (mCallback != null)
             mCallback.onModeChanged();

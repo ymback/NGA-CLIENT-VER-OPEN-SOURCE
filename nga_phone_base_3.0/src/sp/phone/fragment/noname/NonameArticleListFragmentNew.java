@@ -31,6 +31,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.interfaces.OnNonameThreadPageLoadFinishedListener;
+import sp.phone.interfaces.PagerOwner;
 import sp.phone.listener.MyListenerForNonameReply;
 import sp.phone.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
@@ -67,6 +68,8 @@ public class NonameArticleListFragmentNew extends Fragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        PhoneConfiguration.getInstance().setRefreshAfterPost(
+                false);
         page = getArguments().getInt("page") + 1;
         tid = getArguments().getInt("id");
         super.onCreate(savedInstanceState);
@@ -171,6 +174,9 @@ public class NonameArticleListFragmentNew extends Fragment implements
                 intent.setClass(getActivity(),
                         PhoneConfiguration.getInstance().nonamePostActivityClass);
                 startActivity(intent);
+                if (PhoneConfiguration.getInstance().showAnimation)
+                    getActivity().overridePendingTransition(R.anim.zoom_enter,
+                            R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
                 FunctionUtils.CopyDialog(content, getActivity(), scrollview);
@@ -185,6 +191,27 @@ public class NonameArticleListFragmentNew extends Fragment implements
         NLog.d(TAG, "onResume pid=" + pid + "&page=" + page);
         // setHasOptionsMenu(true);
 
+        if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
+            if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
+
+                PagerOwner father = null;
+                try {
+                    father = (PagerOwner) getActivity();
+                    if (father.getCurrentPage() == page) {
+                        PhoneConfiguration.getInstance().setRefreshAfterPost(
+                                false);
+                        // this.task = null;
+                        this.needLoad = true;
+                        linear.removeAllViewsInLayout();
+                    }
+                } catch (ClassCastException e) {
+                    NLog.e(TAG, "father activity does not implements interface "
+                            + PagerOwner.class.getName());
+
+                }
+
+            }
+        }
         this.loadPage();
         if (mData != null) {
             ((OnNonameThreadPageLoadFinishedListener) getActivity())
@@ -292,7 +319,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
         int lou = -1;
         if (row != null)
             lou = row.floor;
-        if (!PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SHOW_REPLYBUTTON)) {
+        if (!PhoneConfiguration.getInstance().showReplyButton) {
             holder.viewBtn.setVisibility(View.GONE);
         } else {
             MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(

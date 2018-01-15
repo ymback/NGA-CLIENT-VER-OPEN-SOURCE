@@ -69,6 +69,8 @@ public class NonameArticleListFragment extends Fragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        PhoneConfiguration.getInstance().setRefreshAfterPost(
+                false);
         page = getArguments().getInt("page") + 1;
         tid = getArguments().getInt("id");
         articleAdpater = new NonameArticleListAdapter(this.getActivity());
@@ -159,6 +161,26 @@ public class NonameArticleListFragment extends Fragment implements
     public void onResume() {
         NLog.d(TAG, "onResume pid=" + pid + "&page=" + page);
         // setHasOptionsMenu(true);
+        if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
+            if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
+
+                PagerOwner father = null;
+                try {
+                    father = (PagerOwner) getActivity();
+                    if (father.getCurrentPage() == page) {
+                        PhoneConfiguration.getInstance().setRefreshAfterPost(
+                                false);
+                        // this.task = null;
+                        this.needLoad = true;
+                    }
+                } catch (ClassCastException e) {
+                    NLog.e(TAG, "father activity does not implements interface "
+                            + PagerOwner.class.getName());
+
+                }
+
+            }
+        }
         loadPage();
         super.onResume();
         if (result != null) {
@@ -300,6 +322,9 @@ public class NonameArticleListFragment extends Fragment implements
                 intent.setClass(getActivity(),
                         PhoneConfiguration.getInstance().nonamePostActivityClass);
                 startActivity(intent);
+                if (PhoneConfiguration.getInstance().showAnimation)
+                    getActivity().overridePendingTransition(R.anim.zoom_enter,
+                            R.anim.zoom_exit);
                 break;
             case R.id.copy_to_clipboard:
                 FunctionUtils.CopyDialog(content, getActivity(), listview);

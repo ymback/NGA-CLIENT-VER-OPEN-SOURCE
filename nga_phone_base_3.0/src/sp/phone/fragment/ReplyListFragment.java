@@ -18,9 +18,10 @@ import java.util.List;
 
 import sp.phone.adapter.PendingReplyAdapter;
 import sp.phone.bean.NotificationObject;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ParamKey;
+import sp.phone.utils.ActivityUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 public class ReplyListFragment extends Fragment implements PreferenceKey {
@@ -67,5 +68,13 @@ public class ReplyListFragment extends Fragment implements PreferenceKey {
             }
 
         });
+    }
+
+    @Override
+    public void onResume() {
+        if (PhoneConfiguration.getInstance().fullscreen) {
+            ActivityUtils.getInstance().setFullScreen(lv);
+        }
+        super.onResume();
     }
 }

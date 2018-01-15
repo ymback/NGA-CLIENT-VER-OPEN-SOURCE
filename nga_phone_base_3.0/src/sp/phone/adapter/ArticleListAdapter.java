@@ -20,7 +20,6 @@ import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.listener.ClientListener;
@@ -118,7 +117,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item, parent, false);
         ArticleViewHolder viewHolder = new ArticleViewHolder(view);
         ViewGroup.LayoutParams lp = viewHolder.avatarIV.getLayoutParams();
-        lp.width = lp.height = PhoneConfiguration.getInstance().getInt(PreferenceKey.NICK_WIDTH);
+        lp.width = lp.height = PhoneConfiguration.getInstance().getNikeWidth();
         return viewHolder;
     }
 
@@ -130,7 +129,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         int lou = -1;
         if (row != null)
             lou = row.getLou();
-        if (!PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SHOW_REPLYBUTTON)) {
+        if (!PhoneConfiguration.getInstance().showReplyButton) {
             holder.viewBtn.setVisibility(View.GONE);
         } else {
             MyListenerForReply myListenerForReply = new MyListenerForReply(position, mData, mContext);
@@ -218,7 +217,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
         final boolean downImg = DeviceUtils.isWifiConnected(mContext)
-                || PhoneConfiguration.getInstance().getBoolean(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI);
+                || PhoneConfiguration.getInstance()
+                .isDownAvatarNoWifi();
         if (avatarUrl != null) {
             GlideApp.with(mContext)
                     .load(avatarUrl)

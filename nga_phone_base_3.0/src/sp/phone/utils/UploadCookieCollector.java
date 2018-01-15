@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.NgaClientApp;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 
@@ -44,7 +44,7 @@ public class UploadCookieCollector {
     public UploadCookieCollector StartCollect() {
         final PhoneConfiguration config = PhoneConfiguration.getInstance();
         /*String data = "func=login&uid=" + config .getUid()+" &cid=" + config.getCid()
-                +"&expires=31536000&do_not_multi_login=1";
+				+"&expires=31536000&do_not_multi_login=1";
 		HttpPostClient c =  new HttpPostClient(collectURL);
 		String cookie = config.getCookie();
 		c.setCookie(cookie);
@@ -65,7 +65,7 @@ public class UploadCookieCollector {
         if (machine.length() < 19) {
             machine = "[" + machine + "]";
         }
-        final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(BuildConfig.VERSION_CODE).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
+        final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(NgaClientApp.version).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 
         try {
             URL url = new URL(urlString);

@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import io.reactivex.functions.Consumer;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
@@ -144,7 +143,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
     private void handleTitleView(TextView view, ThreadPageInfo entry) {
         ThemeManager theme = ThemeManager.getInstance();
-        float size = PhoneConfiguration.getInstance().getInt(PreferenceKey.TEXT_SIZE);
+        float size = PhoneConfiguration.getInstance().getTextSize();
         view.setTextColor(ContextCompat.getColor(mContext, theme.getForegroundColor()));
         view.setTextSize(size);
         String title = entry.getSubject();

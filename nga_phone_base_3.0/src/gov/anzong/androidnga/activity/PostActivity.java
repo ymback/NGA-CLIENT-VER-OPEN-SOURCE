@@ -15,16 +15,17 @@ import android.text.style.StyleSpan;
 import android.view.MenuItem;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
+import sp.phone.fragment.TopicPostContainer;
 import sp.phone.fragment.material.TopicPostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.presenter.TopicPostPresenter;
+import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.PermissionUtils;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 public class PostActivity extends BasePostActivity implements OnEmotionPickedListener {
@@ -39,6 +40,11 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        if (PhoneConfiguration.getInstance().uploadLocation
+                && PhoneConfiguration.getInstance().location == null) {
+            ActivityUtils.reflushLocation(this);
+        }
 
         Intent intent = this.getIntent();
         String prefix = intent.getStringExtra("prefix");
@@ -94,12 +100,11 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
         bundle.putString("title",title);
         Fragment fragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
         if (fragment == null){
-//            if (PhoneConfiguration.getInstance().isMaterialMode()){
-//                fragment = new TopicPostFragment();
-//            } else {
-//                fragment = new TopicPostContainer();
-//            }
-            fragment = new TopicPostFragment();
+            if (PhoneConfiguration.getInstance().isMaterialMode()){
+                fragment = new TopicPostFragment();
+            } else {
+                fragment = new TopicPostContainer();
+            }
             mPresenter  = new TopicPostPresenter((TopicPostContract.View) fragment);
             mPresenter.setTopicPostAction(act);
             fragment.setArguments(bundle);

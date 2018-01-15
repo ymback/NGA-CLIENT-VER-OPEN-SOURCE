@@ -15,7 +15,6 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 
 /**
@@ -47,7 +46,7 @@ public class MessageUtil {
     }
 
     private boolean isShowImage() {
-        return PhoneConfiguration.getInstance().getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI) || isInWifi();
+        return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
     }
 
     /**

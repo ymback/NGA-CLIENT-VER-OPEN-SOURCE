@@ -26,7 +26,6 @@ import java.util.zip.ZipFile;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 
 public class ImageUtil {
     static final String LOG_TAG = ImageUtil.class.getSimpleName();
@@ -278,7 +277,7 @@ public class ImageUtil {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         Bitmap bitmap = BitmapFactory.decodeFile(avatarPath, opts);
-        final int avatarWidth = PhoneConfiguration.getInstance().getInt(PreferenceKey.NICK_WIDTH);
+        final int avatarWidth = PhoneConfiguration.getInstance().getNikeWidth();
 
         final int minSideLength = Math.min(avatarWidth, maxHeight);
         opts.inSampleSize = ImageUtil.computeSampleSize(opts, minSideLength,
@@ -315,7 +314,7 @@ public class ImageUtil {
             return null;
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
-        final int avatarWidth = PhoneConfiguration.getInstance().getInt(PreferenceKey.NICK_WIDTH);
+        final int avatarWidth = PhoneConfiguration.getInstance().getNikeWidth();
 
         final int minSideLength = Math.min(avatarWidth, maxHeight);
         opts.inSampleSize = ImageUtil.computeSampleSize(opts, minSideLength,
