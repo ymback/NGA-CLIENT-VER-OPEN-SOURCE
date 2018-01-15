@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -19,10 +18,6 @@ import android.widget.Spinner;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.PostActivity;
-import sp.phone.adapter.ActionBarUserListAdapter;
-import sp.phone.adapter.SpinnerUserListAdapter;
-import sp.phone.common.UserManager;
-import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
@@ -100,26 +95,6 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
 
         Spinner userSpinner = getSpinner();
         if (userSpinner != null) {
-            SpinnerUserListAdapter adapter = new ActionBarUserListAdapter(getContext());
-            userSpinner.setAdapter(adapter);
-            userSpinner.setSelection(UserManagerImpl.getInstance().getActiveUserIndex());
-            userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    UserManager um = UserManagerImpl.getInstance();
-                    if (position != um.getActiveUserIndex()) {
-                        um.setActiveUser(position);
-                    }
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-
-            });
             userSpinner.setVisibility(View.VISIBLE);
         }
     }
