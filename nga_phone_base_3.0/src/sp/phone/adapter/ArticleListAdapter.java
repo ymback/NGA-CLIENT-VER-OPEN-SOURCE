@@ -216,7 +216,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     }
 
     private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
-        if (PermissionUtils.hasStoragePermission(mContext)) {
+        if (!PermissionUtils.hasStoragePermission(mContext)) {
             avatarIV.setImageResource(R.drawable.default_avatar);
             return;
         }

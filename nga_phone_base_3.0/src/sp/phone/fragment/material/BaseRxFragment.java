@@ -77,8 +77,12 @@ public class BaseRxFragment extends BaseFragment {
     }
 
     protected void registerRxBus() {
+        registerRxBus(FragmentEvent.DETACH);
+    }
+
+    protected void registerRxBus(FragmentEvent event) {
         RxBus.getInstance().register(RxEvent.class)
-                .compose(mRxLifecycleProvider.<RxEvent>bindUntilEvent(FragmentEvent.DETACH))
+                .compose(mRxLifecycleProvider.<RxEvent>bindUntilEvent(event))
                 .subscribe(new BaseSubscriber<RxEvent>() {
                     @Override
                     public void onNext(@NonNull RxEvent rxEvent) {

@@ -33,15 +33,7 @@ public class TopicConvertFactory {
             while (count < map.size()) {
                 String key = String.valueOf(count);
                 TopicListBean.DataBean.TBean tBean = map.get(key);
-                if (tBean == null) {
-                    count++;
-                    continue;
-                } else if (tBean.getParent() != null
-                        // 暂时只对水区有效
-                        && topicListBean.getData().get__F() != null
-                        && topicListBean.getData().get__F().getFid() == -7
-                        && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)) {
-                    NLog.d("屏蔽子版块帖子 " + tBean.getSubject());
+                if (tBean == null || topicFilter(topicListBean, tBean)) {
                     count++;
                     continue;
                 }
@@ -73,7 +65,7 @@ public class TopicConvertFactory {
                 count++;
             }
 
-            sort(listInfo.getThreadPageList());
+            topicSort(listInfo.getThreadPageList());
             return listInfo;
         } catch (NullPointerException e) {
             NLog.e(TAG, "can not parse :\n" + js);
@@ -82,7 +74,7 @@ public class TopicConvertFactory {
 
     }
 
-    private static void sort(List<ThreadPageInfo> list) {
+    private static void topicSort(List<ThreadPageInfo> list) {
         if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SORT_BY_POST)) {
             Collections.sort(list, new Comparator<ThreadPageInfo>() {
                 @Override
@@ -92,6 +84,27 @@ public class TopicConvertFactory {
             });
         }
 
+    }
+
+    private static boolean topicFilter(TopicListBean topicListBean, TopicListBean.DataBean.TBean tBean) {
+        // 暂时只对水区有效
+        if (topicListBean.getData().get__F() != null
+                && topicListBean.getData().get__F().getFid() == -7
+                && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)) {
+
+            if (tBean.getRecommend() > 9) {
+                NLog.d("屏蔽固定的渣帖子 " + tBean.getSubject());
+                return true;
+            } else if (tBean.getParent() != null) {
+                NLog.d("屏蔽子版块帖子 " + tBean.getSubject());
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            return false;
+        }
     }
 
     private static String getAnonymityName(String author) {

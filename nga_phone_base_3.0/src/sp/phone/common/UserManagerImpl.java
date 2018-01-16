@@ -128,6 +128,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public boolean hasValidUser() {
+        return mUserList != null && !mUserList.isEmpty();
+    }
+
+    @Override
     public String getCid() {
         User user = getActiveUser();
         return user != null ? user.getCid() : "";
@@ -247,6 +252,7 @@ public class UserManagerImpl implements UserManager {
 
     private void commit() {
         mPrefs.edit()
+                .putInt(PreferenceKey.USER_ACTIVE_INDEX,mActiveIndex)
                 .putString(PreferenceKey.USER_LIST, JSON.toJSONString(mUserList))
                 .putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList))
                 .apply();

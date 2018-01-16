@@ -14,6 +14,8 @@ public interface UserManager {
 
     List<User> getUserList();
 
+    boolean hasValidUser();
+
     void setActiveUser(int index);
 
     int toggleUser(boolean isNext);
@@ -60,5 +62,6 @@ public interface UserManager {
     List<User> getBlackList();
 
     void removeAllBlackList();
+
 
 }

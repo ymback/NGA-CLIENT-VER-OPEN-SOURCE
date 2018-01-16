@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,7 +73,6 @@ public class ArticleTabFragment extends BaseRxFragment {
         if (args != null) {
             mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
         }
-        registerRxBus();
     }
 
     @Override
@@ -135,6 +135,7 @@ public class ArticleTabFragment extends BaseRxFragment {
         if (mFam != null) {
             mFam.collapse();
         }
+        registerRxBus(FragmentEvent.PAUSE);
         super.onResume();
     }
 

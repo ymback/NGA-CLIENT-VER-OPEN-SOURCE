@@ -2,6 +2,7 @@ package sp.phone.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,8 @@ public class ActionBarUserListAdapter extends SpinnerUserListAdapter {
         }
         ((TextView) convertView).setText(mUserList.get(position).getNickName());
 
-
-        if (ActivityUtils.supportNewUi(mContext)){
+        // TODO: 2018/1/16  need check this condition later
+        if (ActivityUtils.supportNewUi(mContext) || mContext.getClass().getSimpleName().equals(ContextThemeWrapper.class.getSimpleName())){
             convertView.setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(mContext));
             ((TextView) convertView).setTextColor(ContextCompat.getColor(mContext,R.color.toolbar_text_color));
         }
