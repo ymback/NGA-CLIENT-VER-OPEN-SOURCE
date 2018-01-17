@@ -363,4 +363,7 @@
     <string name="error_load_failed">加载失败，请重试！</string>
     <string name="error_login_again">请重新登录！</string>
     <string name="error_network">网络错误</string>
+
+    <string name="shortcut_label_daxuanwo">大漩涡</string>
+    <string name="shortcut_label_yishiting">议事厅</string>
 </resources>

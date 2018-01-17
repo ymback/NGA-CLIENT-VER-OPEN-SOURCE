@@ -47,6 +47,7 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
             requestParam.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
             requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
             requestParam.content = StringUtils.getUrlParameter(url, "content");
+            requestParam.fid = StringUtils.getUrlParameter(url,"fid");
         } else if (bundle != null) {
             requestParam = bundle.getParcelable(ParamKey.KEY_PARAM);
             if (requestParam == null) {
