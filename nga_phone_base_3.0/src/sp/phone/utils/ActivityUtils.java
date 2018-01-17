@@ -24,6 +24,7 @@ import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.SettingsSubActivity;
+import gov.anzong.androidnga.activity.TopicHistoryActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import sp.phone.bean.BoardHolder;
 import sp.phone.common.PhoneConfiguration;
@@ -48,6 +49,7 @@ public class ActivityUtils {
             "MessagePostActivity",
             "TopicListActivity",
             "PostActivity",
+            TopicHistoryActivity.class.getSimpleName(),
             SettingsSubActivity.class.getSimpleName(),
             ArticleListActivity.class.getSimpleName(),
     };

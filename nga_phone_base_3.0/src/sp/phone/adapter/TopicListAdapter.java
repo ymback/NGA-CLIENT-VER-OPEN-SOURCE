@@ -324,6 +324,11 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         notifyItemRemoved(position);
     }
 
+    public void removeAll() {
+        mThreadPageList.clear();
+        notifyDataSetChanged();
+    }
+
     public void setOnClickListener(View.OnClickListener listener) {
         mClickListener = listener;
     }

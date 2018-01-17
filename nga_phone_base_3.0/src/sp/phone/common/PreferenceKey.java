@@ -77,4 +77,6 @@ public interface PreferenceKey {
     String PREF_USER = "pref_user";
 
     String FILTER_SUB_BOARD = "filter_sub_board";
+
+    String KEY_TOPIC_HISTORY = "topic_history";
 }

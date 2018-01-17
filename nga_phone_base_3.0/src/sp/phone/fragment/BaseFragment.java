@@ -1,6 +1,7 @@
 package sp.phone.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import gov.anzong.androidnga.activity.TopicHistoryActivity;
 import sp.phone.common.PhoneConfiguration;
 
 /**
@@ -115,5 +117,17 @@ public abstract class BaseFragment extends Fragment {
     public void onDetach() {
         mActivity = null;
         super.onDetach();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_history:
+                startActivity(new Intent(getContext(), TopicHistoryActivity.class));
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

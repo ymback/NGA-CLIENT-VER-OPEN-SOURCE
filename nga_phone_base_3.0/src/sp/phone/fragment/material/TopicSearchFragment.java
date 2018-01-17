@@ -15,6 +15,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.adapter.TopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.TopicHistoryManager;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
@@ -189,6 +190,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
         intent.putExtras(bundle);
         intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
         startActivity(intent);
+        TopicHistoryManager.getInstance().addTopicHistory(info);
     }
 
 }

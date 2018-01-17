@@ -86,6 +86,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     /**
      * 当UncaughtException发生时会转入该函数来处理
      */
+    @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         if ((!PermissionUtils.hasStoragePermission(mContext) || !handleException(ex)) && mDefaultHandler != null) {
             //如果用户没有处理则让系统默认的异常处理器来处理
