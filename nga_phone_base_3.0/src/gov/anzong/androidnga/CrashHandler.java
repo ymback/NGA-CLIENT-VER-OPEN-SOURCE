@@ -1,5 +1,6 @@
 package gov.anzong.androidnga;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import sp.phone.utils.NLog;
+import sp.phone.utils.PermissionUtils;
 
 
 /**
@@ -28,15 +30,16 @@ import sp.phone.utils.NLog;
 public class CrashHandler implements UncaughtExceptionHandler {
     /**
      * Debug Log tag
-     */
-    public static final String TAG = "CrashHandler";
-    /** 是否开启日志输出,在Debug状态下开启,
+     * 是否开启日志输出,在Debug状态下开启,
      * 在Release状态下关闭以提示程序性能
-     * */
+     */
+    private static final String TAG = "CrashHandler";
+
     /**
      * CrashHandler实例
      */
-    private static CrashHandler INSTANCE;
+    @SuppressLint("StaticFieldLeak")
+    private static CrashHandler sInstance;
     /**
      * 系统默认的UncaughtException处理类
      */
@@ -45,9 +48,12 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 程序的Context对象
      */
     private Context mContext;
-    private String courseName;
-    private String VERSION_NAME;
-    private String NAME;
+
+    private String mCourseName;
+
+    private String mVersionName;
+
+    private String mPackageName;
 
     /**
      * 保证只有一个CrashHandler实例
@@ -59,10 +65,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 获取CrashHandler实例 ,单例模式
      */
     public static CrashHandler getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new CrashHandler();
+        if (sInstance == null) {
+            sInstance = new CrashHandler();
         }
-        return INSTANCE;
+        return sInstance;
     }
 
     /**
@@ -70,10 +76,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 获取系统默认的UncaughtException处理器,
      * 设置该CrashHandler为程序的默认处理器
      *
-     * @param ctx
      */
     public void init(Context ctx) {
-        mContext = ctx;
+        mContext = ctx.getApplicationContext();
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
@@ -82,10 +87,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 当UncaughtException发生时会转入该函数来处理
      */
     public void uncaughtException(Thread thread, Throwable ex) {
-//        handleException(ex);
-//        if (mDefaultHandler != null)
-//            mDefaultHandler.uncaughtException(thread, ex);
-        if (!handleException(ex) && mDefaultHandler != null) {
+        if ((!PermissionUtils.hasStoragePermission(mContext) || !handleException(ex)) && mDefaultHandler != null) {
             //如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
@@ -94,15 +96,17 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 NLog.e(TAG, "Error : ", e);
+                Thread.currentThread().interrupt();
             }
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(10);
         }
     }
 
-    public void setCouseName(String name) {
-        if (name != null)
-            courseName = name;
+    public void setCourseName(String name) {
+        if (name != null) {
+            mCourseName = name;
+        }
     }
 
     /**
@@ -110,7 +114,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 发送错误报告等操作均在此完成.
      * 开发者可以根据自己的情况来自定义异常处理逻辑
      *
-     * @param ex
      * @return true:如果处理了该异常信息;否则返回false
      */
     private boolean handleException(Throwable ex) {
@@ -132,30 +135,40 @@ public class CrashHandler implements UncaughtExceptionHandler {
         //保存错误报告文件
         collectCrashDeviceInfo(mContext);
         String err = saveCrashInfoToFile(ex);
-        StringBuffer sb = new StringBuffer();
-        sb.append(NAME + "\n" + Build.VERSION.SDK_INT + "\n" + VERSION_NAME + "\n" + courseName + "\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append(mPackageName)
+                .append("\n")
+                .append(Build.VERSION.SDK_INT)
+                .append("\n")
+                .append(mVersionName)
+                .append("\n")
+                .append(mCourseName)
+                .append("\n");
         Field[] fields = Build.class.getDeclaredFields();
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
-                sb.append(field.getName().toLowerCase(Locale.CHINA) + ":\t" + field.get(null).toString());
-                sb.append("\n");
+                sb.append(field.getName().toLowerCase(Locale.CHINA))
+                        .append(":\t")
+                        .append(field.get(null).toString())
+                        .append("\n");
             } catch (Exception e) {
-                e.printStackTrace();
+                return false;
             }
         }
         sb.append(err);
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/";
         File f = new File(path);
-        if (!f.exists())
+        if (!f.exists()) {
             f.mkdirs();
+        }
         File file = new File(path + "crash" + System.currentTimeMillis() + ".txt");
-        try {
-            FileWriter fw = new FileWriter(file);
+        try (FileWriter fw = new FileWriter(file)) {
             fw.write(sb.toString());
             fw.flush();
             fw.close();
         } catch (Exception e) {
+            return false;
         }
         return true;
     }
@@ -163,8 +176,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
     /**
      * 保存错误信息到字符串
      *
-     * @param ex
-     * @return
      */
     private String saveCrashInfoToFile(Throwable ex) {
         Writer info = new StringWriter();
@@ -189,8 +200,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
             PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(),
                     PackageManager.GET_ACTIVITIES);
             if (pi != null) {
-                NAME = pi.packageName == null ? "not set" : pi.packageName;
-                VERSION_NAME = pi.versionName == null ? "not set" : pi.versionName;
+                mPackageName = pi.packageName == null ? "not set" : pi.packageName;
+                mVersionName = pi.versionName == null ? "not set" : pi.versionName;
             }
         } catch (NameNotFoundException e) {
             NLog.e(TAG, "Error while collect package info", e);
