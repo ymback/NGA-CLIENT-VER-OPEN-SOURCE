@@ -21,7 +21,9 @@ public class ThemeManager {
 
     private int[] mAccentColors = new int[]{R.color.colorAccentBrown, R.color.colorAccentGreen, R.color.colorAccentBlack};
 
-    private int[] mThemes = new int[]{R.style.AppThemeDayNightBrown, R.style.AppThemeDayNightGreen, R.style.AppThemeDayNightBlack};
+    private int[] mActionBarThemes = {R.style.AppThemeDayNightBrown, R.style.AppThemeDayNightGreen, R.style.AppThemeDayNightBlack};
+
+    private int[] mNoActionBarThemes = {R.style.AppThemeDayNightBrown_NoActionBar, R.style.AppThemeDayNightGreen_NoActionBar, R.style.AppThemeDayNightBlack_NoActionBar};
 
     static final public int ACTION_BAR_FLAG = 31;
     public int mode = 0;
@@ -97,7 +99,11 @@ public class ThemeManager {
         return ContextCompat.getColor(context, mAccentColors[mThemeIndex]);
     }
 
-    public int getTheme() {
-        return mThemes[mThemeIndex];
+    public int getNoActionBarTheme() {
+        return mNoActionBarThemes[mThemeIndex];
+    }
+
+    public int getActionBarTheme() {
+        return mActionBarThemes[mThemeIndex];
     }
 }

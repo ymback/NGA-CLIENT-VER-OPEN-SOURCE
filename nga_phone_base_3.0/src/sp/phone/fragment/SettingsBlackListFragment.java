@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.BlackListAdapter;
@@ -42,7 +42,7 @@ public class SettingsBlackListFragment extends BaseFragment implements View.OnCl
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable FrameLayout container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings_user, container, false);
     }
 

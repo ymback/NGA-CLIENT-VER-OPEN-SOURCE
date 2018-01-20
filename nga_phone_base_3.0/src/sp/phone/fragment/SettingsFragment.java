@@ -1,7 +1,6 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +20,7 @@ import android.support.annotation.Nullable;
 import android.view.WindowManager;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.SettingsSubActivity;
+import gov.anzong.androidnga.activity.LauncherSubActivity;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import sp.phone.common.PhoneConfiguration;
@@ -281,13 +280,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         switch (preference.getKey()) {
-            case PhoneConfiguration.ADJUST_SIZE:
-                FragmentManager fm = getActivity().getFragmentManager();
-                fm.beginTransaction().hide(this).add(R.id.container, new SettingsSizeFragment()).addToBackStack(null).commit();
-                break;
+            case PreferenceKey.ADJUST_SIZE:
             case PreferenceKey.PREF_USER:
             case PreferenceKey.PREF_BLACK_LIST:
-                Intent intent = new Intent(getContext(), SettingsSubActivity.class);
+                Intent intent = new Intent(getContext(), LauncherSubActivity.class);
                 intent.putExtra("fragment", preference.getFragment());
                 startActivity(intent);
                 break;

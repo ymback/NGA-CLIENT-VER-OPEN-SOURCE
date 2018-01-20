@@ -1,6 +1,5 @@
 package gov.anzong.androidnga.activity;
 
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,10 +15,6 @@ import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-
-import static sp.phone.common.PreferenceKey.NIGHT_MODE;
-import static sp.phone.common.PreferenceKey.PERFERENCE;
 
 /**
  * Created by liuboyu on 16/6/28.
@@ -30,19 +25,27 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected PhoneConfiguration mConfig = PhoneConfiguration.getInstance();
 
+    private boolean mNeedActionBar = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateWindowFlag();
         updateOrientation();
-        if (ActivityUtils.supportNewUi(this)) {
-            updateThemeUi();
-        }
+        updateThemeUi();
         super.onCreate(savedInstanceState);
+    }
+
+    protected void hideActionBar() {
+        mNeedActionBar = false;
     }
 
     protected void updateThemeUi() {
         ThemeManager tm = ThemeManager.getInstance();
-        setTheme(tm.getTheme());
+        if (mNeedActionBar) {
+            setTheme(tm.getActionBarTheme());
+        } else {
+            setTheme(tm.getNoActionBarTheme());
+        }
         if (tm.isNightMode()) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -74,7 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void setupActionBar(Toolbar toolbar) {
-        if (toolbar != null) {
+        if (toolbar != null && getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
@@ -101,27 +104,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             mToast = Toast.makeText(this, res, Toast.LENGTH_SHORT);
         }
         mToast.show();
-    }
-
-    public void changeNightMode(final MenuItem menu) {
-        ThemeManager tm = ThemeManager.getInstance();
-        SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
-        int mode = ThemeManager.MODE_NORMAL;
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {// 是晚上模式，改白天的
-            menu.setIcon(R.drawable.ic_action_bightness_low);
-            menu.setTitle(R.string.change_night_mode);
-            SharedPreferences.Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, false);
-            editor.apply();
-        } else {
-            menu.setIcon(R.drawable.ic_action_brightness_high);
-            menu.setTitle(R.string.change_daily_mode);
-            SharedPreferences.Editor editor = share.edit();
-            editor.putBoolean(NIGHT_MODE, true);
-            editor.apply();
-            mode = ThemeManager.MODE_NIGHT;
-        }
-        ThemeManager.getInstance().setMode(mode);
     }
 
     @Override

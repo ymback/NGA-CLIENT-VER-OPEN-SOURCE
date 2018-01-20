@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideActionBar();
         super.onCreate(savedInstanceState);
         initDate();
         initView();

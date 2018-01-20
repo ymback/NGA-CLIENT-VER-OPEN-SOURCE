@@ -22,6 +22,7 @@ public class MessageListActivity extends SwipeBackAppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideActionBar();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_list);
         setupActionBar();

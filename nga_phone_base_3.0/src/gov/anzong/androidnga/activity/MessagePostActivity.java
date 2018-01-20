@@ -31,7 +31,7 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        hideActionBar();
         super.onCreate(savedInstanceState);
 
         Intent intent = this.getIntent();

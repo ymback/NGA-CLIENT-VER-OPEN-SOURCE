@@ -261,7 +261,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                 createGotoDialog();
                 break;
             case R.id.night_mode://OK
-                changeNightMode(item);
+               // changeNightMode(item);
                 break;
             case R.id.article_menuitem_back:
             default:
@@ -340,27 +340,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
         }
         df.show(fm, GOTO_TAG);
 
-    }
-
-    @Override
-    protected void onResume() {
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(mViewPager);
-        }
-        super.onResume();
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        return super.onContextItemSelected(item);
     }
 
 	/*

@@ -70,6 +70,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideActionBar();
         mRequestParam = getArticleListParam();
         super.onCreate(savedInstanceState);
         setupFragment();

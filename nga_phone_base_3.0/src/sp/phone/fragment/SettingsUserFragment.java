@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Checkable;
-import android.widget.FrameLayout;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LoginActivity;
@@ -43,7 +43,7 @@ public class SettingsUserFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable FrameLayout container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings_user, container, false);
     }
 

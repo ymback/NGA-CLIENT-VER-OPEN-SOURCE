@@ -73,6 +73,7 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideActionBar();
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
         setupFragment();

@@ -10,8 +10,6 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/window_background</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="CustomActionMode" parent="@style/Widget.AppCompat.ActionMode"/>
@@ -21,6 +19,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBrown</item>
         <item name="colorAccent">@color/colorAccentBrown</item>
         <item name="actionModeStyle">@style/CustomActionModeBrown</item>
+    </style>
+
+    <style name="AppThemeDayNightBrown.NoActionBar" parent="@style/AppThemeDayNightBrown">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="CustomActionModeBrown" parent="@style/CustomActionMode">
@@ -35,6 +38,10 @@
         <item name="actionModeStyle">@style/CustomActionModeGreen</item>
     </style>
 
+    <style name="AppThemeDayNightGreen.NoActionBar" parent="@style/AppThemeDayNightGreen">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <style name="CustomActionModeGreen" parent="@style/CustomActionMode">
         <item name="background">@color/colorPrimaryGreen</item>
@@ -47,6 +54,10 @@
         <item name="actionModeStyle">@style/CustomActionModeBlack</item>
     </style>
 
+    <style name="AppThemeDayNightBlack.NoActionBar" parent="@style/AppThemeDayNightBlack">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <style name="CustomActionModeBlack" parent="@style/CustomActionMode">
         <item name="background">@color/colorPrimaryBlack</item>

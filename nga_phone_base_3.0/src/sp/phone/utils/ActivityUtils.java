@@ -21,12 +21,8 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.MessageDetailActivity;
-import gov.anzong.androidnga.activity.MessageListActivity;
-import gov.anzong.androidnga.activity.SettingsSubActivity;
+import gov.anzong.androidnga.activity.LauncherSubActivity;
 import gov.anzong.androidnga.activity.TopicHistoryActivity;
-import gov.anzong.androidnga.activity.TopicListActivity;
-import sp.phone.bean.BoardHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.SearchDialogFragment;
@@ -50,7 +46,7 @@ public class ActivityUtils {
             "TopicListActivity",
             "PostActivity",
             TopicHistoryActivity.class.getSimpleName(),
-            SettingsSubActivity.class.getSimpleName(),
+            LauncherSubActivity.class.getSimpleName(),
             ArticleListActivity.class.getSimpleName(),
     };
 

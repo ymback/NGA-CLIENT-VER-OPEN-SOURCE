@@ -207,7 +207,7 @@ public class SignContainer extends BaseFragment implements
     }
 
     private void nightMode(final MenuItem menu) {
-        changeNightMode(menu);
+        //changeNightMode(menu);
         isrefresh = true;
         if (mcontainer != null) {
             if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {

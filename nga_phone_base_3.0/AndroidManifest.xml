@@ -252,7 +252,7 @@
             android:theme="@style/SwipeBackTheme"
             android:uiOptions="splitActionBarWhenNarrow"/>
 
-        <activity android:name=".activity.SettingsSubActivity"/>
+        <activity android:name=".activity.LauncherSubActivity"/>
 
         <activity
             android:name=".activity.TopicHistoryActivity"

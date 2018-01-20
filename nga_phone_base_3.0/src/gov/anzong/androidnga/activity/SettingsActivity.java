@@ -14,6 +14,7 @@ public class SettingsActivity extends SwipeBackAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        hideActionBar();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         setupFragment();
@@ -27,19 +28,6 @@ public class SettingsActivity extends SwipeBackAppCompatActivity {
         if (mSettingsFragment == null){
             mSettingsFragment = new SettingsFragment();
             fm.beginTransaction().replace(R.id.container,mSettingsFragment,SettingsFragment.class.getSimpleName()).commit();
-        } else if (fm.getBackStackEntryCount() > 0){
-            fm.beginTransaction().hide(mSettingsFragment).commit();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStack();
-            fm.beginTransaction().show(mSettingsFragment).commit();
-        } else{
-            super.onBackPressed();
         }
     }
 

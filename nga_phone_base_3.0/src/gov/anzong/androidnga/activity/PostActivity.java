@@ -35,7 +35,7 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        hideActionBar();
         super.onCreate(savedInstanceState);
 
         Intent intent = this.getIntent();

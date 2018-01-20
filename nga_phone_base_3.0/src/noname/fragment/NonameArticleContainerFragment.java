@@ -255,7 +255,7 @@ public class NonameArticleContainerFragment extends BaseFragment implements
     }
 
     private void nightMode(final MenuItem menu) {
-        changeNightMode(menu);
+        //changeNightMode(menu);
         if (mTabsAdapter != null) {
         }
         try {

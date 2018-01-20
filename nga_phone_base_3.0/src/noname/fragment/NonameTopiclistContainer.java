@@ -296,7 +296,7 @@ public class NonameTopiclistContainer extends BaseFragment implements
     }
 
     private void nightMode(final MenuItem menu) {
-        changeNightMode(menu);
+        //changeNightMode(menu);
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
