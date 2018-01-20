@@ -1,7 +1,6 @@
 package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,21 +9,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.adapter.SpinnerUserListAdapter;
 import sp.phone.bean.SignData;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.SignContainer;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
-import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
@@ -130,23 +125,6 @@ public class FlexibleSignActivity extends SwipeBackAppCompatActivity implements
     @Override
     public PullToRefreshAttacher getAttacher() {
         return mPullToRefreshAttacher;
-    }
-
-    @Override
-    protected void onResume() {
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-
-        View view = findViewById(R.id.sign_list);
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
-        super.onResume();
     }
 
     @Override

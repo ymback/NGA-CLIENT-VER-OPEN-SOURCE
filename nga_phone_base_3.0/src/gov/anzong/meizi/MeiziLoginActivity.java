@@ -102,9 +102,6 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 
     @Override
     protected void onResume() {
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
         if (alreadylogin && needtopost) {
             finish();
         }

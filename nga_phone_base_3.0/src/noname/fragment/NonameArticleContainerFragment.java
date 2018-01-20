@@ -21,7 +21,7 @@ import android.widget.ImageButton;
 
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.adapter.noname.NonameThreadFragmentAdapter;
+import noname.adapter.NonameThreadFragmentAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
@@ -29,7 +29,7 @@ import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwner;
+import noname.interfaces.PagerOwner;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;

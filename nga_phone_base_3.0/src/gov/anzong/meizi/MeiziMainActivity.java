@@ -136,16 +136,6 @@ public class MeiziMainActivity extends AppCompatActivity implements
 
     @Override
     protected void onResume() {
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
         mAdapter = new MeiziDrawerAdapter(this, mDrawerList);
         mDrawerList.setAdapter(mAdapter);
         super.onResume();

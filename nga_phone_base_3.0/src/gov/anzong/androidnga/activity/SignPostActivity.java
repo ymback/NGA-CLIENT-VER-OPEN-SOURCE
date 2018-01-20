@@ -93,11 +93,6 @@ public class SignPostActivity extends BasePostActivity implements
                 ThemeManager.getInstance().getBackgroundColor()));
         this.setContentView(v);
 
-        if (PhoneConfiguration.getInstance().uploadLocation
-                && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtils.reflushLocation(this);
-        }
-
         Intent intent = this.getIntent();
         prefix = intent.getStringExtra("prefix");
         bodyText = (EditText) findViewById(R.id.reply_body_edittext);
@@ -300,9 +295,6 @@ public class SignPostActivity extends BasePostActivity implements
             FileUploadTask temp = uploadTask;
             uploadTask = null;
             RunParallel(temp);
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }

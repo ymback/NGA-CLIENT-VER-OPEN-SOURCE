@@ -1,4 +1,4 @@
-package sp.phone.interfaces;
+package noname.interfaces;
 
 public interface PagerOwner {
 

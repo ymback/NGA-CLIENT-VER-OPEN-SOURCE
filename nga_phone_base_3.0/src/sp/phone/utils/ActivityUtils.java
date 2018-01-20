@@ -5,10 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -16,13 +13,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.LauncherSubActivity;
-import gov.anzong.androidnga.activity.TopicHistoryActivity;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.SearchDialogFragment;
@@ -35,20 +28,6 @@ public class ActivityUtils {
     static ActivityUtils instance;
     static Object lock = new Object();
     private DialogFragment df = null;
-
-    private static String[] sSupportNewUi = {
-            "SettingsActivity",
-            "LoginActivity",
-            "MainActivity",
-            "MessageListActivity",
-            "MessageDetailActivity",
-            "MessagePostActivity",
-            "TopicListActivity",
-            "PostActivity",
-            TopicHistoryActivity.class.getSimpleName(),
-            LauncherSubActivity.class.getSimpleName(),
-            ArticleListActivity.class.getSimpleName(),
-    };
 
     public static final int REQUEST_CODE_LOGIN = 1;
 
@@ -66,15 +45,6 @@ public class ActivityUtils {
 
 
     private ActivityUtils() {
-    }
-
-    public static boolean supportNewUi(Context context) {
-        for (int i = 0; i < sSupportNewUi.length; i++) {
-            if (sSupportNewUi[i].equals(context.getClass().getSimpleName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static void showToast(Context context, int resId) {
@@ -95,48 +65,6 @@ public class ActivityUtils {
         }
         return instance;//instance;
 
-    }
-
-    public static void reflushLocation(Context context) {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_LOW);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setCostAllowed(false);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-
-        final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        String provider = locationManager.getBestProvider(criteria, true);
-        Location location = null;
-        if (provider != null) {
-            location = locationManager.getLastKnownLocation(provider);
-        } 
-        /*else{
-            Toast.makeText(context, R.string.location_service_disabled, Toast.LENGTH_SHORT).show();
-	    	return;
-	    }*/
-
-        if (location != null) {
-            updateLocation(location);
-        } else {
-            //Toast.makeText(context, R.string.locating, Toast.LENGTH_SHORT).show();
-            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                provider = LocationManager.NETWORK_PROVIDER;
-            } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                provider = LocationManager.GPS_PROVIDER;
-
-            } else {
-                Toast.makeText(context, R.string.location_service_disabled, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            LocationListener listener = new LocationUpdater(locationManager, context);
-            locationManager.requestLocationUpdates(provider, 0, 1000, listener);
-        }
-
-    }
-
-    public static void updateLocation(Location location) {
-        PhoneConfiguration.getInstance().location = location;
     }
 
     private static double rad(double d) {
@@ -169,9 +97,6 @@ public class ActivityUtils {
 
         return str;
 
-    }
-
-    public void setFullScreen(View v) {
     }
 
     public void noticeSaying(Context context) {

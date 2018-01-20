@@ -1,7 +1,5 @@
 package noname.activity;
 
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,22 +16,20 @@ import android.widget.ListView;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
+import noname.fragment.NonameArticleContainerFragment;
+import noname.fragment.NonameTopiclistContainer;
 import noname.gson.parse.NonameReadResponse;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
-import sp.phone.adapter.noname.NonameTopicListAdapter;
-import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
-import noname.fragment.NonameArticleContainerFragment;
-import noname.fragment.NonameTopiclistContainer;
 import noname.interfaces.EnterJsonNonameArticle;
-import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
 import noname.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.interfaces.PagerOwner;
+import noname.adapter.NonameTopicListAdapter;
+import sp.phone.common.ThemeManager;
+import sp.phone.interfaces.OnChildFragmentRemovedListener;
+import noname.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.utils.NLog;
 import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
@@ -66,11 +62,6 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
         view = LayoutInflater.from(this).inflate(R.layout.topiclist_activity,
                 null);
         getSupportActionBar().setTitle("大漩涡匿名版");
-        Intent intent = getIntent();
-        boolean isfullScreen = intent.getBooleanExtra("isFullScreen", false);
-        if (isfullScreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
         this.setContentView(view);
         nightmode = ThemeManager.getInstance().getMode();
         PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
@@ -142,16 +133,6 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
             onModeChanged();
             invalidateOptionsMenu();
             nightmode = ThemeManager.getInstance().getMode();
-        }
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
         }
         super.onResume();
     }

@@ -114,14 +114,6 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
         });
     }
 
-    @Override
-    public void onResume() {
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(lv);
-        }
-        super.onResume();
-    }
-
     void refresh() {
         JsonRecentNotifierLoadTask task = new JsonRecentNotifierLoadTask(getActivity(),
                 this);
@@ -189,9 +181,6 @@ public class RecentReplyListFragment extends Fragment implements OnRecentNotifie
                     public void onDismiss(DialogInterface arg0) {
                         // TODO Auto-generated method stub
                         dialog.dismiss();
-                        if (PhoneConfiguration.getInstance().fullscreen) {
-                            ActivityUtils.getInstance().setFullScreen(lv);
-                        }
                     }
 
                 });

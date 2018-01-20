@@ -27,7 +27,7 @@ import sp.phone.common.ThemeManager;
 import sp.phone.fragment.dialog.GotoDialogFragment;
 import noname.fragment.NonameArticleListFragment;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwner;
+import noname.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
@@ -58,11 +58,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getViewId());
-
-        if (PhoneConfiguration.getInstance().uploadLocation
-                && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtils.reflushLocation(this);
-        }
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         int pageFromUrl = 0;

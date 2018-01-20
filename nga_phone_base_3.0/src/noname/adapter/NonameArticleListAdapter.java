@@ -1,4 +1,4 @@
-package sp.phone.adapter.noname;
+package noname.adapter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;

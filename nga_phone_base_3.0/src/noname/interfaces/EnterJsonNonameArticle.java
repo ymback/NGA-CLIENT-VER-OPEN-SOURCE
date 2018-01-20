@@ -9,7 +9,7 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
 import noname.gson.parse.NonameThreadBody;
-import sp.phone.adapter.noname.NonameTopicListAdapter;
+import noname.adapter.NonameTopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 

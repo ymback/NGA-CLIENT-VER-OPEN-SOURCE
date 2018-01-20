@@ -98,9 +98,6 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
             return;
         }
 
-        if (PhoneConfiguration.getInstance().location == null)
-            ActivityUtils.reflushLocation(this);
-
         Location location = PhoneConfiguration.getInstance().location;
 
         SharedPreferences share = getSharedPreferences(
@@ -225,14 +222,6 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    @Override
-    protected void onResume() {
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(lv);
-        }
-        super.onResume();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

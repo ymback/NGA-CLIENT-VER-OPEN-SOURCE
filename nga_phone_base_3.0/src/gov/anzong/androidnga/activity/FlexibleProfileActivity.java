@@ -743,16 +743,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
     @SuppressWarnings("WrongConstant")
     @Override
     protected void onResume() {
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
         if (!StringUtils.isEmpty(trueusername)) {
             if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {
                 if (trueusername.equals(UserManagerImpl.getInstance().getUserName())) {

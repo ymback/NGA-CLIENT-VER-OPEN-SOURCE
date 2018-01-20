@@ -43,14 +43,6 @@ public class MeiziTopicActivity extends SwipeBackAppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(view);
-        }
-        super.onResume();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.meizi_topic_menu, menu);

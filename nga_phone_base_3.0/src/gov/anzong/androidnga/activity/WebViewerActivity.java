@@ -14,12 +14,10 @@ import android.webkit.WebViewClient;
 
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import sp.phone.task.DownloadImageTask;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.ReflectionUtil;
 import sp.phone.common.ThemeManager;
+import sp.phone.task.DownloadImageTask;
+import sp.phone.utils.ArticleListWebClient;
+import sp.phone.utils.ReflectionUtil;
 
 public class WebViewerActivity extends SwipeBackAppCompatActivity {
     private WebView wv;
@@ -48,9 +46,6 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     @Override
     protected void onResume() {
         load();
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(wv);
-        }
         super.onResume();
     }
 

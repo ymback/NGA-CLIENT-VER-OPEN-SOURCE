@@ -45,7 +45,7 @@ import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
 import noname.gson.parse.NonameReadBody;
-import sp.phone.adapter.noname.NonameArticleListAdapter;
+import noname.adapter.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
@@ -164,9 +164,6 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(scrollview);
-                }
             }
 
         });
@@ -278,9 +275,6 @@ public class FunctionUtils {
             public void onDismiss(DialogInterface arg0) {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(listView);
-                }
             }
 
         });
@@ -303,9 +297,6 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(listview);
-                }
             }
         });
     }
@@ -362,9 +353,6 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(scrollview);
-                }
             }
         });
     }
@@ -444,9 +432,6 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(scrollview);
-                }
             }
         });
     }
@@ -591,9 +576,6 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(scrollview);
-                }
             }
         });
     }
@@ -644,9 +626,6 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(scrollview);
-                }
             }
 
         });
@@ -698,9 +677,6 @@ public class FunctionUtils {
             @Override
             public void onDismiss(DialogInterface arg0) {
                 dialog.dismiss();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    ActivityUtils.getInstance().setFullScreen(scrollview);
-                }
             }
 
         });

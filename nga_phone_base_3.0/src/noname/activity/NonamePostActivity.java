@@ -97,11 +97,6 @@ public class NonamePostActivity extends BasePostActivity implements
                 ThemeManager.getInstance().getBackgroundColor()));
         this.setContentView(v);
 
-        if (PhoneConfiguration.getInstance().uploadLocation
-                && PhoneConfiguration.getInstance().location == null) {
-            ActivityUtils.reflushLocation(this);
-        }
-
         Intent intent = this.getIntent();
         prefix = intent.getStringExtra("prefix");
         // if(prefix!=null){
@@ -329,9 +324,6 @@ public class NonamePostActivity extends BasePostActivity implements
             NonameFileUploadTask temp = uploadTask;
             uploadTask = null;
             RunParallel(temp);
-        }
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            ActivityUtils.getInstance().setFullScreen(v);
         }
         super.onResume();
     }

@@ -31,7 +31,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.interfaces.PagerOwner;
+import noname.interfaces.PagerOwner;
 import noname.listener.MyListenerForNonameReply;
 import noname.task.JsonNonameThreadLoadTask;
 import sp.phone.task.ReportTask;
