@@ -12,7 +12,7 @@ import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
-import sp.phone.interfaces.OnNonameTopListLoadFinishedListener;
+import noname.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 import sp.phone.common.ThemeManager;

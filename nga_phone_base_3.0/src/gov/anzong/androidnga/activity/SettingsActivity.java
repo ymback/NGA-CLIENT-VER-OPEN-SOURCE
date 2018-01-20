@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 import android.support.v7.widget.Toolbar;
 
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.material.SettingsFragment;
+import sp.phone.fragment.SettingsFragment;
 
 public class SettingsActivity extends SwipeBackAppCompatActivity {
 

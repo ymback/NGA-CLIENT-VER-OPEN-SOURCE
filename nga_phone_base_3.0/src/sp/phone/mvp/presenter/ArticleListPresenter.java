@@ -9,7 +9,7 @@ import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.fragment.material.ArticleListFragment;
+import sp.phone.fragment.ArticleListFragment;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.ArticleListModel;

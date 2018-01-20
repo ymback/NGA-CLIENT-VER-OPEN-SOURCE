@@ -22,7 +22,7 @@ import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
-import sp.phone.listener.MyListenerForNonameReply;
+import noname.listener.MyListenerForNonameReply;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.NLog;

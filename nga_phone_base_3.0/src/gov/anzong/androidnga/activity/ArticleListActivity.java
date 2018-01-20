@@ -9,9 +9,9 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
-import sp.phone.fragment.material.ArticleListFragment;
-import sp.phone.fragment.material.ArticleSearchFragment;
-import sp.phone.fragment.material.ArticleTabFragment;
+import sp.phone.fragment.ArticleListFragment;
+import sp.phone.fragment.ArticleSearchFragment;
+import sp.phone.fragment.ArticleTabFragment;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 

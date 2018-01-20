@@ -8,15 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.FlexibleNonameTopicListActivity;
+import noname.activity.FlexibleNonameTopicListActivity;
 import gov.anzong.androidnga.activity.FlexibleProfileActivity;
 import gov.anzong.androidnga.activity.FlexibleSignActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.MessagePostActivity;
-import gov.anzong.androidnga.activity.NonameArticleListActivity;
-import gov.anzong.androidnga.activity.NonamePostActivity;
+import noname.activity.NonameArticleListActivity;
+import noname.activity.NonamePostActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.RecentReplyListActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;

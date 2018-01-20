@@ -9,8 +9,8 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.LoginAction;
-import sp.phone.fragment.material.LoginFragment;
-import sp.phone.fragment.material.LoginWebFragment;
+import sp.phone.fragment.LoginFragment;
+import sp.phone.fragment.LoginWebFragment;
 import sp.phone.utils.ActivityUtils;
 
 @Route(path = ActivityUtils.PATH_LOGIN)

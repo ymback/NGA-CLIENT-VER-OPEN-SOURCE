@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.fragment.EmotionCategorySelectFragment;
-import sp.phone.fragment.material.TopicPostFragment;
+import sp.phone.fragment.TopicPostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.presenter.TopicPostPresenter;

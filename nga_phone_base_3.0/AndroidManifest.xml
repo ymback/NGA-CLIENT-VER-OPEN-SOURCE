@@ -63,7 +63,7 @@
             android:theme="@style/SwipeBackTheme"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".activity.NonamePostActivity"
+            android:name="noname.activity.NonamePostActivity"
             android:theme="@style/SwipeBackTheme"
             android:windowSoftInputMode="adjustResize"/>
         <activity
@@ -83,14 +83,14 @@
             android:label="@string/label_activity_message_list"
             android:theme="@style/SwipeBackTheme"/>
         <activity
-            android:name=".activity.FlexibleNonameTopicListActivity"
+            android:name="noname.activity.FlexibleNonameTopicListActivity"
             android:theme="@style/SwipeBackTheme"/>
         <activity
             android:name=".activity.MessageDetailActivity"
             android:label="@string/label_activity_message_detail"
             android:theme="@style/SwipeBackTheme"/>
         <activity
-            android:name=".activity.NonameArticleListActivity"
+            android:name="noname.activity.NonameArticleListActivity"
             android:theme="@style/SwipeBackTheme"/>
         <activity
             android:name=".activity.TopicListActivity"

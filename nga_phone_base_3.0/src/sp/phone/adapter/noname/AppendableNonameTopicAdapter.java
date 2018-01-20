@@ -13,8 +13,7 @@ import java.util.Set;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
-import sp.phone.adapter.noname.NonameTopicListAdapter;
-import sp.phone.interfaces.NextJsonNonameTopicListLoader;
+import noname.interfaces.NextJsonNonameTopicListLoader;
 import sp.phone.utils.ActivityUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
-import sp.phone.fragment.material.ArticleListFragment;
+import sp.phone.fragment.ArticleListFragment;
 
 /**
  * 帖子详情分页Adapter

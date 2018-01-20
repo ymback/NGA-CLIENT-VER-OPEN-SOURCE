@@ -1,7 +1,7 @@
 package sp.phone.mvp.presenter;
 
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.fragment.material.TopicSearchFragment;
+import sp.phone.fragment.TopicSearchFragment;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.TopicListModel;
 import sp.phone.listener.OnHttpCallBack;

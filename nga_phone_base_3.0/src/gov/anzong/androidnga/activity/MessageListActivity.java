@@ -13,7 +13,7 @@ import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.material.MessageListFragment;
+import sp.phone.fragment.MessageListFragment;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 

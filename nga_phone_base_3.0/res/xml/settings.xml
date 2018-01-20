@@ -160,7 +160,7 @@
             android:title="@string/setting_title_material_theme"/>
 
         <PreferenceScreen
-            android:fragment="sp.phone.fragment.material.SettingsSizeFragment"
+            android:fragment="sp.phone.fragment.SettingsSizeFragment"
             android:key="adjust_size"
             android:title="@string/setting_title_size"/>
 

@@ -2,7 +2,7 @@ package sp.phone.mvp.presenter;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
-import sp.phone.fragment.material.MessageListFragment;
+import sp.phone.fragment.MessageListFragment;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.model.MessageListModel;
 import sp.phone.mvp.contract.MessageListContract;
