@@ -1,7 +1,6 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
-import sp.phone.mvp.contract.LoginContract;
 import sp.phone.mvp.presenter.LoginPresenter;
 import sp.phone.utils.StringUtils;
 
@@ -25,17 +23,22 @@ import sp.phone.utils.StringUtils;
  * Created by Justwen on 2017/7/5.
  */
 
-public class LoginWebFragment extends BaseMvpFragment<LoginPresenter> implements LoginContract.View {
+public class LoginWebFragment extends BaseFragment {
 
     private ProgressBar mProgressBar;
+
+    private WebView mWebView;
 
     private static final int MAX_PROGRESS = 100;
 
     private static final String LOGIN_URL = "https://bbs.ngacn.cc/nuke.php?__lib=login&__act=login_ui";
 
+    private LoginPresenter mLoginPresenter;
+
     @Override
-    protected LoginPresenter onCreatePresenter() {
-        return new LoginPresenter();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        mLoginPresenter = new LoginPresenter();
+        super.onCreate(savedInstanceState);
     }
 
     private class LoginWebChromeClient extends WebChromeClient {
@@ -56,7 +59,10 @@ public class LoginWebFragment extends BaseMvpFragment<LoginPresenter> implements
             if (message.contains("成功")) {
                 String cookieStr = CookieManager.getInstance().getCookie(view.getUrl());
                 if (!StringUtils.isEmpty(cookieStr)) {
-                    mPresenter.parseCookie(cookieStr);
+                    mLoginPresenter.parseCookie(cookieStr);
+                    if (mActivity != null) {
+                        mActivity.setResult(Activity.RESULT_OK);
+                    }
                 }
             }
             return super.onJsAlert(view, url, message, result);
@@ -67,7 +73,7 @@ public class LoginWebFragment extends BaseMvpFragment<LoginPresenter> implements
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return shouldOverrideUrlLoading(view,request.getUrl().toString());
+            return shouldOverrideUrlLoading(view, request.getUrl().toString());
         }
 
         @Override
@@ -81,45 +87,63 @@ public class LoginWebFragment extends BaseMvpFragment<LoginPresenter> implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_login_web,container,false);
+        if (mWebView != null) {
+            mWebView.destroy();
+        }
+        return inflater.inflate(R.layout.fragment_login_web, container, false);
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        WebView webView = (WebView) view.findViewById(R.id.webview);
-        webView.setWebChromeClient(new LoginWebChromeClient());
-        webView.setWebViewClient(new LoginWebViewClient());
-        WebSettings webSettings = webView.getSettings();
+        mWebView = view.findViewById(R.id.webview);
+        mWebView.setWebChromeClient(new LoginWebChromeClient());
+        mWebView.setWebViewClient(new LoginWebViewClient());
+        WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        mProgressBar = view.findViewById(R.id.progressBar);
         mProgressBar.setMax(MAX_PROGRESS);
-        webView.loadUrl(LOGIN_URL);
+        mWebView.loadUrl(LOGIN_URL);
         super.onViewCreated(view, savedInstanceState);
     }
 
 
+    /**
+     * Called when the fragment is visible to the user and actively running. Resumes the WebView.
+     */
     @Override
-    public void setAuthCodeImg(Bitmap bitmap) {
-
+    public void onPause() {
+        super.onPause();
+        mWebView.onPause();
     }
 
+    /**
+     * Called when the fragment is no longer resumed. Pauses the WebView.
+     */
     @Override
-    public void setAuthCodeImg(int resId) {
-
+    public void onResume() {
+        mWebView.onResume();
+        super.onResume();
     }
 
+    /**
+     * Called when the fragment is no longer in use. Destroys the internal state of the WebView.
+     */
     @Override
-    public void setAuthCode(String text) {
-
-    }
-
-    @Override
-    public void setResult(boolean isChanged) {
-        if (isChanged) {
-            getActivity().setResult(Activity.RESULT_OK);
+    public void onDestroy() {
+        if (mWebView != null) {
+            mWebView.destroy();
+            mWebView = null;
         }
+        super.onDestroy();
+    }
+
+    /**
+     * Gets the WebView.
+     */
+    public WebView getWebView() {
+        return mWebView;
     }
 }

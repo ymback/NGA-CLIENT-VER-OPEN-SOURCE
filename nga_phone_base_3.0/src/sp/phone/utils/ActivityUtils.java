@@ -16,8 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.LauncherSubActivity;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.fragment.TopicHistoryFragment;
 import sp.phone.fragment.dialog.SearchDialogFragment;
 
 public class ActivityUtils {
@@ -396,5 +398,11 @@ public class ActivityUtils {
         } catch (Exception e) {
 
         }
+    }
+
+    public static void startHistoryTopicActivity(Context context) {
+        Intent intent = new Intent(context,LauncherSubActivity.class);
+        intent.putExtra("fragment", TopicHistoryFragment.class.getName());
+        context.startActivity(intent);
     }
 }

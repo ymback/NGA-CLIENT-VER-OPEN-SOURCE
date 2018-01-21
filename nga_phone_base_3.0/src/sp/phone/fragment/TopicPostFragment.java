@@ -23,7 +23,7 @@ import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
 
 /**
- * Created by Yang Yihang on 2017/6/6.
+ * Created by Justwen on 2017/6/6.
  */
 
 public class TopicPostFragment extends MaterialCompatFragment implements TopicPostContract.View {

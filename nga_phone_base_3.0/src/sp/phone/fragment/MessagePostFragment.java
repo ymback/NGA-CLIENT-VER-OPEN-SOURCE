@@ -16,7 +16,7 @@ import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.StringUtils;
 
 /**
- * Created by Yang Yihang on 2017/5/28.
+ * Created by Justwen on 2017/5/28.
  */
 
 public class MessagePostFragment extends MaterialCompatFragment implements MessagePostContract.View {

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import sp.phone.fragment.dialog.EmotionDialogFragment;
-import sp.phone.fragment.ExtensionEmotionFragment;
+import sp.phone.fragment.dialog.ExtensionEmotionFragment;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
 
 public abstract class BasePostActivity extends SwipeBackAppCompatActivity implements EmotionCategorySelectedListener {

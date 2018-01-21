@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * Created by Yang Yihang on 2017/7/16.
+ * Created by Justwen on 2017/7/16.
  */
 
 public class ListSummaryPreference extends ListPreference {

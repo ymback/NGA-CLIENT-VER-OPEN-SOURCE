@@ -254,10 +254,6 @@
 
         <activity android:name=".activity.LauncherSubActivity"/>
 
-        <activity
-            android:name=".activity.TopicHistoryActivity"
-            android:label="@string/label_activity_topic_history"/>
-
     </application>
 
 </manifest>

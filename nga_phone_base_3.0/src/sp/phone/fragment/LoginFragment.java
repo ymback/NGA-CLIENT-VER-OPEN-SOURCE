@@ -14,10 +14,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.trello.rxlifecycle2.LifecycleProvider;
+
 import gov.anzong.androidnga.R;
+import sp.phone.mvp.contract.BaseContract;
 import sp.phone.mvp.contract.LoginContract;
 
-public class LoginFragment extends MaterialCompatFragment implements View.OnClickListener, LoginContract.View {
+public class LoginFragment extends BaseFragment implements View.OnClickListener, LoginContract.View, BaseContract.View {
 
     private EditText mPasswordView;
 
@@ -89,4 +92,8 @@ public class LoginFragment extends MaterialCompatFragment implements View.OnClic
         }
     }
 
+    @Override
+    public LifecycleProvider getLifecycleProvider() {
+        return null;
+    }
 }

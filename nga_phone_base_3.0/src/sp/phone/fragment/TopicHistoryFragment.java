@@ -41,6 +41,7 @@ public class TopicHistoryFragment extends BaseFragment implements View.OnClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mTopicHistoryManager = TopicHistoryManager.getInstance();
+        setTitle(R.string.label_activity_topic_history);
         super.onCreate(savedInstanceState);
     }
 

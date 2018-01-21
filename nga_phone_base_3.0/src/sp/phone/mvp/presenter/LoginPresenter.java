@@ -8,7 +8,7 @@ import java.net.URLDecoder;
 import gov.anzong.androidnga.R;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.LoginAction;
-import sp.phone.fragment.LoginWebFragment;
+import sp.phone.fragment.LoginFragment;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.mvp.contract.LoginContract;
 import sp.phone.mvp.model.LoginModel;
@@ -18,7 +18,7 @@ import sp.phone.utils.StringUtils;
  * Created by Justwen on 2017/6/16.
  */
 
-public class LoginPresenter extends BasePresenter<LoginWebFragment, LoginModel> implements LoginContract.Presenter {
+public class LoginPresenter extends BasePresenter<LoginFragment, LoginModel> implements LoginContract.Presenter {
 
     private LoginAction mLoginAction;
 
@@ -144,9 +144,12 @@ public class LoginPresenter extends BasePresenter<LoginWebFragment, LoginModel> 
     }
 
     private void saveCookie(String uid, String cid, String userName) {
-        mBaseView.showToast(R.string.login_successfully);
         UserManagerImpl.getInstance().addUser(uid, cid, userName, "", 0);
-        mBaseView.setResult(true);
+        if (mBaseView != null) {
+            mBaseView.showToast(R.string.login_successfully);
+            mBaseView.setResult(true);
+        }
+
     }
 
 }

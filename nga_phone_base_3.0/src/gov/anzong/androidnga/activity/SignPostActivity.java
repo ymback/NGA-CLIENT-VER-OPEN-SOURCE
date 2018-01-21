@@ -43,7 +43,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.SignPostAction;
-import sp.phone.fragment.EmotionCategorySelectFragment;
+import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
 import sp.phone.utils.ActivityUtils;
