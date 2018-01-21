@@ -30,7 +30,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
 
 /**
- * Created by Yang Yihang on 2017/6/6.
+ * Created by Justwen on 2017/6/6.
  */
 
 public class TopicPostPresenter implements TopicPostContract.Presenter,TopicPostTask.CallBack,FileUploadTask.onFileUploaded {

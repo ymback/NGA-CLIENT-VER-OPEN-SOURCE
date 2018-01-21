@@ -5,7 +5,7 @@ import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
 
 /**
- * Created by Yang Yihang on 2017/6/25.
+ * Created by Justwen on 2017/6/25.
  */
 
 public class MessagePostModel implements MessagePostContract.Model {

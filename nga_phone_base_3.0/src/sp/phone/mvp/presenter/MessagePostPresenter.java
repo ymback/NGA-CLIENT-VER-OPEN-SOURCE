@@ -22,7 +22,7 @@ import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 
 /**
- * Created by Yang Yihang on 2017/5/28.
+ * Created by Justwen on 2017/5/28.
  */
 
 public class MessagePostPresenter implements MessagePostContract.Presenter,MessagePostTask.CallBack {

@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 
 /**
- * Created by Yang Yihang on 2017/7/16.
+ * Created by Justwen on 2017/7/16.
  */
 
 public class DeviceUtils {

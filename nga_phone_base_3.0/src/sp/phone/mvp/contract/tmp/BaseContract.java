@@ -3,7 +3,7 @@ package sp.phone.mvp.contract.tmp;
 import android.content.Context;
 
 /**
- * Created by Yang Yihang on 2017/5/28.
+ * Created by Justwen on 2017/5/28.
  */
 
 public interface BaseContract {

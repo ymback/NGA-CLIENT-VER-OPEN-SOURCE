@@ -5,7 +5,7 @@ import sp.phone.mvp.contract.tmp.BaseContract;
 import sp.phone.task.MessagePostTask;
 
 /**
- * Created by Yang Yihang on 2017/5/28.
+ * Created by Justwen on 2017/5/28.
  */
 
 public interface MessagePostContract {

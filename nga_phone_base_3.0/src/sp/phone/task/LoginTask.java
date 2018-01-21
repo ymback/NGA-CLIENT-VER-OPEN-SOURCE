@@ -13,7 +13,7 @@ import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
- * Created by Yang Yihang on 2017/6/16.
+ * Created by Justwen on 2017/6/16.
  */
 
 public class LoginTask extends AsyncTask<String, Integer, Boolean> {

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
 /**
- * Created by Yang Yihang on 2017/6/3.
+ * Created by Justwen on 2017/6/3.
  */
 
 public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
