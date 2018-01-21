@@ -94,7 +94,7 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_share:
+            case R.id.menu_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(getPath()));
                 intent.setType("image/jpeg");
