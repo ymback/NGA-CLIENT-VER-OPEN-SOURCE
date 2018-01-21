@@ -41,6 +41,7 @@ import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.dialog.ProfileSearchDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.presenter.BoardPresenter;
+import sp.phone.task.SignLoadTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
@@ -61,10 +62,15 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         hideActionBar();
         super.onCreate(savedInstanceState);
+        prepare();
         initDate();
         initView();
-        checkNewVersion();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
+    }
+
+    private void prepare() {
+        checkNewVersion();
+        startSignLoadTask();
     }
 
     @Override
@@ -74,6 +80,10 @@ public class MainActivity extends BaseActivity {
             startActivity(getIntent());
         }
         super.onResume();
+    }
+
+    private void startSignLoadTask() {
+        new SignLoadTask().execute();
     }
 
     //OK
@@ -156,12 +166,6 @@ public class MainActivity extends BaseActivity {
             df = new ProfileSearchDialogFragment();
             df.show(fm, dialogTag);
         }
-    }
-
-    private void signmission() {
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this, mConfig.signActivityClass);
-        startActivity(intent);
     }
 
     private void myMessage() {

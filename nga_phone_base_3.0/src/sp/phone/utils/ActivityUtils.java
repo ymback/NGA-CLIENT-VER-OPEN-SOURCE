@@ -61,6 +61,10 @@ public class ActivityUtils {
         }
     }
 
+    public static void showToast(String res) {
+        showToast(ApplicationContextHolder.getContext(),res);
+    }
+
     public static ActivityUtils getInstance() {
         if (instance == null) {
             instance = new ActivityUtils();

@@ -76,9 +76,6 @@
             android:launchMode="singleTop"
             android:theme="@style/SwipeBackTheme"/>
         <activity
-            android:name=".activity.FlexibleSignActivity"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity
             android:name=".activity.MessageListActivity"
             android:label="@string/label_activity_message_list"
             android:theme="@style/SwipeBackTheme"/>

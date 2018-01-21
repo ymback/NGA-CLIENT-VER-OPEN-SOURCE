@@ -1,7 +1,6 @@
 package sp.phone.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.File;
 import java.util.HashSet;
@@ -112,6 +111,7 @@ public class HtmlUtil {
 
     /**
      * 匹配超链接, 把链接文字缩短或替换
+     *
      * @param input
      * @return
      */

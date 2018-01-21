@@ -79,4 +79,8 @@ public interface PreferenceKey {
     String FILTER_SUB_BOARD = "filter_sub_board";
 
     String KEY_TOPIC_HISTORY = "topic_history";
+
+    String KEY_SIGN_DATE = "sign_in_date";
+
+    String KEY_AUTO_SIGN = "auto_sign_in";
 }

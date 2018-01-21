@@ -10,7 +10,6 @@ import java.util.Map;
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import noname.activity.FlexibleNonameTopicListActivity;
 import gov.anzong.androidnga.activity.FlexibleProfileActivity;
-import gov.anzong.androidnga.activity.FlexibleSignActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
@@ -52,7 +51,6 @@ public class PhoneConfiguration implements PreferenceKey {
     public Class<?> nonamePostActivityClass = NonamePostActivity.class;
     public Class<?> messagePostActivityClass = MessagePostActivity.class;
     public Class<?> signPostActivityClass = SignPostActivity.class;
-    public Class<?> signActivityClass = FlexibleSignActivity.class;
     public Class<?> profileActivityClass = FlexibleProfileActivity.class;
     public Class<?> loginActivityClass = LoginActivity.class;
     public Class<?> recentReplyListActivityClass = RecentReplyListActivity.class;

@@ -13,7 +13,7 @@ public class NLog {
 
     private static boolean DEBUG = BuildConfig.DEBUG;
 
-    private static final String TAG = "NGA";
+    public static final String TAG = "NGA";
 
     public static int v(String tag, String msg) {
         if (DEBUG) {
@@ -54,6 +54,15 @@ public class NLog {
             return 0;
         }
     }
+
+    public static int e(String msg) {
+        if (DEBUG) {
+            return Log.e(TAG, msg);
+        } else {
+            return 0;
+        }
+    }
+
 
     public static int e(String tag, String msg, Throwable throwable) {
         if (DEBUG) {

@@ -22,11 +22,6 @@ public class DeviceUtils {
         return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
     }
 
-
-    public static boolean isGreaterEqual_5_0() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
-
     public static boolean isMeizu() {
         return DEVICE_NAME_MEIZU.equalsIgnoreCase(android.os.Build.MANUFACTURER);
     }
