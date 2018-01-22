@@ -22,11 +22,10 @@ import com.huewu.pla.lib.internal.PLA_AdapterView;
 
 import java.util.List;
 
-import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziLoadingFooterTask.ReloadListener;
+import gov.anzong.meizi.common.PullToRefreshAttacherOwner;
 import gov.anzong.meizi.utils.MeiziActivityUtils;
-import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -198,19 +197,14 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.meizi_refresh:
-                loadFirstPageAndScrollToTop();
-                return true;
-            case R.id.meizi_back:
-                getActivity().finish();
-                return true;
-//		case R.id.meizi_login:
-//			Intent intent = new Intent(getActivity(),
-//					MeiziLoginActivity.class);
-//			startActivity(intent);
-            default:
-                return true;
+        if (item.getItemId() == R.id.meizi_refresh) {
+            loadFirstPageAndScrollToTop();
+            return true;
+        } else if (item.getItemId() == R.id.meizi_back) {
+            getActivity().finish();
+            return true;
+        } else {
+            return true;
         }
     }
 

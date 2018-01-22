@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MeiziActivityUtils {
 
@@ -24,6 +25,18 @@ public class MeiziActivityUtils {
 
 
     private MeiziActivityUtils() {
+    }
+
+    public static void showToast(Context context, int resId) {
+        if (context != null) {
+            Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void showToast(Context context, String res) {
+        if (context != null) {
+            Toast.makeText(context, res, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static MeiziActivityUtils getInstance() {

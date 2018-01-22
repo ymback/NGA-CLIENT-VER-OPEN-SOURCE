@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 
-import gov.anzong.androidnga.R;
 
 public class MeiziTopicActivity extends AppCompatActivity {
 
@@ -48,16 +47,15 @@ public class MeiziTopicActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.meizi_topic_refresh:
-                if (mTopicFragment != null) {
-                    mTopicFragment.reload();
-                }
-                break;
-            default:
-                finish();
+        if (item.getItemId() == R.id.meizi_topic_refresh) {
+            if (mTopicFragment != null) {
+                mTopicFragment.reload();
+            }
+        } else {
+            finish();
         }
         return true;
+
     }
 
 

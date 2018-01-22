@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziCategoryFragment.OnMeiziSelectedListener;
 import gov.anzong.meizi.common.OnChildFragmentRemovedListener;

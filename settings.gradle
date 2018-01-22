@@ -1,4 +1,4 @@
-include ':PinterestLikeAdapterView'
+include ':PinterestLikeAdapterView', ':meizi'
 include ':ActionBar-PullToRefresh'
 include ':SwipeBackLayoutLibrary'
 include ':ActionBar-PullToRefresh-Library'

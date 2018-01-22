@@ -124,8 +124,8 @@ dependencies {
     compile fileTree(include: '*.jar', dir: 'libs')
     compile project(':SwipeBackLayoutLibrary')
     compile project(':ActionBar-PullToRefresh')
-    compile project(':PinterestLikeAdapterView')
     compile project(':ActionBar-PullToRefresh-Library')
+    //compile project(':meizi')
     compile(name: 'floatingactionmenu', ext: 'aar')
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'com.alibaba:fastjson:1.2.41'

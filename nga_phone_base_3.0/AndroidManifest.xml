@@ -226,28 +226,7 @@
         <activity
             android:name=".activity.RecentReplyListActivity"
             android:theme="@style/SwipeBackTheme"/>
-        <activity
-            android:name="gov.anzong.meizi.MeiziMainActivity"
-            android:icon="@drawable/anzong_foot"
-            android:label="@string/app_meizi"
-            android:theme="@style/AppTheme"/>
-        <activity
-            android:name="gov.anzong.meizi.SplitMeiziMainActivity"
-            android:icon="@drawable/anzong_foot"
-            android:label="@string/app_meizi"
-            android:theme="@style/AppTheme"
-            android:uiOptions="splitActionBarWhenNarrow"/>
-        <activity
-            android:name="gov.anzong.meizi.MeiziTopicActivity"
-            android:icon="@drawable/anzong_foot"
-            android:label="@string/app_meizi"
-            android:theme="@style/AppTheme"/>
-        <activity
-            android:name="gov.anzong.meizi.SplitMeiziTopicActivity"
-            android:icon="@drawable/anzong_foot"
-            android:label="@string/app_meizi"
-            android:theme="@style/AppTheme"
-            android:uiOptions="splitActionBarWhenNarrow"/>
+
 
         <activity android:name=".activity.LauncherSubActivity"/>
 

@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import gov.anzong.androidnga.R;
 import gov.anzong.meizi.common.OnChildFragmentRemovedListener;
 import gov.anzong.meizi.utils.MeiziActivityUtils;
 
@@ -119,25 +118,20 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.meizi_topic_refresh) {
+            loadData();
+            MeiziActivityUtils.getInstance().noticeSaying(getActivity());
+        } else if (item.getItemId() == R.id.article_menuitem_back) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .remove(this).commit();
+            OnChildFragmentRemovedListener father = null;
+            try {
+                father = (OnChildFragmentRemovedListener) getActivity();
+                father.OnChildFragmentRemoved(getId());
+            } catch (ClassCastException e) {
+                Log.e(TAG, "father activity does not implements interface " + OnChildFragmentRemovedListener.class.getName());
 
-        switch (item.getItemId()) {
-            case R.id.meizi_topic_refresh:
-                loadData();
-                MeiziActivityUtils.getInstance().noticeSaying(getActivity());
-                break;
-            case R.id.article_menuitem_back:
-            default:
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .remove(this).commit();
-                OnChildFragmentRemovedListener father = null;
-                try {
-                    father = (OnChildFragmentRemovedListener) getActivity();
-                    father.OnChildFragmentRemoved(getId());
-                } catch (ClassCastException e) {
-                    Log.e(TAG, "father activity does not implements interface " + OnChildFragmentRemovedListener.class.getName());
-
-                }
-                break;
+            }
         }
         return true;
     }

@@ -29,6 +29,7 @@ public class NgaClientApp extends Application implements PreferenceKey {
     @Override
     public void onCreate() {
         ApplicationContextHolder.setContext(this);
+        //gov.anzong.meizi.common.ApplicationContextHolder.setContext(this);
         NLog.w(TAG, "app nga android start");
         if (config == null)
             config = PhoneConfiguration.getInstance();

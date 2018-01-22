@@ -1,7 +1,7 @@
 package sp.phone.task;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -39,7 +39,7 @@ public class SignLoadTask {
     public void execute() {
 
         if (!shouldLoadSignTask()) {
-           // return;
+            return;
         }
 
         String url = "http://nga.178.com/nuke.php?__lib=check_in&__output=8&lite=js&noprefix&__act=check_in&action=add";
@@ -88,8 +88,8 @@ public class SignLoadTask {
                 msg = object.getString("0");
             }
             if (msg.contains(TAG_SUCCESS) || msg.contains(TAG_ALREADY_SIGN)) {
-                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext());
-                sp.edit().putString(PreferenceKey.KEY_SIGN_DATE, time).apply();
+                SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+                sp.edit().putLong(PreferenceKey.KEY_SIGN_DATE, System.currentTimeMillis()).apply();
             }
             return msg;
         } catch (Exception e) {
@@ -99,11 +99,11 @@ public class SignLoadTask {
     }
 
     private boolean shouldLoadSignTask() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext());
-        String time = sp.getString(PreferenceKey.KEY_SIGN_DATE, null);
+        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        long time = sp.getLong(PreferenceKey.KEY_SIGN_DATE, 0);
         return UserManagerImpl.getInstance().hasValidUser()
                 && sp.getBoolean(PreferenceKey.KEY_AUTO_SIGN, false)
-                && (time == null || !DateUtils.isToday(Long.parseLong(time)));
+                && (time == 0 || !DateUtils.isToday(time));
     }
 
 }

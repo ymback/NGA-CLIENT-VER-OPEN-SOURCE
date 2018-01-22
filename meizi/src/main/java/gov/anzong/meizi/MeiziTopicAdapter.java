@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
 import gov.anzong.meizi.gallery.ImageZoomActivity;
 

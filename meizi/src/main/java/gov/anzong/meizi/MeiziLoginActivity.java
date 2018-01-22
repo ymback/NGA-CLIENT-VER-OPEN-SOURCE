@@ -19,7 +19,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 
-import gov.anzong.androidnga.R;
 import gov.anzong.meizi.common.HttpPostClient;
 import gov.anzong.meizi.common.MeiziCookieManager;
 import gov.anzong.meizi.utils.MeiziStringUtils;

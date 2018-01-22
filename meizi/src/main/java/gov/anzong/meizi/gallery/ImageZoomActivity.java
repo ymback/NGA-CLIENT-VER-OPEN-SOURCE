@@ -1,12 +1,10 @@
 package gov.anzong.meizi.gallery;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,7 +14,8 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 
-import gov.anzong.androidnga.R;
+import gov.anzong.meizi.R;
+
 
 /**
  * 显示图片
@@ -89,22 +88,6 @@ public class ImageZoomActivity extends AppCompatActivity {
         String ret = getIntent().getStringExtra("path");
         ret = ret.replaceAll("img.nga.178.com", "img.ngacn.cc");
         return ret;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_share:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(getPath()));
-                intent.setType("image/jpeg");
-                String text = getResources().getString(R.string.share);
-                startActivity(Intent.createChooser(intent, text));
-                break;
-            default:
-                this.finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void hideLoading() {

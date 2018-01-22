@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.util.UiUtil;
+import gov.anzong.meizi.R;
+import gov.anzong.meizi.utils.MeiziActivityUtils;
 
 /**
  */
@@ -54,7 +54,7 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
             e.printStackTrace();
         }
         String toast = context.getString(R.string.file_saved) + savePath;
-        UiUtil.showToast(context, toast);
+        MeiziActivityUtils.showToast(context, toast);
         Uri uri = Uri.fromFile(new File(savePath));
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
     }

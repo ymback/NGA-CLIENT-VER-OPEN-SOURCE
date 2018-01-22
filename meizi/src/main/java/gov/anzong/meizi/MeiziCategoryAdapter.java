@@ -13,8 +13,6 @@ import com.huewu.pla.lib.MultiColumnListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import gov.anzong.androidnga.R;
-
 public class MeiziCategoryAdapter extends BaseAdapter {
 
     Activity mactivity;

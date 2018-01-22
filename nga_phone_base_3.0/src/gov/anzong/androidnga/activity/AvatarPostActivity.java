@@ -36,7 +36,6 @@ import java.util.HashSet;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
-import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.AvatarPostAction;
 import sp.phone.forumoperation.HttpPostClient;
