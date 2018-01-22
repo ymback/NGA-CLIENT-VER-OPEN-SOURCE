@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import sp.phone.common.PhoneConfiguration;
-
 public class MeiziNavigationUtil {
 
     public static void startBrowser(Context context, String url) {
@@ -16,7 +14,7 @@ public class MeiziNavigationUtil {
     }
 
     public static void startTopicActivity(Activity activity, String topicUrl) {
-        Intent intent = new Intent(activity, PhoneConfiguration.getInstance().MeiziTopicActivityClass);
+        Intent intent = new Intent(activity, MeiziTopicActivity.class);
         intent.putExtra(MeiziTopicActivity.ARG_KEY_URL, topicUrl);
         activity.startActivity(intent);
     }

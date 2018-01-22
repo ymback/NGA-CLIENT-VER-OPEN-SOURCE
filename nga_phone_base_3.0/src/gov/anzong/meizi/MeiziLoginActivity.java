@@ -1,10 +1,11 @@
 package gov.anzong.meizi;
 
-import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,21 +19,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 
-import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
-import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.MD5Util;
-import sp.phone.utils.NLog;
-import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtils;
+import gov.anzong.meizi.common.HttpPostClient;
+import gov.anzong.meizi.common.MeiziCookieManager;
+import gov.anzong.meizi.utils.MeiziStringUtils;
 
-public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
-        PreferenceKey {
+public class MeiziLoginActivity extends AppCompatActivity {
 
     EditText userText;
     EditText passwordText;
@@ -56,16 +48,8 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
-        ThemeManager.SetContextTheme(this);
 
-        view = LayoutInflater.from(this).inflate(R.layout.dbmeizi_login, null);
+        view = LayoutInflater.from(this).inflate(R.layout.meizi_login, null);
         this.setContentView(view);
         this.setTitle("豆瓣妹子:登录");
         Button button_login = (Button) findViewById(R.id.login_button);
@@ -83,21 +67,9 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
     }
 
     private void updateThemeUI() {
-        if (!StringUtils.isEmpty(PhoneConfiguration.getInstance().db_cookie)) {
+        if (!TextUtils.isEmpty(MeiziCookieManager.getInstance().getMeiziCookie())) {
             login_state.setText("已经登陆,你就是神");
         }
-        ThemeManager tm = ThemeManager.getInstance();
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {
-            view.setBackgroundResource(ThemeManager.getInstance()
-                    .getBackgroundColor());
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        int flags = 15;
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -129,7 +101,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
         }
 
         private String md5passwd(String passwd) {
-            return MD5Util.MD5("dbmeizi" + MD5Util.MD5(passwd));
+            return MeiziStringUtils.MD5("dbmeizi" + MeiziStringUtils.MD5(passwd));
         }
 
         @Override
@@ -198,7 +170,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
                 String sess = "";
 
                 for (int i = 1; (key = conn.getHeaderFieldKey(i)) != null; i++) {
-                    NLog.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":" + conn.getHeaderField(i));
+                    Log.d(LOG_TAG, conn.getHeaderFieldKey(i) + ":" + conn.getHeaderField(i));
                     if (key.equalsIgnoreCase("set-cookie")) {
                         cookieVal = conn.getHeaderField(i);
                         cookieVal = cookieVal.substring(0,
@@ -237,9 +209,7 @@ public class MeiziLoginActivity extends SwipeBackAppCompatActivity implements
 
                         toast.show();
                     }
-                    NgaClientApp app = (NgaClientApp) MeiziLoginActivity.this
-                            .getApplication();
-                    app.addToMeiziUserList(uid, sess);
+                    MeiziCookieManager.getInstance().addToMeiziUserList(uid, sess);
                     alreadylogin = true;
                     super.onPostExecute(result);
                     finish();

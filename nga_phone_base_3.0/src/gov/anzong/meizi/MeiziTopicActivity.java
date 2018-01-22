@@ -3,6 +3,7 @@ package gov.anzong.meizi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,13 +13,8 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.ReflectionUtil;
-import sp.phone.common.ThemeManager;
 
-public class MeiziTopicActivity extends SwipeBackAppCompatActivity {
+public class MeiziTopicActivity extends AppCompatActivity {
 
     public static final String ARG_KEY_URL = "arg_key_url";
     private MeiziTopicFragment mTopicFragment;
@@ -29,7 +25,7 @@ public class MeiziTopicActivity extends SwipeBackAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initArgs();
-        view = LayoutInflater.from(this).inflate(R.layout.activity_topic, null);
+        view = LayoutInflater.from(this).inflate(R.layout.meizi_activity_topic, null);
         ;
         getSupportActionBar().setTitle("~ߣ~");
         setContentView(view);
@@ -46,8 +42,6 @@ public class MeiziTopicActivity extends SwipeBackAppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.meizi_topic_menu, menu);
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
         return super.onCreateOptionsMenu(menu);
     }
 

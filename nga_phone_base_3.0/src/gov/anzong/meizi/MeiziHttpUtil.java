@@ -2,8 +2,8 @@ package gov.anzong.meizi;
 
 import android.graphics.Bitmap;
 import android.os.Build;
-
-import com.alibaba.fastjson.JSON;
+import android.text.TextUtils;
+import android.util.Log;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -22,11 +22,6 @@ import java.util.zip.GZIPInputStream;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
-
-import sp.phone.bean.ArticlePage;
-import sp.phone.utils.ArticleUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
 
 public class MeiziHttpUtil {
 
@@ -139,7 +134,7 @@ public class MeiziHttpUtil {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (Exception e) {
-            NLog.e(TAG, "failed to download img:" + uri + "," + e.getMessage());
+            Log.e(TAG, "failed to download img:" + uri + "," + e.getMessage());
         }
     }
 
@@ -240,7 +235,7 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtils.isEmpty(cookie))
+            if (!TextUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Charset", "GBK");
@@ -278,7 +273,7 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtils.isEmpty(cookie))
+            if (!TextUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", ios_ua);
             conn.setRequestProperty("Accept-Charset", "GBK");
@@ -336,12 +331,12 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtils.isEmpty(cookie))
+            if (!TextUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Charset", "GBK");
             conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-            if (!StringUtils.isEmpty(host)) {
+            if (!TextUtils.isEmpty(host)) {
                 conn.setRequestProperty("Host", host);
             }
             if (timeout > 0) {
@@ -370,7 +365,7 @@ public class MeiziHttpUtil {
         if (conn == null)
             return defaultValue;
         String contentType = conn.getHeaderField("Content-Type");
-        if (StringUtils.isEmpty(contentType))
+        if (TextUtils.isEmpty(contentType))
             return defaultValue;
         String startTag = "charset=";
         String endTag = " ";
@@ -387,21 +382,6 @@ public class MeiziHttpUtil {
         return contentType.substring(start, end);
     }
 
-    public static ArticlePage getArticlePage(String uri, String cookie) {
-        ArticlePage ret = null;
-        try {
-            long start = System.currentTimeMillis();
-            String html = getHtml(uri, cookie);
-            long end = System.currentTimeMillis();
-            NLog.i("ArticlePage", "network const:" + (end - start));
-            ret = ArticleUtil.parserArticleList(html);
-            long end2 = System.currentTimeMillis();
-            NLog.i("ArticlePage", "parse action const:" + (end2 - end));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
 
     @SuppressWarnings("deprecation")
     public static String getHtmlFormeizi(String uri, String cookie) {
@@ -429,11 +409,11 @@ public class MeiziHttpUtil {
         try {
             URL url = new URL(uri);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtils.isEmpty(cookie))
+            if (!TextUtils.isEmpty(cookie))
                 conn.setRequestProperty("Cookie", cookie);
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-            if (!StringUtils.isEmpty(referer)) {
+            if (!TextUtils.isEmpty(referer)) {
                 conn.setRequestProperty("Referer", referer);
             }
             if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
@@ -466,10 +446,4 @@ public class MeiziHttpUtil {
         return null;
     }
 
-    public static ArticlePage getArticlePageByJson(String uri) {
-        // TODO
-        String json = getHtml(uri, "");
-        ArticlePage ap = JSON.parseObject(json, ArticlePage.class);
-        return ap;
-    }
 }

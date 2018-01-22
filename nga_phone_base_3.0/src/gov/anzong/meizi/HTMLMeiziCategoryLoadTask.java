@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import gov.anzong.meizi.common.MeiziCookieManager;
+import gov.anzong.meizi.utils.MeiziActivityUtils;
+import gov.anzong.meizi.utils.MeiziStringUtils;
 
 public class HTMLMeiziCategoryLoadTask extends
         AsyncTask<String, Integer, List<MeiziUrlData>> {
@@ -29,6 +29,7 @@ public class HTMLMeiziCategoryLoadTask extends
     final private OnMeiziCategoryLoadFinishedListener notifier;
     private boolean isrosmm = false;
     private int nextsid;
+
     public HTMLMeiziCategoryLoadTask(Context context,
                                      OnMeiziCategoryLoadFinishedListener notifier) {
         super();
@@ -42,9 +43,8 @@ public class HTMLMeiziCategoryLoadTask extends
         String htmlString = "";
 
         if (url.toLowerCase(Locale.US).indexOf("52moe") > 0) {
-            htmlString = MeiziHttpUtil.getHtmlFormeizi(url, PhoneConfiguration
-                    .getInstance().getDb_Cookie());
-            if (!StringUtils.isEmpty(htmlString)) {
+            htmlString = MeiziHttpUtil.getHtmlFormeizi(url, MeiziCookieManager.getInstance().getMeiziCookie());
+            if (!TextUtils.isEmpty(htmlString)) {
                 MOE52CategoryDecoder mDecoder = new MOE52CategoryDecoder();
                 List<MeiziUrlData> result;
                 result = mDecoder.decode(htmlString);
@@ -55,11 +55,11 @@ public class HTMLMeiziCategoryLoadTask extends
             isrosmm = true;
             if (url.toLowerCase(Locale.US).indexOf("ajax.php") < 0) {
                 htmlString = MeiziHttpUtil.getHtmlFormeizi(url,
-                        PhoneConfiguration.getInstance().getDb_Cookie(),
+                        MeiziCookieManager.getInstance().getMeiziCookie(),
                         "http://www.rosmm.com/");
-                if (!StringUtils.isEmpty(htmlString)) {
-                    String sid = StringUtils.getStringBetween(htmlString, 0,
-                            "var endid = \"", "\"").result;
+                if (!TextUtils.isEmpty(htmlString)) {
+                    String sid = MeiziStringUtils.getStringBetween(htmlString, 0,
+                            "var endid = \"", "\"");
                     try {
                         nextsid = Integer.parseInt(sid);
                     } catch (Exception e) {
@@ -72,11 +72,11 @@ public class HTMLMeiziCategoryLoadTask extends
                 }
             } else {
                 htmlString = MeiziHttpUtil.getHtmlFormeizi(url,
-                        PhoneConfiguration.getInstance().getDb_Cookie(),
+                        MeiziCookieManager.getInstance().getMeiziCookie(),
                         "http://www.rosmm.com/");
-                if (!StringUtils.isEmpty(htmlString)) {
-                    String sid = StringUtils.getStringBetween(htmlString, 0,
-                            "$$$", "\"").result;
+                if (!TextUtils.isEmpty(htmlString)) {
+                    String sid = MeiziStringUtils.getStringBetween(htmlString, 0,
+                            "$$$", "\"");
                     try {
                         nextsid = Integer.parseInt(sid);
                     } catch (Exception e) {
@@ -96,7 +96,7 @@ public class HTMLMeiziCategoryLoadTask extends
 
     @Override
     protected void onPostExecute(List<MeiziUrlData> result) {
-        ActivityUtils.getInstance().dismiss();
+        MeiziActivityUtils.getInstance().dismiss();
         if (null != notifier) {
             if (isrosmm && nextsid >= 0) {
                 notifier.datafinishLoad(result, nextsid);
@@ -109,7 +109,7 @@ public class HTMLMeiziCategoryLoadTask extends
 
     @Override
     protected void onCancelled() {
-        ActivityUtils.getInstance().dismiss();
+        MeiziActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 
@@ -139,7 +139,7 @@ public class HTMLMeiziCategoryLoadTask extends
                         meiziM.TopicUrl = topicUrl;
                     }
                     if (!topicUrl.toLowerCase(Locale.US).equals(
-                            "http://www.52moe.net/?p=2473") && !StringUtils.isEmpty(meiziM.smallPicUrl))
+                            "http://www.52moe.net/?p=2473") && !TextUtils.isEmpty(meiziM.smallPicUrl))
                         result.add(meiziM);
                 }
             }
@@ -167,9 +167,9 @@ public class HTMLMeiziCategoryLoadTask extends
 
                     MeiziUrlData meiziM = new MeiziUrlData();
                     meiziM.dataId = "";
-                    if (!StringUtils.isEmpty(meiziE.select("img").first()
+                    if (!TextUtils.isEmpty(meiziE.select("img").first()
                             .attr("src"))
-                            && !StringUtils.isEmpty(meiziE.select("a").first()
+                            && !TextUtils.isEmpty(meiziE.select("a").first()
                             .attr("href"))) {
 
                         meiziM.smallPicUrl = meiziE.select("img").first()
@@ -208,9 +208,9 @@ public class HTMLMeiziCategoryLoadTask extends
 
                     MeiziUrlData meiziM = new MeiziUrlData();
                     meiziM.dataId = "";
-                    if (!StringUtils.isEmpty(meiziE.select("img").first()
+                    if (!TextUtils.isEmpty(meiziE.select("img").first()
                             .attr("src"))
-                            && !StringUtils.isEmpty(meiziE.select("a").first()
+                            && !TextUtils.isEmpty(meiziE.select("a").first()
                             .attr("href"))) {
 
                         meiziM.smallPicUrl = meiziE.select("img").first()

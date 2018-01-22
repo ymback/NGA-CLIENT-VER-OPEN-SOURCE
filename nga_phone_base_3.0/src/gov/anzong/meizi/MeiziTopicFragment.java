@@ -2,6 +2,8 @@ package gov.anzong.meizi;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,11 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.ThemeManager;
-import sp.phone.interfaces.OnChildFragmentRemovedListener;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import gov.anzong.meizi.common.OnChildFragmentRemovedListener;
+import gov.anzong.meizi.utils.MeiziActivityUtils;
 
 public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFinishedListener {
 
@@ -46,7 +45,7 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         initFragmentArgs();
-        View contentView = inflater.inflate(R.layout.fragment_topic, null);
+        View contentView = inflater.inflate(R.layout.meizi_fragment_topic, null);
 
         mAdapter = new MeiziTopicAdapter(getActivity());
         mListView = (ListView) contentView.findViewById(R.id.listView);
@@ -55,10 +54,6 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
         mListView.setAdapter(mAdapter);
 
 
-        if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-            contentView.setBackgroundColor(getResources().getColor(R.color.night_bg_color));
-            mListView.setBackgroundColor(getResources().getColor(R.color.night_bg_color));
-        }
         mLoadingView = contentView.findViewById(R.id.loading);
         mReloadView = contentView.findViewById(R.id.retry);
         mReloadButton = (Button) mReloadView.findViewById(R.id.btn_reload);
@@ -99,16 +94,10 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
     }
 
     private View initHeader(LayoutInflater inflater) {
-        View header = inflater.inflate(R.layout.listitem_topic, null);
+        View header = inflater.inflate(R.layout.meizi_listitem_topic, null);
         mHeaderTitle = (TextView) header.findViewById(R.id.title);
         mHeaderDate = (TextView) header.findViewById(R.id.date);
 
-        if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-            header.setBackgroundColor(getResources().getColor(R.color.night_bg_color));
-            mHeaderTitle.setTextColor(getResources().getColor(R.color.night_fore_color));
-            mHeaderDate.setTextColor(getResources().getColor(R.color.night_fore_color));
-        }
-        ;
         return header;
     }
 
@@ -134,7 +123,7 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
         switch (item.getItemId()) {
             case R.id.meizi_topic_refresh:
                 loadData();
-                ActivityUtils.getInstance().noticeSaying(getActivity());
+                MeiziActivityUtils.getInstance().noticeSaying(getActivity());
                 break;
             case R.id.article_menuitem_back:
             default:
@@ -145,7 +134,7 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
                     father = (OnChildFragmentRemovedListener) getActivity();
                     father.OnChildFragmentRemoved(getId());
                 } catch (ClassCastException e) {
-                    NLog.e(TAG, "father activity does not implements interface " + OnChildFragmentRemovedListener.class.getName());
+                    Log.e(TAG, "father activity does not implements interface " + OnChildFragmentRemovedListener.class.getName());
 
                 }
                 break;
@@ -159,7 +148,7 @@ public class MeiziTopicFragment extends Fragment implements OnMeiziTopicLoadFini
         mTopicM = result;
         if (mTopicM != null) {
             mAdapter.setData(mTopicM.content);
-            if (StringUtils.isEmpty(mTopicM.date)) {
+            if (TextUtils.isEmpty(mTopicM.date)) {
                 mHeaderDate.setVisibility(View.GONE);
             } else {
                 mHeaderDate.setVisibility(View.VISIBLE);

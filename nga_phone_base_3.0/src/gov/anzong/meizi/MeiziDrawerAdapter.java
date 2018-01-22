@@ -44,7 +44,7 @@ public class MeiziDrawerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.listitem_drawer, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.meizi_listitem_drawer, parent, false);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.textView);
         textView.setText(getItem(position).getName());

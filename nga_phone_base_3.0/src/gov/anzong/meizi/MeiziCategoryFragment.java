@@ -3,6 +3,7 @@ package gov.anzong.meizi;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,10 +25,8 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziLoadingFooterTask.ReloadListener;
-import sp.phone.common.PhoneConfiguration;
+import gov.anzong.meizi.utils.MeiziActivityUtils;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.NLog;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
@@ -85,9 +84,9 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
             attacher = attacherOwner.getAttacher();
 
         } catch (ClassCastException e) {
-            NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
+            Log.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
-        View contentView = inflater.inflate(R.layout.fragment_category, null);
+        View contentView = inflater.inflate(R.layout.meizi_fragment_category, null);
         mAdapterView = (MultiColumnPullToRefreshListView) contentView.findViewById(R.id.list);
         mAdapter = new MeiziCategoryAdapter(getActivity(), mAdapterView);
         mLoadingFooter = new MeiziLoadingFooterTask(getActivity(), new ReloadListener() {
@@ -192,16 +191,7 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if (PhoneConfiguration.getInstance().HandSide == 1) {//lefthand
-            int flag = PhoneConfiguration.getInstance().getUiFlag();
-            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {//文章列表，UIFLAG为1或者1+2或者1+4或者1+2+4
-                inflater.inflate(R.menu.meizi_main_left, menu);
-            } else {
-                inflater.inflate(R.menu.meizi_main, menu);
-            }
-        } else {
-            inflater.inflate(R.menu.meizi_main, menu);
-        }
+        inflater.inflate(R.menu.meizi_main, menu);
     }
 
 
@@ -290,9 +280,9 @@ public class MeiziCategoryFragment extends Fragment implements OnMeiziCategoryLo
         }
 
         if (transformer == null)
-            ActivityUtils.getInstance().noticeSaying(this.getActivity());
+            MeiziActivityUtils.getInstance().noticeSaying(this.getActivity());
         else
-            transformer.setRefreshingText(ActivityUtils.getSaying());
+            transformer.setRefreshingText(MeiziActivityUtils.getSaying());
         if (attacher != null)
             attacher.setRefreshing(true);
     }// 有效

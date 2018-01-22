@@ -1,6 +1,5 @@
 package gov.anzong.meizi;
 
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,11 +21,8 @@ import com.bumptech.glide.Glide;
 import gov.anzong.androidnga.R;
 import gov.anzong.meizi.MeiziCategory.MeiziCategoryItem;
 import gov.anzong.meizi.MeiziCategoryFragment.OnMeiziSelectedListener;
-import sp.phone.interfaces.OnChildFragmentRemovedListener;
-import sp.phone.interfaces.PullToRefreshAttacherOwner;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import gov.anzong.meizi.common.OnChildFragmentRemovedListener;
+import gov.anzong.meizi.common.PullToRefreshAttacherOwner;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class MeiziMainActivity extends AppCompatActivity implements
@@ -59,7 +55,7 @@ public class MeiziMainActivity extends AppCompatActivity implements
     private void initView() {
         mMeiziCategoryFragment = new MeiziCategoryFragment();
         fm = getSupportFragmentManager();
-        view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
+        view = LayoutInflater.from(this).inflate(R.layout.meizi_activity_main, null);
         setContentView(view);
         PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);

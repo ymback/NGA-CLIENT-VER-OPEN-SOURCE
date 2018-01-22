@@ -17,9 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.gallery.ImageZoomActivity;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
-import sp.phone.common.ThemeManager;
+import gov.anzong.meizi.gallery.ImageZoomActivity;
 
 public class MeiziTopicAdapter extends BaseAdapter {
 
@@ -62,7 +61,7 @@ public class MeiziTopicAdapter extends BaseAdapter {
         if (view != null && view.getTag() != null) {
             holder = (Holder) convertView.getTag();
         } else {
-            view = mLayoutInflater.inflate(R.layout.listitem_topic, null);
+            view = mLayoutInflater.inflate(R.layout.meizi_listitem_topic, null);
             holder = new Holder(view);
             view.setTag(holder);
         }
@@ -93,9 +92,6 @@ public class MeiziTopicAdapter extends BaseAdapter {
                 holder.image.setVisibility(View.GONE);
                 holder.text.setVisibility(View.VISIBLE);
                 holder.text.setText(item.msg);
-                if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-                    holder.text.setTextColor(parent.getContext().getResources().getColor(R.color.night_fore_color));
-                }
                 break;
 
             default:

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.ThemeManager;
 
 public class MeiziCategoryAdapter extends BaseAdapter {
 
@@ -62,13 +61,8 @@ public class MeiziCategoryAdapter extends BaseAdapter {
         if (view != null && view.getTag() != null) {
             holder = (Holder) convertView.getTag();
         } else {
-            if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT) {
-                view = mLayoutInflater.inflate(
-                        R.layout.listitem_category_night, null);
-            } else {
-                view = mLayoutInflater
-                        .inflate(R.layout.listitem_category, null);
-            }
+            view = mLayoutInflater
+                    .inflate(R.layout.meizi_listitem_category, null);
             holder = new Holder(view);
             view.setTag(holder);
         }

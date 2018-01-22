@@ -14,9 +14,9 @@ import java.util.Locale;
 
 import gov.anzong.meizi.MeiziTopicMData.ContentItemType;
 import gov.anzong.meizi.MeiziTopicMData.TopicContentItem;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import gov.anzong.meizi.common.MeiziCookieManager;
+import gov.anzong.meizi.utils.MeiziActivityUtils;
+import gov.anzong.meizi.utils.MeiziStringUtils;
 
 public class HTMLMeiziTopicLoadTask extends
         AsyncTask<String, Integer, MeiziTopicMData> {
@@ -40,9 +40,8 @@ public class HTMLMeiziTopicLoadTask extends
     protected MeiziTopicMData doInBackground(String... params) {
         String url = params[0];
         String htmlString;
-        htmlString = MeiziHttpUtil.getHtmlFormeizi(url, PhoneConfiguration
-                .getInstance().getDb_Cookie());
-        if (!StringUtils.isEmpty(htmlString)) {
+        htmlString = MeiziHttpUtil.getHtmlFormeizi(url, MeiziCookieManager.getInstance().getMeiziCookie());
+        if (!TextUtils.isEmpty(htmlString)) {
             MeiziTopicMData resulTopicM = null;
             if (url.toLowerCase(Locale.US).indexOf("rosmm") > 0) {
                 RosMMTopicDecoder mDecoder = new RosMMTopicDecoder();
@@ -59,7 +58,7 @@ public class HTMLMeiziTopicLoadTask extends
 
     @Override
     protected void onPostExecute(MeiziTopicMData result) {
-        ActivityUtils.getInstance().dismiss();
+        MeiziActivityUtils.getInstance().dismiss();
         if (null != notifier)
             notifier.datafinishLoad(result);
         super.onPostExecute(result);
@@ -67,7 +66,7 @@ public class HTMLMeiziTopicLoadTask extends
 
     @Override
     protected void onCancelled() {
-        ActivityUtils.getInstance().dismiss();
+        MeiziActivityUtils.getInstance().dismiss();
         super.onCancelled();
     }
 
@@ -83,9 +82,9 @@ public class HTMLMeiziTopicLoadTask extends
             // get title string
             resulTopicM.title = document.select("div.post-title").select("h1")
                     .html().trim();
-            if (!StringUtils.isEmpty(resulTopicM.title)) {
-                resulTopicM.title = StringUtils.getStringBetween(
-                        resulTopicM.title, 0, "/span>", "/*&*&--/").result;
+            if (!TextUtils.isEmpty(resulTopicM.title)) {
+                resulTopicM.title = MeiziStringUtils.getStringBetween(
+                        resulTopicM.title, 0, "/span>", "/*&*&--/");
             }
             // get post time
             resulTopicM.date = document.select("div.post-title")
