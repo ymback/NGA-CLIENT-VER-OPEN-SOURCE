@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBar;
 
 import sp.phone.fragment.BaseFragment;
 
-public class LauncherSubActivity extends BaseActivity {
+public class LauncherSubActivity extends SwipeBackAppCompatActivity {
 
     private BaseFragment mBaseFragment;
 

@@ -92,7 +92,7 @@ public class NonamePostActivity extends BasePostActivity implements
         }
 
         super.onCreate(savedInstanceState);
-        v = this.getLayoutInflater().inflate(R.layout.nonamereply, null);
+        v = this.getLayoutInflater().inflate(R.layout.noname_reply, null);
         v.setBackgroundColor(getResources().getColor(
                 ThemeManager.getInstance().getBackgroundColor()));
         this.setContentView(v);
