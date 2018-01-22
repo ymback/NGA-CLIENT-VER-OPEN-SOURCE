@@ -1,27 +1,24 @@
 package sp.phone.common;
 
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.preference.PreferenceManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import noname.activity.FlexibleNonameTopicListActivity;
 import gov.anzong.androidnga.activity.FlexibleProfileActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.MessagePostActivity;
-import noname.activity.NonameArticleListActivity;
-import noname.activity.NonamePostActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.RecentReplyListActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
-import gov.anzong.meizi.MeiziMainActivity;
-import gov.anzong.meizi.MeiziTopicActivity;
+import noname.activity.FlexibleNonameTopicListActivity;
+import noname.activity.NonameArticleListActivity;
+import noname.activity.NonamePostActivity;
 import sp.phone.utils.ApplicationContextHolder;
 
 public class PhoneConfiguration implements PreferenceKey {
@@ -30,20 +27,13 @@ public class PhoneConfiguration implements PreferenceKey {
     public boolean downImgNoWifi;
     public boolean iconmode;
     public boolean refresh_after_post_setting_mode = true;
-    public int swipeenablePosition = 2;    //0 = left, 1 = right, 2= L&R, 3 = L&R&B
-    public int HandSide = 0;    //0 = right, 1 = left
     public int blackgunsound = 0;    //0 = right, 1 = left
     public boolean notification;
     public boolean notificationSound;
     public long lastMessageCheck = 0;
     public boolean showSignature = true;
-    public Location location = null;
-    public boolean uploadLocation = false;
-    public boolean showReplyButton = true;
-    public boolean swipeBack = true;
     public boolean showColortxt = false;
     public boolean fullscreen = false;
-    public String db_cookie;
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
     public Class<?> nonameArticleActivityClass = NonameArticleListActivity.class;
@@ -54,15 +44,12 @@ public class PhoneConfiguration implements PreferenceKey {
     public Class<?> profileActivityClass = FlexibleProfileActivity.class;
     public Class<?> loginActivityClass = LoginActivity.class;
     public Class<?> recentReplyListActivityClass = RecentReplyListActivity.class;
-    public Class<?> MeiziMainActivityClass = MeiziMainActivity.class;
-    public Class<?> MeiziTopicActivityClass = MeiziTopicActivity.class;
     public Class<?> messageActivityClass = MessageListActivity.class;
     public Class<?> nonameActivityClass = FlexibleNonameTopicListActivity.class;
     public Class<?> messageDetialActivity = MessageDetailActivity.class;
     private boolean refreshAfterPost;
     private float textSize;
     private int webSize;
-    private int uiFlag = 0;
 
     private Map<String, Boolean> mBooleanMap = new HashMap<>();
 
@@ -84,7 +71,7 @@ public class PhoneConfiguration implements PreferenceKey {
         mBooleanMap.put(PreferenceKey.HARDWARE_ACCELERATED, sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true));
         mBooleanMap.put(PreferenceKey.BOTTOM_TAB, sp.getBoolean(PreferenceKey.BOTTOM_TAB, false));
         mBooleanMap.put(PreferenceKey.LEFT_HAND, sp.getBoolean(PreferenceKey.LEFT_HAND, false));
-        mBooleanMap.put(PreferenceKey.FILTER_SUB_BOARD,sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD,false));
+        mBooleanMap.put(PreferenceKey.FILTER_SUB_BOARD, sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD, false));
     }
 
     private void initIntegerMap(SharedPreferences sp) {
@@ -109,14 +96,6 @@ public class PhoneConfiguration implements PreferenceKey {
 
     public static PhoneConfiguration getInstance() {
         return PhoneConfigurationHolder.sInstance;
-    }
-
-    public String getDb_Cookie() {
-        return db_cookie;
-    }
-
-    public void setDb_Cookie(String db_cookie) {
-        this.db_cookie = db_cookie;
     }
 
     public int getNikeWidth() {
@@ -167,8 +146,5 @@ public class PhoneConfiguration implements PreferenceKey {
         return UserManagerImpl.getInstance().getCookie();
     }
 
-    public int getUiFlag() {
-        return uiFlag;
-    }
 }
 

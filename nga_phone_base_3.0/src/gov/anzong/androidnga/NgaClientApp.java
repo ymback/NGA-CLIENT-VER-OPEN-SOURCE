@@ -78,14 +78,6 @@ public class NgaClientApp extends Application implements PreferenceKey {
                 false);
         config.setDownAvatarNoWifi(downAvatarNoWifi);
 
-        config.setDb_Cookie(share.getString(DBCOOKIE, ""));
-    }
-
-    public void addToMeiziUserList(String uid, String sess) {
-        SharedPreferences share = getSharedPreferences(PERFERENCE, MODE_PRIVATE);
-        String cookie = "uid=" + uid + "; sess=" + sess;
-        share.edit().putString(DBCOOKIE, cookie).apply();
-        config.setDb_Cookie(cookie);
     }
 
     private void loadConfig() {
@@ -114,15 +106,10 @@ public class NgaClientApp extends Application implements PreferenceKey {
 
         config.refresh_after_post_setting_mode = share.getBoolean(REFRESH_AFTERPOST_SETTING_MODE, true);
         config.showSignature = share.getBoolean(SHOW_SIGNATURE, false);
-        config.uploadLocation = share.getBoolean(UPLOAD_LOCATION, false);
-        config.showReplyButton = share.getBoolean(SHOW_REPLYBUTTON, true);
         config.showColortxt = share.getBoolean(SHOW_COLORTXT, false);
-        config.HandSide = share.getInt(HANDSIDE, 0);
         config.fullscreen = share.getBoolean(FULLSCREENMODE, false);
         config.blackgunsound = share.getInt(BLACKGUN_SOUND, 0);
         config.iconmode = share.getBoolean(SHOW_ICON_MODE, false);
-        config.swipeBack = share.getBoolean(SWIPEBACK, true);
-        config.swipeenablePosition = share.getInt(SWIPEBACKPOSITION, 2);
 
         // font
         final float defTextSize = 21.0f;// new TextView(this).getTextSize();

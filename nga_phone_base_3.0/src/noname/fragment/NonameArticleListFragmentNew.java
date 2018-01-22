@@ -27,13 +27,13 @@ import android.widget.TextView;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
 import noname.interfaces.PagerOwner;
 import noname.listener.MyListenerForNonameReply;
 import noname.task.JsonNonameThreadLoadTask;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.common.ThemeManager;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
@@ -316,13 +316,9 @@ public class NonameArticleListFragmentNew extends Fragment implements
         int lou = -1;
         if (row != null)
             lou = row.floor;
-        if (!PhoneConfiguration.getInstance().showReplyButton) {
-            holder.viewBtn.setVisibility(View.GONE);
-        } else {
-            MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(
-                    position, getActivity(), mData);
-            holder.viewBtn.setOnClickListener(myListenerForReply);
-        }
+        MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(
+                position, getActivity(), mData);
+        holder.viewBtn.setOnClickListener(myListenerForReply);
         ThemeManager theme = ThemeManager.getInstance();
         int colorId = theme.getBackgroundColor(position);
         view.setBackgroundResource(colorId);

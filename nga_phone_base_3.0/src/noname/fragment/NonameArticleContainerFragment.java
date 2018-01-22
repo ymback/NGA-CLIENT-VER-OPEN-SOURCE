@@ -144,16 +144,7 @@ public class NonameArticleContainerFragment extends BaseFragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
-            int flag = PhoneConfiguration.getInstance().getUiFlag();
-            if (flag == 1 || flag == 3 || flag == 5 || flag == 7) {// 文章列表，UIFLAG为1或者1+2或者1+4或者1+2+4
-                inflater.inflate(R.menu.nonamearticlelist_menu_left, menu);
-            } else {
-                inflater.inflate(R.menu.nonamearticlelist_menu, menu);
-            }
-        } else {
-            inflater.inflate(R.menu.nonamearticlelist_menu, menu);
-        }
+        inflater.inflate(R.menu.nonamearticlelist_menu, menu);
 
         MenuItem lock = menu.findItem(R.id.article_menuitem_lock);
         int orentation = ThemeManager.getInstance().screenOrentation;

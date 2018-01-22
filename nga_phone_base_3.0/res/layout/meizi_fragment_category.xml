@@ -23,6 +23,6 @@
 
     <include
         android:id="@+id/retry"
-        layout="@layout/loading_failed" />
+        layout="@layout/meizi_loading_failed" />
 
 </RelativeLayout>

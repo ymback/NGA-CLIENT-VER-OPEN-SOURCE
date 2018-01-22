@@ -21,8 +21,6 @@ import android.view.WindowManager;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
-import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.ThemeManager;
@@ -107,14 +105,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE:
                 mConfiguration.refresh_after_post_setting_mode = (boolean) newValue;
                 break;
-            case PreferenceKey.SWIPEBACK:
-                mConfiguration.swipeBack = (boolean) newValue;
-                updateSwipeBackOption((Boolean) newValue);
-                break;
-            case PreferenceKey.SWIPEBACKPOSITION:
-                mConfiguration.swipeenablePosition = Integer.parseInt((String) newValue);
-                updateSwipeBackOption(true);
-                break;
             case PreferenceKey.FULLSCREENMODE:
                 mConfiguration.fullscreen = (boolean) newValue;
                 setFullScreen((Boolean) newValue);
@@ -131,9 +121,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 break;
             case PreferenceKey.SHOW_SIGNATURE:
                 mConfiguration.showSignature = (boolean) newValue;
-                break;
-            case PreferenceKey.SHOW_REPLYBUTTON:
-                mConfiguration.showReplyButton = (boolean) newValue;
                 break;
             case PreferenceKey.MATERIAL_THEME:
                 sp.edit().putString(PreferenceKey.MATERIAL_THEME, (String) newValue).apply();
@@ -251,31 +238,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         getActivity().getWindow().addFlags(flag);
     }
 
-    private void updateSwipeBackOption(boolean isChecked) {
-        if (isChecked) {
-            final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
-            ((SwipeBackAppCompatActivity) getActivity()).getSwipeBackLayout().setEdgeSize(
-                    (int) (SwipeBackAppCompatActivity.MY_EDGE_SIZE * density + 0.5f));// 10dp
-            int pos;
-            switch (PhoneConfiguration.getInstance().swipeenablePosition) {
-                case 0:
-                    pos = SwipeBackLayout.EDGE_LEFT;
-                    break;
-                case 1:
-                    pos = SwipeBackLayout.EDGE_RIGHT;
-                    break;
-                case 2:
-                    pos = SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_RIGHT;
-                    break;
-                default:
-                    pos = SwipeBackLayout.EDGE_ALL;
-                    break;
-            }
-            ((SwipeBackAppCompatActivity) getActivity()).getSwipeBackLayout().setEdgeTrackingEnabled(pos);
-        } else {
-            ((SwipeBackAppCompatActivity) getActivity()).getSwipeBackLayout().setEdgeSize(0);
-        }
-    }
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {

@@ -131,16 +131,7 @@ public class SignPostActivity extends BasePostActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (PhoneConfiguration.getInstance().HandSide == 1) {// lefthand
-            int flag = PhoneConfiguration.getInstance().getUiFlag();
-            if (flag >= 4) {// 大于等于4肯定有
-                getMenuInflater().inflate(R.menu.messagepost_menu_left, menu);
-            } else {
-                getMenuInflater().inflate(R.menu.messagepost_menu, menu);
-            }
-        } else {
-            getMenuInflater().inflate(R.menu.messagepost_menu, menu);
-        }
+        getMenuInflater().inflate(R.menu.messagepost_menu, menu);
         final int flags = ThemeManager.ACTION_BAR_FLAG;
         /*
          * ActionBar.DISPLAY_SHOW_HOME;//2 flags |=

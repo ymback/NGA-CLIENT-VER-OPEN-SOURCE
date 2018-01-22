@@ -27,8 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
-    <include
+
+    <include
         android:id="@+id/retry"
-        layout="@layout/loading_failed" />
+        layout="@layout/meizi_loading_failed" />
 
 </RelativeLayout>

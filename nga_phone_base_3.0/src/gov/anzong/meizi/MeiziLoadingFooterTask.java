@@ -27,7 +27,7 @@ public class MeiziLoadingFooterTask {
     private ReloadListener mReloadListener;
 
     public MeiziLoadingFooterTask(Context context, ReloadListener listener) {
-        mLoadingFooter = LayoutInflater.from(context).inflate(R.layout.loading_footer, null);
+        mLoadingFooter = LayoutInflater.from(context).inflate(R.layout.meizi_loading_footer, null);
         mLoadingFooter.setOnClickListener(new OnClickListener() {
 
             @Override

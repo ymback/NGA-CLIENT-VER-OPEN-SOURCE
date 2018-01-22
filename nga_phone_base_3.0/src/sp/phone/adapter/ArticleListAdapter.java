@@ -130,12 +130,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         int lou = -1;
         if (row != null)
             lou = row.getLou();
-        if (!PhoneConfiguration.getInstance().showReplyButton) {
-            holder.viewBtn.setVisibility(View.GONE);
-        } else {
-            MyListenerForReply myListenerForReply = new MyListenerForReply(position, mData, mContext);
-            holder.viewBtn.setOnClickListener(myListenerForReply);
-        }
+        MyListenerForReply myListenerForReply = new MyListenerForReply(position, mData, mContext);
+        holder.viewBtn.setOnClickListener(myListenerForReply);
         ThemeManager theme = ThemeManager.getInstance();
         int colorId = theme.getBackgroundColor(position);
         holder.itemView.setBackgroundResource(colorId);

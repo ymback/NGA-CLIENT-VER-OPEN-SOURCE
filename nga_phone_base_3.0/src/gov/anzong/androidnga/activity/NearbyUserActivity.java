@@ -98,7 +98,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
             return;
         }
 
-        Location location = PhoneConfiguration.getInstance().location;
+        Location location = null; //PhoneConfiguration.getInstance().location;
 
         SharedPreferences share = getSharedPreferences(
                 PERFERENCE, MODE_PRIVATE);
@@ -130,7 +130,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
         } catch (Exception e) {
             return;
         }
-        Location myloc = PhoneConfiguration.getInstance().location;
+        Location myloc = null; //PhoneConfiguration.getInstance().location;
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setJuli(String.valueOf(ActivityUtils.distanceBetween(myloc, list.get(i).getLatitude(), list.get(i).getLongitude())));
         }

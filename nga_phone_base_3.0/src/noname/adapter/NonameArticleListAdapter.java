@@ -20,9 +20,8 @@ import java.util.HashSet;
 import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
 import noname.listener.MyListenerForNonameReply;
+import sp.phone.common.ThemeManager;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.NLog;
@@ -152,7 +151,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         holder.contentTV.setHorizontalScrollBarEnabled(false);
         holder.viewBtn = (ImageButton) view.findViewById(R.id.listviewreplybtn);
         /*
-		 * holder.levelTV = (TextView) view.findViewById(R.id.level);
+         * holder.levelTV = (TextView) view.findViewById(R.id.level);
 		 * holder.aurvrcTV= (TextView) view.findViewById(R.id.aurvrc);
 		 * holder.postnumTV = (TextView) view.findViewById(R.id.postnum);
 		 */
@@ -192,13 +191,9 @@ public class NonameArticleListAdapter extends BaseAdapter implements
             viewCache.put(position, new SoftReference<View>(view));
         }
 
-        if (!PhoneConfiguration.getInstance().showReplyButton) {
-            holder.viewBtn.setVisibility(View.GONE);
-        } else {
-            MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(
-                    position, activity, mData);
-            holder.viewBtn.setOnClickListener(myListenerForReply);
-        }
+        MyListenerForNonameReply myListenerForReply = new MyListenerForNonameReply(
+                position, activity, mData);
+        holder.viewBtn.setOnClickListener(myListenerForReply);
         holder.position = position;
         ThemeManager theme = ThemeManager.getInstance();
         int colorId = theme.getBackgroundColor(position);
@@ -241,7 +236,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         postTimeTV.setText(postTime);
         postTimeTV.setTextColor(fgColor);
         FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor,
-                    activity, null, client);
+                activity, null, client);
         return view;
     }
 

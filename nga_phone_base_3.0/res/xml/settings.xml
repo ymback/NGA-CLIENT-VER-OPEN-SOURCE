@@ -26,13 +26,13 @@
             android:title="@string/nowifi_downimg"/>
 
         <!--<android.preference.ListCompatPreference-->
-            <!--android:defaultValue="0"-->
-            <!--android:dependency="down_load_without_wifi"-->
-            <!--android:dialogTitle="@string/image_quality_chooser_prompt"-->
-            <!--android:entries="@array/image_quality_option"-->
-            <!--android:entryValues="@array/image_quality_option_value"-->
-            <!--android:key="download_img_quality_without_wifi"-->
-            <!--android:title="@string/image_quality_info"/>-->
+        <!--android:defaultValue="0"-->
+        <!--android:dependency="down_load_without_wifi"-->
+        <!--android:dialogTitle="@string/image_quality_chooser_prompt"-->
+        <!--android:entries="@array/image_quality_option"-->
+        <!--android:entryValues="@array/image_quality_option_value"-->
+        <!--android:key="download_img_quality_without_wifi"-->
+        <!--android:title="@string/image_quality_info"/>-->
 
         <SwitchPreference
             android:defaultValue="false"
@@ -56,19 +56,6 @@
             android:key="refresh_after_post_setting_mode"
             android:title="@string/refresh_after_post_setting_mode"/>
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="swipeback"
-            android:title="@string/swipeback"/>
-
-        <android.preference.ListCompatPreference
-            android:defaultValue="2"
-            android:dependency="swipeback"
-            android:dialogTitle="@string/swipeback_chooser_prompt"
-            android:entries="@array/swipe_back_position"
-            android:entryValues="@array/swipe_back_option_value"
-            android:key="SwipeBackPosition"
-            android:title="@string/swipeback_hand"/>
 
         <SwitchPreference
             android:defaultValue="false"
@@ -133,18 +120,13 @@
             android:title="@string/setting_title_left_hand"/>
 
         <!--<SwitchPreference-->
-            <!--android:defaultValue="false"-->
-            <!--android:key="showStatic"-->
-            <!--android:title="@string/show_static"/>-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="showStatic"-->
+        <!--android:title="@string/show_static"/>-->
 
         <SwitchPreference
             android:key="filter_sub_board"
             android:title="@string/setting_title_filter_sub_board"/>
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="showReplyButton"
-            android:title="@string/addreplybutton"/>
 
         <SwitchPreference
             android:defaultValue="false"
