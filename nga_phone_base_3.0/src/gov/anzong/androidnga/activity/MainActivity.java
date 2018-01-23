@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
 
     private void prepare() {
         checkNewVersion();
-        startSignLoadTask();
+    //    startSignLoadTask();
     }
 
     @Override
