@@ -8,7 +8,6 @@ import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import io.reactivex.annotations.NonNull;
-import sp.phone.fragment.BaseFragment;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
@@ -96,7 +95,7 @@ public class BaseRxFragment extends BaseFragment {
 
     }
 
-    public LifecycleProvider getLifecycleProvider() {
+    public LifecycleProvider<FragmentEvent> getLifecycleProvider() {
         return mRxLifecycleProvider;
     }
 

@@ -36,6 +36,8 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
     protected TopicListAdapter mAdapter;
 
+    protected TopicListInfo mTopicListInfo;
+
     @BindView(R.id.swipe_refresh)
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -162,6 +164,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
     @Override
     public void setData(TopicListInfo result) {
+        mTopicListInfo = result;
         mAdapter.setData(result);
     }
 

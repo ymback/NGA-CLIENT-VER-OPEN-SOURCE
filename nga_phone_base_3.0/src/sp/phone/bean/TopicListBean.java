@@ -417,6 +417,16 @@ public class TopicListBean {
                 this.__P = __P;
             }
 
+            @Override
+            public String toString() {
+                return "TBean{" +
+                        "tid=" + tid +
+                        ", fid=" + fid +
+                        ", subject='" + subject + '\'' +
+                        ", type=" + type +
+                        ", recommend=" + recommend +
+                        '}';
+            }
 
             public static class PBean {
                 /**

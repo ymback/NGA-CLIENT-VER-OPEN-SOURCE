@@ -1,5 +1,7 @@
 package sp.phone.mvp.model.convert;
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 
 import java.util.Collections;
@@ -7,11 +9,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import sp.phone.bean.Board;
 import sp.phone.bean.TopicListBean;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
+import sp.phone.utils.BoardUtils;
 import sp.phone.utils.NLog;
 
 /**
@@ -22,50 +26,19 @@ public class TopicConvertFactory {
 
     private static final String TAG = TopicConvertFactory.class.getSimpleName();
 
-    public static TopicListInfo getTopicListInfo(String js, int page) {
+    public TopicListInfo getTopicListInfo(String js, int page) {
+
+        if (js.startsWith("window.script_muti_get_var_store=")) {
+            js = js.substring("window.script_muti_get_var_store=".length());
+        }
 
         TopicListBean topicListBean = JSON.parseObject(js, TopicListBean.class);
 
         try {
             TopicListInfo listInfo = new TopicListInfo();
-            Map<String, TopicListBean.DataBean.TBean> map = topicListBean.getData().get__T();
-            int count = 0;
-            while (count < map.size()) {
-                String key = String.valueOf(count);
-                TopicListBean.DataBean.TBean tBean = map.get(key);
-                if (tBean == null || topicFilter(topicListBean, tBean)) {
-                    count++;
-                    continue;
-                }
-                ThreadPageInfo pageInfo = new ThreadPageInfo();
-                String author = tBean.getAuthor();
-                if (author.startsWith("#anony_")) {
-                    pageInfo.setAnonymity(true);
-                    pageInfo.setAuthor(getAnonymityName(tBean.getAuthor()));
-                } else {
-                    pageInfo.setAuthorId(Integer.parseInt(tBean.getAuthorid()));
-                    pageInfo.setAuthor(tBean.getAuthor());
-                }
-                pageInfo.setLastPoster(tBean.getLastposter());
-                pageInfo.setSubject(tBean.getSubject());
-                pageInfo.setReplies(tBean.getReplies());
-                pageInfo.setType(tBean.getType());
-                pageInfo.setTopicMisc(tBean.getTopic_misc());
-                pageInfo.setTitleFont(tBean.getTitlefont());
-                pageInfo.setTid(tBean.getTid());
-                pageInfo.setPage(page);
-                TopicListBean.DataBean.TBean.PBean pBean = tBean.get__P();
-                if (pBean != null) {
-                    pageInfo.setPid(pBean.getPid());
-                }
-
-                pageInfo.setPostDate(tBean.getPostdate());
-
-                listInfo.addThreadPage(pageInfo);
-                count++;
-            }
-
-            topicSort(listInfo.getThreadPageList());
+            convertSubBoard(listInfo, topicListBean);
+            convertTopic(listInfo, topicListBean, page);
+            sortTopic(listInfo.getThreadPageList());
             return listInfo;
         } catch (NullPointerException e) {
             NLog.e(TAG, "can not parse :\n" + js);
@@ -74,7 +47,7 @@ public class TopicConvertFactory {
 
     }
 
-    private static void topicSort(List<ThreadPageInfo> list) {
+    private void sortTopic(List<ThreadPageInfo> list) {
         if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SORT_BY_POST)) {
             Collections.sort(list, new Comparator<ThreadPageInfo>() {
                 @Override
@@ -86,28 +59,121 @@ public class TopicConvertFactory {
 
     }
 
-    private static boolean topicFilter(TopicListBean topicListBean, TopicListBean.DataBean.TBean tBean) {
-        // 暂时只对水区有效
-        if (topicListBean.getData().get__F() != null
-                && topicListBean.getData().get__F().getFid() == -7
-                && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)) {
-
-            if (tBean.getRecommend() > 9) {
-                NLog.d("屏蔽固定的渣帖子 " + tBean.getSubject());
-                return true;
-            } else if (tBean.getParent() != null) {
-                NLog.d("屏蔽子版块帖子 " + tBean.getSubject());
-                return true;
-            } else {
-                return false;
+    private void convertSubBoard(TopicListInfo listInfo, TopicListBean topicListBean) {
+        try {
+            String subForumsStr = String.valueOf(topicListBean.getData().get__F().getSub_forums());
+            if (TextUtils.isEmpty(subForumsStr)) {
+                return;
             }
-
-        } else {
-            return false;
+            Map<String, Map<String, String>> subBoardMap = JSON.parseObject(subForumsStr, Map.class);
+            for (String key : subBoardMap.keySet()) {
+                Map<String, String> boardMap = subBoardMap.get(key);
+                Board board = new Board();
+                Object obj;
+                // 有些子版块的fid的key是3，大部分都是1
+                if (boardMap.containsKey("3")) {
+                    obj = boardMap.get("3");
+                    board.setUrl(obj.toString());
+                } else {
+                    obj = boardMap.get("0");
+                    board.setUrl(obj.toString());
+                }
+                board.setName(boardMap.get("1"));
+                board.setDescription(boardMap.get("2"));
+                if (boardMap.containsKey("4")) {
+                    board.setCancelable(true);
+                    obj = boardMap.get("4");
+                    board.setChecked(BoardUtils.isBoardSubscribed(Integer.parseInt(obj.toString())));
+                } else {
+                    board.setCancelable(false);
+                    board.setChecked(true);
+                }
+                listInfo.addSubBoard(board);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private static String getAnonymityName(String author) {
+    private void convertTopic(TopicListInfo listInfo, TopicListBean topicListBean, int page) {
+        Map<String, TopicListBean.DataBean.TBean> map = topicListBean.getData().get__T();
+        int count = 0;
+        while (count < map.size()) {
+            String key = String.valueOf(count);
+            TopicListBean.DataBean.TBean tBean = map.get(key);
+            if (tBean == null || filterTopic(listInfo, topicListBean, tBean)) {
+                count++;
+                continue;
+            }
+            ThreadPageInfo pageInfo = new ThreadPageInfo();
+            String author = tBean.getAuthor();
+            if (author.startsWith("#anony_")) {
+                pageInfo.setAnonymity(true);
+                pageInfo.setAuthor(getAnonymityName(tBean.getAuthor()));
+            } else {
+                pageInfo.setAuthorId(Integer.parseInt(tBean.getAuthorid()));
+                pageInfo.setAuthor(tBean.getAuthor());
+            }
+            pageInfo.setLastPoster(tBean.getLastposter());
+            pageInfo.setSubject(tBean.getSubject());
+            pageInfo.setReplies(tBean.getReplies());
+            pageInfo.setType(tBean.getType());
+            pageInfo.setTopicMisc(tBean.getTopic_misc());
+            pageInfo.setTitleFont(tBean.getTitlefont());
+            pageInfo.setTid(tBean.getTid());
+            pageInfo.setPage(page);
+            TopicListBean.DataBean.TBean.PBean pBean = tBean.get__P();
+            if (pBean != null) {
+                pageInfo.setPid(pBean.getPid());
+            }
+
+            pageInfo.setPostDate(tBean.getPostdate());
+
+            listInfo.addThreadPage(pageInfo);
+            count++;
+        }
+    }
+
+    private boolean filterTopic(TopicListInfo listInfo, TopicListBean topicListBean, TopicListBean.DataBean.TBean tBean) {
+        if (topicListBean.getData().get__F() != null
+                && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)
+                && topicListBean.getData().get__F().getFid() == -7
+                && tBean.getRecommend() > 9) {
+//            if (tBean.getType() == 2097153) {
+//                Board board = new Board();
+//                board.setName(tBean.getSubject());
+//                board.setUrl(String.valueOf(tBean.getTid()));
+//                board.setChecked(false);
+//                board.setCancelable(true);
+//                listInfo.addSubBoard(board);
+//            } else if (tBean.getType() == 2097152) {
+//                Board board = new Board();
+//                board.setName(tBean.getSubject());
+//                board.setUrl(String.valueOf(tBean.getTid()));
+//                board.setChecked(true);
+//                board.setCancelable(true);
+//                listInfo.addSubBoard(board);
+//            }
+            NLog.d("屏蔽固定的渣帖子 " + tBean.toString());
+            return true;
+        } else if (tBean.getParent() != null) {
+            String fid = tBean.getParent().get("0");
+            for (Board board : listInfo.getSubBoardList()) {
+                if (board.getUrl().equals(fid)) {
+                    if (!board.isChecked()) {
+                        NLog.d("屏蔽子版块帖子 " + tBean.getSubject() + " " + tBean.getParent().get("2"));
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } else {
+            return false;
+        }
+
+    }
+
+    private String getAnonymityName(String author) {
         String prefix = "甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥";
         String suffix = "王李张刘陈杨黄吴赵周徐孙马朱胡林郭何高罗郑梁谢宋唐许邓冯韩曹曾彭萧蔡潘田董袁于余叶蒋杜苏魏程吕丁沈任姚卢傅钟姜崔谭廖范汪陆金石戴贾韦夏邱方侯邹熊孟秦白江阎薛尹段雷黎史龙陶贺顾毛郝龚邵万钱严赖覃洪武莫孔汤向常温康施文牛樊葛邢安齐易乔伍庞颜倪庄聂章鲁岳翟殷詹申欧耿关兰焦俞左柳甘祝包宁尚符舒阮柯纪梅童凌毕单季裴霍涂成苗谷盛曲翁冉骆蓝路游辛靳管柴蒙鲍华喻祁蒲房滕屈饶解牟艾尤阳时穆农司卓古吉缪简车项连芦麦褚娄窦戚岑景党宫费卜冷晏席卫米柏宗瞿桂全佟应臧闵苟邬边卞姬师和仇栾隋商刁沙荣巫寇桑郎甄丛仲虞敖巩明佘池查麻苑迟邝";
 

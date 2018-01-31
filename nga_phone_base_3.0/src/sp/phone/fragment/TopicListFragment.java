@@ -1,5 +1,6 @@
 package sp.phone.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -18,9 +19,11 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import butterknife.BindView;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.activity.LauncherSubActivity;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.utils.ActivityUtils;
 
 /**
@@ -119,6 +122,13 @@ public class TopicListFragment extends TopicSearchFragment {
             menu.findItem(R.id.menu_add_bookmark).setVisible(true);
             menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
         }
+
+        if (mTopicListInfo != null) {
+            menu.findItem(R.id.menu_sub_board).setVisible(!mTopicListInfo.getSubBoardList().isEmpty());
+        } else {
+            menu.findItem(R.id.menu_sub_board).setVisible(false);
+        }
+
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -144,10 +154,30 @@ public class TopicListFragment extends TopicSearchFragment {
                 mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
                 showToast(R.string.toast_remove_bookmark_board);
                 break;
+            case R.id.menu_sub_board:
+                showSubBoardList();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
     }
 
+    private void showSubBoardList() {
+        Intent intent = new Intent(getContext(), LauncherSubActivity.class);
+        intent.putExtra("fragment", BoardSubListFragment.class.getName());
+        intent.putExtra(ParamKey.KEY_TITLE, mRequestParam.title);
+        intent.putExtra(ParamKey.KEY_FID, mRequestParam.fid);
+
+        intent.putParcelableArrayListExtra("subBoard", mTopicListInfo.getSubBoardList());
+        startActivityForResult(intent, ActivityUtils.REQUEST_CODE_SUB_BOARD);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ActivityUtils.REQUEST_CODE_SUB_BOARD && resultCode == Activity.RESULT_OK) {
+            mPresenter.loadPage(1, mRequestParam);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

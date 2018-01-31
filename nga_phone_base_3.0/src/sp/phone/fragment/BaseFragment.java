@@ -74,6 +74,12 @@ public abstract class BaseFragment extends Fragment {
         mTitleStr = null;
     }
 
+    public void setResult(int resultCode) {
+        if (mActivity != null) {
+            mActivity.setResult(resultCode);
+        }
+    }
+
     @Override
     public void onResume() {
         if (mActivity != null) {

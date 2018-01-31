@@ -17,13 +17,16 @@ import retrofit2.http.Url;
 public interface RetrofitService {
 
     @GET("nuke.php")
-    Observable<String> getInfo(@QueryMap Map<String,String> map);
+    Observable<String> getInfo(@QueryMap Map<String, String> map);
 
     @GET
     Observable<String> get(@Url String url);
 
+    @POST
+    Observable<String> post(@Url String url);
+
     @FormUrlEncoded
     @POST("nuke.php")
-    Observable<String> post(@FieldMap Map<String,String> map);
+    Observable<String> post(@FieldMap Map<String, String> map);
 
 }

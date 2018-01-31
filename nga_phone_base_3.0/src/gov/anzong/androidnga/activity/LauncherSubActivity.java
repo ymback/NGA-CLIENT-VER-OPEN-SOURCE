@@ -23,7 +23,7 @@ public class LauncherSubActivity extends SwipeBackAppCompatActivity {
             commitFragment(fragmentStr);
         }
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
@@ -34,8 +34,12 @@ public class LauncherSubActivity extends SwipeBackAppCompatActivity {
             Object fragment = Class.forName(fragmentStr).newInstance();
             if (fragment instanceof BaseFragment) {
                 mBaseFragment = (BaseFragment) fragment;
-                getSupportFragmentManager().beginTransaction().replace(android.R.id.content, (BaseFragment) fragment).commit();
+                Bundle bundle = getIntent().getExtras();
+                mBaseFragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(android.R.id.content, mBaseFragment).commit();
             } else {
+                Bundle bundle = getIntent().getExtras();
+                ((Fragment) fragment).setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(android.R.id.content, (Fragment) fragment).commit();
             }
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {

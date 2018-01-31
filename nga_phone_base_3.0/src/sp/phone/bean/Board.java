@@ -15,6 +15,12 @@ public class Board implements Parcelable {
 
     private int iconOld;
 
+    private boolean mChecked = true;
+
+    private String mDescription;
+
+    private boolean mCancelable;
+
     public Board() {
 
     }
@@ -34,12 +40,33 @@ public class Board implements Parcelable {
         this(url, name, 0, 0);
     }
 
+
     protected Board(Parcel in) {
         category = in.readInt();
         url = in.readString();
         name = in.readString();
         icon = in.readInt();
         iconOld = in.readInt();
+        mChecked = in.readByte() != 0;
+        mDescription = in.readString();
+        mCancelable = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(category);
+        dest.writeString(url);
+        dest.writeString(name);
+        dest.writeInt(icon);
+        dest.writeInt(iconOld);
+        dest.writeByte((byte) (mChecked ? 1 : 0));
+        dest.writeString(mDescription);
+        dest.writeByte((byte) (mCancelable ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Board> CREATOR = new Creator<Board>() {
@@ -53,21 +80,6 @@ public class Board implements Parcelable {
             return new Board[size];
         }
     };
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(category);
-        dest.writeString(url);
-        dest.writeString(name);
-        dest.writeInt(icon);
-        dest.writeInt(iconOld);
-    }
 
     public int getCategory() {
         return category;
@@ -107,5 +119,29 @@ public class Board implements Parcelable {
 
     public void setIconOld(int iconOld) {
         this.iconOld = iconOld;
+    }
+
+    public boolean isCancelable() {
+        return mCancelable;
+    }
+
+    public void setCancelable(boolean cancelable) {
+        mCancelable = cancelable;
+    }
+
+    public boolean isChecked() {
+        return mChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mChecked = checked;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
     }
 }

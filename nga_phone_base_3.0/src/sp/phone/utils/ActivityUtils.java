@@ -39,6 +39,8 @@ public class ActivityUtils {
 
     public static final int REQUEST_CODE_JUMP_PAGE = 4;
 
+    public static final int REQUEST_CODE_SUB_BOARD = 4;
+
     public static final String PATH_LOGIN = "/activity/LoginActivity";
 
     public static final String PATH_TOPIC_LIST = "/activity/TopicListActivity";

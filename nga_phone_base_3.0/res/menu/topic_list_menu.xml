@@ -36,6 +36,12 @@
         androidnga:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_sub_board"
+        android:icon="@drawable/btn_ic_search"
+        android:title="@string/menu_sub_board"
+        androidnga:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_favorite"
         android:icon="@drawable/btn_ic_collections"
         android:title="@string/menu_bookmark_post"

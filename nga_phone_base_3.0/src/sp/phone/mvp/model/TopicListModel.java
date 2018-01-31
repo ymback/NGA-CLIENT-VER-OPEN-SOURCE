@@ -35,8 +35,11 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     private Map<String, String> mFieldMap;
 
+    private TopicConvertFactory mConvertFactory;
+
     public TopicListModel() {
         mService = (RetrofitService) RetrofitHelper.getInstance().getService(RetrofitService.class);
+        mConvertFactory = new TopicConvertFactory();
     }
 
     private void initFieldMap() {
@@ -81,7 +84,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                     @Override
                     public TopicListInfo apply(@NonNull String js) throws Exception {
                         NLog.d(js);
-                        TopicListInfo result = TopicConvertFactory.getTopicListInfo(js, page);
+                        TopicListInfo result = mConvertFactory.getTopicListInfo(js, page);
                         if (result != null) {
                             return result;
                         } else {
