@@ -15,7 +15,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import sp.phone.adapter.BoardSubListAdapter;
-import sp.phone.bean.Board;
+import sp.phone.bean.SubBoard;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.task.SubscribeSubBoardTask;
@@ -31,18 +31,15 @@ public class BoardSubListFragment extends BaseRxFragment implements View.OnClick
 
     private BoardSubListAdapter mListAdapter;
 
-    private List<Board> mBoardList;
+    private List<SubBoard> mBoardList;
 
     private SubscribeSubBoardTask mSubscribeTask;
-
-    private int mParentFid;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         setTitle(String.format("%s - 子版快", bundle.getString(ParamKey.KEY_TITLE)));
         mBoardList = bundle.getParcelableArrayList("subBoard");
-        mParentFid = bundle.getInt(ParamKey.KEY_FID);
         mSubscribeTask = new SubscribeSubBoardTask(getLifecycleProvider());
         super.onCreate(savedInstanceState);
     }
@@ -60,7 +57,7 @@ public class BoardSubListFragment extends BaseRxFragment implements View.OnClick
 
     @Override
     public void onClick(final View v) {
-        final Board board = (Board) v.getTag();
+        final SubBoard board = (SubBoard) v.getTag();
         if (v.getId() == R.id.check) {
             OnHttpCallBack<String> callBack = new OnHttpCallBack<String>() {
                 @Override
@@ -77,9 +74,9 @@ public class BoardSubListFragment extends BaseRxFragment implements View.OnClick
                 }
             };
             if (board.isChecked()) {
-                mSubscribeTask.unsubscribe(mParentFid, Integer.parseInt(board.getUrl()), callBack);
+                mSubscribeTask.unsubscribe(board, callBack);
             } else {
-                mSubscribeTask.subscribe(mParentFid, Integer.parseInt(board.getUrl()), callBack);
+                mSubscribeTask.subscribe(board, callBack);
             }
         } else {
             Intent intent = new Intent(getContext(), TopicListActivity.class);

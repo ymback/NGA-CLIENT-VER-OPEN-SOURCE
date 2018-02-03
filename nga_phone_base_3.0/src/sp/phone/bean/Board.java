@@ -15,12 +15,6 @@ public class Board implements Parcelable {
 
     private int iconOld;
 
-    private boolean mChecked = true;
-
-    private String mDescription;
-
-    private boolean mCancelable;
-
     public Board() {
 
     }
@@ -47,9 +41,6 @@ public class Board implements Parcelable {
         name = in.readString();
         icon = in.readInt();
         iconOld = in.readInt();
-        mChecked = in.readByte() != 0;
-        mDescription = in.readString();
-        mCancelable = in.readByte() != 0;
     }
 
     @Override
@@ -59,9 +50,6 @@ public class Board implements Parcelable {
         dest.writeString(name);
         dest.writeInt(icon);
         dest.writeInt(iconOld);
-        dest.writeByte((byte) (mChecked ? 1 : 0));
-        dest.writeString(mDescription);
-        dest.writeByte((byte) (mCancelable ? 1 : 0));
     }
 
     @Override
@@ -121,27 +109,4 @@ public class Board implements Parcelable {
         this.iconOld = iconOld;
     }
 
-    public boolean isCancelable() {
-        return mCancelable;
-    }
-
-    public void setCancelable(boolean cancelable) {
-        mCancelable = cancelable;
-    }
-
-    public boolean isChecked() {
-        return mChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        mChecked = checked;
-    }
-
-    public String getDescription() {
-        return mDescription;
-    }
-
-    public void setDescription(String description) {
-        mDescription = description;
-    }
 }

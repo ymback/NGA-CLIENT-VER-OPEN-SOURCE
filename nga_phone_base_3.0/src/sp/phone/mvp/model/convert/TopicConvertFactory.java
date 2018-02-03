@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import sp.phone.bean.Board;
+import sp.phone.bean.SubBoard;
 import sp.phone.bean.TopicListBean;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
@@ -38,7 +38,7 @@ public class TopicConvertFactory {
             TopicListInfo listInfo = new TopicListInfo();
             convertSubBoard(listInfo, topicListBean);
             convertTopic(listInfo, topicListBean, page);
-            sortTopic(listInfo.getThreadPageList());
+            sort(listInfo);
             return listInfo;
         } catch (NullPointerException e) {
             NLog.e(TAG, "can not parse :\n" + js);
@@ -47,7 +47,8 @@ public class TopicConvertFactory {
 
     }
 
-    private void sortTopic(List<ThreadPageInfo> list) {
+    private void sort(TopicListInfo listInfo) {
+        List<ThreadPageInfo> list = listInfo.getThreadPageList();
         if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SORT_BY_POST)) {
             Collections.sort(list, new Comparator<ThreadPageInfo>() {
                 @Override
@@ -57,6 +58,15 @@ public class TopicConvertFactory {
             });
         }
 
+        List<SubBoard> subBoards = listInfo.getSubBoardList();
+        if (!subBoards.isEmpty()) {
+            Collections.sort(subBoards, new Comparator<SubBoard>() {
+                @Override
+                public int compare(SubBoard o1, SubBoard o2) {
+                    return Integer.parseInt(o1.getUrl()) < Integer.parseInt(o2.getUrl()) ? 1 : -1;
+                }
+            });
+        }
     }
 
     private void convertSubBoard(TopicListInfo listInfo, TopicListBean topicListBean) {
@@ -68,24 +78,26 @@ public class TopicConvertFactory {
             Map<String, Map<String, String>> subBoardMap = JSON.parseObject(subForumsStr, Map.class);
             for (String key : subBoardMap.keySet()) {
                 Map<String, String> boardMap = subBoardMap.get(key);
-                Board board = new Board();
-                Object obj;
+                SubBoard board = new SubBoard();
+                Object obj = boardMap.get("0");
+                board.setUrl(obj.toString());
+
                 // 有些子版块的fid的key是3，大部分都是1
                 if (boardMap.containsKey("3")) {
                     obj = boardMap.get("3");
-                    board.setUrl(obj.toString());
+                    board.setTidStr(obj.toString());
+                    board.setType(1);
                 } else {
-                    obj = boardMap.get("0");
-                    board.setUrl(obj.toString());
+                    board.setType(0);
                 }
+                board.setParentFidStr(String.valueOf(topicListBean.getData().get__F().getFid()));
                 board.setName(boardMap.get("1"));
                 board.setDescription(boardMap.get("2"));
                 if (boardMap.containsKey("4")) {
-                    board.setCancelable(true);
                     obj = boardMap.get("4");
                     board.setChecked(BoardUtils.isBoardSubscribed(Integer.parseInt(obj.toString())));
                 } else {
-                    board.setCancelable(false);
+                    board.setType(-1);
                     board.setChecked(true);
                 }
                 listInfo.addSubBoard(board);
@@ -156,17 +168,6 @@ public class TopicConvertFactory {
 //            }
             NLog.d("屏蔽固定的渣帖子 " + tBean.toString());
             return true;
-        } else if (tBean.getParent() != null) {
-            String fid = tBean.getParent().get("0");
-            for (Board board : listInfo.getSubBoardList()) {
-                if (board.getUrl().equals(fid)) {
-                    if (!board.isChecked()) {
-                        NLog.d("屏蔽子版块帖子 " + tBean.getSubject() + " " + tBean.getParent().get("2"));
-                        return true;
-                    }
-                }
-            }
-            return false;
         } else {
             return false;
         }

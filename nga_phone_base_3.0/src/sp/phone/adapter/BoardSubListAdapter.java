@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.Board;
+import sp.phone.bean.SubBoard;
 
 /**
  * Created by Justwen on 2018/1/27.
@@ -20,13 +20,13 @@ import sp.phone.bean.Board;
 
 public class BoardSubListAdapter extends RecyclerView.Adapter<BoardSubListAdapter.ViewHolderEx> {
 
-    private List<Board> mBoardList;
+    private List<SubBoard> mBoardList;
 
     private Context mContext;
 
     private View.OnClickListener mOnClickListener;
 
-    public BoardSubListAdapter(Context context, List<Board> boardList) {
+    public BoardSubListAdapter(Context context, List<SubBoard> boardList) {
         mBoardList = boardList;
         mContext = context;
     }
@@ -43,7 +43,7 @@ public class BoardSubListAdapter extends RecyclerView.Adapter<BoardSubListAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolderEx viewHolderEx, int i) {
-        Board board = mBoardList.get(i);
+        SubBoard board = mBoardList.get(i);
         viewHolderEx.mCheckableView.setChecked(board.isChecked());
         viewHolderEx.mTitleView.setText(board.getName());
         if (TextUtils.isEmpty(board.getDescription())) {
@@ -53,7 +53,7 @@ public class BoardSubListAdapter extends RecyclerView.Adapter<BoardSubListAdapte
             viewHolderEx.mSummaryView.setText(board.getDescription());
         }
         viewHolderEx.mCheckableView.setOnClickListener(mOnClickListener);
-        viewHolderEx.mCheckableView.setVisibility(board.isCancelable() ? View.VISIBLE : View.GONE);
+        viewHolderEx.mCheckableView.setVisibility(board.getType() >= 0 ? View.VISIBLE : View.GONE);
         viewHolderEx.itemView.setOnClickListener(mOnClickListener);
         viewHolderEx.mCheckableView.setTag(board);
         viewHolderEx.itemView.setTag(board);

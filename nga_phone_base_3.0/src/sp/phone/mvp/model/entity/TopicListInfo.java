@@ -3,11 +3,11 @@ package sp.phone.mvp.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.bean.Board;
+import sp.phone.bean.SubBoard;
 
 public class TopicListInfo {
 
-    private ArrayList<Board> mSubBoardList = new ArrayList<>();
+    private ArrayList<SubBoard> mSubBoardList = new ArrayList<>();
 
     private List<ThreadPageInfo> mThreadPageList = new ArrayList<>();
 
@@ -23,11 +23,11 @@ public class TopicListInfo {
         mThreadPageList.add(threadPage);
     }
 
-    public void addSubBoard(Board subBoard) {
+    public void addSubBoard(SubBoard subBoard) {
         mSubBoardList.add(subBoard);
     }
 
-    public  ArrayList<Board> getSubBoardList() {
+    public  ArrayList<SubBoard> getSubBoardList() {
         return mSubBoardList;
     }
 
