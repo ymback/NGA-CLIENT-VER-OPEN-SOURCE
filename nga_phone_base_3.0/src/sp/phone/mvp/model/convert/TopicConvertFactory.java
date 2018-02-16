@@ -132,7 +132,13 @@ public class TopicConvertFactory {
             pageInfo.setType(tBean.getType());
             pageInfo.setTopicMisc(tBean.getTopic_misc());
             pageInfo.setTitleFont(tBean.getTitlefont());
-            pageInfo.setTid(tBean.getTid());
+            String tpcUrl = tBean.getTpcurl();
+            int index = tpcUrl.indexOf("tid");
+            int tid = tBean.getTid();
+            if (index > 0) {
+                tid = Integer.parseInt(tpcUrl.substring(index + 4));
+            }
+            pageInfo.setTid(tid);
             pageInfo.setPage(page);
             TopicListBean.DataBean.TBean.PBean pBean = tBean.get__P();
             if (pBean != null) {
