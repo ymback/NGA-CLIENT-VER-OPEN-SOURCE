@@ -1,56 +1,30 @@
 package gov.anzong.androidnga.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Locale;
-
-import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.ThemeManager;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.BoardFragment;
+import sp.phone.fragment.dialog.AboutClientDialogFragment;
 import sp.phone.fragment.dialog.ProfileSearchDialogFragment;
+import sp.phone.fragment.dialog.UrlInputDialogFragment;
+import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.presenter.BoardPresenter;
-import sp.phone.task.SignLoadTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
 import sp.phone.utils.PermissionUtils;
-import sp.phone.utils.StringUtils;
 
 public class MainActivity extends BaseActivity {
-
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     private BoardContract.Presenter mPresenter;
 
@@ -63,14 +37,16 @@ public class MainActivity extends BaseActivity {
         hideActionBar();
         super.onCreate(savedInstanceState);
         prepare();
-        initDate();
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
+
     }
 
     private void prepare() {
         checkNewVersion();
-    //    startSignLoadTask();
+        if (!PermissionUtils.hasStoragePermission(this)) {
+            PermissionUtils.requestStoragePermission(this);
+        }
     }
 
     @Override
@@ -82,19 +58,12 @@ public class MainActivity extends BaseActivity {
         super.onResume();
     }
 
-    private void startSignLoadTask() {
-        new SignLoadTask().execute();
-    }
-
     //OK
     private void checkNewVersion() {
         NgaClientApp app = (NgaClientApp) getApplication();
         if (app.isNewVersion()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.prompt).setMessage(StringUtils.getTips())
-                    .setPositiveButton(R.string.i_know, null);
-            builder.create().show();
             app.setNewVersion(false);
+            new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
         }
     }
 
@@ -146,7 +115,7 @@ public class MainActivity extends BaseActivity {
                 jumpToNearby();
                 break;
             case R.id.menu_forward:
-                toActivityByUrl();
+                new UrlInputDialogFragment().show(getSupportFragmentManager());
                 break;
             case R.id.menu_gun:
                 jumpToRecentReply();
@@ -158,14 +127,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void searchProfile() {
-        DialogFragment df;
-        final String dialogTag = "searchpaofile_dialog";
-        FragmentManager fm = getSupportFragmentManager();
-        df = (DialogFragment) fm.findFragmentByTag(dialogTag);
-        if (df == null) {
-            df = new ProfileSearchDialogFragment();
-            df.show(fm, dialogTag);
-        }
+        new ProfileSearchDialogFragment().show(getSupportFragmentManager());
     }
 
     private void myMessage() {
@@ -181,84 +143,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void aboutNgaClient() {
-        final View view = getLayoutInflater().inflate(R.layout.client_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view).setTitle(R.string.about);
-        String versionName = BuildConfig.VERSION_NAME;
-        int versionCode = BuildConfig.VERSION_CODE;
-        TextView contentView = (TextView) view
-                .findViewById(R.id.client_device_dialog);
-        String content = String.format(MainActivity.this
-                .getString(R.string.about_client), versionName, versionCode);
-        contentView.setText(Html.fromHtml(content));
-        contentView.setMovementMethod(LinkMovementMethod.getInstance());
-        CharSequence text = contentView.getText();
-        if (text instanceof Spannable) {
-            int end = text.length();
-            Spannable sp = (Spannable) contentView.getText();
-            URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
-            SpannableStringBuilder style = new SpannableStringBuilder(text);
-            style.clearSpans();// should clear old spans
-            for (URLSpan url : urls) {
-                MyURLSpan myURLSpan = new MyURLSpan(url.getURL());
-                style.setSpan(myURLSpan, sp.getSpanStart(url),
-                        sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-            }
-            contentView.setText(style);
-        }
-        builder.setPositiveButton("知道了", null);
-        builder.create().show();
-    }
-
-    private void delay(final String text) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showToast(text);
-            }
-
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initDate();
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private void initDate() {
-        if (!PermissionUtils.hasStoragePermission(this)) {
-            PermissionUtils.requestStoragePermission(this);
-            return;
-        }
-        new Thread() {
-            public void run() {
-                File fileBase = new File(HttpUtil.PATH);
-                if (!fileBase.exists()) {
-                    delay(getString(R.string.create_cache_dir));
-                    fileBase.mkdirs();
-                }
-                File f = new File(HttpUtil.PATH_AVATAR_OLD);
-                if (f.exists()) {
-                    f.renameTo(new File(HttpUtil.PATH_AVATAR));
-                    delay(getString(R.string.move_avatar));
-                }
-
-                File file = new File(HttpUtil.PATH_NOMEDIA);
-                if (!file.exists()) {
-                    NLog.i(getClass().getSimpleName(), "create .nomedia");
-                    try {
-                        file.createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
+        new AboutClientDialogFragment().show(getSupportFragmentManager());
     }
 
     private void jumpToSetting() {
@@ -314,134 +199,5 @@ public class MainActivity extends BaseActivity {
         startActivity(intent_bookmark);
     }
 
-    private void toActivityByUrl() {
-        final View view = getLayoutInflater().inflate(R.layout.useurlto_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view).setTitle(R.string.urlto_title_hint);
-        final EditText urlAdd = (EditText) view.findViewById(R.id.urladd);
-        urlAdd.requestFocus();
-        String clipData = null;
-        android.content.ClipboardManager clipboardManager = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
-        if (clipboardManager.hasPrimaryClip()) {
-            try {
-                clipData = clipboardManager.getPrimaryClip().getItemAt(0)
-                        .getText().toString();
-            } catch (Exception e) {
-                clipData = "";
-            }
-
-        }
-        if (!StringUtils.isEmpty(clipData)) {
-            urlAdd.setText(clipData);
-            urlAdd.selectAll();
-        }
-
-        builder.setPositiveButton("进入", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String url = urlAdd.getText().toString().trim();
-                if (StringUtils.isEmpty(url)) {// 空
-                    showToast("请输入URL地址");
-                    urlAdd.setFocusable(true);
-                    try {
-                        Field field = dialog.getClass().getSuperclass()
-                                .getDeclaredField("mShowing");
-                        field.setAccessible(true);
-                        field.set(dialog, false);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    url = url.toLowerCase(Locale.US).trim();
-                    if (url.indexOf("thread.php") > 0) {
-                        url = url
-                                .replaceAll(
-                                        "(?i)[^\\[|\\]]+fid=(-{0,1}\\d+)[^\\[|\\]]{0,}",
-                                        Utils.getNGAHost() + "thread.php?fid=$1");
-                        Intent intent = new Intent();
-                        intent.setData(Uri.parse(url));
-                        intent.setClass(view.getContext(), mConfig.topicActivityClass);
-                        startActivity(intent);
-                    } else if (url.indexOf("read.php") > 0) {
-                        if (url.indexOf("tid") > 0
-                                && url.indexOf("pid") > 0) {
-                            if (url.indexOf("tid") < url.indexOf("pid"))
-                                url = url
-                                        .replaceAll(
-                                                "(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}",
-                                                Utils.getNGAHost() + "read.php?pid=$2&tid=$1");
-                            else
-                                url = url
-                                        .replaceAll(
-                                                "(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}",
-                                                Utils.getNGAHost() + "read.php?pid=$1&tid=$2");
-                        } else if (url.indexOf("tid") > 0
-                                && url.indexOf("pid") <= 0) {
-                            url = url
-                                    .replaceAll(
-                                            "(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}",
-                                            Utils.getNGAHost() + "read.php?tid=$1");
-                        } else if (url.indexOf("pid") > 0
-                                && url.indexOf("tid") <= 0) {
-                            url = url
-                                    .replaceAll(
-                                            "(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}",
-                                            Utils.getNGAHost() + "read.php?pid=$1");
-                        }
-                        Intent intent = new Intent();
-                        intent.setData(Uri.parse(url));
-                        intent.setClass(view.getContext(), mConfig.articleActivityClass);
-                        startActivity(intent);
-                    } else {
-                        showToast("输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试");
-                        urlAdd.setFocusable(true);
-                        try {
-                            Field field = dialog.getClass().getSuperclass()
-                                    .getDeclaredField("mShowing");
-                            field.setAccessible(true);
-                            field.set(dialog, false);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    Field field = dialog.getClass().getSuperclass()
-                            .getDeclaredField("mShowing");
-                    field.setAccessible(true);
-                    field.set(dialog, true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        builder.create().show();
-    }
-
-
-    public class MyURLSpan extends ClickableSpan {
-        private String mUrl;
-
-        MyURLSpan(String url) {
-            mUrl = url;
-        }
-
-        @Override
-        public void onClick(View widget) {
-
-            Intent intent = new Intent();
-            intent.putExtra("path", mUrl);
-            intent.setClass(MainActivity.this, WebViewerActivity.class);
-            startActivity(intent);
-        }
-    }
 }

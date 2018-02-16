@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,7 +25,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.StringUtils;
 
-public class ProfileSearchDialogFragment extends DialogFragment {
+public class ProfileSearchDialogFragment extends BaseDialogFragment {
 
     private RadioGroup mSearchRadio;
 
