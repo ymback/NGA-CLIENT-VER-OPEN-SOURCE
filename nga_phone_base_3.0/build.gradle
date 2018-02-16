@@ -51,10 +51,6 @@ android {
             }
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     buildTypes {
         release {
@@ -102,7 +98,7 @@ android {
 
     //修改生成的apk名字
     android.applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+        variant.outputs.each { output ->
             def newName
             def timeNow
             def outDirectory
@@ -119,7 +115,7 @@ android {
                     newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
                 }
             }
-            outputFileName = new File(outDirectory, newName)
+            output.outputFile = new File(outDirectory, newName)
         }
     }
 }
