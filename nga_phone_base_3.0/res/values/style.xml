@@ -15,7 +15,7 @@
   -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="style/Theme.AppCompat">
+    <style name="AppTheme" parent="@style/Theme.AppCompat">
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
@@ -23,7 +23,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppThemeNight" parent="style/Theme.AppCompat">
+    <style name="AppThemeNight" parent="@style/Theme.AppCompat">
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
