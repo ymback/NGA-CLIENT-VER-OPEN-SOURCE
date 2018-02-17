@@ -26,6 +26,10 @@ public class DeviceUtils {
         return DEVICE_NAME_MEIZU.equalsIgnoreCase(android.os.Build.MANUFACTURER);
     }
 
+    public static boolean isGreaterEqual_8_0() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+    }
+
     public static boolean isTablet(Context context) {
         int screenLayout = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
         return screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE;

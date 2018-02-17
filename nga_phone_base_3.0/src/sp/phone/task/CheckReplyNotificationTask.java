@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -25,9 +26,11 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.ReplyListActivity;
 import sp.phone.bean.MsgNotificationObject;
 import sp.phone.bean.NotificationObject;
+import sp.phone.common.Constants;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.utils.DeviceUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
@@ -351,7 +354,7 @@ public class CheckReplyNotificationTask extends
         }
 
 
-        Notification.Builder builder = new Notification.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.NOTIFICATION_ID);
         builder.setTicker(nickName + context.getString(R.string.reply_to_you));
         builder.setLights(Color.parseColor("#fff0cd"), 2333, 0);
         builder.setSmallIcon(R.drawable.nga_bg); //设置图标
@@ -422,14 +425,13 @@ public class CheckReplyNotificationTask extends
                 context.getString(R.string.message_to_you), title);
 
 
-        Notification.Builder builder = new Notification.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.NOTIFICATION_ID);
         builder.setTicker(tickerText);
         builder.setLights(Color.parseColor("#fff0cd"), 2333, 0);
         builder.setSmallIcon(R.drawable.nga_bg); //设置图标
         builder.setContentTitle(title); //设置标题
         builder.setContentText(title + "(" + String.valueOf(authId) + ")向你发送了短消息"); //消息内容
         builder.setWhen(System.currentTimeMillis()); //发送时间
-        builder.setDefaults(Notification.DEFAULT_ALL); //设置默认的提示音，振动方式，灯光
         builder.setAutoCancel(true);//打开程序后图标消失
         builder.setContentIntent(pending);
         int defaults = Notification.DEFAULT_LIGHTS;
@@ -480,7 +482,7 @@ public class CheckReplyNotificationTask extends
 
         MsgNotificationObject o = msgnotificationlist.get(0);
 
-        Notification.Builder builder = new Notification.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.NOTIFICATION_ID);
         builder.setTicker(String.format(
                 context.getString(R.string.multi_message_format),
                 msgnotificationlist.size()));

@@ -7,6 +7,7 @@ buildscript {
             url 'http://oss.sonatype.org/content/repositories/snapshots'
         }
         mavenCentral()
+        google()
         jcenter()
     }
     dependencies {
@@ -16,9 +17,9 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url 'https://maven.google.com' }
         flatDir {
             dirs 'libs'
         }
@@ -32,7 +33,7 @@ task clean(type: Delete) {
 project.ext {
     compileSdkVersion = 26
     buildToolsVersion = '26.0.3'
-    androidSupportVersion = '26.0.2'
+    androidSupportVersion = '26.1.0'
     appVersionName = '2.0.75'
     appVersionCode = 2075
 }
