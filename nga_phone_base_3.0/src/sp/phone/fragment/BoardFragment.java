@@ -1,8 +1,6 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -26,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -35,7 +32,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
-import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.util.List;
 
@@ -48,6 +44,7 @@ import sp.phone.common.ThemeManager;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.fragment.dialog.AddBoardDialogFragment;
 import sp.phone.fragment.dialog.LoginDialogFragment;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
@@ -88,14 +85,15 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         mViewPager = view.findViewById(R.id.pager);
         TabLayout tabLayout = view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        DrawerLayout drawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -110,16 +108,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             }
         });
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, (Toolbar) view.findViewById(R.id.toolbar), R.string.app_name, R.string.app_name);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         NavigationView navigationView = view.findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                return onOptionsItemSelected(item);
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this::onOptionsItemSelected);
         NavigationMenuView menuView = (NavigationMenuView) navigationView.getChildAt(0);
         menuView.setVerticalScrollBarEnabled(false);
         MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_gun);
@@ -134,6 +127,10 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         mPresenter.loadBoardInfo();
     }
 
+    private void setReplyCount(int count) {
+        mReplyCountView.setText(String.valueOf(count));
+    }
+
     @Override
     public void updateHeaderView() {
         mHeaderView.removeAllViews();
@@ -143,16 +140,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             mHeaderView.addView(getUserView(null, 0));
         } else {
             for (int i = 0; i < userList.size(); i++) {
-                mHeaderView.addView(getUserView(userList, i));// 传递回一个未登入的
+                mHeaderView.addView(getUserView(userList, i));
             }
             mHeaderView.setDisplayedChild(um.getActiveUserIndex());
         }
-        mHeaderView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.toggleUser(userList);
-            }
-        });
+        mHeaderView.setOnClickListener(v -> mPresenter.toggleUser(userList));
         mHeaderView.setInAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_in));
         mHeaderView.setOutAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_out));
     }
@@ -212,39 +204,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     }
 
     private void showAddBoardDialog() {
-        final View view = getLayoutInflater().inflate(R.layout.addfid_dialog, null);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(view).setTitle(R.string.addfid_title_hint);
-        final EditText addFidNameView = (EditText) view.findViewById(R.id.addfid_name);
-        final EditText addFidIdView = (EditText) view.findViewById(R.id.addfid_id);
-        builder.setPositiveButton("添加", new DialogInterface.OnClickListener() {
-
-            @SuppressWarnings("unused")
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String name = addFidNameView.getText().toString();
-                String fid = addFidIdView.getText().toString();
-                canDismiss(dialog, mPresenter.addBoard(fid, name));
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                canDismiss(dialog, true);
-            }
-        });
-        builder.create().show();
-    }
-
-    private void canDismiss(DialogInterface dialog, boolean canDismiss) {
-        try {
-            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
-            field.setAccessible(true);
-            field.set(dialog, canDismiss);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new AddBoardDialogFragment().show(getChildFragmentManager());
     }
 
     @Override
@@ -272,11 +232,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             if (userList.size() == 1) {
                 loginState.setText("已登录1个账户");
             } else {
-                loginState.setText("已登录" + String.valueOf(userList.size() + "个账户,点击切换"));
+                loginState.setText(String.format("已登录%s", String.valueOf(userList.size() + "个账户,点击切换")));
             }
             if (userList.size() > 0) {
                 User user = userList.get(position);
-                loginId.setText("当前:" + user.getNickName() + "(" + user.getUserId() + ")");
+                loginId.setText(String.format("当前:%s(%s)", user.getNickName(), user.getUserId()));
                 handleUserAvatar(avatarImage, user.getAvatarUrl());
             }
         }
@@ -323,7 +283,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         }
         User user = UserManagerImpl.getInstance().getActiveUser();
         if (user != null) {
-            mReplyCountView.setText(String.valueOf(user.getReplyCount()));
+            setReplyCount(user.getReplyCount());
         }
         super.onResume();
     }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,85 +23,69 @@ import gov.anzong.androidnga.activity.TopicListActivity;
 
 public class UrlInputDialogFragment extends BaseDialogFragment {
 
-    private View.OnClickListener mPositiveClickListener;
+    private EditText mUrlAddEditText;
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mUrlAddEditText.requestFocus();
+        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null && clipboardManager.hasPrimaryClip()) {
+            String clipData = clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();
+            if (!TextUtils.isEmpty(clipData)) {
+                mUrlAddEditText.setText(clipData);
+                mUrlAddEditText.selectAll();
+            }
+        }
+        setPositiveClickListener((View v) -> {
+            String url = mUrlAddEditText.getText().toString().trim();
+            if (TextUtils.isEmpty(url)) {// 空
+                showToast("请输入URL地址");
+                mUrlAddEditText.setFocusable(true);
+            } else {
+                url = url.toLowerCase(Locale.US).trim();
+                if (url.contains("thread.php")) {
+                    url = url.replaceAll("(?i)[^\\[|\\]]+fid=(-{0,1}\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "thread.php?fid=$1");
+                    Intent intent = new Intent(getContext(), TopicListActivity.class);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                    dismiss();
+                } else if (url.contains("read.php")) {
+                    if (url.contains("tid") && url.contains("pid")) {
+                        if (url.indexOf("tid") < url.indexOf("pid")) {
+                            url = url.replaceAll("(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?pid=$2&tid=$1");
+                        } else {
+                            url = url.replaceAll("(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?pid=$1&tid=$2");
+                        }
+                    } else if (url.contains("tid") && !url.contains("pid")) {
+                        url = url.replaceAll("(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?tid=$1");
+                    } else if (url.contains("pid") && !url.contains("tid")) {
+                        url = url.replaceAll("(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?pid=$1");
+                    }
+                    Intent intent = new Intent(getContext(),ArticleListActivity.class);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                    dismiss();
+                } else {
+                    showToast("输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试");
+                    mUrlAddEditText.setFocusable(true);
+                }
+            }
+        });
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.useurlto_dialog, null);
-        final EditText urlAdd = view.findViewById(R.id.urladd);
-        urlAdd.requestFocus();
-        String clipData = null;
-        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-
-        if (clipboardManager.hasPrimaryClip()) {
-            try {
-                clipData = clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();
-            } catch (Exception e) {
-                clipData = "";
-            }
-
-        }
-        if (!TextUtils.isEmpty(clipData)) {
-            urlAdd.setText(clipData);
-            urlAdd.selectAll();
-        }
-
+        mUrlAddEditText = view.findViewById(R.id.urladd);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setPositiveButton(android.R.string.ok, null)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setView(view)
                 .setTitle(R.string.urlto_title_hint);
 
-        AlertDialog dialog = builder.create();
-        mPositiveClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = urlAdd.getText().toString().trim();
-                if (TextUtils.isEmpty(url)) {// 空
-                    showToast("请输入URL地址");
-                    urlAdd.setFocusable(true);
-
-                } else {
-                    url = url.toLowerCase(Locale.US).trim();
-                    if (url.indexOf("thread.php") > 0) {
-                        url = url.replaceAll("(?i)[^\\[|\\]]+fid=(-{0,1}\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "thread.php?fid=$1");
-                        Intent intent = new Intent();
-                        intent.setData(Uri.parse(url));
-                        intent.setClass(getContext(), TopicListActivity.class);
-                        startActivity(intent);
-                        dismiss();
-                    } else if (url.indexOf("read.php") > 0) {
-                        if (url.indexOf("tid") > 0 && url.indexOf("pid") > 0) {
-                            if (url.indexOf("tid") < url.indexOf("pid")) {
-                                url = url.replaceAll("(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?pid=$2&tid=$1");
-                            } else {
-                                url = url.replaceAll("(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?pid=$1&tid=$2");
-                            }
-                        } else if (url.indexOf("tid") > 0 && url.indexOf("pid") <= 0) {
-                            url = url.replaceAll("(?i)[^\\[|\\]]+tid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?tid=$1");
-                        } else if (url.indexOf("pid") > 0 && url.indexOf("tid") <= 0) {
-                            url = url.replaceAll("(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?pid=$1");
-                        }
-                        Intent intent = new Intent();
-                        intent.setData(Uri.parse(url));
-                        intent.setClass(view.getContext(), ArticleListActivity.class);
-                        startActivity(intent);
-                        dismiss();
-                    } else {
-                        showToast("输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试");
-                        urlAdd.setFocusable(true);
-
-                    }
-                }
-            }
-        };
-        return dialog;
+        return builder.create();
     }
 
-    @Override
-    public void onResume() {
-        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(mPositiveClickListener);
-        super.onResume();
-    }
 }

@@ -1,8 +1,12 @@
 package sp.phone.fragment.dialog;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -11,15 +15,15 @@ import android.widget.Toast;
 
 public abstract class BaseDialogFragment extends DialogFragment {
 
-    protected DialogInterface.OnClickListener mPositiveClickListener;
+    protected View.OnClickListener mPositiveClickListener;
 
-    protected DialogInterface.OnClickListener mNegativeClickListener;
+    protected View.OnClickListener mNegativeClickListener;
 
-    public void setPositiveClickListener(DialogInterface.OnClickListener positiveClickListener) {
+    public void setPositiveClickListener(View.OnClickListener positiveClickListener) {
         mPositiveClickListener = positiveClickListener;
     }
 
-    public void setNegativeClickListener(DialogInterface.OnClickListener negativeClickListener) {
+    public void setNegativeClickListener(View.OnClickListener negativeClickListener) {
         mNegativeClickListener = negativeClickListener;
     }
 
@@ -28,6 +32,19 @@ public abstract class BaseDialogFragment extends DialogFragment {
         if (getContext() != null) {
             Toast.makeText(getContext(),toast,Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        AlertDialog dialog = (AlertDialog) getDialog();
+        if (mPositiveClickListener != null) {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(mPositiveClickListener);
+        }
+
+        if (mNegativeClickListener != null) {
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(mNegativeClickListener);
+        }
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public void show(FragmentManager fm) {

@@ -1,9 +1,9 @@
 package sp.phone.fragment.dialog;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 
 import gov.anzong.androidnga.R;
 import sp.phone.utils.StringUtils;
