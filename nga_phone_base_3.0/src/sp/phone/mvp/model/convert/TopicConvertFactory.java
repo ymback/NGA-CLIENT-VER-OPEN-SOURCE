@@ -17,6 +17,7 @@ import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.utils.BoardUtils;
 import sp.phone.utils.NLog;
+import sp.phone.utils.StringUtils;
 
 /**
  * Created by Justwen on 2017/11/21.
@@ -132,11 +133,10 @@ public class TopicConvertFactory {
             pageInfo.setType(tBean.getType());
             pageInfo.setTopicMisc(tBean.getTopic_misc());
             pageInfo.setTitleFont(tBean.getTitlefont());
-            String tpcUrl = tBean.getTpcurl();
-            int index = tpcUrl.indexOf("tid");
             int tid = tBean.getTid();
-            if (index > 0) {
-                tid = Integer.parseInt(tpcUrl.substring(index + 4));
+            String tpcUrl = tBean.getTpcurl();
+            if (tpcUrl != null && tpcUrl.contains("tid")) {
+                tid = StringUtils.getUrlParameter(tpcUrl,"tid");
             }
             pageInfo.setTid(tid);
             pageInfo.setPage(page);
