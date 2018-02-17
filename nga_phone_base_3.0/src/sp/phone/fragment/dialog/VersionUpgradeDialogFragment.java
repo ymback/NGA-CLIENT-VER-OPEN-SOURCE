@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.StringUtils;
+import sp.phone.common.VersionUpgradeTips;
 
 
 public class VersionUpgradeDialogFragment extends BaseDialogFragment {
@@ -17,7 +17,7 @@ public class VersionUpgradeDialogFragment extends BaseDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setPositiveButton(android.R.string.ok,null)
                 .setTitle(R.string.prompt)
-        .setMessage(StringUtils.getTips());
+        .setMessage(VersionUpgradeTips.TIPS_2075);
         return builder.create();
     }
 }

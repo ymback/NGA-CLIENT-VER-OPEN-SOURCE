@@ -110,6 +110,7 @@ android {
                 timeNow = JENKINS_TIME
                 outDirectory = '/auto-build/tomcat/webapps/download/'
                 newName = 'NGA-v' + APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
+                outputFileName = new File(outDirectory, newName)
             } else {
                 timeNow = getDate()
                 outDirectory = output.outputFile.parent
@@ -118,8 +119,9 @@ android {
                 } else {
                     newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
                 }
+                outputFileName = new File(newName)
             }
-            outputFileName = new File(outDirectory, newName)
+
         }
     }
 }
