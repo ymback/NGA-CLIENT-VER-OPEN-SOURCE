@@ -43,10 +43,6 @@
             android:theme="@style/SwipeBackTheme"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name="gov.anzong.meizi.MeiziLoginActivity"
-            android:icon="@drawable/anzong_foot"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity
             android:name=".activity.FlexibleProfileActivity"
             android:theme="@style/SwipeBackTheme"/>
         <activity

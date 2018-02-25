@@ -3,6 +3,7 @@ package gov.anzong.androidnga.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -13,8 +14,8 @@ import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
-import sp.phone.fragment.TopicListFragment;
 import sp.phone.fragment.TopicFavoriteFragment;
+import sp.phone.fragment.TopicListFragment;
 import sp.phone.fragment.TopicSearchFragment;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.utils.ActivityUtils;
@@ -47,7 +48,7 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
             requestParam.author = StringUtils.getStringBetween(url, 0, "author=", "&").result;
             requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
             requestParam.content = StringUtils.getUrlParameter(url, "content");
-            requestParam.fid = StringUtils.getUrlParameter(url,"fid");
+            requestParam.fid = StringUtils.getUrlParameter(url, "fid");
         } else if (bundle != null) {
             requestParam = bundle.getParcelable(ParamKey.KEY_PARAM);
             if (requestParam == null) {
@@ -80,19 +81,22 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
     }
 
     private void setupFragment() {
-        Fragment fragment;
-        if (mRequestParam.favor != 0) {
-            fragment = new TopicFavoriteFragment();
-        } else if (isBoardTopicList()) {
-            fragment = new TopicListFragment();
-        } else {
-            fragment = new TopicSearchFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.findFragmentById(android.R.id.content) == null) {
+            Fragment fragment;
+            if (mRequestParam.favor != 0) {
+                fragment = new TopicFavoriteFragment();
+            } else if (isBoardTopicList()) {
+                fragment = new TopicListFragment();
+            } else {
+                fragment = new TopicSearchFragment();
+            }
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
+            fragment.setArguments(bundle);
+            fragment.setHasOptionsMenu(true);
+            fm.beginTransaction().replace(android.R.id.content, fragment).commit();
         }
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
-        fragment.setArguments(bundle);
-        fragment.setHasOptionsMenu(true);
-        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
     }
 
     private boolean isBoardTopicList() {

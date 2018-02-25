@@ -9,7 +9,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
-import sp.phone.fragment.ArticleListFragment;
 import sp.phone.fragment.ArticleSearchFragment;
 import sp.phone.fragment.ArticleTabFragment;
 import sp.phone.utils.ActivityUtils;
@@ -25,7 +24,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
 
     private void setupFragment() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(ArticleListFragment.class.getSimpleName());
+        Fragment fragment = fm.findFragmentById(android.R.id.content);
 
         if (fragment == null) {
             if (mRequestParam.searchPost == 0) {
@@ -37,7 +36,7 @@ public class ArticleListActivity extends SwipeBackAppCompatActivity implements P
             Bundle bundle = new Bundle();
             bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
             fragment.setArguments(bundle);
-            fm.beginTransaction().replace(android.R.id.content, fragment, ArticleTabFragment.class.getSimpleName()).commit();
+            fm.beginTransaction().replace(android.R.id.content, fragment).commit();
         }
     }
 
