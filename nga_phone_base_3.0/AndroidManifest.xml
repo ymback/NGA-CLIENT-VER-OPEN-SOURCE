@@ -21,7 +21,7 @@
         tools:ignore="AllowBackup">
         <activity
             android:name=".activity.MainActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
 
@@ -88,6 +88,7 @@
         <activity
             android:name=".activity.TopicListActivity"
             android:exported="true"
+            android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
             android:theme="@style/SwipeBackTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -159,7 +160,7 @@
         </activity>
         <activity
             android:name=".activity.ArticleListActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
             android:exported="true"
             android:multiprocess="true"
             android:theme="@style/SwipeBackTheme">

@@ -16,6 +16,13 @@
         android:icon="@drawable/content_edit"
         android:title="@string/reply_thread"
         androidnga:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_copy_url"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/menu_copy_url"
+        androidnga:showAsAction="never" />
+
     <item
         android:id="@+id/menu_add_bookmark"
         android:icon="@drawable/btn_star_big_on"

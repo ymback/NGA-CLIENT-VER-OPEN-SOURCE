@@ -1,6 +1,9 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -175,10 +178,30 @@ public class ArticleTabFragment extends BaseRxFragment {
             case R.id.menu_share:
                 share();
                 break;
+            case R.id.menu_copy_url:
+                copyUrl();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private void copyUrl() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(Utils.getNGAHost()).append("read.php?");
+        if (mRequestParam.pid != 0) {
+            builder.append("pid=").append(mRequestParam.pid);
+        } else {
+            builder.append("tid=").append(mRequestParam.tid);
+        }
+        ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            ClipData clipData = ClipData.newPlainText("text", builder.toString());
+            clipboardManager.setPrimaryClip(clipData);
+            showToast("已经复制至粘贴板");
+        }
+
     }
 
     private void share() {
