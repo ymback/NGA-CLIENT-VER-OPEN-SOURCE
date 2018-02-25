@@ -125,6 +125,7 @@ public class HtmlUtil {
         return ret;
     }
 
+
     @SuppressWarnings("static-access")
     private static String buildAttachment(ThreadRowInfo row, boolean showImage, int imageQuality, HashSet<String> imageURLSet) {
         if (row == null || row.getAttachs() == null
@@ -136,9 +137,9 @@ public class HtmlUtil {
         ret.append("<br/><br/>").append(attachment).append("<hr/><br/>");
         // ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;margin:0px 0px 10px 30px;padding:10px;color:#6b2d25;max-width:100%;'>");
         if (theme.mode == theme.MODE_NIGHT) {
-            ret.append("<table style='background:#000000;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:2'>");
+            ret.append("<table style='background:#000000;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");
         } else {
-            ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:2'>");
+            ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");
         }
         ret.append("<tbody>");
         Iterator<Map.Entry<String, Attachment>> it = row.getAttachs().entrySet()
@@ -151,27 +152,12 @@ public class HtmlUtil {
             }
             // String url = "http://img.nga.178.com/attachments/" +
             // entry.getValue().getAttachurl();
-            ret.append("<tr><td><a href='http://" + HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/");
-            ret.append(entry.getValue().getAttachurl());
-            ret.append("'>");
-            if (showImage) {
-                String attachURL = "http://" + HttpUtil.NGA_ATTACHMENT_HOST
-                        + "/attachments/" + entry.getValue().getAttachurl();
-                if ("1".equals(entry.getValue().getThumb())) {
-                    attachURL = attachURL + ".thumb.jpg";
-                    // ret.append(entry.getValue().getExt());
-                } else {
-                    attachURL = StringUtils.buildOptimizedImageURL(attachURL, imageQuality);
-                }
-                ret.append("<img src='");
-                ret.append(attachURL);
+            String attachUrl = entry.getValue().getAttachurl();
+            if (attachUrl.contains("mp3")) {
+                ret = buildAudioAttachment(ret, entry.getValue());
             } else {
-                ret.append("<img src='file:///android_asset/ic_offline_image.png");
+                ret = buildImageAttachment(ret, entry.getValue(), showImage, imageQuality);
             }
-
-            ret.append("' style= 'max-width:70%;'></a>");
-
-            ret.append("</td></tr>");
             attachmentCount++;
         }
         ret.append("</tbody></table>");
@@ -179,6 +165,43 @@ public class HtmlUtil {
             return "";
         else
             return ret.toString();
+    }
+
+    private static StringBuilder buildAudioAttachment(StringBuilder ret, Attachment attachment) {
+        String url = attachment.getAttachurl();
+        ret.append("<tr><td><a href='http://")
+                .append(HttpUtil.NGA_ATTACHMENT_HOST)
+                .append("/attachments/")
+                .append(url)
+                .append("'>")
+                .append("nga_audio.mp3</a>")
+                .append("</td></tr>");
+        return ret;
+    }
+
+    private static StringBuilder buildImageAttachment(StringBuilder ret, Attachment attachment, boolean showImage, int imageQuality) {
+        String url = attachment.getAttachurl();
+        ret.append("<tr><td><a href='http://")
+                .append(HttpUtil.NGA_ATTACHMENT_HOST)
+                .append("/attachments/")
+                .append(url)
+                .append("'>");
+
+        if (showImage) {
+            String attachURL = "http://" + HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/" + url;
+            if ("1".equals(attachment.getThumb())) {
+                attachURL = attachURL + ".thumb.jpg";
+            } else {
+                attachURL = StringUtils.buildOptimizedImageURL(attachURL, imageQuality);
+            }
+            ret.append("<img src='")
+                    .append(attachURL);
+        } else {
+            ret.append("<img src='file:///android_asset/ic_offline_image.png");
+        }
+
+        ret.append("' style= 'max-width:70%;'></a>").append("</td></tr>");
+        return ret;
     }
 
     private static String buildComment(ThreadRowInfo row, String fgColor, boolean showImage, int imageQuality, Context context) {

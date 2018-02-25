@@ -761,9 +761,28 @@ public class StringUtils {
                     }
                 }
             }
+
+            if (s.contains("audio")) {
+                s = buildAudioHtml(s);
+            }
         } catch (Exception e) {
         }
         return s;
+    }
+
+    private static String buildAudioHtml(String url) {
+        String regex = "\\[flash=audio](.*?)\\[/flash]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(url);
+        while (matcher.find()) {
+            String audioUrl = matcher.group();
+            audioUrl = audioUrl.substring(14, audioUrl.indexOf("[/flash]") - 1);
+            // <audio src="http://img.ngacn.cc/attachments/mon_201802/25/-7Q5-ak1cKe.mp3?duration=3&filename=nga_audio.mp3" controls="controls"></audio>
+            audioUrl = "<audio src=\"http://img.ngacn.cc/attachments" + audioUrl + "&filename=nga_audio.mp3\" controls=\"controls\"></audio>";
+            url = matcher.replaceFirst(audioUrl);
+            matcher = pattern.matcher(url);
+        }
+        return url;
     }
 
     public static String buildOptimizedImageURL(String url, int imageQuality) {
