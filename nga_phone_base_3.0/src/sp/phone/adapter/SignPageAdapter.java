@@ -18,7 +18,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
@@ -89,7 +89,7 @@ public class SignPageAdapter extends BaseAdapter implements
         ThemeManager cfg = ThemeManager.getInstance();
         int colorId = cfg.getBackgroundColor(position);
         if (position == this.selected) {
-            if (cfg.mode == ThemeManager.MODE_NIGHT)
+            if (cfg.isNightMode())
                 colorId = R.color.topiclist_selected_color;
             else
                 colorId = R.color.holo_blue_light;

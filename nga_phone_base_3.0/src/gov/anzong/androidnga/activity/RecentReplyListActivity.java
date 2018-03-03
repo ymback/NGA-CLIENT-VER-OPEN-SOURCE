@@ -10,17 +10,14 @@ import android.view.View;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
 import sp.phone.fragment.RecentReplyListFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
-import sp.phone.utils.ReflectionUtil;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PreferenceKey, PullToRefreshAttacherOwner {
     FragmentManager fm;
     Fragment f;
     View v;
-    int flags = ThemeManager.ACTION_BAR_FLAG;
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
     @Override
@@ -44,7 +41,6 @@ public class RecentReplyListActivity extends SwipeBackAppCompatActivity implemen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
         return false;// super.onCreateOptionsMenu(menu);
     }
 

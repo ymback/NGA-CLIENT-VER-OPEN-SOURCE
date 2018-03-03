@@ -18,7 +18,7 @@ import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.Constants;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.utils.ApplicationContextHolder;
 import sp.phone.utils.DeviceUtils;
@@ -93,8 +93,7 @@ public class NgaClientApp extends Application implements PreferenceKey {
 
         SharedPreferences share = getSharedPreferences(PERFERENCE,
                 MODE_PRIVATE);
-        if (share.getBoolean(NIGHT_MODE, false))
-            ThemeManager.getInstance().setMode(1);
+        ThemeManager.getInstance().setNighMode(share.getBoolean(NIGHT_MODE, false));
 
         ThemeManager.getInstance().screenOrentation = share.getInt(
                 SCREEN_ORENTATION, ActivityInfo.SCREEN_ORIENTATION_USER);

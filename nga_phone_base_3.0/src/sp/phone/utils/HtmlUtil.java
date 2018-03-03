@@ -14,7 +14,7 @@ import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 /**
  * Created by liuboyu on 16/6/30.
@@ -136,7 +136,7 @@ public class HtmlUtil {
         ThemeManager theme = ThemeManager.getInstance();
         ret.append("<br/><br/>").append(attachment).append("<hr/><br/>");
         // ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;margin:0px 0px 10px 30px;padding:10px;color:#6b2d25;max-width:100%;'>");
-        if (theme.mode == theme.MODE_NIGHT) {
+        if (theme.isNightMode()) {
             ret.append("<table style='background:#000000;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");
         } else {
             ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");

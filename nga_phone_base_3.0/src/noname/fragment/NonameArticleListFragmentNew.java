@@ -33,7 +33,7 @@ import noname.listener.MyListenerForNonameReply;
 import noname.task.JsonNonameThreadLoadTask;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.task.ReportTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;

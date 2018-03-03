@@ -4,18 +4,12 @@
     <color name="text_color">#FFFFFF</color>
     <color name="text_color_disabled">#FF6F6F6F</color>
     <color name="window_background">#FF303030</color>
+    <color name="background_color">@color/night_bg_color</color>
+    <color name="background_color2">@color/night_bg_color</color>
+    <color name="foreground_color">@color/night_fore_color</color>
 
     <color name="colorAccentBrown">#FF128F80</color>
     <color name="colorPrimaryBrown">#ff212121</color>
     <color name="colorPrimaryDarkBrown">@android:color/black</color>
-
-    <color name="colorAccentGreen">#FF128F80</color>
-    <color name="colorPrimaryGreen">#ff212121</color>
-    <color name="colorPrimaryDarkGreen">@android:color/black</color>
-
-
-    <color name="colorAccentBlack">#FF128F80</color>
-    <color name="colorPrimaryBlack">#ff212121</color>
-    <color name="colorPrimaryDarkBlack">@android:color/black</color>
 
 </resources>

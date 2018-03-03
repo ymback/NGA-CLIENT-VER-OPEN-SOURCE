@@ -22,7 +22,7 @@ import noname.gson.parse.NonameThreadResponse;
 import noname.adapter.AppendableNonameTopicAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.fragment.BaseFragment;
 import noname.interfaces.NextJsonNonameTopicListLoader;
 import noname.interfaces.OnNonameTopListLoadFinishedListener;

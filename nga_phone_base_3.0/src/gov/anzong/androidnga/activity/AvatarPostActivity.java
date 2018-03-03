@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -35,18 +34,17 @@ import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.AvatarPostAction;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
 import sp.phone.task.AvatarFileUploadTask;
 import sp.phone.task.ChangeAvatarLoadTask;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.HttpUtil;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.NLog;
-import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
 
 public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
@@ -211,13 +209,6 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
         super.onCreate(savedInstanceState);
         v = this.getLayoutInflater().inflate(R.layout.changeavatar, null);
         v.setBackgroundColor(getResources().getColor(
@@ -235,7 +226,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
         submit_button = (Button) findViewById(R.id.submit_button);
         titleText.setSelected(true);
         ThemeManager tm = ThemeManager.getInstance();
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+        if (tm.isNightMode()) {
             titleText.setBackgroundResource(tm.getBackgroundColor());
             int textColor = this.getResources().getColor(
                     tm.getForegroundColor());
@@ -270,8 +261,6 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
 
         });
 
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
         getSupportActionBar().setTitle("更改头像");
     }
 

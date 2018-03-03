@@ -14,7 +14,7 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 /**
  * Created by liuboyu on 16/6/28.

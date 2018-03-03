@@ -20,7 +20,7 @@ import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.listener.ClientListener;
 import sp.phone.listener.MyListenerForReply;

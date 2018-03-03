@@ -18,7 +18,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ApplicationContextHolder;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;

@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.bean.StringFindResult;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 @SuppressLint("SimpleDateFormat")
 public class StringUtils {

@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import io.reactivex.functions.Consumer;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.utils.StringUtils;

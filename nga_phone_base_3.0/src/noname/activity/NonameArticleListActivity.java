@@ -1,37 +1,31 @@
 package noname.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.TabHost;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
-import noname.gson.parse.NonameReadResponse;
 import noname.adapter.TabsAdapter;
 import noname.adapter.ThreadFragmentAdapter;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
-import sp.phone.fragment.dialog.GotoDialogFragment;
 import noname.fragment.NonameArticleListFragment;
+import noname.gson.parse.NonameReadResponse;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
 import noname.interfaces.PagerOwner;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
+import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
-import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -180,18 +174,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nonamearticlelist_menu, menu);
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
-
-        MenuItem lock = menu.findItem(R.id.article_menuitem_lock);
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            lock.setTitle(R.string.unlock_orientation);
-            lock.setIcon(R.drawable.ic_menu_always_landscape_portrait);
-
-        }
-
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -260,45 +242,6 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
 
     @SuppressWarnings({"unused", "deprecation"})
     private void handleLockOrientation(MenuItem item) {
-        int preOrentation = ThemeManager.getInstance().screenOrentation;
-        int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-        ImageButton compat_item = null;// getActionItem(R.id.actionbar_compat_item_lock);
-
-        if (preOrentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || preOrentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            // restore
-            // int newOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
-            ThemeManager.getInstance().screenOrentation = newOrientation;
-
-            setRequestedOrientation(newOrientation);
-            item.setTitle(R.string.lock_orientation);
-            item.setIcon(R.drawable.ic_lock_screen);
-            if (compat_item != null)
-                compat_item.setImageResource(R.drawable.ic_lock_screen);
-
-        } else {
-            newOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-            Display dis = getWindowManager().getDefaultDisplay();
-            // Point p = new Point();
-            // dis.getSize(p);
-            if (dis.getWidth() < dis.getHeight()) {
-                newOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-            }
-
-            ThemeManager.getInstance().screenOrentation = newOrientation;
-            setRequestedOrientation(newOrientation);
-            item.setTitle(R.string.unlock_orientation);
-            item.setIcon(R.drawable.ic_menu_always_landscape_portrait);
-            if (compat_item != null)
-                compat_item
-                        .setImageResource(R.drawable.ic_menu_always_landscape_portrait);
-        }
-
-        SharedPreferences share = getSharedPreferences(PERFERENCE,
-                MODE_MULTI_PROCESS);
-        Editor editor = share.edit();
-        editor.putInt(SCREEN_ORENTATION, newOrientation);
-        editor.apply();
 
     }
 

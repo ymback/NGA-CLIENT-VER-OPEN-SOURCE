@@ -9,7 +9,7 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ForumListAdapter;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.fragment.BoardCategoryFragment;
 import sp.phone.mvp.model.ForumsListModel;
 import sp.phone.task.GetAllForumsTask;

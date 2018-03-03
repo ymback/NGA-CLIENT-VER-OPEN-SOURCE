@@ -49,7 +49,7 @@ import noname.adapter.NonameArticleListAdapter;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.ReportDialogFragment;
 import sp.phone.fragment.dialog.SuperTextDialogFragment;

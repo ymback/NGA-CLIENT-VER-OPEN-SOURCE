@@ -2,7 +2,6 @@ package gov.anzong.androidnga.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -32,19 +31,18 @@ import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.task.AvatarLoadTask;
 import sp.phone.task.JsonProfileLoadTask;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.ImageUtil;
 import sp.phone.utils.NLog;
-import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -95,7 +93,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         } else {
             params = "uid=0";
         }
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+        if (tm.isNightMode()) {
             this.setContentView(R.layout.profile_night);
         } else {
             this.setContentView(R.layout.profile);
@@ -501,7 +499,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
     private void handleSignWebview(WebView contentTV, ProfileData ret) {
         ThemeManager theme = ThemeManager.getInstance();
         int bgColor, fgColor = getResources().getColor(theme.getForegroundColor());
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+        if (tm.isNightMode()) {
             bgColor = getResources().getColor(theme.getBackgroundColor(0));
         } else {
             bgColor = getResources().getColor(R.color.profilebgcolor);
@@ -531,7 +529,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
     private void handleadminWebview(WebView contentTV, ProfileData ret) {
         int bgColor, fgColor;
         ThemeManager theme = ThemeManager.getInstance();
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+        if (tm.isNightMode()) {
             bgColor = getResources().getColor(theme.getBackgroundColor(0));
             fgColor = getResources().getColor(theme.getForegroundColor());
         } else {
@@ -562,7 +560,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
     private void handlefameWebview(WebView contentTV, ProfileData ret) {
         int bgColor, fgColor;
         ThemeManager theme = ThemeManager.getInstance();
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+        if (tm.isNightMode()) {
             bgColor = getResources().getColor(theme.getBackgroundColor(0));
             fgColor = getResources().getColor(theme.getForegroundColor());
         } else {
@@ -594,7 +592,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
                                  int imageQuality, final String fgColorStr, final String bgcolorStr) {
         HashSet<String> imageURLSet = new HashSet<String>();
         String color = "#121C46";
-        if (tm.getMode() == ThemeManager.MODE_NIGHT) {
+        if (tm.isNightMode()) {
             color = "#712D08";
         }
         String ngaHtml = createHTMLoffame(ret, color);
@@ -766,12 +764,6 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

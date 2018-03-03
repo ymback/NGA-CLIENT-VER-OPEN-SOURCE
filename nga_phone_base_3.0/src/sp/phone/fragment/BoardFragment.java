@@ -40,7 +40,7 @@ import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.adapter.BoardPagerAdapter;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;

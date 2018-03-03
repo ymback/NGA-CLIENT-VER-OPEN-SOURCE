@@ -21,7 +21,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import noname.listener.MyListenerForNonameReply;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.NLog;

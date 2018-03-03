@@ -2,34 +2,29 @@ package noname.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import gov.anzong.androidnga.R;
-import noname.gson.parse.NonameReadResponse;
 import noname.adapter.NonameThreadFragmentAdapter;
+import noname.gson.parse.NonameReadResponse;
+import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
+import noname.interfaces.PagerOwner;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
-import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
-import noname.interfaces.PagerOwner;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
@@ -146,15 +141,6 @@ public class NonameArticleContainerFragment extends BaseFragment implements
 
         inflater.inflate(R.menu.nonamearticlelist_menu, menu);
 
-        MenuItem lock = menu.findItem(R.id.article_menuitem_lock);
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            lock.setTitle(R.string.unlock_orientation);
-            lock.setIcon(R.drawable.ic_menu_always_landscape_portrait);
-
-        }
-
     }
 
     private int getUrlParameter(String url, String paraName) {
@@ -270,45 +256,6 @@ public class NonameArticleContainerFragment extends BaseFragment implements
 
     @SuppressWarnings({"unused", "deprecation"})
     private void handleLockOrientation(MenuItem item) {
-        int preOrentation = ThemeManager.getInstance().screenOrentation;
-        int newOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-        ImageButton compat_item = null;// getActionItem(R.id.actionbar_compat_item_lock);
-
-        if (preOrentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || preOrentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            // restore
-            // int newOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
-            ThemeManager.getInstance().screenOrentation = newOrientation;
-
-            getActivity().setRequestedOrientation(newOrientation);
-            item.setTitle(R.string.lock_orientation);
-            item.setIcon(R.drawable.ic_lock_screen);
-            if (compat_item != null)
-                compat_item.setImageResource(R.drawable.ic_lock_screen);
-
-        } else {
-            newOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-            Display dis = getActivity().getWindowManager().getDefaultDisplay();
-            // Point p = new Point();
-            // dis.getSize(p);
-            if (dis.getWidth() < dis.getHeight()) {
-                newOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-            }
-
-            ThemeManager.getInstance().screenOrentation = newOrientation;
-            getActivity().setRequestedOrientation(newOrientation);
-            item.setTitle(R.string.unlock_orientation);
-            item.setIcon(R.drawable.ic_menu_always_landscape_portrait);
-            if (compat_item != null)
-                compat_item
-                        .setImageResource(R.drawable.ic_menu_always_landscape_portrait);
-        }
-
-        SharedPreferences share = getActivity().getSharedPreferences(
-                PERFERENCE, Activity.MODE_PRIVATE);
-        Editor editor = share.edit();
-        editor.putInt(SCREEN_ORENTATION, newOrientation);
-        editor.apply();
 
     }
 

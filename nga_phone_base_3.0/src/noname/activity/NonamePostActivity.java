@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -39,14 +38,14 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BasePostActivity;
 import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonamePostResponse;
+import noname.task.NonameFileUploadTask;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import noname.task.NonameFileUploadTask;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.NLog;
@@ -82,14 +81,6 @@ public class NonamePostActivity extends BasePostActivity implements
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        int orentation = ThemeManager.getInstance().screenOrentation;
-        if (orentation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                || orentation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(orentation);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
 
         super.onCreate(savedInstanceState);
         v = this.getLayoutInflater().inflate(R.layout.noname_reply, null);
@@ -156,13 +147,6 @@ public class NonamePostActivity extends BasePostActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.post_menu, menu);
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
-        /*
-         * ActionBar.DISPLAY_SHOW_HOME;//2 flags |=
-		 * ActionBar.DISPLAY_USE_LOGO;//1 flags |=
-		 * ActionBar.DISPLAY_HOME_AS_UP;//4
-		 */
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
         return true;
     }
 

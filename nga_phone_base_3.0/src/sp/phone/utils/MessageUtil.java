@@ -15,7 +15,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 /**
  * 解析页面内容类

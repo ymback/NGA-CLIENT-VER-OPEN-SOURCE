@@ -22,7 +22,7 @@ import sp.phone.bean.AvatarTag;
 import sp.phone.bean.SignData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;

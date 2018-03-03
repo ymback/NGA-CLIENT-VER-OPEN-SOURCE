@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.task.DownloadImageTask;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.ReflectionUtil;
@@ -95,8 +95,6 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.getMenuInflater().inflate(R.menu.webview_option_menu, menu);
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
         return super.onCreateOptionsMenu(menu);
     }
 

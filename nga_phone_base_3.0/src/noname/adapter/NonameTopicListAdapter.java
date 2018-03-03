@@ -15,7 +15,7 @@ import noname.gson.parse.NonameThreadResponse;
 import noname.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.utils.StringUtils;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 public class NonameTopicListAdapter extends BaseAdapter implements
         OnNonameTopListLoadFinishedListener {
@@ -72,7 +72,7 @@ public class NonameTopicListAdapter extends BaseAdapter implements
         ThemeManager cfg = ThemeManager.getInstance();
         int colorId = cfg.getBackgroundColor(position);
         if (position == this.selected) {
-            if (cfg.mode == ThemeManager.MODE_NIGHT)
+            if (cfg.isNightMode())
                 colorId = R.color.topiclist_selected_color;
             else
                 colorId = R.color.holo_blue_light;

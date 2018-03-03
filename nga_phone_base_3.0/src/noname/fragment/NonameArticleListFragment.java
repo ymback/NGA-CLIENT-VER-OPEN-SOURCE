@@ -29,7 +29,7 @@ import noname.gson.parse.NonameReadResponse;
 import noname.adapter.NonameArticleListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
 import noname.interfaces.PagerOwner;
 import noname.task.JsonNonameThreadLoadTask;

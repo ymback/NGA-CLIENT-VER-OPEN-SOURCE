@@ -23,7 +23,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ImageUtil;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.OnSeekBarChangeListener {
 

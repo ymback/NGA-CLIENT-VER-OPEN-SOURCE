@@ -25,7 +25,7 @@ import noname.interfaces.EnterJsonNonameArticle;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
 import noname.interfaces.OnNonameTopListLoadFinishedListener;
 import noname.adapter.NonameTopicListAdapter;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import noname.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
@@ -47,7 +47,7 @@ public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity
         NonameTopiclistContainer.OnNonameTopiclistContainerListener {
 
     boolean dualScreen = true;
-    int flags = ThemeManager.ACTION_BAR_FLAG;
+    int flags = 31;
     NonameThreadResponse result = null;
     View view;
     String guidtmp;

@@ -25,7 +25,7 @@ import sp.phone.adapter.NearbyUsersAdapter;
 import sp.phone.bean.NearbyUser;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.AlertDialogFragment;
 import sp.phone.fragment.dialog.NearbyAlertDialogFragment;
@@ -215,12 +215,6 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        final int flags = ThemeManager.ACTION_BAR_FLAG;
-        ReflectionUtil.actionBar_setDisplayOption(this, flags);
-        return super.onCreateOptionsMenu(menu);
-    }
 
 
     @Override

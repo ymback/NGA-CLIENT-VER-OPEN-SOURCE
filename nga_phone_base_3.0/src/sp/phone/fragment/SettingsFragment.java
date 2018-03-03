@@ -23,7 +23,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -92,7 +92,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 mConfiguration.setDownImgNoWifi((Boolean) newValue);
                 break;
             case PreferenceKey.NIGHT_MODE:
-                ThemeManager.getInstance().setMode((boolean) newValue ? ThemeManager.MODE_NIGHT : ThemeManager.MODE_NORMAL);
+                ThemeManager.getInstance().setNighMode((boolean) newValue);
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;
@@ -124,8 +124,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 break;
             case PreferenceKey.MATERIAL_THEME:
                 sp.edit().putString(PreferenceKey.MATERIAL_THEME, (String) newValue).apply();
-                ThemeManager.getInstance().setTheme(Integer.parseInt((String) newValue));
                 mConfiguration.putData(key, Integer.parseInt((String) newValue));
+                ThemeManager.getInstance().updateTheme();
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
                 break;

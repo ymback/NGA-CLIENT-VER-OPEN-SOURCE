@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.BoardFragment;

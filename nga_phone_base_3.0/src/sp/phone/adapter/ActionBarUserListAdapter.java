@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.ThemeManager;
+import sp.phone.theme.ThemeManager;
 
 /**
  * Created by GDB437 on 9/3/13,nga_phone_base_3.0
