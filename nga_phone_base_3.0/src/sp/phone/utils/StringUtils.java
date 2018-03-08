@@ -637,6 +637,7 @@ public class StringUtils {
             if (s.contains("audio")) {
                 s = buildAudioHtml(s);
             }
+            s = buildVideoHtml(s);
         } catch (Exception e) {
         }
         return s;
@@ -787,6 +788,20 @@ public class StringUtils {
             // <audio src="http://img.ngacn.cc/attachments/mon_201802/25/-7Q5-ak1cKe.mp3?duration=3&filename=nga_audio.mp3" controls="controls"></audio>
             audioUrl = "<audio src=\"http://img.ngacn.cc/attachments" + audioUrl + "&filename=nga_audio.mp3\" controls=\"controls\"></audio>";
             content = matcher.replaceFirst(audioUrl);
+            matcher = pattern.matcher(content);
+        }
+        return content;
+    }
+
+    private static String buildVideoHtml(String content) {
+        String regex = "\\[flash=video](.*?)\\[/flash]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        while (matcher.find()) {
+            String url = matcher.group();
+            url = url.substring("[flash=video]".length() + 1, url.indexOf("[/flash]"));
+            url = "<video src=\"http://img.ngacn.cc/attachments" + url + "\" controls=\"controls\"></video>";
+            content = matcher.replaceFirst(url);
             matcher = pattern.matcher(content);
         }
         return content;

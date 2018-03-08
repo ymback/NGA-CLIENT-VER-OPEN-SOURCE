@@ -155,6 +155,8 @@ public class HtmlUtil {
             String attachUrl = entry.getValue().getAttachurl();
             if (attachUrl.contains("mp3")) {
                 ret = buildAudioAttachment(ret, entry.getValue());
+            } else if (attachUrl.contains("mp4")) {
+                ret = buildVideoAttachment(ret, entry.getValue());
             } else {
                 ret = buildImageAttachment(ret, entry.getValue(), showImage, imageQuality);
             }
@@ -175,6 +177,18 @@ public class HtmlUtil {
                 .append(url)
                 .append("'>")
                 .append("nga_audio.mp3</a>")
+                .append("</td></tr>");
+        return ret;
+    }
+
+    private static StringBuilder buildVideoAttachment(StringBuilder ret, Attachment attachment) {
+        String url = attachment.getAttachurl();
+        ret.append("<tr><td><a href='http://")
+                .append(HttpUtil.NGA_ATTACHMENT_HOST)
+                .append("/attachments/")
+                .append(url)
+                .append("'>")
+                .append("nga_video.mp4</a>")
                 .append("</td></tr>");
         return ret;
     }
