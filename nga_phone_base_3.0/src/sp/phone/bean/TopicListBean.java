@@ -441,7 +441,7 @@ public class TopicListBean {
 
                 private int tid;
                 private int pid;
-                private int authorid;
+                private String authorid;
                 private int type;
                 private int postdate;
                 private String subject;
@@ -463,11 +463,11 @@ public class TopicListBean {
                     this.pid = pid;
                 }
 
-                public int getAuthorid() {
+                public String getAuthorid() {
                     return authorid;
                 }
 
-                public void setAuthorid(int authorid) {
+                public void setAuthorid(String authorid) {
                     this.authorid = authorid;
                 }
 

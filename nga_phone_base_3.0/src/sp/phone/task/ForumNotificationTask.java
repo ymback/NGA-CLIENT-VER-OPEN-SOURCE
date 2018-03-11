@@ -6,6 +6,7 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.common.ApiConstants;
 import sp.phone.listener.OnHttpCallBack;
@@ -15,7 +16,6 @@ import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.utils.NLog;
 
 public class ForumNotificationTask {
 
@@ -33,13 +33,20 @@ public class ForumNotificationTask {
     public void queryRecentReply(OnHttpCallBack<List<RecentReplyInfo>> callBack) {
         mService.get(ApiConstants.NGA_NOTIFICATION)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(mLifecycleProvider.<String>bindUntilEvent(FragmentEvent.DETACH))
-                .subscribe(new BaseSubscriber<String>() {
+                .observeOn(Schedulers.io())
+                .map(new Function<String, List<RecentReplyInfo>>() {
                     @Override
-                    public void onNext(String s) {
+                    public List<RecentReplyInfo> apply(String s) throws Exception {
+                        return ForumNotificationFactory.buildRecentReplyList(s);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(mLifecycleProvider.<List<RecentReplyInfo>>bindUntilEvent(FragmentEvent.DETACH))
+                .subscribe(new BaseSubscriber<List<RecentReplyInfo>>() {
+                    @Override
+                    public void onNext(List<RecentReplyInfo> s) {
                         if (callBack != null) {
-                            callBack.onSuccess(ForumNotificationFactory.buildRecentReplyList(s));
+                            callBack.onSuccess(s);
                         }
                     }
 
@@ -56,18 +63,28 @@ public class ForumNotificationTask {
 
         mService.get(ApiConstants.NGA_NOTIFICATION)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<String>() {
+                .observeOn(Schedulers.io())
+                .map(new Function<String, List<NotificationInfo>>() {
                     @Override
-                    public void onNext(String s) {
-                        callBack.onSuccess(ForumNotificationFactory.buildNotificationList(s));
+                    public List<NotificationInfo> apply(String s) throws Exception {
+                        return ForumNotificationFactory.buildNotificationList(s);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<NotificationInfo>>() {
+                    @Override
+                    public void onNext(List<NotificationInfo> s) {
+                        if (callBack != null) {
+                            callBack.onSuccess(s);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        NLog.e("query notification error : text");
+                        callBack.onError(throwable.getMessage());
                     }
                 });
+
     }
 
 }

@@ -154,6 +154,8 @@ public class ThreadPageInfo {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof ThreadPageInfo && mTid == ((ThreadPageInfo) obj).getTid();
+        return obj instanceof ThreadPageInfo
+                && mTid == ((ThreadPageInfo) obj).getTid()
+                && mPid == ((ThreadPageInfo) obj).getPid();
     }
 }
