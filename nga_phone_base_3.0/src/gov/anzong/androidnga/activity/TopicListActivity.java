@@ -11,7 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.BoardManagerImpl;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.NotificationController;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.TopicFavoriteFragment;
@@ -19,7 +19,6 @@ import sp.phone.fragment.TopicListFragment;
 import sp.phone.fragment.TopicSearchFragment;
 import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.NLog;
 import sp.phone.utils.StringUtils;
 
 /**
@@ -149,13 +148,14 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
             asynTask.cancel(true);
             asynTask = null;
         }
-        long now = System.currentTimeMillis();
-        PhoneConfiguration config = PhoneConfiguration.getInstance();
-        if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
-            NLog.d(TAG, "start to check Reply Notification");
-            asynTask = new CheckReplyNotificationTask(this);
-            asynTask.execute(config.getCookie());
-        }
+//        long now = System.currentTimeMillis();
+//        PhoneConfiguration config = PhoneConfiguration.getInstance();
+//        if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
+//            NLog.d(TAG, "start to check Reply Notification");
+//            asynTask = new CheckReplyNotificationTask(this);
+//            asynTask.execute(config.getCookie());
+//        }
+        NotificationController.getInstance().checkNotification();
         super.onResume();
     }
 

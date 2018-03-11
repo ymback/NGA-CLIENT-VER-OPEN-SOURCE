@@ -1,5 +1,6 @@
 package sp.phone.utils;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -14,17 +15,24 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.widget.ImageView;
+
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.common.PhoneConfiguration;
 
 public class ImageUtil {
@@ -32,6 +40,8 @@ public class ImageUtil {
     //final static int max_avatar_width = 200;
     final static int max_avatar_height = 255;
     public static ZipFile zf;
+
+    private static Drawable sDefaultAvatar;
 
     public static Bitmap zoomImageByWidth(Bitmap bitmap, int bookWidth) {
         if (bitmap == null)
@@ -92,7 +102,7 @@ public class ImageUtil {
             return null;
 
 		/*int width = drawable.getIntrinsicWidth();
-		int height = drawable.getIntrinsicHeight();
+        int height = drawable.getIntrinsicHeight();
 
 
 
@@ -300,7 +310,7 @@ public class ImageUtil {
         Resources res = ApplicationContextHolder.getResources();
         InputStream is = res.openRawResource(R.drawable.default_avatar);
         InputStream is2 = res.openRawResource(R.drawable.default_avatar);
-        return loadAvatarFromStream(is,is2);
+        return loadAvatarFromStream(is, is2);
     }
 
     static public Bitmap loadAvatarFromStream(InputStream is, InputStream is2) {
@@ -443,6 +453,32 @@ public class ImageUtil {
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return output;
+    }
+
+    public static void loadRoundCornerAvatar(ImageView imageView, String url) {
+        Context context = ApplicationContextHolder.getContext();
+        if (sDefaultAvatar == null) {
+            Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
+            sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtil.toRoundCorner(defaultAvatar, 2));
+        }
+        GlideApp.with(ApplicationContextHolder.getContext())
+                .load(url)
+                .placeholder(sDefaultAvatar)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .transforms(new BitmapTransformation() {
+                    @Override
+                    protected Bitmap transform(@NonNull BitmapPool bitmapPool, @NonNull Bitmap bitmap, int i, int i1) {
+                        Bitmap roundBitmap = ImageUtil.toRoundCorner(bitmap, 2);
+                        bitmapPool.put(roundBitmap);
+                        return roundBitmap;
+                    }
+
+                    @Override
+                    public void updateDiskCacheKey(MessageDigest messageDigest) {
+
+                    }
+                })
+                .into(imageView);
     }
 
 }

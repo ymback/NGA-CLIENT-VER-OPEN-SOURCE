@@ -1,129 +1,125 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
+import com.mahang.utils.LogUtils;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.NotificationObject;
-import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.mvp.model.entity.RecentReplyInfo;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ImageUtil;
 
-public class RecentReplyAdapter extends BaseAdapter implements
-        PreferenceKey {
+public class RecentReplyAdapter extends RecyclerView.Adapter<RecentReplyAdapter.ViewHolder> {
 
-    private List<NotificationObject> list;
+    private List<RecentReplyInfo> mRecentReplyList;
 
-    private Context mcontext;
+    private List<RecentReplyInfo> mUnreadRecentReplyList;
 
-    public RecentReplyAdapter(List<NotificationObject> list, Context context) {
-        super();
-        this.list = list;
-        this.mcontext = context;
+    private View.OnClickListener mClickListener;
+
+    private Context mContext;
+
+    public RecentReplyAdapter(Context context) {
+        mContext = context;
+    }
+
+    public void setClickListener(View.OnClickListener clickListener) {
+        mClickListener = clickListener;
+    }
+
+    public void setRecentReplyList(List<RecentReplyInfo> recentReplyList) {
+        mRecentReplyList = recentReplyList;
+        notifyDataSetChanged();
+    }
+
+    public void setUnreadRecentReplyList(List<RecentReplyInfo> unreadRecentReplyList) {
+        mUnreadRecentReplyList = unreadRecentReplyList;
     }
 
     @Override
-    public int getCount() {
-        return list.size();
-    }
-
-    public void clean() {
-        List list = new ArrayList();
-        this.list = list;
-        this.notifyDataSetChanged();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.layout_recent_reply_item, parent, false));
     }
 
     @Override
-    public Object getItem(int position) {
-        return list.get(list.size() - 1 - position);
-    }
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
-    @Override
-    public long getItemId(int position) {
+        RecentReplyInfo info = mRecentReplyList.get(mRecentReplyList.size() - 1 - position);
+        holder.itemView.setOnClickListener(mClickListener);
+        holder.userNameTv.setText(info.getUserName());
+        holder.titleTv.setText(info.getTitle());
+        holder.timeTv.setText(buildDateStr(info.getTimeStamp()));
 
-        return 0;
-    }
+        holder.userNameTv.setTextColor(ThemeManager.getInstance().getAccentColor(mContext));
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pending_relay, parent, false);
-            holder = new ViewHolder();
-            holder.nickTv = (TextView) convertView.findViewById(R.id.nick_name);
-            holder.titleTv = (TextView) convertView.findViewById(R.id.title);
-            holder.avatarIv = (ImageView) convertView.findViewById(R.id.avatar_image);
-            convertView.setTag(holder);
-            convertView.setBackgroundDrawable(convertView.getResources().getDrawable(R.drawable.list_selector_recent_reply));
+        if (isUnread(info)) {
+            holder.timeTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            holder.titleTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            holder.userNameTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder.timeTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            holder.titleTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            holder.userNameTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         }
 
-        holder.nickTv.setText(list.get(list.size() - 1 - position).getNickName());
+        ImageUtil.loadRoundCornerAvatar(holder.avatarIv, UserManagerImpl.getInstance().getAvatarUrl(info.getUserId()));
 
-        holder.titleTv.setText(list.get(list.size() - 1 - position).getTitle());
-        handleAvatar(holder.avatarIv, list.get(list.size() - 1 - position).getAuthorId());
-
-        return convertView;
+        holder.itemView.setTag(info);
     }
 
-    ;
+    private String buildDateStr(String timeStamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(Long.parseLong(timeStamp) * 1000);
+        LogUtils.d(System.currentTimeMillis() + "  " + timeStamp);
+        return new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(calendar.getTime());
+    }
 
-    void handleAvatar(ImageView avatarIV, int authorid) {
-        String extensions[] = {"jpg", "png", "bmp", "gif", "jpeg"};
-        Bitmap bitmap = null;
-        for (int i = 0; i < extensions.length; ++i) {
-            String avatarPath = ImageUtil.getAvatarById(extensions[i], String.valueOf(authorid));
-            if (avatarPath != null) {
-                File f = new File(avatarPath);
-                if (f.exists()) {
-                    bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath, 150);
-                    break;
+    private boolean isUnread(RecentReplyInfo info) {
+        if (mUnreadRecentReplyList != null) {
+            for (RecentReplyInfo unreadInfo : mUnreadRecentReplyList) {
+                if (unreadInfo.getPidStr().equals(info.getPidStr())) {
+                    return true;
                 }
             }
-
         }
-
-        Resources res = avatarIV.getResources();
-        if (bitmap == null) {
-            InputStream is = res.openRawResource(R.raw.default_avatar);
-            InputStream is2 = res.openRawResource(R.raw.default_avatar);
-            bitmap = ImageUtil.loadAvatarFromStream(is, is2, 150);
-        }
-
-        if (bitmap != null) {
-            avatarIV.setImageBitmap(bitmap);
-        }
-
+        return false;
     }
 
-    public void remove(int position) {
-        // TODO Auto-generated method stub
-        list.remove(list.size() - 1 - position);
-        String str = JSON.toJSONString(list);
-        UserManagerImpl.getInstance().setReplyString(list.size(),str);
-        this.notifyDataSetInvalidated();
+    @Override
+    public int getItemCount() {
+        return mRecentReplyList == null ? 0 : mRecentReplyList.size();
     }
 
-    static class ViewHolder {
-        public TextView nickTv;
-        public TextView titleTv;
-        public ImageView avatarIv;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView userNameTv;
+
+        TextView titleTv;
+
+        TextView timeTv;
+
+        ImageView avatarIv;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            userNameTv = itemView.findViewById(R.id.user_name);
+            titleTv = itemView.findViewById(R.id.title);
+            timeTv = itemView.findViewById(R.id.time);
+            avatarIv = itemView.findViewById(R.id.avatar);
+
+        }
     }
 }

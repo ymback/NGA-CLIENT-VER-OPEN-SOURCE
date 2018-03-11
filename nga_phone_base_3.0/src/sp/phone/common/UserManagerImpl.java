@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import sp.phone.bean.ThreadData;
+import sp.phone.bean.ThreadRowInfo;
 import sp.phone.utils.StringUtils;
 
 import static sp.phone.common.PreferenceKey.PERFERENCE;
@@ -32,6 +34,8 @@ public class UserManagerImpl implements UserManager {
 
     private SharedPreferences mPrefs;
 
+    private SharedPreferences mAvatarPreferences;
+
     private static class SingletonHolder {
 
         static UserManager sInstance = new UserManagerImpl();
@@ -49,6 +53,8 @@ public class UserManagerImpl implements UserManager {
     public void initialize(Context context) {
         mContext = context.getApplicationContext();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        mAvatarPreferences = context.getSharedPreferences(PreferenceKey.PREFERENCE_AVATAR, Context.MODE_PRIVATE);
 
         mActiveIndex = mPrefs.getInt(USER_ACTIVE_INDEX, 0);
 
@@ -252,7 +258,7 @@ public class UserManagerImpl implements UserManager {
 
     private void commit() {
         mPrefs.edit()
-                .putInt(PreferenceKey.USER_ACTIVE_INDEX,mActiveIndex)
+                .putInt(PreferenceKey.USER_ACTIVE_INDEX, mActiveIndex)
                 .putString(PreferenceKey.USER_LIST, JSON.toJSONString(mUserList))
                 .putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList))
                 .apply();
@@ -338,5 +344,30 @@ public class UserManagerImpl implements UserManager {
     public void removeAllBlackList() {
         mBlackList.clear();
         mPrefs.edit().putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList)).apply();
+    }
+
+    @Override
+    public void putAvatarUrl(String uid, String url) {
+        if (!TextUtils.isEmpty(url)) {
+            mAvatarPreferences.edit().putString(uid, url).apply();
+        }
+    }
+
+    @Override
+    public void putAvatarUrl(ThreadData info) {
+        SharedPreferences.Editor editor = mAvatarPreferences.edit();
+        for (ThreadRowInfo rowInfo : info.getRowList()) {
+            String uid = String.valueOf(rowInfo.getAuthorid());
+            String url = rowInfo.getJs_escap_avatar();
+            if (!TextUtils.isEmpty(uid) && !uid.equals("0") && !TextUtils.isEmpty(url)) {
+                editor.putString(uid, url);
+            }
+        }
+        editor.apply();
+    }
+
+    @Override
+    public String getAvatarUrl(String uid) {
+        return TextUtils.isEmpty(uid) || uid.equals("0") ? "" : mAvatarPreferences.getString(uid, "");
     }
 }

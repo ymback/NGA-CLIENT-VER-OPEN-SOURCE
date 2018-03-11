@@ -4,5 +4,8 @@
 
     <dimen name="article_list_tab_height">40dp</dimen>
 
+    <dimen name="cardview_default_margin_left_right">8dp</dimen>
+    <dimen name="cardview_default_margin_top_bottom">4dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
 </resources>

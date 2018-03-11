@@ -1,6 +1,9 @@
 package sp.phone.common;
 
 public interface PreferenceKey {
+
+    String PREFERENCE_AVATAR = "avatar";
+
     String PERFERENCE = "perference";
     String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
     String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";

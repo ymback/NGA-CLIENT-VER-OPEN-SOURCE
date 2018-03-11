@@ -4,6 +4,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import sp.phone.bean.ThreadData;
+
 public interface UserManager {
 
     User getActiveUser();
@@ -38,7 +40,7 @@ public interface UserManager {
 
     String getUserName();
 
-    void setAvatarUrl(int userId,String url);
+    void setAvatarUrl(int userId, String url);
 
     // 被喷
 
@@ -63,5 +65,10 @@ public interface UserManager {
 
     void removeAllBlackList();
 
+    void putAvatarUrl(String uid, String url);
+
+    void putAvatarUrl(ThreadData info);
+
+    String getAvatarUrl(String uid);
 
 }

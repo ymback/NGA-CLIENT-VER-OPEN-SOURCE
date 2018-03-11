@@ -7,6 +7,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.bean.ThreadData;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
@@ -78,6 +79,7 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                     @Override
                     public void onNext(@NonNull ThreadData threadData) {
                         callBack.onSuccess(threadData);
+                        UserManagerImpl.getInstance().putAvatarUrl(threadData);
                     }
 
                     @Override

@@ -3,60 +3,29 @@ package gov.anzong.androidnga.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.support.v7.app.ActionBar;
 
-import gov.anzong.androidnga.R;
-import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.RecentReplyListFragment;
-import sp.phone.interfaces.PullToRefreshAttacherOwner;
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
-public class RecentReplyListActivity extends SwipeBackAppCompatActivity implements PreferenceKey, PullToRefreshAttacherOwner {
-    FragmentManager fm;
-    Fragment f;
-    View v;
-    private PullToRefreshAttacher mPullToRefreshAttacher;
+public class RecentReplyListActivity extends SwipeBackAppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-        PullToRefreshAttacher.Options options = new PullToRefreshAttacher.Options();
-        options.refreshScrollDistance = 0.3f;
-        options.refreshOnUp = true;
-        mPullToRefreshAttacher = PullToRefreshAttacher.get(this, options);
-        v = LayoutInflater.from(this).inflate(R.layout.recentnotifier_activity, null, false);
-        this.setContentView(v);
-        fm = this.getSupportFragmentManager();
-        f = fm.findFragmentById(R.id.item_list);
-        if (f == null) {
-            f = new RecentReplyListFragment();
-            fm.beginTransaction().add(R.id.item_list, f).commit();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(android.R.id.content);
+        if (fragment == null) {
+            fragment = new RecentReplyListFragment();
+            fragment.setArguments(getIntent().getExtras());
+            fm.beginTransaction().add(android.R.id.content, fragment).commit();
         }
-        getSupportActionBar().setTitle("我的被喷");
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return false;// super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+        setTitle("我的被喷");
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-
-    @Override
-    public PullToRefreshAttacher getAttacher() {
-        return mPullToRefreshAttacher;
     }
 
 }
