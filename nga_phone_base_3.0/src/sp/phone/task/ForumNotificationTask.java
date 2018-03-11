@@ -1,5 +1,7 @@
 package sp.phone.task;
 
+import android.support.annotation.NonNull;
+
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
@@ -16,6 +18,7 @@ import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
+import sp.phone.utils.NLog;
 
 public class ForumNotificationTask {
 
@@ -30,7 +33,7 @@ public class ForumNotificationTask {
 
 
     // 只返回最近被喷的信息
-    public void queryRecentReply(OnHttpCallBack<List<RecentReplyInfo>> callBack) {
+    public void queryRecentReply(@NonNull OnHttpCallBack<List<RecentReplyInfo>> callBack) {
         mService.get(ApiConstants.NGA_NOTIFICATION)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -45,9 +48,7 @@ public class ForumNotificationTask {
                 .subscribe(new BaseSubscriber<List<RecentReplyInfo>>() {
                     @Override
                     public void onNext(List<RecentReplyInfo> s) {
-                        if (callBack != null) {
-                            callBack.onSuccess(s);
-                        }
+                        callBack.onSuccess(s);
                     }
 
                     @Override
@@ -59,7 +60,7 @@ public class ForumNotificationTask {
     }
 
     // 返回最近被喷和短信的信息
-    public void queryNotification(OnHttpCallBack<List<NotificationInfo>> callBack) {
+    public void queryNotification(@NonNull OnHttpCallBack<List<NotificationInfo>> callBack) {
 
         mService.get(ApiConstants.NGA_NOTIFICATION)
                 .subscribeOn(Schedulers.io())
@@ -74,9 +75,7 @@ public class ForumNotificationTask {
                 .subscribe(new BaseSubscriber<List<NotificationInfo>>() {
                     @Override
                     public void onNext(List<NotificationInfo> s) {
-                        if (callBack != null) {
-                            callBack.onSuccess(s);
-                        }
+                        callBack.onSuccess(s);
                     }
 
                     @Override
@@ -87,4 +86,16 @@ public class ForumNotificationTask {
 
     }
 
+    public void clearAllNotification() {
+        mService.post(ApiConstants.NGA_NOTIFICATION_DELETE_ALL)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        NLog.d(s);
+                    }
+                });
+
+    }
 }

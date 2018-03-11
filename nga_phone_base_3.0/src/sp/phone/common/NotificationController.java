@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.ArrayList;
@@ -63,11 +64,15 @@ public class NotificationController {
         mNotificationTask = new ForumNotificationTask(null);
     }
 
-    public void checkNotification() {
+    public void checkNotificationDelay() {
         if (!mHandler.hasMessages(0)) {
             mHandler.sendEmptyMessageDelayed(0, DELAY_TIME);
         }
 
+    }
+
+    public void checkNotificationImmediately() {
+        mHandler.sendEmptyMessage(0);
     }
 
     private void showNotification(List<NotificationInfo> infoList) {
@@ -89,6 +94,8 @@ public class NotificationController {
         }
 
         if (!recentReplyList.isEmpty()) {
+            PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext())
+                    .edit().putInt(PreferenceKey.KEY_REPLY_COUNT,recentReplyList.size()).apply();
             showReplyNotification(recentReplyList);
         }
     }

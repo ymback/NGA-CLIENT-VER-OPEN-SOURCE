@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,11 +21,11 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.RecentReplyAdapter;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.task.ForumNotificationTask;
-import sp.phone.task.JsonCleanRecentNotifierLoadTask;
 import sp.phone.view.EmptyLayout;
 import sp.phone.view.LoadingLayout;
 import sp.phone.view.RecyclerViewEx;
@@ -53,6 +54,8 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
             mRecentReplyAdapter.setUnreadRecentReplyList(unreadRecentReplyList);
         }
 
+        PreferenceManager.getDefaultSharedPreferences(getContext())
+                .edit().putInt(PreferenceKey.KEY_REPLY_COUNT, 0).apply();
         super.onCreate(savedInstanceState);
     }
 
@@ -93,8 +96,8 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                JsonCleanRecentNotifierLoadTask task = new JsonCleanRecentNotifierLoadTask(getActivity());
-                                task.execute(PhoneConfiguration.getInstance().getCookie());
+                                mNotificationTask.clearAllNotification();
+                                mRecentReplyAdapter.setRecentReplyList(null);
                             }
                         })
                         .setNegativeButton(android.R.string.cancel, null);
@@ -113,11 +116,17 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
 
     @Override
     public void onError(String text) {
-        mLoadingLayout.setVisibility(View.GONE);
-        mRefreshLayout.setVisibility(View.VISIBLE);
+        setRefreshing(false);
         mEmptyLayout.setEmptyText(text);
-        mRefreshLayout.setRefreshing(false);
         showToast(text);
+    }
+
+    private void setRefreshing(boolean refreshing) {
+        if (!refreshing) {
+            mRefreshLayout.setVisibility(View.VISIBLE);
+            mRefreshLayout.setRefreshing(false);
+            mLoadingLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -125,8 +134,7 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
         if (data.isEmpty()) {
             showToast("没有最近被喷内容");
             mEmptyLayout.setEmptyText("没有最近被喷内容");
-            mLoadingLayout.setVisibility(View.GONE);
-            mRefreshLayout.setVisibility(View.VISIBLE);
+            setRefreshing(false);
         } else {
             if (data.get(0).isUnread()) {
                 mRecentReplyAdapter.setUnreadRecentReplyList(data);

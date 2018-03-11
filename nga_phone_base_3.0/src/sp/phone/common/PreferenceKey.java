@@ -86,4 +86,6 @@ public interface PreferenceKey {
     String KEY_SIGN_DATE = "sign_in_date";
 
     String KEY_AUTO_SIGN = "auto_sign_in";
+
+    String KEY_REPLY_COUNT = "reply_count";
 }

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
@@ -40,7 +41,7 @@ import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.adapter.BoardPagerAdapter;
-import sp.phone.theme.ThemeManager;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
@@ -48,6 +49,7 @@ import sp.phone.fragment.dialog.AddBoardDialogFragment;
 import sp.phone.fragment.dialog.LoginDialogFragment;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ImageUtil;
 
@@ -281,10 +283,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         } else {
             mBoardPagerAdapter.notifyDataSetChanged();
         }
-        User user = UserManagerImpl.getInstance().getActiveUser();
-        if (user != null) {
-            setReplyCount(user.getReplyCount());
-        }
+        setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT,0));
         super.onResume();
     }
 

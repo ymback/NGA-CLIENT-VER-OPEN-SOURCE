@@ -155,7 +155,7 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
 //            asynTask = new CheckReplyNotificationTask(this);
 //            asynTask.execute(config.getCookie());
 //        }
-        NotificationController.getInstance().checkNotification();
+        NotificationController.getInstance().checkNotificationDelay();
         super.onResume();
     }
 
