@@ -30,9 +30,7 @@ public class ForumNotificationFactory {
                 for (int i = 0; i < array.size(); i++) {
                     RecentReplyInfo info = buildRecentReplyInfo(array.getJSONObject(i));
                     info.setUnread(unread > 0);
-                    if (!infoList.contains(info)) {
-                        infoList.add(info);
-                    }
+                    infoList.add(info);
                 }
             }
         } catch (Exception e) {
@@ -80,9 +78,7 @@ public class ForumNotificationFactory {
                 for (int i = 0; i < array.size(); i++) {
                     RecentReplyInfo info = buildRecentReplyInfo(array.getJSONObject(i));
                     info.setUnread(unread > 0);
-                    if (!infoList.contains(info)) {
-                        infoList.add(info);
-                    }
+                    infoList.add(info);
                 }
             }
 
