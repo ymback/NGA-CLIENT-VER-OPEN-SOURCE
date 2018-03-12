@@ -42,10 +42,6 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("323", "国服以外讨论", 323, 323));
         category.add(new Board("10", "银色黎明", 10, 10));
         category.add(new Board("230", "艾泽拉斯风纪委员会", 230, 230));
-        category.add(new Board("387", "潘大力亚之迷雾", 387, 387));
-        category.add(new Board("430", "德拉诺之王", 430, 430));
-        category.add(new Board("305", "305权贵区", 305));
-        category.add(new Board("11", "诺森德埋骨地", 11));
 
         category = new BoardCategory("大漩涡系列");
         category.setCategoryIndex(mCategoryList.size());
@@ -56,13 +52,10 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("-576177", "影音讨论区", 576177));
         category.add(new Board("-43", "军事历史", 43));
         category.add(new Board("414", "游戏综合讨论", 414, 414));
-        category.add(new Board("415", "主机游戏综合讨论", 415));
         category.add(new Board("427", "怪物猎人", 427, 427));
         category.add(new Board("431", "风暴英雄", 431, 431));
         category.add(new Board("436", "消费电子 IT新闻", 436));
         category.add(new Board("498", "二手交易", 498));
-        category.add(new Board("340", "无聊图", 340));
-        category.add(new Board("456", "冲水区", 456));
         category.add(new Board("-187579", "大漩涡历史博物馆", 187579));
         category.add(new Board("485", "篮球", 485, 485));
         category.add(new Board("491", "议会", 491));

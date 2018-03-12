@@ -1,4 +1,4 @@
-package sp.phone.forumoperation;
+package noname.forumoperation;
 
 import sp.phone.utils.StringUtils;
 

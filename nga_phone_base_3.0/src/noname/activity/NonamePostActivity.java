@@ -41,7 +41,7 @@ import noname.gson.parse.NonamePostResponse;
 import noname.task.NonameFileUploadTask;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.forumoperation.NonameThreadPostAction;
+import noname.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.theme.ThemeManager;

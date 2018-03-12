@@ -86,7 +86,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 setFullScreen((Boolean) newValue);
                 break;
             default:
-                return false;
+                break;
 
         }
         return true;
