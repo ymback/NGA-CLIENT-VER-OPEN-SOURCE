@@ -83,16 +83,6 @@
             android:key="notificationSound"
             android:title="@string/notification_sound"/>
 
-        <android.preference.ListCompatPreference
-            android:defaultValue="0"
-            android:dependency="notificationSound"
-            android:dialogTitle="@string/blackgun_sound_chooser_prompt"
-            android:entries="@array/black_gun_sound"
-            android:entryValues="@array/black_gun_sound_value"
-            android:key="blackgun_sound"
-            android:title="@string/blackgun_sound_info"/>
-
-
     </PreferenceCategory>
 
     <PreferenceCategory

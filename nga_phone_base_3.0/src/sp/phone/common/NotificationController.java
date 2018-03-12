@@ -1,6 +1,8 @@
 package sp.phone.common;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -22,14 +24,13 @@ import sp.phone.mvp.model.entity.NotificationInfo;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.task.ForumNotificationTask;
 import sp.phone.utils.ApplicationContextHolder;
-
-/**
- * Created by Justwen on 2018/3/11.
- */
+import sp.phone.utils.DeviceUtils;
 
 public class NotificationController {
 
     private ForumNotificationTask mNotificationTask;
+
+    private PhoneConfiguration mConfiguration;
 
     private static final int DELAY_TIME = 30 * 1000;
 
@@ -62,17 +63,15 @@ public class NotificationController {
 
     private NotificationController() {
         mNotificationTask = new ForumNotificationTask(null);
+        mConfiguration = PhoneConfiguration.getInstance();
+        createNotificationChannel(ApplicationContextHolder.getContext());
     }
 
     public void checkNotificationDelay() {
-        if (!mHandler.hasMessages(0)) {
+        if (mConfiguration.isNotificationEnabled() && !mHandler.hasMessages(0)) {
             mHandler.sendEmptyMessageDelayed(0, DELAY_TIME);
         }
 
-    }
-
-    public void checkNotificationImmediately() {
-        mHandler.sendEmptyMessage(0);
     }
 
     private void showNotification(List<NotificationInfo> infoList) {
@@ -95,7 +94,7 @@ public class NotificationController {
 
         if (!recentReplyList.isEmpty()) {
             PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext())
-                    .edit().putInt(PreferenceKey.KEY_REPLY_COUNT,recentReplyList.size()).apply();
+                    .edit().putInt(PreferenceKey.KEY_REPLY_COUNT, recentReplyList.size()).apply();
             showReplyNotification(recentReplyList);
         }
     }
@@ -147,8 +146,27 @@ public class NotificationController {
         builder.setLights(Color.parseColor("#fff0cd"), 2333, 0)
                 .setSmallIcon(R.drawable.nga_bg) //设置图标
                 .setWhen(System.currentTimeMillis()) //发送时间
-                .setDefaults(Notification.DEFAULT_ALL) //设置默认的提示音，振动方式，灯光
+                .setDefaults(mConfiguration.isNotificationSoundEnabled() ? Notification.DEFAULT_ALL : Notification.DEFAULT_LIGHTS) //设置默认的提示音，振动方式，灯光
                 .setAutoCancel(true);//打开程序后图标消失
         return builder;
+    }
+
+    @TargetApi(26)
+    private void createNotificationChannel(Context context) {
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (!DeviceUtils.isGreaterEqual_8_0() || notificationManager == null) {
+            return;
+        }
+        String id = Constants.NOTIFICATION_ID;
+        CharSequence name = Constants.NOTIFICATION_NAME;
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        NotificationChannel channel = new NotificationChannel(id, name, importance);
+        channel.enableLights(true); //是否在桌面icon右上角展示小红点
+        channel.setLightColor(Color.GREEN); //小红点颜色
+        channel.setShowBadge(true); //是否在久按桌面图标时显示此渠道的通知
+        notificationManager.createNotificationChannel(channel);
     }
 }

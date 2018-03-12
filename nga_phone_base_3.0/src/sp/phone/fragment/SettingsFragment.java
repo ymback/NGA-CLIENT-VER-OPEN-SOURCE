@@ -4,11 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetFileDescriptor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -71,14 +66,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden) {
-            getActivity().setTitle(R.string.menu_setting);
-        }
-        super.onHiddenChanged(hidden);
-    }
-
-    @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -108,16 +95,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.FULLSCREENMODE:
                 mConfiguration.fullscreen = (boolean) newValue;
                 setFullScreen((Boolean) newValue);
-                break;
-            case PreferenceKey.ENABLE_NOTIFIACTION:
-                mConfiguration.notification = (boolean) newValue;
-                break;
-            case PreferenceKey.NOTIFIACTION_SOUND:
-                mConfiguration.notificationSound = (boolean) newValue;
-                break;
-            case PreferenceKey.BLACKGUN_SOUND:
-                mConfiguration.blackgunsound = Integer.parseInt((String) newValue);
-                showBlackGunSound(mConfiguration.blackgunsound);
                 break;
             case PreferenceKey.SHOW_SIGNATURE:
                 mConfiguration.showSignature = (boolean) newValue;
@@ -155,76 +132,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 break;
         }
         return true;
-    }
-
-    private void showBlackGunSound(int which) {
-        AudioManager audioManager = (AudioManager) mContext.getSystemService(
-                Context.AUDIO_SERVICE);
-        AssetFileDescriptor afd;
-        MediaPlayer mp = new MediaPlayer();
-        switch (which) {
-            case 0:
-                Uri ringToneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                if (ringToneUri != null
-                        && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                    try {
-                        mp.reset();
-                        mp.setDataSource(mContext, ringToneUri);
-                        mp.prepare();
-                        mp.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case 1:
-                afd = getResources().openRawResourceFd(R.raw.taijun);
-                if (afd != null
-                        && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                    try {
-                        mp.reset();
-                        mp.setDataSource(afd.getFileDescriptor(),
-                                afd.getStartOffset(), afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case 2:
-                afd = getResources().openRawResourceFd(
-                        R.raw.balckgunoftaijun);
-                if (afd != null
-                        && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                    try {
-                        mp.reset();
-                        mp.setDataSource(afd.getFileDescriptor(),
-                                afd.getStartOffset(), afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case 3:
-                afd = getResources().openRawResourceFd(
-                        R.raw.balckgunofyou);
-                if (afd != null
-                        && audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                    try {
-                        mp.reset();
-                        mp.setDataSource(afd.getFileDescriptor(),
-                                afd.getStartOffset(), afd.getLength());
-                        mp.prepare();
-                        mp.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-        }
     }
 
     private void setFullScreen(boolean fullScreen) {

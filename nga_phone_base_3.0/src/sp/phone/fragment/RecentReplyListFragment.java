@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,6 +83,7 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setAdapter(mRecentReplyAdapter);
         listView.setEmptyView(mEmptyLayout);
+        listView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         mNotificationTask.queryRecentReply(this);
     }

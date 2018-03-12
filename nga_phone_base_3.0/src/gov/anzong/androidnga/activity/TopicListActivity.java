@@ -17,7 +17,6 @@ import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.TopicFavoriteFragment;
 import sp.phone.fragment.TopicListFragment;
 import sp.phone.fragment.TopicSearchFragment;
-import sp.phone.task.CheckReplyNotificationTask;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.StringUtils;
 
@@ -28,8 +27,6 @@ import sp.phone.utils.StringUtils;
 public class TopicListActivity extends SwipeBackAppCompatActivity {
 
     private static String TAG = TopicListActivity.class.getSimpleName();
-
-    private CheckReplyNotificationTask asynTask;
 
     private TopicListParam mRequestParam;
 
@@ -143,18 +140,6 @@ public class TopicListActivity extends SwipeBackAppCompatActivity {
 
     @Override
     protected void onResume() {
-
-        if (asynTask != null) {
-            asynTask.cancel(true);
-            asynTask = null;
-        }
-//        long now = System.currentTimeMillis();
-//        PhoneConfiguration config = PhoneConfiguration.getInstance();
-//        if (now - config.lastMessageCheck > 30 * 1000 && config.notification) {// 30秒才爽啊艹
-//            NLog.d(TAG, "start to check Reply Notification");
-//            asynTask = new CheckReplyNotificationTask(this);
-//            asynTask.execute(config.getCookie());
-//        }
         NotificationController.getInstance().checkNotificationDelay();
         super.onResume();
     }

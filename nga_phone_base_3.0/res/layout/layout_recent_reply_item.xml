@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/cardview_default_margin_top_bottom"
-    android:layout_marginEnd="@dimen/cardview_default_margin_left_right"
-    android:layout_marginStart="@dimen/cardview_default_margin_left_right"
-    android:layout_marginTop="@dimen/cardview_default_margin_top_bottom"
-    android:background="@color/shit1">
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="16dp">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:maxLines="1"
+        android:text="@string/sample_nick_name"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    <TextView
+        android:id="@+id/tv_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="8dp">
-
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
-
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_toEndOf="@id/avatar"
-            android:maxLines="1"
-            android:text="@string/sample_nick_name"
-            android:layout_marginStart="16dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/tv_user_name"
+        android:text="@string/sample_user_level"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/text_color_disabled"/>
 
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/user_name"
-            android:layout_toEndOf="@id/avatar"
-            android:text="@string/sample_user_level"
-            android:layout_marginStart="16dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_user_name"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/sample_user_level"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-</android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_topic"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/text_color_disabled"/>
+</RelativeLayout>

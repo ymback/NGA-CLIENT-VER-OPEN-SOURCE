@@ -1,5 +1,6 @@
 package sp.phone.common;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -21,16 +22,12 @@ import noname.activity.NonameArticleListActivity;
 import noname.activity.NonamePostActivity;
 import sp.phone.utils.ApplicationContextHolder;
 
-public class PhoneConfiguration implements PreferenceKey {
+public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
     public int nikeWidth = 100;
     public boolean downAvatarNoWifi;
     public boolean downImgNoWifi;
     public boolean iconmode;
     public boolean refresh_after_post_setting_mode = true;
-    public int blackgunsound = 0;    //0 = right, 1 = left
-    public boolean notification;
-    public boolean notificationSound;
-    public long lastMessageCheck = 0;
     public boolean showSignature = true;
     public boolean showColortxt = false;
     public boolean fullscreen = false;
@@ -51,9 +48,29 @@ public class PhoneConfiguration implements PreferenceKey {
     private float textSize;
     private int webSize;
 
+    private boolean mNotificationEnabled;
+
+    private boolean mNotificationSoundEnabled;
+
     private Map<String, Boolean> mBooleanMap = new HashMap<>();
 
     private Map<String, Integer> mIntegerMap = new HashMap<>();
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        switch (key) {
+            case PreferenceKey.NOTIFIACTION_SOUND:
+                mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
+                break;
+            case PreferenceKey.ENABLE_NOTIFIACTION:
+                mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
+                break;
+            default:
+                break;
+        }
+
+
+    }
 
     private static class PhoneConfigurationHolder {
 
@@ -61,9 +78,16 @@ public class PhoneConfiguration implements PreferenceKey {
     }
 
     private PhoneConfiguration() {
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext());
         initBooleanMap(sp);
         initIntegerMap(sp);
+
+        sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        sp.registerOnSharedPreferenceChangeListener(this);
+        mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
+        mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
+
     }
 
     private void initBooleanMap(SharedPreferences sp) {
@@ -76,6 +100,14 @@ public class PhoneConfiguration implements PreferenceKey {
 
     private void initIntegerMap(SharedPreferences sp) {
         mIntegerMap.put(PreferenceKey.MATERIAL_THEME, Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0")));
+    }
+
+    public boolean isNotificationEnabled() {
+        return mNotificationEnabled;
+    }
+
+    public boolean isNotificationSoundEnabled() {
+        return mNotificationSoundEnabled;
     }
 
     public void putData(String key, int data) {

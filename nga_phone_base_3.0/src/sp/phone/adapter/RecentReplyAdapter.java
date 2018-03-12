@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 import gov.anzong.androidnga.R;
+import sp.phone.common.ApiConstants;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.theme.ThemeManager;
@@ -60,24 +61,47 @@ public class RecentReplyAdapter extends RecyclerView.Adapter<RecentReplyAdapter.
         RecentReplyInfo info = mRecentReplyList.get(mRecentReplyList.size() - 1 - position);
         holder.itemView.setOnClickListener(mClickListener);
         holder.userNameTv.setText(info.getUserName());
-        holder.titleTv.setText(info.getTitle());
+        holder.topicTv.setText(info.getTitle());
+        holder.typeTv.setText(getTypeStr(info.getType()));
         holder.timeTv.setText(buildDateStr(info.getTimeStamp()));
 
         holder.userNameTv.setTextColor(ThemeManager.getInstance().getAccentColor(mContext));
 
         if (isUnread(info)) {
             holder.timeTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-            holder.titleTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            holder.topicTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             holder.userNameTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            holder.typeTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         } else {
             holder.timeTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-            holder.titleTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            holder.topicTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             holder.userNameTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            holder.typeTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         }
 
         ImageUtil.loadRoundCornerAvatar(holder.avatarIv, UserManagerImpl.getInstance().getAvatarUrl(info.getUserId()));
 
         holder.itemView.setTag(info);
+    }
+
+    private String getTypeStr(int type) {
+        switch (type) {
+            case ApiConstants.NGA_NOTIFICATION_TYPE_TOPIC_REPLY:
+                return "回复了你的主题";
+            case ApiConstants.NGA_NOTIFICATION_TYPE_REPLY_REPLY:
+                return "回复了你的回复";
+            case ApiConstants.NGA_NOTIFICATION_TYPE_REPLY_COMMENT:
+                return "评论了你的主题";
+            case ApiConstants.NGA_NOTIFICATION_TYPE_TOPIC_COMMENT:
+                return "评论了你的回复";
+            case ApiConstants.NGA_NOTIFICATION_TYPE_REPLY_AT:
+                return "在回复中@了你";
+            case ApiConstants.NGA_NOTIFICATION_TYPE_TOPIC_AT:
+                return "在主题中@了你";
+            default:
+                return "回复了你的主题";
+
+        }
     }
 
     private String buildDateStr(String timeStamp) {
@@ -107,18 +131,21 @@ public class RecentReplyAdapter extends RecyclerView.Adapter<RecentReplyAdapter.
 
         TextView userNameTv;
 
-        TextView titleTv;
+        TextView topicTv;
 
         TextView timeTv;
 
         ImageView avatarIv;
 
+        TextView typeTv;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            userNameTv = itemView.findViewById(R.id.user_name);
-            titleTv = itemView.findViewById(R.id.title);
-            timeTv = itemView.findViewById(R.id.time);
-            avatarIv = itemView.findViewById(R.id.avatar);
+            userNameTv = itemView.findViewById(R.id.tv_user_name);
+            topicTv = itemView.findViewById(R.id.tv_topic);
+            timeTv = itemView.findViewById(R.id.tv_time);
+            typeTv = itemView.findViewById(R.id.tv_type);
+            avatarIv = itemView.findViewById(R.id.iv_avatar);
 
         }
     }

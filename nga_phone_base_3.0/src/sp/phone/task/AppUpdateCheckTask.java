@@ -165,7 +165,7 @@ public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
         // notification.number = 5;
 
         notification.defaults = Notification.DEFAULT_LIGHTS;
-        if (PhoneConfiguration.getInstance().notificationSound)
+        if (PhoneConfiguration.getInstance().isNotificationSoundEnabled())
             notification.defaults |= Notification.DEFAULT_SOUND;
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         // Notification notification = new Notification(sp.phone.activity.R.drawable.defult_img,tickerText,
