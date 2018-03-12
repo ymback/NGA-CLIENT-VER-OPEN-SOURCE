@@ -12,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import sp.phone.theme.ThemeManager;
@@ -32,7 +33,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         wv = (WebView) findViewById(R.id.webview);
         WebViewClient client = new ArticleListWebClient(this);
         wv.setWebViewClient(client);
-        wv.getSettings().setUserAgentString(getString(R.string.clientua) + ((NgaClientApp) getApplication()).version);
+        wv.getSettings().setUserAgentString(getString(R.string.clientua) + BuildConfig.VERSION_CODE);
         wv.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
 

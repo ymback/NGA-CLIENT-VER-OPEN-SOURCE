@@ -143,7 +143,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
 
     private void handleTitleView(TextView view, ThreadPageInfo entry) {
         ThemeManager theme = ThemeManager.getInstance();
-        float size = PhoneConfiguration.getInstance().getTextSize();
+        float size = PhoneConfiguration.getInstance().getTopicTitleSize();
         view.setTextColor(ContextCompat.getColor(mContext, theme.getForegroundColor()));
         view.setTextSize(size);
         String title = entry.getSubject();

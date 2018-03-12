@@ -1,36 +1,30 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
 
+import java.util.concurrent.TimeUnit;
+
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
-import sp.phone.common.PhoneConfiguration;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import sp.phone.common.PreferenceKey;
+import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.theme.ThemeManager;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-    private PhoneConfiguration mConfiguration = PhoneConfiguration.getInstance();
-
-    private static final String ALERT_DIALOG_TAG = "alertdialog";
-
-    private Context mContext;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mContext = getActivity();
         super.onCreate(savedInstanceState);
         getPreferenceManager().setSharedPreferencesName(PreferenceKey.PERFERENCE);
         addPreferencesFromResource(R.xml.settings);
@@ -52,7 +46,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         }
     }
 
-
     private void configPreference() {
         if (ThemeManager.getInstance().isNightMode()) {
             findPreference(PreferenceKey.MATERIAL_THEME).setEnabled(false);
@@ -67,7 +60,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         if (preference instanceof ListPreference) {
             preference.setSummary(((ListPreference) preference).getEntry());
@@ -75,61 +67,27 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         String key = preference.getKey();
         switch (key) {
-            case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
-                mConfiguration.setDownImgNoWifi((Boolean) newValue);
-                break;
             case PreferenceKey.NIGHT_MODE:
-                ThemeManager.getInstance().setNighMode((boolean) newValue);
-                getActivity().finish();
-                startActivity(getActivity().getIntent());
-                break;
-            case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
-                mConfiguration.downAvatarNoWifi = (boolean) newValue;
-                break;
-            case PreferenceKey.SHOW_COLORTXT:
-                mConfiguration.showColortxt = (boolean) newValue;
-                break;
-            case PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE:
-                mConfiguration.refresh_after_post_setting_mode = (boolean) newValue;
-                break;
-            case PreferenceKey.FULLSCREENMODE:
-                mConfiguration.fullscreen = (boolean) newValue;
-                setFullScreen((Boolean) newValue);
-                break;
-            case PreferenceKey.SHOW_SIGNATURE:
-                mConfiguration.showSignature = (boolean) newValue;
-                break;
             case PreferenceKey.MATERIAL_THEME:
-                sp.edit().putString(PreferenceKey.MATERIAL_THEME, (String) newValue).apply();
-                mConfiguration.putData(key, Integer.parseInt((String) newValue));
-                ThemeManager.getInstance().updateTheme();
-                getActivity().finish();
-                startActivity(getActivity().getIntent());
-                break;
-            case PreferenceKey.BOTTOM_TAB:
-                sp.edit().putBoolean(PreferenceKey.BOTTOM_TAB, (Boolean) newValue).apply();
-                mConfiguration.putData(key, (Boolean) newValue);
-                break;
-            case PreferenceKey.LEFT_HAND:
-                sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
-                mConfiguration.putData(key, (Boolean) newValue);
-                break;
-
-            case PreferenceKey.HARDWARE_ACCELERATED:
-                sp.edit().putBoolean(preference.getKey(), (Boolean) newValue).apply();
-                mConfiguration.putData(key, (boolean) newValue);
-                break;
-
-            case PreferenceKey.SHOW_ICON_MODE:
-                mConfiguration.iconmode = (boolean) newValue;
+                Observable.timer(500, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<Long>() {
+                            @Override
+                            public void onNext(Long aLong) {
+                                getActivity().recreate();
+                            }
+                        });
                 getActivity().setResult(Activity.RESULT_OK);
                 break;
-
-            case PreferenceKey.SORT_BY_POST:
-            case PreferenceKey.FILTER_SUB_BOARD:
-                sp.edit().putBoolean(key, (Boolean) newValue).apply();
-                mConfiguration.putData(key, (boolean) newValue);
+            case PreferenceKey.SHOW_ICON_MODE:
+                getActivity().setResult(Activity.RESULT_OK);
                 break;
+            case PreferenceKey.FULLSCREENMODE:
+                setFullScreen((Boolean) newValue);
+                break;
+            default:
+                return false;
+
         }
         return true;
     }

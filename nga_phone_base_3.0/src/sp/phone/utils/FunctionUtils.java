@@ -41,6 +41,7 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
+import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
@@ -190,7 +191,7 @@ public class FunctionUtils {
             });
         }
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
+        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
         setting.setJavaScriptEnabled(false);
@@ -213,7 +214,7 @@ public class FunctionUtils {
 
 
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
+        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
         setting.setJavaScriptEnabled(false);
@@ -246,7 +247,7 @@ public class FunctionUtils {
 //			contentTV.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 //		}
         WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + ((NgaClientApp) ((Activity) context).getApplication()).version);
+        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
         setting.setDefaultFontSize(PhoneConfiguration.getInstance().getWebSize());
         setting.setJavaScriptEnabled(false);
         contentTV.setWebViewClient(client);
@@ -1163,7 +1164,7 @@ public class FunctionUtils {
 
     public static String ColorTxtCheck(String text) {
         String xxtp = "";
-        if (PhoneConfiguration.getInstance().showColortxt) {
+        if (PhoneConfiguration.getInstance().isShowColorText()) {
             xxtp = FunctionUtils.ColorTxt(text.trim());
         } else {
             xxtp = text;

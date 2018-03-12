@@ -1,19 +1,17 @@
 package sp.phone.theme;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
+import android.content.SharedPreferences;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
+import sp.phone.utils.ApplicationContextHolder;
 
-public class ThemeManager {
-
-    private PhoneConfiguration mConfig;
+public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Deprecated
     public static final int MODE_NORMAL = 0;
@@ -21,14 +19,24 @@ public class ThemeManager {
     @Deprecated
     public static final int MODE_NIGHT = 1;
 
-    @Deprecated
-    public int screenOrentation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
-
     private List<ITheme> mThemeList;
 
     private ITheme mCurrentTheme;
 
+    private int mThemeIndex;
+
     private boolean mNightMode;
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+        if (key.equals(PreferenceKey.NIGHT_MODE)) {
+            mNightMode = sp.getBoolean(key, false);
+            updateTheme();
+        } else if (key.equals(PreferenceKey.MATERIAL_THEME)) {
+            mThemeIndex = Integer.parseInt(sp.getString(key, "0"));
+            updateTheme();
+        }
+    }
 
     private static class ThemeManagerHolder {
 
@@ -36,15 +44,18 @@ public class ThemeManager {
     }
 
     private ThemeManager() {
-        mConfig = PhoneConfiguration.getInstance();
-        init();
+        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        sp.registerOnSharedPreferenceChangeListener(this);
+        mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
+        mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0"));
+        initThemeList();
     }
 
     public static ThemeManager getInstance() {
         return ThemeManagerHolder.sInstance;
     }
 
-    private void init() {
+    private void initThemeList() {
         mThemeList = new ArrayList<>();
         mThemeList.add(new DefaultTheme());
         mThemeList.add(new GreenTheme());
@@ -56,8 +67,7 @@ public class ThemeManager {
         if (isNightMode()) {
             mCurrentTheme = mThemeList.get(0);
         } else {
-            int index = mConfig.getInt(PreferenceKey.MATERIAL_THEME);
-            mCurrentTheme = mThemeList.get(index);
+            mCurrentTheme = mThemeList.get(mThemeIndex);
         }
     }
 

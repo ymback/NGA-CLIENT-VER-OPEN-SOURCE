@@ -118,7 +118,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item, parent, false);
         ArticleViewHolder viewHolder = new ArticleViewHolder(view);
         ViewGroup.LayoutParams lp = viewHolder.avatarIV.getLayoutParams();
-        lp.width = lp.height = PhoneConfiguration.getInstance().getNikeWidth();
+        lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarWidth();
         return viewHolder;
     }
 

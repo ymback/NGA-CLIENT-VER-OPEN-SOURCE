@@ -1,6 +1,5 @@
 package gov.anzong.androidnga.activity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
 
 /**
@@ -30,7 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         updateWindowFlag();
-        updateOrientation();
         updateThemeUi();
         super.onCreate(savedInstanceState);
     }
@@ -55,16 +52,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void updateWindowFlag() {
         int flag = 0;
-        if (PhoneConfiguration.getInstance().fullscreen) {
+        if (mConfig.isFullScreenMode()) {
             flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         }
 
-        if (mConfig.getBoolean(PreferenceKey.HARDWARE_ACCELERATED)) {
+        if (mConfig.isHardwareAcceleratedEnabled()) {
             flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
     }
 
+    /*
     private void updateOrientation() {
         int orientation = ThemeManager.getInstance().screenOrentation;
         if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -75,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
+    */
 
     public void setupActionBar(Toolbar toolbar) {
         if (toolbar != null && getSupportActionBar() == null) {

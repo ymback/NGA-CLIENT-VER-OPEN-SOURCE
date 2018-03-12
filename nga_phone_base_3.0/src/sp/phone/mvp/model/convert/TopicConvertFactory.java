@@ -12,7 +12,6 @@ import java.util.Map;
 import sp.phone.bean.SubBoard;
 import sp.phone.bean.TopicListBean;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.utils.BoardUtils;
@@ -50,7 +49,7 @@ public class TopicConvertFactory {
 
     private void sort(TopicListInfo listInfo) {
         List<ThreadPageInfo> list = listInfo.getThreadPageList();
-        if (PhoneConfiguration.getInstance().getBoolean(PreferenceKey.SORT_BY_POST)) {
+        if (PhoneConfiguration.getInstance().needSortByPostOrder()) {
             Collections.sort(list, new Comparator<ThreadPageInfo>() {
                 @Override
                 public int compare(ThreadPageInfo o1, ThreadPageInfo o2) {
@@ -154,7 +153,7 @@ public class TopicConvertFactory {
 
     private boolean filterTopic(TopicListInfo listInfo, TopicListBean topicListBean, TopicListBean.DataBean.TBean tBean) {
         if (topicListBean.getData().get__F() != null
-                && PhoneConfiguration.getInstance().getBoolean(PreferenceKey.FILTER_SUB_BOARD)
+                && PhoneConfiguration.getInstance().needFilterSubBoard()
                 && topicListBean.getData().get__F().getFid() == -7
                 && tBean.getRecommend() > 9) {
 //            if (tBean.getType() == 2097153) {

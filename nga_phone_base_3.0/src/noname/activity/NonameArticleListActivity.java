@@ -109,11 +109,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
             NLog.e(TAG, "father activity should implement PullToRefreshAttacherOwner");
         }
 
-        if (PhoneConfiguration.getInstance().fullscreen) {
-            refresh_saying();
-        } else {
-            ActivityUtils.getInstance().noticeSaying(this);
-        }
+        ActivityUtils.getInstance().noticeSaying(this);
 
     }
 
@@ -213,11 +209,7 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
                 break;
             case R.id.article_menuitem_refresh:
                 int current = mViewPager.getCurrentItem();
-                if (PhoneConfiguration.getInstance().fullscreen) {
-                    refresh_saying();
-                } else {
-                    ActivityUtils.getInstance().noticeSaying(this);
-                }
+                ActivityUtils.getInstance().noticeSaying(this);
                 mViewPager.setAdapter(mTabsAdapter);
                 mViewPager.setCurrentItem(current);
 

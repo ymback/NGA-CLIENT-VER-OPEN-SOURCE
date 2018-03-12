@@ -115,7 +115,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.getPosts()));
         holder.title.setTextColor(ApplicationContextHolder.getColor(theme.getForegroundColor()));
-        float size = PhoneConfiguration.getInstance().getTextSize();
+        float size = PhoneConfiguration.getInstance().getTopicTitleSize();
 
         String title = entry.getSubject();
         if (StringUtils.isEmpty(title)) {

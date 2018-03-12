@@ -300,11 +300,11 @@ public class SignContainer extends BaseFragment implements
 
     public void handleUserAvatat(ImageView avatarIV, String userId) {
         Bitmap defaultAvatar = null, bitmap = null;
-        if (PhoneConfiguration.getInstance().nikeWidth < 3) {
+        if (PhoneConfiguration.getInstance().getAvatarWidth() < 3) {
             return;
         }
         if (defaultAvatar == null
-                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
+                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().getAvatarWidth()) {
             Resources res = inflatera.getContext().getResources();
             InputStream is = res.openRawResource(R.raw.default_avatar);
             InputStream is2 = res.openRawResource(R.raw.default_avatar);

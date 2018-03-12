@@ -71,7 +71,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
         mFontSizeView = (TextView) rootView.findViewById(R.id.textView_font_size);
         SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.fontsize_seekBar);
         mDefaultFontSize = mFontSizeView.getTextSize();
-        final float textSize = mConfiguration.getTextSize();
+        final float textSize = mConfiguration.getTopicTitleSize();
         int progress = (int) (100.0f * textSize / mDefaultFontSize);
         seekBar.setProgress(progress);
         seekBar.setOnSeekBarChangeListener(this);
@@ -105,7 +105,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
     private void initAvatarSizeView(View rootView){
         mAvatarSizeView = (ImageView) rootView.findViewById(R.id.avatarsize);
         SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.avatarsize_seekBar);
-        int progress = mConfiguration.nikeWidth;
+        int progress = mConfiguration.getAvatarWidth();
         Drawable defaultAvatar = ContextCompat.getDrawable(mContext,R.drawable.default_avatar);
         Bitmap bitmap = ImageUtil.zoomImageByWidth(defaultAvatar, progress);
         mAvatarSizeView.setImageBitmap(bitmap);
@@ -168,20 +168,17 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
                 float textSize = mDefaultFontSize * seekBar.getProgress() / 100.0f;
                 editor.putFloat(PreferenceKey.TEXT_SIZE, textSize);
                 editor.apply();
-                mConfiguration.setTextSize(textSize);
                 break;
             case R.id.webszie_bar:
                 int webSize = (int) (mDefaultWebFontSize * seekBar.getProgress() / 100.0f);
                 editor.putInt(PreferenceKey.WEB_SIZE, webSize);
                 editor.apply();
-                PhoneConfiguration.getInstance().setWebSize(webSize);
                 break;
             case R.id.avatarsize_seekBar:
                 int progress = seekBar.getProgress();
                 if (2 > progress) {
                     progress = 2;
                 }
-                mConfiguration.nikeWidth = progress;
                 editor.putInt(PreferenceKey.NICK_WIDTH, progress);
                 editor.apply();
                 break;

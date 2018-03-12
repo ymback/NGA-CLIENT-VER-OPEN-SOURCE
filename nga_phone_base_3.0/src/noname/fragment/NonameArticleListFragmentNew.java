@@ -28,13 +28,12 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
-import noname.interfaces.PagerOwner;
 import noname.listener.MyListenerForNonameReply;
 import noname.task.JsonNonameThreadLoadTask;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
-import sp.phone.theme.ThemeManager;
 import sp.phone.task.ReportTask;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.ArticleListWebClient;
 import sp.phone.utils.FunctionUtils;
@@ -68,8 +67,6 @@ public class NonameArticleListFragmentNew extends Fragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        PhoneConfiguration.getInstance().setRefreshAfterPost(
-                false);
         page = getArguments().getInt("page") + 1;
         tid = getArguments().getInt("id");
         super.onCreate(savedInstanceState);
@@ -188,27 +185,6 @@ public class NonameArticleListFragmentNew extends Fragment implements
         NLog.d(TAG, "onResume pid=" + pid + "&page=" + page);
         // setHasOptionsMenu(true);
 
-        if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
-            if (PhoneConfiguration.getInstance().isRefreshAfterPost()) {
-
-                PagerOwner father = null;
-                try {
-                    father = (PagerOwner) getActivity();
-                    if (father.getCurrentPage() == page) {
-                        PhoneConfiguration.getInstance().setRefreshAfterPost(
-                                false);
-                        // this.task = null;
-                        this.needLoad = true;
-                        linear.removeAllViewsInLayout();
-                    }
-                } catch (ClassCastException e) {
-                    NLog.e(TAG, "father activity does not implements interface "
-                            + PagerOwner.class.getName());
-
-                }
-
-            }
-        }
         this.loadPage();
         if (mData != null) {
             ((OnNonameThreadPageLoadFinishedListener) getActivity())

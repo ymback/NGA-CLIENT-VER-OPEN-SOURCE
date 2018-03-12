@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ActivityUtils.REQUEST_CODE_SETTING && resultCode == Activity.RESULT_OK) {
-            mPresenter.notifyDataSetChanged();
+            recreate();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

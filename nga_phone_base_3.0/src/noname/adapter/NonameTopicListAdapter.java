@@ -13,9 +13,8 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import noname.interfaces.OnNonameTopListLoadFinishedListener;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
 import sp.phone.theme.ThemeManager;
+import sp.phone.utils.StringUtils;
 
 public class NonameTopicListAdapter extends BaseAdapter implements
         OnNonameTopListLoadFinishedListener {
@@ -116,7 +115,7 @@ public class NonameTopicListAdapter extends BaseAdapter implements
             holder.num.setTextColor(nightLinkColor);
         }
         holder.title.setTextColor(res.getColor(theme.getForegroundColor()));
-        float size = PhoneConfiguration.getInstance().getTextSize();
+        float size = 21f;
 
         String titile = entry.title;
         if (StringUtils.isEmpty(titile)) {

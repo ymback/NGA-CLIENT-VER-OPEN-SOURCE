@@ -2,10 +2,6 @@ package sp.phone.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.FlexibleProfileActivity;
@@ -23,14 +19,6 @@ import noname.activity.NonamePostActivity;
 import sp.phone.utils.ApplicationContextHolder;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
-    public int nikeWidth = 100;
-    public boolean downAvatarNoWifi;
-    public boolean downImgNoWifi;
-    public boolean iconmode;
-    public boolean refresh_after_post_setting_mode = true;
-    public boolean showSignature = true;
-    public boolean showColortxt = false;
-    public boolean fullscreen = false;
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
     public Class<?> nonameArticleActivityClass = NonameArticleListActivity.class;
@@ -44,31 +32,98 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     public Class<?> messageActivityClass = MessageListActivity.class;
     public Class<?> nonameActivityClass = FlexibleNonameTopicListActivity.class;
     public Class<?> messageDetialActivity = MessageDetailActivity.class;
-    private boolean refreshAfterPost;
-    private float textSize;
-    private int webSize;
 
     private boolean mNotificationEnabled;
 
     private boolean mNotificationSoundEnabled;
 
-    private Map<String, Boolean> mBooleanMap = new HashMap<>();
+    private boolean mFullScreenMode;
 
-    private Map<String, Integer> mIntegerMap = new HashMap<>();
+    private boolean mDownAvatarNoWifi;
+
+    private boolean mDownImgNoWifi;
+
+    private boolean mShowSignature;
+
+    private boolean mShowColorText;
+
+    private boolean mUpdateAfterPost;
+
+    private float mTopicTitleSize;
+
+    private int mTopicContentSize;
+
+    private int mAvatarWidth;
+
+    private boolean mShowClassicIcon;
+
+    private boolean mLeftHandMode;
+
+    private boolean mShowBottomTab;
+
+    private boolean mHardwareAcceleratedEnabled;
+
+    private boolean mFilterSubBoard;
+
+    private boolean mSortByPostOrder;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
         switch (key) {
             case PreferenceKey.NOTIFIACTION_SOUND:
-                mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
+                mNotificationSoundEnabled = sp.getBoolean(key, true);
                 break;
             case PreferenceKey.ENABLE_NOTIFIACTION:
-                mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
+                mNotificationEnabled = sp.getBoolean(key, true);
+                break;
+            case PreferenceKey.FULLSCREENMODE:
+                mFullScreenMode = sp.getBoolean(key, false);
+                break;
+            case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
+                mDownAvatarNoWifi = sp.getBoolean(key, true);
+                break;
+            case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
+                mDownImgNoWifi = sp.getBoolean(key, true);
+                break;
+            case PreferenceKey.SHOW_SIGNATURE:
+                mShowSignature = sp.getBoolean(key, false);
+                break;
+            case PreferenceKey.SHOW_COLORTXT:
+                mShowColorText = sp.getBoolean(key, false);
+                break;
+            case PreferenceKey.WEB_SIZE:
+                mTopicContentSize = sp.getInt(key, 16);
+                break;
+            case PreferenceKey.TEXT_SIZE:
+                mTopicTitleSize = sp.getFloat(key, 21f);
+                break;
+            case PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE:
+                mUpdateAfterPost = sp.getBoolean(key, true);
+                break;
+            case PreferenceKey.NICK_WIDTH:
+                mAvatarWidth = sp.getInt(key, 100);
+                break;
+            case PreferenceKey.SHOW_ICON_MODE:
+                mShowClassicIcon = sp.getBoolean(key, false);
+                break;
+            case PreferenceKey.LEFT_HAND:
+                mLeftHandMode = sp.getBoolean(key, false);
+                break;
+            case PreferenceKey.BOTTOM_TAB:
+                mShowBottomTab = sp.getBoolean(key, false);
+                break;
+            case PreferenceKey.HARDWARE_ACCELERATED:
+                mHardwareAcceleratedEnabled = sp.getBoolean(key, true);
+                break;
+            case PreferenceKey.FILTER_SUB_BOARD:
+                mFilterSubBoard = sp.getBoolean(key, false);
+                break;
+            case PreferenceKey.SORT_BY_POST:
+                mSortByPostOrder = sp.getBoolean(key, false);
                 break;
             default:
                 break;
         }
-
 
     }
 
@@ -77,29 +132,87 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         private static PhoneConfiguration sInstance = new PhoneConfiguration();
     }
 
+    public static PhoneConfiguration getInstance() {
+        return PhoneConfigurationHolder.sInstance;
+    }
+
+
     private PhoneConfiguration() {
+        initialize();
+    }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext());
-        initBooleanMap(sp);
-        initIntegerMap(sp);
-
-        sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+    private void initialize() {
+        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         sp.registerOnSharedPreferenceChangeListener(this);
         mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
         mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
-
+        mFullScreenMode = sp.getBoolean(PreferenceKey.FULLSCREENMODE, false);
+        mDownAvatarNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI, true);
+        mDownImgNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI, true);
+        mShowSignature = sp.getBoolean(PreferenceKey.SHOW_SIGNATURE, false);
+        mShowColorText = sp.getBoolean(PreferenceKey.SHOW_COLORTXT, false);
+        mTopicContentSize = sp.getInt(PreferenceKey.WEB_SIZE, 16);
+        mTopicTitleSize = sp.getFloat(PreferenceKey.TEXT_SIZE, 21f);
+        mUpdateAfterPost = sp.getBoolean(PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE, true);
+        mAvatarWidth = sp.getInt(PreferenceKey.NICK_WIDTH, 100);
+        mShowClassicIcon = sp.getBoolean(PreferenceKey.SHOW_ICON_MODE, false);
+        mLeftHandMode = sp.getBoolean(PreferenceKey.LEFT_HAND, false);
+        mShowBottomTab = sp.getBoolean(PreferenceKey.BOTTOM_TAB, false);
+        mHardwareAcceleratedEnabled = sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true);
+        mFilterSubBoard = sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD, false);
+        mSortByPostOrder = sp.getBoolean(PreferenceKey.SORT_BY_POST, false);
     }
 
-    private void initBooleanMap(SharedPreferences sp) {
-        mBooleanMap.put(PreferenceKey.SORT_BY_POST, sp.getBoolean(PreferenceKey.SORT_BY_POST, false));
-        mBooleanMap.put(PreferenceKey.HARDWARE_ACCELERATED, sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true));
-        mBooleanMap.put(PreferenceKey.BOTTOM_TAB, sp.getBoolean(PreferenceKey.BOTTOM_TAB, false));
-        mBooleanMap.put(PreferenceKey.LEFT_HAND, sp.getBoolean(PreferenceKey.LEFT_HAND, false));
-        mBooleanMap.put(PreferenceKey.FILTER_SUB_BOARD, sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD, false));
+    public boolean needSortByPostOrder() {
+        return mSortByPostOrder;
     }
 
-    private void initIntegerMap(SharedPreferences sp) {
-        mIntegerMap.put(PreferenceKey.MATERIAL_THEME, Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0")));
+    public boolean isShowBottomTab() {
+        return mShowBottomTab;
+    }
+
+    public boolean needFilterSubBoard() {
+        return mFilterSubBoard;
+    }
+
+    public boolean isHardwareAcceleratedEnabled() {
+        return mHardwareAcceleratedEnabled;
+    }
+
+    public boolean isLeftHandMode() {
+        return mLeftHandMode;
+    }
+
+    public boolean needUpdateAfterPost() {
+        return mUpdateAfterPost;
+    }
+
+    public boolean isShowClassicIcon() {
+        return mShowClassicIcon;
+    }
+
+    public int getAvatarWidth() {
+        return mAvatarWidth;
+    }
+
+    public float getTopicTitleSize() {
+        return mTopicTitleSize;
+    }
+
+    public int getTopicContentSize() {
+        return mTopicContentSize;
+    }
+
+    public boolean isShowSignature() {
+        return mShowSignature;
+    }
+
+    public boolean isFullScreenMode() {
+        return mFullScreenMode;
+    }
+
+    public boolean isShowColorText() {
+        return mShowColorText;
     }
 
     public boolean isNotificationEnabled() {
@@ -110,68 +223,16 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         return mNotificationSoundEnabled;
     }
 
-    public void putData(String key, int data) {
-        mIntegerMap.put(key, data);
-    }
-
-    public int getInt(String key) {
-        return mIntegerMap.get(key);
-    }
-
-    public void putData(String key, boolean data) {
-        mBooleanMap.put(key, data);
-    }
-
-    public boolean getBoolean(String key) {
-        return mBooleanMap.get(key);
-    }
-
-    public static PhoneConfiguration getInstance() {
-        return PhoneConfigurationHolder.sInstance;
-    }
-
-    public int getNikeWidth() {
-        return nikeWidth;
-    }
-
     public boolean isDownAvatarNoWifi() {
-        return downAvatarNoWifi;
-    }
-
-    public void setDownAvatarNoWifi(boolean downAvatarNoWifi) {
-        this.downAvatarNoWifi = downAvatarNoWifi;
+        return mDownAvatarNoWifi;
     }
 
     public boolean isDownImgNoWifi() {
-        return downImgNoWifi;
-    }
-
-    public void setDownImgNoWifi(boolean downImgNoWifi) {
-        this.downImgNoWifi = downImgNoWifi;
-    }
-
-    public float getTextSize() {
-        return textSize;
-    }
-
-    public void setTextSize(float textSize) {
-        this.textSize = textSize;
+        return mDownImgNoWifi;
     }
 
     public int getWebSize() {
-        return webSize;
-    }
-
-    public void setWebSize(int webSize) {
-        this.webSize = webSize;
-    }
-
-    public boolean isRefreshAfterPost() {
-        return refreshAfterPost;
-    }
-
-    public void setRefreshAfterPost(boolean refreshAfterPost) {
-        this.refreshAfterPost = refreshAfterPost;
+        return getTopicContentSize();
     }
 
     public String getCookie() {

@@ -40,7 +40,6 @@ import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonamePostResponse;
 import noname.task.NonameFileUploadTask;
 import sp.phone.adapter.ExtensionEmotionAdapter;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
@@ -49,7 +48,6 @@ import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ActivityUtils;
 import sp.phone.utils.FunctionUtils;
 import sp.phone.utils.NLog;
-import sp.phone.utils.ReflectionUtil;
 import sp.phone.utils.StringUtils;
 
 public class NonamePostActivity extends BasePostActivity implements
@@ -528,9 +526,6 @@ public class NonamePostActivity extends BasePostActivity implements
                 showToast(s.errorinfo);
             } else {
                 showToast(s.data);
-            }
-            if (PhoneConfiguration.getInstance().refresh_after_post_setting_mode) {
-                PhoneConfiguration.getInstance().setRefreshAfterPost(true);
             }
             ActivityUtils.getInstance().dismiss();
             if (!keepActivity)

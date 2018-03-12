@@ -282,7 +282,7 @@ public class HtmlUtil {
                                          int imageQuality) {
         if (row == null || row.getSignature() == null
                 || row.getSignature().length() == 0
-                || !PhoneConfiguration.getInstance().showSignature) {
+                || !PhoneConfiguration.getInstance().isShowSignature()) {
             return "";
         }
         return "<br/></br>"

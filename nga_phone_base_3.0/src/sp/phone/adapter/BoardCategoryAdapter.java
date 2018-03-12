@@ -93,7 +93,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
     private int getResId(int position) {
         String resName;
-        if (PhoneConfiguration.getInstance().iconmode) {
+        if (PhoneConfiguration.getInstance().isShowClassicIcon()) {
             resName = "oldp" + mCategory.get(position).getIconOld();
         } else {
             resName = "p" + mCategory.get(position).getIcon();

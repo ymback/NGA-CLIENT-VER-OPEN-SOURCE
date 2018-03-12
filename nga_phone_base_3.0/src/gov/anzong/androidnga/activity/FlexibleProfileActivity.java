@@ -166,7 +166,7 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 
     void refresh() {
         JsonProfileLoadTask task = new JsonProfileLoadTask(this, this);
-        if (PhoneConfiguration.getInstance().fullscreen) {
+        if (PhoneConfiguration.getInstance().isFullScreenMode()) {
             refresh_saying();
         } else {
             ActivityUtils.getInstance().noticeSaying(this);
@@ -652,12 +652,12 @@ public class FlexibleProfileActivity extends SwipeBackAppCompatActivity
 
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.get_avatar());//
         final String userId = String.valueOf(row.get_uid());
-        if (PhoneConfiguration.getInstance().nikeWidth < 3) {
+        if (PhoneConfiguration.getInstance().getAvatarWidth() < 3) {
             avatarIV.setImageBitmap(null);
             return;
         }
         if (defaultAvatar == null
-                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().nikeWidth) {
+                || defaultAvatar.getWidth() != PhoneConfiguration.getInstance().getAvatarWidth()) {
             Resources res = avatarIV.getContext().getResources(); InputStream is = res.openRawResource(R.drawable.default_avatar);
             InputStream is2 = res.openRawResource(R.drawable.default_avatar);
             this.defaultAvatar = ImageUtil.loadAvatarFromStream(is, is2);
