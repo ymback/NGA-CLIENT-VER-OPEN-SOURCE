@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ApplicationContextHolder;
 
@@ -19,7 +16,11 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     @Deprecated
     public static final int MODE_NIGHT = 1;
 
-    private List<ITheme> mThemeList;
+    private ITheme[] mThemes = {
+            new DefaultTheme(),
+            new GreenTheme(),
+            new BlackTheme()
+    };
 
     private ITheme mCurrentTheme;
 
@@ -48,26 +49,18 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         sp.registerOnSharedPreferenceChangeListener(this);
         mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
         mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0"));
-        initThemeList();
+        updateTheme();
     }
 
     public static ThemeManager getInstance() {
         return ThemeManagerHolder.sInstance;
     }
 
-    private void initThemeList() {
-        mThemeList = new ArrayList<>();
-        mThemeList.add(new DefaultTheme());
-        mThemeList.add(new GreenTheme());
-        mThemeList.add(new BlackTheme());
-        updateTheme();
-    }
-
     public void updateTheme() {
         if (isNightMode()) {
-            mCurrentTheme = mThemeList.get(0);
+            mCurrentTheme = mThemes[0];
         } else {
-            mCurrentTheme = mThemeList.get(mThemeIndex);
+            mCurrentTheme = mThemes[mThemeIndex];
         }
     }
 
@@ -86,12 +79,6 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     @Deprecated
     public int getMode() {
         return mNightMode ? MODE_NIGHT : MODE_NORMAL;
-    }
-
-
-    public void setNighMode(boolean nighMode) {
-        mNightMode = nighMode;
-        updateTheme();
     }
 
     public boolean isNightMode() {

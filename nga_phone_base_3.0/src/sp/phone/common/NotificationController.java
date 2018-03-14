@@ -28,6 +28,10 @@ import sp.phone.utils.DeviceUtils;
 
 public class NotificationController {
 
+    private static final String NOTIFICATION_ID = "NGA";
+
+    private static final String NOTIFICATION_NAME = "NGA_CLIENT";
+
     private ForumNotificationTask mNotificationTask;
 
     private PhoneConfiguration mConfiguration;
@@ -142,7 +146,7 @@ public class NotificationController {
     }
 
     private NotificationCompat.Builder buildNotification(Context context) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.NOTIFICATION_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_ID);
         builder.setLights(Color.parseColor("#fff0cd"), 2333, 0)
                 .setSmallIcon(R.drawable.nga_bg) //设置图标
                 .setWhen(System.currentTimeMillis()) //发送时间
@@ -159,8 +163,8 @@ public class NotificationController {
         if (!DeviceUtils.isGreaterEqual_8_0() || notificationManager == null) {
             return;
         }
-        String id = Constants.NOTIFICATION_ID;
-        CharSequence name = Constants.NOTIFICATION_NAME;
+        String id = NOTIFICATION_ID;
+        CharSequence name = NOTIFICATION_NAME;
         int importance = NotificationManager.IMPORTANCE_HIGH;
 
         NotificationChannel channel = new NotificationChannel(id, name, importance);

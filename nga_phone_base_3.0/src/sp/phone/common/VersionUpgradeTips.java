@@ -22,6 +22,7 @@ public interface VersionUpgradeTips {
 
     String TIPS_2077 = "更新内容\n"
             + "● 支持直接在帖子详情里播放视频\n"
+            + "● 更新了被喷界面的UI\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
