@@ -43,7 +43,7 @@
             android:theme="@style/SwipeBackTheme"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".activity.FlexibleProfileActivity"
+            android:name=".activity.ProfileActivity"
             android:theme="@style/SwipeBackTheme"/>
         <activity
             android:name=".activity.PostActivity"

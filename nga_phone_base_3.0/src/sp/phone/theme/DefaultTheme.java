@@ -42,4 +42,24 @@ public class DefaultTheme implements ITheme {
     public int getForegroundColor() {
         return R.color.foreground_color;
     }
+
+    @Override
+    public int getActiveColor() {
+        return R.color.color_state_active;
+    }
+
+    @Override
+    public int getInactiveColor() {
+        return R.color.color_state_inactive;
+    }
+
+    @Override
+    public int getNukedColor() {
+        return R.color.color_state_nuked;
+    }
+
+    @Override
+    public int getMutedColor() {
+        return R.color.color_state_muted;
+    }
 }

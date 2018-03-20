@@ -3,8 +3,10 @@ package sp.phone.theme;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.ColorInt;
+import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
 
+import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
 import sp.phone.utils.ApplicationContextHolder;
 
@@ -28,6 +30,8 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     private boolean mNightMode;
 
+    private Context mContext;
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
         if (key.equals(PreferenceKey.NIGHT_MODE)) {
@@ -45,7 +49,8 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private ThemeManager() {
-        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        mContext = ApplicationContextHolder.getContext();
+        SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         sp.registerOnSharedPreferenceChangeListener(this);
         mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
         mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0"));
@@ -62,6 +67,10 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         } else {
             mCurrentTheme = mThemes[mThemeIndex];
         }
+    }
+
+    public ITheme getCurrentTheme() {
+        return mCurrentTheme;
     }
 
     public int getForegroundColor() {
@@ -95,10 +104,32 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         return ContextCompat.getColor(context, mCurrentTheme.getAccentColor());
     }
 
+    @ColorInt
+    public int getActiveColor() {
+        return ContextCompat.getColor(mContext, R.color.color_state_active);
+    }
+
+    @ColorInt
+    public int getInactiveColor() {
+        return ContextCompat.getColor(mContext, R.color.color_state_inactive);
+    }
+
+    @ColorInt
+    public int getNukedColor() {
+        return ContextCompat.getColor(mContext, R.color.color_state_nuked);
+    }
+
+    @ColorInt
+    public int getMutedColor() {
+        return ContextCompat.getColor(mContext, R.color.color_state_muted);
+    }
+
+    @StyleRes
     public int getNoActionBarTheme() {
         return mCurrentTheme.getNoActionBarTheme();
     }
 
+    @StyleRes
     public int getActionBarTheme() {
         return mCurrentTheme.getActionBarTheme();
     }

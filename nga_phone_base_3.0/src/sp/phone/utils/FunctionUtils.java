@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,19 +44,18 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.BuildConfig;
-import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
-import noname.gson.parse.NonameReadBody;
 import noname.adapter.NonameArticleListAdapter;
+import noname.gson.parse.NonameReadBody;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.theme.ThemeManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.ReportDialogFragment;
 import sp.phone.fragment.dialog.SuperTextDialogFragment;
 import sp.phone.proxy.ProxyBridge;
+import sp.phone.theme.ThemeManager;
 
 @SuppressLint("DefaultLocale")
 public class FunctionUtils {
@@ -78,6 +79,22 @@ public class FunctionUtils {
         attachment = activity.getString(R.string.attachment);
         comment = activity.getString(R.string.comment);
         sig = activity.getString(R.string.sig);
+    }
+
+    public static void openUrlByDefaultBrowser(Context context, String url) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.setData(Uri.parse(url));
+        context.startActivity(intent);
+    }
+
+    public static void copyToClipboard(Context context, String text) {
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            ClipData clipData = ClipData.newPlainText(text, text);
+            clipboardManager.setPrimaryClip(clipData);
+            ActivityUtils.showToast(R.string.copied_to_clipboard);
+        }
     }
 
 
@@ -1276,7 +1293,7 @@ public class FunctionUtils {
         DialogFragment df = new SuperTextDialogFragment(bodyText);
         df.setArguments(arg);
         final String dialogTag = SuperTextDialogFragment.class.getCanonicalName();
-        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment prev = fm.findFragmentByTag(dialogTag);
         if (prev != null) {
@@ -1308,7 +1325,7 @@ public class FunctionUtils {
         }
     }
 
-    public static void share(Context context,String title,String content) {
+    public static void share(Context context, String title, String content) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("text/plain");

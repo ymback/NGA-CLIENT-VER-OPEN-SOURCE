@@ -25,4 +25,16 @@ public interface ITheme {
 
     @ColorRes
     int getForegroundColor();
+
+    @ColorRes
+    int getActiveColor();
+
+    @ColorRes
+    int getMutedColor();
+
+    @ColorRes
+    int getInactiveColor();
+
+    @ColorRes
+    int getNukedColor();
 }

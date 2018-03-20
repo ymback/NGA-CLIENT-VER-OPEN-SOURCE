@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
-import gov.anzong.androidnga.activity.FlexibleProfileActivity;
+import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
 import gov.anzong.androidnga.activity.MessageListActivity;
@@ -26,7 +26,7 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     public Class<?> nonamePostActivityClass = NonamePostActivity.class;
     public Class<?> messagePostActivityClass = MessagePostActivity.class;
     public Class<?> signPostActivityClass = SignPostActivity.class;
-    public Class<?> profileActivityClass = FlexibleProfileActivity.class;
+    public Class<?> profileActivityClass = ProfileActivity.class;
     public Class<?> loginActivityClass = LoginActivity.class;
     public Class<?> recentReplyListActivityClass = RecentReplyListActivity.class;
     public Class<?> messageActivityClass = MessageListActivity.class;

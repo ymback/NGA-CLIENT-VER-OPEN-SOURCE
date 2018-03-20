@@ -23,10 +23,6 @@
     <color name="topiclist_selected_color">#151c19</color>
     <color name="md__transparent">#00000000</color>
 
-    <color name="nukedcolor">#DD0000</color>
-    <color name="activecolor">#3D9F0E</color>
-    <color name="unactivecolor">#808080</color>
-    <color name="mutedcolor">#FF4500</color>
     <color name="profilebgcolor">#fff5d7</color>
     <color name="profilefcolor">#551200</color>
 

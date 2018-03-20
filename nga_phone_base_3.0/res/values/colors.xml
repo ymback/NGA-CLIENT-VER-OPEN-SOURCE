@@ -9,6 +9,11 @@
     <color name="background_color2">@color/shit1</color>
     <color name="foreground_color">@color/black</color>
 
+    <color name="color_state_nuked">#DD0000</color>
+    <color name="color_state_active">#3D9F0E</color>
+    <color name="color_state_inactive">#808080</color>
+    <color name="color_state_muted">#FF4500</color>
+
     <color name="colorAccent">#FF591804</color>
 
     <color name="colorAccentBrown">#FF591804</color>

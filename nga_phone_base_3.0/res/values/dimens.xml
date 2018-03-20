@@ -8,4 +8,9 @@
     <dimen name="cardview_default_margin_top_bottom">4dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="app_bar_height">160dp</dimen>
+
+    <dimen name="status_bar_height">16dp</dimen>
+
 </resources>

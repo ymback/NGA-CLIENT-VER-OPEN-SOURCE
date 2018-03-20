@@ -64,8 +64,13 @@ public class ActivityUtils {
     }
 
     public static void showToast(String res) {
-        showToast(ApplicationContextHolder.getContext(),res);
+        showToast(ApplicationContextHolder.getContext(), res);
     }
+
+    public static void showToast(int resId) {
+        showToast(ApplicationContextHolder.getContext(), resId);
+    }
+
 
     public static ActivityUtils getInstance() {
         if (instance == null) {
@@ -407,7 +412,7 @@ public class ActivityUtils {
     }
 
     public static void startHistoryTopicActivity(Context context) {
-        Intent intent = new Intent(context,LauncherSubActivity.class);
+        Intent intent = new Intent(context, LauncherSubActivity.class);
         intent.putExtra("fragment", TopicHistoryFragment.class.getName());
         context.startActivity(intent);
     }
