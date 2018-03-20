@@ -13,6 +13,7 @@
         android:id="@+id/menu_open_by_browser"
         android:icon="@drawable/ic_menu_share_holo_dark"
         android:title="@string/menu_open_by_browser"
+        android:visible="false"
         androidnga:showAsAction="never" />
 
 
@@ -20,6 +21,7 @@
         android:id="@+id/menu_copy_url"
         android:icon="@drawable/ic_refresh"
         android:title="@string/menu_copy_url"
+        android:visible="false"
         androidnga:showAsAction="never" />
 
 

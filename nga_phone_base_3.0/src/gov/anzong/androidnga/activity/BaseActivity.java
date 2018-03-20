@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.FunctionUtils;
 
 /**
  * Created by liuboyu on 16/6/28.
@@ -108,25 +106,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (getUrl() == null) {
-            menu.findItem(R.id.menu_copy_url).setVisible(false);
-            menu.findItem(R.id.menu_open_by_browser).setVisible(false);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                break;
-            case R.id.menu_copy_url:
-                FunctionUtils.copyToClipboard(this, getUrl());
-                break;
-            case R.id.menu_open_by_browser:
-                FunctionUtils.openUrlByDefaultBrowser(this, getUrl());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,9 +117,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return true;
 
-    }
-
-    protected String getUrl() {
-        return null;
     }
 }

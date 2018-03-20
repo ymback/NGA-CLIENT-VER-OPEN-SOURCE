@@ -384,6 +384,8 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         } else {
             menu.findItem(R.id.menu_modify_avatar).setVisible(false);
         }
+        menu.findItem(R.id.menu_copy_url).setVisible(true);
+        menu.findItem(R.id.menu_open_by_browser).setVisible(true);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -401,6 +403,12 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
                 break;
             case R.id.menu_modify_avatar:
                 startModifyAvatar();
+                break;
+            case R.id.menu_copy_url:
+                FunctionUtils.copyToClipboard(this, getUrl());
+                break;
+            case R.id.menu_open_by_browser:
+                FunctionUtils.openUrlByDefaultBrowser(this, getUrl());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
