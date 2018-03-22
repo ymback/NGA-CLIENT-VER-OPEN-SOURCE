@@ -218,9 +218,6 @@
             android:name=".activity.NearbyUserActivity"
             android:theme="@style/SwipeBackTheme"/>
         <activity
-            android:name=".activity.ReplyListActivity"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity
             android:name=".activity.RecentReplyListActivity"
             android:theme="@style/SwipeBackTheme"/>
 
