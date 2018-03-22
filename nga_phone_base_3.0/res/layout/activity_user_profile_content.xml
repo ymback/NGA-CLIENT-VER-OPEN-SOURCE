@@ -151,10 +151,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/tv_user_money_title"
                     android:layout_toEndOf="@+id/tv_user_money_title"
-                    android:text="0"
                     android:textColor="#808080"
-                    android:textIsSelectable="false"
-                    android:visibility="gone">
+                    android:textIsSelectable="false">
                 </TextView>
 
                 <ImageView
@@ -168,8 +166,7 @@
                     android:focusable="false"
                     android:longClickable="false"
                     android:scaleType="center"
-                    android:src="@drawable/gold"
-                    android:visibility="gone"/>
+                    android:src="@drawable/gold"/>
 
                 <TextView
                     android:id="@+id/tv_user_money_silver"
@@ -179,8 +176,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_toEndOf="@+id/iv_avatar_gold"
                     android:textColor="#808080"
-                    android:textIsSelectable="false"
-                    android:visibility="gone">
+                    android:textIsSelectable="false">
                 </TextView>
 
                 <ImageView
@@ -193,8 +189,7 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:longClickable="false"
-                    android:src="@drawable/silver"
-                    android:visibility="gone"/>
+                    android:src="@drawable/silver"/>
 
                 <TextView
                     android:id="@+id/tv_user_money_copper"
@@ -204,8 +199,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_toEndOf="@+id/iv_avatar_silver"
                     android:textColor="#808080"
-                    android:textIsSelectable="false"
-                    android:visibility="gone">
+                    android:textIsSelectable="false">
                 </TextView>
 
                 <ImageView
@@ -218,8 +212,7 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:longClickable="false"
-                    android:src="@drawable/copper"
-                    android:visibility="gone"/>
+                    android:src="@drawable/copper"/>
 
                 <TextView
                     android:id="@+id/tv_user_state"
@@ -366,6 +359,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
+                    android:padding="2dp"
                     android:text="[更改签名]"
                     android:textColor="#551200"
                     android:textSize="12dp"

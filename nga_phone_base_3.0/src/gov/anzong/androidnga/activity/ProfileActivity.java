@@ -64,15 +64,6 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
     @BindView(R.id.tv_user_money_gold)
     public TextView mMoneyGoldTv;
 
-    @BindView(R.id.iv_avatar_copper)
-    public ImageView mAvatarCopper;
-
-    @BindView(R.id.iv_avatar_silver)
-    public ImageView mAvatarSilver;
-
-    @BindView(R.id.iv_avatar_gold)
-    public ImageView mAvatarGold;
-
     @BindView(R.id.tv_user_state)
     public TextView mUserStateTv;
 
@@ -277,40 +268,15 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
 
     private void handleUserMoney(ProfileData profileInfo) {
 
-        if (profileInfo.get_money().equals("0")) {
-            mMoneyGoldTv.setVisibility(View.VISIBLE);
-            mAvatarGold.setVisibility(View.VISIBLE);
-        } else {
-            int money = Integer.parseInt(profileInfo.get_money());
-            int gold = money / 10000;
-            int silver = (money - gold * 10000) / 100;
-            int copper = (money - gold * 10000 - silver * 100);
-            if (gold > 0) {
-                mMoneyGoldTv.setVisibility(View.VISIBLE);
-                mMoneySilverTv.setVisibility(View.VISIBLE);
-                mMoneyCopperTv.setVisibility(View.VISIBLE);
-                mAvatarGold.setVisibility(View.VISIBLE);
-                mAvatarSilver.setVisibility(View.VISIBLE);
-                mAvatarCopper.setVisibility(View.VISIBLE);
-                mMoneyGoldTv.setText(String.valueOf(gold));
-                mMoneySilverTv.setText(String.valueOf(silver));
-                mMoneyCopperTv.setText(String.valueOf(copper));
-            } else if (silver > 0) {
-                mMoneySilverTv.setVisibility(View.VISIBLE);
-                mMoneyCopperTv.setVisibility(View.VISIBLE);
-                mAvatarSilver.setVisibility(View.VISIBLE);
-                mAvatarCopper.setVisibility(View.VISIBLE);
-                mMoneySilverTv.setText(String.valueOf(silver));
-                mMoneyCopperTv.setText(String.valueOf(copper));
-            } else {
-                mMoneyCopperTv.setVisibility(View.VISIBLE);
-                mAvatarCopper.setVisibility(View.VISIBLE);
-                mMoneyCopperTv.setText(String.valueOf(copper));
-            }
-        }
+        int money = Integer.parseInt(profileInfo.get_money());
+        int gold = money / 10000;
+        int silver = (money - gold * 10000) / 100;
+        int copper = (money - gold * 10000 - silver * 100);
+        mMoneyGoldTv.setText(String.valueOf(gold));
+        mMoneySilverTv.setText(String.valueOf(silver));
+        mMoneyCopperTv.setText(String.valueOf(copper));
     }
 
-    @Override
     protected String getUrl() {
         return "http://bbs.ngacn.cc/nuke.php?func=ucp&" + mParams;
     }
