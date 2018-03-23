@@ -167,7 +167,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
         try (FileWriter fw = new FileWriter(file)) {
             fw.write(sb.toString());
             fw.flush();
-            fw.close();
         } catch (Exception e) {
             return false;
         }

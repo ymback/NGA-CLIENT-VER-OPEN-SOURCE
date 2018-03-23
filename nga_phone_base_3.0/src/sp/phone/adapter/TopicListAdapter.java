@@ -35,7 +35,7 @@ import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.utils.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.TopicViewHolder> implements RecyclerViewEx.IAppendAbleAdapter {
+public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.TopicViewHolder> implements RecyclerViewEx.IAppendableAdapter {
 
     private List<ThreadPageInfo> mThreadPageList = new ArrayList<>();
 

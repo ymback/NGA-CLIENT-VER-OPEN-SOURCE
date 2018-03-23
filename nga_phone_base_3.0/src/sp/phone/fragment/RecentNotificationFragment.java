@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.RecentReplyAdapter;
+import sp.phone.adapter.RecentNotificationAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ParamKey;
@@ -31,9 +31,9 @@ import sp.phone.view.EmptyLayout;
 import sp.phone.view.LoadingLayout;
 import sp.phone.view.RecyclerViewEx;
 
-public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCallBack<List<RecentReplyInfo>>, View.OnClickListener {
+public class RecentNotificationFragment extends BaseRxFragment implements OnHttpCallBack<List<RecentReplyInfo>>, View.OnClickListener {
 
-    private RecentReplyAdapter mRecentReplyAdapter;
+    private RecentNotificationAdapter mNotificationAdapter;
 
     private ForumNotificationTask mNotificationTask;
 
@@ -47,12 +47,12 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mNotificationTask = new ForumNotificationTask(getLifecycleProvider());
-        mRecentReplyAdapter = new RecentReplyAdapter(getContext());
-        mRecentReplyAdapter.setClickListener(this);
+        mNotificationAdapter = new RecentNotificationAdapter(getContext());
+        mNotificationAdapter.setClickListener(this);
         Bundle bundle = getArguments();
         if (bundle != null) {
             ArrayList<RecentReplyInfo> unreadRecentReplyList = bundle.getParcelableArrayList("unread");
-            mRecentReplyAdapter.setUnreadRecentReplyList(unreadRecentReplyList);
+            mNotificationAdapter.setUnreadRecentReplyList(unreadRecentReplyList);
         }
 
         PreferenceManager.getDefaultSharedPreferences(getContext())
@@ -71,7 +71,7 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mNotificationTask.queryRecentReply(RecentReplyListFragment.this);
+                mNotificationTask.queryRecentReply(RecentNotificationFragment.this);
             }
         });
         mRefreshLayout.setVisibility(View.GONE);
@@ -81,7 +81,7 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
 
         RecyclerViewEx listView = view.findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.setAdapter(mRecentReplyAdapter);
+        listView.setAdapter(mNotificationAdapter);
         listView.setEmptyView(mEmptyLayout);
         listView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
@@ -99,7 +99,7 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mNotificationTask.clearAllNotification();
-                                mRecentReplyAdapter.setRecentReplyList(null);
+                                mNotificationAdapter.setRecentReplyList(null);
                             }
                         })
                         .setNegativeButton(android.R.string.cancel, null);
@@ -139,10 +139,10 @@ public class RecentReplyListFragment extends BaseRxFragment implements OnHttpCal
             setRefreshing(false);
         } else {
             if (data.get(0).isUnread()) {
-                mRecentReplyAdapter.setUnreadRecentReplyList(data);
+                mNotificationAdapter.setUnreadRecentReplyList(data);
                 mNotificationTask.queryRecentReply(this);
             } else {
-                mRecentReplyAdapter.setRecentReplyList(data);
+                mNotificationAdapter.setRecentReplyList(data);
                 mRefreshLayout.setRefreshing(false);
                 mLoadingLayout.setVisibility(View.GONE);
                 mRefreshLayout.setVisibility(View.VISIBLE);

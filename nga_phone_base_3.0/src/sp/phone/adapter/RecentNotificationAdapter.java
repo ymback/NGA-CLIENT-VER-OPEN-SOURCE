@@ -23,7 +23,7 @@ import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ImageUtil;
 
-public class RecentReplyAdapter extends RecyclerView.Adapter<RecentReplyAdapter.ViewHolder> {
+public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotificationAdapter.ViewHolder> {
 
     private List<RecentReplyInfo> mRecentReplyList;
 
@@ -33,7 +33,7 @@ public class RecentReplyAdapter extends RecyclerView.Adapter<RecentReplyAdapter.
 
     private Context mContext;
 
-    public RecentReplyAdapter(Context context) {
+    public RecentNotificationAdapter(Context context) {
         mContext = context;
     }
 

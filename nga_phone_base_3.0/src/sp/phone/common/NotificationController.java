@@ -18,7 +18,7 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MessageListActivity;
-import gov.anzong.androidnga.activity.RecentReplyListActivity;
+import gov.anzong.androidnga.activity.RecentNotificationActivity;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.model.entity.NotificationInfo;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
@@ -108,7 +108,7 @@ public class NotificationController {
         int id = Integer.parseInt(infoList.get(0).getPidStr());
         Context context = ApplicationContextHolder.getContext();
 
-        Intent intent = new Intent(context, RecentReplyListActivity.class);
+        Intent intent = new Intent(context, RecentNotificationActivity.class);
 
         intent.putParcelableArrayListExtra("unread", infoList);
 

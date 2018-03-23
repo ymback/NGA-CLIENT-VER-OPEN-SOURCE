@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 
-import sp.phone.fragment.RecentReplyListFragment;
+import sp.phone.fragment.RecentNotificationFragment;
 
-public class RecentReplyListActivity extends SwipeBackAppCompatActivity {
+public class RecentNotificationActivity extends SwipeBackAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class RecentReplyListActivity extends SwipeBackAppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(android.R.id.content);
         if (fragment == null) {
-            fragment = new RecentReplyListFragment();
+            fragment = new RecentNotificationFragment();
             fragment.setArguments(getIntent().getExtras());
             fm.beginTransaction().add(android.R.id.content, fragment).commit();
         }

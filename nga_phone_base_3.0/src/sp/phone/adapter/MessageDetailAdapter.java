@@ -27,7 +27,7 @@ import sp.phone.view.RecyclerViewEx;
  * Created by Justwen on 2017/10/15.
  */
 
-public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdapter.MessageViewHolder> implements RecyclerViewEx.IAppendAbleAdapter {
+public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdapter.MessageViewHolder> implements RecyclerViewEx.IAppendableAdapter {
 
     private List<MessageDetailInfo> mInfoList = new ArrayList<>();
 

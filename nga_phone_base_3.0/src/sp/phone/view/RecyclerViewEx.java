@@ -18,11 +18,11 @@ public class RecyclerViewEx extends RecyclerView {
 
     private OnNextPageLoadListener mNextPageLoadListener;
 
-    private IAppendAbleAdapter mAppendAbleAdapter;
+    private IAppendableAdapter mAppendAbleAdapter;
 
     private int mLastVisibleItemPosition;
 
-    public interface IAppendAbleAdapter {
+    public interface IAppendableAdapter {
 
         int getNextPage();
 
@@ -82,8 +82,8 @@ public class RecyclerViewEx extends RecyclerView {
 
     @Override
     public void setAdapter(Adapter adapter) {
-        if (adapter instanceof IAppendAbleAdapter) {
-            mAppendAbleAdapter = (IAppendAbleAdapter) adapter;
+        if (adapter instanceof IAppendableAdapter) {
+            mAppendAbleAdapter = (IAppendableAdapter) adapter;
         }
         Adapter oldAdapter = getAdapter();
         if (oldAdapter != null) {
