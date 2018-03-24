@@ -177,7 +177,7 @@ public class SuperTextDialogFragment extends DialogFragment implements CompoundB
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.supertext_dialog, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_super_text, null);
         getViews(view);
         mFontBoldCb.setOnCheckedChangeListener(this);
         mFontItalicCb.setOnCheckedChangeListener(this);

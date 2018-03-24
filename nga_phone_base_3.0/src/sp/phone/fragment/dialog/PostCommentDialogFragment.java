@@ -29,7 +29,7 @@ public class PostCommentDialogFragment extends DialogFragment implements
 
 
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.postcomment_dialog, null);
+        final View view = layoutInflater.inflate(R.layout.dialog_post_comment, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setView(view);
         anony = (CheckBox) view.findViewById(R.id.anony);

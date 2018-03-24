@@ -51,7 +51,7 @@ public class NearbyUserActivity extends SwipeBackAppCompatActivity implements Pr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.setContentView(R.layout.webview_layout);
+        //this.setContentView(R.layout.activity_webview_layout);
         setTheme(R.style.AppTheme);
         lv = new ListView(this);
         this.setContentView(lv);

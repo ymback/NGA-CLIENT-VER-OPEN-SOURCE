@@ -100,7 +100,7 @@ public class FunctionUtils {
 
     public static void CopyDialog(String content, final Context context, final View scrollview) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.copy_dialog, null);
+        final View view = layoutInflater.inflate(R.layout.dialog_copy, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setView(view);
         alert.setTitle(R.string.copy_hint);
@@ -322,7 +322,7 @@ public class FunctionUtils {
 
     public static void Create_Signature_Dialog_Message(MessageArticlePageInfo row, final Context context, final View scrollview) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.signature_dialog,
+        final View view = layoutInflater.inflate(R.layout.dialog_signature,
                 null);
         String name = row.getAuthor();
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -401,7 +401,7 @@ public class FunctionUtils {
 
     public static void Create_Signature_Dialog(ThreadRowInfo row, final Context context, final View scrollview) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.signature_dialog,
+        final View view = layoutInflater.inflate(R.layout.dialog_signature,
                 null);
         String name = row.getAuthor();
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -457,7 +457,7 @@ public class FunctionUtils {
     @SuppressWarnings("unused")
     public static void createVoteDialog(ThreadRowInfo row, final Context context, final View scrollview, Toast toast) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.vote_dialog, null);
+        final View view = layoutInflater.inflate(R.layout.dialog_vote, null);
         String name = row.getAuthor();
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setView(view);
@@ -600,7 +600,7 @@ public class FunctionUtils {
 
     public static void Create_Avatar_Dialog_Meaasge(MessageArticlePageInfo row, Context context, final View scrollview) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.signature_dialog,
+        final View view = layoutInflater.inflate(R.layout.dialog_signature,
                 null);
         String name = row.getAuthor();
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -651,7 +651,7 @@ public class FunctionUtils {
 
     public static void Create_Avatar_Dialog(ThreadRowInfo row, Context context, final View scrollview) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.signature_dialog,
+        final View view = layoutInflater.inflate(R.layout.dialog_signature,
                 null);
         String name = row.getAuthor();
         AlertDialog.Builder alert = new AlertDialog.Builder(context);

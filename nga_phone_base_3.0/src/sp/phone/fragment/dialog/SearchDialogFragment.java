@@ -64,7 +64,7 @@ public class SearchDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view = getActivity().getLayoutInflater().inflate(R.layout.search_dialog, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_search, null);
         getViews(view);
         mSearchRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 

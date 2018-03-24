@@ -79,7 +79,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
         scrollview = new ScrollView(this.getActivity());
 
         linear = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.article_scrollview, null, false);
+                R.layout.noname_article_scrollview, null, false);
         scrollview.addView(linear);
         scrollview.setBackgroundResource(ThemeManager.getInstance()
                 .getBackgroundColor());
@@ -279,7 +279,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
         if (getActivity() != null) {
             for (int i = 0; i < data.data.posts.length; i++) {
                 View view = LayoutInflater.from(getActivity()).inflate(
-                        R.layout.relative_nonamearitclelist, null, false);
+                        R.layout.noname_relative_nonamearitclelist, null, false);
                 linear.addView(childview(view, data, i), i);
             }
         }

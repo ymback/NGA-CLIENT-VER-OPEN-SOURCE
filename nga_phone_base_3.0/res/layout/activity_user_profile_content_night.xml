@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_profile"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#294563"
+    android:scrollbars="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/basedata_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 的基础信息 ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView> <!-- 头上的 -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/user_id_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:text="用户ID:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户ID -->
+
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_id_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/user_id_title"
+                android:text="20174851"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/user_id_title"
+                android:layout_marginRight="5dp"
+                android:text="竹井詩織里"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_name"
+                android:layout_marginRight="2dp"
+                android:layout_toLeftOf="@+id/user_name"
+                android:text="用户名:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户名 -->
+
+            <TextView
+                android:id="@+id/user_email_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/user_id_title"
+                android:layout_marginLeft="5dp"
+                android:text="邮箱:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户邮箱 -->
+
+            <TextView
+                android:id="@+id/user_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_email_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/user_email_title"
+                android:text="111111@sina.com"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/user_email_title"
+                android:layout_marginRight="5dp"
+                android:text="188********"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_tel_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_tel"
+                android:layout_marginRight="2dp"
+                android:layout_toLeftOf="@+id/user_tel"
+                android:text="Tel:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- TEL -->
+
+            <TextView
+                android:id="@+id/user_group_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/user_email_title"
+                android:layout_marginLeft="5dp"
+                android:text="用户组:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户组 -->
+
+            <TextView
+                android:id="@+id/user_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_group_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/user_group_title"
+                android:text="Titan (3)"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_posttotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/user_group_title"
+                android:layout_marginRight="5dp"
+                android:text="9449"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_posttotal_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_posttotal"
+                android:layout_marginRight="2dp"
+                android:layout_toLeftOf="@+id/user_posttotal"
+                android:text="发帖数:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户名 -->
+
+            <TextView
+                android:id="@+id/user_money_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/user_group_title"
+                android:layout_marginLeft="5dp"
+                android:text="金钱:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户组 -->
+
+            <TextView
+                android:id="@+id/user_money_gold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_money_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/user_money_title"
+                android:text="1"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/avatargold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/user_money_gold"
+                android:layout_toRightOf="@+id/user_money_gold"
+                android:clickable="false" 
+                android:scaleType="center"
+                android:contentDescription="GOLD"
+                android:focusable="false"
+                android:longClickable="false"
+                android:src="@drawable/gold" />
+
+            <TextView
+                android:id="@+id/user_money_silver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_money_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/avatargold"
+                android:text="1"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/avatarsilver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/user_money_title"
+                android:layout_toRightOf="@+id/user_money_silver"
+                android:clickable="false"
+                android:contentDescription="SILVER"
+                android:focusable="false"
+                android:longClickable="false"
+                android:src="@drawable/silver" />
+
+            <TextView
+                android:id="@+id/user_money_copper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_money_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/avatarsilver"
+                android:text="1"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/avatarcopper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/user_money_title"
+                android:layout_toRightOf="@+id/user_money_copper"
+                android:clickable="false"
+                android:contentDescription="SILVER"
+                android:focusable="false"
+                android:longClickable="false"
+                android:src="@drawable/copper" />
+
+            <TextView
+                android:id="@+id/user_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/user_money_title"
+                android:layout_marginRight="5dp"
+                android:text="已激活"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_state_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_state"
+                android:layout_marginRight="2dp"
+                android:layout_toLeftOf="@+id/user_state"
+                android:text="激活:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 激活 -->
+
+
+
+
+            <TextView
+                android:id="@+id/user_title_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/user_money_title"
+                android:layout_marginLeft="5dp"
+                android:text="头衔:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户组 -->
+
+
+
+            <TextView
+                android:id="@+id/user_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_title_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/user_title_title"
+                android:text="无"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+            
+            
+
+            <TextView
+                android:id="@+id/user_shutup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/user_title_title"
+                android:layout_marginRight="5dp"
+                android:text="已激活"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_shutup_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_shutup"
+                android:layout_marginRight="2dp"
+                android:layout_toLeftOf="@+id/user_shutup"
+                android:text="禁言:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 激活 -->
+            
+
+            <TextView
+                android:id="@+id/user_registertime_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/user_title_title"
+                android:layout_marginLeft="5dp"
+                android:text="注册日期:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户组 -->
+
+
+
+            <TextView
+                android:id="@+id/user_registertime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_registertime_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/user_registertime_title"
+                android:text="2012-11-18 23:36:30"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/user_lastlogintime_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/user_registertime_title"
+                android:layout_marginLeft="5dp"
+                android:text="最近访问:"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView> <!-- 用户组 -->
+
+            <TextView
+                android:id="@+id/user_lastlogintime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_lastlogintime_title"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@+id/user_lastlogintime_title"
+                android:text="2014-04-26 18:22:22"
+                android:textColor="#424952"
+                android:textIsSelectable="false" >
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/user_lastlogintime"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+        
+        <TextView
+            android:id="@+id/iplog_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 的IP ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:id="@+id/iplogrelativelayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+                
+            <TextView
+                android:id="@+id/iplog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="2dp" 
+                android:textIsSelectable="false"
+                android:textColor="#424952"
+            	android:text="2014-07-07 122.224.125.42" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/iplog"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+        
+        <TextView
+            android:id="@+id/avatar_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 的头像 ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/change_avatar_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:text="[更改头像]"
+                	android:layout_marginTop="3dp"
+            		android:clickable="true"
+                    android:visibility="gone"
+                	android:layout_marginLeft="5dp"
+            		android:onClick="installedSoftTab"
+                    android:textColor="#551200"
+                    android:textSize="12dp" >
+                </TextView>
+                
+            <ImageView
+                android:id="@+id/avatarImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp" 
+           		android:padding="3dp"     
+                android:background="@drawable/imageavatarborder"
+                android:layout_below="@id/change_avatar_button"
+                android:clickable="false"
+                android:contentDescription="@string/avatar"
+                android:focusable="false"
+                android:longClickable="false"
+                android:src="@drawable/default_avatar" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/avatarImage"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/sign_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 的签名 ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/change_sign_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:text="[更改签名]"
+                    android:visibility="gone"
+                	android:layout_marginTop="3dp"
+            		android:clickable="true"
+                	android:layout_marginLeft="5dp"
+            		android:onClick="installedSoftTab"
+                    android:textColor="#551200"
+                    android:textSize="12dp" >
+                </TextView>
+            <WebView
+                android:id="@+id/signwebview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/change_sign_button"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"  />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/signwebview"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/admin_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 的管理权限 ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/admin2_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:text="竹井詩織里 拥有管理员权限 所属版面的主题管理权限 在以下版面担任版主 "
+                android:textColor="#424952"
+                android:textIsSelectable="false"
+                android:textSize="10dp" >
+            </TextView>
+
+            <WebView
+                android:id="@+id/adminwebview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/admin2_title"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp" 
+                android:layout_marginBottom="3dp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/adminwebview"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/fame_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 的声望 ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/fame2_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:text="表示 论坛/某版面/某用户 对 竹井詩織里 的关系 "
+                android:textColor="#424952"
+                android:textIsSelectable="false"
+                android:textSize="10dp" >
+            </TextView>
+
+            <WebView
+                android:id="@+id/famewebview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fame2_title"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"  />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/famewebview"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/search_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 竹井詩織里 发布的贴子 ::"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" >
+
+                <Button
+                    android:id="@+id/topic_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:text="[搜索 竹井詩織里 发布的主题]"
+                    android:textColor="#424952"
+                    android:textSize="12dp" >
+                </Button>
+
+                <Button
+                    android:id="@+id/reply_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:layout_toRightOf="@id/topic_button"
+                    android:layout_weight="1"
+                    android:textColor="#424952"
+                    android:text="[搜索 竹井詩織里 发布的回复]"
+                    android:textSize="12dp" >
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+        
+        
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:text=":: 短消息 ::"
+            android:id="@+id/message_title"
+            android:textColor="#712D08"
+            android:textIsSelectable="false"
+            android:textSize="16dp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+        		android:id="@+id/avahahahb"
+            android:background="@drawable/shape_night"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" >
+
+                <Button
+                    android:id="@+id/message_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:text="[向 竹井詩織里 发送论坛短消息]"
+                    android:textColor="#424952"
+                    android:textSize="12dp" >
+                </Button>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/place_holder"
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/avahahahb"
+        android:orientation="horizontal" />
+    </LinearLayout>
+
+
+</ScrollView>

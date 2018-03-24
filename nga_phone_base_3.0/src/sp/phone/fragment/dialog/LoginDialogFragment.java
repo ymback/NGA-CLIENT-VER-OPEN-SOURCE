@@ -54,7 +54,7 @@ public class LoginDialogFragment extends DialogFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.login, null);
+        view = inflater.inflate(R.layout.dialog_login, null);
 
         return view;
     }
@@ -72,7 +72,7 @@ public class LoginDialogFragment extends DialogFragment implements
         authcodeImg = (ImageView) view.findViewById(R.id.authcode_img);
         userList = (ListView) view.findViewById(R.id.user_list);
       //  userList.setAdapter(new UserListAdapter(getActivity(), userText));
-        String postUrl = "http://account.178.com/q_account.php?_act=login&print=login";
+        String postUrl = "http://account.178.com/q_account.php?_act=dialog_login&print=dialog_login";
 
         String userName = UserManagerImpl.getInstance().getUserName();
         if (userName != "") {

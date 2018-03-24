@@ -19,7 +19,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
 
     private LoginContract.Presenter mPresenter;
 
-    private static final String POST_URL = "http://account.178.com/q_account.php?_act=login&print=login";
+    private static final String POST_URL = "http://account.178.com/q_account.php?_act=dialog_login&print=dialog_login";
 
     public interface OnLoginListener {
 

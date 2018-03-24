@@ -41,7 +41,7 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.default_dialog, null);
+        final View view = layoutInflater.inflate(R.layout.dialog_default, null);
         final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setView(view);
         final String title = this.getArguments().getString("title");

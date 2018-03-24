@@ -77,7 +77,7 @@ public class UrlInputDialogFragment extends BaseDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final View view = LayoutInflater.from(getContext()).inflate(R.layout.useurlto_dialog, null);
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_url_to, null);
         mUrlAddEditText = view.findViewById(R.id.urladd);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setPositiveButton(android.R.string.ok, null)

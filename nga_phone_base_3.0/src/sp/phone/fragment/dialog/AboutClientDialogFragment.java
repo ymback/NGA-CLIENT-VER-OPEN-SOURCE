@@ -42,7 +42,7 @@ public class AboutClientDialogFragment extends BaseDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.client_dialog, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_client, null);
         TextView contentView = view.findViewById(R.id.client_device_dialog);
         String content = String.format(getString(R.string.about_client), BuildConfig.VERSION_NAME);
         contentView.setText(Html.fromHtml(content));

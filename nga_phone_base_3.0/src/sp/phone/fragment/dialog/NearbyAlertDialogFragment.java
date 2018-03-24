@@ -43,7 +43,7 @@ public class NearbyAlertDialogFragment extends DialogFragment {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         final String title = this.getArguments().getString("title");
-        final View view = layoutInflater.inflate(R.layout.default_dialog, null);
+        final View view = layoutInflater.inflate(R.layout.dialog_default, null);
         alert.setView(view);
         if (title != null)
             alert.setTitle(title);

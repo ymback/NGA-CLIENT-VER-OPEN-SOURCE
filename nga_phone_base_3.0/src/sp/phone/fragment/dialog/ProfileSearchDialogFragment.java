@@ -54,7 +54,7 @@ public class ProfileSearchDialogFragment extends BaseDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view = getActivity().getLayoutInflater().inflate(R.layout.profilesearch_dialog, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_profile_search, null);
         getViews(view);
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
