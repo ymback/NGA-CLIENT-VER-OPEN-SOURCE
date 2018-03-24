@@ -68,7 +68,7 @@ public class MessageDetailAdapter extends RecyclerView.Adapter<MessageDetailAdap
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessageViewHolder(LayoutInflater.from(mContext).inflate(R.layout.relative_messagedetaillist, parent, false));
+        return new MessageViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_message_content, parent, false));
     }
 
     private MessageArticlePageInfo getEntry(int position) {

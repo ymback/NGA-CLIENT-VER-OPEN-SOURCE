@@ -176,7 +176,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
                 return cachedView;
             } else {
                 view = LayoutInflater.from(activity).inflate(
-                        R.layout.relative_nonamearitclelist, parent, false);
+                        R.layout.noname_relative_nonamearitclelist, parent, false);
                 holder = initHolder(view);
                 holder.position = position;
                 view.setTag(holder);
@@ -184,7 +184,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
             }
         } else {
             view = LayoutInflater.from(activity).inflate(
-                    R.layout.relative_nonamearitclelist, parent, false);
+                    R.layout.noname_relative_nonamearitclelist, parent, false);
             holder = initHolder(view);
             holder.position = position;
             view.setTag(holder);

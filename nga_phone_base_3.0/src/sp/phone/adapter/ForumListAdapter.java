@@ -39,7 +39,7 @@ public class ForumListAdapter extends RecyclerView.Adapter<ForumListAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.board_icon, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.list_board_icon, parent, false);
         view.setOnClickListener(mListener);
         return new ViewHolder(view);
     }

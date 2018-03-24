@@ -60,7 +60,7 @@ public class SignPageAdapter extends BaseAdapter implements
         View convertView = view;// m.get(position);
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.relative_signmissionstate_list, null);
+            convertView = inflater.inflate(R.layout.list_signmission_state, null);
             TextView missionid = (TextView) convertView.findViewById(R.id.missionid);
             TextView missionname = (TextView) convertView
                     .findViewById(R.id.missionname);

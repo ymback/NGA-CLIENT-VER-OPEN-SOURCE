@@ -19,7 +19,7 @@ public class AddBoardDialogFragment extends BaseDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final View view = LayoutInflater.from(getContext()).inflate(R.layout.addfid_dialog, null);
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_board, null);
         final EditText addFidNameView = view.findViewById(R.id.addfid_name);
         final EditText addFidIdView = view.findViewById(R.id.addfid_id);
 

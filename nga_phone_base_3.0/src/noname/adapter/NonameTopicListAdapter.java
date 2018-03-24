@@ -51,7 +51,7 @@ public class NonameTopicListAdapter extends BaseAdapter implements
         View convertView = view;// m.get(position);
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.relative_topic_list, null);
+            convertView = inflater.inflate(R.layout.list_topic, null);
             TextView num = (TextView) convertView.findViewById(R.id.num);
             TextView title = (TextView) convertView.findViewById(R.id.title);
             TextView author = (TextView) convertView.findViewById(R.id.author);

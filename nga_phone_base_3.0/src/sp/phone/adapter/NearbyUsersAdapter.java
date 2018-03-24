@@ -57,7 +57,7 @@ public class NearbyUsersAdapter extends BaseAdapter {
         View ret = null;
         if (convertView == null) {
 
-            ret = LayoutInflater.from(parent.getContext()).inflate(R.layout.nearby_user, parent, false);
+            ret = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_nearby_user, parent, false);
 
         } else {
             ret = convertView;

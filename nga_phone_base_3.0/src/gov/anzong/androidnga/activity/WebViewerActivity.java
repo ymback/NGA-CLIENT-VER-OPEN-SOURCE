@@ -13,12 +13,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import gov.anzong.androidnga.BuildConfig;
-import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import sp.phone.theme.ThemeManager;
 import sp.phone.task.DownloadImageTask;
 import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.ReflectionUtil;
 
 public class WebViewerActivity extends SwipeBackAppCompatActivity {
     private WebView wv;
@@ -28,7 +25,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     protected void onCreate(Bundle arg0) {
         requestWindowFeature(Window.FEATURE_PROGRESS);
         super.onCreate(arg0);
-        View view = LayoutInflater.from(this).inflate(R.layout.webview_layout, null, false);
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_webview_layout, null, false);
         this.setContentView(view);
         wv = (WebView) findViewById(R.id.webview);
         WebViewClient client = new ArticleListWebClient(this);

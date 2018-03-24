@@ -56,7 +56,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
     @Override
     public BoardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.board_icon, parent, false);
+        View view = getLayoutInflater().inflate(R.layout.list_board_icon, parent, false);
         return new BoardViewHolder(view);
     }
 

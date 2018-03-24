@@ -45,7 +45,7 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
 
     @Override
     public TopicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TopicViewHolder(LayoutInflater.from(mContext).inflate(R.layout.relative_topic_list, parent, false));
+        return new TopicViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_topic, parent, false));
     }
 
     @Override

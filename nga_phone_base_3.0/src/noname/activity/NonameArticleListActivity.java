@@ -44,8 +44,8 @@ public class NonameArticleListActivity extends SwipeBackAppCompatActivity
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
     protected int getViewId() {
-        return R.layout.pagerview_article_list;
-        // return R.layout.article_viewpager;
+        return R.layout.noname_pagerview_article_list;
+        // return R.layout.noname_article_viewpager;
     }
 
     @Override

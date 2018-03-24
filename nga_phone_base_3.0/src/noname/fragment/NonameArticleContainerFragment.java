@@ -56,7 +56,7 @@ public class NonameArticleContainerFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.article_viewpager, container, false);
+        View v = inflater.inflate(R.layout.noname_article_viewpager, container, false);
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
 
         int pageFromUrl = 0;
