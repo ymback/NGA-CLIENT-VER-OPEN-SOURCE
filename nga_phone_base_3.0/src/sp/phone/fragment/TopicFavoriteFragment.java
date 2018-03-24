@@ -29,7 +29,7 @@ public class TopicFavoriteFragment extends TopicSearchFragment implements View.O
 
     @Override
     public void removeTopic(int position) {
-        mAdapter.remove(position);
+        mAdapter.removeItem(position);
     }
 
     @Override

@@ -142,6 +142,14 @@ public class TopicConvertFactory {
             TopicListBean.DataBean.TBean.PBean pBean = tBean.get__P();
             if (pBean != null) {
                 pageInfo.setPid(pBean.getPid());
+                ThreadPageInfo.ReplyInfo replyInfo = new ThreadPageInfo.ReplyInfo();
+                replyInfo.setAuthorId(pBean.getAuthorid());
+                replyInfo.setContent(pBean.getContent());
+                replyInfo.setPostDate(String.valueOf(pBean.getPostdate()));
+                replyInfo.setPidStr(String.valueOf(pBean.getPid()));
+                replyInfo.setTidStr(String.valueOf(pageInfo.getTid()));
+                replyInfo.setSubject(pageInfo.getSubject());
+                pageInfo.setReplyInfo(replyInfo);
             }
 
             pageInfo.setPostDate(tBean.getPostdate());

@@ -144,7 +144,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
                 final long longposttime = row.ptime;
                 String postTime = "";
                 if (longposttime != 0) {
-                    postTime = StringUtils.TimeStamp2Date(String
+                    postTime = StringUtils.timeStamp2Date1(String
                             .valueOf(longposttime));
                 }
 
@@ -313,7 +313,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
         final long longposttime = row.ptime;
         String postTime = "";
         if (longposttime != 0) {
-            postTime = StringUtils.TimeStamp2Date(String.valueOf(longposttime));
+            postTime = StringUtils.timeStamp2Date1(String.valueOf(longposttime));
         }
         postTimeTV.setText(postTime);
         postTimeTV.setTextColor(fgColor);

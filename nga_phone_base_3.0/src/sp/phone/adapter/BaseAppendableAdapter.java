@@ -1,5 +1,6 @@
 package sp.phone.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -16,6 +17,10 @@ public abstract class BaseAppendableAdapter<E, T extends RecyclerView.ViewHolder
     private boolean mHaveNextPage = true;
 
     private int mTotalPage;
+
+    public BaseAppendableAdapter(Context context) {
+        super(context);
+    }
 
     @Override
     public int getNextPage() {
@@ -34,10 +39,11 @@ public abstract class BaseAppendableAdapter<E, T extends RecyclerView.ViewHolder
         super.setData(dataList);
     }
 
-    public void appandData(List<E> dataList) {
+    public void appendData(List<E> dataList) {
         if (mDataList == null) {
             mDataList = new ArrayList<>();
         }
+
         for (E e : dataList) {
             if (!mDataList.contains(e)) {
                 mDataList.add(e);

@@ -82,13 +82,13 @@ public class MessageConvertFactory {
                 entry.setLast_from_username(rowObj.getString("last_from_username"));
                 int time = rowObj.getInteger("time");
                 if (time > 0) {
-                    entry.setTime(StringUtils.TimeStamp2Date(String.valueOf(time)));
+                    entry.setTime(StringUtils.timeStamp2Date1(String.valueOf(time)));
                 } else {
                     entry.setTime("");
                 }
                 time = rowObj.getIntValue("last_modify");
                 if (time > 0) {
-                    entry.setLastTime(StringUtils.TimeStamp2Date(String.valueOf(time)));
+                    entry.setLastTime(StringUtils.timeStamp2Date1(String.valueOf(time)));
                 } else {
                     entry.setLastTime("");
                 }

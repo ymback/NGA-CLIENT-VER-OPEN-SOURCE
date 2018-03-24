@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -29,64 +28,19 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import io.reactivex.functions.Consumer;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.theme.ThemeManager;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.mvp.model.entity.TopicListInfo;
+import sp.phone.theme.ThemeManager;
 import sp.phone.utils.StringUtils;
-import sp.phone.view.RecyclerViewEx;
 
-public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.TopicViewHolder> implements RecyclerViewEx.IAppendableAdapter {
+public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, TopicListAdapter.TopicViewHolder> {
 
-    private List<ThreadPageInfo> mThreadPageList = new ArrayList<>();
-
-    private Context mContext;
-
-    private boolean mHaveNextPage = true;
-
-    private int mTotalPage;
-
-    private View.OnClickListener mClickListener;
-
-    private View.OnLongClickListener mLongClickListener;
 
     private final static int _FONT_RED = 1, _FONT_BLUE = 2, _FONT_GREEN = 4,
             _FONT_ORANGE = 8, _FONT_SILVER = 16, _FONT_B = 32, _FONT_I = 64,
             _FONT_U = 128;
 
     public TopicListAdapter(Context context) {
-        mContext = context;
-    }
-
-
-    public void setData(TopicListInfo result) {
-
-        for (ThreadPageInfo info : result.getThreadPageList()) {
-            if (!mThreadPageList.contains(info)) {
-                mThreadPageList.add(info);
-            }
-        }
-        mTotalPage++;
-        notifyDataSetChanged();
-    }
-
-    public void clear() {
-        mTotalPage = 0;
-        mHaveNextPage = true;
-        mThreadPageList.clear();
-    }
-
-    @Override
-    public int getNextPage() {
-        return mTotalPage + 1;
-    }
-
-    @Override
-    public boolean hasNextPage() {
-        return mHaveNextPage;
-    }
-
-    public void setNextPageEnabled(boolean enabled) {
-        mHaveNextPage = enabled;
+        super(context);
     }
 
     @Override
@@ -95,9 +49,19 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
     }
 
     @Override
+    public void setData(List<ThreadPageInfo> dataList) {
+        if (dataList == null) {
+            super.setData(dataList);
+        } else {
+            super.appendData(dataList);
+        }
+    }
+
+
+    @Override
     public void onBindViewHolder(final TopicViewHolder holder, int position) {
 
-        ThreadPageInfo info = mThreadPageList.get(position);
+        ThreadPageInfo info = getItem(position);
         info.setPosition(position);
         //避免双击
         RxView.clicks(holder.itemView)
@@ -105,10 +69,10 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(Object o) throws Exception {
-                        mClickListener.onClick(holder.itemView);
+                        mOnClickListener.onClick(holder.itemView);
                     }
                 });
-        holder.itemView.setOnLongClickListener(mLongClickListener);
+        holder.itemView.setOnLongClickListener(mOnLongClickListener);
         holder.itemView.setTag(info);
 
         ThemeManager cfg = ThemeManager.getInstance();
@@ -312,29 +276,6 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.Topi
         for (int i = 0; i < Byte.SIZE * bytes.length; i++)
             sb.append((bytes[i / Byte.SIZE] << i % Byte.SIZE & 0x80) == 0 ? '0' : '1');
         return sb.toString();
-    }
-
-    @Override
-    public int getItemCount() {
-        return mThreadPageList.size();
-    }
-
-    public void remove(int position) {
-        mThreadPageList.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void removeAll() {
-        mThreadPageList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void setOnClickListener(View.OnClickListener listener) {
-        mClickListener = listener;
-    }
-
-    public void setOnLongClickListener(View.OnLongClickListener listener) {
-        mLongClickListener = listener;
     }
 
     public class TopicViewHolder extends RecyclerView.ViewHolder {

@@ -130,7 +130,7 @@ public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
             if (o1.getString("last_time").equals("0")) {
                 ret.set__Last_time("从未");
             } else {
-                ret.set__Last_time(StringUtils.TimeStamp2Date(o1.getString("last_time")));
+                ret.set__Last_time(StringUtils.timeStamp2Date1(o1.getString("last_time")));
             }
         }
         JSONObject o2 = null;

@@ -1,6 +1,8 @@
 package sp.phone.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.List;
@@ -17,6 +19,15 @@ public abstract class BaseAdapter<E, T extends RecyclerView.ViewHolder> extends 
 
     protected View.OnLongClickListener mOnLongClickListener;
 
+    protected Context mContext;
+
+    protected LayoutInflater mLayoutInflater;
+
+    public BaseAdapter(Context context) {
+        mContext = context;
+        mLayoutInflater = LayoutInflater.from(mContext);
+    }
+
     public E getItem(int position) {
         return mDataList.get(position);
     }
@@ -28,7 +39,11 @@ public abstract class BaseAdapter<E, T extends RecyclerView.ViewHolder> extends 
 
     public void removeItem(int position) {
         mDataList.remove(position);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
+    }
+
+    public void clear() {
+        setData(null);
     }
 
     @Override

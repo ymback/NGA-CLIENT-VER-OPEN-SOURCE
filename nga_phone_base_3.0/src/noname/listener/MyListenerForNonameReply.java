@@ -60,7 +60,7 @@ public class MyListenerForNonameReply implements OnClickListener {
                 final long longposttime = row.ptime;
                 String postTime = "";
                 if (longposttime != 0) {
-                    postTime = StringUtils.TimeStamp2Date(String.valueOf(longposttime));
+                    postTime = StringUtils.timeStamp2Date1(String.valueOf(longposttime));
                 }
                 final String tidStr = String.valueOf(mData.data.tid);
                 content = FunctionUtils.checkContent(content);

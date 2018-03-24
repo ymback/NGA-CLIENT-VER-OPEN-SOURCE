@@ -230,7 +230,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         final long longposttime = row.ptime;
         String postTime = "";
         if (longposttime != 0) {
-            postTime = StringUtils.TimeStamp2Date(String.valueOf(longposttime));
+            postTime = StringUtils.timeStamp2Date1(String.valueOf(longposttime));
         }
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(postTime);

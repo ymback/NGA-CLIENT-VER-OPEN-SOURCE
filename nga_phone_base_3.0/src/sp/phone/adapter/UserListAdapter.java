@@ -61,7 +61,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
 
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_user_list_item, parent, false);
+        View convertView = LayoutInflater.from(mContext).inflate(R.layout.list_user_manager_item, parent, false);
         UserViewHolder holder = new UserViewHolder(convertView);
         holder.itemView.setOnClickListener(mOnClickListener);
         holder.checkView.setOnClickListener(mOnClickListener);

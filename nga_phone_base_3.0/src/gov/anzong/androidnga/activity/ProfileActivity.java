@@ -402,6 +402,7 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
     private void searchPost() {
         Intent intent = new Intent(this, PhoneConfiguration.getInstance().topicActivityClass);
         intent.putExtra(ParamKey.KEY_AUTHOR_ID, Integer.parseInt(mProfileData.get_uid()));
+        intent.putExtra(ParamKey.KEY_AUTHOR, mProfileData.get_username());
         startActivity(intent);
     }
 
@@ -409,6 +410,7 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         Intent intent = new Intent(this, PhoneConfiguration.getInstance().topicActivityClass);
         intent.putExtra(ParamKey.KEY_AUTHOR_ID, Integer.parseInt(mProfileData.get_uid()));
         intent.putExtra(ParamKey.KEY_SEARCH_POST, 1);
+        intent.putExtra(ParamKey.KEY_AUTHOR, mProfileData.get_username());
         startActivity(intent);
     }
 

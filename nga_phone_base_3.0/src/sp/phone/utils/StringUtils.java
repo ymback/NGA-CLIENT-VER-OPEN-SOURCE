@@ -10,9 +10,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -941,29 +943,18 @@ public class StringUtils {
         return result;
     }
 
-    public static String TimeStamp2Date(String timestampString) {
-        Long timestamp = Long.parseLong(timestampString) * 1000;
-        String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                .format(new java.util.Date(timestamp));
-        return date;
+    public static String timeStamp2Date1(String timeStamp) {
+        return timeStamp2Date(timeStamp, "yyyy-MM-dd HH:mm:ss");
     }
 
-    /* 乐视解析用 */
-    public static String letu_(long s) {
-        long key = 773625421;
-        long value = let_(s, key % 13);
-        value = value ^ key;
-        value = let_(value, key % 17);
-        return String.valueOf(value);
+    public static String timeStamp2Date2(String timeStamp) {
+        return timeStamp2Date(timeStamp, "MM-dd HH:mm");
     }
 
-    public static long let_(long value, long key) {
-        long i = 0l;
-        while (i < key) {
-            System.out.println((value & 1) << 31);
-            value = 2147483647 & value >> 1 | -((value & 1) << 31);
-            i++;
-        }
-        return value;
+    public static String timeStamp2Date(String timeStamp, String format) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(Long.parseLong(timeStamp) * 1000);
+        return new SimpleDateFormat(format, Locale.getDefault()).format(calendar.getTime());
     }
+
 }

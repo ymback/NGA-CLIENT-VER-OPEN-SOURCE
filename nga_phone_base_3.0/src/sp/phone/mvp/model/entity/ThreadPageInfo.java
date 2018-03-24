@@ -32,6 +32,8 @@ public class ThreadPageInfo {
 
     private int mPostDate;
 
+    private ReplyInfo mReplyInfo;
+
     public int getPostDate() {
         return mPostDate;
     }
@@ -150,6 +152,77 @@ public class ThreadPageInfo {
 
     public void setAnonymity(boolean anonymity) {
         mIsAnonymity = anonymity;
+    }
+
+    public ReplyInfo getReplyInfo() {
+        return mReplyInfo;
+    }
+
+    public void setReplyInfo(ReplyInfo replyInfo) {
+        mReplyInfo = replyInfo;
+    }
+
+    public static class ReplyInfo {
+
+        private String mPidStr;
+
+        private String mContent;
+
+        private String mSubject;
+
+        private String mPostDate;
+
+        private String mAuthorId;
+
+        private String mTidStr;
+
+        public String getPidStr() {
+            return mPidStr;
+        }
+
+        public void setPidStr(String pidStr) {
+            mPidStr = pidStr;
+        }
+
+        public String getContent() {
+            return mContent;
+        }
+
+        public void setContent(String content) {
+            mContent = content;
+        }
+
+        public String getSubject() {
+            return mSubject;
+        }
+
+        public void setSubject(String subject) {
+            mSubject = subject;
+        }
+
+        public String getPostDate() {
+            return mPostDate;
+        }
+
+        public void setPostDate(String postDate) {
+            mPostDate = postDate;
+        }
+
+        public String getAuthorId() {
+            return mAuthorId;
+        }
+
+        public void setAuthorId(String authorId) {
+            mAuthorId = authorId;
+        }
+
+        public String getTidStr() {
+            return mTidStr;
+        }
+
+        public void setTidStr(String tidStr) {
+            mTidStr = tidStr;
+        }
     }
 
     @Override

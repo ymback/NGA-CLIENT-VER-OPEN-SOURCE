@@ -73,7 +73,7 @@ public class TopicHistoryFragment extends BaseFragment implements View.OnClickLi
                 int position = viewHolder.getAdapterPosition();
                 if (position >= 0) {
                     mTopicHistoryManager.removeTopicHistory(position);
-                    mTopicListAdapter.remove(position);
+                    mTopicListAdapter.removeItem(position);
                 }
 
             }
@@ -86,7 +86,7 @@ public class TopicHistoryFragment extends BaseFragment implements View.OnClickLi
     private void setData(List<ThreadPageInfo> topicLIst) {
         TopicListInfo listInfo = new TopicListInfo();
         listInfo.setThreadPageList(topicLIst);
-        mTopicListAdapter.setData(listInfo);
+        mTopicListAdapter.setData(listInfo.getThreadPageList());
     }
 
     @Override
@@ -98,7 +98,7 @@ public class TopicHistoryFragment extends BaseFragment implements View.OnClickLi
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_delete_all) {
             mTopicHistoryManager.removeAllTopicHistory();
-            mTopicListAdapter.removeAll();
+            mTopicListAdapter.clear();
             return true;
         } else {
             return super.onOptionsItemSelected(item);

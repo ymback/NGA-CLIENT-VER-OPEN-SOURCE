@@ -273,7 +273,7 @@ public class NonameArticleListFragment extends Fragment implements
                 final long longposttime = row.ptime;
                 String postTime = "";
                 if (longposttime != 0) {
-                    postTime = StringUtils.TimeStamp2Date(String
+                    postTime = StringUtils.timeStamp2Date1(String
                             .valueOf(longposttime));
                 }
 

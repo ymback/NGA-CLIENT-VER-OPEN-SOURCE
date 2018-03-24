@@ -175,18 +175,18 @@ public class JsonProfileLoadTask extends AsyncTask<String, Integer, ProfileData>
             if (o0.getString("muteTime").equals("0")) {
                 ret.set_muteTime("-1");
             } else {
-                ret.set_muteTime("禁言至: " + StringUtils.TimeStamp2Date(o0.getString("muteTime")));
+                ret.set_muteTime("禁言至: " + StringUtils.timeStamp2Date1(o0.getString("muteTime")));
             }
         } else {
             ret.set_muteTime("-1");
         }
         if (!StringUtils.isEmpty(o0.getString("regdate"))) {
-            ret.set_regdate(StringUtils.TimeStamp2Date(o0.getString("regdate")));
+            ret.set_regdate(StringUtils.timeStamp2Date1(o0.getString("regdate")));
         } else {
             ret.set_regdate("未知");
         }
         if (!StringUtils.isEmpty(o0.getString("lastpost"))) {
-            ret.set_lastpost(StringUtils.TimeStamp2Date(o0.getString("lastpost")));
+            ret.set_lastpost(StringUtils.timeStamp2Date1(o0.getString("lastpost")));
         } else {
             ret.set_lastpost("未知");
         }

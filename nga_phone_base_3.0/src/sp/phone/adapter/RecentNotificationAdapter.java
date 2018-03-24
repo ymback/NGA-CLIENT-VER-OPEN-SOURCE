@@ -9,12 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mahang.utils.LogUtils;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.ApiConstants;
@@ -22,6 +17,7 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.theme.ThemeManager;
 import sp.phone.utils.ImageUtil;
+import sp.phone.utils.StringUtils;
 
 public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotificationAdapter.ViewHolder> {
 
@@ -52,7 +48,7 @@ public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotifi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.layout_recent_reply_item, parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_recent_notification_item, parent, false));
     }
 
     @Override
@@ -63,7 +59,7 @@ public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotifi
         holder.userNameTv.setText(info.getUserName());
         holder.topicTv.setText(info.getTitle());
         holder.typeTv.setText(getTypeStr(info.getType()));
-        holder.timeTv.setText(buildDateStr(info.getTimeStamp()));
+        holder.timeTv.setText(StringUtils.timeStamp2Date1(info.getTimeStamp()));
 
         holder.userNameTv.setTextColor(ThemeManager.getInstance().getAccentColor(mContext));
 
@@ -102,13 +98,6 @@ public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotifi
                 return "回复了你的主题";
 
         }
-    }
-
-    private String buildDateStr(String timeStamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(timeStamp) * 1000);
-        LogUtils.d(System.currentTimeMillis() + "  " + timeStamp);
-        return new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(calendar.getTime());
     }
 
     private boolean isUnread(RecentReplyInfo info) {

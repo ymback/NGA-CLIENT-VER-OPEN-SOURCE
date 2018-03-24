@@ -130,7 +130,7 @@ public class MessageUtil {
             row.setSubject(rowObj.getString("subject"));
             int time = rowObj.getIntValue("time");
             if (time > 0) {
-                row.setTime(StringUtils.TimeStamp2Date(String.valueOf(time)));
+                row.setTime(StringUtils.timeStamp2Date1(String.valueOf(time)));
             } else {
                 row.setTime("");
             }

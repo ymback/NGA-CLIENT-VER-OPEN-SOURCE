@@ -3,6 +3,7 @@ package sp.phone.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import sp.phone.adapter.BaseAppendableAdapter;
+import sp.phone.adapter.ReplyListAdapter;
 import sp.phone.adapter.TopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.TopicHistoryManager;
@@ -34,7 +37,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
     protected TopicListParam mRequestParam;
 
-    protected TopicListAdapter mAdapter;
+    protected BaseAppendableAdapter mAdapter;
 
     protected TopicListInfo mTopicListInfo;
 
@@ -98,7 +101,15 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
         ButterKnife.bind(this, view);
         ((BaseActivity) getActivity()).setupActionBar();
 
-        mAdapter = new TopicListAdapter(getContext());
+        if (mRequestParam.searchPost > 0) {
+            mAdapter = new ReplyListAdapter(getContext());
+            mListView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        } else {
+
+            mAdapter = new TopicListAdapter(getContext());
+        }
+
         mAdapter.setOnClickListener(this);
 
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -165,12 +176,12 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     @Override
     public void setData(TopicListInfo result) {
         mTopicListInfo = result;
-        mAdapter.setData(result);
+        mAdapter.setData(result.getThreadPageList());
     }
 
     @Override
     public void clearData() {
-        mAdapter.clear();
+        mAdapter.setData(null);
     }
 
     @Override
