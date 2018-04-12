@@ -1,14 +1,12 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +27,6 @@ import sp.phone.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.HtmlUtils;
 import sp.phone.util.PermissionUtils;
-import sp.phone.view.webview.WebViewClientEx;
 import sp.phone.view.webview.WebViewEx;
 
 /**
@@ -44,8 +41,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     private static final String DEVICE_TYPE_WP = "wp";
 
     private Context mContext;
-
-    private WebViewClientEx mWebViewClient = new WebViewClientEx();
 
     private ThreadData mData;
 
@@ -182,17 +177,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
         String html = row.getFormated_html_data();
-
-        webView.setWebViewClient(mWebViewClient);
-        webView.setBackgroundColor(Color.TRANSPARENT);
-        webView.setFocusableInTouchMode(false);
-        webView.setFocusable(false);
-        webView.setLongClickable(false);
-
-        WebSettings settings = webView.getSettings();
-        settings.setDefaultFontSize(PhoneConfiguration.getInstance().getWebSize());
-        settings.setJavaScriptEnabled(false);
-
+        webView.setLocalMode();
+        webView.setTextSize(PhoneConfiguration.getInstance().getWebSize());
         webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
     }
 

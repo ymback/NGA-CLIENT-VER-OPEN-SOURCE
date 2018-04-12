@@ -12,9 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +34,6 @@ import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
-import sp.phone.view.webview.WebViewClientEx;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.StringUtils;
@@ -430,7 +426,7 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         }
     }
 
-    private void handleSignWebView(WebView contentTV, ProfileData ret) {
+    private void handleSignWebView(WebViewEx contentTV, ProfileData ret) {
         ThemeManager theme = ThemeManager.getInstance();
         int bgColor, fgColor = getResources().getColor(theme.getForegroundColor());
         if (mThemeManager.isNightMode()) {
@@ -444,23 +440,14 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new WebViewClientEx(this);
-        contentTV.setBackgroundColor(0);
-        contentTV.setFocusableInTouchMode(false);
-        contentTV.setFocusable(false);
-        contentTV.setLongClickable(false);
-        WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
-        setting.setJavaScriptEnabled(false);
-        contentTV.setWebViewClient(client);
+        contentTV.setLocalMode();
         contentTV.loadDataWithBaseURL(
                 null,
                 signatureToHtmlText(ret, FunctionUtils.isShowImage(), FunctionUtils.showImageQuality(), fgColorStr, bgcolorStr),
                 "text/html", "utf-8", null);
     }
 
-    private void handleAdminWebView(WebView contentTV, ProfileData ret) {
+    private void handleAdminWebView(WebViewEx contentTV, ProfileData ret) {
         int bgColor, fgColor;
         ThemeManager theme = ThemeManager.getInstance();
         if (mThemeManager.isNightMode()) {
@@ -476,22 +463,13 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new WebViewClientEx(this);
-        contentTV.setBackgroundColor(0);
-        contentTV.setFocusableInTouchMode(false);
-        contentTV.setFocusable(false);
-        contentTV.setLongClickable(false);
-        WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
-        setting.setJavaScriptEnabled(false);
-        contentTV.setWebViewClient(client);
+        contentTV.setLocalMode();
         contentTV.loadDataWithBaseURL(
                 null,
                 adminToHtmlText(ret, fgColorStr, bgcolorStr), "text/html", "utf-8", null);
     }
 
-    private void handleFameWebView(WebView contentTV, ProfileData ret) {
+    private void handleFameWebView(WebViewEx contentTV, ProfileData ret) {
         int bgColor, fgColor;
         ThemeManager theme = ThemeManager.getInstance();
         if (mThemeManager.isNightMode()) {
@@ -507,16 +485,7 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new WebViewClientEx(this);
-        contentTV.setBackgroundColor(0);
-        contentTV.setFocusableInTouchMode(false);
-        contentTV.setFocusable(false);
-        contentTV.setLongClickable(false);
-        WebSettings setting = contentTV.getSettings();
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
-        setting.setJavaScriptEnabled(false);
-        contentTV.setWebViewClient(client);
+        contentTV.setLocalMode();
         contentTV.loadDataWithBaseURL(
                 null,
                 fameToHtmlText(ret, fgColorStr, bgcolorStr), "text/html", "utf-8", null);

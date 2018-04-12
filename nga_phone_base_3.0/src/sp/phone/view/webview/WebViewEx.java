@@ -2,9 +2,11 @@ package sp.phone.view.webview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.webkit.DownloadListener;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 public class WebViewEx extends WebView implements DownloadListener {
@@ -28,6 +30,21 @@ public class WebViewEx extends WebView implements DownloadListener {
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.setData(Uri.parse(url));
         getContext().startActivity(intent);
+    }
+
+    public void setLocalMode() {
+        setWebViewClient(new WebViewClientEx());
+        WebSettings settings = getSettings();
+        settings.setJavaScriptEnabled(false);
+
+        setFocusableInTouchMode(false);
+        setFocusable(false);
+        setLongClickable(false);
+        setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    public void setTextSize(int size) {
+        getSettings().setDefaultFontSize(size);
     }
 
     @Override
