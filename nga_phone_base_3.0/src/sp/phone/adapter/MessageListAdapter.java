@@ -19,8 +19,8 @@ import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ApplicationContextHolder;
-import sp.phone.utils.StringUtils;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 /**

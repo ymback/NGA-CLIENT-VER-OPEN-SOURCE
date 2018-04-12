@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.Locale;
 
 import gov.anzong.androidnga.BuildConfig;
-import sp.phone.utils.NLog;
+import sp.phone.util.NLog;
 
 public class HttpPostClient {
     private static final String LOG_TAG = HttpPostClient.class

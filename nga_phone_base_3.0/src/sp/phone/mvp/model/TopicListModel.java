@@ -21,9 +21,9 @@ import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/11/21.

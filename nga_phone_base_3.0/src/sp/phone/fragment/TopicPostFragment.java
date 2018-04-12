@@ -19,8 +19,8 @@ import android.widget.Spinner;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.PostActivity;
 import sp.phone.mvp.contract.TopicPostContract;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/6/6.

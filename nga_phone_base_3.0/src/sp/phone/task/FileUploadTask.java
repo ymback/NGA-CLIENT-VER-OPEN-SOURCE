@@ -17,12 +17,12 @@ import java.net.URL;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
-import sp.phone.utils.UploadCookieCollector;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
+import sp.phone.util.UploadCookieCollector;
 
 public class FileUploadTask extends
         AsyncTask<String, Integer, String> {
@@ -167,7 +167,7 @@ public class FileUploadTask extends
             filesize = pfd.getStatSize();
             if (filesize >= 1024 * 1024) {
                 publishProgress(-101);
-                byte[] img = ImageUtil.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
+                byte[] img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
                 contentType = "image/png";
                 filesize = img.length;
                 is = new ByteArrayInputStream(img);

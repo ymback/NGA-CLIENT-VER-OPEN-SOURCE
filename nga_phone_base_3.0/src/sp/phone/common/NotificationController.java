@@ -23,8 +23,7 @@ import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.model.entity.NotificationInfo;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.task.ForumNotificationTask;
-import sp.phone.utils.ApplicationContextHolder;
-import sp.phone.utils.DeviceUtils;
+import sp.phone.util.DeviceUtils;
 
 public class NotificationController {
 

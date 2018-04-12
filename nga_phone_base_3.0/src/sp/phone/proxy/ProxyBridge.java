@@ -18,9 +18,9 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public final class ProxyBridge {
 

@@ -11,8 +11,8 @@ import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.ArticleSearchFragment;
 import sp.phone.fragment.ArticleTabFragment;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * 帖子详情页, 是否MD都用这个

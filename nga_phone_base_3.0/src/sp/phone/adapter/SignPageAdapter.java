@@ -20,9 +20,9 @@ import sp.phone.bean.SignData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.view.webview.WebViewClientEx;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.StringUtils;
 
 public class SignPageAdapter extends BaseAdapter implements
         OnSignPageLoadFinishedListener {
@@ -151,7 +151,7 @@ public class SignPageAdapter extends BaseAdapter implements
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+        WebViewClient client = new WebViewClientEx((FragmentActivity) context);
         holder.content.setBackgroundColor(0);
         holder.content.setFocusableInTouchMode(false);
         holder.content.setFocusable(false);

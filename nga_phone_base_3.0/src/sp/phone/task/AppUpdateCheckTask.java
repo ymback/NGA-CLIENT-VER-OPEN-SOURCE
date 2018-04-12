@@ -19,11 +19,10 @@ import java.util.TimeZone;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.NgaClientApp;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class AppUpdateCheckTask extends AsyncTask<String, Integer, String> {
 

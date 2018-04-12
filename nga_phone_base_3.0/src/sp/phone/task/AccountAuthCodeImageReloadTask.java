@@ -13,8 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class AccountAuthCodeImageReloadTask extends
         AsyncTask<String, Integer, Bitmap> {

@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import android.content.Context;
 
@@ -19,9 +19,9 @@ import sp.phone.theme.ThemeManager;
 /**
  * Created by liuboyu on 16/6/30.
  */
-public class HtmlUtil {
+public class HtmlUtils {
 
-    private static final String TAG = "HtmlUtil";
+    private static final String TAG = "HtmlUtils";
 
     public static String userDistance = null;
     static String meter = null;
@@ -242,14 +242,14 @@ public class HtmlUtil {
             ret.append("</span><br/>");
             ret.append("<img src='");
             String avatarUrl = FunctionUtils.parseAvatarUrl(comment.getJs_escap_avatar());
-            String avatarPath = ImageUtil.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
+            String avatarPath = ImageUtils.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
             if (downImg) {
                 if (StringUtils.isEmpty(avatarPath)) {
                     ret.append(avatarUrl);
                 } else {
                     File f = new File(avatarPath);
                     if (f.exists()) {
-                        ret.append("file://" + avatarPath);
+                        ret.append("file://").append(avatarPath);
                     } else {
                         ret.append(avatarUrl);
                     }

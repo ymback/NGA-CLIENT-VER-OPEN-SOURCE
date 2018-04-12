@@ -1,6 +1,6 @@
 package sp.phone.forumoperation;
 
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 
 public class AvatarPostAction {

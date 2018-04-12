@@ -18,8 +18,8 @@ import java.io.InputStream;
 
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.NLog;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.NLog;
 
 
 public class EmotionDialogFragment extends NoframeDialogFragment {
@@ -93,7 +93,7 @@ public class EmotionDialogFragment extends NoframeDialogFragment {
             try {
                 InputStream is = getActivity().getAssets().open(fileName);
                 Bitmap bm = BitmapFactory.decodeStream(is);
-                Bitmap newbm = ImageUtil.zoomImageByWidth(bm, 55);
+                Bitmap newbm = ImageUtils.zoomImageByWidth(bm, 55);
                 bm.recycle();
                 ((ImageView) convertView).setImageBitmap(newbm);
                 is.close();

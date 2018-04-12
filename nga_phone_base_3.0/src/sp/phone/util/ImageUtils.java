@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -29,10 +29,11 @@ import java.util.zip.ZipFile;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.GlideApp;
+import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 
-public class ImageUtil {
-    static final String LOG_TAG = ImageUtil.class.getSimpleName();
+public class ImageUtils {
+    static final String LOG_TAG = ImageUtils.class.getSimpleName();
     //final static int max_avatar_width = 200;
     final static int max_avatar_height = 255;
     public static ZipFile zf;
@@ -286,7 +287,7 @@ public class ImageUtil {
         final int avatarWidth = PhoneConfiguration.getInstance().getAvatarWidth();
 
         final int minSideLength = Math.min(avatarWidth, maxHeight);
-        opts.inSampleSize = ImageUtil.computeSampleSize(opts, minSideLength,
+        opts.inSampleSize = ImageUtils.computeSampleSize(opts, minSideLength,
                 avatarWidth * maxHeight);
         opts.inJustDecodeBounds = false;
         opts.inInputShareable = true;
@@ -323,7 +324,7 @@ public class ImageUtil {
         final int avatarWidth = PhoneConfiguration.getInstance().getAvatarWidth();
 
         final int minSideLength = Math.min(avatarWidth, maxHeight);
-        opts.inSampleSize = ImageUtil.computeSampleSize(opts, minSideLength,
+        opts.inSampleSize = ImageUtils.computeSampleSize(opts, minSideLength,
                 avatarWidth * maxHeight);
         opts.inJustDecodeBounds = false;
         opts.inInputShareable = true;
@@ -346,7 +347,7 @@ public class ImageUtil {
         opts.inJustDecodeBounds = true;
         Bitmap bitmap = BitmapFactory.decodeStream(is, null, opts);
         final int minSideLength = 512;
-        opts.inSampleSize = ImageUtil.computeSampleSize(opts, minSideLength,
+        opts.inSampleSize = ImageUtils.computeSampleSize(opts, minSideLength,
                 1024 * 1024);
         opts.inJustDecodeBounds = false;
         opts.inInputShareable = true;
@@ -455,7 +456,7 @@ public class ImageUtil {
         Context context = ApplicationContextHolder.getContext();
         if (sDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-            sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtil.toRoundCorner(defaultAvatar, 2));
+            sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
         }
         GlideApp.with(ApplicationContextHolder.getContext())
                 .load(url)
@@ -469,7 +470,7 @@ public class ImageUtil {
         Context context = ApplicationContextHolder.getContext();
         if (sDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
-            sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtil.toRoundCorner(defaultAvatar, 2));
+            sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
         }
         GlideApp.with(ApplicationContextHolder.getContext())
                 .load(url)

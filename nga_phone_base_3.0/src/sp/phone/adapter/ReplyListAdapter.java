@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2018/3/23.

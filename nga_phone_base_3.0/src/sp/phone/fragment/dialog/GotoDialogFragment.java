@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 
 public class GotoDialogFragment extends NoframeDialogFragment {
 

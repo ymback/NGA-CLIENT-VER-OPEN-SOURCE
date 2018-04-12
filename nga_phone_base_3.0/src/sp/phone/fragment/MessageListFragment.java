@@ -17,7 +17,7 @@ import sp.phone.adapter.MessageListAdapter;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.mvp.contract.MessageListContract;
 import sp.phone.mvp.presenter.MessageListPresenter;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
 public class MessageListFragment extends BaseMvpFragment<MessageListPresenter> implements SwipeRefreshLayout.OnRefreshListener, MessageListContract.IMessageView {

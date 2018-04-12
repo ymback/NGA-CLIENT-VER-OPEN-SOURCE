@@ -17,8 +17,8 @@ import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.TopicFavoriteFragment;
 import sp.phone.fragment.TopicListFragment;
 import sp.phone.fragment.TopicSearchFragment;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * 帖子列表

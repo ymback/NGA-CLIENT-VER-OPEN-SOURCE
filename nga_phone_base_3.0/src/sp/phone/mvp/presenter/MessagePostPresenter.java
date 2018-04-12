@@ -18,8 +18,8 @@ import sp.phone.forumoperation.MessagePostAction;
 import sp.phone.mvp.model.MessagePostModel;
 import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.FunctionUtils;
 
 /**
  * Created by Justwen on 2017/5/28.

@@ -9,9 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.NLog;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.NLog;
 
 public class ChangeAvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
     static final String TAG = ChangeAvatarLoadTask.class.getSimpleName();
@@ -54,7 +54,7 @@ public class ChangeAvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
 
         if (is != null) {
             //NLog.d(TAG,"load avatar from file: " + avatarLocalPath);
-            bitmap = ImageUtil.loadAvatarFromSdcard(avatarLocalPath);
+            bitmap = ImageUtils.loadAvatarFromSdcard(avatarLocalPath);
         }
 
 

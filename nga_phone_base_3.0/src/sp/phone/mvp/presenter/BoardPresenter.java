@@ -16,9 +16,9 @@ import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 /**
  * 版块管理

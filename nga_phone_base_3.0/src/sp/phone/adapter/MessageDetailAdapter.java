@@ -20,7 +20,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.FunctionUtils;
+import sp.phone.util.FunctionUtils;
 import sp.phone.view.RecyclerViewEx;
 
 /**

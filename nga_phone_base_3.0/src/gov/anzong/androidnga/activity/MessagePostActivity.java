@@ -19,7 +19,7 @@ import sp.phone.fragment.MessagePostFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.mvp.presenter.MessagePostPresenter;
-import sp.phone.utils.FunctionUtils;
+import sp.phone.util.FunctionUtils;
 
 public class MessagePostActivity extends BasePostActivity implements OnEmotionPickedListener {
 

@@ -6,8 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import sp.phone.interfaces.OnNearbyLoadComplete;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.StringUtils;
 
 public class NearbyUserTask extends AsyncTask<String, Integer, String> {
     private static final String ips[] = {"74.125.129.141",

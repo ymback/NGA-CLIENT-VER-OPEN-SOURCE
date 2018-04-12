@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.utils.ApplicationContextHolder;
-import sp.phone.utils.NLog;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.util.NLog;
 
 public class NgaClientApp extends Application {
 

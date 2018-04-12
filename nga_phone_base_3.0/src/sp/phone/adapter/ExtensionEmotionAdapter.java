@@ -12,7 +12,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
-import sp.phone.utils.ImageUtil;
+import sp.phone.util.ImageUtils;
 
 public class ExtensionEmotionAdapter extends BaseAdapter {
     private static final String dirs[] = {"baozou", "xiongmao", "taijun", "ali", "dayanmao",
@@ -1395,13 +1395,13 @@ public class ExtensionEmotionAdapter extends BaseAdapter {
             view = new ImageView(parent.getContext());
         else {
             view = (ImageView) convertView;
-            ImageUtil.recycleImageView(view);
+            ImageUtils.recycleImageView(view);
         }
         InputStream is;
         try {
             is = view.getContext().getAssets().open(getFileName(position));
             Bitmap bm = BitmapFactory.decodeStream(is);
-            view.setImageBitmap(ImageUtil.zoomImageByHeight(bm, 130));
+            view.setImageBitmap(ImageUtils.zoomImageByHeight(bm, 130));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

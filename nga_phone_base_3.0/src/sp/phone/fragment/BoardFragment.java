@@ -50,8 +50,8 @@ import sp.phone.fragment.dialog.LoginDialogFragment;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ImageUtil;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.ImageUtils;
 
 
 /**
@@ -248,7 +248,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     public void handleUserAvatar(ImageView avatarIV, String url) {
         if (mDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(getResources(), R.drawable.default_avatar);
-            mDefaultAvatar = new BitmapDrawable(getResources(), ImageUtil.toRoundCorner(defaultAvatar, 2));
+            mDefaultAvatar = new BitmapDrawable(getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
         }
 
         avatarIV.setImageTintList(null);
@@ -259,7 +259,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
                 .transforms(new BitmapTransformation() {
                     @Override
                     protected Bitmap transform(@NonNull BitmapPool bitmapPool, @NonNull Bitmap bitmap, int i, int i1) {
-                        Bitmap roundBitmap = ImageUtil.toRoundCorner(bitmap, 2);
+                        Bitmap roundBitmap = ImageUtils.toRoundCorner(bitmap, 2);
                         bitmapPool.put(roundBitmap);
                         return roundBitmap;
                     }

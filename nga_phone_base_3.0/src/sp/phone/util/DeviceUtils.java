@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import android.content.Context;
 import android.content.res.Configuration;

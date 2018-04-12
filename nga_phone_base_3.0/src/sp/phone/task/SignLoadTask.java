@@ -16,9 +16,9 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ApplicationContextHolder;
-import sp.phone.utils.NLog;
+import sp.phone.util.ActivityUtils;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.util.NLog;
 
 /**
  * Created by Justwen on 2018/1/21.

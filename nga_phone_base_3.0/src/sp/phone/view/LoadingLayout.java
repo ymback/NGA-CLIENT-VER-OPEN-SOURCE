@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2018/3/11.

@@ -10,10 +10,10 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
-import sp.phone.utils.ApplicationContextHolder;
-import sp.phone.utils.MessageUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.util.MessageUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/10/10.

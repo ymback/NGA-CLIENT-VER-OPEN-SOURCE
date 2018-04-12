@@ -18,7 +18,7 @@ import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.utils.NLog;
+import sp.phone.util.NLog;
 
 public class ForumNotificationTask {
 

@@ -22,10 +22,10 @@ import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
 import noname.listener.MyListenerForNonameReply;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.view.webview.WebViewClientEx;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class NonameArticleListAdapter extends BaseAdapter implements
         OnLongClickListener {
@@ -51,7 +51,7 @@ public class NonameArticleListAdapter extends BaseAdapter implements
         this.viewCache = new SparseArray<SoftReference<View>>();
         if (userDistance == null)
             initStaticStrings(activity);
-        client = new ArticleListWebClient((FragmentActivity) activity);
+        client = new WebViewClientEx((FragmentActivity) activity);
     }
 
     private static void initStaticStrings(Context activity) {

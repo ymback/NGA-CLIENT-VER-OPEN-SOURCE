@@ -13,8 +13,8 @@ import sp.phone.fragment.ArticleListFragment;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.ArticleListModel;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/11/22.

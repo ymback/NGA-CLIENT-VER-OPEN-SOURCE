@@ -25,9 +25,9 @@ import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class NonameArticleContainerFragment extends BaseFragment implements
         OnNonameThreadPageLoadFinishedListener, PreferenceKey, PagerOwner {

@@ -16,7 +16,7 @@ import sp.phone.mvp.model.convert.ErrorConvertFactory;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.utils.HttpUtil;
+import sp.phone.util.HttpUtil;
 
 /**
  * 加载帖子内容

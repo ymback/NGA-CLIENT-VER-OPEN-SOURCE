@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.MessageDetailFragment;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class MessageDetailActivity extends SwipeBackAppCompatActivity {
 

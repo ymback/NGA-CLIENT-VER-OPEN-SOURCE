@@ -1,6 +1,6 @@
 package noname.forumoperation;
 
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class NonameThreadPostAction {
     private String tid_;

@@ -9,10 +9,10 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.StringUtils;
 
 import static android.media.MediaScannerConnection.scanFile;
 
@@ -65,7 +65,7 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
                 return mkdirFailed;
 
         }
-        String name = ImageUtil.getImageName(uri);
+        String name = ImageUtils.getImageName(uri);
         if (StringUtils.isEmpty(name))
             return invalidURI;
         int i = 0;

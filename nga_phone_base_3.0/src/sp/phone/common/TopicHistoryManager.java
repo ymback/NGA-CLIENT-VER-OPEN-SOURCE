@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.utils.ApplicationContextHolder;
 
 /**
  * Created by Justwen on 2018/1/17.

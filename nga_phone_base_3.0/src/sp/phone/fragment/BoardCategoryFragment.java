@@ -15,8 +15,8 @@ import gov.anzong.androidnga.R;
 import sp.phone.adapter.BoardCategoryAdapter;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.BoardManagerImpl;
-import sp.phone.utils.DeviceUtils;
-import sp.phone.utils.NLog;
+import sp.phone.util.DeviceUtils;
+import sp.phone.util.NLog;
 
 /**
  * 版块分页

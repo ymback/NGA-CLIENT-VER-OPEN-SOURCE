@@ -19,10 +19,10 @@ import java.net.URL;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
     @SuppressWarnings("unused")
@@ -125,7 +125,7 @@ public class NonameFileUploadTask extends AsyncTask<String, Integer, String> {
             filesize = pfd.getStatSize();
             if (filesize >= 1024 * 1024) {
                 publishProgress(-101);
-                byte[] img = ImageUtil.fitImageToUpload(
+                byte[] img = ImageUtils.fitImageToUpload(
                         cr.openInputStream(uri), cr.openInputStream(uri));
                 contentType = "image/png";
                 filesize = img.length;

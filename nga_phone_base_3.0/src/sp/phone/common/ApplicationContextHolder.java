@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.common;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -14,9 +14,9 @@ import sp.phone.bean.TopicListBean;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.utils.BoardUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.BoardUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/11/21.

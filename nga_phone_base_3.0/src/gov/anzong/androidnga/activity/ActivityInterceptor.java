@@ -9,7 +9,7 @@ import com.alibaba.android.arouter.facade.template.IInterceptor;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import sp.phone.common.UserManagerImpl;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 
 /**
  * Created by Justwen on 2017/11/27.

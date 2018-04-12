@@ -11,7 +11,7 @@ import android.widget.ListView;
 import noname.gson.parse.NonameThreadBody;
 import noname.adapter.NonameTopicListAdapter;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class EnterJsonNonameArticle implements OnItemClickListener {
 

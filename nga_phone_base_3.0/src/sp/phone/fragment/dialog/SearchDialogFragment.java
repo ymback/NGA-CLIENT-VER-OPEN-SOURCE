@@ -24,7 +24,7 @@ import java.util.Objects;
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class SearchDialogFragment extends DialogFragment {
 

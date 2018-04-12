@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.presenter.LoginPresenter;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/7/5.

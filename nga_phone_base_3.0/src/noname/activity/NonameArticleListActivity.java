@@ -24,9 +24,9 @@ import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 

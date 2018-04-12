@@ -1,50 +1,37 @@
 package sp.phone.listener;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import gov.anzong.androidnga.R;
-import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.utils.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import sp.phone.common.UserManagerImpl;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.StringUtils;
 
-public class MyListenerForReply implements OnClickListener {
-    int mPosition;
-    ThreadData mdata = new ThreadData();
-    Context mcontext;
-    private View button;
-    private long lastTimestamp = 0;
+public class OnReplyClickListener implements OnClickListener {
 
-    public MyListenerForReply(int inPosition, ThreadData data, Context context) {
-        mPosition = inPosition;
-        mdata = data;
-        mcontext = context;
+    private Context mContext;
+
+    public OnReplyClickListener(Context context) {
+        mContext = context;
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
 
-        if (System.currentTimeMillis() - this.lastTimestamp <= 3000) {
-            return;
-        } else {
-            this.lastTimestamp = System.currentTimeMillis();
-        }
+        ThreadRowInfo row = (ThreadRowInfo) view.getTag();
 
-        this.button = v;
-        this.button.setEnabled(false);
+        view.setEnabled(false);
 
         (new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected void onPostExecute(Void result) {
-                MyListenerForReply.this.button.setEnabled(true);
+                view.setEnabled(true);
             }
 
             @Override
@@ -55,7 +42,6 @@ public class MyListenerForReply implements OnClickListener {
 
                 final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
                 final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
-                ThreadRowInfo row = mdata.getRowList().get(mPosition);
                 String content = row.getContent();
                 final String name = row.getAuthor();
                 final String uid = String.valueOf(row.getAuthorid());
@@ -109,14 +95,14 @@ public class MyListenerForReply implements OnClickListener {
 
                 if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
                     intent.setClass(
-                            mcontext,
+                            mContext,
                             PhoneConfiguration.getInstance().postActivityClass);
                 } else {
                     intent.setClass(
-                            mcontext,
+                            mContext,
                             PhoneConfiguration.getInstance().loginActivityClass);
                 }
-                mcontext.startActivity(intent);
+                mContext.startActivity(intent);
                 return null;
             }
         }).execute();

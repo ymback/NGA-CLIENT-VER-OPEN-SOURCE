@@ -45,10 +45,10 @@ import noname.forumoperation.NonameThreadPostAction;
 import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class NonamePostActivity extends BasePostActivity implements
         OnEmotionPickedListener, NonameFileUploadTask.onFileUploaded {

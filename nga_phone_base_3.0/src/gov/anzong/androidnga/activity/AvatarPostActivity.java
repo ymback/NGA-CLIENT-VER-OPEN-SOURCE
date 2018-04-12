@@ -41,11 +41,11 @@ import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
 import sp.phone.task.AvatarFileUploadTask;
 import sp.phone.task.ChangeAvatarLoadTask;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
         AvatarFileUploadTask.onFileUploaded, ChangeAvatarLoadCompleteCallBack {
@@ -210,7 +210,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        v = this.getLayoutInflater().inflate(R.layout.changeavatar, null);
+        v = this.getLayoutInflater().inflate(R.layout.activity_change_avatar, null);
         v.setBackgroundColor(getResources().getColor(
                 ThemeManager.getInstance().getBackgroundColor()));
         this.setContentView(v);
@@ -317,7 +317,7 @@ public class AvatarPostActivity extends SwipeBackAppCompatActivity implements
     private void handleAvatar(ImageView avatarIV, String avatarUrl) {
         final String userId = UserManagerImpl.getInstance().getUserId();
         if (!StringUtils.isEmpty(avatarUrl)) {
-            final String avatarPath = ImageUtil.newImage(avatarUrl, userId);
+            final String avatarPath = ImageUtils.newImage(avatarUrl, userId);
             new ChangeAvatarLoadTask(avatarIV, 0, this)
                     .execute(avatarUrl, avatarPath, userId);
         } else {

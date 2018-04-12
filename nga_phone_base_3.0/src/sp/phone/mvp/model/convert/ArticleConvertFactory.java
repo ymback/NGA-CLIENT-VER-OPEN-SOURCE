@@ -1,8 +1,8 @@
 package sp.phone.mvp.model.convert;
 
 import sp.phone.bean.ThreadData;
-import sp.phone.utils.ArticleUtil;
-import sp.phone.utils.ApplicationContextHolder;
+import sp.phone.util.ArticleUtil;
+import sp.phone.common.ApplicationContextHolder;
 
 /**
  * Created by Justwen on 2017/12/3.

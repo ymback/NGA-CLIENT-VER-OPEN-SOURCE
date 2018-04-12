@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import android.Manifest;
 import android.app.Activity;

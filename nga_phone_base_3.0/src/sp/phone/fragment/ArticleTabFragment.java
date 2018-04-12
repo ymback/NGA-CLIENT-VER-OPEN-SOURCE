@@ -40,9 +40,9 @@ import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
 import sp.phone.task.BookmarkTask;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * 帖子详情Fragment

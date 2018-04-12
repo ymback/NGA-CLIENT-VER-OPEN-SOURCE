@@ -14,8 +14,8 @@ import java.net.HttpURLConnection;
 
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.NLog;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.NLog;
 
 /**
  * Created by Justwen on 2017/5/28.

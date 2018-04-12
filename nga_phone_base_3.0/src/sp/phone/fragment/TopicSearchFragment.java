@@ -26,8 +26,8 @@ import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.presenter.TopicListPresenter;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 

@@ -21,7 +21,7 @@ import sp.phone.forumoperation.TopicPostAction;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
-import sp.phone.utils.NLog;
+import sp.phone.util.NLog;
 
 /**
  * Created by Justwen on 2017/6/10.

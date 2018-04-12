@@ -23,7 +23,7 @@ import gov.anzong.androidnga.activity.LauncherSubActivity;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.forumoperation.ParamKey;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 
 /**
  * Created by Justwen on 2017/11/19.

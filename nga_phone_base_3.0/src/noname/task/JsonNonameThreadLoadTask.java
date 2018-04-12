@@ -8,10 +8,10 @@ import noname.gson.parse.NonameParseJson;
 import noname.gson.parse.NonameReadResponse;
 import sp.phone.common.PhoneConfiguration;
 import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class JsonNonameThreadLoadTask extends AsyncTask<String, Integer, NonameReadResponse> {
     static final String TAG = JsonNonameThreadLoadTask.class.getSimpleName();

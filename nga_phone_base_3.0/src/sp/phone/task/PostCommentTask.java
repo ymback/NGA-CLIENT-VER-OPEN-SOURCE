@@ -16,8 +16,8 @@ import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnPostCommentFinishedListener;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class PostCommentTask extends AsyncTask<String, Integer, String> {
     private static final String postCommentUri = Utils.getNGAHost() + "post.php";

@@ -14,8 +14,8 @@ import java.util.Locale;
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * 赞或者踩

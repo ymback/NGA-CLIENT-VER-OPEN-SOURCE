@@ -14,7 +14,7 @@ import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import noname.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class NonameTopicListAdapter extends BaseAdapter implements
         OnNonameTopListLoadFinishedListener {

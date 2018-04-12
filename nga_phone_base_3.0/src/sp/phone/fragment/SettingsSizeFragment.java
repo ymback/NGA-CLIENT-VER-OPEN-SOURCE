@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
-import sp.phone.utils.ImageUtil;
+import sp.phone.util.ImageUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
 
@@ -107,7 +107,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
         SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.avatarsize_seekBar);
         int progress = mConfiguration.getAvatarWidth();
         Drawable defaultAvatar = ContextCompat.getDrawable(mContext,R.drawable.default_avatar);
-        Bitmap bitmap = ImageUtil.zoomImageByWidth(defaultAvatar, progress);
+        Bitmap bitmap = ImageUtils.zoomImageByWidth(defaultAvatar, progress);
         mAvatarSizeView.setImageBitmap(bitmap);
         seekBar.setProgress(progress);
         seekBar.setOnSeekBarChangeListener(this);
@@ -141,9 +141,9 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
                     progress = 2;
                 }
                 Drawable defaultAvatar = ContextCompat.getDrawable(mContext, R.drawable.default_avatar);
-                Bitmap bitmap = ImageUtil.zoomImageByWidth(defaultAvatar, progress);
+                Bitmap bitmap = ImageUtils.zoomImageByWidth(defaultAvatar, progress);
                 try {
-                    ImageUtil.recycleImageView(mAvatarSizeView);
+                    ImageUtils.recycleImageView(mAvatarSizeView);
                     mAvatarSizeView.setImageBitmap(bitmap);
                 } catch (Exception e) {
                     e.printStackTrace();

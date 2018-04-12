@@ -36,12 +36,12 @@ import sp.phone.forumoperation.ParamKey;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.StringUtils;
-import sp.phone.view.WebViewEx;
+import sp.phone.util.ActivityUtils;
+import sp.phone.view.webview.WebViewClientEx;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.StringUtils;
+import sp.phone.view.webview.WebViewEx;
 
 public class ProfileActivity extends SwipeBackAppCompatActivity implements OnProfileLoadFinishedListener {
 
@@ -444,7 +444,7 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient(this);
+        WebViewClient client = new WebViewClientEx(this);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
@@ -476,7 +476,7 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient(this);
+        WebViewClient client = new WebViewClientEx(this);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
@@ -507,7 +507,7 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient(this);
+        WebViewClient client = new WebViewClientEx(this);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
@@ -570,8 +570,8 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
 
     private void handleAvatar(ProfileData row) {
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.get_avatar());//
-        ImageUtil.loadRoundCornerAvatar(mAvatarIv, avatarUrl);
-        ImageUtil.loadDefaultAvatar((ImageView) findViewById(R.id.iv_toolbar_layout_bg), avatarUrl);
+        ImageUtils.loadRoundCornerAvatar(mAvatarIv, avatarUrl);
+        ImageUtils.loadDefaultAvatar((ImageView) findViewById(R.id.iv_toolbar_layout_bg), avatarUrl);
 
     }
 

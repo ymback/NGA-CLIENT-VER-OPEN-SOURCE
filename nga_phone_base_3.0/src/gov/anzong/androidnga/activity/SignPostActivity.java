@@ -45,10 +45,10 @@ import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class SignPostActivity extends BasePostActivity implements
         FileUploadTask.onFileUploaded, OnEmotionPickedListener {
@@ -79,7 +79,7 @@ public class SignPostActivity extends BasePostActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        v = this.getLayoutInflater().inflate(R.layout.changesignreply, null);
+        v = this.getLayoutInflater().inflate(R.layout.activity_change_sign_reply, null);
         v.setBackgroundColor(getResources().getColor(
                 ThemeManager.getInstance().getBackgroundColor()));
         this.setContentView(v);

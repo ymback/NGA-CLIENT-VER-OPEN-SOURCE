@@ -14,7 +14,7 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.NLog;
+import sp.phone.util.NLog;
 
 public class TabsAdapter extends ThreadFragmentAdapter implements
         TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {

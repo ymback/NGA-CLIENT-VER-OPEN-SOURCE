@@ -12,9 +12,9 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class BookmarkTask extends AsyncTask<String, Integer, String> {
     private final String url = Utils.getNGAHost() + "nuke.php?__lib=topic_favor&lite=js&noprefix&__act=topic_favor&action=add&tid=";

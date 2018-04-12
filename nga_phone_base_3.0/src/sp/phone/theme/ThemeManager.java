@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PreferenceKey;
-import sp.phone.utils.ApplicationContextHolder;
+import sp.phone.common.ApplicationContextHolder;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 

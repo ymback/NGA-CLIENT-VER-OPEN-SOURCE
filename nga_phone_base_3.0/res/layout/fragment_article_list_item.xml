@@ -65,7 +65,7 @@
     </RelativeLayout>
 
 
-    <sp.phone.view.WebViewEx
+    <sp.phone.view.webview.WebViewEx
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

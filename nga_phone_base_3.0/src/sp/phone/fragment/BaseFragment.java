@@ -12,7 +12,7 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 
 /**
  * Created by liuboyu on 16/6/28.

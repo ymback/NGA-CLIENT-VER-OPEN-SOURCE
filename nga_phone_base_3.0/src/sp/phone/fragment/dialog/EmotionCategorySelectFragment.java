@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
-import sp.phone.utils.NLog;
+import sp.phone.util.NLog;
 
 public class EmotionCategorySelectFragment extends NoframeDialogFragment {
 

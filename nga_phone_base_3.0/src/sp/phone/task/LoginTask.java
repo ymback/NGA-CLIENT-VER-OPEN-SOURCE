@@ -9,8 +9,8 @@ import java.net.URLDecoder;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.LoginAction;
 import sp.phone.mvp.model.LoginModel;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/6/16.

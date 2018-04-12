@@ -8,9 +8,9 @@ import android.view.View.OnClickListener;
 
 import noname.gson.parse.NonameReadBody;
 import noname.gson.parse.NonameReadResponse;
-import sp.phone.utils.FunctionUtils;
+import sp.phone.util.FunctionUtils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class MyListenerForNonameReply implements OnClickListener {
     int mPosition;

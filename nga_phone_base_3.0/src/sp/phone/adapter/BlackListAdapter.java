@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.common.User;
-import sp.phone.utils.ImageUtil;
+import sp.phone.util.ImageUtils;
 
 
 public class BlackListAdapter extends RecyclerView.Adapter<BlackListAdapter.UserViewHolder> {
@@ -45,7 +45,7 @@ public class BlackListAdapter extends RecyclerView.Adapter<BlackListAdapter.User
     public BlackListAdapter(Context context, List<User> userList) {
         mContext = context;
         mUserList = userList;
-        mDefaultAvatar = ImageUtil.loadDefaultAvatar();
+        mDefaultAvatar = ImageUtils.loadDefaultAvatar();
     }
 
     public void setOnClickListener(View.OnClickListener listener) {

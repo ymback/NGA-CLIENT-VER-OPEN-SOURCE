@@ -1,4 +1,4 @@
-package sp.phone.view;
+package sp.phone.view.webview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,11 +7,8 @@ import android.util.AttributeSet;
 import android.webkit.DownloadListener;
 import android.webkit.WebView;
 
-/**
- * Created by Justwen on 2018/2/25.
- */
-
 public class WebViewEx extends WebView implements DownloadListener {
+
 
     public WebViewEx(Context context) {
         this(context, null);

@@ -7,10 +7,7 @@ import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
-/**
- * Created by Justwen on 2017/11/25.
- */
-// 兼容 rxjava 1 和 rxjava 2
+// 兼容 RxJava 1 和 RxJava 2
 public abstract class BaseSubscriber<T> implements Observer<T>, FlowableSubscriber<T> {
 
     @Override

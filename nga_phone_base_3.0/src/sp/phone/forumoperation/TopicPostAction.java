@@ -3,7 +3,7 @@ package sp.phone.forumoperation;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class TopicPostAction {
     private int step_;

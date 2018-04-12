@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import android.annotation.SuppressLint;
 
@@ -19,6 +19,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.bean.StringFindResult;
+import sp.phone.common.ApplicationContextHolder;
 import sp.phone.theme.ThemeManager;
 
 @SuppressLint("SimpleDateFormat")

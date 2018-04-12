@@ -12,7 +12,7 @@ import sp.phone.fragment.LoginFragment;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.mvp.contract.LoginContract;
 import sp.phone.mvp.model.LoginModel;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/6/16.

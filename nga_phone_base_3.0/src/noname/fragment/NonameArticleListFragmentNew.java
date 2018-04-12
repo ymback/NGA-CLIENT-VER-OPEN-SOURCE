@@ -34,12 +34,12 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.task.ReportTask;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.view.webview.WebViewClientEx;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class NonameArticleListFragmentNew extends Fragment implements
         OnNonameThreadPageLoadFinishedListener, PreferenceKey {
@@ -70,7 +70,7 @@ public class NonameArticleListFragmentNew extends Fragment implements
         page = getArguments().getInt("page") + 1;
         tid = getArguments().getInt("id");
         super.onCreate(savedInstanceState);
-        client = new ArticleListWebClient(getActivity());
+        client = new WebViewClientEx(getActivity());
     }
 
     @Override

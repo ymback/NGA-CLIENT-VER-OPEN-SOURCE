@@ -36,10 +36,10 @@ import sp.phone.mvp.presenter.ArticleListPresenter;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
 import sp.phone.task.LikeTask;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
 /*
@@ -99,10 +99,11 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
         ButterKnife.bind(this, view);
         ((BaseActivity) getActivity()).setupActionBar();
         mArticleAdapter = new ArticleListAdapter(getContext());
-        mArticleAdapter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mArticleAdapter.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                mArticleAdapter.setSelectedItem(position);
+            public boolean onLongClick(View v) {
+                mArticleAdapter.setSelectedItem((Integer) v.getTag());
                 ((AppCompatActivity) getActivity()).startSupportActionMode(ArticleListFragment.this);
                 return true;
             }

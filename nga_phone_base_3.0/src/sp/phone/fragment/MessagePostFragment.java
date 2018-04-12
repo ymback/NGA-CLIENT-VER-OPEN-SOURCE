@@ -12,8 +12,8 @@ import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.contract.MessagePostContract;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/5/28.

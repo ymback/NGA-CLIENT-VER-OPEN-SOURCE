@@ -20,7 +20,7 @@ import java.util.Map;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.NearbyUser;
-import sp.phone.utils.ImageUtil;
+import sp.phone.util.ImageUtils;
 
 public class NearbyUsersAdapter extends BaseAdapter {
     private final List<NearbyUser> list;
@@ -104,11 +104,11 @@ public class NearbyUsersAdapter extends BaseAdapter {
         String extensions[] = {"jpg", "png", "bmp", "gif", "jpeg"};
         Bitmap bitmap = null;
         for (int i = 0; i < extensions.length; ++i) {
-            String avatarPath = ImageUtil.getAvatarById(extensions[i], u.getUserId());
+            String avatarPath = ImageUtils.getAvatarById(extensions[i], u.getUserId());
             if (avatarPath != null) {
                 File f = new File(avatarPath);
                 if (f.exists()) {
-                    bitmap = ImageUtil.loadAvatarFromSdcard(avatarPath, 150);
+                    bitmap = ImageUtils.loadAvatarFromSdcard(avatarPath, 150);
                     break;
                 }
             }

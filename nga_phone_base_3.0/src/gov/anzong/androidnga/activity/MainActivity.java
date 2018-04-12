@@ -21,8 +21,8 @@ import sp.phone.fragment.dialog.UrlInputDialogFragment;
 import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.presenter.BoardPresenter;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.PermissionUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.PermissionUtils;
 
 public class MainActivity extends BaseActivity {
 

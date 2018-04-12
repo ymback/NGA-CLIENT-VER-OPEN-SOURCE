@@ -16,8 +16,8 @@ import sp.phone.common.ApiConstants;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.theme.ThemeManager;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.StringUtils;
 
 public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotificationAdapter.ViewHolder> {
 
@@ -75,7 +75,7 @@ public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotifi
             holder.typeTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         }
 
-        ImageUtil.loadRoundCornerAvatar(holder.avatarIv, UserManagerImpl.getInstance().getAvatarUrl(info.getUserId()));
+        ImageUtils.loadRoundCornerAvatar(holder.avatarIv, UserManagerImpl.getInstance().getAvatarUrl(info.getUserId()));
 
         holder.itemView.setTag(info);
     }

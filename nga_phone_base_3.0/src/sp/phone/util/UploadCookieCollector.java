@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

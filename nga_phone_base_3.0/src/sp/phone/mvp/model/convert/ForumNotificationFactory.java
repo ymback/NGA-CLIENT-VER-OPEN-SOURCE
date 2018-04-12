@@ -9,7 +9,7 @@ import java.util.List;
 
 import sp.phone.mvp.model.entity.NotificationInfo;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
-import sp.phone.utils.NLog;
+import sp.phone.util.NLog;
 
 public class ForumNotificationFactory {
 

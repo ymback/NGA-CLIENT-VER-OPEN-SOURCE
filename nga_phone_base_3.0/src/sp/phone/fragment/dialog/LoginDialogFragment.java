@@ -26,8 +26,8 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
 import sp.phone.task.AccountAuthCodeImageReloadTask;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class LoginDialogFragment extends DialogFragment implements
         PreferenceKey, OnAuthCodeLoadFinishedListener {

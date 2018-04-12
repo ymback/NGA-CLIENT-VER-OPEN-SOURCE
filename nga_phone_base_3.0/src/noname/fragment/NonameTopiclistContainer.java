@@ -28,10 +28,10 @@ import noname.interfaces.NextJsonNonameTopicListLoader;
 import noname.interfaces.OnNonameTopListLoadFinishedListener;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import noname.task.JsonNonameTopicListLoadTask;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 

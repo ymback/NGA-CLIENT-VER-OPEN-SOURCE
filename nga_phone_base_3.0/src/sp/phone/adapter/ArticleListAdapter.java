@@ -1,14 +1,14 @@
 package sp.phone.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
+import android.webkit.WebSettings;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,33 +20,42 @@ import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.theme.ThemeManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.listener.ClientListener;
-import sp.phone.listener.MyListenerForReply;
-import sp.phone.utils.ArticleListWebClient;
-import sp.phone.utils.DeviceUtils;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.HtmlUtil;
-import sp.phone.utils.PermissionUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.listener.OnClientClickListener;
+import sp.phone.listener.OnReplyClickListener;
+import sp.phone.rxjava.RxUtils;
+import sp.phone.theme.ThemeManager;
+import sp.phone.util.DeviceUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.HtmlUtils;
+import sp.phone.util.PermissionUtils;
+import sp.phone.view.webview.WebViewClientEx;
+import sp.phone.view.webview.WebViewEx;
 
 /**
  * 帖子详情列表Adapter
  */
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ArticleViewHolder> {
 
-    private static final String TAG = ArticleListAdapter.class.getSimpleName();
+    private static final String DEVICE_TYPE_IOS = "ios";
+
+    private static final String DEVICE_TYPE_ANDROID = "android";
+
+    private static final String DEVICE_TYPE_WP = "wp";
 
     private Context mContext;
 
-    private final WebViewClient mWebViewClient;
+    private WebViewClientEx mWebViewClient = new WebViewClientEx();
 
     private ThreadData mData;
 
     private LayoutInflater mLayoutInflater;
 
-    private AdapterView.OnItemLongClickListener mItemLongClickListener;
+    private View.OnLongClickListener mOnLongClickListener;
+
+    private OnClientClickListener mOnClientClickListener = new OnClientClickListener();
+
+    private OnReplyClickListener mOnReplyClickListener;
 
     private int mSelectedItem;
 
@@ -54,14 +63,14 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         TextView nickNameTV;
         ImageView avatarIV;
-        WebView contentTV;
+        WebViewEx contentTV;
         TextView floorTV;
         TextView postTimeTV;
         TextView levelTV;
         TextView aurvrcTV;
         TextView postnumTV;
         int position = -1;
-        ImageButton viewBtn;
+        ImageButton replyBtn;
         ImageButton clientBtn;
         TextView scoreTV;
 
@@ -72,24 +81,24 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         private void initHolder(final View view) {
             nickNameTV = view.findViewById(R.id.nickName);
-            avatarIV =  view.findViewById(R.id.avatarImage);
-            floorTV =  view.findViewById(R.id.floor);
+            avatarIV = view.findViewById(R.id.avatarImage);
+            floorTV = view.findViewById(R.id.floor);
             postTimeTV = view.findViewById(R.id.postTime);
-            contentTV =  view.findViewById(R.id.content);
+            contentTV = view.findViewById(R.id.content);
             contentTV.setHorizontalScrollBarEnabled(false);
-            viewBtn = view.findViewById(R.id.listviewreplybtn);
-            clientBtn =  view.findViewById(R.id.clientbutton);
+            replyBtn = view.findViewById(R.id.listviewreplybtn);
+            clientBtn = view.findViewById(R.id.clientbutton);
             scoreTV = view.findViewById(R.id.score);
         }
     }
 
     public ArticleListAdapter(Context context) {
         mContext = context;
-        if (HtmlUtil.userDistance == null) {
-            HtmlUtil.initStaticStrings(mContext);
+        if (HtmlUtils.userDistance == null) {
+            HtmlUtils.initStaticStrings(mContext);
         }
-        mWebViewClient = new ArticleListWebClient(context);
         mLayoutInflater = LayoutInflater.from(mContext);
+        mOnReplyClickListener = new OnReplyClickListener(context);
     }
 
 
@@ -127,53 +136,37 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         final ThreadRowInfo row = mData.getRowList().get(position);
 
-        int lou = -1;
-        if (row != null)
-            lou = row.getLou();
-        MyListenerForReply myListenerForReply = new MyListenerForReply(position, mData, mContext);
-        holder.viewBtn.setOnClickListener(myListenerForReply);
-        ThemeManager theme = ThemeManager.getInstance();
-        int colorId = theme.getBackgroundColor(position);
-        holder.itemView.setBackgroundResource(colorId);
-
         if (row == null) {
             return;
         }
 
-        handleAvatar(holder.avatarIV, row);
+        int lou =  row.getLou();
+
+        RxUtils.clicks(holder.replyBtn, mOnReplyClickListener);
+        holder.replyBtn.setTag(row);
+
+        ThemeManager theme = ThemeManager.getInstance();
+        int colorId = theme.getBackgroundColor(position);
+        holder.itemView.setBackgroundResource(colorId);
+
+
+        onBindAvatarView(holder.avatarIV, row);
 
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = ContextCompat.getColor(mContext, fgColorId);
 
         FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
 
-        final int bgColor = ContextCompat.getColor(mContext, colorId);
-
-        final WebView contentTV = holder.contentTV;
 
         final String floor = String.valueOf(lou);
         TextView floorTV = holder.floorTV;
         floorTV.setText("[" + floor + " 楼]");
         floorTV.setTextColor(fgColor);
 
-        if (!StringUtils.isEmpty(row.getFromClientModel())) {
-            ClientListener clientListener = new ClientListener(position, mData, mContext);
-            String from_client_model = row.getFromClientModel();
-            switch (from_client_model) {
-                case "ios":
-                    holder.clientBtn.setImageResource(R.drawable.ios);// IOS
-                    break;
-                case "wp":
-                    holder.clientBtn.setImageResource(R.drawable.wp);// WP
-                    break;
-                case "unknown":
-                    holder.clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
-                    break;
-            }
-            holder.clientBtn.setVisibility(View.VISIBLE);
-            holder.clientBtn.setOnClickListener(clientListener);
-        }
-        FunctionUtils.handleContentTV(contentTV, row, bgColor, fgColor, mContext, null, mWebViewClient);
+        onBindDeviceType(holder.clientBtn, row);
+
+        onBindWebView(holder.contentTV, row);
+
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());
         postTimeTV.setTextColor(fgColor);
@@ -193,12 +186,23 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                     mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
                 }
                 return true;
+                    clientBtn.setImageResource(R.drawable.wp);// WP
+                    break;
+                case DEVICE_TYPE_ANDROID:
+                    clientBtn.setImageResource(R.drawable.android);
+                    break;
+                default:
+                    clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
+                    break;
             }
-        });
+            clientBtn.setOnClickListener(mOnClientClickListener);
+            clientBtn.setTag(row);
+            clientBtn.setVisibility(View.VISIBLE);
+        }
     }
 
-    public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
-        mItemLongClickListener = listener;
+    public void setOnLongClickListener(View.OnLongClickListener listener) {
+        mOnLongClickListener = listener;
     }
 
     @Override
@@ -211,9 +215,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         return mData == null ? 0 : mData.getRowNum();
     }
 
-    private void handleAvatar(ImageView avatarIV, ThreadRowInfo row) {
+    private void onBindAvatarView(ImageView avatarIv, ThreadRowInfo row) {
         if (!PermissionUtils.hasStoragePermission(mContext)) {
-            avatarIV.setImageResource(R.drawable.default_avatar);
+            avatarIv.setImageResource(R.drawable.default_avatar);
             return;
         }
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
@@ -226,8 +230,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                     .placeholder(R.drawable.default_avatar)
                     .onlyRetrieveFromCache(!downImg)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(avatarIV);
-            UserManagerImpl.getInstance().setAvatarUrl(row.getAuthorid(),avatarUrl);
+                    .into(avatarIv);
+            UserManagerImpl.getInstance().setAvatarUrl(row.getAuthorid(), avatarUrl);
         }
     }
 

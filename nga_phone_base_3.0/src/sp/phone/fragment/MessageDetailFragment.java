@@ -19,7 +19,7 @@ import sp.phone.adapter.MessageDetailAdapter;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.mvp.presenter.MessageDetailPresenter;
 import sp.phone.mvp.contract.MessageDetailContract;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
 public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresenter> implements MessageDetailContract.IMessageView {

@@ -14,7 +14,7 @@ import gov.anzong.androidnga.R;
 import noname.gson.parse.NonameThreadBody;
 import noname.gson.parse.NonameThreadResponse;
 import noname.interfaces.NextJsonNonameTopicListLoader;
-import sp.phone.utils.ActivityUtils;
+import sp.phone.util.ActivityUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class AppendableNonameTopicAdapter extends NonameTopicListAdapter {

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import sp.phone.utils.ApplicationContextHolder;
+import sp.phone.common.ApplicationContextHolder;
 
 /**
  * Created by elrond on 2016/12/22.

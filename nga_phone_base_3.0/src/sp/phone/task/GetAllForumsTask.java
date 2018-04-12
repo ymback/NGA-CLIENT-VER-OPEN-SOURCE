@@ -9,8 +9,8 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.ForumsListModel;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.HttpUtil;
 
 /**
  * 版块列表

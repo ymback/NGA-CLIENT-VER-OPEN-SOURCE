@@ -14,8 +14,8 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.MessageListFragment;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.StringUtils;
 
 public class MessageListActivity extends SwipeBackAppCompatActivity
         implements View.OnClickListener {

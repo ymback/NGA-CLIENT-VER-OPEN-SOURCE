@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
+import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.TopicHistoryFragment;

@@ -15,11 +15,11 @@ import sp.phone.bean.MissionDetialData;
 import sp.phone.bean.SignData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnSignPageLoadFinishedListener;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class JsonSignLoadTask extends AsyncTask<String, Integer, SignData> {
     static final String TAG = JsonSignLoadTask.class.getSimpleName();

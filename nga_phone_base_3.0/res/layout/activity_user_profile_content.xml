@@ -366,7 +366,7 @@
                     android:visibility="gone">
                 </TextView>
 
-                <sp.phone.view.WebViewEx
+                <WebView
                     android:id="@+id/wv_sign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -412,7 +412,7 @@
                     android:textColor="#808080">
                 </TextView>
 
-                <sp.phone.view.WebViewEx
+                <WebView
                     android:id="@+id/wv_admin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -457,7 +457,7 @@
                     android:textIsSelectable="false">
                 </TextView>
 
-                <sp.phone.view.WebViewEx
+                <WebView
                     android:id="@+id/wv_fame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

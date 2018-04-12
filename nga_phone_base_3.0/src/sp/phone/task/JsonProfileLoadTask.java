@@ -16,10 +16,10 @@ import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnProfileLoadFinishedListener;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 public class JsonProfileLoadTask extends AsyncTask<String, Integer, ProfileData> {
     static final String TAG = JsonProfileLoadTask.class.getSimpleName();

@@ -10,10 +10,10 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.ArticleUtil;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.NLog;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.ArticleUtil;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
 
 public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
     static final String TAG = JsonThreadLoadTask.class.getSimpleName();

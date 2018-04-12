@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import gov.anzong.androidnga.R;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.StringUtils;
 
 public class ReportTask extends AsyncTask<String, Integer, String> {
     final private Context context;

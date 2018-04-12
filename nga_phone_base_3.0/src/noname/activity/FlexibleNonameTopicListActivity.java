@@ -30,9 +30,9 @@ import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import noname.interfaces.PagerOwner;
 import sp.phone.interfaces.PullToRefreshAttacherOwner;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.utils.NLog;
-import sp.phone.utils.ReflectionUtil;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.ReflectionUtil;
+import sp.phone.util.StringUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 
 public class FlexibleNonameTopicListActivity extends SwipeBackAppCompatActivity

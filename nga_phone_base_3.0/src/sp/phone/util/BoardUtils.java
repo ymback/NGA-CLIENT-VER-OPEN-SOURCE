@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 /**
  * Created by Justwen on 2018/1/29.

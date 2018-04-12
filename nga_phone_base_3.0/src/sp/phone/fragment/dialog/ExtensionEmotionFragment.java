@@ -10,9 +10,8 @@ import android.widget.GridView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
-import sp.phone.fragment.dialog.NoframeDialogFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.utils.NLog;
+import sp.phone.util.NLog;
 
 
 public class ExtensionEmotionFragment extends NoframeDialogFragment {

@@ -1,4 +1,4 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -56,6 +56,7 @@ import sp.phone.fragment.dialog.ReportDialogFragment;
 import sp.phone.fragment.dialog.SuperTextDialogFragment;
 import sp.phone.proxy.ProxyBridge;
 import sp.phone.theme.ThemeManager;
+import sp.phone.view.webview.WebViewClientEx;
 
 @SuppressLint("DefaultLocale")
 public class FunctionUtils {
@@ -223,7 +224,7 @@ public class FunctionUtils {
 
     @SuppressWarnings("static-access")
     public static void handleContentTV(final WebView contentTV, final MessageArticlePageInfo row, int bgColor, int fgColor, Context context) {
-        final WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+        final WebViewClient client = new WebViewClientEx((FragmentActivity) context);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
@@ -242,34 +243,6 @@ public class FunctionUtils {
                 "text/html", "utf-8", null);
     }
 
-    @SuppressWarnings("static-access")
-    public static void handleContentTV(WebView contentTV, final ThreadRowInfo row,
-                                       final int position, int bgColor, final Context context, final Callback mActionModeCallback, WebViewClient client) {
-        contentTV.setBackgroundColor(0);
-        contentTV.setFocusableInTouchMode(false);
-        contentTV.setFocusable(false);
-        contentTV.setLongClickable(false);
-        if (mActionModeCallback != null) {
-            contentTV.setOnLongClickListener(new OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v) {
-                    ((AppCompatActivity) context).startSupportActionMode(mActionModeCallback);
-                    return true;
-                }
-
-            });
-        }
-//		if (Build.VERSION.SDK_INT >= 11) {
-//			contentTV.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-//		}
-        WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance().getWebSize());
-        setting.setJavaScriptEnabled(false);
-        contentTV.setWebViewClient(client);
-        contentTV.loadDataWithBaseURL(null, row.getFormated_html_data(), "text/html", "utf-8", null);
-    }
 
     public static void errordialogadmin(Context context, final View listView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -339,7 +312,7 @@ public class FunctionUtils {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+        WebViewClient client = new WebViewClientEx((FragmentActivity) context);
         WebView contentTV = (WebView) view.findViewById(R.id.signature);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
@@ -418,7 +391,7 @@ public class FunctionUtils {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+        WebViewClient client = new WebViewClientEx((FragmentActivity) context);
         WebView contentTV = (WebView) view.findViewById(R.id.signature);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
@@ -473,7 +446,7 @@ public class FunctionUtils {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+        WebViewClient client = new WebViewClientEx((FragmentActivity) context);
         final WebView contentTV = (WebView) view.findViewById(R.id.votewebview);
         contentTV.setBackgroundColor(0);
         contentTV.setLongClickable(false);
@@ -617,7 +590,7 @@ public class FunctionUtils {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+        WebViewClient client = new WebViewClientEx((FragmentActivity) context);
         WebView contentTV = (WebView) view.findViewById(R.id.signature);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
@@ -668,7 +641,7 @@ public class FunctionUtils {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new ArticleListWebClient((FragmentActivity) context);
+        WebViewClient client = new WebViewClientEx((FragmentActivity) context);
         WebView contentTV = (WebView) view.findViewById(R.id.signature);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
@@ -792,7 +765,7 @@ public class FunctionUtils {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        String formated_html_data = HtmlUtil.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
+        String formated_html_data = HtmlUtils.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
         row.setFormated_html_data(formated_html_data);
     }
 

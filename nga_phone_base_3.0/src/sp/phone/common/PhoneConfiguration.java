@@ -16,7 +16,6 @@ import gov.anzong.androidnga.activity.TopicListActivity;
 import noname.activity.FlexibleNonameTopicListActivity;
 import noname.activity.NonameArticleListActivity;
 import noname.activity.NonamePostActivity;
-import sp.phone.utils.ApplicationContextHolder;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
     public Class<?> topicActivityClass = TopicListActivity.class;

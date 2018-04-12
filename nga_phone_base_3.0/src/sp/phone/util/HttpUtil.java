@@ -1,9 +1,8 @@
-package sp.phone.utils;
+package sp.phone.util;
 
 
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 

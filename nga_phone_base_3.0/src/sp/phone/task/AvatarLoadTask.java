@@ -11,9 +11,9 @@ import java.util.zip.ZipFile;
 
 import sp.phone.bean.AvatarTag;
 import sp.phone.interfaces.AvatarLoadCompleteCallBack;
-import sp.phone.utils.HttpUtil;
-import sp.phone.utils.ImageUtil;
-import sp.phone.utils.NLog;
+import sp.phone.util.HttpUtil;
+import sp.phone.util.ImageUtils;
+import sp.phone.util.NLog;
 
 public class AvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
     static final String TAG = AvatarLoadTask.class.getSimpleName();
@@ -69,7 +69,7 @@ public class AvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
 
         if (is != null) {
             //NLog.d(TAG,"load avatar from file: " + avatarLocalPath);
-            bitmap = ImageUtil.loadAvatarFromSdcard(avatarLocalPath);
+            bitmap = ImageUtils.loadAvatarFromSdcard(avatarLocalPath);
         }
 
 

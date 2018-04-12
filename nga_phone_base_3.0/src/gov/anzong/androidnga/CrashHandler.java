@@ -19,8 +19,8 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.util.Locale;
 
-import sp.phone.utils.NLog;
-import sp.phone.utils.PermissionUtils;
+import sp.phone.util.NLog;
+import sp.phone.util.PermissionUtils;
 
 
 /**

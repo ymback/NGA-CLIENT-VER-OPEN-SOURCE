@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.net.UnknownHostException;
 
 import gov.anzong.androidnga.R;
-import sp.phone.utils.ApplicationContextHolder;
+import sp.phone.common.ApplicationContextHolder;
 
 /**
  * Created by Justwen on 2017/11/23.

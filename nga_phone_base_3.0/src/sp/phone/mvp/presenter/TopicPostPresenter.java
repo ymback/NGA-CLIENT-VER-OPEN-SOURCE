@@ -22,11 +22,11 @@ import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
-import sp.phone.utils.ActivityUtils;
-import sp.phone.utils.DeviceUtils;
-import sp.phone.utils.FunctionUtils;
-import sp.phone.utils.PermissionUtils;
-import sp.phone.utils.StringUtils;
+import sp.phone.util.ActivityUtils;
+import sp.phone.util.DeviceUtils;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.PermissionUtils;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/6/6.
