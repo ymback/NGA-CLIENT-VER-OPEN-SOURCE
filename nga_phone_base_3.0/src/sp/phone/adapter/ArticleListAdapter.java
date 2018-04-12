@@ -173,19 +173,40 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         holder.scoreTV.setText("顶: " + row.getScore() + "    踩: " + row.getScore_2());
         holder.scoreTV.setTextColor(fgColor);
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return mItemLongClickListener != null && mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
-            }
-        });
-        holder.contentTV.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mItemLongClickListener != null) {
-                    mItemLongClickListener.onItemLongClick(null, holder.itemView, position, getItemId(position));
-                }
-                return true;
+
+        holder.contentTV.setTag(position);
+        holder.itemView.setTag(position);
+        holder.itemView.setOnLongClickListener(mOnLongClickListener);
+        holder.contentTV.setOnLongClickListener(mOnLongClickListener);
+    }
+
+    private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
+        String html = row.getFormated_html_data();
+
+        webView.setWebViewClient(mWebViewClient);
+        webView.setBackgroundColor(Color.TRANSPARENT);
+        webView.setFocusableInTouchMode(false);
+        webView.setFocusable(false);
+        webView.setLongClickable(false);
+
+        WebSettings settings = webView.getSettings();
+        settings.setDefaultFontSize(PhoneConfiguration.getInstance().getWebSize());
+        settings.setJavaScriptEnabled(false);
+
+        webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+    }
+
+    private void onBindDeviceType(ImageView clientBtn, ThreadRowInfo row) {
+        String deviceType = row.getFromClientModel();
+
+        if (TextUtils.isEmpty(deviceType)) {
+            clientBtn.setVisibility(View.GONE);
+        } else {
+            switch (deviceType) {
+                case DEVICE_TYPE_IOS:
+                    clientBtn.setImageResource(R.drawable.ios);// IOS
+                    break;
+                case DEVICE_TYPE_WP:
                     clientBtn.setImageResource(R.drawable.wp);// WP
                     break;
                 case DEVICE_TYPE_ANDROID:
