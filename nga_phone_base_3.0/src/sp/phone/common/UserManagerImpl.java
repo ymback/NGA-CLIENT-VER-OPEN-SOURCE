@@ -32,6 +32,9 @@ public class UserManagerImpl implements UserManager {
 
     private SharedPreferences mAvatarPreferences;
 
+    // TODO: 2018/4/15  temp solution
+    private boolean mAvatarUpdated;
+
     private static class SingletonHolder {
 
         static UserManager sInstance = new UserManagerImpl();
@@ -127,9 +130,10 @@ public class UserManagerImpl implements UserManager {
 
         for (User user : mUserList) {
             if (user.getUserId().equals(String.valueOf(userId))) {
-                if (user.getAvatarUrl() == null) {
+                if (user.getAvatarUrl() == null || !mAvatarUpdated) {
                     user.setAvatarUrl(url);
                     commit();
+                    mAvatarUpdated = true;
                 }
                 return;
             }
