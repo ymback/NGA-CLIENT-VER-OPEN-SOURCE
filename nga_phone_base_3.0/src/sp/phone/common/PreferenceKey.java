@@ -4,6 +4,8 @@ public interface PreferenceKey {
 
     String PREFERENCE_AVATAR = "avatar";
 
+    String PREFERENCE_SETTINGS = "perference";
+
     String PERFERENCE = "perference";
     String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
     String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";
@@ -88,4 +90,6 @@ public interface PreferenceKey {
     String KEY_AUTO_SIGN = "auto_sign_in";
 
     String KEY_REPLY_COUNT = "reply_count";
+
+    String KEY_SWIPE_BACK = "swipe_back";
 }

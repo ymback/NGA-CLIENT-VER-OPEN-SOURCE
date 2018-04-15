@@ -1,11 +1,13 @@
 package gov.anzong.androidnga.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
+import sp.phone.common.PreferenceKey;
 
 /**
  * Created by Administrator on 13-9-29.
@@ -23,10 +25,12 @@ public abstract class SwipeBackAppCompatActivity extends BaseActivity implements
     private void setSwipeBack() {
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
-        final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
-        getSwipeBackLayout().setEdgeSize((int) (MY_EDGE_SIZE * density + 0.5f));// 10dp
-        int pos = SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_RIGHT;
-        getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+        if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, true)) {
+            final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
+            getSwipeBackLayout().setEdgeSize((int) (MY_EDGE_SIZE * density + 0.5f));// 10dp
+            int pos = SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_RIGHT;
+            getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+        }
 
     }
 
