@@ -484,9 +484,20 @@ public class StringUtils {
                 s = buildAudioHtml(s);
             }
             s = buildVideoHtml(s);
+            s = buildThumbImage(s);
         } catch (Exception e) {
         }
         return s;
+    }
+
+    private static String buildThumbImage(String content) {
+        Pattern pattern = Pattern.compile("<a href='(http\\S+)'>");
+        Matcher matcher = pattern.matcher(content);
+        while (matcher.find()) {
+            String s = matcher.group(1);
+            content = content.replaceFirst(s, s.substring(0, s.indexOf(".thumb.jpg")));
+        }
+        return content;
     }
 
     private static String buildEmoticonImage(String content) {
