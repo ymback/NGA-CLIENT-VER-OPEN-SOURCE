@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
+            android:layout_gravity="center_vertical"
             android:gravity="left|center_vertical"
             android:maxLines="5"
             android:paddingLeft="20dp"
@@ -41,7 +42,7 @@
             android:layout_marginRight="10dp"
             android:contentDescription="下载保存"
             android:scaleType="center"
-            android:src="@drawable/ic_menu_save"
+            android:src="@drawable/btn_ic_save"
             android:visibility="visible" />
 
         <ImageView

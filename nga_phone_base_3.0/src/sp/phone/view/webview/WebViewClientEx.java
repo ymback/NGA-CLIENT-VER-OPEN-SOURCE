@@ -47,7 +47,6 @@ public class WebViewClientEx extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        url = url.toLowerCase(Locale.US);
         Context context = view.getContext();
         PhoneConfiguration conf = PhoneConfiguration.getInstance();
         if (!url.startsWith("http") && !url.startsWith("market")) {
