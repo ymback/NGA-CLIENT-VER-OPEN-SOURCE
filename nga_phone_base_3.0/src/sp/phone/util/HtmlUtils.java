@@ -1,8 +1,8 @@
 package sp.phone.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
@@ -93,7 +92,7 @@ public class HtmlUtils {
             // 把链接替换为短字符
             //ngaHtml = replaceLinkText(ngaHtml);
             ngaHtml = ngaHtml
-                    + buildComment(row, fgColorStr, showImage, imageQuality, context)
+                    + buildComment(row, fgColorStr, showImage, imageQuality)
                     + buildAttachment(row, showImage, imageQuality, imageURLSet)
                     + buildSignature(row, showImage, imageQuality)
                     + buildVote(row);
@@ -218,64 +217,32 @@ public class HtmlUtils {
         return ret;
     }
 
-    private static String buildComment(ThreadRowInfo row, String fgColor, boolean showImage, int imageQuality, Context context) {
-        if (row == null || row.getComments() == null || row.getComments().isEmpty()) {
-            return "";
-        }
-
+    private static StringBuilder buildComment(ThreadRowInfo row, String fgColor, boolean showImage, int imageQuality) {
         StringBuilder ret = new StringBuilder();
-        ret.append("<br/></br>").append(comment).append("<hr/><br/>");
-        ret.append("<table border='1px' cellspacing='0px' style='table-layout:fixed;word-break:break-all;border-collapse:collapse;");
-        ret.append("color:");
-        ret.append(fgColor);
-        ret.append("'>");
+        if (row == null || row.getComments() == null || row.getComments().isEmpty()) {
+            return ret;
+        }
+        ret.append(String.format("<br/><br/>%s<hr/><br/><table border='1px' cellpadding='10px' style='table-layout:fixed;word-break:break-all;border-collapse:collapse; color:%s'>", comment, fgColor));
 
-        ret.append("<tbody>");
-
-        Iterator<ThreadRowInfo> it = row.getComments().iterator();
-        final boolean downImg = NetUtil.getInstance().isInWifi() || PhoneConfiguration.getInstance().isDownAvatarNoWifi();
-        while (it.hasNext()) {
-            ThreadRowInfo comment = it.next();
-            ret.append("<tr><td>");
-            ret.append("<span style='font-weight:bold' >");
-            ret.append(comment.getAuthor());
-            ret.append("</span><br/>");
-            ret.append("<img src='");
+        for (ThreadRowInfo comment : row.getComments()) {
+            String author = comment.getAuthor();
             String avatarUrl = FunctionUtils.parseAvatarUrl(comment.getJs_escap_avatar());
-            String avatarPath = ImageUtils.newImage(avatarUrl, String.valueOf(comment.getAuthorid()));
-            if (downImg) {
-                if (StringUtils.isEmpty(avatarPath)) {
-                    ret.append(avatarUrl);
-                } else {
-                    File f = new File(avatarPath);
-                    if (f.exists()) {
-                        ret.append("file://").append(avatarPath);
-                    } else {
-                        ret.append(avatarUrl);
-                    }
-                }
-            } else {
-                if (StringUtils.isEmpty(avatarPath)) {
-                    ret.append("file:///android_asset/default_avatar.png");
-                } else {
-                    File f = new File(avatarPath);
-                    if (f.exists()) {
-                        ret.append(avatarPath);
-                    } else {
-                        ret.append("file:///android_asset/default_avatar.png");
-                    }
-                }
+            if (!showImage || TextUtils.isEmpty(avatarUrl)) {
+                avatarUrl = "file:///android_asset/default_avatar.png";
             }
-            ret.append("' style= 'max-width:32;'>");
-
-            ret.append("</td><td width=\"70%\">");
-            ret.append(StringUtils.decodeForumTag(comment.getContent(), showImage, imageQuality, null));
-            ret.append("</td></tr>");
+            String content = comment.getContent();
+            // TODO: 2018/4/15  should not use magic code, need refactor it later
+            int start = content.indexOf("[/uid]") + 7;
+            int end = content.indexOf("[/b]");
+            String time = content.substring(start, end);
+            content = content.substring(end + 4);
+            content = StringUtils.decodeForumTag(content, showImage, imageQuality, null);
+            ret.append(String.format("<tr><td width='10%%'> <img src='%s' align='absmiddle' style='max-width:32;' />  <span style='font-weight:bold'>%s %s</span>%s</td></tr>",
+                    avatarUrl, author, time, content));
 
         }
-        ret.append("</tbody></table>");
-        NLog.i(TAG, ret.toString());
-        return ret.toString();
+        ret.append("</table>");
+        return ret;
     }
 
     private static String buildSignature(ThreadRowInfo row, boolean showImage,
