@@ -121,7 +121,6 @@ public class WebViewClientEx extends WebViewClient {
             if (isSafeIntent) {
                 context.startActivity(intent);
             }
-            return false;
         }
         return true;
     }

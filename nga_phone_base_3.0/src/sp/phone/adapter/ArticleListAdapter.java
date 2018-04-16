@@ -123,6 +123,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         ArticleViewHolder viewHolder = new ArticleViewHolder(view);
         ViewGroup.LayoutParams lp = viewHolder.avatarIV.getLayoutParams();
         lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarWidth();
+        viewHolder.contentTV.setLocalMode();
         return viewHolder;
     }
 
@@ -177,7 +178,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
         String html = row.getFormated_html_data();
-        webView.setLocalMode();
         webView.setTextSize(PhoneConfiguration.getInstance().getWebSize());
         webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
     }
