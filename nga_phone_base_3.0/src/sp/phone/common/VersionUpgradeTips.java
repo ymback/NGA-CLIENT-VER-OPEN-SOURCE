@@ -26,4 +26,12 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2078 = "更新内容\n"
+            + "● 重新添加侧滑返回的选项\n"
+            + "● 更新主题评论的布局\n"
+            + "● 解决头像偶尔错乱的bug\n"
+            + "● 解决无法查看附件原图的bug\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 }
