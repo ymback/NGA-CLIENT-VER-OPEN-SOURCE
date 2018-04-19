@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile "com.android.support:appcompat-v7:" + project.androidSupportVersion
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation "com.android.support:appcompat-v7:" + project.androidSupportVersion
 }
 
 android {
@@ -22,7 +22,7 @@ android {
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
         }
-        instrumentTest.setRoot('tests')
+        //instrumentTest.setRoot('tests')
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }

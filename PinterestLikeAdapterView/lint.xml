@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<lint>
-    <issue id="NewApi" severity="ignore">
-        <ignore path="src/com/huewu/pla/lib/MultiColumnPullToRefreshListView.java" />
-    </issue>
-    <issue id="WrongCall" severity="ignore" />
-</lint>
