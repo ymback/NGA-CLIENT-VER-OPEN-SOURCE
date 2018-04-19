@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <ImageView
+        android:id="@+id/emotion_basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/p0" />
+
+
+
+
+
+    <ImageView
+        android:id="@+id/emotion_baozou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/baozou" />
+
+    <ImageView
+        android:id="@+id/emotion_xiongmao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/xiongmao" />
+    
+    <ImageView
+        android:id="@+id/emotion_taijun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/taijun" />
+    <ImageView
+        android:id="@+id/emotion_ali"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/ali" />
+    <ImageView
+        android:id="@+id/emotion_dayanmao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/dayanmao" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center" >
+
+    <ImageView
+        android:id="@+id/emotion_luoxiaohei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/luoxiaohei" />
+    <ImageView
+        android:id="@+id/emotion_majianglian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/majianglian" />
+    <ImageView
+        android:id="@+id/emotion_zhaiyin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/zhaiyin" />
+      <ImageView
+        android:id="@+id/emotion_yangcongtou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/yangcongtou" />
+      <ImageView
+        android:id="@+id/emotion_acniang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/acniang" />
+      <ImageView
+        android:id="@+id/emotion_bierde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/bierde" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center" >
+      <ImageView
+        android:id="@+id/emotion_lindabi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/lindabi" />
+      <ImageView
+        android:id="@+id/emotion_niweihezhemediao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/niweihezhemediao" />
+	<ImageView
+        android:id="@+id/emotion_quniang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/quniang" />
+	<ImageView
+        android:id="@+id/emotion_pst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/pst" />
+	<ImageView
+        android:id="@+id/emotion_dt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:contentDescription="@string/select_category"
+        android:src="@drawable/dt" />
+	
+    </LinearLayout>
+</LinearLayout>

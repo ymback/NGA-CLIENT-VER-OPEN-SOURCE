@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="gov.anzong.androidnga"
+          android:configChanges="orientation|screenSize"
+          android:installLocation="auto"
+          android:largeHeap="true">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name=".NgaClientApp"
+        android:anyDensity="false"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/nga_bg"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo.Light"
+        tools:ignore="AllowBackup">
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+
+            <!-- add static shortcut -->
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/static_shortcuts"/>
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBackTheme"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.PostActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/SwipeBackTheme"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activity.AvatarPostActivity"
+            android:theme="@style/SwipeBackTheme"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activity.SignPostActivity"
+            android:theme="@style/SwipeBackTheme"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="noname.activity.NonamePostActivity"
+            android:theme="@style/SwipeBackTheme"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activity.MessagePostActivity"
+            android:theme="@style/SwipeBackTheme"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.MessageListActivity"
+            android:label="@string/label_activity_message_list"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name="noname.activity.FlexibleNonameTopicListActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.MessageDetailActivity"
+            android:label="@string/label_activity_message_detail"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name="noname.activity.NonameArticleListActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.TopicListActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
+            android:theme="@style/SwipeBackTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="bbs.ngacn.cc"
+                    android:path="/thread.php"
+                    android:scheme="@string/myscheme"/>
+                <data
+                    android:host="nga.178.com"
+                    android:path="/thread.php"
+                    android:scheme="@string/myscheme"/>
+                <data
+                    android:host="bbs.bigccq.cn"
+                    android:path="/thread.php"
+                    android:scheme="@string/myscheme"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="bbs.ngacn.cc"
+                    android:path="/thread.php"
+                    android:scheme="@string/myscheme"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="bbs.ngacn.cc"
+                    android:path="/thread.php"
+                    android:scheme="http"/>
+                <data
+                    android:host="nga.178.com"
+                    android:path="/thread.php"
+                    android:scheme="http"/>
+                <data
+                    android:host="bbs.bigccq.cn"
+                    android:path="/thread.php"
+                    android:scheme="http"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="bbs.ngacn.cc"
+                    android:path="/thread.php"
+                    android:scheme="http"/>
+                <data
+                    android:host="nga.178.com"
+                    android:path="/thread.php"
+                    android:scheme="http"/>
+                <data
+                    android:host="bbs.bigccq.cn"
+                    android:path="/thread.php"
+                    android:scheme="http"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ArticleListActivity"
+            android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
+            android:exported="true"
+            android:multiprocess="true"
+            android:theme="@style/SwipeBackTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="nga.178.com"
+                    android:path="/read.php"
+                    android:scheme="@string/myscheme"/>
+                <data
+                    android:host="bbs.ngacn.cc"
+                    android:path="/read.php"
+                    android:scheme="@string/myscheme"/>
+                <data
+                    android:host="bbs.bigccq.cn"
+                    android:path="/read.php"
+                    android:scheme="@string/myscheme"/>
+                <data
+                    android:host="bbs.nga.cn"
+                    android:path="/read.php"
+                    android:scheme="@string/myscheme"/>
+                <data
+                    android:host="nga.178.com"
+                    android:path="/read.php"
+                    android:scheme="http"/>
+                <data
+                    android:host="bbs.ngacn.cc"
+                    android:path="/read.php"
+                    android:scheme="http"/>
+                <data
+                    android:host="bbs.bigccq.cn"
+                    android:path="/read.php"
+                    android:scheme="http"/>
+                <data
+                    android:host="bbs.nga.cn"
+                    android:path="/read.php"
+                    android:scheme="http"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".gallery.ImageZoomActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.ForumListActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.WebViewerActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.NearbyUserActivity"
+            android:theme="@style/SwipeBackTheme"/>
+        <activity
+            android:name=".activity.RecentNotificationActivity"
+            android:theme="@style/SwipeBackTheme"/>
+
+
+        <activity android:name=".activity.LauncherSubActivity"/>
+
+    </application>
+
+</manifest>
