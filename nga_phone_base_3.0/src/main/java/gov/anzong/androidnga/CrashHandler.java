@@ -158,7 +158,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             }
         }
         sb.append(err);
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/";
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + '/' + mContext.getPackageName()+ "/crash/";
         File f = new File(path);
         if (!f.exists()) {
             f.mkdirs();
