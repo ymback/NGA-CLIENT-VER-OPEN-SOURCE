@@ -40,11 +40,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.util.GlideApp;
-import sp.phone.fragment.dialog.AddBoardDialogFragment;
-import sp.phone.fragment.dialog.LoginDialogFragment;
-import sp.phone.interfaces.PageCategoryOwner;
-import sp.phone.mvp.contract.BoardContract;
-import sp.phone.util.ImageUtils;
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.User;
@@ -264,9 +259,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
                 .transforms(new BitmapTransformation() {
                     @Override
                     protected Bitmap transform(@NonNull BitmapPool bitmapPool, @NonNull Bitmap bitmap, int i, int i1) {
-                        Bitmap roundBitmap = ImageUtils.toRoundCorner(bitmap, 2);
-                        bitmapPool.put(roundBitmap);
-                        return roundBitmap;
+                        return ImageUtils.toRoundCorner(bitmap, 2);
                     }
 
                     @Override
