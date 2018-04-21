@@ -24,6 +24,7 @@ import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
@@ -127,9 +128,6 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 case R.id.menu_like:
                     doLike(tid, row.getPid(), 1);
                     break;
-                case R.id.menu_dislike:
-                    doLike(tid, row.getPid(), 1);
-                    break;
                 default:
                     break;
             }
@@ -159,16 +157,23 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
             MenuItem item = menu.findItem(R.id.menu_ban_this_one);
             if (item != null) {
                 item.setTitle(row.get_isInBlackList() ? R.string.cancel_ban_thisone : R.string.ban_thisone);
-
             }
+
             item = menu.findItem(R.id.menu_vote);
             if (item != null && StringUtils.isEmpty(row.getVote())) {
-                menu.removeItem(R.id.menu_vote);
+                item.setVisible(false);
+            }
+
+            item = menu.findItem(R.id.menu_edit);
+            if (item != null) {
+                User user = UserManagerImpl.getInstance().getActiveUser();
+                if (user == null || !user.getUserId().equals(String.valueOf(row.getAuthorid()))) {
+                    item.setVisible(false);
+                }
             }
         }
 
     };
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

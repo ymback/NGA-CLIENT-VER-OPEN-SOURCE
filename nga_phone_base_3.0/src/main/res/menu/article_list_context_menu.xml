@@ -12,10 +12,6 @@
         android:title="@string/like"/>
 
     <item
-        android:id="@+id/menu_dislike"
-        android:title="@string/dislike"/>
-
-    <item
         android:id="@+id/menu_report"
         android:title="@string/report"/>
 
