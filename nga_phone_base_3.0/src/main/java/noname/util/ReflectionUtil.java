@@ -1,4 +1,4 @@
-package sp.phone.util;
+package noname.util;
 
 import android.support.v7.app.AppCompatActivity;
 

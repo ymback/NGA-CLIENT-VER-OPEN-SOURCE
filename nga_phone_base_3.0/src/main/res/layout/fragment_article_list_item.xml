@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:minHeight="40dp">
 
-
         <FrameLayout
             android:id="@+id/fl_avatar"
             android:layout_width="wrap_content"
@@ -31,10 +30,9 @@
 
         </FrameLayout>
 
-
         <TextView
-            android:id="@+id/nickName"
-            android:layout_width="100dip"
+            android:id="@+id/tv_nickName"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
@@ -43,7 +41,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/floor"
+            android:id="@+id/tv_floor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -54,14 +52,14 @@
             android:id="@+id/iv_client"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/floor"
-            android:layout_alignTop="@id/floor"
+            android:layout_alignBottom="@id/tv_floor"
+            android:layout_alignTop="@id/tv_floor"
             android:layout_marginEnd="2dp"
-            android:layout_toStartOf="@id/floor"
+            android:layout_toStartOf="@id/tv_floor"
             android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/postTime"
+            android:id="@+id/tv_post_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -71,11 +69,10 @@
     </RelativeLayout>
 
     <sp.phone.view.webview.WebViewEx
-        android:id="@+id/content"
+        android:id="@+id/wv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,6 +103,5 @@
             android:src="@drawable/ic_more_ver_24dp"/>
 
     </LinearLayout>
-
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package sp.phone.interfaces;
+package noname.interfaces;
 
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshAttacher;
 

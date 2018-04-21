@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -17,12 +16,6 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
-import gov.anzong.androidnga.activity.LauncherSubActivity;
-import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.TopicHistoryFragment;
-import sp.phone.fragment.dialog.SearchDialogFragment;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
@@ -33,7 +26,6 @@ public class ActivityUtils {
 
     public static final String dialogTag = "saying";
     static final String TAG = ActivityUtils.class.getSimpleName();
-    private static final double EARTH_RADIUS = 6378.137;
     static ActivityUtils instance;
     static Object lock = new Object();
     private DialogFragment df = null;
@@ -48,12 +40,7 @@ public class ActivityUtils {
 
     public static final int REQUEST_CODE_SUB_BOARD = 4;
 
-    public static final String PATH_LOGIN = "/activity/LoginActivity";
-
     public static final String PATH_TOPIC_LIST = "/activity/TopicListActivity";
-
-    public static final String PATH_ARTICLE_LIST = "/activity/ArticleListActivity";
-
 
     private ActivityUtils() {
     }
@@ -85,28 +72,6 @@ public class ActivityUtils {
         }
         return instance;//instance;
 
-    }
-
-    private static double rad(double d) {
-        return d * Math.PI / 180.0;
-    }
-
-    public static long distanceBetween(Location l1, String lati2, String longi2) {
-        return distanceBetween(l1, Double.parseDouble(lati2), Double.parseDouble(longi2));
-    }
-
-    public static long distanceBetween(Location l1, double lati2, double longi2) {
-        double radLat1 = rad(l1.getLatitude());
-        double radLat2 = rad(lati2);
-        double a = radLat1 - radLat2;
-        double b = rad(l1.getLongitude()) - rad(longi2);
-
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
-                + Math.cos(radLat1) * Math.cos(radLat2)
-                * Math.pow(Math.sin(b / 2), 2)));
-        s = s * EARTH_RADIUS;
-
-        return Math.round(s * 1000);
     }
 
     static public String getSaying() {

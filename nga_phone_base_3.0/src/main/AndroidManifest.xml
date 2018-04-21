@@ -215,9 +215,6 @@
             android:name=".activity.WebViewerActivity"
             android:theme="@style/SwipeBackTheme"/>
         <activity
-            android:name=".activity.NearbyUserActivity"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity
             android:name=".activity.RecentNotificationActivity"
             android:theme="@style/SwipeBackTheme"/>
 

@@ -31,8 +31,6 @@ import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import io.reactivex.annotations.NonNull;
-import sp.phone.fragment.dialog.GotoDialogFragment;
-import sp.phone.task.BookmarkTask;
 import sp.phone.adapter.ArticlePagerAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
@@ -228,10 +226,6 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (mFam != null) {
-            menu.findItem(R.id.menu_reply).setVisible(false);
-            menu.findItem(R.id.menu_refresh).setVisible(false);
-        }
         menu.findItem(R.id.menu_goto_floor).setVisible(mReplyCount != 0);
         super.onPrepareOptionsMenu(menu);
     }

@@ -52,6 +52,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private LayoutInflater mLayoutInflater;
 
+    private ThemeManager mThemeManager = ThemeManager.getInstance();
+
     private View.OnClickListener mOnClientClickListener = new OnClientClickListener();
 
     private View.OnClickListener mOnReplyClickListener = new OnReplyClickListener();
@@ -64,10 +66,19 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tv_nickName)
         TextView nickNameTV;
+
+        @BindView(R.id.wv_content)
         WebViewEx contentTV;
-        TextView floorTV;
-        TextView postTimeTV;
+
+        @BindView(R.id.tv_floor)
+        TextView floorTv;
+
+        @BindView(R.id.tv_post_time)
+        TextView postTimeTv;
+
+        @BindView(R.id.iv_reply)
         ImageView replyBtn;
 
         @BindView(R.id.iv_avatar)
@@ -87,17 +98,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
-            initHolder(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        private void initHolder(final View view) {
-            nickNameTV = view.findViewById(R.id.nickName);
-            floorTV = view.findViewById(R.id.floor);
-            postTimeTV = view.findViewById(R.id.postTime);
-            contentTV = view.findViewById(R.id.content);
-            contentTV.setHorizontalScrollBarEnabled(false);
-            replyBtn = view.findViewById(R.id.iv_reply);
         }
     }
 
@@ -109,21 +110,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
-
-    public ThreadData getData() {
-        return mData;
-    }
-
     public void setData(ThreadData data) {
         mData = data;
     }
 
     public void setMenuTogglerListener(View.OnClickListener menuTogglerListener) {
         mMenuTogglerListener = menuTogglerListener;
-    }
-
-    public Object getItem(int position) {
-        return mData == null ? null : mData.getRowList().get(position);
     }
 
     @Override
@@ -137,8 +129,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         RxUtils.clicks(viewHolder.nickNameTV, mOnProfileClickListener);
         RxUtils.clicks(viewHolder.replyBtn, mOnReplyClickListener);
         RxUtils.clicks(viewHolder.clientIv, mOnClientClickListener);
-        RxUtils.clicks(viewHolder.menuIv , mMenuTogglerListener);
-        RxUtils.clicks(viewHolder.avatarPanel,mOnAvatarClickListener);
+        RxUtils.clicks(viewHolder.menuIv, mMenuTogglerListener);
+        RxUtils.clicks(viewHolder.avatarPanel, mOnAvatarClickListener);
         return viewHolder;
     }
 
@@ -151,12 +143,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             return;
         }
 
-        int lou = row.getLou();
-        ThemeManager theme = ThemeManager.getInstance();
-        int colorId = theme.getBackgroundColor(position);
-
-        holder.itemView.setBackgroundResource(colorId);
-
+        holder.itemView.setBackgroundResource(mThemeManager.getBackgroundColor(position));
 
         holder.replyBtn.setTag(row);
         holder.nickNameTV.setTag(row);
@@ -164,31 +151,19 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         holder.avatarPanel.setTag(row);
 
         onBindAvatarView(holder.avatarIv, row);
-
-        int fgColorId = ThemeManager.getInstance().getForegroundColor();
-        final int fgColor = ContextCompat.getColor(mContext, fgColorId);
-
-        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
-
-
-        final String floor = String.valueOf(lou);
-        TextView floorTV = holder.floorTV;
-        floorTV.setText(MessageFormat.format("[{0} 楼]", floor));
-        floorTV.setTextColor(fgColor);
-
         onBindDeviceType(holder.clientIv, row);
-
         onBindWebView(holder.contentTV, row);
 
-        TextView postTimeTV = holder.postTimeTV;
-        postTimeTV.setText(row.getPostdate());
-        postTimeTV.setTextColor(fgColor);
+        int fgColor = ContextCompat.getColor(mContext, mThemeManager.getForegroundColor());
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
+
+        holder.floorTv.setText(MessageFormat.format("[{0} 楼]", String.valueOf(row.getLou())));
+        holder.floorTv.setTextColor(fgColor);
+        holder.postTimeTv.setText(row.getPostdate());
+        holder.postTimeTv.setTextColor(fgColor);
         holder.scoreTv.setText(MessageFormat.format("顶 : {0}", row.getScore()));
         holder.scoreTv.setTextColor(fgColor);
 
-
-        holder.contentTV.setTag(position);
-        holder.itemView.setTag(position);
     }
 
     private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
@@ -205,16 +180,16 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         } else {
             switch (deviceType) {
                 case DEVICE_TYPE_IOS:
-                    clientBtn.setImageResource(R.drawable.ios);// IOS
+                    clientBtn.setImageResource(R.drawable.ic_apple_12dp);
                     break;
                 case DEVICE_TYPE_WP:
-                    clientBtn.setImageResource(R.drawable.wp);// WP
+                    clientBtn.setImageResource(R.drawable.ic_windows_12dp);
                     break;
                 case DEVICE_TYPE_ANDROID:
                     clientBtn.setImageResource(R.drawable.ic_android_12dp);
                     break;
                 default:
-                    clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
+                    clientBtn.setImageResource(R.drawable.ic_smartphone_12dp);
                     break;
             }
             clientBtn.setTag(row);
@@ -237,7 +212,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             avatarIv.setImageResource(R.drawable.default_avatar);
             return;
         }
-        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());
         final boolean downImg = DeviceUtils.isWifiConnected(mContext)
                 || PhoneConfiguration.getInstance()
                 .isDownAvatarNoWifi();

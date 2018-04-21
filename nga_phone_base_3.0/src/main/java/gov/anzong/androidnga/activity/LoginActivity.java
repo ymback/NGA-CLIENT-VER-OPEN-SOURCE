@@ -6,11 +6,10 @@ import android.support.v7.app.ActionBar;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.fragment.LoginWebFragment;
-import sp.phone.fragment.LoginWebFragment;
-import sp.phone.util.ActivityUtils;
 
-@Route(path = ActivityUtils.PATH_LOGIN)
+@Route(path = ARouterConstants.ACTIVITY_LOGIN)
 public class LoginActivity extends SwipeBackAppCompatActivity {
 
     @Override

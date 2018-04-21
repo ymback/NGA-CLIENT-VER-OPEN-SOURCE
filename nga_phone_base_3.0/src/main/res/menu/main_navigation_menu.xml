@@ -34,11 +34,6 @@
     <item android:title="私货">
         <menu>
             <item
-                android:id="@+id/menu_location"
-                android:icon="@drawable/ic_menu_mylocation"
-                android:title="Yoooo~"
-                android:visible="false"/>
-            <item
                 android:id="@+id/menu_noname"
                 android:icon="@drawable/ic_action_noname"
                 android:title="大漩涡匿名版"

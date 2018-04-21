@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.BoardFragment;
@@ -21,17 +20,6 @@ import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.presenter.BoardPresenter;
 import sp.phone.theme.ThemeManager;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.theme.ThemeManager;
-import sp.phone.common.User;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.BoardFragment;
-import sp.phone.fragment.dialog.AboutClientDialogFragment;
-import sp.phone.fragment.dialog.ProfileSearchDialogFragment;
-import sp.phone.fragment.dialog.UrlInputDialogFragment;
-import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
-import sp.phone.mvp.contract.BoardContract;
-import sp.phone.mvp.presenter.BoardPresenter;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.PermissionUtils;
 
@@ -40,8 +28,6 @@ public class MainActivity extends BaseActivity {
     private BoardContract.Presenter mPresenter;
 
     private boolean mIsNightMode;
-
-    private PhoneConfiguration mConfig = PhoneConfiguration.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,9 +108,6 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_search:
                 searchProfile();
                 break;
-            case R.id.menu_location:
-                jumpToNearby();
-                break;
             case R.id.menu_forward:
                 new UrlInputDialogFragment().show(getSupportFragmentManager());
                 break;
@@ -170,12 +153,6 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    private void jumpToNearby() {
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this, NearbyUserActivity.class);
-        startActivity(intent);
     }
 
     private void jumpToRecentReply() {

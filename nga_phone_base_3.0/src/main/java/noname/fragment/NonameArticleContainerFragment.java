@@ -21,21 +21,13 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.dialog.GotoDialogFragment;
-import sp.phone.interfaces.OnChildFragmentRemovedListener;
+import noname.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.util.StringUtils;
 import noname.adapter.NonameThreadFragmentAdapter;
 import noname.gson.parse.NonameReadResponse;
-import noname.interfaces.OnNonameThreadPageLoadFinishedListener;
-import noname.interfaces.PagerOwner;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
-import sp.phone.fragment.BaseFragment;
-import sp.phone.fragment.dialog.GotoDialogFragment;
-import sp.phone.interfaces.OnChildFragmentRemovedListener;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.NLog;
-import sp.phone.util.StringUtils;
 
 public class NonameArticleContainerFragment extends BaseFragment implements
         OnNonameThreadPageLoadFinishedListener, PreferenceKey, PagerOwner {
