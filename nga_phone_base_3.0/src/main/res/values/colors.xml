@@ -27,4 +27,6 @@
     <color name="colorAccentBlack">#FF128F80</color>
     <color name="colorPrimaryBlack">#ff212121</color>
     <color name="colorPrimaryDarkBlack">@android:color/black</color>
+
+    <color name="topic_content_btn_color">#FF858585</color>
 </resources>

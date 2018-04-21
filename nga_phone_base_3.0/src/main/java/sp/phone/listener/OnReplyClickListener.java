@@ -1,12 +1,10 @@
 package sp.phone.listener;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import sp.phone.bean.ThreadRowInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
@@ -15,18 +13,11 @@ import sp.phone.util.StringUtils;
 
 public class OnReplyClickListener implements OnClickListener {
 
-    private Context mContext;
-
-    public OnReplyClickListener(Context context) {
-        mContext = context;
-    }
 
     @Override
     public void onClick(View view) {
 
         ThreadRowInfo row = (ThreadRowInfo) view.getTag();
-
-        view.setEnabled(false);
 
         (new AsyncTask<Void, Void, Void>() {
 
@@ -96,14 +87,14 @@ public class OnReplyClickListener implements OnClickListener {
 
                 if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
                     intent.setClass(
-                            mContext,
+                            view.getContext(),
                             PhoneConfiguration.getInstance().postActivityClass);
                 } else {
                     intent.setClass(
-                            mContext,
+                            view.getContext(),
                             PhoneConfiguration.getInstance().loginActivityClass);
                 }
-                mContext.startActivity(intent);
+                view.getContext().startActivity(intent);
                 return null;
             }
         }).execute();

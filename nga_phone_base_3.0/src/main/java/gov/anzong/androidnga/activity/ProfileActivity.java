@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import java.util.HashSet;
 import java.util.List;
 
@@ -23,18 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
-import sp.phone.bean.ProfileData;
-import sp.phone.bean.ReputationData;
-import sp.phone.bean.adminForumsData;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.UserManager;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.interfaces.OnProfileLoadFinishedListener;
-import sp.phone.task.JsonProfileLoadTask;
-import sp.phone.theme.ThemeManager;
-import sp.phone.util.ImageUtils;
-import sp.phone.util.StringUtils;
-import sp.phone.view.webview.WebViewEx;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.bean.adminForumsData;
@@ -51,6 +42,7 @@ import sp.phone.util.ImageUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.webview.WebViewEx;
 
+@Route(path = ARouterConstants.ACTIVITY_PROFILE)
 public class ProfileActivity extends SwipeBackAppCompatActivity implements OnProfileLoadFinishedListener {
 
     private static final String TAG = "ProfileActivity";

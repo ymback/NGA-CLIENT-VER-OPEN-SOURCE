@@ -7,23 +7,25 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.text.MessageFormat;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.listener.OnClientClickListener;
-import sp.phone.listener.OnReplyClickListener;
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.listener.OnAvatarClickListener;
 import sp.phone.listener.OnClientClickListener;
+import sp.phone.listener.OnProfileClickListener;
 import sp.phone.listener.OnReplyClickListener;
 import sp.phone.rxjava.RxUtils;
 import sp.phone.theme.ThemeManager;
@@ -50,44 +52,52 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private LayoutInflater mLayoutInflater;
 
-    private View.OnLongClickListener mOnLongClickListener;
+    private View.OnClickListener mOnClientClickListener = new OnClientClickListener();
 
-    private OnClientClickListener mOnClientClickListener = new OnClientClickListener();
+    private View.OnClickListener mOnReplyClickListener = new OnReplyClickListener();
 
-    private OnReplyClickListener mOnReplyClickListener;
+    private View.OnClickListener mOnProfileClickListener = new OnProfileClickListener();
 
-    private int mSelectedItem;
+    private View.OnClickListener mOnAvatarClickListener = new OnAvatarClickListener();
+
+    private View.OnClickListener mMenuTogglerListener;
 
     public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
         TextView nickNameTV;
-        ImageView avatarIV;
         WebViewEx contentTV;
         TextView floorTV;
         TextView postTimeTV;
-        TextView levelTV;
-        TextView aurvrcTV;
-        TextView postnumTV;
-        int position = -1;
-        ImageButton replyBtn;
-        ImageButton clientBtn;
-        TextView scoreTV;
+        ImageView replyBtn;
+
+        @BindView(R.id.iv_avatar)
+        ImageView avatarIv;
+
+        @BindView(R.id.iv_client)
+        ImageView clientIv;
+
+        @BindView(R.id.tv_score)
+        TextView scoreTv;
+
+        @BindView(R.id.iv_more)
+        ImageView menuIv;
+
+        @BindView(R.id.fl_avatar)
+        FrameLayout avatarPanel;
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
             initHolder(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         private void initHolder(final View view) {
             nickNameTV = view.findViewById(R.id.nickName);
-            avatarIV = view.findViewById(R.id.avatarImage);
             floorTV = view.findViewById(R.id.floor);
             postTimeTV = view.findViewById(R.id.postTime);
             contentTV = view.findViewById(R.id.content);
             contentTV.setHorizontalScrollBarEnabled(false);
-            replyBtn = view.findViewById(R.id.listviewreplybtn);
-            clientBtn = view.findViewById(R.id.clientbutton);
-            scoreTV = view.findViewById(R.id.score);
+            replyBtn = view.findViewById(R.id.iv_reply);
         }
     }
 
@@ -97,7 +107,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             HtmlUtils.initStaticStrings(mContext);
         }
         mLayoutInflater = LayoutInflater.from(mContext);
-        mOnReplyClickListener = new OnReplyClickListener(context);
     }
 
 
@@ -109,12 +118,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         mData = data;
     }
 
-    public void setSelectedItem(int position) {
-        mSelectedItem = position;
-    }
-
-    public int getSelectedItem() {
-        return mSelectedItem;
+    public void setMenuTogglerListener(View.OnClickListener menuTogglerListener) {
+        mMenuTogglerListener = menuTogglerListener;
     }
 
     public Object getItem(int position) {
@@ -125,9 +130,15 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item, parent, false);
         ArticleViewHolder viewHolder = new ArticleViewHolder(view);
-        ViewGroup.LayoutParams lp = viewHolder.avatarIV.getLayoutParams();
+        ViewGroup.LayoutParams lp = viewHolder.avatarIv.getLayoutParams();
         lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarWidth();
+
         viewHolder.contentTV.setLocalMode();
+        RxUtils.clicks(viewHolder.nickNameTV, mOnProfileClickListener);
+        RxUtils.clicks(viewHolder.replyBtn, mOnReplyClickListener);
+        RxUtils.clicks(viewHolder.clientIv, mOnClientClickListener);
+        RxUtils.clicks(viewHolder.menuIv , mMenuTogglerListener);
+        RxUtils.clicks(viewHolder.avatarPanel,mOnAvatarClickListener);
         return viewHolder;
     }
 
@@ -140,17 +151,19 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             return;
         }
 
-        int lou =  row.getLou();
-
-        RxUtils.clicks(holder.replyBtn, mOnReplyClickListener);
-        holder.replyBtn.setTag(row);
-
+        int lou = row.getLou();
         ThemeManager theme = ThemeManager.getInstance();
         int colorId = theme.getBackgroundColor(position);
+
         holder.itemView.setBackgroundResource(colorId);
 
 
-        onBindAvatarView(holder.avatarIV, row);
+        holder.replyBtn.setTag(row);
+        holder.nickNameTV.setTag(row);
+        holder.menuIv.setTag(row);
+        holder.avatarPanel.setTag(row);
+
+        onBindAvatarView(holder.avatarIv, row);
 
         int fgColorId = ThemeManager.getInstance().getForegroundColor();
         final int fgColor = ContextCompat.getColor(mContext, fgColorId);
@@ -160,24 +173,22 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         final String floor = String.valueOf(lou);
         TextView floorTV = holder.floorTV;
-        floorTV.setText("[" + floor + " 楼]");
+        floorTV.setText(MessageFormat.format("[{0} 楼]", floor));
         floorTV.setTextColor(fgColor);
 
-        onBindDeviceType(holder.clientBtn, row);
+        onBindDeviceType(holder.clientIv, row);
 
         onBindWebView(holder.contentTV, row);
 
         TextView postTimeTV = holder.postTimeTV;
         postTimeTV.setText(row.getPostdate());
         postTimeTV.setTextColor(fgColor);
-        holder.scoreTV.setText("顶: " + row.getScore() + "    踩: " + row.getScore_2());
-        holder.scoreTV.setTextColor(fgColor);
+        holder.scoreTv.setText(MessageFormat.format("顶 : {0}", row.getScore()));
+        holder.scoreTv.setTextColor(fgColor);
 
 
         holder.contentTV.setTag(position);
         holder.itemView.setTag(position);
-        holder.itemView.setOnLongClickListener(mOnLongClickListener);
-        holder.contentTV.setOnLongClickListener(mOnLongClickListener);
     }
 
     private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
@@ -200,20 +211,15 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                     clientBtn.setImageResource(R.drawable.wp);// WP
                     break;
                 case DEVICE_TYPE_ANDROID:
-                    clientBtn.setImageResource(R.drawable.android);
+                    clientBtn.setImageResource(R.drawable.ic_android_12dp);
                     break;
                 default:
                     clientBtn.setImageResource(R.drawable.unkonwn);// 未知orBB
                     break;
             }
-            clientBtn.setOnClickListener(mOnClientClickListener);
             clientBtn.setTag(row);
             clientBtn.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void setOnLongClickListener(View.OnLongClickListener listener) {
-        mOnLongClickListener = listener;
     }
 
     @Override

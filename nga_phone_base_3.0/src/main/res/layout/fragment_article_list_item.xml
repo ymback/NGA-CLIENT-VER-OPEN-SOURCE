@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,15 +14,23 @@
         android:layout_height="wrap_content"
         android:minHeight="40dp">
 
-        <ImageView
-            android:id="@+id/avatarImage"
+
+        <FrameLayout
+            android:id="@+id/fl_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:contentDescription="@string/avatar"
-            android:focusable="false"
-            android:scaleType="centerInside"
-            android:longClickable="false"/>
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/avatar"
+                android:focusable="false"
+                android:scaleType="centerInside"/>
+
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/nickName"
@@ -29,29 +38,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/avatarImage"
+            android:layout_toEndOf="@id/fl_avatar"
             android:textIsSelectable="false"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/floor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:textIsSelectable="false" />
+            android:gravity="center"
+            android:textIsSelectable="false"/>
 
-        <ImageButton
-            android:id="@+id/clientbutton"
+        <ImageView
+            android:id="@+id/iv_client"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/floor"
             android:layout_alignTop="@id/floor"
-            android:layout_toStartOf="@+id/floor"
-            android:background="#00000000"
-            android:scaleType="fitCenter"
-            android:src="@drawable/android"
-            android:visibility="gone" />
+            android:layout_marginEnd="2dp"
+            android:layout_toStartOf="@id/floor"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/postTime"
@@ -59,43 +66,44 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:textIsSelectable="false" />
-
+            android:textIsSelectable="false"/>
 
     </RelativeLayout>
-
 
     <sp.phone.view.webview.WebViewEx
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="false" />
+        android:focusable="false"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
+        android:gravity="end|center"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/score"
+            android:id="@+id/tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:textIsSelectable="false" />
+            android:padding="4dp"
+            android:textIsSelectable="false"/>
 
-
-        <ImageButton
-            android:id="@+id/listviewreplybtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom"
-            android:layout_marginEnd="15dp"
-            android:background="@null"
+        <ImageView
+            android:id="@+id/iv_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:contentDescription="@string/quote_subject"
-            android:scaleType="fitXY"
-            android:src="@drawable/listreply3" />
+            android:src="@drawable/ic_reply_24dp"/>
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_more_ver_24dp"/>
 
     </LinearLayout>
 

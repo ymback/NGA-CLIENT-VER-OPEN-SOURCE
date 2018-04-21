@@ -2,35 +2,24 @@ package sp.phone.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import com.alibaba.android.arouter.launcher.ARouter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import io.reactivex.annotations.NonNull;
-import sp.phone.adapter.ArticleListAdapter;
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
-import sp.phone.fragment.dialog.PostCommentDialogFragment;
-import sp.phone.mvp.contract.ArticleListContract;
-import sp.phone.mvp.presenter.ArticleListPresenter;
-import sp.phone.task.LikeTask;
-import sp.phone.util.StringUtils;
 import sp.phone.adapter.ArticleListAdapter;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
@@ -38,7 +27,9 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
+import sp.phone.fragment.dialog.BaseDialogFragment;
 import sp.phone.fragment.dialog.PostCommentDialogFragment;
+import sp.phone.listener.OnTopicMenuItemClickListener;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.presenter.ArticleListPresenter;
 import sp.phone.rxjava.RxBus;
@@ -53,9 +44,9 @@ import sp.phone.view.RecyclerViewEx;
 /*
  * MD 帖子详情每一页
  */
-public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> implements ArticleListContract.View, ActionMode.Callback {
+public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> implements ArticleListContract.View {
 
-    private final static String TAG = ArticleListFragment.class.getSimpleName();
+    private static final String TAG = ArticleListFragment.class.getSimpleName();
 
     @BindView(R.id.list)
     public RecyclerViewEx mListView;
@@ -68,9 +59,116 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
     private ArticleListAdapter mArticleAdapter;
 
-    private ActionMode mActionMode;
-
     protected ArticleListParam mRequestParam;
+
+    private OnTopicMenuItemClickListener mMenuItemClickListener = new OnTopicMenuItemClickListener() {
+
+        private ThreadRowInfo mThreadRowInfo;
+
+        @Override
+        public void setThreadRowInfo(ThreadRowInfo threadRowInfo) {
+            mThreadRowInfo = threadRowInfo;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+
+            ThreadRowInfo row = mThreadRowInfo;
+
+            String pidStr = String.valueOf(row.getPid());
+            String tidStr = String.valueOf(row.getTid());
+            int tid = row.getTid();
+
+            switch (item.getItemId()) {
+                case R.id.menu_edit:
+                    if (FunctionUtils.isComment(row)) {
+                        showToast(R.string.cannot_eidt_comment);
+                        break;
+                    } else {
+                        ARouter.getInstance()
+                                .build(ARouterConstants.ACTIVITY_POST)
+                                .withString(ParamKey.KEY_PID, pidStr)
+                                .withString(ParamKey.KEY_TID, tidStr)
+                                .withString("title", StringUtils.unEscapeHtml(row.getSubject()))
+                                .withString("action", "modify")
+                                .withString("prefix", StringUtils.unEscapeHtml(StringUtils.removeBrTag(row.getContent())))
+                                .navigation(getActivity(), ActivityUtils.REQUEST_CODE_LOGIN);
+                    }
+                    break;
+                case R.id.menu_post_comment:
+                    mPresenter.postComment(mRequestParam, row);
+                    break;
+                case R.id.menu_report:
+                    FunctionUtils.handleReport(row, mRequestParam.tid, getFragmentManager());
+                    break;
+                case R.id.menu_signature:
+                    if (row.getISANONYMOUS()) {
+                        ActivityUtils.showToast("这白痴匿名了,神马都看不到");
+                    } else {
+                        FunctionUtils.Create_Signature_Dialog(row, getActivity(),
+                                mListView);
+                    }
+                    break;
+                case R.id.menu_vote:
+                    FunctionUtils.createVoteDialog(row, getActivity(), mListView, mToast);
+                    break;
+                case R.id.menu_ban_this_one:
+                    mPresenter.banThisSB(row);
+                    break;
+                case R.id.menu_show_this_person_only:
+                    ARouter.getInstance()
+                            .build(ARouterConstants.ACTIVITY_TOPIC_CONTENT)
+                            .withString("tab", "1")
+                            .withInt(ParamKey.KEY_TID, tid)
+                            .withInt(ParamKey.KEY_AUTHOR_ID, row.getAuthorid())
+                            .withInt("fromreplyactivity", 1)
+                            .navigation();
+                    break;
+                case R.id.menu_like:
+                    doLike(tid, row.getPid(), 1);
+                    break;
+                case R.id.menu_dislike:
+                    doLike(tid, row.getPid(), 1);
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        }
+    };
+
+    private View.OnClickListener mMenuTogglerListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            mMenuItemClickListener.setThreadRowInfo((ThreadRowInfo) view.getTag());
+            int menuId;
+            if (mRequestParam.pid == 0) {
+                menuId = R.menu.article_list_context_menu;
+            } else {
+                menuId = R.menu.article_list_context_menu_with_tid;
+            }
+            PopupMenu popupMenu = new PopupMenu(getContext(), view);
+            popupMenu.inflate(menuId);
+            onPrepareOptionsMenu(popupMenu.getMenu(), (ThreadRowInfo) view.getTag());
+            popupMenu.show();
+            popupMenu.setOnMenuItemClickListener(mMenuItemClickListener);
+        }
+
+        private void onPrepareOptionsMenu(Menu menu, ThreadRowInfo row) {
+            MenuItem item = menu.findItem(R.id.menu_ban_this_one);
+            if (item != null) {
+                item.setTitle(row.get_isInBlackList() ? R.string.cancel_ban_thisone : R.string.ban_thisone);
+
+            }
+            item = menu.findItem(R.id.menu_vote);
+            if (item != null && StringUtils.isEmpty(row.getVote())) {
+                menu.removeItem(R.id.menu_vote);
+            }
+        }
+
+    };
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,15 +205,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
         ButterKnife.bind(this, view);
         ((BaseActivity) getActivity()).setupActionBar();
         mArticleAdapter = new ArticleListAdapter(getContext());
-        mArticleAdapter.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                mArticleAdapter.setSelectedItem((Integer) v.getTag());
-                ((AppCompatActivity) getActivity()).startSupportActionMode(ArticleListFragment.this);
-                return true;
-            }
-        });
+        mArticleAdapter.setMenuTogglerListener(mMenuTogglerListener);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setItemViewCacheSize(20);
         mListView.setAdapter(mArticleAdapter);
@@ -138,149 +228,6 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
         mPresenter.loadPage(mRequestParam);
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        int page = mRequestParam.page;
-        int tid = mRequestParam.tid;
-        NLog.d(TAG, "onContextItemSelected,tid=" + tid + ",page=" + page);
-
-        if (!getUserVisibleHint()) {
-            return false;
-        }
-
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int position = mArticleAdapter.getSelectedItem();
-        if (info != null) {
-            position = info.position;
-        }
-        if (position < 0 || position >= mArticleAdapter.getItemCount()) {
-            showToast(R.string.floor_error);
-            position = 0;
-        }
-        String tidStr = String.valueOf(tid);
-
-        ThreadRowInfo row = (ThreadRowInfo) mArticleAdapter.getItem(position);
-        if (row == null) {
-            showToast(R.string.unknow_error);
-            return true;
-        }
-        String content = row.getContent();
-        boolean isAnonymous = row.getISANONYMOUS();
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        switch (item.getItemId()) {
-            case R.id.menu_quote_subject:
-                mPresenter.quote(mRequestParam, row);
-                break;
-
-            case R.id.menu_signature:
-                if (isAnonymous) {
-                    FunctionUtils.errordialog(getActivity(), mListView);
-                } else {
-                    FunctionUtils.Create_Signature_Dialog(row, getActivity(),
-                            mListView);
-                }
-                break;
-
-            case R.id.menu_vote:
-                FunctionUtils.createVoteDialog(row, getActivity(), mListView, mToast);
-                break;
-
-            case R.id.menu_ban_this_one:
-                mPresenter.banThisSB(row);
-                break;
-
-            case R.id.menu_show_profile:
-                if (isAnonymous) {
-                    FunctionUtils.errordialog(getActivity(), mListView);
-                } else {
-                    intent.putExtra("mode", "username");
-                    intent.putExtra("username", row.getAuthor());
-                    intent.setClass(getActivity(), PhoneConfiguration.getInstance().profileActivityClass);
-                    startActivity(intent);
-                }
-                break;
-
-            case R.id.menu_avatar:
-                if (isAnonymous) {
-                    FunctionUtils.errordialog(getActivity(), mListView);
-                } else {
-                    FunctionUtils.Create_Avatar_Dialog(row, getActivity(), mListView);
-                }
-                break;
-
-            case R.id.menu_edit:
-                if (FunctionUtils.isComment(row)) {
-                    showToast(R.string.cannot_eidt_comment);
-                    break;
-                }
-                Intent intentModify = new Intent();
-                intentModify.putExtra("prefix", StringUtils.unEscapeHtml(StringUtils.removeBrTag(content)));
-                intentModify.putExtra("tid", tidStr);
-                String pid = String.valueOf(row.getPid());// getPid(map.get("url"));
-                intentModify.putExtra("pid", pid);
-                intentModify.putExtra("title", StringUtils.unEscapeHtml(row.getSubject()));
-                intentModify.putExtra("action", "modify");
-                if (!StringUtils.isEmpty(UserManagerImpl.getInstance().getUserName())) {// 登入了才能发
-                    intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().postActivityClass);
-                } else {
-                    intentModify.setClass(getActivity(), PhoneConfiguration.getInstance().loginActivityClass);
-                }
-                startActivity(intentModify);
-                break;
-
-            case R.id.menu_copy:
-                FunctionUtils.CopyDialog(row.getFormated_html_data(), getActivity(), mListView);
-                break;
-
-            case R.id.menu_show_this_person_only:
-                Intent intentThis = new Intent();
-                intentThis.putExtra("tab", "1");
-                intentThis.putExtra("tid", tid);
-                intentThis.putExtra("authorid", row.getAuthorid());
-                intentThis.putExtra("fromreplyactivity", 1);
-                intentThis.setClass(getActivity(), PhoneConfiguration.getInstance().articleActivityClass);
-                startActivity(intentThis);
-                break;
-
-            case R.id.menu_send_message:
-                if (isAnonymous) {
-                    FunctionUtils.errordialog(getActivity(), mListView);
-                } else {
-                    FunctionUtils.start_send_message(getActivity(), row);
-                }
-                break;
-
-            case R.id.menu_post_comment:
-                mPresenter.postComment(mRequestParam, row);
-                break;
-
-            case R.id.menu_report:
-                FunctionUtils.handleReport(row, tid, getFragmentManager());
-                break;
-
-            case R.id.menu_search_post:
-                bundle.putInt("searchpost", 1);
-            case R.id.menu_search_subject:
-                bundle.putInt("authorid", row.getAuthorid());
-                bundle.putString("author", row.getAuthor());
-                intent.putExtras(bundle);
-                intent.setClass(getActivity(), PhoneConfiguration.getInstance().topicActivityClass);
-                startActivity(intent);
-                break;
-            case R.id.menu_like:
-                doLike(tid, row.getPid(), 1);
-                break;
-
-            case R.id.menu_dislike:
-                doLike(tid, row.getPid(), -1);
-                break;
-
-            default:
-                break;
-        }
-        return true;
-    }
 
     private void doLike(int tid, int pid, int value) {
         LikeTask lt = new LikeTask(getActivity(), tid, pid, value);
@@ -309,26 +256,11 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
     @Override
     public void showPostCommentDialog(String prefix, Bundle bundle) {
-        Intent intent = new Intent();
-        final String tag = "post comment";
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag(tag);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        DialogFragment df = new PostCommentDialogFragment();
-        intent.putExtra("prefix", prefix);
+        BaseDialogFragment df = new PostCommentDialogFragment();
         df.setArguments(bundle);
-        df.show(ft, tag);
+        df.show(getActivity().getSupportFragmentManager());
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isVisibleToUser && mActionMode != null) {
-            mActionMode.finish();
-        }
-    }
 
     @Override
     public void setRefreshing(boolean refreshing) {
@@ -348,50 +280,5 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
         mSwipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        MenuInflater inflater = mode.getMenuInflater();
-        if (mRequestParam.pid == 0) {
-            inflater.inflate(R.menu.article_list_context_menu, menu);
-        } else {
-            inflater.inflate(R.menu.article_list_context_menu_with_tid, menu);
-        }
-        return true;
-    }
 
-    @Override
-    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        mActionMode = mode;
-        int position = mArticleAdapter.getSelectedItem();
-        ThreadRowInfo row = new ThreadRowInfo();
-        if (position < mArticleAdapter.getItemCount()) {
-            row = (ThreadRowInfo) mArticleAdapter.getItem(position);
-        }
-
-        MenuItem mi = menu.findItem(R.id.menu_ban_this_one);
-        if (mi != null && row != null) {
-            if (row.get_isInBlackList()) {// 处于屏蔽列表，需要去掉
-                mi.setTitle(R.string.cancel_ban_thisone);
-            } else {
-                mi.setTitle(R.string.ban_thisone);
-            }
-        }
-        MenuItem voteMenu = menu.findItem(R.id.menu_vote);
-        if (voteMenu != null && StringUtils.isEmpty(row.getVote())) {
-            menu.removeItem(R.id.menu_vote);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        onContextItemSelected(item);
-        mode.finish();
-        return true;
-    }
-
-    @Override
-    public void onDestroyActionMode(ActionMode mode) {
-        mActionMode = null;
-    }
 }

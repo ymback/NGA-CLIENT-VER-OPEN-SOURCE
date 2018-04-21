@@ -6,18 +6,18 @@ import android.support.v4.app.FragmentManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.ArticleSearchFragment;
 import sp.phone.fragment.ArticleTabFragment;
-import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 
 /**
  * 帖子详情页, 是否MD都用这个
  */
-@Route(path = ActivityUtils.PATH_ARTICLE_LIST)
+@Route(path = ARouterConstants.ACTIVITY_TOPIC_CONTENT)
 public class ArticleListActivity extends SwipeBackAppCompatActivity implements PreferenceKey {
 
     private ArticleListParam mRequestParam;

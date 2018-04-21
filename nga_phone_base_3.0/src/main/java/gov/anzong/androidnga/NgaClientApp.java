@@ -4,15 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import gov.anzong.androidnga.BuildConfig;
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.common.BoardManagerImpl;
-import sp.phone.common.PreferenceKey;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.common.ApplicationContextHolder;
 import sp.phone.util.NLog;
 
 public class NgaClientApp extends Application {
@@ -21,7 +18,6 @@ public class NgaClientApp extends Application {
 
     private boolean mNewVersion;
 
-    //gov.anzong.meizi.common.ApplicationContextHolder.setContext(this);
     @Override
     public void onCreate() {
         ApplicationContextHolder.setContext(this);
@@ -34,11 +30,11 @@ public class NgaClientApp extends Application {
     }
 
     private void initRouter() {
-//        if (BuildConfig.DEBUG) {   // 这两行必须写在init之前，否则这些配置在init过程中将无效
-//            ARouter.openLog();     // 打印日志
-//            ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
-//        }
-//        ARouter.init(this); // 尽可能早，推荐在Application中初始化
+        if (BuildConfig.DEBUG) {   // 这两行必须写在init之前，否则这些配置在init过程中将无效
+            ARouter.openLog();     // 打印日志
+            ARouter.openDebug();   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+        }
+        ARouter.init(this); // 尽可能早，推荐在Application中初始化
     }
 
     private void initCoreModule() {

@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.activity;
+package gov.anzong.androidnga.arouter;
 
 import android.content.Context;
 
@@ -8,7 +8,6 @@ import com.alibaba.android.arouter.facade.callback.InterceptorCallback;
 import com.alibaba.android.arouter.facade.template.IInterceptor;
 import com.alibaba.android.arouter.launcher.ARouter;
 
-import sp.phone.common.UserManagerImpl;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.util.ActivityUtils;
 
@@ -22,7 +21,7 @@ public class ActivityInterceptor implements IInterceptor {
     public void process(Postcard postcard, InterceptorCallback interceptorCallback) {
         if (postcard.getExtra() == ActivityUtils.REQUEST_CODE_LOGIN && UserManagerImpl.getInstance().getActiveUser() == null) {
             interceptorCallback.onInterrupt(new Exception("未登录"));
-            ARouter.getInstance().build(ActivityUtils.PATH_LOGIN).navigation();
+            ARouter.getInstance().build(ARouterConstants.ACTIVITY_LOGIN).navigation();
         } else {
             interceptorCallback.onContinue(postcard);
         }

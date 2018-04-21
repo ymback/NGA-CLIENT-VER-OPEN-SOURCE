@@ -14,16 +14,13 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.MenuItem;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.TopicPostFragment;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
-import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.mvp.contract.TopicPostContract;
-import sp.phone.mvp.presenter.TopicPostPresenter;
-import sp.phone.util.StringUtils;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.forumoperation.TopicPostAction;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.fragment.TopicPostFragment;
+import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.presenter.TopicPostPresenter;
@@ -31,6 +28,7 @@ import sp.phone.util.FunctionUtils;
 import sp.phone.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 
+@Route(path = ARouterConstants.ACTIVITY_POST)
 public class PostActivity extends BasePostActivity implements OnEmotionPickedListener {
 
     public static final int REQUEST_CODE_SELECT_PIC = 1;

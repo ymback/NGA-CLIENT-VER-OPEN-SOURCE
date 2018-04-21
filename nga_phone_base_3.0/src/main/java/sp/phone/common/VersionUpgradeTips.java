@@ -34,4 +34,9 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2079 = "更新内容\n"
+            + "● 官方移除了踩的接口，不再支持显示踩的个数\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 }

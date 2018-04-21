@@ -283,28 +283,6 @@ public class FunctionUtils {
         });
     }
 
-    public static void errordialog(Context context, final View listview) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("这白痴匿名了,神马都看不到");
-        builder.setTitle("看不到");
-        builder.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-        dialog.setOnDismissListener(new AlertDialog.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface arg0) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-
     public static void Create_Signature_Dialog_Message(MessageArticlePageInfo row, final Context context, final View scrollview) {
         LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
         final View view = layoutInflater.inflate(R.layout.dialog_signature,

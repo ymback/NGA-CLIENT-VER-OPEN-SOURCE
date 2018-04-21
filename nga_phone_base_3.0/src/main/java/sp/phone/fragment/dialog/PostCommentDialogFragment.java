@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,11 +15,9 @@ import java.lang.reflect.Field;
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnPostCommentFinishedListener;
 import sp.phone.task.PostCommentTask;
-import sp.phone.interfaces.OnPostCommentFinishedListener;
-import sp.phone.task.PostCommentTask;
 import sp.phone.util.NLog;
 
-public class PostCommentDialogFragment extends DialogFragment implements
+public class PostCommentDialogFragment extends BaseDialogFragment implements
         OnPostCommentFinishedListener {
     EditText input = null;
     CheckBox anony;
