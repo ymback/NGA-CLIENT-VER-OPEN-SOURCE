@@ -36,6 +36,7 @@ public class MainActivity extends BaseActivity {
         prepare();
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
+        getSwipeBackLayout().setEnableGesture(false);
 
     }
 
@@ -102,9 +103,6 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_about:
                 aboutNgaClient();
                 break;
-            case R.id.menu_noname:
-                noname();
-                break;
             case R.id.menu_search:
                 searchProfile();
                 break;
@@ -127,12 +125,6 @@ public class MainActivity extends BaseActivity {
     private void myMessage() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, mConfig.messageActivityClass);
-        startActivity(intent);
-    }
-
-    private void noname() {
-        Intent intent = new Intent();
-        intent.setClass(MainActivity.this, mConfig.nonameActivityClass);
         startActivity(intent);
     }
 

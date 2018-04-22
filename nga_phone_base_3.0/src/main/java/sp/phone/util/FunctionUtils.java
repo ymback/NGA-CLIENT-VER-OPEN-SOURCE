@@ -46,20 +46,6 @@ import java.util.HashSet;
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
-import gov.anzong.androidnga.util.NetUtil;
-import noname.adapter.NonameArticleListAdapter;
-import noname.gson.parse.NonameReadBody;
-import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.ThreadRowInfo;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.dialog.ReportDialogFragment;
-import sp.phone.fragment.dialog.SuperTextDialogFragment;
-import sp.phone.proxy.ProxyBridge;
-import sp.phone.theme.ThemeManager;
-import sp.phone.view.webview.WebViewClientEx;
-import noname.adapter.NonameArticleListAdapter;
-import noname.gson.parse.NonameReadBody;
 import sp.phone.bean.MessageArticlePageInfo;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
@@ -198,40 +184,6 @@ public class FunctionUtils {
             }
 
         });
-    }
-
-    @SuppressWarnings("static-access")
-    public static void handleContentTV(WebView contentTV,
-                                       final NonameReadBody row, int position, int bgColor, final Context context, final Callback mActionModeCallback, WebViewClient client) {
-        contentTV.setBackgroundColor(0);
-        contentTV.setFocusableInTouchMode(false);
-        contentTV.setFocusable(false);
-        contentTV.setLongClickable(false);
-        if (mActionModeCallback != null) {
-            contentTV.setOnLongClickListener(new OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v) {
-                    // TODO Auto-generated method stub
-                    ((AppCompatActivity) context)
-                            .startSupportActionMode(mActionModeCallback);
-                    return true;
-                }
-
-            });
-        }
-        WebSettings setting = contentTV.getSettings();
-        setting.setUserAgentString(context.getString(R.string.clientua) + BuildConfig.VERSION_CODE);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
-        setting.setJavaScriptEnabled(false);
-        contentTV.setWebViewClient(client);
-        contentTV.setTag(row.floor);
-        setting.setDefaultFontSize(PhoneConfiguration.getInstance()
-                .getWebSize());
-        setting.setJavaScriptEnabled(false);
-        contentTV.loadDataWithBaseURL(null, fillFormated_html_data(row, position, context),
-                "text/html", "utf-8", null);
     }
 
     @SuppressWarnings("static-access")
@@ -684,16 +636,6 @@ public class FunctionUtils {
     }
 
 
-    public static void handleNickName(NonameReadBody row, int fgColor,
-                                      TextView nickNameTV) {
-
-        String nickName = row.hip;
-        nickNameTV.setText(nickName);
-        TextPaint tp = nickNameTV.getPaint();
-        tp.setFakeBoldText(true);// bold for Chinese character
-        nickNameTV.setTextColor(fgColor);
-    }
-
     public static void handleNickName(ThreadRowInfo row, int fgColor,
                                       TextView nickNameTV, Context context) {
         initStaticStrings(context);
@@ -716,24 +658,6 @@ public class FunctionUtils {
         TextPaint tp = nickNameTV.getPaint();
         tp.setFakeBoldText(true);// bold for Chinese character
         nickNameTV.setTextColor(fgColor);
-    }
-
-    public static String fillFormated_html_data(NonameReadBody row, int i, Context context) {
-
-        ThemeManager theme = ThemeManager.getInstance();
-
-        int bgColor = context.getResources().getColor(
-                theme.getBackgroundColor(row.floor % 2));
-        int fgColor = context.getResources().getColor(
-                theme.getForegroundColor());
-        bgColor = bgColor & 0xffffff;
-        final String bgcolorStr = String.format("%06x", bgColor);
-
-        int htmlfgColor = fgColor & 0xffffff;
-        final String fgColorStr = String.format("%06x", htmlfgColor);
-
-        String formated_html_data = NonameArticleListAdapter.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
-        return formated_html_data;
     }
 
     public static void fillFormated_html_data(ThreadRowInfo row, int i, Context context) {

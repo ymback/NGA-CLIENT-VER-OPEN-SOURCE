@@ -13,24 +13,17 @@ import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.RecentNotificationActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
-import gov.anzong.androidnga.activity.TopicListActivity;
-import noname.activity.FlexibleNonameTopicListActivity;
-import noname.activity.NonameArticleListActivity;
-import noname.activity.NonamePostActivity;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
-    public Class<?> nonameArticleActivityClass = NonameArticleListActivity.class;
     public Class<?> postActivityClass = PostActivity.class;
-    public Class<?> nonamePostActivityClass = NonamePostActivity.class;
     public Class<?> messagePostActivityClass = MessagePostActivity.class;
     public Class<?> signPostActivityClass = SignPostActivity.class;
     public Class<?> profileActivityClass = ProfileActivity.class;
     public Class<?> loginActivityClass = LoginActivity.class;
     public Class<?> recentReplyListActivityClass = RecentNotificationActivity.class;
     public Class<?> messageActivityClass = MessageListActivity.class;
-    public Class<?> nonameActivityClass = FlexibleNonameTopicListActivity.class;
     public Class<?> messageDetialActivity = MessageDetailActivity.class;
 
     private boolean mNotificationEnabled;

@@ -54,7 +54,7 @@
             android:contentDescription="分享给朋友"
             android:padding="10dp"
             android:scaleType="center"
-            android:src="@drawable/ic_menu_share_holo_dark"
+            android:src="@drawable/btn_ic_share"
             android:visibility="gone" />
     </LinearLayout>
 

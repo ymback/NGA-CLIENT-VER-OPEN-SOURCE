@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="0dp" >
+
+    <TextView
+        android:id="@+id/nickName"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textIsSelectable="false"
+        android:textStyle="bold" >
+    </TextView>
+
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nickName"
+        android:layout_below="@+id/nickName"
+        android:clickable="false"
+        android:contentDescription="@string/avatar"
+        android:focusable="false"
+        android:longClickable="false"
+        android:src="@drawable/open" >
+    </ImageView>
+
+    <WebView
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nickName"
+        android:layout_toRightOf="@id/avatarImage" />
+    
+    <!-- 由于wrap_content不支持margin bottom，用一个place_holder把整个撑大，避免快速回复按钮和文字重叠 -->
+
+    <TextView
+        android:id="@+id/floor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/nickName"
+        android:layout_toRightOf="@+id/nickName"
+        android:textIsSelectable="false" >
+    </TextView>
+    <TextView
+        android:id="@+id/postTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/floor"
+        android:textIsSelectable="false" >
+    </TextView>
+    <LinearLayout
+        android:id="@+id/place_holder"
+        android:layout_width="fill_parent"
+        android:layout_height="6dp"
+        android:layout_below="@id/content"
+        android:layout_toRightOf="@id/avatarImage"
+        android:orientation="horizontal" />
+</RelativeLayout>

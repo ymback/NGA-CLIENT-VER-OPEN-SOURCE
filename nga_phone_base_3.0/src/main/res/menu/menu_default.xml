@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/menu_open_by_browser"
-        android:icon="@drawable/ic_menu_share_holo_dark"
+        android:icon="@drawable/btn_ic_share"
         android:title="@string/menu_open_by_browser"
         android:visible="false"
         androidnga:showAsAction="never" />

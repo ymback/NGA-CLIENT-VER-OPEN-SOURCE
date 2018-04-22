@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="invalid_img_selected">所选择的不是图片，或则返回结果非法，请尝试另一个应用来选择图片</string>
+    <string name="img_cannot_read">图片解析错误，请尝试另一个应用来选择图片</string>
+    <string name="net_work_error">网络错误,请重试</string>
+    
+</resources>

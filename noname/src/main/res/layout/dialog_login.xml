@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/login_user_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:text="@string/username" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/login_user_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:cursorVisible="true"
+        android:drawableLeft="@drawable/ic_action_person"
+        android:hint="@string/login_user_hint"
+        android:inputType="text|textNoSuggestions"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/login_password_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/password" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/login_password_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:cursorVisible="true"
+        android:drawableLeft="@drawable/ic_action_secure"
+        android:hint="输入密码"
+        android:inputType="text|textPassword"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/login_authcode_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/authcode" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/login_authcode_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:cursorVisible="true"
+        android:drawableLeft="@drawable/ic_action_authcode"
+        android:hint="输入下方验证码"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null" >
+    </EditText>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+         android:orientation="vertical"
+        android:layout_marginTop="10dp" >
+
+        <ImageButton
+            android:id="@+id/authcode_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_refresh" />
+
+        <TextView
+            android:id="@+id/authcode_img_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|left"
+            android:text="@string/authcodewithmaohao"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/authcode_img"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@+id/authcode_img_title"
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/login" >
+    </Button>
+
+    <ListView
+        android:id="@+id/user_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

@@ -1,9 +1,9 @@
 package gov.anzong.androidnga.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -11,13 +11,16 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
 
 /**
  * Created by liuboyu on 16/6/28.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends SwipeBackActivity {
 
     protected Toast mToast;
 
@@ -30,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         updateWindowFlag();
         updateThemeUi();
         super.onCreate(savedInstanceState);
+        initSwipeBack();
     }
 
     protected void hideActionBar() {
@@ -62,18 +66,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         getWindow().addFlags(flag);
     }
 
-    /*
-    private void updateOrientation() {
-        int orientation = ThemeManager.getInstance().screenOrentation;
-        if (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    private void initSwipeBack() {
+        if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, true)) {
+            final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
+            getSwipeBackLayout().setEdgeSize((int) (10 * density + 0.5f));// 10dp
+            int pos = SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_RIGHT;
+            getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+            setSwipeBackEnable(true);
         } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            setSwipeBackEnable(false);
         }
     }
-    */
 
     public void setupActionBar(Toolbar toolbar) {
         if (toolbar != null && getSupportActionBar() == null) {

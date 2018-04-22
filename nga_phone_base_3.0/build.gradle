@@ -111,9 +111,6 @@ android {
 dependencies {
     implementation fileTree(include: '*.jar', dir: 'libs')
     implementation project(':SwipeBackLayoutLibrary')
-    implementation project(':ActionBar-PullToRefresh')
-    implementation project(':ActionBar-PullToRefresh-Library')
-    //compile project(':meizi')
     implementation(name: 'floatingactionmenu', ext: 'aar')
     implementation 'com.squareup.okhttp3:okhttp:3.8.0'
     implementation 'com.alibaba:fastjson:1.2.41'
