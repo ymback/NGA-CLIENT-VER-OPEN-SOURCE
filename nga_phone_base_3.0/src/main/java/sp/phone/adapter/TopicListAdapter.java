@@ -23,7 +23,6 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.rxjava.RxUtils;
@@ -32,6 +31,7 @@ import sp.phone.util.StringUtils;
 
 public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, TopicListAdapter.TopicViewHolder> {
 
+    private ThemeManager mThemeManager = ThemeManager.getInstance();
 
     private final static int _FONT_RED = 1, _FONT_BLUE = 2, _FONT_GREEN = 4,
             _FONT_ORANGE = 8, _FONT_SILVER = 16, _FONT_B = 32, _FONT_I = 64,
@@ -65,9 +65,9 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
         holder.itemView.setOnLongClickListener(mOnLongClickListener);
         holder.itemView.setTag(info);
 
-        ThemeManager cfg = ThemeManager.getInstance();
-        int colorId = cfg.getBackgroundColor(position);
-        holder.itemView.setBackgroundResource(colorId);
+        if (!mThemeManager.isNightMode()) {
+            holder.itemView.setBackgroundResource(mThemeManager.getBackgroundColor(position));
+        }
         handleJsonList(holder, info);
     }
 
@@ -76,19 +76,14 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
         if (entry == null) {
             return;
         }
-        ThemeManager theme = ThemeManager.getInstance();
-        boolean night = false;
         int nightLinkColor = ContextCompat.getColor(mContext, R.color.night_link_color);
-        if (theme.getMode() == ThemeManager.MODE_NIGHT)
-            night = true;
         holder.author.setText(entry.getAuthor());
-        if (night)
-            holder.author.setTextColor(nightLinkColor);
 
         String lastPoster = entry.getLastPoster();
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.getReplies()));
-        if (night) {
+        if (mThemeManager.isNightMode()) {
+            holder.author.setTextColor(nightLinkColor);
             holder.lastReply.setTextColor(nightLinkColor);
             holder.num.setTextColor(nightLinkColor);
         }

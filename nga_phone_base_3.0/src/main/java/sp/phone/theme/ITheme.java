@@ -37,4 +37,7 @@ public interface ITheme {
 
     @ColorRes
     int getNukedColor();
+
+    @ColorRes
+    int getWebTextColor();
 }

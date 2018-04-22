@@ -40,8 +40,6 @@ public class ActivityUtils {
 
     public static final int REQUEST_CODE_SUB_BOARD = 4;
 
-    public static final String PATH_TOPIC_LIST = "/activity/TopicListActivity";
-
     private ActivityUtils() {
     }
 

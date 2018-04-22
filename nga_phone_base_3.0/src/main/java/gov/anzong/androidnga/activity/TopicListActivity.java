@@ -10,11 +10,7 @@ import android.view.MenuItem;
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.NotificationController;
-import sp.phone.fragment.TopicFavoriteFragment;
-import sp.phone.fragment.TopicListFragment;
-import sp.phone.fragment.TopicSearchFragment;
-import sp.phone.util.StringUtils;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.NotificationController;
 import sp.phone.forumoperation.ParamKey;
@@ -28,7 +24,7 @@ import sp.phone.util.StringUtils;
 /**
  * 帖子列表
  */
-@Route(path = ActivityUtils.PATH_TOPIC_LIST)
+@Route(path = ARouterConstants.ACTIVITY_TOPIC_LIST)
 public class TopicListActivity extends SwipeBackAppCompatActivity {
 
     private static String TAG = TopicListActivity.class.getSimpleName();

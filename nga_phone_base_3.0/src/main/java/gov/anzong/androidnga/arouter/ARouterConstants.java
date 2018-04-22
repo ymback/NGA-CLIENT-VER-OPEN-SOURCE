@@ -12,4 +12,6 @@ public class ARouterConstants {
     public static final String ACTIVITY_POST = "/activity/post";
 
     public static final String ACTIVITY_TOPIC_CONTENT = "/activity/topic_content";
+
+    public static final String ACTIVITY_TOPIC_LIST = "/activity/topic_list";
 }

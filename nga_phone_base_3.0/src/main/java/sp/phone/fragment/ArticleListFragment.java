@@ -3,6 +3,7 @@ package sp.phone.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,6 +37,7 @@ import sp.phone.mvp.presenter.ArticleListPresenter;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
 import sp.phone.task.LikeTask;
+import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.NLog;
@@ -215,6 +217,9 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
         mListView.setItemViewCacheSize(20);
         mListView.setAdapter(mArticleAdapter);
         mListView.setEmptyView(view.findViewById(R.id.empty_view));
+        if (ThemeManager.getInstance().isNightMode()) {
+            mListView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        }
 
         TextView sayingView = (TextView) mLoadingView.findViewById(R.id.saying);
         sayingView.setText(ActivityUtils.getSaying());

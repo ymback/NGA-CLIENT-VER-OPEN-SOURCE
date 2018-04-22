@@ -671,15 +671,12 @@ public class FunctionUtils {
                 row.setContent(StringUtils.unescape(row.getContent()));
             }
         }
-        int bgColor = context.getResources().getColor(theme.getBackgroundColor(i));
-        int fgColor = context.getResources().getColor(theme.getForegroundColor());
-        bgColor = bgColor & 0xffffff;
-        final String bgcolorStr = String.format("%06x", bgColor);
+        int fgColor = theme.getWebTextColor();
 
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        String formated_html_data = HtmlUtils.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, bgcolorStr, context);
+        String formated_html_data = HtmlUtils.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, context);
         row.setFormated_html_data(formated_html_data);
     }
 

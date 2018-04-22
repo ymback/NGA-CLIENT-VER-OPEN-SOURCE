@@ -143,7 +143,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             return;
         }
 
-        holder.itemView.setBackgroundResource(mThemeManager.getBackgroundColor(position));
+        if (!mThemeManager.isNightMode()) {
+            holder.itemView.setBackgroundResource(mThemeManager.getBackgroundColor(position));
+        }
 
         holder.replyBtn.setTag(row);
         holder.nickNameTV.setTag(row);

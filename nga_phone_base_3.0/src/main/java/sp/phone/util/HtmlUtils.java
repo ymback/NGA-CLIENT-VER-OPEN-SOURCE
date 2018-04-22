@@ -12,8 +12,6 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.bean.Attachment;
-import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
 
@@ -65,7 +63,7 @@ public class HtmlUtils {
 
     public static String convertToHtmlText(final ThreadRowInfo row,
                                            boolean showImage, int imageQuality, final String fgColorStr,
-                                           final String bgcolorStr, Context context) {
+                                           Context context) {
         if (StringUtils.isEmpty(hide)) {
             if (context != null)
                 initStaticStrings(context);
@@ -75,8 +73,7 @@ public class HtmlUtils {
                 imageQuality, imageURLSet);
         if (row.get_isInBlackList()) {
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
-                    + "<body bgcolor= '#"
-                    + bgcolorStr
+                    + "<body "
                     + "'>"
                     + "<font color='red' size='2'>["
                     + blacklistban
@@ -100,8 +97,7 @@ public class HtmlUtils {
                     + buildVote(row);
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
                     + buildHeader(row, fgColorStr)
-                    + "<body style=word-break:break-all; bgcolor= '#"
-                    + bgcolorStr
+                    + "<body style=word-break:break-all; "
                     + "'>"
                     + "<font color='#"
                     + fgColorStr
@@ -138,9 +134,9 @@ public class HtmlUtils {
         ret.append("<br/><br/>").append(attachment).append("<hr/><br/>");
         // ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;margin:0px 0px 10px 30px;padding:10px;color:#6b2d25;max-width:100%;'>");
         if (theme.isNightMode()) {
-            ret.append("<table style='background:#000000;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");
+            ret.append("<table style='border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");
         } else {
-            ret.append("<table style='background:#e1c8a7;border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");
+            ret.append("<table style='border:1px solid #b9986e;padding:10px;color:#6b2d25;font-size:10'>");
         }
         ret.append("<tbody>");
         Iterator<Map.Entry<String, Attachment>> it = row.getAttachs().entrySet()

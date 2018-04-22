@@ -9,8 +9,6 @@ import android.support.v4.content.ContextCompat;
 import gov.anzong.androidnga.R;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.PreferenceKey;
-import sp.phone.common.ApplicationContextHolder;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -124,6 +122,11 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     @ColorInt
     public int getMutedColor() {
         return ContextCompat.getColor(mContext, R.color.color_state_muted);
+    }
+
+    @ColorInt
+    public int getWebTextColor() {
+        return ContextCompat.getColor(mContext, mCurrentTheme.getWebTextColor());
     }
 
     @StyleRes

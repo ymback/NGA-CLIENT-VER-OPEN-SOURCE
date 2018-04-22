@@ -59,6 +59,11 @@ public class DefaultTheme implements ITheme {
     }
 
     @Override
+    public int getWebTextColor() {
+        return R.color.text_color_web;
+    }
+
+    @Override
     public int getMutedColor() {
         return R.color.color_state_muted;
     }
