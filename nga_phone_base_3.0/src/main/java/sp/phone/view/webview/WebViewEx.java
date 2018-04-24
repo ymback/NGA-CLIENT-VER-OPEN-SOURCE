@@ -35,7 +35,7 @@ public class WebViewEx extends WebView implements DownloadListener {
     public void setLocalMode() {
         setWebViewClient(new WebViewClientEx());
         WebSettings settings = getSettings();
-        settings.setJavaScriptEnabled(false);
+        settings.setJavaScriptEnabled(true);
 
         setFocusableInTouchMode(false);
         setFocusable(false);

@@ -142,6 +142,7 @@ public class HtmlUtils {
         Iterator<Map.Entry<String, Attachment>> it = row.getAttachs().entrySet()
                 .iterator();
         int attachmentCount = 0;
+        int imageAttachmentCount = 0;
         while (it.hasNext()) {
             Map.Entry<String, Attachment> entry = it.next();
             if (imageURLSet != null && imageURLSet.size() > 0 && imageURLSet.contains(entry.getValue().getAttachurl())) {
@@ -155,9 +156,13 @@ public class HtmlUtils {
             } else if (attachUrl.contains("mp4")) {
                 ret = buildVideoAttachment(ret, entry.getValue());
             } else {
-                ret = buildImageAttachment(ret, entry.getValue(), showImage, imageQuality);
+                imageAttachmentCount++;
+                buildImageAttachment(ret, entry.getValue(), imageAttachmentCount);
             }
             attachmentCount++;
+        }
+        if (imageAttachmentCount > 0) {
+            ret.append("<script> function displayImg(a,b){ document.getElementById('img'+a).src=b; document.getElementById('show' + a).style.display='none'; } </script>");
         }
         ret.append("</tbody></table>");
         if (attachmentCount == 0)
@@ -190,28 +195,19 @@ public class HtmlUtils {
         return ret;
     }
 
-    private static StringBuilder buildImageAttachment(StringBuilder ret, Attachment attachment, boolean showImage, int imageQuality) {
-        String url = attachment.getAttachurl();
-        ret.append("<tr><td><a href='http://")
-                .append(HttpUtil.NGA_ATTACHMENT_HOST)
-                .append("/attachments/")
-                .append(url)
-                .append("'>");
+    private static StringBuilder buildImageAttachment(StringBuilder ret, Attachment attachment, int index) {
 
-        if (showImage) {
-            String attachURL = "http://" + HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/" + url;
-            if ("1".equals(attachment.getThumb())) {
-                attachURL = attachURL + ".thumb.jpg";
-            } else {
-                attachURL = StringUtils.buildOptimizedImageURL(attachURL, imageQuality);
-            }
-            ret.append("<img src='")
-                    .append(attachURL);
-        } else {
-            ret.append("<img src='file:///android_asset/ic_offline_image.png");
+        String attachUrl = "http://" + HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/" + attachment.getAttachurl();
+        String attachUrlThumb = attachUrl;
+        String indexStr = String.valueOf(index);
+        if ("1".equals(attachment.getThumb())) {
+            attachUrlThumb = attachUrlThumb + ".thumb.jpg";
         }
-
-        ret.append("' style= 'max-width:70%;'></a>").append("</td></tr>");
+        ret.append("<tr><td>")
+                .append(String.format("<button id='show%s' type='button' onclick='displayImg(%s,\"%s\")'>点击显示附件</button>", indexStr, indexStr, attachUrlThumb))
+                .append(String.format("<a href=%s>", attachUrl))
+                .append(String.format("<img style='max-width:100%%'; id='img%s'/>", indexStr))
+                .append("</a></td></tr>");
         return ret;
     }
 
