@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import sp.phone.bean.StringFindResult;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.bean.StringFindResult;
 import sp.phone.common.ApplicationContextHolder;
@@ -166,14 +165,14 @@ public class StringUtils {
 
     public static String encodeUrl(final String s, final String charset) {
 
-		/*
+        /*
          * try { return java.net.URLEncoder.encode(s,charset); // this not work
-		 * in android 4.4 if a english char is followed //by a Chinese character
-		 *
-		 * } catch (UnsupportedEncodingException e) {
-		 *
-		 * return ""; }
-		 */
+         * in android 4.4 if a english char is followed //by a Chinese character
+         *
+         * } catch (UnsupportedEncodingException e) {
+         *
+         * return ""; }
+         */
         String ret = UriEncoderWithCharset.encode(s, null, charset);
         // NLog.i("111111", s+"----->"+ret);
         return ret;
@@ -480,23 +479,20 @@ public class StringUtils {
                     }
                 }
             }
-
-            if (s.contains("audio")) {
-                s = buildAudioHtml(s);
-            }
+            s = buildAudioHtml(s);
             s = buildVideoHtml(s);
-            s = buildThumbImage(s);
+            s = buildGifImage(s);
         } catch (Exception e) {
         }
         return s;
     }
 
-    private static String buildThumbImage(String content) {
-        Pattern pattern = Pattern.compile("<a href='(http\\S+)'>");
+    private static String buildGifImage(String content) {
+        Pattern pattern = Pattern.compile("(http\\S+).gif.(.*?).jpg");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
-            String s = matcher.group(1);
-            content = content.replaceFirst(s, s.substring(0, s.indexOf(".thumb.jpg")));
+            String s = matcher.group(0);
+            content = content.replaceAll(s, s.substring(0, s.indexOf(".gif") + 4));
         }
         return content;
     }
