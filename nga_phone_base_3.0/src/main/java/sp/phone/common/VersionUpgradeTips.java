@@ -43,6 +43,9 @@ public interface VersionUpgradeTips {
 
     String TIPS_2080 = "更新内容\n"
             + "● 解决部分GIF不能动的bug\n"
+            + "● 解决无法添加自定义板块的bug\n"
+            + "● 解决删除收藏帖子时发生的奔溃问题\n"
+            + "● 解决搜索回复后页数不对的问题\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
