@@ -247,7 +247,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
     @Override
     public void setData(ThreadData data) {
         if (data != null) {
-            RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_TAB_UPDATE, data.getThreadInfo().getReplies()));
+            RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_TAB_UPDATE, data.get__ROWS()));
         }
         mArticleAdapter.setData(data);
         mArticleAdapter.notifyDataSetChanged();

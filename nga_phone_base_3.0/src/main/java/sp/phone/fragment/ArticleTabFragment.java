@@ -81,7 +81,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     protected void accept(@NonNull RxEvent rxEvent) {
         switch (rxEvent.what) {
             case RxEvent.EVENT_ARTICLE_TAB_UPDATE:
-                mReplyCount = rxEvent.arg + 1; //没有包括主楼, 所以+1
+                mReplyCount = rxEvent.arg;
                 int count = mReplyCount / 20;
                 if (mReplyCount % 20 != 0) {
                     count++;
