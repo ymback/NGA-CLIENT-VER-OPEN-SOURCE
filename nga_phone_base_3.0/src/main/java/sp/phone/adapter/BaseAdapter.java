@@ -42,6 +42,11 @@ public abstract class BaseAdapter<E, T extends RecyclerView.ViewHolder> extends 
         notifyItemRemoved(position);
     }
 
+    public void removeItem(E e) {
+        int index = mDataList.indexOf(e);
+        removeItem(index);
+    }
+
     public void clear() {
         setData(null);
     }

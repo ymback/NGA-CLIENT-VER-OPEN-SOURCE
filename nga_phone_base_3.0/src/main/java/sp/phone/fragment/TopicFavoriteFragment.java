@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.mvp.model.entity.ThreadPageInfo;
 
 /**
  * Created by Justwen on 2017/11/19.
@@ -31,6 +30,11 @@ public class TopicFavoriteFragment extends TopicSearchFragment implements View.O
     @Override
     public void removeTopic(int position) {
         mAdapter.removeItem(position);
+    }
+
+    @Override
+    public void removeTopic(ThreadPageInfo pageInfo) {
+        mAdapter.removeItem(pageInfo);
     }
 
     @Override

@@ -1,16 +1,10 @@
 package sp.phone.mvp.presenter;
 
-import sp.phone.fragment.TopicSearchFragment;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.mvp.contract.TopicListContract;
-import sp.phone.mvp.model.TopicListModel;
-import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.fragment.TopicSearchFragment;
+import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.TopicListModel;
-import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 
@@ -85,7 +79,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
             public void onSuccess(String data) {
                 if (isAttached()) {
                     mBaseView.showToast(data);
-                    mBaseView.removeTopic(position);
+                    mBaseView.removeTopic(info);
                 }
             }
         });

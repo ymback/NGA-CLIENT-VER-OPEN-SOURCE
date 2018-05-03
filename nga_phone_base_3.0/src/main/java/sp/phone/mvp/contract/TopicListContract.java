@@ -36,6 +36,8 @@ public interface TopicListContract {
 
         void removeTopic(int position);
 
+        void removeTopic(ThreadPageInfo pageInfo);
+
         void hideLoadingView();
 
     }

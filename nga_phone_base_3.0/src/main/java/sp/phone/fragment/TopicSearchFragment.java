@@ -14,9 +14,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
-import sp.phone.mvp.contract.TopicListContract;
-import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.adapter.BaseAppendableAdapter;
 import sp.phone.adapter.ReplyListAdapter;
 import sp.phone.adapter.TopicListAdapter;
@@ -26,9 +23,9 @@ import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.mvp.contract.TopicListContract;
-import sp.phone.mvp.presenter.TopicListPresenter;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
+import sp.phone.mvp.presenter.TopicListPresenter;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
@@ -155,6 +152,11 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
     @Override
     public void removeTopic(int position) {
+
+    }
+
+    @Override
+    public void removeTopic(ThreadPageInfo pageInfo) {
 
     }
 
