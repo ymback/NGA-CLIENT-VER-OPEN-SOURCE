@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
+import sp.phone.common.BoardManagerImpl;
 
 /**
  * Created by Justwen on 2018/2/17.
@@ -29,6 +30,7 @@ public class AddBoardDialogFragment extends BaseDialogFragment {
                 .setPositiveButton("添加", (dialog, which) -> {
                     String name = addFidNameView.getText().toString();
                     String fid = addFidIdView.getText().toString();
+                    BoardManagerImpl.getInstance().addBookmark(fid, name);
                 }).setNegativeButton("取消", null);
         return builder.create();
     }
