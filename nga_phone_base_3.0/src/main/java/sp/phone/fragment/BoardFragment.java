@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
@@ -38,7 +38,7 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
-import gov.anzong.androidnga.activity.LoginActivity;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.common.PreferenceKey;
@@ -46,7 +46,6 @@ import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.AddBoardDialogFragment;
-import sp.phone.fragment.dialog.LoginDialogFragment;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.theme.ThemeManager;
@@ -195,14 +194,15 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     @Override
     public void jumpToLogin() {
-        if (isTablet()) {
-            DialogFragment df = new LoginDialogFragment();
-            df.show(getSupportFragmentManager(), "login");
-        } else {
-            Intent intent = new Intent();
-            intent.setClass(getContext(), LoginActivity.class);
-            startActivityForResult(intent, ActivityUtils.REQUEST_CODE_LOGIN);
-        }
+//        if (isTablet()) {
+//            DialogFragment df = new LoginDialogFragment();
+//            df.show(getSupportFragmentManager(), "login");
+//        } else {
+//            Intent intent = new Intent();
+//            intent.setClass(getContext(), LoginActivity.class);
+//            startActivityForResult(intent, ActivityUtils.REQUEST_CODE_LOGIN);
+//        }
+        ARouter.getInstance().build(ARouterConstants.ACTIVITY_LOGIN).navigation();
     }
 
     private void showAddBoardDialog() {
