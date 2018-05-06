@@ -4,25 +4,19 @@ package sp.phone.mvp.model;
 import android.net.Uri;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
-
-import java.io.IOException;
 
 import gov.anzong.androidnga.Utils;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import sp.phone.bean.TopicPostBean;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.forumoperation.PostParam;
+import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicPostContract;
-import sp.phone.task.FileUploadTask;
-import sp.phone.task.TopicPostTask;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
-import sp.phone.bean.TopicPostBean;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.forumoperation.TopicPostAction;
-import sp.phone.mvp.contract.TopicPostContract;
+import sp.phone.retrofit.RetrofitHelper;
+import sp.phone.retrofit.RetrofitService;
+import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.NLog;
@@ -31,92 +25,75 @@ import sp.phone.util.NLog;
  * Created by Justwen on 2017/6/10.
  */
 
-public class TopicPostModel implements TopicPostContract.Model {
+public class TopicPostModel extends BaseModel implements TopicPostContract.Model {
 
     private static final String HOST = Utils.getNGAHost() + "post.php?";
 
-    private static final String TAG = TopicPostModel.class.getSimpleName();
-
     private TopicPostContract.Presenter mPresenter;
 
-    private OkHttpClient mOkHttpClient;
+    private RetrofitService mRetrofitService;
 
     public TopicPostModel(TopicPostContract.Presenter presenter) {
-        mOkHttpClient = new OkHttpClient();
         mPresenter = presenter;
+        mRetrofitService = RetrofitHelper.getInstance().getService();
     }
 
     @Override
-    public void preparePost() {
-
-        final TopicPostAction act = mPresenter.getTopicPostAction();
-
+    public void getPostInfo(PostParam postParam, OnHttpCallBack<PostParam> callBack) {
         StringBuilder builder = new StringBuilder(HOST);
-        builder.append("fid=").append(act.getFid_()).append("&lite=js");
-        if (act.getAction() != null) {
-            builder.append("&action=").append(act.getAction());
+        builder.append("fid=")
+                .append(postParam.getFid())
+                .append("&lite=js");
+        if (postParam.getAction() != null) {
+            builder.append("&action=").append(postParam.getAction());
         }
 
-        if (act.getPid() != null) {
-            builder.append("&pid=").append(act.getPid());
+        if (postParam.getPid() != null) {
+            builder.append("&pid=").append(postParam.getPid());
         }
 
-        if (act.getTid() != null) {
-            builder.append("&tid=").append(act.getTid());
+        if (postParam.getTid() != null) {
+            builder.append("&tid=").append(postParam.getTid());
         }
 
-        Request request = new Request.Builder()
-                .url(builder.toString())
-                .header("Cookie", PhoneConfiguration.getInstance().getCookie())
-                .build();
-        Call call = mOkHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                ResponseBody body = response.body();
-                if ("ok".equalsIgnoreCase(response.message()) && body != null) {
-                    String result = body.string();
-                    int index = result.indexOf("=");
-                    if (index < 0) {
-                        NLog.e(TAG, "prepare post info failed !!");
-                        return;
+        mRetrofitService.post(builder.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map(new Function<String, PostParam>() {
+                    @Override
+                    public PostParam apply(String s) throws Exception {
+                        NLog.d(s);
+                        s = s.replace("window.script_muti_get_var_store=", "");
+                        TopicPostBean bean = JSON.parseObject(s, TopicPostBean.class);
+                        postParam.setAuth(bean.getData().getAuth());
+                        return postParam;
                     }
-                    result = result.substring(index + 1);
-                    TopicPostBean bean = null;
-                    try {
-                        bean = JSON.parseObject(result, TopicPostBean.class);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    if (bean != null) {
-                        act.setAuth(bean.getData().getAuth());
-                    } else {
-                        NLog.e(TAG, "prepare post info failed !!");
-                    }
-                } else {
-                    NLog.e(TAG, "prepare post info failed !!");
-                }
-            }
-        });
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<PostParam>() {
 
+                    @Override
+                    public void onNext(PostParam postParam) {
+                        callBack.onSuccess(postParam);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        callBack.onError("获取附件验证码失败，将无法上传附件！！");
+                    }
+                });
     }
 
     @Override
     public void post() {
-        TopicPostAction act = mPresenter.getTopicPostAction();
-        new TopicPostTask(mPresenter.getContext(), (TopicPostTask.CallBack) mPresenter).execute(act.toString());
+        PostParam act = mPresenter.getTopicPostAction();
+        new TopicPostTask(ApplicationContextHolder.getContext(), (TopicPostTask.CallBack) mPresenter).execute(act.toString());
     }
 
     @Override
     public void uploadFile(Uri uri) {
-        TopicPostAction act = mPresenter.getTopicPostAction();
-        FileUploadTask fileUploadTask = new FileUploadTask(mPresenter.getContext(), (FileUploadTask.onFileUploaded) mPresenter, uri, act.getAuth());
+        PostParam act = mPresenter.getTopicPostAction();
+        FileUploadTask fileUploadTask = new FileUploadTask(ApplicationContextHolder.getContext(), (FileUploadTask.onFileUploaded) mPresenter, uri, act.getAuth());
         fileUploadTask.executeOnExecutor(FileUploadTask.THREAD_POOL_EXECUTOR);
     }
 

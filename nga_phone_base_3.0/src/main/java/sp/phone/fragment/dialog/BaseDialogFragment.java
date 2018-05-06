@@ -1,6 +1,7 @@
 package sp.phone.fragment.dialog;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,13 +37,15 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        AlertDialog dialog = (AlertDialog) getDialog();
-        if (mPositiveClickListener != null) {
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(mPositiveClickListener);
-        }
+        Dialog dialog = getDialog();
+        if (dialog instanceof AlertDialog) {
+            if (mPositiveClickListener != null) {
+                ((AlertDialog)dialog).getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(mPositiveClickListener);
+            }
 
-        if (mNegativeClickListener != null) {
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(mNegativeClickListener);
+            if (mNegativeClickListener != null) {
+                ((AlertDialog)dialog).getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(mNegativeClickListener);
+            }
         }
         super.onViewCreated(view, savedInstanceState);
     }

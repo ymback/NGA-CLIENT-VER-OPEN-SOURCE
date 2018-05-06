@@ -33,6 +33,8 @@ public interface ParamKey {
     //回复id  整数
     String KEY_PID = "pid";
 
+    String KEY_ACTION = "action";
+
     String KEY_SEARCH_POST = "searchpost";
 
     String KEY_CONTENT = "content";

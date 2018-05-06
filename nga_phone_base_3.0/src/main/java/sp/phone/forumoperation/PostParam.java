@@ -1,16 +1,18 @@
 package sp.phone.forumoperation;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import sp.phone.util.StringUtils;
-import sp.phone.util.StringUtils;
 
-public class TopicPostAction {
+public class PostParam implements Parcelable {
     private int step_;
     private String pid_;
-    private String action_;
-    private int fid_;
+    private String mAction;
+    private int mFid;
     private String tid_;
     private String _ff_;
     private String attachments_;
@@ -26,12 +28,44 @@ public class TopicPostAction {
 
     private String auth = "";
 
+    protected PostParam(Parcel in) {
+        step_ = in.readInt();
+        pid_ = in.readString();
+        mAction = in.readString();
+        mFid = in.readInt();
+        tid_ = in.readString();
+        _ff_ = in.readString();
+        attachments_ = in.readString();
+        attachments_check_ = in.readString();
+        force_topic_key_ = in.readString();
+        filter_key_ = in.readInt();
+        post_subject_ = in.readString();
+        post_content_ = in.readString();
+        checkkey_ = in.readString();
+        mention_ = in.readString();
+        __ngaClientChecksum = in.readString();
+        __isanony = in.readByte() != 0;
+        auth = in.readString();
+    }
+
+    public static final Creator<PostParam> CREATOR = new Creator<PostParam>() {
+        @Override
+        public PostParam createFromParcel(Parcel in) {
+            return new PostParam(in);
+        }
+
+        @Override
+        public PostParam[] newArray(int size) {
+            return new PostParam[size];
+        }
+    };
+
     public String getAuth() {
         return auth;
     }
 
     public String getAction(){
-        return action_;
+        return mAction;
     }
 
     public synchronized void setAuth(String auth) {
@@ -46,11 +80,11 @@ public class TopicPostAction {
         return pid_;
     }
 
-    public TopicPostAction(String tid, String subject, String content) {
+    public PostParam(String tid, String subject, String content) {
         step_ = 2;
         pid_ = "";
-        action_ = "new";
-        fid_ = 0;
+        mAction = "new";
+        mFid = 0;
         tid_ = tid;
         _ff_ = "";
         attachments_ = "";
@@ -66,12 +100,12 @@ public class TopicPostAction {
 
     }
 
-    public int getFid_() {
-        return fid_;
+    public int getFid() {
+        return mFid;
     }
 
-    public void setFid_(int fid) {
-        fid_ = fid;
+    public void setFid(int fid) {
+        mFid = fid;
     }
 
     public void set__isanony(boolean isanony) {
@@ -102,14 +136,9 @@ public class TopicPostAction {
         tid_ = tid;
     }
 
-    public String getAction_() {
-        return action_;
-    }
 
-
-
-    public void setAction_(String action) {
-        action_ = action;
+    public void setAction(String action) {
+        mAction = action;
     }
 
     public void set__ngaClientChecksum(String getngaClientChecksum) {
@@ -128,11 +157,11 @@ public class TopicPostAction {
         sb.append("&pid=");
         sb.append(pid_);
         sb.append("&action=");
-        sb.append(action_);
+        sb.append(mAction);
 
-        if (!action_.equals("modify")) {
+        if (!mAction.equals("modify")) {
             sb.append("&fid=");
-            sb.append(fid_);
+            sb.append(mFid);
         } else {
             sb.append("&fid=");
         }
@@ -195,5 +224,30 @@ public class TopicPostAction {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(step_);
+        dest.writeString(pid_);
+        dest.writeString(mAction);
+        dest.writeInt(mFid);
+        dest.writeString(tid_);
+        dest.writeString(_ff_);
+        dest.writeString(attachments_);
+        dest.writeString(attachments_check_);
+        dest.writeString(force_topic_key_);
+        dest.writeInt(filter_key_);
+        dest.writeString(post_subject_);
+        dest.writeString(post_content_);
+        dest.writeString(checkkey_);
+        dest.writeString(mention_);
+        dest.writeString(__ngaClientChecksum);
+        dest.writeByte((byte) (__isanony ? 1 : 0));
+        dest.writeString(auth);
+    }
 }
 

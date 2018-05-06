@@ -2,9 +2,8 @@ package sp.phone.mvp.contract;
 
 import android.net.Uri;
 
-import sp.phone.mvp.contract.tmp.BaseContract;
-import sp.phone.forumoperation.TopicPostAction;
-import sp.phone.mvp.contract.tmp.BaseContract;
+import sp.phone.forumoperation.PostParam;
+import sp.phone.listener.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/6/6.
@@ -12,31 +11,31 @@ import sp.phone.mvp.contract.tmp.BaseContract;
 
 public interface TopicPostContract {
 
-    interface Presenter extends sp.phone.mvp.contract.tmp.BaseContract.Presenter {
-
-        void prepare();
+    interface Presenter  {
 
         void setEmoticon(String emoticon);
 
-        void setTopicPostAction(TopicPostAction postAction);
+        void setTopicPostAction(PostParam postAction);
 
-        TopicPostAction getTopicPostAction();
+        PostParam getTopicPostAction();
 
-        void post(String title,String body,boolean isAnony);
+        void post(String title, String body, boolean isAnony);
 
         void prepareUploadFile();
 
         void startUploadTask(Uri uri);
 
+        void getPostInfo();
+
     }
 
-    interface View extends sp.phone.mvp.contract.tmp.BaseContract.View<Presenter> {
+    interface View  {
 
         void insertBodyText(CharSequence text);
 
         void finish();
 
-        void insertFile(String path,CharSequence file);
+        void insertFile(String path, CharSequence file);
 
         void showFilePicker();
 
@@ -44,12 +43,13 @@ public interface TopicPostContract {
 
     }
 
-    interface Model extends BaseContract.Model {
-
-        void preparePost();
+    interface Model  {
 
         void post();
 
         void uploadFile(Uri uri);
+
+        // 获取发布信息
+        void getPostInfo(PostParam postParam, OnHttpCallBack<PostParam> callBack);
     }
 }

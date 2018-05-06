@@ -14,12 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.forumoperation.ParamKey;
@@ -106,10 +108,11 @@ public class TopicListFragment extends TopicSearchFragment {
 
     @OnClick(R.id.fab_post)
     public void startPostActivity() {
-        Intent intent = new Intent();
-        intent.putExtra("fid", mRequestParam.fid);
-        intent.putExtra("action", "new");
-        ActivityUtils.startPostActivity(getContext(), intent);
+        ARouter.getInstance()
+                .build(ARouterConstants.ACTIVITY_POST)
+                .withInt(ParamKey.KEY_FID, mRequestParam.fid)
+                .withString(ParamKey.KEY_ACTION, "new")
+                .navigation();
     }
 
     @Override

@@ -2,30 +2,20 @@ package gov.anzong.androidnga.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.StyleSpan;
-import android.view.MenuItem;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.forumoperation.TopicPostAction;
+import sp.phone.forumoperation.PostParam;
 import sp.phone.fragment.TopicPostFragment;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.mvp.contract.TopicPostContract;
-import sp.phone.mvp.presenter.TopicPostPresenter;
 import sp.phone.util.FunctionUtils;
-import sp.phone.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 
 @Route(path = ARouterConstants.ACTIVITY_POST)
@@ -35,12 +25,15 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     private final String LOG_TAG = Activity.class.getSimpleName();
 
-    private TopicPostContract.Presenter mPresenter;
+
+    private TopicPostFragment mPostFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         hideActionBar();
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_post);
+        setupActionBar();
 
         Intent intent = this.getIntent();
         String prefix = intent.getStringExtra("prefix");
@@ -67,9 +60,9 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
         if (tid == null)
             tid = "";
 
-        TopicPostAction act = new TopicPostAction(tid, "", "");
-        act.setAction_(action);
-        act.setFid_(fid);
+        PostParam act = new PostParam(tid, "", "");
+        act.setAction(action);
+        act.setFid(fid);
         act.set__ngaClientChecksum(FunctionUtils.getngaClientChecksum(this));
         if (!StringUtils.isEmpty(mention))
             act.setMention_(mention);
@@ -94,57 +87,20 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
         bundle.putString("prefix", prefix);
         bundle.putString("action", action);
         bundle.putString("title", title);
-        Fragment fragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
-        if (fragment == null) {
-            fragment = new TopicPostFragment();
-            mPresenter = new TopicPostPresenter((TopicPostContract.View) fragment);
-            mPresenter.setTopicPostAction(act);
-            fragment.setArguments(bundle);
-            fragment.setHasOptionsMenu(true);
-            getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
-        } else {
-            mPresenter = new TopicPostPresenter((TopicPostContract.View) fragment);
-            mPresenter.setTopicPostAction(act);
-        }
 
-    }
+        bundle.putParcelable("param",act);
+        mPostFragment = new TopicPostFragment();
+        mPostFragment.setArguments(bundle);
+        mPostFragment.setHasOptionsMenu(true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, mPostFragment).commit();
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.emotion:
-                FragmentTransaction ft = getSupportFragmentManager()
-                        .beginTransaction();
-                Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                        EMOTION_CATEGORY_TAG);
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-
-                DialogFragment newFragment = new EmotionCategorySelectFragment();
-                newFragment.show(ft, EMOTION_CATEGORY_TAG);
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void onEmotionPicked(String emotion) {
-        mPresenter.setEmoticon(emotion);
+        mPostFragment.setEmoticon(emotion);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                mPresenter.prepareUploadFile();
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
 }

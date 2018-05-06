@@ -8,15 +8,15 @@ import android.view.ViewGroup;
 
 import gov.anzong.androidnga.R;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
-import sp.phone.interfaces.EmotionCategorySelectedListener;
 import sp.phone.util.NLog;
 
-public class EmotionCategorySelectFragment extends NoframeDialogFragment {
+public class EmotionCategorySelectFragment extends BaseDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.emotion_category, container, false);
     }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

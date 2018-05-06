@@ -11,12 +11,16 @@ import gov.anzong.androidnga.BuildConfig;
 
 public class NLog {
 
-    private static boolean DEBUG = BuildConfig.DEBUG;
+    private static boolean sDebugMode = BuildConfig.DEBUG;
 
     public static final String TAG = "NGA";
+    
+    public static void setDebug(boolean debug) {
+        sDebugMode = debug;
+    }
 
     public static int v(String tag, String msg) {
-        if (DEBUG) {
+        if (sDebugMode) {
             return Log.v(tag, msg);
         } else {
             return 0;
@@ -24,7 +28,7 @@ public class NLog {
     }
 
     public static int d(String tag, String msg) {
-        if (DEBUG) {
+        if (sDebugMode) {
             return Log.d(tag, msg);
         } else {
             return 0;
@@ -32,7 +36,7 @@ public class NLog {
     }
 
     public static int i(String tag, String msg) {
-        if (DEBUG) {
+        if (sDebugMode) {
             return Log.i(tag, msg);
         } else {
             return 0;
@@ -40,7 +44,7 @@ public class NLog {
     }
 
     public static int w(String tag, String msg) {
-        if (DEBUG) {
+        if (sDebugMode) {
             return Log.w(tag, msg);
         } else {
             return 0;
@@ -48,7 +52,7 @@ public class NLog {
     }
 
     public static int e(String tag, String msg) {
-        if (DEBUG) {
+        if (sDebugMode) {
             return Log.e(tag, msg);
         } else {
             return 0;
@@ -56,7 +60,7 @@ public class NLog {
     }
 
     public static int e(String msg) {
-        if (DEBUG) {
+        if (sDebugMode) {
             return Log.e(TAG, msg);
         } else {
             return 0;
@@ -65,7 +69,7 @@ public class NLog {
 
 
     public static int e(String tag, String msg, Throwable throwable) {
-        if (DEBUG) {
+        if (sDebugMode) {
             return Log.e(tag, msg, throwable);
         } else {
             return 0;
@@ -79,14 +83,14 @@ public class NLog {
 
     // 可以打印行数
     public static void d(String msg) {
-        if (DEBUG) {
+        if (sDebugMode) {
             StackTraceElement[] elements = Thread.currentThread().getStackTrace();
             if (elements.length < 3) {
                 Log.e(TAG, "Stack to shallow");
             } else {
                 try {
                     String fullClassName = elements[3].getClassName();
-                    String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+                    String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
                     String methodName = elements[3].getMethodName();
                     int lineNumber = elements[3].getLineNumber();
                     Log.d(TAG, className + "." + methodName + "():"

@@ -112,7 +112,6 @@ dependencies {
     implementation fileTree(include: '*.jar', dir: 'libs')
     implementation project(':SwipeBackLayoutLibrary')
     implementation(name: 'floatingactionmenu', ext: 'aar')
-    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
     implementation 'com.alibaba:fastjson:1.2.41'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

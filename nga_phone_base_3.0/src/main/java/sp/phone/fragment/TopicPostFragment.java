@@ -2,8 +2,10 @@ package sp.phone.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,22 +16,22 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.PostActivity;
+import sp.phone.fragment.dialog.BaseDialogFragment;
+import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.mvp.contract.TopicPostContract;
-import sp.phone.mvp.contract.TopicPostContract;
+import sp.phone.mvp.presenter.TopicPostPresenter;
 import sp.phone.util.FunctionUtils;
+import sp.phone.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/6/6.
  */
 
-public class TopicPostFragment extends MaterialCompatFragment implements TopicPostContract.View {
-
-    private TopicPostContract.Presenter mPresenter;
+public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> implements TopicPostContract.View {
 
     private EditText mTitleEditText;
 
@@ -45,12 +47,18 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAction = getArguments().getString("action");
-        mPresenter.prepare();
+        mPresenter.setTopicPostAction(getArguments().getParcelable("param"));
+        mPresenter.getPostInfo();
+    }
+
+    @Override
+    protected TopicPostPresenter onCreatePresenter() {
+        return new TopicPostPresenter();
     }
 
 
     @Override
-    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_topic_post,container,false);
         mTitleEditText = rootView.findViewById(R.id.reply_titile_edittext);
         mBodyEditText = rootView.findViewById(R.id.reply_body_edittext);
@@ -88,22 +96,16 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
             }
 
         });
-        initUserSpinner();
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void initUserSpinner(){
-
-        Spinner userSpinner = getSpinner();
-        if (userSpinner != null) {
-            userSpinner.setVisibility(View.VISIBLE);
-        }
-    }
-
-
     @Override
-    public void setPresenter(TopicPostContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mPresenter.prepareUploadFile();
+            }
+        }
     }
 
     @Override
@@ -198,10 +200,19 @@ public class TopicPostFragment extends MaterialCompatFragment implements TopicPo
             case R.id.upload:
                 mPresenter.prepareUploadFile();
                 break;
+            case R.id.emotion:
+                BaseDialogFragment newFragment = new EmotionCategorySelectFragment();
+                newFragment.show(getActivity().getSupportFragmentManager());
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+
+    public void setEmoticon(String emotion) {
+        mPresenter.setEmoticon(emotion);
     }
 
     @Override

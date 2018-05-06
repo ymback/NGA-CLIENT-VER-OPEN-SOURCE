@@ -351,15 +351,6 @@ public class ActivityUtils {
         }
     }
 
-    public static void startPostActivity(Context context, Intent intent) {
-        if (UserManagerImpl.getInstance().getActiveUser() == null) {
-            startLoginActivity(context);
-        } else {
-            intent.setClass(context, PhoneConfiguration.getInstance().postActivityClass);
-            context.startActivity(intent);
-        }
-    }
-
     public static void startSearchDialog(AppCompatActivity activity, Bundle bundle) {
         if (UserManagerImpl.getInstance().getActiveUser() == null) {
             startLoginActivity(activity);
