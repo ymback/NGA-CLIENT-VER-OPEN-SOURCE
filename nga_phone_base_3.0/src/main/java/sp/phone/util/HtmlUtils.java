@@ -225,10 +225,8 @@ public class HtmlUtils {
                 avatarUrl = "file:///android_asset/default_avatar.png";
             }
             String content = comment.getContent();
-            // TODO: 2018/4/15  should not use magic code, need refactor it later
-            int start = content.indexOf("[/uid]") + 7;
             int end = content.indexOf("[/b]");
-            String time = content.substring(start, end);
+            String time = '(' + comment.getPostdate() + ')';
             content = content.substring(end + 4);
             content = StringUtils.decodeForumTag(content, showImage, imageQuality, null);
             ret.append(String.format("<tr><td width='10%%'> <img src='%s' align='absmiddle' style='max-width:32;' />  <span style='font-weight:bold'>%s %s</span>%s</td></tr>",
