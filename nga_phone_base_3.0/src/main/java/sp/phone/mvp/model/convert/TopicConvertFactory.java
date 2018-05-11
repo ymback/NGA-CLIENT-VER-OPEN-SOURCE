@@ -11,11 +11,6 @@ import java.util.Map;
 
 import sp.phone.bean.SubBoard;
 import sp.phone.bean.TopicListBean;
-import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.util.StringUtils;
-import sp.phone.bean.SubBoard;
-import sp.phone.bean.TopicListBean;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
@@ -155,6 +150,11 @@ public class TopicConvertFactory {
                 replyInfo.setTidStr(String.valueOf(pageInfo.getTid()));
                 replyInfo.setSubject(pageInfo.getSubject());
                 pageInfo.setReplyInfo(replyInfo);
+            }
+
+            Map<String,String> parent = tBean.getParent();
+            if (parent != null) {
+                pageInfo.setParentBoard(parent.get("2"));
             }
 
             pageInfo.setPostDate(tBean.getPostdate());

@@ -34,6 +34,8 @@ public class ThreadPageInfo {
 
     private ReplyInfo mReplyInfo;
 
+    private String mParentBoard;
+
     public int getPostDate() {
         return mPostDate;
     }
@@ -160,6 +162,14 @@ public class ThreadPageInfo {
 
     public void setReplyInfo(ReplyInfo replyInfo) {
         mReplyInfo = replyInfo;
+    }
+
+    public String getParentBoard() {
+        return mParentBoard;
+    }
+
+    public void setParentBoard(String parentBoard) {
+        mParentBoard = parentBoard;
     }
 
     public static class ReplyInfo {

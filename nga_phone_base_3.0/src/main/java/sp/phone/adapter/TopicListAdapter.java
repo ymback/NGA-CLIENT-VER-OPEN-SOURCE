@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
@@ -252,6 +253,13 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
                     }
                 }
             }
+        }
+
+        if (!TextUtils.isEmpty(entry.getParentBoard())) {
+            SpannableStringBuilder subBuilder = new SpannableStringBuilder();
+            subBuilder.append("  [").append(entry.getParentBoard()).append("]");
+            subBuilder.setSpan(new ForegroundColorSpan(mContext.getColor(R.color.text_color_disabled)), 0, subBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.append(subBuilder);
         }
         view.setText(builder);
     }
