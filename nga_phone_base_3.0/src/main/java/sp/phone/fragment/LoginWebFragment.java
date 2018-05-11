@@ -31,7 +31,9 @@ public class LoginWebFragment extends BaseFragment {
 
     private static final int MAX_PROGRESS = 100;
 
+    //"https://bbs.ngacn.cc/nuke.php?__lib=login&__act=account&login";
     private static final String LOGIN_URL = "https://bbs.ngacn.cc/nuke.php?__lib=login&__act=login_ui";
+
 
     private LoginPresenter mLoginPresenter;
 
@@ -145,5 +147,15 @@ public class LoginWebFragment extends BaseFragment {
      */
     public WebView getWebView() {
         return mWebView;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        } else {
+            return super.onBackPressed();
+        }
     }
 }

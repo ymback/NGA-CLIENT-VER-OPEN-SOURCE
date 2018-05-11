@@ -39,8 +39,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:configChanges="orientation|screenSize"
+            android:label="@string/label_activity_login"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBackTheme"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activity.ProfileActivity"
@@ -77,8 +77,8 @@
             android:theme="@style/SwipeBackTheme"/>
         <activity
             android:name=".activity.TopicListActivity"
-            android:exported="true"
             android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
+            android:exported="true"
             android:theme="@style/SwipeBackTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
