@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.fragment.dialog.EmotionDialogFragment;
 import sp.phone.fragment.dialog.ExtensionEmotionFragment;
 import sp.phone.interfaces.EmotionCategorySelectedListener;
@@ -18,7 +19,7 @@ public abstract class BasePostActivity extends SwipeBackAppCompatActivity implem
     public void onEmotionCategorySelected(int category) {
         final FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        final Fragment categoryFragment = getSupportFragmentManager().findFragmentByTag(EMOTION_CATEGORY_TAG);
+        final Fragment categoryFragment = getSupportFragmentManager().findFragmentByTag(EmotionCategorySelectFragment.class.getSimpleName());
         if (categoryFragment != null)
             ft.remove(categoryFragment);
         ft.commit();
