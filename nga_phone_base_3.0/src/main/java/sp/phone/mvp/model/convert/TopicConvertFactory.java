@@ -154,7 +154,7 @@ public class TopicConvertFactory {
 
             Map<String,String> parent = tBean.getParent();
             if (parent != null) {
-                pageInfo.setParentBoard(parent.get("2"));
+                pageInfo.setBoard(parent.get("2"));
             }
 
             pageInfo.setPostDate(tBean.getPostdate());

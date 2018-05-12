@@ -34,7 +34,7 @@ public class ThreadPageInfo {
 
     private ReplyInfo mReplyInfo;
 
-    private String mParentBoard;
+    private String mBoard;
 
     public int getPostDate() {
         return mPostDate;
@@ -164,12 +164,12 @@ public class ThreadPageInfo {
         mReplyInfo = replyInfo;
     }
 
-    public String getParentBoard() {
-        return mParentBoard;
+    public String getBoard() {
+        return mBoard;
     }
 
-    public void setParentBoard(String parentBoard) {
-        mParentBoard = parentBoard;
+    public void setBoard(String board) {
+        mBoard = board;
     }
 
     public static class ReplyInfo {

@@ -72,27 +72,29 @@ public class ForumNotificationFactory {
         try {
             JSONObject obj = JSONObject.parseObject(content);
             obj = obj.getJSONObject("data").getJSONObject("0");
-            int unread = obj.getInteger("unread");
-            JSONArray array = obj.getJSONArray("0");
-            if (array != null) {
-                for (int i = 0; i < array.size(); i++) {
-                    RecentReplyInfo info = buildRecentReplyInfo(array.getJSONObject(i));
-                    info.setUnread(unread > 0);
-                    infoList.add(info);
+            if (obj != null) {
+                int unread = obj.getInteger("unread");
+                JSONArray array = obj.getJSONArray("0");
+                if (array != null) {
+                    for (int i = 0; i < array.size(); i++) {
+                        RecentReplyInfo info = buildRecentReplyInfo(array.getJSONObject(i));
+                        info.setUnread(unread > 0);
+                        infoList.add(info);
+                    }
                 }
-            }
 
-            array = obj.getJSONArray("1");
-            if (array != null) {
-                for (int i = 0; i < array.size(); i++) {
-                    NotificationInfo info = buildMessageInfo(array.getJSONObject(i));
-                    info.setUnread(unread > 0);
-                    infoList.add(info);
+                array = obj.getJSONArray("1");
+                if (array != null) {
+                    for (int i = 0; i < array.size(); i++) {
+                        NotificationInfo info = buildMessageInfo(array.getJSONObject(i));
+                        info.setUnread(unread > 0);
+                        infoList.add(info);
+                    }
                 }
             }
 
         } catch (Exception e) {
-            NLog.e("buildNotificationList error" + e.getMessage());
+            NLog.e("buildNotificationList error " + e.getMessage());
         }
         return infoList;
     }

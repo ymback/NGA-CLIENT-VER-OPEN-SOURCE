@@ -728,6 +728,14 @@ public class StringUtils {
         return ret;
     }
 
+    public static String toBinaryArray(byte[] bytes) {
+        StringBuilder builder = new StringBuilder(bytes.length * Byte.SIZE);
+        for (int i = 0; i < Byte.SIZE * bytes.length; i++) {
+            builder.append((bytes[i / Byte.SIZE] << i % Byte.SIZE & 0x80) == 0 ? '0' : '1');
+        }
+        return builder.toString();
+    }
+
     public static int getUrlParameter(String url, String paraName) {
         if (StringUtils.isEmpty(url)) {
             return 0;

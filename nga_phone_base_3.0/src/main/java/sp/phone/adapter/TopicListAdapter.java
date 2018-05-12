@@ -24,6 +24,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.rxjava.RxUtils;
@@ -34,9 +35,27 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
 
     private ThemeManager mThemeManager = ThemeManager.getInstance();
 
-    private final static int _FONT_RED = 1, _FONT_BLUE = 2, _FONT_GREEN = 4,
-            _FONT_ORANGE = 8, _FONT_SILVER = 16, _FONT_B = 32, _FONT_I = 64,
-            _FONT_U = 128;
+    private static final int MASK_FONT_RED = 1;
+
+    private static final int MASK_FONT_BLUE = 2;
+
+    private static final int MASK_FONT_GREEN = 4;
+
+    private static final int MASK_FONT_ORANGE = 8;
+
+    private static final int MASK_FONT_SILVER = 16;
+
+    private static final int MASK_FONT_BOLD = 32;
+
+    private static final int MASK_FONT_ITALIC = 64;
+
+    private static final int MASK_FONT_UNDERLINE = 128;
+
+    // 主题被锁定
+    private static final int MASK_STATUS_LOCK = 1024;
+
+    // 主题中有附件
+    private static final int MASK_STATUS_ATTACHMENT = 8192;
 
     public TopicListAdapter(Context context) {
         super(context);
@@ -50,19 +69,18 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
     @Override
     public void setData(List<ThreadPageInfo> dataList) {
         if (dataList == null) {
-            super.setData(dataList);
+            super.setData(null);
         } else {
             super.appendData(dataList);
         }
     }
-
 
     @Override
     public void onBindViewHolder(final TopicViewHolder holder, int position) {
 
         ThreadPageInfo info = getItem(position);
         info.setPosition(position);
-        RxUtils.clicks(holder.itemView,mOnClickListener);
+        RxUtils.clicks(holder.itemView, mOnClickListener);
         holder.itemView.setOnLongClickListener(mOnLongClickListener);
         holder.itemView.setTag(info);
 
@@ -77,17 +95,9 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
         if (entry == null) {
             return;
         }
-        int nightLinkColor = ContextCompat.getColor(mContext, R.color.night_link_color);
         holder.author.setText(entry.getAuthor());
-
-        String lastPoster = entry.getLastPoster();
-        holder.lastReply.setText(lastPoster);
+        holder.lastReply.setText(entry.getLastPoster());
         holder.num.setText(String.valueOf(entry.getReplies()));
-        if (mThemeManager.isNightMode()) {
-            holder.author.setTextColor(nightLinkColor);
-            holder.lastReply.setTextColor(nightLinkColor);
-            holder.num.setTextColor(nightLinkColor);
-        }
         handleTitleView(holder.title, entry);
     }
 
@@ -96,53 +106,42 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
         float size = PhoneConfiguration.getInstance().getTopicTitleSize();
         view.setTextColor(ContextCompat.getColor(mContext, theme.getForegroundColor()));
         view.setTextSize(size);
-        String title = entry.getSubject();
-        int type = entry.getType();
-        String needAdd = "";
-        if ((type & 1024) == 1024) {
-            needAdd += " [锁定]";
-        }
-        if ((type & 8192) == 8192) {
-            needAdd += " +";
-        }
-        int titleLength;
-        if (StringUtils.isEmpty(title)) {
-            title = entry.getSubject();
-            title = StringUtils.unEscapeHtml(title);
-            titleLength = title.length();
-            title += needAdd;
 
-        } else {
-            title = StringUtils.removeBrTag(StringUtils
-                    .unEscapeHtml(title));
-            titleLength = title.length();
-            title += needAdd;
+        String title = StringUtils.removeBrTag(StringUtils.unEscapeHtml(entry.getSubject()));
+        int type = entry.getType();
+        // title =
+        int titleLength = title.length();
+        if ((type & MASK_STATUS_LOCK) == MASK_STATUS_LOCK) {
+            title += " [锁定]";
         }
-        ForegroundColorSpan greenSpan = new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.title_green));
-        ForegroundColorSpan blueSpan = new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.title_blue));
-        ForegroundColorSpan redSpan = new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.title_red));
-        ForegroundColorSpan lockRedSpan = new ForegroundColorSpan(Color.RED);
-        ForegroundColorSpan orangeSpan = new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.title_orange));
-        ForegroundColorSpan picOrangeSpan = new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.title_orange));
-        ForegroundColorSpan sliverSpan = new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.silver));
+        if ((type & MASK_STATUS_ATTACHMENT) == MASK_STATUS_ATTACHMENT) {
+            title += " +";
+        }
 
         SpannableStringBuilder builder = new SpannableStringBuilder(title);
         int totalLength = title.length();
-        if ((type & 8192) == 8192 && (type & 1024) == 1024 && totalLength >= 6) {//均有
-            builder.setSpan(picOrangeSpan, totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            builder.setSpan(lockRedSpan, totalLength - 6, totalLength - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if ((type & 8192) == 8192 && totalLength > 0) {//只有+
-            builder.setSpan(picOrangeSpan, totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if ((type & 1024) == 1024 && totalLength >= 4) {//只有锁定
-            builder.setSpan(lockRedSpan, totalLength - 4, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if ((type & MASK_STATUS_ATTACHMENT) == MASK_STATUS_ATTACHMENT && (type & MASK_STATUS_LOCK) == MASK_STATUS_LOCK && totalLength >= 6) {//均有
+            builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange)), totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new ForegroundColorSpan(Color.RED), totalLength - 6, totalLength - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if ((type & MASK_STATUS_ATTACHMENT) == MASK_STATUS_ATTACHMENT && totalLength > 0) {//只有+
+            builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange)), totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if ((type & MASK_STATUS_LOCK) == MASK_STATUS_LOCK && totalLength >= 4) {//只有锁定
+            builder.setSpan(new ForegroundColorSpan(Color.RED), totalLength - 4, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        if (!StringUtils.isEmpty(entry.getTopicMisc())) {
-            final String misc = entry.getTopicMisc();
-            if (misc.contains("~")) {
+
+        if (!TextUtils.isEmpty(entry.getTopicMisc())) {
+            ForegroundColorSpan greenSpan = new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_green));
+            ForegroundColorSpan blueSpan = new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_blue));
+            ForegroundColorSpan redSpan = new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_red));
+            ForegroundColorSpan orangeSpan = new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange));
+            ForegroundColorSpan sliverSpan = new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.silver));
+            String misc = entry.getTopicMisc();
+            // ~ 开头的为旧格式
+            if (misc.startsWith("~")) {
                 if (misc.equals("~1~~") || misc.equals("~~~1")) {
                     builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else {
-                    String miscArray[] = misc.toLowerCase(Locale.US).split("~");
+                    String[] miscArray = misc.toLowerCase(Locale.US).split("~");
                     for (String aMiscArray : miscArray) {
                         switch (aMiscArray) {
                             case "green":
@@ -160,115 +159,64 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
                             case "sliver":
                                 builder.setSpan(sliverSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 break;
+                            case "b":
+                                builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                break;
+                            case "i":
+                                builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                break;
+                            case "u":
+                                builder.setSpan(new UnderlineSpan(), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                break;
+                            default:
+                                break;
                         }
-                        if (aMiscArray.equals("b") && aMiscArray.equals("i")) {
-                            builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        } else if (aMiscArray.equals("b")) {
-                            builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        } else if (aMiscArray.equals("i")) {
-                            builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                        if (aMiscArray.equals("u")) {
-                            builder.setSpan(new UnderlineSpan(), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-
                     }
                 }
             } else {
-                byte b[] = Base64.decode(misc, Base64.DEFAULT);
-                if (b != null) {
-                    if (b.length == 5) {
-                        String miscString = toBinary(b);
-                        String miscStringStart = miscString.substring(0, 8);
-                        BigInteger src1 = new BigInteger(miscStringStart, 2);//转换为BigInteger类型
-                        int d1 = src1.intValue();
-                        if (d1 == 1) {
-                            String miscStringEnd = miscString.substring(8, miscString.length());
-                            BigInteger src2 = new BigInteger(miscStringEnd, 2);//转换为BigInteger类型
-                            int d2 = src2.intValue();
-                            if ((d2 & _FONT_GREEN) == _FONT_GREEN) {
+                byte[] bytes = Base64.decode(misc, Base64.DEFAULT);
+                if (bytes != null) {
+                    int pos = 0;
+                    while (pos < bytes.length) {
+                        // 1 表示主题bit数据
+                        if (bytes[pos] == 1) {
+                            String miscStr = StringUtils.toBinaryArray(bytes).substring(8);
+                            int miscValue = new BigInteger(miscStr, 2).intValue();
+                            if ((miscValue & MASK_FONT_GREEN) == MASK_FONT_GREEN) {
                                 builder.setSpan(greenSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((d2 & _FONT_BLUE) == _FONT_BLUE) {
+                            } else if ((miscValue & MASK_FONT_BLUE) == MASK_FONT_BLUE) {
                                 builder.setSpan(blueSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((d2 & _FONT_RED) == _FONT_RED) {
+                            } else if ((miscValue & MASK_FONT_RED) == MASK_FONT_RED) {
                                 builder.setSpan(redSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((d2 & _FONT_ORANGE) == _FONT_ORANGE) {
+                            } else if ((miscValue & MASK_FONT_ORANGE) == MASK_FONT_ORANGE) {
                                 builder.setSpan(orangeSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((d2 & _FONT_SILVER) == _FONT_SILVER) {
+                            } else if ((miscValue & MASK_FONT_SILVER) == MASK_FONT_SILVER) {
                                 builder.setSpan(sliverSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
-                            if ((d2 & _FONT_B) == _FONT_B && (d2 & _FONT_I) == _FONT_I) {
+                            if ((miscValue & MASK_FONT_BOLD) == MASK_FONT_BOLD && (miscValue & MASK_FONT_ITALIC) == MASK_FONT_ITALIC) {
                                 builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((d2 & _FONT_I) == _FONT_I) {
+                            } else if ((miscValue & MASK_FONT_ITALIC) == MASK_FONT_ITALIC) {
                                 builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((d2 & _FONT_B) == _FONT_B) {
+                            } else if ((miscValue & MASK_FONT_BOLD) == MASK_FONT_BOLD) {
                                 builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
-                            if ((d2 & _FONT_U) == _FONT_U) {
+                            if ((miscValue & MASK_FONT_UNDERLINE) == MASK_FONT_UNDERLINE) {
                                 builder.setSpan(new UnderlineSpan(), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
-
                         }
-                    }
-                }
-            }
-        } else {
-            if (!StringUtils.isEmpty(entry.getTitleFont())) {
-                final String font = entry.getTitleFont();
-                if (font.contains("~")) {
-                    if (font.equals("~1~~") || font.equals("~~~1")) {
-                        builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    } else {
-                        String miscArray[] = font.toLowerCase(Locale.US).split("~");
-                        for (String aMiscArray : miscArray) {
-                            switch (aMiscArray) {
-                                case "green":
-                                    builder.setSpan(greenSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    break;
-                                case "blue":
-                                    builder.setSpan(blueSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    break;
-                                case "red":
-                                    builder.setSpan(redSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    break;
-                                case "orange":
-                                    builder.setSpan(orangeSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    break;
-                                case "sliver":
-                                    builder.setSpan(sliverSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    break;
-                            }
-                            if (aMiscArray.equals("b") && aMiscArray.equals("i")) {
-                                builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if (aMiscArray.equals("b")) {
-                                builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if (aMiscArray.equals("i")) {
-                                builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-                            if (aMiscArray.equals("u")) {
-                                builder.setSpan(new UnderlineSpan(), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-
-                        }
+                        pos += 4;
                     }
                 }
             }
         }
 
-        if (!TextUtils.isEmpty(entry.getParentBoard())) {
-            SpannableStringBuilder subBuilder = new SpannableStringBuilder();
-            subBuilder.append("  [").append(entry.getParentBoard()).append("]");
-            subBuilder.setSpan(new ForegroundColorSpan(mContext.getColor(R.color.text_color_disabled)), 0, subBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            builder.append(subBuilder);
+        if (!TextUtils.isEmpty(entry.getBoard())) {
+            SpannableStringBuilder boardBuilder = new SpannableStringBuilder();
+            boardBuilder.append("  [").append(entry.getBoard()).append("]");
+            boardBuilder.setSpan(new ForegroundColorSpan(mContext.getColor(R.color.text_color_disabled)), 0, boardBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.append(boardBuilder);
         }
         view.setText(builder);
-    }
-
-    private String toBinary(byte[] bytes) {
-        StringBuilder sb = new StringBuilder(bytes.length * Byte.SIZE);
-        for (int i = 0; i < Byte.SIZE * bytes.length; i++)
-            sb.append((bytes[i / Byte.SIZE] << i % Byte.SIZE & 0x80) == 0 ? '0' : '1');
-        return sb.toString();
     }
 
     public class TopicViewHolder extends RecyclerView.ViewHolder {

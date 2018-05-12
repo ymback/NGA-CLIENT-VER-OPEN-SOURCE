@@ -1,5 +1,6 @@
 package sp.phone.rxjava;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -10,6 +11,11 @@ import io.reactivex.functions.Consumer;
 
 public class RxUtils {
 
+    private RxUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    @SuppressLint("CheckResult")
     public static void clicks(View view, View.OnClickListener listener) {
         //避免双击
         RxView.clicks(view)
