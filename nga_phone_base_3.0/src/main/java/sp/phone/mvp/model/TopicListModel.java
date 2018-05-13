@@ -11,14 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.mvp.contract.TopicListContract;
-import sp.phone.mvp.model.convert.ErrorConvertFactory;
-import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
-import sp.phone.util.StringUtils;
 import sp.phone.forumoperation.TopicListParam;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicListContract;
@@ -151,6 +143,10 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
             }
             if (!StringUtils.isEmpty(requestInfo.fidGroup)) {
                 jsonUri.append("fidgroup=").append(requestInfo.fidGroup).append("&");
+            }
+
+            if (requestInfo.stid != 0) {
+                jsonUri.append("stid=").append(requestInfo.stid).append("&");
             }
         }
         jsonUri.append("page=").append(page).append("&lite=js&noprefix");

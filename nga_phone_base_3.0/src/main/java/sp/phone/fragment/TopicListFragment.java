@@ -68,6 +68,10 @@ public class TopicListFragment extends TopicSearchFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         updateFloatingMenu();
+
+        if (mRequestParam.fid == 0) {
+            view.findViewById(R.id.fab_post).setEnabled(false);
+        }
     }
 
     private void updateFloatingMenu() {
@@ -129,6 +133,11 @@ public class TopicListFragment extends TopicSearchFragment {
             menu.findItem(R.id.menu_sub_board).setVisible(!mTopicListInfo.getSubBoardList().isEmpty());
         } else {
             menu.findItem(R.id.menu_sub_board).setVisible(false);
+        }
+
+        if (mRequestParam.fid == 0) {
+            menu.findItem(R.id.menu_add_bookmark).setVisible(false);
+            menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
         }
 
         super.onPrepareOptionsMenu(menu);

@@ -24,6 +24,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import sp.phone.common.ApiConstants;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
@@ -34,28 +35,6 @@ import sp.phone.util.StringUtils;
 public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, TopicListAdapter.TopicViewHolder> {
 
     private ThemeManager mThemeManager = ThemeManager.getInstance();
-
-    private static final int MASK_FONT_RED = 1;
-
-    private static final int MASK_FONT_BLUE = 2;
-
-    private static final int MASK_FONT_GREEN = 4;
-
-    private static final int MASK_FONT_ORANGE = 8;
-
-    private static final int MASK_FONT_SILVER = 16;
-
-    private static final int MASK_FONT_BOLD = 32;
-
-    private static final int MASK_FONT_ITALIC = 64;
-
-    private static final int MASK_FONT_UNDERLINE = 128;
-
-    // 主题被锁定
-    private static final int MASK_TYPE_LOCK = 1024;
-
-    // 主题中有附件
-    private static final int MASK_TYPE_ATTACHMENT = 8192;
 
     public TopicListAdapter(Context context) {
         super(context);
@@ -107,25 +86,26 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
     private void handleTitleView(TextView view, ThreadPageInfo entry) {
 
         String title = StringUtils.removeBrTag(StringUtils.unEscapeHtml(entry.getSubject()));
+        SpannableStringBuilder builder = new SpannableStringBuilder(title);
         int type = entry.getType();
-        // title =
         int titleLength = title.length();
-        if ((type & MASK_TYPE_LOCK) == MASK_TYPE_LOCK) {
-            title += " [锁定]";
-        }
-        if ((type & MASK_TYPE_ATTACHMENT) == MASK_TYPE_ATTACHMENT) {
-            title += " +";
+
+        if ((type & ApiConstants.MASK_TYPE_ATTACHMENT) == ApiConstants.MASK_TYPE_ATTACHMENT) {
+            String typeStr = " +";
+            builder.append(typeStr);
+            builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange)), builder.length() - typeStr.length(), builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        SpannableStringBuilder builder = new SpannableStringBuilder(title);
-        int totalLength = title.length();
-        if ((type & MASK_TYPE_ATTACHMENT) == MASK_TYPE_ATTACHMENT && (type & MASK_TYPE_LOCK) == MASK_TYPE_LOCK && totalLength >= 6) {//均有
-            builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange)), totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            builder.setSpan(new ForegroundColorSpan(Color.RED), totalLength - 6, totalLength - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if ((type & MASK_TYPE_ATTACHMENT) == MASK_TYPE_ATTACHMENT && totalLength > 0) {//只有+
-            builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange)), totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if ((type & MASK_TYPE_LOCK) == MASK_TYPE_LOCK && totalLength >= 4) {//只有锁定
-            builder.setSpan(new ForegroundColorSpan(Color.RED), totalLength - 4, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if ((type & ApiConstants.MASK_TYPE_LOCK) == ApiConstants.MASK_TYPE_LOCK) {
+            String typeStr = " [锁定]";
+            builder.append(typeStr);
+            builder.setSpan(new ForegroundColorSpan(Color.RED), builder.length() - typeStr.length(), builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        if ((type & ApiConstants.MASK_TYPE_ASSEMBLE) == ApiConstants.MASK_TYPE_ASSEMBLE) {
+            String typeStr = " [合集]";
+            builder.append(typeStr);
+            builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_blue)), builder.length() - typeStr.length(), builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         if (!TextUtils.isEmpty(entry.getTopicMisc())) {
@@ -181,25 +161,25 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
                         if (bytes[pos] == 1) {
                             String miscStr = StringUtils.toBinaryArray(bytes).substring(8);
                             int miscValue = new BigInteger(miscStr, 2).intValue();
-                            if ((miscValue & MASK_FONT_GREEN) == MASK_FONT_GREEN) {
+                            if ((miscValue & ApiConstants.MASK_FONT_GREEN) == ApiConstants.MASK_FONT_GREEN) {
                                 builder.setSpan(greenSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((miscValue & MASK_FONT_BLUE) == MASK_FONT_BLUE) {
+                            } else if ((miscValue & ApiConstants.MASK_FONT_BLUE) == ApiConstants.MASK_FONT_BLUE) {
                                 builder.setSpan(blueSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((miscValue & MASK_FONT_RED) == MASK_FONT_RED) {
+                            } else if ((miscValue & ApiConstants.MASK_FONT_RED) == ApiConstants.MASK_FONT_RED) {
                                 builder.setSpan(redSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((miscValue & MASK_FONT_ORANGE) == MASK_FONT_ORANGE) {
+                            } else if ((miscValue & ApiConstants.MASK_FONT_ORANGE) == ApiConstants.MASK_FONT_ORANGE) {
                                 builder.setSpan(orangeSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((miscValue & MASK_FONT_SILVER) == MASK_FONT_SILVER) {
+                            } else if ((miscValue & ApiConstants.MASK_FONT_SILVER) == ApiConstants.MASK_FONT_SILVER) {
                                 builder.setSpan(sliverSpan, 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
-                            if ((miscValue & MASK_FONT_BOLD) == MASK_FONT_BOLD && (miscValue & MASK_FONT_ITALIC) == MASK_FONT_ITALIC) {
+                            if ((miscValue & ApiConstants.MASK_FONT_BOLD) == ApiConstants.MASK_FONT_BOLD && (miscValue & ApiConstants.MASK_FONT_ITALIC) == ApiConstants.MASK_FONT_ITALIC) {
                                 builder.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((miscValue & MASK_FONT_ITALIC) == MASK_FONT_ITALIC) {
+                            } else if ((miscValue & ApiConstants.MASK_FONT_ITALIC) == ApiConstants.MASK_FONT_ITALIC) {
                                 builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if ((miscValue & MASK_FONT_BOLD) == MASK_FONT_BOLD) {
+                            } else if ((miscValue & ApiConstants.MASK_FONT_BOLD) == ApiConstants.MASK_FONT_BOLD) {
                                 builder.setSpan(new StyleSpan(Typeface.BOLD), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
-                            if ((miscValue & MASK_FONT_UNDERLINE) == MASK_FONT_UNDERLINE) {
+                            if ((miscValue & ApiConstants.MASK_FONT_UNDERLINE) == ApiConstants.MASK_FONT_UNDERLINE) {
                                 builder.setSpan(new UnderlineSpan(), 0, titleLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                         }

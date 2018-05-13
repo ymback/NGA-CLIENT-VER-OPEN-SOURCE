@@ -5,18 +5,23 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.adapter.BaseAppendableAdapter;
 import sp.phone.adapter.ReplyListAdapter;
 import sp.phone.adapter.TopicListAdapter;
+import sp.phone.common.ApiConstants;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.TopicHistoryManager;
 import sp.phone.forumoperation.ArticleListParam;
@@ -87,6 +92,8 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
             }
         } else if (mRequestParam.recommend == 1) {
             setTitle(mRequestParam.title + " - 精华区");
+        } else if (!TextUtils.isEmpty(mRequestParam.title)) {
+            setTitle(mRequestParam.title);
         }
     }
 
@@ -193,23 +200,34 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     public void onClick(View view) {
         ThreadPageInfo info = (ThreadPageInfo) view.getTag();
 
-        ArticleListParam param = new ArticleListParam();
-        param.tid = info.getTid();
-        param.page = info.getPage();
-        param.title = info.getSubject();
-        if (mRequestParam.searchPost != 0) {
-            param.pid = info.getPid();
-            param.authorId = info.getAuthorId();
-            param.searchPost = mRequestParam.searchPost;
-        }
+        if ((info.getType() & ApiConstants.MASK_TYPE_ASSEMBLE) == ApiConstants.MASK_TYPE_ASSEMBLE) {
+            TopicListParam param = new TopicListParam();
+            param.title = info.getSubject();
+            param.stid = info.getTid();
+            ARouter.getInstance().build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                    .withParcelable(ParamKey.KEY_PARAM, param)
+                    .navigation();
 
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ParamKey.KEY_PARAM, param);
-        intent.putExtras(bundle);
-        intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
-        startActivity(intent);
-        TopicHistoryManager.getInstance().addTopicHistory(info);
+        } else {
+
+            ArticleListParam param = new ArticleListParam();
+            param.tid = info.getTid();
+            param.page = info.getPage();
+            param.title = info.getSubject();
+            if (mRequestParam.searchPost != 0) {
+                param.pid = info.getPid();
+                param.authorId = info.getAuthorId();
+                param.searchPost = mRequestParam.searchPost;
+            }
+
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(ParamKey.KEY_PARAM, param);
+            intent.putExtras(bundle);
+            intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
+            startActivity(intent);
+            TopicHistoryManager.getInstance().addTopicHistory(info);
+        }
     }
 
 }
