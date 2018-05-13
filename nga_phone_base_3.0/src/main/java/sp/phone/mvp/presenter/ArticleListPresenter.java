@@ -6,8 +6,6 @@ import android.os.Bundle;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ArticleListParam;
@@ -15,6 +13,8 @@ import sp.phone.fragment.ArticleListFragment;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.ArticleListModel;
+import sp.phone.rxjava.BaseSubscriber;
+import sp.phone.rxjava.RxUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
@@ -43,9 +43,16 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
 
             @Override
             public void onSuccess(ThreadData data) {
-                mBaseView.hideLoadingView();
                 mBaseView.setRefreshing(false);
                 mBaseView.setData(data);
+                RxUtils.postDelay(300, new BaseSubscriber<Long>() {
+                    @Override
+                    public void onNext(Long aLong) {
+                        if (mBaseView != null) {
+                            mBaseView.hideLoadingView();
+                        }
+                    }
+                });
             }
         });
     }

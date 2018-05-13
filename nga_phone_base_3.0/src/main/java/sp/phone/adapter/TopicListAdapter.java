@@ -52,10 +52,10 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
     private static final int MASK_FONT_UNDERLINE = 128;
 
     // 主题被锁定
-    private static final int MASK_STATUS_LOCK = 1024;
+    private static final int MASK_TYPE_LOCK = 1024;
 
     // 主题中有附件
-    private static final int MASK_STATUS_ATTACHMENT = 8192;
+    private static final int MASK_TYPE_ATTACHMENT = 8192;
 
     public TopicListAdapter(Context context) {
         super(context);
@@ -63,7 +63,12 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
 
     @Override
     public TopicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TopicViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_topic, parent, false));
+        TopicViewHolder viewHolder = new TopicViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_topic, parent, false));
+        viewHolder.title.setTextSize(PhoneConfiguration.getInstance().getTopicTitleSize());
+        viewHolder.title.setTextColor(ContextCompat.getColor(mContext, mThemeManager.getForegroundColor()));
+        RxUtils.clicks(viewHolder.itemView, mOnClickListener);
+        viewHolder.itemView.setOnLongClickListener(mOnLongClickListener);
+        return viewHolder;
     }
 
     @Override
@@ -80,8 +85,6 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
 
         ThreadPageInfo info = getItem(position);
         info.setPosition(position);
-        RxUtils.clicks(holder.itemView, mOnClickListener);
-        holder.itemView.setOnLongClickListener(mOnLongClickListener);
         holder.itemView.setTag(info);
 
         if (!mThemeManager.isNightMode()) {
@@ -102,30 +105,26 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
     }
 
     private void handleTitleView(TextView view, ThreadPageInfo entry) {
-        ThemeManager theme = ThemeManager.getInstance();
-        float size = PhoneConfiguration.getInstance().getTopicTitleSize();
-        view.setTextColor(ContextCompat.getColor(mContext, theme.getForegroundColor()));
-        view.setTextSize(size);
 
         String title = StringUtils.removeBrTag(StringUtils.unEscapeHtml(entry.getSubject()));
         int type = entry.getType();
         // title =
         int titleLength = title.length();
-        if ((type & MASK_STATUS_LOCK) == MASK_STATUS_LOCK) {
+        if ((type & MASK_TYPE_LOCK) == MASK_TYPE_LOCK) {
             title += " [锁定]";
         }
-        if ((type & MASK_STATUS_ATTACHMENT) == MASK_STATUS_ATTACHMENT) {
+        if ((type & MASK_TYPE_ATTACHMENT) == MASK_TYPE_ATTACHMENT) {
             title += " +";
         }
 
         SpannableStringBuilder builder = new SpannableStringBuilder(title);
         int totalLength = title.length();
-        if ((type & MASK_STATUS_ATTACHMENT) == MASK_STATUS_ATTACHMENT && (type & MASK_STATUS_LOCK) == MASK_STATUS_LOCK && totalLength >= 6) {//均有
+        if ((type & MASK_TYPE_ATTACHMENT) == MASK_TYPE_ATTACHMENT && (type & MASK_TYPE_LOCK) == MASK_TYPE_LOCK && totalLength >= 6) {//均有
             builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange)), totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             builder.setSpan(new ForegroundColorSpan(Color.RED), totalLength - 6, totalLength - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if ((type & MASK_STATUS_ATTACHMENT) == MASK_STATUS_ATTACHMENT && totalLength > 0) {//只有+
+        } else if ((type & MASK_TYPE_ATTACHMENT) == MASK_TYPE_ATTACHMENT && totalLength > 0) {//只有+
             builder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.title_orange)), totalLength - 1, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if ((type & MASK_STATUS_LOCK) == MASK_STATUS_LOCK && totalLength >= 4) {//只有锁定
+        } else if ((type & MASK_TYPE_LOCK) == MASK_TYPE_LOCK && totalLength >= 4) {//只有锁定
             builder.setSpan(new ForegroundColorSpan(Color.RED), totalLength - 4, totalLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 

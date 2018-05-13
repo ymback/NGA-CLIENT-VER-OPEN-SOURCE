@@ -7,6 +7,8 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
 public class RxUtils {
@@ -26,5 +28,11 @@ public class RxUtils {
                         listener.onClick(view);
                     }
                 });
+    }
+
+    public static void postDelay(int delay, BaseSubscriber<Long> subscriber) {
+        Observable.timer(delay, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 }
