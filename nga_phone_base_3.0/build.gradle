@@ -1,9 +1,14 @@
 apply plugin: 'com.android.application'
 
-static def getDate() {
-    def date = new Date()
-    def formattedDate = date.format('yyyyMMddHHmm')
-    return formattedDate
+def getDate() {
+    if (JENKINS_TIME == null) {
+        def date = new Date()
+        def formattedDate = date.format('yyyyMMddHHmm')
+        return formattedDate
+    } else {
+        return JENKINS_TIME
+    }
+
 }
 
 def isJenkins() {
@@ -86,15 +91,12 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def newName
-            def timeNow
+            def timeNow = getDate()
             def outDirectory
             if (isJenkins()) {
-                timeNow = JENKINS_TIME
-                outDirectory = '/auto-build/tomcat/webapps/download/'
-                newName = 'NGA-v' + APP_VERSION_NAME + '-' + timeNow + '-' + variant.buildType.name + '.apk'
+                newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
                 outputFileName = new File(outDirectory, newName)
             } else {
-                timeNow = getDate()
                 outDirectory = output.outputFile.parent
                 if (variant.buildType.name == 'debug') {
                     newName = 'NGA-v' + project.appVersionName + '-debug.apk'
