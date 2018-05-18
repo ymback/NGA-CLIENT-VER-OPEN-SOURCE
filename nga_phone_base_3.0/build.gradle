@@ -95,7 +95,7 @@ android {
             def outDirectory
             if (isJenkins()) {
                 newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
-                outputFileName = new File(outDirectory, newName)
+                outputFileName = new File(newName)
             } else {
                 outDirectory = output.outputFile.parent
                 if (variant.buildType.name == 'debug') {
