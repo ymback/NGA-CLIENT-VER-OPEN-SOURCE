@@ -1,13 +1,9 @@
 apply plugin: 'com.android.application'
 
-def getDate() {
-    if (JENKINS_TIME == null) {
-        def date = new Date()
-        def formattedDate = date.format('yyyyMMddHHmm')
-        return formattedDate
-    } else {
-        return JENKINS_TIME
-    }
+def static getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
 
 }
 
@@ -91,12 +87,14 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def newName
-            def timeNow = getDate()
+            def timeNow
             def outDirectory
             if (isJenkins()) {
+                timenow = JENKINS_TIME
                 newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
                 outputFileName = new File(newName)
             } else {
+                timeNow = getDate()
                 outDirectory = output.outputFile.parent
                 if (variant.buildType.name == 'debug') {
                     newName = 'NGA-v' + project.appVersionName + '-debug.apk'
@@ -132,5 +130,5 @@ dependencies {
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
-    implementation 'com.android.support:cardview-v7:'  + project.androidSupportVersion
+    implementation 'com.android.support:cardview-v7:' + project.androidSupportVersion
 }
