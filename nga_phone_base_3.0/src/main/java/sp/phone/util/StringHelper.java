@@ -278,6 +278,9 @@ public class StringHelper {
      * @since ostermillerutils 1.00.00
      */
     public static String unescapeHTML(String s) {
+        if (s == null) {
+            return null;
+        }
         StringBuffer result = new StringBuffer(s.length());
         int ampInd = s.indexOf("&");
         int lastEnd = 0;
