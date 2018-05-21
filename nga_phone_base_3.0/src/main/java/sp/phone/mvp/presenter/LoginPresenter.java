@@ -1,22 +1,18 @@
 package sp.phone.mvp.presenter;
 
-import android.graphics.Bitmap;
+import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.LoginFragment;
-import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.mvp.contract.LoginContract;
-import sp.phone.mvp.model.LoginModel;
-import sp.phone.util.StringUtils;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.LoginAction;
+import sp.phone.forumoperation.LoginParam;
 import sp.phone.fragment.LoginFragment;
-import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
+import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.LoginContract;
 import sp.phone.mvp.model.LoginModel;
+import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 
 /**
@@ -25,11 +21,7 @@ import sp.phone.util.StringUtils;
 
 public class LoginPresenter extends BasePresenter<LoginFragment, LoginModel> implements LoginContract.Presenter {
 
-    private LoginAction mLoginAction;
-
-    private boolean mLoading;
-
-    private static final Object COMMIT_LOCK = new Object();
+    private LoginParam mLoginParam;
 
     private static final String TAG_UID = "ngaPassportUid";
 
@@ -39,80 +31,50 @@ public class LoginPresenter extends BasePresenter<LoginFragment, LoginModel> imp
 
     @Override
     protected LoginModel onCreateModel() {
-        return null;
+        return new LoginModel();
     }
 
     @Override
     public void loadAuthCode() {
-        mLoginAction.setAuthCodeCookie("");
-        mBaseView.setAuthCode("");
-        mBaseView.setAuthCodeImg(R.drawable.q_vcode);
-        mBaseModel.loadAuthCode(new OnAuthCodeLoadFinishedListener() {
+        mBaseModel.loadAuthCode(new OnHttpCallBack<LoginParam>() {
             @Override
-            public void authCodeFinishLoad(Bitmap authImg, String authCode) {
-                mLoginAction.setAuthCodeCookie(authCode);
-                mBaseView.setAuthCodeImg(authImg);
+            public void onError(String text) {
+                ActivityUtils.showToast("载入验证码失败");
             }
 
             @Override
-            public void authCodeFinishLoadError() {
-                mBaseView.showToast("载入验证码失败，请点击刷新重新加载");
+            public void onSuccess(LoginParam param) {
+                mLoginParam = param;
+                mBaseView.setAuthCodeImg(param.getDataUrl());
             }
         });
     }
 
     @Override
     public void login(String userName, String password, String authCode) {
-        synchronized (COMMIT_LOCK) {
-            if (mLoading) {
-                mBaseView.showToast(R.string.avoidWindfury);
-            } else if (StringUtils.isEmpty(mLoginAction.getAuthCodeCookie())) {
-                mBaseView.showToast("验证码信息错误，请重试");
-                loadAuthCode();
-            } else if (StringUtils.isEmpty(userName) ||
-                    StringUtils.isEmpty(password) ||
-                    StringUtils.isEmpty(authCode)) {
-                mBaseView.showToast("内容缺少，请检查后再试");
-                loadAuthCode();
-            } else {
-                mLoginAction.setUserName(userName);
-                mLoginAction.setPassword(password);
-                mLoginAction.setAuthCode(authCode);
-                mBaseModel.login(mLoginAction, new LoginModel.OnLoginListener() {
-                    @Override
-                    public void onLoginSuccess() {
-                        String uid = mLoginAction.getUid();
-                        String cid = mLoginAction.getCid();
-                        String userName = mLoginAction.getUserName();
-                        saveCookie(uid, cid, userName);
-                    }
+        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(authCode)) {
+            ActivityUtils.showToast("内容缺少，请检查后再试");
+            return;
+        }
 
-                    @Override
-                    public void onLoginFailure(String errorMsg) {
-                        loadAuthCode();
-                        if (StringUtils.isEmpty(errorMsg)) {
-                            mBaseView.showToast(R.string.login_failed);
-                        } else {
-                            mBaseView.showToast(errorMsg);
-                        }
-                    }
-                });
-                mLoading = true;
+        mLoginParam.setAuthCode(authCode);
+        mLoginParam.setUserName(userName);
+        mLoginParam.setPassword(password);
+
+        mBaseModel.login(mLoginParam, new OnHttpCallBack<String>() {
+            @Override
+            public void onError(String text) {
+                ActivityUtils.showToast(text);
+                loadAuthCode();
             }
-        }
+
+            @Override
+            public void onSuccess(String data) {
+
+            }
+        });
     }
 
-    @Override
-    public void setLoginAction(LoginAction loginAction) {
-        mLoginAction = loginAction;
-    }
-
-    @Override
-    public void start() {
-        if (!StringUtils.isEmpty(mLoginAction.getAction())) {
-            mBaseView.showToast("你需要登录才能进行下一步操作");
-        }
-    }
 
     @Override
     public void parseCookie(String cookies) {

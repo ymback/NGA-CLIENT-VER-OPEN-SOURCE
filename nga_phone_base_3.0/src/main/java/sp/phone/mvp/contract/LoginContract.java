@@ -1,11 +1,7 @@
 package sp.phone.mvp.contract;
 
-import android.graphics.Bitmap;
-
-import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.forumoperation.LoginAction;
-import sp.phone.interfaces.OnAuthCodeLoadFinishedListener;
-import sp.phone.mvp.model.LoginModel;
+import sp.phone.forumoperation.LoginParam;
+import sp.phone.listener.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/6/16.
@@ -19,30 +15,22 @@ public interface LoginContract {
 
         void login(String userName, String password, String authCode);
 
-        void setLoginAction(LoginAction loginAction);
-
-        void start();
-
         void parseCookie(String cookie);
 
     }
 
     interface View {
 
-        void setAuthCodeImg(Bitmap bitmap);
-
-        void setAuthCodeImg(int resId);
-
-        void setAuthCode(String text);
+        void setAuthCodeImg(String dataUrl);
 
         void setResult(boolean isChanged);
     }
 
     interface Model {
 
-        void login(LoginAction loginAction, LoginModel.OnLoginListener listener);
+        void loadAuthCode(OnHttpCallBack<LoginParam> callBack);
 
-        void loadAuthCode(OnAuthCodeLoadFinishedListener listener);
+        void login(LoginParam loginParam, OnHttpCallBack<String> callBack);
 
     }
 }

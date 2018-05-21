@@ -14,6 +14,8 @@ public class RxEvent {
 
     public static final int EVENT_ARTICLE_TAB_UPDATE = 1;
 
+    public static final int EVENT_LOGIN_AUTH_CODE_UPDATE = 4;
+
     public int what;
 
     public int arg;

@@ -4,7 +4,7 @@ package sp.phone.forumoperation;
  * Created by Justwen on 2017/6/16.
  */
 
-public class LoginAction {
+public class LoginParam {
 
     private String userName;
 
@@ -12,13 +12,33 @@ public class LoginAction {
 
     private String authCode;
 
-    private String authCodeCookie;
+    private String mAuthCodeCookie;
 
     private String uid;
 
     private String cid;
 
     private String action;
+
+    private String mAuthCode;
+
+    private String mDataUrl;
+
+    public String getDataUrl() {
+        return mDataUrl;
+    }
+
+    public void setDataUrl(String dataUrl) {
+        mDataUrl = dataUrl;
+    }
+
+    public String getAuthCodeCookie() {
+        return mAuthCodeCookie;
+    }
+
+    public void setAuthCodeCookie(String authCodeCookie) {
+        mAuthCodeCookie = authCodeCookie;
+    }
 
     public String getUid() {
         return uid;
@@ -60,13 +80,6 @@ public class LoginAction {
         this.authCode = authCode;
     }
 
-    public String getAuthCodeCookie() {
-        return authCodeCookie;
-    }
-
-    public void setAuthCodeCookie(String authCodeCookie) {
-        this.authCodeCookie = authCodeCookie;
-    }
 
     public String getAction() {
         return action;

@@ -2,7 +2,6 @@ package sp.phone.retrofit;
 
 import java.io.IOException;
 
-import sp.phone.retrofit.converter.JsonStringConvertFactory;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,7 +19,9 @@ public class RetrofitHelper {
 
     private Retrofit mRetrofit;
 
-    private static final String NAG_URL = "http://bbs.nga.cn/";
+    private static final String URL_NGA_BASE = "http://bbs.nga.cn/";
+
+    private static final String URL_NGA_BASE_CC = "https://bbs.ngacn.cc/";
 
     private RetrofitHelper() {
 
@@ -39,7 +40,7 @@ public class RetrofitHelper {
         });
 
         mRetrofit = new Retrofit.Builder()
-                .baseUrl(NAG_URL)
+                .baseUrl(URL_NGA_BASE)
                 .addConverterFactory(JsonStringConvertFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(builder.build())
@@ -56,6 +57,23 @@ public class RetrofitHelper {
 
     public RetrofitService getService() {
         return mRetrofit.create(RetrofitService.class);
+    }
+
+    public static RetrofitService getAuthCodeService() {
+        return new Retrofit.Builder()
+                .baseUrl(URL_NGA_BASE_CC)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(RetrofitService.class);
+    }
+
+    public static RetrofitService getDefault() {
+        return new Retrofit.Builder()
+                .baseUrl(URL_NGA_BASE_CC)
+                .addConverterFactory(JsonStringConvertFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(RetrofitService.class);
     }
 
     private static class SingleTonHolder {

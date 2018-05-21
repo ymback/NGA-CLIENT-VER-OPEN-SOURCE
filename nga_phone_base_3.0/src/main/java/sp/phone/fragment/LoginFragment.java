@@ -2,89 +2,75 @@ package sp.phone.fragment;
 
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.trello.rxlifecycle2.LifecycleProvider;
-
 import gov.anzong.androidnga.R;
-import sp.phone.mvp.contract.BaseContract;
+import sp.phone.fragment.dialog.LoginDialogFragment;
 import sp.phone.mvp.contract.LoginContract;
-import sp.phone.mvp.contract.BaseContract;
-import sp.phone.mvp.contract.LoginContract;
+import sp.phone.mvp.presenter.LoginPresenter;
+import sp.phone.rxjava.RxBus;
+import sp.phone.rxjava.RxEvent;
+import sp.phone.rxjava.RxUtils;
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener, LoginContract.View, BaseContract.View {
+public class LoginFragment extends BaseMvpFragment<LoginPresenter> implements View.OnClickListener, LoginContract.View, LoginDialogFragment.OnAuthCodeLoadCallback {
 
     private EditText mPasswordView;
 
     private EditText mUserNameView;
 
-    private EditText mAuthCodeView;
+    private String mAuthCodeDataUrl;
 
-    private ImageView mAuthCodeImg;
-
-    private LoginContract.Presenter mPresenter;
+    @Override
+    protected LoginPresenter onCreatePresenter() {
+        return new LoginPresenter();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
-        mPasswordView = (EditText) rootView.findViewById(R.id.login_password_edittext);
-        mUserNameView = (EditText) rootView.findViewById(R.id.login_user_edittext);
-        mAuthCodeView = (EditText) rootView.findViewById(R.id.login_authcode_edittext);
-        mAuthCodeImg = (ImageView) rootView.findViewById(R.id.authcode_img);
-        mAuthCodeImg.setOnClickListener(this);
-        rootView.findViewById(R.id.login_button).setOnClickListener(this);
-        RecyclerView listView = (RecyclerView) rootView.findViewById(R.id.user_list);
-        listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //  listView.setAdapter(new UserRecycleListAdapter(getContext(),this,listView));
+        mPasswordView = rootView.findViewById(R.id.login_password_edittext);
+        mUserNameView = rootView.findViewById(R.id.login_user_edittext);
+        RxUtils.clicks(rootView.findViewById(R.id.login_button), this);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mPresenter.loadAuthCode();
-        mPresenter.start();
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.authcode_img:
-                mPresenter.loadAuthCode();
-                break;
             case R.id.login_button:
-                mPresenter.login(mUserNameView.getText().toString(), mPasswordView.getText().toString(), mAuthCodeView.getText().toString());
+                LoginDialogFragment fragment = new LoginDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("data_url", mAuthCodeDataUrl);
+                fragment.setArguments(bundle);
+                fragment.setAuthCodeLoadCallback(this);
+                fragment.show(getActivity().getSupportFragmentManager());
                 break;
             case R.id.user_name:
                 mUserNameView.setText(((TextView) v).getText());
                 mUserNameView.selectAll();
                 break;
+            default:
+                break;
         }
     }
 
     @Override
-    public void setAuthCodeImg(Bitmap bitmap) {
-        mAuthCodeImg.setImageBitmap(bitmap);
-    }
-
-    @Override
-    public void setAuthCodeImg(int resId) {
-        mAuthCodeImg.setImageResource(resId);
-    }
-
-    @Override
-    public void setAuthCode(String text) {
-        mAuthCodeView.setText(text);
+    public void setAuthCodeImg(String dataUrl) {
+        mAuthCodeDataUrl = dataUrl;
+        RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_LOGIN_AUTH_CODE_UPDATE, mAuthCodeDataUrl));
     }
 
     @Override
@@ -95,7 +81,14 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public LifecycleProvider getLifecycleProvider() {
-        return null;
+    public void loadAuthCodeImage(WebView webView) {
+        mPresenter.loadAuthCode();
+    }
+
+    @Override
+    public void login(String authCode) {
+        String userName = mUserNameView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        mPresenter.login(userName, password, authCode);
     }
 }
