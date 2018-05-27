@@ -17,7 +17,7 @@ public class VersionUpgradeDialogFragment extends BaseDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setPositiveButton(android.R.string.ok,null)
                 .setTitle(R.string.prompt)
-        .setMessage(VersionUpgradeTips.TIPS_2081);
+        .setMessage(VersionUpgradeTips.TIPS_2082);
         return builder.create();
     }
 }
