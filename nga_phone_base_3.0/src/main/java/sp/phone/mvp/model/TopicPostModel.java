@@ -1,16 +1,20 @@
 package sp.phone.mvp.model;
 
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
-import java.io.File;
-import java.io.FileInputStream;
+import org.apache.commons.io.IOUtils;
+
 import java.io.UnsupportedEncodingException;
 
+import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,10 +33,10 @@ import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
-import sp.phone.util.FileUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2017/6/10.
@@ -109,18 +113,27 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .map(new Function<Uri, MultipartBody>() {
                     @Override
                     public MultipartBody apply(Uri uri) throws Exception {
-                        File file = FileUtils.createFile(uri);
-                        byte[] img;
-                        String fileName = file.getName();
-                        if (file.length() >= 1024 * 1024) {
-                            img = ImageUtils.fitImageToUpload(new FileInputStream(file), new FileInputStream(file));
-                        } else {
-                            img = FileUtils.getBytes(file);
+                        Context context = ApplicationContextHolder.getContext();
+                        ContentResolver cr = context.getContentResolver();
 
+                        ParcelFileDescriptor pfd = cr.openFileDescriptor(uri, "r");
+                        String contentType = cr.getType(uri);
+                        if (StringUtils.isEmpty(contentType)) {
+                            throw new IllegalArgumentException(context.getString(R.string.invalid_img_selected));
                         }
+                        String fileName = contentType.replace('/', '.');
+                        long fileSize = pfd.getStatSize();
+                        byte[] img;
+                        if (fileSize >= 1024 * 1024) {
+                            img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
+                        } else {
+                            img = IOUtils.toByteArray(cr.openInputStream(uri));
+                        }
+
                         return buildMultipartBody(fileName, img, postParam);
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<MultipartBody>() {
                     @Override
                     public void onNext(MultipartBody body) {
