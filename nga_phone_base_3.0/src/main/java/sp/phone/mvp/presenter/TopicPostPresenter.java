@@ -167,15 +167,16 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
 
     @Override
     public void onArticlePostFinished(boolean isSuccess, String result) {
-        if (!StringUtils.isEmpty(result)) {
-            mBaseView.showToast(result);
-        }
         ActivityUtils.getInstance().dismiss();
-        if (isSuccess) {
-            mBaseView.setResult(Activity.RESULT_OK);
-            mBaseView.finish();
+        if (mBaseView != null) {
+            if (!StringUtils.isEmpty(result)) {
+                mBaseView.showToast(result);
+            }
+            if (isSuccess) {
+                mBaseView.setResult(Activity.RESULT_OK);
+                mBaseView.finish();
+            }
         }
-
         synchronized (COMMIT_LOCK) {
             mLoading = false;
         }
