@@ -11,9 +11,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 
@@ -55,7 +53,11 @@ public interface RetrofitService {
 
     @POST("nuke.php")
     @Headers({"Referer:https://bbs.ngacn.cc/nuke/p2.htm?login",
-    "Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryklQov1cm1BhZqEM4",})
+            "Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryklQov1cm1BhZqEM4",})
     Observable<String> login(@Body MultipartBody multipartBody);
+
+
+    @POST
+    Observable<ResponseBody> uploadFile(@Url String url, @Body MultipartBody body);
 
 }

@@ -16,12 +16,12 @@ import java.io.InputStream;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
+import sp.phone.common.ApplicationContextHolder;
 import sp.phone.forumoperation.PostParam;
 import sp.phone.fragment.TopicPostFragment;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
-import sp.phone.task.FileUploadTask;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.DeviceUtils;
@@ -33,7 +33,7 @@ import sp.phone.util.StringUtils;
  * Created by Justwen on 2017/6/6.
  */
 
-public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPostModel> implements TopicPostContract.Presenter, TopicPostTask.CallBack, FileUploadTask.onFileUploaded {
+public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPostModel> implements TopicPostContract.Presenter, TopicPostTask.CallBack {
 
 
     private PostParam mPostParam;
@@ -41,9 +41,6 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
     private final static Object COMMIT_LOCK = new Object();
 
     private boolean mLoading;
-
-    public TopicPostPresenter() {
-    }
 
     @Override
     public void setEmoticon(String emotion) {
@@ -65,7 +62,6 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
                     mBaseView.insertBodyText(spanString);
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -108,11 +104,6 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
     }
 
     @Override
-    public PostParam getTopicPostAction() {
-        return mPostParam;
-    }
-
-    @Override
     public void post(String title, String body, boolean isAnony) {
         synchronized (COMMIT_LOCK) {
             if (mLoading) {
@@ -126,12 +117,12 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         mPostParam.setPost_subject_(title);
         if (body.length() > 0) {
             mPostParam.setPost_content_(FunctionUtils.ColorTxtCheck(body));
-            mBaseModel.post();
+            mBaseModel.post(mPostParam, this);
         }
     }
 
     @Override
-    public void prepareUploadFile() {
+    public void showFilePicker() {
         if (DeviceUtils.isGreaterEqual_6_0()) {
             if (PermissionUtils.hasStoragePermission(mBaseView.getContext())) {
                 mBaseView.showFilePicker();
@@ -145,7 +136,25 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
 
     @Override
     public void startUploadTask(Uri uri) {
-        mBaseModel.uploadFile(uri);
+        mBaseView.showUploadFileProgressBar();
+        mBaseModel.uploadFile(uri, mPostParam, new OnHttpCallBack<String>() {
+            @Override
+            public void onError(String text) {
+                if (mBaseView != null) {
+                    mBaseView.hideUploadFileProgressBar();
+                    ActivityUtils.showToast(text);
+                }
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                if (mBaseView != null) {
+                    mBaseView.hideUploadFileProgressBar();
+                    ActivityUtils.showToast("上传成功");
+                    finishUpload(data, uri);
+                }
+            }
+        });
     }
 
     @Override
@@ -154,7 +163,9 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         mBaseModel.getPostInfo(mPostParam, new OnHttpCallBack<PostParam>() {
             @Override
             public void onError(String text) {
-
+                if (mBaseView != null) {
+                    ActivityUtils.showToast(text);
+                }
             }
 
             @Override
@@ -179,27 +190,23 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         synchronized (COMMIT_LOCK) {
             mLoading = false;
         }
-
     }
 
-    @Override
-    public int finishUpload(String attachments, String attachmentsCheck, String picUrl, Uri uri) {
+    private void finishUpload(String picUrl, Uri uri) {
         String selectedImagePath2 = FunctionUtils.getPath(mBaseView.getContext(), uri);
-        mPostParam.appendAttachments_(attachments);
-        mPostParam.appendAttachments_check_(attachmentsCheck);
-        String spantmp = "[img]./" + picUrl + "[/img]";
+        String spanStr = "[img]./" + picUrl + "[/img]";
         if (!StringUtils.isEmpty(selectedImagePath2)) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            options.inJustDecodeBounds = false;
-            DisplayMetrics dm = new DisplayMetrics();
-            ((Activity) mBaseView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int screenwidth = (int) (dm.widthPixels * 0.75);
-            int screenheigth = (int) (dm.heightPixels * 0.75);
+            BitmapFactory.decodeFile(selectedImagePath2, options);
+            DisplayMetrics dm = ApplicationContextHolder.getResources().getDisplayMetrics();
+
+            int screenWidth = (int) (dm.widthPixels * 0.75);
+            int screenHeight = (int) (dm.heightPixels * 0.75);
             int width = options.outWidth;
             int height = options.outHeight;
-            float scaleWidth = ((float) screenwidth) / width;
-            float scaleHeight = ((float) screenheigth) / height;
+            float scaleWidth = ((float) screenWidth) / width;
+            float scaleHeight = ((float) screenHeight) / height;
             if (scaleWidth < scaleHeight && scaleWidth < 1f) {// 不能放大啊,然后主要是哪个小缩放到哪个就行了
                 options.inSampleSize = (int) (1 / scaleWidth);
             } else if (scaleWidth >= scaleHeight && scaleHeight < 1f) {
@@ -207,22 +214,21 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
             } else {
                 options.inSampleSize = 1;
             }
+            options.inJustDecodeBounds = false;
             Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath2, options);
             BitmapDrawable bd = new BitmapDrawable(bitmap);
             bd.setBounds(0, 0, bd.getIntrinsicWidth(), bd.getIntrinsicHeight());
-            SpannableString spanStringS = new SpannableString(spantmp);
+            SpannableString spanStringS = new SpannableString(spanStr);
             ImageSpan span = new ImageSpan(bd, ImageSpan.ALIGN_BASELINE);
-            spanStringS.setSpan(span, 0, spantmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spanStringS.setSpan(span, 0, spanStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mBaseView.insertFile(selectedImagePath2, spanStringS);
-
         } else {
             mBaseView.insertFile(selectedImagePath2, picUrl);
         }
-        return 1;
     }
 
     @Override
     protected TopicPostModel onCreateModel() {
-        return new TopicPostModel(this);
+        return new TopicPostModel();
     }
 }

@@ -6,6 +6,7 @@ import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import sp.phone.util.NLog;
 
 // 兼容 RxJava 1 和 RxJava 2
 public abstract class BaseSubscriber<T> implements Observer<T>, FlowableSubscriber<T> {
@@ -22,6 +23,7 @@ public abstract class BaseSubscriber<T> implements Observer<T>, FlowableSubscrib
 
     @Override
     public void onError(@NonNull Throwable throwable) {
+        NLog.e(throwable.getMessage());
 
     }
 

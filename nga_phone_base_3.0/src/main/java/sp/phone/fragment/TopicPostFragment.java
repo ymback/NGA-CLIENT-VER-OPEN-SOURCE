@@ -1,6 +1,7 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -31,7 +32,7 @@ import sp.phone.util.StringUtils;
  * Created by Justwen on 2017/6/6.
  */
 
-public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> implements TopicPostContract.View {
+public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> implements TopicPostContract.View {
 
     private EditText mTitleEditText;
 
@@ -42,6 +43,8 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
     private String mAction;
 
     private Uri mUploadFilePath;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_topic_post,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_topic_post, container, false);
         mTitleEditText = rootView.findViewById(R.id.reply_titile_edittext);
         mBodyEditText = rootView.findViewById(R.id.reply_body_edittext);
         mAnonyCheckBox = rootView.findViewById(R.id.anony);
@@ -71,13 +74,13 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
         Bundle bundle = getArguments();
 
         String prefix = bundle.getString("prefix");
-        if (prefix != null){
+        if (prefix != null) {
             mBodyEditText.setText(prefix);
             mBodyEditText.setSelection(prefix.length());
         }
 
         String title = bundle.getString("title");
-        if (title != null){
+        if (title != null) {
             mTitleEditText.setText(title);
         }
         mTitleEditText.setSelected(true);
@@ -103,7 +106,7 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                mPresenter.prepareUploadFile();
+                mPresenter.showFilePicker();
             }
         }
     }
@@ -128,7 +131,7 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
     @Override
     public void insertFile(String path, CharSequence file) {
         int index = mBodyEditText.getSelectionStart();
-        if (!StringUtils.isEmpty(path)){
+        if (!StringUtils.isEmpty(path)) {
             if (mBodyEditText.getText().toString().replaceAll("\\n", "").trim()
                     .equals("")) {// NO INPUT DATA
                 mBodyEditText.append(file);
@@ -177,6 +180,25 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
     }
 
     @Override
+    public void showUploadFileProgressBar() {
+
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage("上传文件中......");
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    @Override
+    public void hideUploadFileProgressBar() {
+        mProgressDialog.dismiss();
+    }
+
+    @Override
     public void setResult(int result) {
         if (getActivity() != null) {
             getActivity().setResult(result);
@@ -195,10 +217,10 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
                 FunctionUtils.handleSupertext(mBodyEditText, getContext(), getView());
                 break;
             case R.id.send:
-                mPresenter.post(mTitleEditText.getText().toString(),mBodyEditText.getText().toString(),mAnonyCheckBox.isChecked());
+                mPresenter.post(mTitleEditText.getText().toString(), mBodyEditText.getText().toString(), mAnonyCheckBox.isChecked());
                 break;
             case R.id.upload:
-                mPresenter.prepareUploadFile();
+                mPresenter.showFilePicker();
                 break;
             case R.id.emotion:
                 BaseDialogFragment newFragment = new EmotionCategorySelectFragment();
@@ -237,7 +259,8 @@ public class TopicPostFragment extends  BaseMvpFragment<TopicPostPresenter> impl
             case PostActivity.REQUEST_CODE_SELECT_PIC:
                 mUploadFilePath = data.getData();
                 break;
-            default: break;
+            default:
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
