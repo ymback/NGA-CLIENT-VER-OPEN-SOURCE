@@ -164,11 +164,16 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onNext(String s) {
-                        s = s.replace("window.script_muti_get_var_store=", "");
-                        JSONObject object = JSON.parseObject(s).getJSONObject("data");
-                        postParam.appendAttachments_(object.getString("attachments"));
-                        postParam.appendAttachments_check_(object.getString("attachments_check"));
-                        callBack.onSuccess(object.getString("url"));
+                        try {
+                            s = s.replace("window.script_muti_get_var_store=", "");
+                            JSONObject object = JSON.parseObject(s).getJSONObject("data");
+                            postParam.appendAttachments_(object.getString("attachments"));
+                            postParam.appendAttachments_check_(object.getString("attachments_check"));
+                            callBack.onSuccess(object.getString("url"));
+                        } catch (Exception e) {
+                            NLog.e("exception occur while uploading file " + s);
+                            callBack.onError("上传图片失败，请重试");
+                        }
                     }
 
                     @Override
