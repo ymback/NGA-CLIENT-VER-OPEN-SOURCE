@@ -14,7 +14,7 @@ public class NLog {
     private static boolean sDebugMode = BuildConfig.DEBUG;
 
     public static final String TAG = "NGA";
-    
+
     public static void setDebug(boolean debug) {
         sDebugMode = debug;
     }
@@ -52,19 +52,11 @@ public class NLog {
     }
 
     public static int e(String tag, String msg) {
-        if (sDebugMode) {
-            return Log.e(tag, msg);
-        } else {
-            return 0;
-        }
+        return Log.e(tag, msg);
     }
 
     public static int e(String msg) {
-        if (sDebugMode) {
-            return Log.e(TAG, msg);
-        } else {
-            return 0;
-        }
+        return Log.e(TAG, msg);
     }
 
 
