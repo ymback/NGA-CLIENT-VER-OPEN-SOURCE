@@ -11,8 +11,9 @@ import android.view.MotionEvent;
 
 public class ScrollableViewPager extends ViewPager {
 
+    private int mHeight;
 
-    private boolean mEnableScroll = false;
+    private boolean mEnableScroll = true;
 
     public ScrollableViewPager(Context context) {
         super(context);
@@ -38,4 +39,13 @@ public class ScrollableViewPager extends ViewPager {
 
     }
 
+    public void setHeight(int height) {
+        mHeight = height;
+    }
+
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        int newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY);
+//        setMeasuredDimension(widthMeasureSpec, newHeightMeasureSpec);
+//    }
 }

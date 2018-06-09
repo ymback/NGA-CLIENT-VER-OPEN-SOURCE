@@ -12,6 +12,8 @@ import gov.anzong.androidnga.R;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.interfaces.OnEmotionPickedListener;
+import sp.phone.rxjava.RxBus;
+import sp.phone.rxjava.RxEvent;
 import sp.phone.util.NLog;
 
 
@@ -35,14 +37,7 @@ public class ExtensionEmotionFragment extends NoframeDialogFragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 String emotion = (String) parent.getItemAtPosition(position);
-                OnEmotionPickedListener father = null;
-                try {
-                    father = (OnEmotionPickedListener) getActivity();
-                } catch (ClassCastException e) {
-                    NLog.e(this.getClass().getSimpleName(), "father shold implements " + OnEmotionPickedListener.class.getCanonicalName());
-                }
-                if (father != null)
-                    father.onEmotionPicked(emotion);
+                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_INSERT_EMOTICON, emotion));
             }
 
         });

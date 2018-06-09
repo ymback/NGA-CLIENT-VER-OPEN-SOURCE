@@ -1,41 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <TableRow
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+    <sp.phone.view.KeyboardLayout
+        android:id="@+id/keyboard_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="标题"/>
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标题"/>
 
 
-        <EditText
-            android:id="@+id/reply_titile_edittext"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="@string/title"
-            android:inputType="textNoSuggestions" />
+            <EditText
+                android:id="@+id/reply_titile_edittext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:hint="@string/title"
+                android:inputType="textNoSuggestions"/>
 
-        <CheckBox
-            android:id="@+id/anony"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="@string/anony" />
+            <CheckBox
+                android:id="@+id/anony"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="@string/anony"/>
 
-    </TableRow>
+        </TableRow>
 
+
+    </TableLayout>
 
     <EditText
         android:id="@+id/reply_body_edittext"
@@ -43,16 +58,22 @@
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
         android:layout_weight="1"
-        android:hint="@string/replycontent"
         android:background="@null"
-        android:layerType="software"
         android:gravity="top|left"
+        android:hint="@string/replycontent"
         android:imeOptions="actionDone"
-        android:scrollbars="vertical"
-        android:inputType="textMultiLine|textNoSuggestions">
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:layerType="software"
+        android:scrollbars="vertical">
 
-        <requestFocus />
+        <requestFocus/>
     </EditText>
 
 
-</TableLayout>
+    <ViewStub
+        android:id="@+id/bottom_emoticon_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/layout_bottom_emoticon"/>
+
+</LinearLayout>

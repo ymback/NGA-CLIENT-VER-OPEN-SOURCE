@@ -19,7 +19,7 @@ import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
 @Route(path = ARouterConstants.ACTIVITY_POST)
-public class PostActivity extends BasePostActivity implements OnEmotionPickedListener {
+public class PostActivity extends BasePostActivity {
 
     public static final int REQUEST_CODE_SELECT_PIC = 1;
 
@@ -96,11 +96,10 @@ public class PostActivity extends BasePostActivity implements OnEmotionPickedLis
 
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void onEmotionPicked(String emotion) {
-        mPostFragment.setEmoticon(emotion);
+    public void onBackPressed() {
+        if (!mPostFragment.onBackPressed()) {
+            super.onBackPressed();
+        }
     }
-
-
 }

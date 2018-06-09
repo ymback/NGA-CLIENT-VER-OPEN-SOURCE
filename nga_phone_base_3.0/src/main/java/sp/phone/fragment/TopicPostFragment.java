@@ -2,37 +2,44 @@ package sp.phone.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.PostActivity;
-import sp.phone.fragment.dialog.BaseDialogFragment;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
+import sp.phone.adapter.EmoticonParentAdapter;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.presenter.TopicPostPresenter;
+import sp.phone.rxjava.RxEvent;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.PermissionUtils;
 import sp.phone.util.StringUtils;
+import sp.phone.view.KeyboardLayout;
 
 /**
  * Created by Justwen on 2017/6/6.
  */
 
-public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> implements TopicPostContract.View {
+public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> implements TopicPostContract.View, KeyboardLayout.KeyboardLayoutListener {
 
     private EditText mTitleEditText;
 
@@ -46,12 +53,36 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
 
     private ProgressDialog mProgressDialog;
 
+    private int mKeyboardHeight;
+
+    private boolean mKeyboardActive;
+
+    private ViewGroup mEmoticonPanel;
+
+    private View.OnClickListener mEditorClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mEmoticonPanel != null) {
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() { // 输入法弹出之后，重新调整
+                        if (getActivity() != null) {
+                            mEmoticonPanel.setVisibility(View.GONE);
+                            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        }
+                    }
+                }, 250); // 延迟一段时间，等待输入法完全弹出
+            }
+        }
+    };
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAction = getArguments().getString("action");
         mPresenter.setTopicPostAction(getArguments().getParcelable("param"));
         mPresenter.getPostInfo();
+        registerRxBus();
     }
 
     @Override
@@ -99,6 +130,12 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
             }
 
         });
+
+        KeyboardLayout keyboardLayout = view.findViewById(R.id.keyboard_layout);
+        keyboardLayout.setListener(this);
+
+        mBodyEditText.setOnClickListener(mEditorClickListener);
+        mTitleEditText.setOnClickListener(mEditorClickListener);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -223,8 +260,9 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
                 mPresenter.showFilePicker();
                 break;
             case R.id.emotion:
-                BaseDialogFragment newFragment = new EmotionCategorySelectFragment();
-                newFragment.show(getActivity().getSupportFragmentManager());
+                toggleEmoticonView();
+//                BaseDialogFragment newFragment = new EmotionCategorySelectFragment();
+//                newFragment.show(getActivity().getSupportFragmentManager());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -232,9 +270,45 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
         return true;
     }
 
+    private void toggleEmoticonView() {
+        if (mEmoticonPanel == null) {
+            ViewStub viewStub = getView().findViewById(R.id.bottom_emoticon_stub);
+            viewStub.inflate();
 
-    public void setEmoticon(String emotion) {
-        mPresenter.setEmoticon(emotion);
+            mEmoticonPanel = getView().findViewById(R.id.bottom_emoticon_panel);
+            ViewPager emoticonViewPager = getView().findViewById(R.id.bottom_emoticon);
+            int height = mKeyboardHeight - getResources().getDimensionPixelSize(R.dimen.bottom_emoticon_tab_height);
+            emoticonViewPager.getLayoutParams().height = height;
+            emoticonViewPager.setAdapter(new EmoticonParentAdapter(getContext(), height));
+
+            TabLayout tabLayout = getView().findViewById(R.id.bottom_emoticon_tab);
+            tabLayout.setupWithViewPager(emoticonViewPager);
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        }
+
+        if (mKeyboardActive) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+            mEmoticonPanel.setVisibility(View.VISIBLE);
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mBodyEditText.getWindowToken(), 0);
+        } else if (mEmoticonPanel.isShown()) {
+            mEmoticonPanel.setVisibility(View.GONE);
+        } else {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+            mEmoticonPanel.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void accept(RxEvent rxEvent) {
+        switch (rxEvent.what) {
+            case RxEvent.EVENT_INSERT_EMOTICON:
+                mPresenter.setEmoticon((String) rxEvent.obj);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -263,5 +337,13 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onKeyboardStateChanged(boolean isActive, int keyboardHeight) {
+        mKeyboardActive = isActive;
+        if (mKeyboardHeight == 0) {
+            mKeyboardHeight = keyboardHeight;
+        }
     }
 }

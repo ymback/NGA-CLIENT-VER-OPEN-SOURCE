@@ -13,4 +13,6 @@
 
     <dimen name="status_bar_height">16dp</dimen>
 
+    <dimen name="bottom_emoticon_tab_height">32dp</dimen>
+
 </resources>

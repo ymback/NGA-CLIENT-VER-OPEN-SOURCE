@@ -16,6 +16,8 @@ public class RxEvent {
 
     public static final int EVENT_LOGIN_AUTH_CODE_UPDATE = 4;
 
+    public static final int EVENT_INSERT_EMOTICON = 5;
+
     public int what;
 
     public int arg;
