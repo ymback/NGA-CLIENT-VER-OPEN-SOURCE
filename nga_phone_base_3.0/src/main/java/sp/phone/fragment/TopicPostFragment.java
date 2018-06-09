@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -55,14 +56,13 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
 
     private int mKeyboardHeight;
 
-    private boolean mKeyboardActive;
-
     private ViewGroup mEmoticonPanel;
 
-    private View.OnClickListener mEditorClickListener = new View.OnClickListener() {
+    private View.OnTouchListener mEditorTouchListener = new View.OnTouchListener() {
         @Override
-        public void onClick(View v) {
-            if (mEmoticonPanel != null) {
+        public boolean onTouch(View v, MotionEvent event) {
+
+            if (mEmoticonPanel != null && event.getAction() == MotionEvent.ACTION_UP) {
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() { // 输入法弹出之后，重新调整
@@ -71,8 +71,10 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
                             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                         }
                     }
-                }, 250); // 延迟一段时间，等待输入法完全弹出
+                }, 750); // 延迟一段时间，等待输入法完全弹出
             }
+
+            return false;
         }
     };
 
@@ -83,6 +85,7 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
         mPresenter.setTopicPostAction(getArguments().getParcelable("param"));
         mPresenter.getPostInfo();
         registerRxBus();
+        mKeyboardHeight = getResources().getDimensionPixelSize(R.dimen.bottom_emoticon_min_height);
     }
 
     @Override
@@ -134,8 +137,8 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
         KeyboardLayout keyboardLayout = view.findViewById(R.id.keyboard_layout);
         keyboardLayout.setListener(this);
 
-        mBodyEditText.setOnClickListener(mEditorClickListener);
-        mTitleEditText.setOnClickListener(mEditorClickListener);
+        mBodyEditText.setOnTouchListener(mEditorTouchListener);
+        mTitleEditText.setOnTouchListener(mEditorTouchListener);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -287,16 +290,13 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
 
         }
 
-        if (mKeyboardActive) {
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-            mEmoticonPanel.setVisibility(View.VISIBLE);
-            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(mBodyEditText.getWindowToken(), 0);
-        } else if (mEmoticonPanel.isShown()) {
+        if (mEmoticonPanel.isShown()) {
             mEmoticonPanel.setVisibility(View.GONE);
         } else {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
             mEmoticonPanel.setVisibility(View.VISIBLE);
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mBodyEditText.getWindowToken(), 0);
         }
     }
 
@@ -341,8 +341,8 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
 
     @Override
     public void onKeyboardStateChanged(boolean isActive, int keyboardHeight) {
-        mKeyboardActive = isActive;
-        if (mKeyboardHeight == 0) {
+
+        if (mKeyboardHeight < keyboardHeight) {
             mKeyboardHeight = keyboardHeight;
         }
     }

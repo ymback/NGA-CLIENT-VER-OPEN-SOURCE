@@ -5,7 +5,8 @@
     android:id="@+id/bottom_emoticon_panel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <sp.phone.view.ScrollableViewPager
         android:id="@+id/bottom_emoticon"
