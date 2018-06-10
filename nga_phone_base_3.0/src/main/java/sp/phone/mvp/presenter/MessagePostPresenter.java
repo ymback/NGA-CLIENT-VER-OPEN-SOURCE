@@ -13,11 +13,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import gov.anzong.androidnga.R;
-import sp.phone.task.MessagePostTask;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.forumoperation.MessagePostAction;
-import sp.phone.mvp.model.MessagePostModel;
+import sp.phone.fragment.MessagePostFragment;
 import sp.phone.mvp.contract.MessagePostContract;
+import sp.phone.mvp.model.MessagePostModel;
 import sp.phone.task.MessagePostTask;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
@@ -26,11 +26,8 @@ import sp.phone.util.FunctionUtils;
  * Created by Justwen on 2017/5/28.
  */
 
-public class MessagePostPresenter implements MessagePostContract.Presenter,MessagePostTask.CallBack {
+public class MessagePostPresenter extends BasePresenter<MessagePostFragment, MessagePostModel> implements MessagePostContract.Presenter, MessagePostTask.CallBack {
 
-    private MessagePostContract.View mView;
-
-    private MessagePostContract.Model mModel;
 
     private final static Object COMMIT_LOCK = new Object();
 
@@ -38,17 +35,14 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
 
     private MessagePostAction mMessagePostAction;
 
-    public MessagePostPresenter(MessagePostContract.View view) {
-        mView = view;
-        mView.setPresenter(this);
-        mModel = new MessagePostModel(this);
+    public MessagePostPresenter() {
     }
 
     @Override
     public void commit(String title, String to, String body) {
         synchronized (COMMIT_LOCK) {
             if (mLoading) {
-                mView.showToast(R.string.avoidWindfury);
+                mBaseView.showToast(R.string.avoidWindfury);
                 return;
             }
             mLoading = true;
@@ -57,7 +51,7 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
         mMessagePostAction.setPost_subject_(title);
         if (body.length() > 0) {
             mMessagePostAction.setPost_content_(FunctionUtils.ColorTxtCheck(body));
-            mModel.postMessage(mMessagePostAction,this);
+            mBaseModel.postMessage(mMessagePostAction, this);
         }
     }
 
@@ -68,15 +62,15 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
 
     @Override
     public void onMessagePostFinished(boolean result, String resultInfo) {
-        if (resultInfo != null){
-            mView.showToast(resultInfo);
+        if (resultInfo != null) {
+            mBaseView.showToast(resultInfo);
         }
         ActivityUtils.getInstance().dismiss();
         if (result) {
             if (!mMessagePostAction.getAction_().equals("new")) {
-                mView.finish(123);
+                mBaseView.finish(123);
             } else {
-                mView.finish(321);
+                mBaseView.finish(321);
             }
         }
         synchronized (COMMIT_LOCK) {
@@ -91,10 +85,10 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
         if (urlTemp.indexOf("http") > 0) {
             urlTemp = urlTemp.substring(5, urlTemp.length() - 6);
             String sourceFile = ExtensionEmotionAdapter.getPathByURI(urlTemp);
-            try(InputStream is = mView.getContext().getResources().getAssets().open(sourceFile)) {
+            try (InputStream is = mBaseView.getContext().getResources().getAssets().open(sourceFile)) {
                 if (is != null) {
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
-                    Drawable drawable = new BitmapDrawable(mView.getContext().getResources(),bitmap);
+                    Drawable drawable = new BitmapDrawable(mBaseView.getContext().getResources(), bitmap);
                     drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
                             drawable.getIntrinsicHeight());
                     SpannableString spanString = new SpannableString(emotion);
@@ -102,7 +96,7 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
                             ImageSpan.ALIGN_BASELINE);
                     spanString.setSpan(span, 0, emotion.length(),
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    mView.insertBodyText(spanString);
+                    mBaseView.insertBodyText(spanString);
                 }
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -116,7 +110,7 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
                 if (emotion.indexOf("[s:" + String.valueOf(emotions[i]) + "]") == 0) {
                     String sourceFile = "a" + String.valueOf(emotions[i])
                             + ".gif";
-                    try (InputStream is = mView.getContext().getResources().getAssets().open(sourceFile)){
+                    try (InputStream is = mBaseView.getContext().getResources().getAssets().open(sourceFile)) {
                         if (is != null) {
                             Bitmap bitmap = BitmapFactory.decodeStream(is);
                             Drawable drawable = new BitmapDrawable(bitmap);
@@ -128,9 +122,9 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
                                     ImageSpan.ALIGN_BASELINE);
                             spanString.setSpan(span, 0, emotion.length(),
                                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            mView.insertBodyText(spanString);
+                            mBaseView.insertBodyText(spanString);
                         } else {
-                            mView.insertBodyText(emotion);
+                            mBaseView.insertBodyText(emotion);
                         }
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
@@ -150,5 +144,10 @@ public class MessagePostPresenter implements MessagePostContract.Presenter,Messa
     @Override
     public void setView(Object view) {
 
+    }
+
+    @Override
+    protected MessagePostModel onCreateModel() {
+        return new MessagePostModel();
     }
 }

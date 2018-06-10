@@ -36,7 +36,6 @@ public class EmoticonParentAdapter extends PagerAdapter {
 
         recyclerView.setAdapter(adapter);
 
-
         container.addView(recyclerView);
         return recyclerView;
     }

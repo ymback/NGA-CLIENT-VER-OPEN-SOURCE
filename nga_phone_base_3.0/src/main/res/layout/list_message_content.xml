@@ -16,19 +16,6 @@
         android:textStyle="bold" >
     </TextView>
 
-    <ImageView
-        android:id="@+id/avatarImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/nickName"
-        android:layout_below="@+id/nickName"
-        android:clickable="false"
-        android:contentDescription="@string/avatar"
-        android:focusable="false"
-        android:longClickable="false"
-        android:src="@drawable/open" >
-    </ImageView>
-
     <WebView
         android:id="@+id/content"
         android:layout_width="fill_parent"

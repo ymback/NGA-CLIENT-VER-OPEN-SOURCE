@@ -13,14 +13,9 @@ import android.text.style.StyleSpan;
 import android.view.MenuItem;
 
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.MessagePostFragment;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
-import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.mvp.contract.MessagePostContract;
-import sp.phone.mvp.presenter.MessagePostPresenter;
 import sp.phone.forumoperation.MessagePostAction;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.fragment.MessagePostFragment;
+import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
 import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.mvp.presenter.MessagePostPresenter;
@@ -31,8 +26,6 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
     private final String LOG_TAG = Activity.class.getSimpleName();
 
     private MessagePostAction mMessagePostAction;
-
-    private MessagePostContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +66,19 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
         bundle.putString("to", to);
         bundle.putInt("mid", mid);
         bundle.putString("title", title);
+
+        bundle.putParcelable("param",mMessagePostAction);
         Fragment fragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
         if (fragment != null) {
-            mPresenter = new MessagePostPresenter((MessagePostContract.View) fragment);
-            mPresenter.setMessagePostAction(mMessagePostAction);
+           // mPresenter = new MessagePostPresenter((MessagePostContract.View) fragment);
+          //  mPresenter.setMessagePostAction(mMessagePostAction);
             return;
         }
         fragment = new MessagePostFragment();
         fragment.setArguments(bundle);
-        mPresenter = new MessagePostPresenter((MessagePostContract.View) fragment);
         fragment.setHasOptionsMenu(true);
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
 
-        mPresenter.setMessagePostAction(mMessagePostAction);
     }
 
 
@@ -111,7 +104,7 @@ public class MessagePostActivity extends BasePostActivity implements OnEmotionPi
     @SuppressWarnings("deprecation")
     @Override
     public void onEmotionPicked(String emotion) {
-        mPresenter.setEmoticon(emotion);
+        //mPresenter.setEmoticon(emotion);
     }// OK
 
 

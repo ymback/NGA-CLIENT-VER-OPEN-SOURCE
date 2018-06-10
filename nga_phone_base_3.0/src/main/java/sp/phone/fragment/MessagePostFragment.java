@@ -13,6 +13,7 @@ import android.widget.EditText;
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.mvp.contract.MessagePostContract;
+import sp.phone.mvp.presenter.MessagePostPresenter;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
@@ -20,10 +21,7 @@ import sp.phone.util.StringUtils;
  * Created by Justwen on 2017/5/28.
  */
 
-public class MessagePostFragment extends MaterialCompatFragment implements MessagePostContract.View {
-
-
-    private MessagePostContract.Presenter mPresenter;
+public class MessagePostFragment extends BaseMvpFragment<MessagePostPresenter> implements MessagePostContract.View {
 
     private EditText mTitleEditText;
 
@@ -37,11 +35,17 @@ public class MessagePostFragment extends MaterialCompatFragment implements Messa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAction = getArguments().getString("action");
+        mPresenter.setMessagePostAction(getArguments().getParcelable("param"));
+    }
+
+    @Override
+    protected MessagePostPresenter onCreatePresenter() {
+        return new MessagePostPresenter();
     }
 
     @Nullable
     @Override
-    public View onCreateContainerView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_message_post,container,false);
         mTitleEditText = (EditText) rootView.findViewById(R.id.reply_titile_edittext);
         mToEditText = (EditText) rootView.findViewById(R.id.reply_titile_edittext_to);
@@ -69,12 +73,6 @@ public class MessagePostFragment extends MaterialCompatFragment implements Messa
         return rootView;
     }
 
-
-
-    @Override
-    public void setPresenter(MessagePostContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

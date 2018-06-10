@@ -10,19 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.MessageDetailAdapter;
+import sp.phone.adapter.MessageContentAdapter;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.mvp.contract.MessageDetailContract;
 import sp.phone.mvp.presenter.MessageDetailPresenter;
-import sp.phone.adapter.MessageDetailAdapter;
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.mvp.presenter.MessageDetailPresenter;
-import sp.phone.mvp.contract.MessageDetailContract;
 import sp.phone.util.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
@@ -40,7 +35,7 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
 
     private String mRecipient;
 
-    private MessageDetailAdapter mAdapter;
+    private MessageContentAdapter mAdapter;
 
     private RecyclerViewEx.OnNextPageLoadListener mNextPageLoadListener = new RecyclerViewEx.OnNextPageLoadListener() {
         @Override
@@ -65,20 +60,16 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_message_detail,container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_message_detail, container, false);
+        ButterKnife.bind(this, view);
 
-        mAdapter = new MessageDetailAdapter(getContext());
+        mAdapter = new MessageContentAdapter(getContext());
 
         RecyclerViewEx listView = (RecyclerViewEx) view.findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listView.setEmptyView(view.findViewById(R.id.empty_view));
         listView.setAdapter(mAdapter);
         listView.setItemViewCacheSize(20);
         listView.setOnNextPageLoadListener(mNextPageLoadListener);
-
-        TextView sayView = (TextView) mLoadingView.findViewById(R.id.saying);
-        sayView.setText(ActivityUtils.getSaying());
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -95,6 +86,8 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
             }
         });
 
+        mSwipeRefreshLayout.setEnabled(false);
+
         return view;
     }
 
@@ -107,7 +100,7 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
     @Override
     public void hideLoadingView() {
         mLoadingView.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        mSwipeRefreshLayout.setEnabled(true);
     }
 
 
@@ -120,9 +113,7 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
 
     @Override
     public void setRefreshing(boolean refreshing) {
-        if (mSwipeRefreshLayout.isShown()) {
-            mSwipeRefreshLayout.setRefreshing(refreshing);
-        }
+        mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
     @Override
@@ -130,14 +121,14 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
         return mSwipeRefreshLayout.isRefreshing();
     }
 
-    private void startMessagePost(){
+    private void startMessagePost() {
         Intent intent = new Intent();
         intent.putExtra("mid", mMid);
         intent.putExtra("title", mTitle);
         intent.putExtra("to", mRecipient);
         intent.putExtra("action", "reply");
         intent.putExtra("messagemode", "yes");
-        ActivityUtils.startMessagePostActivity(getActivity(),intent);
+        ActivityUtils.startMessagePostActivity(getActivity(), intent);
     }
 
 }

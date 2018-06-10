@@ -6,22 +6,21 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
             <sp.phone.view.RecyclerViewEx
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <include layout="@layout/list_empty_view" />
+            <!--<include layout="@layout/list_empty_view" />-->
 
 
-        </FrameLayout>
+        <!--</FrameLayout>-->
 
 
     </android.support.v4.widget.SwipeRefreshLayout>

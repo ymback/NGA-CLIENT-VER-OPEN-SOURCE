@@ -22,7 +22,7 @@ public interface MessagePostContract {
 
     }
 
-    interface View extends sp.phone.mvp.contract.tmp.BaseContract.View<Presenter> {
+    interface View {
 
         void finish(int resultCode);
 

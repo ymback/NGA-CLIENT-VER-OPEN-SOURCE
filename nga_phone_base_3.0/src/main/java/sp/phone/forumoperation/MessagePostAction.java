@@ -1,12 +1,15 @@
 package sp.phone.forumoperation;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import sp.phone.util.StringUtils;
 import sp.phone.util.StringUtils;
 
-public class MessagePostAction {
+public class MessagePostAction implements Parcelable {
     private String action_;
     private int mid_;
     private String attachments_;
@@ -26,6 +29,29 @@ public class MessagePostAction {
 
 
     }
+
+    protected MessagePostAction(Parcel in) {
+        action_ = in.readString();
+        mid_ = in.readInt();
+        attachments_ = in.readString();
+        attachments_check_ = in.readString();
+        post_subject_ = in.readString();
+        post_content_ = in.readString();
+        __ngaClientChecksum = in.readString();
+        to_ = in.readString();
+    }
+
+    public static final Creator<MessagePostAction> CREATOR = new Creator<MessagePostAction>() {
+        @Override
+        public MessagePostAction createFromParcel(Parcel in) {
+            return new MessagePostAction(in);
+        }
+
+        @Override
+        public MessagePostAction[] newArray(int size) {
+            return new MessagePostAction[size];
+        }
+    };
 
     public void setTo_(String to) {
         to = to.replaceAll("，", ",");
@@ -116,5 +142,21 @@ public class MessagePostAction {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(action_);
+        dest.writeInt(mid_);
+        dest.writeString(attachments_);
+        dest.writeString(attachments_check_);
+        dest.writeString(post_subject_);
+        dest.writeString(post_content_);
+        dest.writeString(__ngaClientChecksum);
+        dest.writeString(to_);
+    }
 }
 
