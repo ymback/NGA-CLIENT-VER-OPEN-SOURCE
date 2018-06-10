@@ -35,6 +35,14 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseRxFra
     }
 
     @Override
+    public void onResume() {
+        if (mPresenter != null) {
+            mPresenter.onResume();
+        }
+        super.onResume();
+    }
+
+    @Override
     public void onDetach() {
         if (mPresenter != null) {
             mPresenter.detach();

@@ -32,6 +32,10 @@ public abstract class BasePresenter<T extends BaseContract.View, E extends BaseC
         }
     }
 
+    public void onResume() {
+
+    }
+
     @Override
     public boolean isAttached() {
         return mBaseView != null;

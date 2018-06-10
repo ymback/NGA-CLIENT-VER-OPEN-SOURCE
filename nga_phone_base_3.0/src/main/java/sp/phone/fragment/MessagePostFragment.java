@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.contract.MessagePostContract;
-import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.mvp.presenter.MessagePostPresenter;
-import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
 /**
@@ -23,19 +23,22 @@ import sp.phone.util.StringUtils;
 
 public class MessagePostFragment extends BaseMvpFragment<MessagePostPresenter> implements MessagePostContract.View {
 
-    private EditText mTitleEditText;
+    @BindView(R.id.et_title)
+    public EditText mTitleEditor;
 
-    private EditText mToEditText;
+    @BindView(R.id.et_recipient)
+    public EditText mRecipientEditor;
 
-    private EditText mBodyEditText;
+    @BindView(R.id.et_body)
+    public EditText mBodyEditor;
 
-    private String mAction;
+    @BindView(R.id.panel_recipient)
+    public ViewGroup mRecipientPanel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAction = getArguments().getString("action");
-        mPresenter.setMessagePostAction(getArguments().getParcelable("param"));
+        mPresenter.setPostParam(getArguments().getParcelable("param"));
     }
 
     @Override
@@ -43,77 +46,37 @@ public class MessagePostFragment extends BaseMvpFragment<MessagePostPresenter> i
         return new MessagePostPresenter();
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_message_post,container,false);
-        mTitleEditText = (EditText) rootView.findViewById(R.id.reply_titile_edittext);
-        mToEditText = (EditText) rootView.findViewById(R.id.reply_titile_edittext_to);
-        mBodyEditText = (EditText) rootView.findViewById(R.id.reply_body_edittext);
-
-        Bundle bundle = getArguments();
-
-        String prefix = bundle.getString("prefix");
-        if (prefix != null){
-            mBodyEditText.setText(prefix);
-            mBodyEditText.setSelection(prefix.length());
-        }
-
-        String to = bundle.getString("to");
-        if (to != null){
-            mToEditText.setText(to);
-        }
-
-        String title = bundle.getString("title");
-        if (title != null){
-            mTitleEditText.setText(title);
-        }
-        mTitleEditText.setSelected(true);
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_message_post, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.message_post_menu,menu);
-    }
-
-    @Override
-    public void onResume() {
-        if (mAction.equals("new")) {
-            if (StringUtils.isEmpty(mToEditText.getText().toString())) {
-                mToEditText.requestFocus();
-            } else {
-                mTitleEditText.requestFocus();
-            }
-        } else {
-            mBodyEditText.requestFocus();
-        }
-        super.onResume();
+        inflater.inflate(R.menu.message_post_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.supertext:
-                FunctionUtils.handleSupertext(mBodyEditText, getContext(), getView());
-                break;
             case R.id.send:
-                String title = mTitleEditText.getText().toString();
-                String to = mToEditText.getText().toString();
-                String body = mBodyEditText.getText().toString();
-                if (StringUtils.isEmpty(to)) {
-                    mToEditText.setError("请输入收件人");
-                    mToEditText.requestFocus();
-                } else if (StringUtils.isEmpty(title)) {
-                    mTitleEditText.setError("请输入标题");
-                    mTitleEditText.requestFocus();
-                } else if (StringUtils.isEmpty(body)) {
-                    mBodyEditText.setError("请输入内容");
-                    mBodyEditText.requestFocus();
+                String title = mTitleEditor.getText().toString();
+                String recipient = mRecipientEditor.getText().toString();
+                String body = mBodyEditor.getText().toString();
+                if (StringUtils.isEmpty(recipient) && mRecipientPanel.isShown()) {
+                    mRecipientEditor.setError("请输入收件人");
+                    mRecipientEditor.requestFocus();
+                } else if (StringUtils.isEmpty(body) && body.length() < 6) {
+                    mBodyEditor.setError("请输入内容或者内容字数少于6");
+                    mBodyEditor.requestFocus();
                 } else {
-                    mPresenter.commit(title,to,body);
+                    mPresenter.commit(title, recipient, body);
                 }
                 break;
         }
@@ -127,13 +90,7 @@ public class MessagePostFragment extends BaseMvpFragment<MessagePostPresenter> i
     }
 
     @Override
-    public void insertBodyText(CharSequence text) {
-        int index = mBodyEditText.getSelectionStart();
-        if (mBodyEditText.getText().toString().replaceAll("\\n", "").trim()
-                .equals("") || index <= 0 || index >= mBodyEditText.length()) {
-            mBodyEditText.append(text);
-        } else {
-            mBodyEditText.getText().insert(index, text);
-        }
+    public void hideRecipientEditor() {
+        mRecipientPanel.setVisibility(View.GONE);
     }
 }

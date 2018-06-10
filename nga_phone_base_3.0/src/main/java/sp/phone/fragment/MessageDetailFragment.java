@@ -1,7 +1,6 @@
 package sp.phone.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,14 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.adapter.MessageContentAdapter;
 import sp.phone.bean.MessageDetailInfo;
 import sp.phone.mvp.contract.MessageDetailContract;
 import sp.phone.mvp.presenter.MessageDetailPresenter;
-import sp.phone.util.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
 public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresenter> implements MessageDetailContract.IMessageView {
@@ -122,13 +123,12 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
     }
 
     private void startMessagePost() {
-        Intent intent = new Intent();
-        intent.putExtra("mid", mMid);
-        intent.putExtra("title", mTitle);
-        intent.putExtra("to", mRecipient);
-        intent.putExtra("action", "reply");
-        intent.putExtra("messagemode", "yes");
-        ActivityUtils.startMessagePostActivity(getActivity(), intent);
+        ARouter.getInstance().build(ARouterConstants.ACTIVITY_MESSAGE_POST)
+                .withInt("mid", mMid)
+                .withString("action", "reply")
+                .withString("to", mRecipient)
+                .withString("title", mTitle)
+                .navigation(getContext());
     }
 
 }

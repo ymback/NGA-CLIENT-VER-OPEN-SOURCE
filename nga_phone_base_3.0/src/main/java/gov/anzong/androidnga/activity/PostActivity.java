@@ -19,7 +19,7 @@ import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
 @Route(path = ARouterConstants.ACTIVITY_POST)
-public class PostActivity extends BasePostActivity {
+public class PostActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_SELECT_PIC = 1;
 

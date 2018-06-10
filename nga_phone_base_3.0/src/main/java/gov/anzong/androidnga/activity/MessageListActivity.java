@@ -8,19 +8,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.adapter.ActionBarUserListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.MessageListFragment;
-import sp.phone.util.StringUtils;
-import sp.phone.adapter.ActionBarUserListAdapter;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.UserManager;
-import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.MessageListFragment;
-import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 
 public class MessageListActivity extends SwipeBackAppCompatActivity
@@ -75,10 +71,9 @@ public class MessageListActivity extends SwipeBackAppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_bookmark = new Intent();
-                intent_bookmark.putExtra("action", "new");
-                intent_bookmark.putExtra("messagemode", "yes");
-                ActivityUtils.startMessagePostActivity(MessageListActivity.this, intent_bookmark);
+                ARouter.getInstance().build(ARouterConstants.ACTIVITY_MESSAGE_POST)
+                        .withString("action", "new")
+                        .navigation(MessageListActivity.this);
             }
         });
     }

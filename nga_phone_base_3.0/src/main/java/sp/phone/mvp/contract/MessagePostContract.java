@@ -1,8 +1,6 @@
 package sp.phone.mvp.contract;
 
-import sp.phone.mvp.contract.tmp.BaseContract;
-import sp.phone.task.MessagePostTask;
-import sp.phone.forumoperation.MessagePostAction;
+import sp.phone.forumoperation.MessagePostParam;
 import sp.phone.mvp.contract.tmp.BaseContract;
 import sp.phone.task.MessagePostTask;
 
@@ -12,13 +10,11 @@ import sp.phone.task.MessagePostTask;
 
 public interface MessagePostContract {
 
-    interface Presenter extends sp.phone.mvp.contract.tmp.BaseContract.Presenter {
+    interface Presenter {
 
-        void commit(String title,String to,String body);
+        void commit(String title, String to, String body);
 
-        void setMessagePostAction(MessagePostAction messagePostAction);
-
-        void setEmoticon(String emoticon);
+        void setPostParam(MessagePostParam param);
 
     }
 
@@ -26,11 +22,12 @@ public interface MessagePostContract {
 
         void finish(int resultCode);
 
-        void insertBodyText(CharSequence text);
+        void hideRecipientEditor();
     }
 
     interface Model extends BaseContract.Model {
 
-        void postMessage(MessagePostAction action,MessagePostTask.CallBack callBack);
+        void postMessage(MessagePostParam param, MessagePostTask.CallBack callBack);
+
     }
 }

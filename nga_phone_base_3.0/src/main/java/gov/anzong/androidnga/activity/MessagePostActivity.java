@@ -1,111 +1,60 @@
 package gov.anzong.androidnga.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.StyleSpan;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBar;
+
+import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
-import sp.phone.forumoperation.MessagePostAction;
+import gov.anzong.androidnga.arouter.ARouterConstants;
+import sp.phone.forumoperation.MessagePostParam;
 import sp.phone.fragment.MessagePostFragment;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
-import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.mvp.contract.MessagePostContract;
-import sp.phone.mvp.presenter.MessagePostPresenter;
-import sp.phone.util.FunctionUtils;
 
-public class MessagePostActivity extends BasePostActivity implements OnEmotionPickedListener {
-
-    private final String LOG_TAG = Activity.class.getSimpleName();
-
-    private MessagePostAction mMessagePostAction;
+@Route(path = ARouterConstants.ACTIVITY_POST)
+public class MessagePostActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+
         super.onCreate(savedInstanceState);
 
-        Intent intent = this.getIntent();
-        String prefix = intent.getStringExtra("prefix");
-        String to = intent.getStringExtra("to");
-        String action = intent.getStringExtra("action");
-        int mid = intent.getIntExtra("mid", 0);
-        String title = intent.getStringExtra("title");
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
-        if (action.equals("new")) {
+        MessagePostParam postParam = getMessagePostParam();
+        if (postParam.getAction().equals("new")) {
             setTitle(R.string.new_message);
-        } else if (action.equals("reply")) {
+        } else if (postParam.getAction().equals("reply")) {
             setTitle(R.string.reply_message);
         }
 
-        mMessagePostAction = new MessagePostAction(mid, "", "");
-        mMessagePostAction.setAction_(action);
-        mMessagePostAction.set__ngaClientChecksum(FunctionUtils.getngaClientChecksum(this));
-
-        if (prefix != null && prefix.startsWith("[quote][pid=") && prefix.endsWith("[/quote]\n")) {
-            SpannableString spanString = new SpannableString(prefix);
-            spanString.setSpan(new BackgroundColorSpan(-1513240), 0,
-                    prefix.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spanString.setSpan(
-                    new StyleSpan(android.graphics.Typeface.BOLD),
-                    prefix.indexOf("[b]Post by"),
-                    prefix.indexOf("):[/b]") + 5,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            prefix = spanString.toString();
-        }
         Bundle bundle = new Bundle();
-        bundle.putString("prefix", prefix);
-        bundle.putString("action", action);
-        bundle.putString("to", to);
-        bundle.putInt("mid", mid);
-        bundle.putString("title", title);
-
-        bundle.putParcelable("param",mMessagePostAction);
-        Fragment fragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
-        if (fragment != null) {
-           // mPresenter = new MessagePostPresenter((MessagePostContract.View) fragment);
-          //  mPresenter.setMessagePostAction(mMessagePostAction);
-            return;
-        }
-        fragment = new MessagePostFragment();
+        bundle.putParcelable("param", postParam);
+        Fragment fragment = new MessagePostFragment();
         fragment.setArguments(bundle);
         fragment.setHasOptionsMenu(true);
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
 
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.emotion:
-                FragmentTransaction ft = getSupportFragmentManager()
-                        .beginTransaction();
-                Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                        EMOTION_CATEGORY_TAG);
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-
-                DialogFragment newFragment = new EmotionCategorySelectFragment();
-                newFragment.show(ft, EMOTION_CATEGORY_TAG);
-                break;
+    private MessagePostParam getMessagePostParam() {
+        Intent intent = getIntent();
+        String action = intent.getStringExtra("action");
+        MessagePostParam postParam = null;
+        if (action.equals("new")) {
+            postParam = new MessagePostParam();
+        } else if (action.equals("reply")) {
+            String subject = intent.getStringExtra("title");
+            int mid = intent.getIntExtra("mid", 0);
+            postParam = new MessagePostParam(action, mid, subject);
         }
-        return super.onOptionsItemSelected(item);
-    }// OK
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onEmotionPicked(String emotion) {
-        //mPresenter.setEmoticon(emotion);
-    }// OK
+        return postParam;
+    }
 
 
 }
