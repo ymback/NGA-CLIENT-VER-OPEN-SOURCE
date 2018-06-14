@@ -264,8 +264,6 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
                 break;
             case R.id.emotion:
                 toggleEmoticonView();
-//                BaseDialogFragment newFragment = new EmotionCategorySelectFragment();
-//                newFragment.show(getActivity().getSupportFragmentManager());
                 break;
             default:
                 return super.onOptionsItemSelected(item);

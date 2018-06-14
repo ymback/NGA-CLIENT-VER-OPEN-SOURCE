@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -37,28 +36,18 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
-import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.task.FileUploadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.StringUtils;
-import sp.phone.adapter.ExtensionEmotionAdapter;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.forumoperation.SignPostAction;
-import sp.phone.fragment.dialog.EmotionCategorySelectFragment;
-import sp.phone.interfaces.OnEmotionPickedListener;
-import sp.phone.task.FileUploadTask;
-import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.NLog;
-import sp.phone.util.StringUtils;
 
-public class SignPostActivity extends BasePostActivity implements
-        FileUploadTask.onFileUploaded, OnEmotionPickedListener {
+public class SignPostActivity extends BaseActivity implements
+        FileUploadTask.onFileUploaded {
 
     final int REQUEST_CODE_SELECT_PIC = 1;
     private final String LOG_TAG = Activity.class.getSimpleName();
@@ -129,34 +118,13 @@ public class SignPostActivity extends BasePostActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.messagepost_menu, menu);
+        getMenuInflater().inflate(R.menu.message_post_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.upload:
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, REQUEST_CODE_SELECT_PIC);
-                break;
-            case R.id.emotion:
-                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
-                        .beginTransaction();
-                android.support.v4.app.Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                        EMOTION_CATEGORY_TAG);
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-
-                DialogFragment newFragment = new EmotionCategorySelectFragment();
-                newFragment.show(ft, EMOTION_CATEGORY_TAG);
-                break;
-            case R.id.supertext:
-                FunctionUtils.handleSupertext(bodyText, this, v);
-                break;
             case R.id.send:
                 if (StringUtils.isEmpty(bodyText.getText().toString())) {
                     showToast("请输入内容");
@@ -173,86 +141,6 @@ public class SignPostActivity extends BasePostActivity implements
         return true;
     }// OK
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onEmotionPicked(String emotion) {
-        final int index = bodyText.getSelectionStart();
-        String urltemp = emotion.replaceAll("\\n", "");
-        if (urltemp.indexOf("http") > 0) {
-            urltemp = urltemp.substring(5, urltemp.length() - 6);
-            String sourcefile = ExtensionEmotionAdapter.getPathByURI(urltemp);
-            InputStream is = null;
-            try {
-                is = getResources().getAssets().open(sourcefile);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            if (is != null) {
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
-                BitmapDrawable bd = new BitmapDrawable(bitmap);
-                Drawable drawable = (Drawable) bd;
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                        drawable.getIntrinsicHeight());
-                SpannableString spanString = new SpannableString(emotion);
-                ImageSpan span = new ImageSpan(drawable,
-                        ImageSpan.ALIGN_BASELINE);
-                spanString.setSpan(span, 0, emotion.length(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                if (bodyText.getText().toString().replaceAll("\\n", "").trim()
-                        .equals("")) {
-                    bodyText.append(spanString);
-                } else {
-                    if (index <= 0 || index >= bodyText.length()) {// pos @
-                        // begin /
-                        // end
-                        bodyText.append(spanString);
-                    } else {
-                        bodyText.getText().insert(index, spanString);
-                    }
-                }
-            }
-        } else {
-            int[] emotions = {1, 2, 3, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34,
-                    35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 5, 6, 7, 8};
-            for (int i = 0; i < 27; i++) {
-                if (emotion.indexOf("[s:" + String.valueOf(emotions[i]) + "]") == 0) {
-                    String sourcefile = "a" + String.valueOf(emotions[i])
-                            + ".gif";
-                    InputStream is = null;
-                    try {
-                        is = getResources().getAssets().open(sourcefile);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    if (is != null) {
-                        Bitmap bitmap = BitmapFactory.decodeStream(is);
-                        BitmapDrawable bd = new BitmapDrawable(bitmap);
-                        Drawable drawable = (Drawable) bd;
-                        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                                drawable.getIntrinsicHeight());
-                        SpannableString spanString = new SpannableString(
-                                emotion);
-                        ImageSpan span = new ImageSpan(drawable,
-                                ImageSpan.ALIGN_BASELINE);
-                        spanString.setSpan(span, 0, emotion.length(),
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        if (index <= 0 || index >= bodyText.length()) {// pos @
-                            // begin
-                            // / end
-                            bodyText.append(spanString);
-                        } else {
-                            bodyText.getText().insert(index, spanString);
-                        }
-                    } else {
-                        bodyText.append(emotion);
-                    }
-                    break;
-                }
-            }
-        }
-    }// OK
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

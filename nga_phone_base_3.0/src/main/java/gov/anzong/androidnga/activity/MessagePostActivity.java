@@ -12,7 +12,7 @@ import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.forumoperation.MessagePostParam;
 import sp.phone.fragment.MessagePostFragment;
 
-@Route(path = ARouterConstants.ACTIVITY_POST)
+@Route(path = ARouterConstants.ACTIVITY_MESSAGE_POST)
 public class MessagePostActivity extends BaseActivity {
 
     @Override
