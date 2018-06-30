@@ -58,4 +58,6 @@ public interface PreferenceKey {
     String KEY_REPLY_COUNT = "reply_count";
 
     String KEY_SWIPE_BACK = "swipe_back";
+
+    public static final String KEY_NGA_DOMAIN = "nga_domain";
 }

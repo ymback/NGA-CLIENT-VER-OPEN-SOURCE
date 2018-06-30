@@ -46,6 +46,14 @@
         android:key="optiontitle"
         android:title="@string/setting_option">
 
+        <ListSummaryPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/setting_nga_domain"
+            android:entries="@array/nga_domain"
+            android:entryValues="@array/nga_domain_value"
+            android:key="nga_domain"
+            android:title="@string/setting_nga_domain"/>
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="showColortxt"
@@ -73,9 +81,9 @@
             android:title="@string/setting_title_sort_by_post"/>
 
         <!--<SwitchPreference-->
-            <!--android:defaultValue="false"-->
-            <!--android:key="auto_sign_in"-->
-            <!--android:title="自动签到"/>-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="auto_sign_in"-->
+        <!--android:title="自动签到"/>-->
 
         <SwitchPreference
             android:defaultValue="true"

@@ -108,7 +108,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
     }
 
     private String getUrl(int page, TopicListParam requestInfo) {
-        StringBuilder jsonUri = new StringBuilder(HttpUtil.Server + "/thread.php?");
+        StringBuilder jsonUri = new StringBuilder(getAvailableDomain() + "/thread.php?");
         if (0 != requestInfo.authorId) {
             jsonUri.append("authorid=").append(requestInfo.authorId).append("&");
         }

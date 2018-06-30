@@ -62,4 +62,9 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2083 = "更新内容\n"
+            + "● 增加一个域名选择的菜单，如果提示网络错误，可以更换其他域名\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 }

@@ -45,7 +45,7 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
         int tid = param.tid;
         int pid = param.pid;
         int authorId = param.authorId;
-        String url = HttpUtil.Server + "/read.php?" + "&page=" + page + "&lite=js&noprefix&v2";
+        String url = getAvailableDomain() + "/read.php?" + "&page=" + page + "&lite=js&noprefix&v2";
         if (tid != 0) {
             url = url + "&tid=" + tid;
         }

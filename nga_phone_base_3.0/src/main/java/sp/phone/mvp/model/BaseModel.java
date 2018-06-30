@@ -1,9 +1,14 @@
 package sp.phone.mvp.model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
-import sp.phone.mvp.contract.BaseContract;
+import gov.anzong.androidnga.R;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.common.PreferenceKey;
 import sp.phone.mvp.contract.BaseContract;
 
 /**
@@ -13,6 +18,15 @@ import sp.phone.mvp.contract.BaseContract;
 public abstract class BaseModel implements BaseContract.Model {
 
     private LifecycleProvider<FragmentEvent> mProvider;
+
+    private String mDomain;
+
+    public BaseModel() {
+        Context context = ApplicationContextHolder.getContext();
+        SharedPreferences sp = context.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        int index = Integer.parseInt(sp.getString(PreferenceKey.KEY_NGA_DOMAIN,"0"));
+        mDomain = context.getResources().getStringArray(R.array.nga_domain)[index];
+    }
 
     @Override
     public void detach() {
@@ -26,5 +40,9 @@ public abstract class BaseModel implements BaseContract.Model {
 
     protected LifecycleProvider<FragmentEvent> getLifecycleProvider() {
         return mProvider;
+    }
+
+    protected String getAvailableDomain() {
+        return mDomain;
     }
 }
