@@ -192,7 +192,7 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
         if (!TextUtils.isEmpty(entry.getBoard())) {
             SpannableStringBuilder boardBuilder = new SpannableStringBuilder();
             boardBuilder.append("  [").append(entry.getBoard()).append("]");
-            boardBuilder.setSpan(new ForegroundColorSpan(mContext.getColor(R.color.text_color_disabled)), 0, boardBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            boardBuilder.setSpan(new ForegroundColorSpan(ApplicationContextHolder.getColor(R.color.text_color_disabled)), 0, boardBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             builder.append(boardBuilder);
         }
         view.setText(builder);
