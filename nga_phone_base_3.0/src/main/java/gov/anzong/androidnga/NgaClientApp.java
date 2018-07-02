@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.BoardManagerImpl;
+import sp.phone.common.LeakCanaryWatcher;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.util.NLog;
@@ -20,8 +21,9 @@ public class NgaClientApp extends Application {
 
     @Override
     public void onCreate() {
-        ApplicationContextHolder.setContext(this);
         NLog.w(TAG, "app nga android start");
+        ApplicationContextHolder.setContext(this);
+        LeakCanaryWatcher.initialize(this);
         checkNewVersion();
         initCoreModule();
         initRouter();

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import sp.phone.common.LeakCanaryWatcher;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.util.ActivityUtils;
 
@@ -122,5 +123,11 @@ public abstract class BaseFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LeakCanaryWatcher.watch(this);
     }
 }
