@@ -1,5 +1,8 @@
 package sp.phone.retrofit;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -8,8 +11,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.retrofit.converter.JsonStringConvertFactory;
+import sp.phone.util.ForumUtils;
 
 /**
  * Created by Justwen on 2017/10/10.
@@ -19,12 +25,25 @@ public class RetrofitHelper {
 
     private Retrofit mRetrofit;
 
-    private static final String URL_NGA_BASE = "http://bbs.nga.cn/";
-
     private static final String URL_NGA_BASE_CC = "https://bbs.ngacn.cc/";
 
     private RetrofitHelper() {
+        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        String baseUrl = ForumUtils.getAvailableDomain();
+        mRetrofit = createRetrofit(baseUrl);
 
+        sp.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
+                if (key.equals(PreferenceKey.KEY_NGA_DOMAIN)) {
+                    String baseUrl = ForumUtils.getAvailableDomain();
+                    mRetrofit = createRetrofit(baseUrl);
+                }
+            }
+        });
+    }
+
+    private Retrofit createRetrofit(String baseUrl) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new Interceptor() {
             @Override
@@ -38,9 +57,8 @@ public class RetrofitHelper {
                 return chain.proceed(request);
             }
         });
-
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(URL_NGA_BASE)
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
                 .addConverterFactory(JsonStringConvertFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(builder.build())
