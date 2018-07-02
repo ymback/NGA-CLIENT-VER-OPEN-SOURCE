@@ -8,25 +8,25 @@ import android.os.AsyncTask;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.util.UiUtil;
+import sp.phone.util.ActivityUtils;
 
 /**
  */
 public class SaveImageTask extends AsyncTask<String, Void, File> {
-    private final Context context;
-    private String savePath;
+
+    private final Context mContext;
+
+    private String mTargetPath;
 
     public SaveImageTask(Context context, String savePath) {
-        this.context = context;
-        this.savePath = savePath;
+        mContext = context.getApplicationContext();
+        mTargetPath = savePath;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
         String url = params[0]; // should be easy to extend to share multiple images at once
         try {
             return Glide
-                    .with(context)
+                    .with(mContext)
                     .load(url)
                     .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get(); // needs to be called on background thread
@@ -48,36 +48,19 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
         if (result == null) {
             return;
         }
+
+        File file = new File(mTargetPath);
+
         try {
-            copyFile(result, new File(savePath), false);
+            FileUtils.copyFile(result, file);
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
-        String toast = context.getString(R.string.file_saved) + savePath;
-        UiUtil.showToast(context, toast);
-        Uri uri = Uri.fromFile(new File(savePath));
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+        String toast = mContext.getString(R.string.file_saved) + mTargetPath;
+        ActivityUtils.showToast(toast);
+        Uri uri = Uri.fromFile(file);
+        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
     }
 
-    public static void copyFile(File sourceFile, File desFile, boolean isDeleteSourceFile) throws IOException {
-        if (sourceFile.isFile() && sourceFile.exists()) {
-            byte[] buffer = new byte[1024];
-            InputStream fis = new FileInputStream(sourceFile);
-            File dir = desFile.getParentFile();
-            if (!dir.exists())
-                dir.mkdirs();
-            OutputStream fos = new FileOutputStream(desFile);
-            int b = fis.read(buffer);
-            while (b != -1) {
-                fos.write(buffer, 0, b);
-                b = fis.read(buffer);
-            }
-            fis.close();
-            fos.flush();
-            fos.close();
-            if (isDeleteSourceFile) {
-                sourceFile.delete();
-            }
-        }
-    }
 }

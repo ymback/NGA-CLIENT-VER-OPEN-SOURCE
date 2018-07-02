@@ -15,14 +15,14 @@ import android.widget.TextView;
 import java.util.Arrays;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
+import gov.anzong.androidnga.activity.BaseActivity;
 import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 
 /**
  * 显示图片
  * Created by Elrond on 2015/11/18.
  */
-public class ImageZoomActivity extends SwipeBackAppCompatActivity {
+public class ImageZoomActivity extends BaseActivity {
 
     public static final String KEY_GALLERY_URLS = "keyGalleryUrl";
 
@@ -30,7 +30,7 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
 
     public static final String KEY_GALLERY_CUR_URL = "keyGalleryCurUrl";
 
-    private final String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/";
+    private final String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/nga_open_source/";
 
     private String[] mGalleryUrls;
 
@@ -92,9 +92,12 @@ public class ImageZoomActivity extends SwipeBackAppCompatActivity {
     }
 
     private void saveBitmap() {
-        String path = PATH_IMAGES + System.currentTimeMillis() + ".png";
+
+        String url = mGalleryUrls[mPageIndex];
+        String suffix = url.substring(url.lastIndexOf('.'));
+        String path = PATH_IMAGES + System.currentTimeMillis() + suffix;
         SaveImageTask task = new SaveImageTask(this, path);
-        task.execute(mGalleryUrls[mPageIndex]);
+        task.execute(url);
     }
 
     private String getPath() {
