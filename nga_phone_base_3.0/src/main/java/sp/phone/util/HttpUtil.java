@@ -88,33 +88,6 @@ public class HttpUtil {
         Server = servers[i];
     }
 
-    public static boolean selectServer() {
-        boolean status = false;
-        for (String host : host_arr) {
-            String str = host + Servlet_phone;
-            HttpURLConnection conn = null;
-            try {
-                conn = (HttpURLConnection) new URL(str).openConnection();
-                conn.setConnectTimeout(4000);
-                int result = conn.getResponseCode();
-                if (result == HttpURLConnection.HTTP_OK) {
-                    HOST = str;//
-                    HOST_PORT = host;
-                    status = true;
-                    break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (conn != null) {
-                    conn.disconnect();
-                    conn = null;
-                }
-            }
-        }
-        return status;
-    }
-
     public static void downImage(String uri, String fileName) {
         try {
             URL url = new URL(uri);
@@ -126,21 +99,6 @@ public class HttpUtil {
         } catch (Exception e) {
             NLog.e(TAG, "failed to download img:" + uri + "," + e.getMessage());
         }
-    }
-
-    public static InputStream downImage2(String uri, String fileName) {
-        InputStream is = null;
-        try {
-            URL url = new URL(uri);
-            is = url.openStream();
-            File file = new File(fileName);
-            FileUtils.copyInputStreamToFile(is, file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
-        return is;
     }
 
     public static void downImage3(Bitmap bitmap, String fileName) {
@@ -160,37 +118,6 @@ public class HttpUtil {
             e.printStackTrace();
         } finally {
             IOUtils.closeQuietly(is);
-        }
-    }
-
-    public static InputStream imageInputStream2(String uri,
-                                                final String newFileName) {
-
-        try {
-            URL url = new URL(uri);
-            URLConnection conn = url.openConnection();
-            final InputStream is = conn.getInputStream();
-            // InputStream is2 = is;
-            new Thread() {
-                public void run() {
-                    writeFile(is, newFileName);
-                }
-
-                ;
-            }.start();
-            return is;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private static void writeFile(InputStream is, String fileName) {
-        try {
-            FileUtils.copyInputStreamToFile(is, new File(fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -250,99 +177,6 @@ public class HttpUtil {
         return null;
     }
 
-
-    @SuppressWarnings("deprecation")
-    public static String iosGetHtml(String uri, String cookie) {
-        InputStream is = null;
-        final String ios_ua = "Mozilla/5.0 (iPad; CPU OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3";
-        try {
-            URL url = new URL(uri);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtils.isEmpty(cookie))
-                conn.setRequestProperty("Cookie", cookie);
-            conn.setRequestProperty("User-Agent", ios_ua);
-            conn.setRequestProperty("Accept-Charset", "GBK");
-            conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-            if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
-                System.setProperty("http.keepAlive", "false");
-            } else {
-                conn.setRequestProperty("Connection", "close");
-            }
-            conn.setConnectTimeout(5000);
-            conn.setReadTimeout(10000);
-            conn.connect();
-            is = conn.getInputStream();
-            if ("gzip".equals(conn.getHeaderField("Content-Encoding")))
-                is = new GZIPInputStream(is);
-            String encoding = getCharset(conn, "GBK");
-            return IOUtils.toString(is, encoding);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
-        return null;
-    }
-
-    public static String getHtml(String uri, String cookie, String host, int timeout) {
-        InputStream is = null;
-        HostnameVerifier allHostsValid = new HostnameVerifier() {
-
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                if (hostname.toLowerCase().contains("nga") || hostname.contains("178")) {
-                    return true;
-                }
-                return false;
-            }
-        };
-        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-
-
-        String machine;
-        if (MODEL.contains(MANUFACTURER)) {
-            machine = android.os.Build.MODEL;
-        } else {
-            machine = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
-        }
-        if (machine.length() < 19) {
-            machine = "[" + machine + "]";
-        }
-        final String USER_AGENT = "Nga_Official/" + 573 + "(" + machine + ";Android" + Build.VERSION.RELEASE + ")";
-
-        try {
-            URL url = new URL(uri);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (!StringUtils.isEmpty(cookie))
-                conn.setRequestProperty("Cookie", cookie);
-            conn.setRequestProperty("User-Agent", USER_AGENT);
-            conn.setRequestProperty("Accept-Charset", "GBK");
-            conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-            if (!StringUtils.isEmpty(host)) {
-                conn.setRequestProperty("Host", host);
-            }
-            if (timeout > 0) {
-                conn.setConnectTimeout(timeout);
-                conn.setReadTimeout(timeout * 2);
-            }
-
-            conn.connect();
-            is = conn.getInputStream();
-            if ("gzip".equals(conn.getHeaderField("Content-Encoding")))
-                is = new GZIPInputStream(is);
-            String encoding = getCharset(conn, "GBK");
-
-            return IOUtils.toString(is, encoding);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
-        return null;
-    }
-
     public static String getCharset(HttpURLConnection conn, String defaultValue) {
         if (conn == null)
             return defaultValue;
@@ -362,28 +196,5 @@ public class HttpUtil {
             return "utf-8";
         }
         return contentType.substring(start, end);
-    }
-
-    public static ArticlePage getArticlePage(String uri, String cookie) {
-        ArticlePage ret = null;
-        try {
-            long start = System.currentTimeMillis();
-            String html = getHtml(uri, cookie);
-            long end = System.currentTimeMillis();
-            NLog.i("ArticlePage", "network const:" + (end - start));
-            ret = ArticleUtil.parserArticleList(html);
-            long end2 = System.currentTimeMillis();
-            NLog.i("ArticlePage", "parse action const:" + (end2 - end));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
-
-    public static ArticlePage getArticlePageByJson(String uri) {
-        //TODO
-        String json = getHtml(uri, "");
-        ArticlePage ap = JSON.parseObject(json, ArticlePage.class);
-        return ap;
     }
 }

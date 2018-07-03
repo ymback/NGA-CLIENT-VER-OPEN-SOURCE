@@ -23,14 +23,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode.Callback;
-import android.text.Html;
-import android.text.Spanned;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -40,7 +36,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Field;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.BuildConfig;
@@ -555,8 +550,8 @@ public class FunctionUtils {
         {
             fgColor = nickNameTV.getResources().getColor(R.color.title_red);
             nickName += "(VIP)";
-        } else if (!StringUtils.isEmpty(row.getMute_time())
-                && !"0".equals(row.getMute_time())) {
+        } else if (!StringUtils.isEmpty(row.getMuteTime())
+                && !"0".equals(row.getMuteTime())) {
             fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
             nickName += "(" + legend + ")";
         }
@@ -570,7 +565,7 @@ public class FunctionUtils {
         nickNameTV.setTextColor(fgColor);
     }
 
-    public static void fillFormated_html_data(ThreadRowInfo row, int i, Context context) {
+    public static void fillFormatedHtmlData(ThreadRowInfo row, int i, Context context) {
         ThemeManager theme = ThemeManager.getInstance();
         if (row.getContent() == null) {
             row.setContent(row.getSubject());
@@ -587,7 +582,7 @@ public class FunctionUtils {
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
         String formated_html_data = HtmlUtils.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, context);
-        row.setFormated_html_data(formated_html_data);
+        row.setFormattedHtmlData(formated_html_data);
     }
 
     public static boolean isShowImage() {

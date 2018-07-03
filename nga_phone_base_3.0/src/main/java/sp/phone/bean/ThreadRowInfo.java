@@ -10,56 +10,28 @@ public class ThreadRowInfo {
 
     private int tid;
     private int fid;
-    // private int quote_from;
-    //private String quote_to;
-    // private String icon;
-    // private String titlefont;
     private String author;//user name
     private int authorid;
     private String subject;
     private String vote;
-    // private int type;
-    // private int type_2;
     private String postdate;
-    // private int lastpost;
-    // private String lastposter;
-    //private int replies;
-    // private int locked;
-    // private int digest;
-    // private int ifupload;
-    // private int lastmodify;
-    // private int recommend;
     private int pid;
     private boolean isanonymous = false;
     private String alterinfo;// something like "edited by ..."
     private String content;
     private int lou;
-    //private int postdatetimestamp;
-    //private int content_length;
     private Map<String, Attachment> attachs;
-    //private int credit;
-    //private String reputation;
-    //private int groupid;
-    //private String lpic;
     private String level;
-    //private int gp_lesser;
     private String yz; //negative integer if user is nuked
-    //private String js_escap_site;
-    //private String js_escap_honor;
     private String js_escap_avatar;//avatar url
-    //private int regdate;
-    //private String mute_time;
-    private String mute_time;
-    //private int postnum; //may be empty string
+    private String muteTime;
     private int aurvrc;//prestige
-    //private int money;
-    //private int thisvisit;
     private String signature;
-    //private String nickname;
     private List<ThreadRowInfo> comments;
+    public List<String> hotReplies; //热门回复
 
     private boolean isInBlackList;
-    private String formated_html_data;
+    private String formattedHtmlData;
     private String from_client;
     private String from_client_model;
 
@@ -255,20 +227,20 @@ public class ThreadRowInfo {
         this.yz = yz;
     }
 
-    public String getMute_time() {
-        return mute_time;
+    public String getMuteTime() {
+        return muteTime;
     }
 
-    public void setMute_time(String mute_time) {
-        this.mute_time = mute_time;
+    public void setMuteTime(String muteTime) {
+        this.muteTime = muteTime;
     }
 
-    public String getFormated_html_data() {
-        return formated_html_data;
+    public String getFormattedHtmlData() {
+        return formattedHtmlData;
     }
 
-    public void setFormated_html_data(String formated_html_data) {
-        this.formated_html_data = formated_html_data;
+    public void setFormattedHtmlData(String formattedHtmlData) {
+        this.formattedHtmlData = formattedHtmlData;
     }
 
 
