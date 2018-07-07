@@ -169,7 +169,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     }
 
     private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
-        String html = row.getFormated_html_data();
+        String html = row.getFormattedHtmlData();
         webView.setTextSize(PhoneConfiguration.getInstance().getWebSize());
         webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
     }
