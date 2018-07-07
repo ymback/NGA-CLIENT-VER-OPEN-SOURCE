@@ -24,12 +24,13 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     protected Toast mToast;
 
-    protected PhoneConfiguration mConfig = PhoneConfiguration.getInstance();
+    protected PhoneConfiguration mConfig;
 
     private boolean mNeedActionBar = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
         super.onCreate(savedInstanceState);
