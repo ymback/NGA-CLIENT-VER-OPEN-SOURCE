@@ -1,4 +1,4 @@
-package sp.phone.common;
+package sp.phone.debug;
 
 import android.app.Application;
 

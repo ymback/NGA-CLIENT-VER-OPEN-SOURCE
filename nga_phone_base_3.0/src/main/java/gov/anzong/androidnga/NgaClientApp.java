@@ -7,8 +7,9 @@ import android.content.SharedPreferences;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import sp.phone.common.ApplicationContextHolder;
+import sp.phone.debug.BlockCanaryWatcher;
 import sp.phone.common.BoardManagerImpl;
-import sp.phone.common.LeakCanaryWatcher;
+import sp.phone.debug.LeakCanaryWatcher;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.util.NLog;
@@ -24,6 +25,7 @@ public class NgaClientApp extends Application {
         NLog.w(TAG, "app nga android start");
         ApplicationContextHolder.setContext(this);
         LeakCanaryWatcher.initialize(this);
+        BlockCanaryWatcher.startWatching(this);
         checkNewVersion();
         initCoreModule();
         initRouter();
