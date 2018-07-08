@@ -305,8 +305,14 @@ public class StringUtils {
         s = s.replace(ignoreCaseTag + "<br/><br/>", "<br/>");
         // [url][/url]
         s = s.replaceAll(
+                ignoreCaseTag + "\\[url\\]/([^\\[|\\]]+)\\[/url\\]",
+                "<a href=\"" + Utils.getNGAHost() + "$1\">" + Utils.getNGAHost() + "$1</a>");
+        s = s.replaceAll(
                 ignoreCaseTag + "\\[url\\]([^\\[|\\]]+)\\[/url\\]",
                 "<a href=\"$1\">$1</a>");
+        s = s.replaceAll(ignoreCaseTag
+                        + "\\[url=/([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]",
+                "<a href=\"" + Utils.getNGAHost() + "$1\">$2</a>");
         s = s.replaceAll(ignoreCaseTag
                         + "\\[url=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]",
                 "<a href=\"$1\">$2</a>");
