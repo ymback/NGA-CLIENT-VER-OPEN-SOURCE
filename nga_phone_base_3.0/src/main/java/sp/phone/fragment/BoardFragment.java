@@ -285,7 +285,9 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         }
         setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT,0));
 
-        updateHeaderView();
+        if (mHeaderView != null) {
+            updateHeaderView();
+        }
         super.onResume();
     }
 
