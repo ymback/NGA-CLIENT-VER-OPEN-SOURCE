@@ -84,6 +84,11 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
     @Override
     public long getItemId(int position) {
+        String url = mCategory.get(position).getUrl();
+        if (url == null || url.equals("")) {
+            return 0;
+        }
+
         return Long.parseLong(mCategory.get(position).getUrl());
     }
 
