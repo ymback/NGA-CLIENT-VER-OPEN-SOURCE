@@ -17,6 +17,8 @@ import sp.phone.common.BoardManagerImpl;
 
 public class AddBoardDialogFragment extends BaseDialogFragment {
 
+    private OnAddBookmarkListener onAddBookmarkListener;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,8 +32,19 @@ public class AddBoardDialogFragment extends BaseDialogFragment {
                 .setPositiveButton("添加", (dialog, which) -> {
                     String name = addFidNameView.getText().toString();
                     String fid = addFidIdView.getText().toString();
-                    BoardManagerImpl.getInstance().addBookmark(fid, name);
+                    if (onAddBookmarkListener != null) {
+                        this.onAddBookmarkListener.onClick(name, fid);
+                    }
                 }).setNegativeButton("取消", null);
         return builder.create();
+    }
+
+    public AddBoardDialogFragment setOnAddBookmarkListener(OnAddBookmarkListener listener) {
+        this.onAddBookmarkListener = listener;
+        return this;
+    }
+
+    public interface OnAddBookmarkListener {
+        void onClick(String name, String fid);
     }
 }
