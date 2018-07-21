@@ -202,11 +202,13 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 //            intent.setClass(getContext(), LoginActivity.class);
 //            startActivityForResult(intent, ActivityUtils.REQUEST_CODE_LOGIN);
 //        }
-        ARouter.getInstance().build(ARouterConstants.ACTIVITY_LOGIN).navigation();
+        ARouter.getInstance().build(ARouterConstants.ACTIVITY_LOGIN).navigation(getActivity(), 1);
     }
 
     private void showAddBoardDialog() {
-        new AddBoardDialogFragment().show(getChildFragmentManager());
+        new AddBoardDialogFragment().setOnAddBookmarkListener((name, fid) -> {
+            mPresenter.addBoard(fid, name);
+        }).show(getChildFragmentManager());
     }
 
     @Override
@@ -282,6 +284,10 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             mBoardPagerAdapter.notifyDataSetChanged();
         }
         setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT,0));
+
+        if (mHeaderView != null) {
+            updateHeaderView();
+        }
         super.onResume();
     }
 
