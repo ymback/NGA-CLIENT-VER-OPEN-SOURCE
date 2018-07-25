@@ -8,11 +8,10 @@ import android.webkit.WebViewClient;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 import gov.anzong.androidnga.gallery.ImageZoomActivity;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.util.StringUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.util.StringUtils;
 
@@ -38,6 +37,7 @@ public class WebViewClientEx extends WebViewClient {
 
     private static final String ANDROID_NGA_USER_NAME_END = "&";
 
+    private List<String> mImgUrlList;
 
     public WebViewClientEx(Context context) {
         super();
@@ -45,6 +45,10 @@ public class WebViewClientEx extends WebViewClient {
 
     public WebViewClientEx() {
         super();
+    }
+
+    public void setImgUrls(List<String> list) {
+        mImgUrlList = list;
     }
 
     @Override
@@ -70,7 +74,13 @@ public class WebViewClientEx extends WebViewClient {
                     || url.endsWith(".png") || url.endsWith(".jpeg")
                     || url.endsWith(".bmp")) {
                 String imgUrl = "http://" + url;
-                intent.putExtra(ImageZoomActivity.KEY_GALLERY_URLS, new String[]{imgUrl});
+                if  (mImgUrlList == null) {
+                    mImgUrlList = new ArrayList<>();
+                    mImgUrlList.add(imgUrl);
+                }
+                String[] urls = new String[mImgUrlList.size()];
+                mImgUrlList.toArray(urls);
+                intent.putExtra(ImageZoomActivity.KEY_GALLERY_URLS, /*new String[]{imgUrl*/ mImgUrlList.toArray());
                 intent.putExtra(ImageZoomActivity.KEY_GALLERY_CUR_URL, imgUrl);
                 intent.setClass(context, ImageZoomActivity.class);
                 context.startActivity(intent);
@@ -95,7 +105,13 @@ public class WebViewClientEx extends WebViewClient {
                 || url.endsWith(".png") || url.endsWith(".jpeg")
                 || url.endsWith(".bmp")) {
             Intent intent = new Intent();
-            intent.putExtra(ImageZoomActivity.KEY_GALLERY_URLS, new String[]{url});
+            if  (mImgUrlList == null) {
+                mImgUrlList = new ArrayList<>();
+                mImgUrlList.add(url);
+            }
+            String[] urls = new String[mImgUrlList.size()];
+            mImgUrlList.toArray(urls);
+            intent.putExtra(ImageZoomActivity.KEY_GALLERY_URLS, urls);
             intent.putExtra(ImageZoomActivity.KEY_GALLERY_CUR_URL, url);
             intent.setClass(context, ImageZoomActivity.class);
             context.startActivity(intent);

@@ -3,8 +3,10 @@ package sp.phone.util;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,9 +70,12 @@ public class HtmlUtils {
             if (context != null)
                 initStaticStrings(context);
         }
-        HashSet<String> imageURLSet = new HashSet<String>();
+
+        List<String> imageUrls = new ArrayList<>();
+
         String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage,
-                imageQuality, imageURLSet);
+                imageQuality, imageUrls);
+        row.getImageUrls().addAll(imageUrls);
         if (row.get_isInBlackList()) {
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
                     + "<body "
@@ -79,9 +84,6 @@ public class HtmlUtils {
                     + blacklistban
                     + "]</font>" + "</font></body>";
         } else {
-            if (imageURLSet.size() == 0) {
-                imageURLSet = null;
-            }
             if (StringUtils.isEmpty(ngaHtml)) {
                 ngaHtml = row.getAlterinfo();
             }
@@ -92,7 +94,7 @@ public class HtmlUtils {
             //ngaHtml = replaceLinkText(ngaHtml);
             ngaHtml = ngaHtml
                     + buildComment(row, fgColorStr, showImage, imageQuality)
-                    + buildAttachment(row, showImage, imageQuality, imageURLSet)
+                    + buildAttachment(row, showImage, imageQuality, null)
                     + buildSignature(row, showImage, imageQuality)
                     + buildVote(row);
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"

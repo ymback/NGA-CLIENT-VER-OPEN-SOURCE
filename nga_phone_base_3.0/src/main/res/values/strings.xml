@@ -354,6 +354,7 @@
     <string name="menu_search_post">搜索发帖</string>
     <string name="menu_search_reply">搜索回复</string>
     <string name="menu_open_by_browser">通过浏览器打开</string>
+    <string name="menu_download_all">下载全部图片</string>
 
     <string name="toast_add_bookmark_board">添加至我的收藏</string>
     <string name="toast_remove_bookmark_board">取消收藏</string>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +17,6 @@ import java.util.Arrays;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
-import gov.anzong.androidnga.activity.SwipeBackAppCompatActivity;
 
 /**
  * 显示图片
@@ -67,6 +67,14 @@ public class ImageZoomActivity extends BaseActivity {
         mViewPager = (ViewPager) findViewById(R.id.gallery);
         GalleryAdapter adapter = new GalleryAdapter(this, mGalleryUrls, mInitPageIndex);
         mViewPager.setAdapter(adapter);
+        mViewPager.setCurrentItem(mInitPageIndex);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                mPageIndex = position;
+                mTxtView.setText(String.valueOf(position + 1) + " / " + String.valueOf(mGalleryUrls.length));
+            }
+        });
     }
 
     private void receiveIntent() {
@@ -101,10 +109,16 @@ public class ImageZoomActivity extends BaseActivity {
     }
 
     private String getPath() {
-        String ret = getIntent().getStringExtra("path");
-        ret = ret.replaceAll("img.nga.178.com", "img.ngacn.cc");
+        String ret = mGalleryUrls[mPageIndex];
+      //  ret = ret.replaceAll("img.nga.178.com", "img.ngacn.cc");
         return ret;
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_image_zoom, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

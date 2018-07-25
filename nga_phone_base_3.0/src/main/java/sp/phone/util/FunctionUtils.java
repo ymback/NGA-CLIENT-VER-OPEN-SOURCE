@@ -199,12 +199,8 @@ public class FunctionUtils {
                                                      boolean showImage, int imageQuality, final String fgColorStr,
                                                      final String bgcolorStr, Context context) {
         initStaticStrings(context);
-        HashSet<String> imageURLSet = new HashSet<String>();
         String ngaHtml = StringUtils.decodeForumTag(row.getSignature(),
-                showImage, imageQuality, imageURLSet);
-        if (imageURLSet.size() == 0) {
-            imageURLSet = null;
-        }
+                showImage, imageQuality, null);
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + context.getString(R.string.hide)
                     + "]</font>";
@@ -602,12 +598,8 @@ public class FunctionUtils {
                                              boolean showImage, int imageQuality, final String fgColorStr,
                                              final String bgcolorStr, Context context) {
         initStaticStrings(context);
-        HashSet<String> imageURLSet = new HashSet<String>();
         String ngaHtml = StringUtils.decodeForumTag(row.getSignature(),
-                showImage, imageQuality, imageURLSet);
-        if (imageURLSet.size() == 0) {
-            imageURLSet = null;
-        }
+                showImage, imageQuality, null);
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();
         }
@@ -668,21 +660,17 @@ public class FunctionUtils {
 
     public static String avatarToHtmlText_Message(final MessageArticlePageInfo row, boolean showImage,
                                                   int imageQuality, final String fgColorStr, final String bgcolorStr, Context context) {
-        HashSet<String> imageURLSet = new HashSet<String>();
         String ngaHtml = null;
         initStaticStrings(context);
         if (row.getJs_escap_avatar().equals("")) {
             ngaHtml = StringUtils
                     .decodeForumTag(
                             "这家伙是骷髅党,头像什么的没有啦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
-                            showImage, imageQuality, imageURLSet);
+                            showImage, imageQuality, null);
         } else {
             ngaHtml = StringUtils.decodeForumTag(
                     "[img]" + parseAvatarUrl(row.getJs_escap_avatar())
-                            + "[/img]", showImage, imageQuality, imageURLSet);
-        }
-        if (imageURLSet.size() == 0) {
-            imageURLSet = null;
+                            + "[/img]", showImage, imageQuality, null);
         }
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + context.getString(R.string.hide)
@@ -700,21 +688,17 @@ public class FunctionUtils {
 
     public static String avatarToHtmlText(final ThreadRowInfo row, boolean showImage,
                                           int imageQuality, final String fgColorStr, final String bgcolorStr, Context context) {
-        HashSet<String> imageURLSet = new HashSet<String>();
         String ngaHtml = null;
         initStaticStrings(context);
         if (row.getJs_escap_avatar().equals("")) {
             ngaHtml = StringUtils
                     .decodeForumTag(
                             "这家伙是骷髅党,头像什么的没有啦~<br/><img src='file:///android_asset/default_avatar.png' style= 'max-width:100%;' >",
-                            showImage, imageQuality, imageURLSet);
+                            showImage, imageQuality, null);
         } else {
             ngaHtml = StringUtils.decodeForumTag(
                     "[img]" + parseAvatarUrl(row.getJs_escap_avatar())
-                            + "[/img]", showImage, imageQuality, imageURLSet);
-        }
-        if (imageURLSet.size() == 0) {
-            imageURLSet = null;
+                            + "[/img]", showImage, imageQuality, null);
         }
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();

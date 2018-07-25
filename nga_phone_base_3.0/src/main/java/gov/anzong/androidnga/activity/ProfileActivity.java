@@ -525,9 +525,8 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
 
     public String signatureToHtmlText(final ProfileData ret, boolean showImage,
                                       int imageQuality, final String fgColorStr, final String bgcolorStr) {
-        HashSet<String> imageURLSet = new HashSet<String>();
         String ngaHtml = StringUtils.decodeForumTag(ret.get_sign(), showImage,
-                imageQuality, imageURLSet);
+                imageQuality, null);
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
                 + "<body bgcolor= '#"
                 + bgcolorStr

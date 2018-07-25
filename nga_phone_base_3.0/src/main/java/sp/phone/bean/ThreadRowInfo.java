@@ -1,5 +1,6 @@
 package sp.phone.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,16 @@ public class ThreadRowInfo {
     private String formattedHtmlData;
     private String from_client;
     private String from_client_model;
+
+    private List<String> mImageUrlList = new ArrayList<>();
+
+    public void addImageUrl(String url) {
+        mImageUrlList.add(url);
+    }
+
+    public List<String> getImageUrls() {
+        return mImageUrlList;
+    }
 
     public int getScore() {
         return score;

@@ -203,11 +203,7 @@ public class MessageUtil {
     public static String convertToHtmlText(final MessageArticlePageInfo row,
                                            boolean showImage, int imageQuality, final String fgColorStr,
                                            final String bgcolorStr) {
-        HashSet<String> imageURLSet = new HashSet<String>();
-        String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage, imageQuality, imageURLSet);
-        if (imageURLSet.size() == 0) {
-            imageURLSet = null;
-        }
+        String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage, imageQuality, null);
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = "<font color='red'>[" + ApplicationContextHolder.getString(R.string.hide) + "]</font>";
         }

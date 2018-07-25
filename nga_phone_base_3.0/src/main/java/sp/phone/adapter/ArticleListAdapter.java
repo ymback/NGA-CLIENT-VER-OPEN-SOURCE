@@ -171,6 +171,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
         String html = row.getFormattedHtmlData();
         webView.setTextSize(PhoneConfiguration.getInstance().getWebSize());
+        webView.getWebViewClientEx().setImgUrls(row.getImageUrls());
         webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
     }
 

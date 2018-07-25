@@ -11,6 +11,7 @@ import android.webkit.WebView;
 
 public class WebViewEx extends WebView implements DownloadListener {
 
+    private WebViewClientEx mWebViewClientEx;
 
     public WebViewEx(Context context) {
         this(context, null);
@@ -33,7 +34,8 @@ public class WebViewEx extends WebView implements DownloadListener {
     }
 
     public void setLocalMode() {
-        setWebViewClient(new WebViewClientEx());
+        mWebViewClientEx = new WebViewClientEx();
+        setWebViewClient(mWebViewClientEx);
         WebSettings settings = getSettings();
         settings.setJavaScriptEnabled(true);
 
@@ -41,6 +43,10 @@ public class WebViewEx extends WebView implements DownloadListener {
         setFocusable(false);
         setLongClickable(false);
         setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    public WebViewClientEx getWebViewClientEx() {
+        return mWebViewClientEx;
     }
 
     public void setTextSize(int size) {

@@ -1,15 +1,14 @@
 package sp.phone.util;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.Nullable;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -225,7 +224,7 @@ public class StringUtils {
     }
 
     public static String decodeForumTag(String s, boolean showImage,
-                                        int imageQuality, HashSet<String> imageURLSet) {
+                                        int imageQuality, @Nullable List<String> imageUrls) {
         if (StringUtils.isEmpty(s))
             return "";
         // s = StringUtils.unEscapeHtml(s);
@@ -447,53 +446,52 @@ public class StringUtils {
                         + "\\[\\*\\](.+?)<br/>",
                 "<li>$1</li>");
 
-        Pattern p = Pattern
-                .compile("<img src='(http\\S+)' style= 'max-width:100%' >");
-        Matcher m = p.matcher(s);
         try {
-            while (m.find()) {
-                String s0 = m.group();
-                String s1 = m.group(1);
-                String path = ExtensionEmotionAdapter.getPathByURI(s1);
-                if (path != null) {
-
-                    String newImgBlock = "<img src='"
-                            + "file:///android_asset/" + path
-                            + "' style= 'max-width:100%' >";
-                    s = s.replace(s0, newImgBlock);
-                } else if (!showImage) {
-                    path = "ic_offline_image.png";
-                    String newImgBlock = "<img src='"
-                            + "file:///android_asset/" + path
-                            + "' style= 'max-width:100%' >";
-                    s = s.replace(s0, newImgBlock);
-                } else {
-
-                    String newImgBlock = "<img src='"
-                            + buildOptimizedImageURL(s1, imageQuality)
-                            + "' style= 'max-width:100%' >";
-                    s = s.replace(s0, newImgBlock);
-                    int t = s1.indexOf(HttpUtil.NGA_ATTACHMENT_HOST);
-                    if (t != -1 && imageURLSet != null) {
-                        imageURLSet.add(s1.substring(t
-                                + HttpUtil.NGA_ATTACHMENT_HOST.length() + 13)); // this
-                        // is
-                        // the
-                        // length
-                        // from
-                        // HOST/attachments/^
-                    }
-                }
-            }
+            s = buildImage(s, showImage, imageUrls);
             s = buildAudioHtml(s);
             s = buildVideoHtml(s);
-            s = buildGifImage(s);
+            s = convertGifImage(s);
         } catch (Exception e) {
         }
         return s;
     }
 
-    private static String buildGifImage(String content) {
+    private static String buildImage(String content, boolean showImage, List<String> imageUrls) {
+        Pattern p = Pattern
+                .compile("<img src='(http\\S+)' style= 'max-width:100%' >");
+        Matcher m = p.matcher(content);
+        while (m.find()) {
+            String s0 = m.group();
+            String s1 = m.group(1);
+            String path = ExtensionEmotionAdapter.getPathByURI(s1);
+            if (path != null) {
+
+                String newImgBlock = "<img src='"
+                        + "file:///android_asset/" + path
+                        + "' style= 'max-width:100%' >";
+                content = content.replace(s0, newImgBlock);
+            } else if (!showImage) {
+                path = "ic_offline_image.png";
+                String newImgBlock = "<img src='"
+                        + "file:///android_asset/" + path
+                        + "' style= 'max-width:100%' >";
+                content = content.replace(s0, newImgBlock);
+            } else {
+
+                String newImgBlock = "<img src='"
+                        + s1
+                        + "' style= 'max-width:100%' >";
+                content = content.replace(s0, newImgBlock);
+                int t = s1.indexOf(HttpUtil.NGA_ATTACHMENT_HOST);
+                if (t != -1 && imageUrls != null) {
+                    imageUrls.add(s1);
+                }
+            }
+        }
+        return content;
+    }
+
+    private static String convertGifImage(String content) {
         Pattern pattern = Pattern.compile("(http\\S+).gif.(.*?).jpg");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
@@ -665,31 +663,6 @@ public class StringUtils {
             matcher = pattern.matcher(content);
         }
         return content;
-    }
-
-    public static String buildOptimizedImageURL(String url, int imageQuality) {
-        String encodedURL = null;
-        try {
-            encodedURL = URLEncoder.encode(url, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return url;
-        }
-        String r = url;
-        switch (imageQuality) {
-            case 1:
-                r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL
-                        + "&size=small";
-                break;
-            case 2:
-                r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL
-                        + "&size=medium";
-                break;
-            case 3:
-                r = "http://ngac.sinaapp.com/imgapi/getimg.php?url=" + encodedURL
-                        + "&size=large";
-                break;
-        }
-        return r;
     }
 
     public static String removeBrTag(String s) {
