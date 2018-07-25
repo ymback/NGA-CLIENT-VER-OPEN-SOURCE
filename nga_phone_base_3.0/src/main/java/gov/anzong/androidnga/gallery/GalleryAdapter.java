@@ -7,12 +7,13 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
+
+import gov.anzong.androidnga.util.GlideApp;
 
 /**
  * 浏览
@@ -22,9 +23,10 @@ import com.github.chrisbanes.photoview.PhotoView;
 public class GalleryAdapter extends PagerAdapter {
 
     private Context mContext;
+
     private String[] mGalleryUrls;
 
-    public GalleryAdapter(Context context, String[] galleryUrls, int index) {
+    public GalleryAdapter(Context context, String[] galleryUrls) {
         mContext = context;
         mGalleryUrls = galleryUrls;
     }
@@ -38,7 +40,7 @@ public class GalleryAdapter extends PagerAdapter {
     public View instantiateItem(ViewGroup container, int position) {
         PhotoView photoView = new PhotoView(container.getContext());
         String url = mGalleryUrls[position];
-        Glide.with(mContext).load(url).listener(listener).into(photoView);
+        GlideApp.with(mContext).load(url).listener(mRequestListener).into(photoView);
 
         // Now just add PhotoView to ViewPager and return it
         container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -55,7 +57,7 @@ public class GalleryAdapter extends PagerAdapter {
         return view == object;
     }
 
-    private RequestListener<Drawable> listener = new RequestListener<Drawable>() {
+    private RequestListener<Drawable> mRequestListener = new RequestListener<Drawable>() {
         @Override
         public boolean onLoadFailed(@Nullable GlideException e, Object o, Target<Drawable> target, boolean b) {
             return false;
@@ -68,7 +70,6 @@ public class GalleryAdapter extends PagerAdapter {
         }
 
     };
-
 
     private void callbackActivity() {
         ((ImageZoomActivity) mContext).hideLoading();

@@ -1,10 +1,12 @@
 package gov.anzong.androidnga.gallery;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,19 +32,17 @@ public class ImageZoomActivity extends BaseActivity {
 
     public static final String KEY_GALLERY_CUR_URL = "keyGalleryCurUrl";
 
-    private final String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/nga_open_source/";
-
     private String[] mGalleryUrls;
 
     private int mPageIndex;
-
-    private int mInitPageIndex;
 
     private TextView mTxtView;
 
     private ProgressBar mProgressBar;
 
     private ViewPager mViewPager;
+
+    private SaveImageTask mSaveImageTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +65,9 @@ public class ImageZoomActivity extends BaseActivity {
 
     private void initGallery() {
         mViewPager = (ViewPager) findViewById(R.id.gallery);
-        GalleryAdapter adapter = new GalleryAdapter(this, mGalleryUrls, mInitPageIndex);
+        GalleryAdapter adapter = new GalleryAdapter(this, mGalleryUrls);
         mViewPager.setAdapter(adapter);
-        mViewPager.setCurrentItem(mInitPageIndex);
+        mViewPager.setCurrentItem(mPageIndex);
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -81,7 +81,7 @@ public class ImageZoomActivity extends BaseActivity {
         Intent intent = getIntent();
         mGalleryUrls = intent.getStringArrayExtra(KEY_GALLERY_URLS);
         String curUrl = intent.getStringExtra(KEY_GALLERY_CUR_URL);
-        mInitPageIndex = mPageIndex = Arrays.asList(mGalleryUrls).indexOf(curUrl);
+        mPageIndex = Arrays.asList(mGalleryUrls).indexOf(curUrl);
     }
 
     private void initBottomView() {
@@ -92,33 +92,31 @@ public class ImageZoomActivity extends BaseActivity {
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveBitmap();
+                saveBitmap(mGalleryUrls[mPageIndex]);
             }
         });
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void saveBitmap() {
-
-        String url = mGalleryUrls[mPageIndex];
-        String suffix = url.substring(url.lastIndexOf('.'));
-        String path = PATH_IMAGES + System.currentTimeMillis() + suffix;
-        SaveImageTask task = new SaveImageTask(this, path);
-        task.execute(url);
+    private void saveBitmap(String... urls) {
+        if (mSaveImageTask == null) {
+            mSaveImageTask = new SaveImageTask();
+        }
+        mSaveImageTask.execute(urls);
     }
 
     private String getPath() {
         String ret = mGalleryUrls[mPageIndex];
-      //  ret = ret.replaceAll("img.nga.178.com", "img.ngacn.cc");
+        //  ret = ret.replaceAll("img.nga.178.com", "img.ngacn.cc");
         return ret;
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_image_zoom, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_image_zoom, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -130,10 +128,25 @@ public class ImageZoomActivity extends BaseActivity {
                 String text = getResources().getString(R.string.share);
                 startActivity(Intent.createChooser(intent, text));
                 break;
+            case R.id.menu_download_all:
+                showDownloadAllDialog();
+                break;
             default:
-                this.finish();
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
+    }
+
+    private void showDownloadAllDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("是否要下载全部图片 ？")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveBitmap(mGalleryUrls);
+
+                    }
+                }).setNegativeButton(android.R.string.cancel, null).create().show();
     }
 
     public void hideLoading() {
