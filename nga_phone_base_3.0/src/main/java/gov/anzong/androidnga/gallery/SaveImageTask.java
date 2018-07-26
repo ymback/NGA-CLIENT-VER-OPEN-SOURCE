@@ -56,6 +56,7 @@ public class SaveImageTask {
         }
 
         mTaskRunning = true;
+        mDownloadCount = 0;
         Observable.fromArray(urls)
                 .observeOn(Schedulers.io())
                 .map(new Function<String, DownloadResult>() {
