@@ -27,9 +27,6 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @BindView(R.id.loading_view)
-    ViewGroup mLoadingView;
-
     private int mMid;
 
     private String mTitle;
@@ -100,7 +97,7 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
 
     @Override
     public void hideLoadingView() {
-        mLoadingView.setVisibility(View.GONE);
+        mAdapter.hideLoadingView();
         mSwipeRefreshLayout.setEnabled(true);
     }
 
@@ -114,7 +111,9 @@ public class MessageDetailFragment extends BaseMvpFragment<MessageDetailPresente
 
     @Override
     public void setRefreshing(boolean refreshing) {
-        mSwipeRefreshLayout.setRefreshing(refreshing);
+        if (mSwipeRefreshLayout.isEnabled()) {
+            mSwipeRefreshLayout.setRefreshing(refreshing);
+        }
     }
 
     @Override

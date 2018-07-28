@@ -14,7 +14,6 @@ import java.io.File;
 import gov.anzong.androidnga.R;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.rxjava.BaseSubscriber;
@@ -24,7 +23,7 @@ import sp.phone.util.ActivityUtils;
  */
 public class SaveImageTask {
 
-    private final Context mContext;
+    private Context mContext;
 
     private int mDownloadCount;
 
@@ -59,28 +58,21 @@ public class SaveImageTask {
         mDownloadCount = 0;
         Observable.fromArray(urls)
                 .observeOn(Schedulers.io())
-                .map(new Function<String, DownloadResult>() {
-                    @Override
-                    public DownloadResult apply(String url) throws Exception {
-                        File file = Glide
-                                .with(mContext)
-                                .load(url)
-                                .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                                .get();
-                        return new DownloadResult(file, url);
-                    }
+                .map(url -> {
+                    File file = Glide
+                            .with(mContext)
+                            .load(url)
+                            .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .get();
+                    return new DownloadResult(file, url);
                 })
-                .map(new Function<DownloadResult, File>() {
-                    @Override
-                    public File apply(DownloadResult result) throws Exception {
-
-                        String url = result.url;
-                        String suffix = url.substring(url.lastIndexOf('.'));
-                        String path = PATH_IMAGES + System.currentTimeMillis() + suffix;
-                        File target = new File(path);
-                        FileUtils.copyFile(result.file, target);
-                        return target;
-                    }
+                .map(result -> {
+                    String url = result.url;
+                    String suffix = url.substring(url.lastIndexOf('.'));
+                    String path = PATH_IMAGES + System.currentTimeMillis() + suffix;
+                    File target = new File(path);
+                    FileUtils.copyFile(result.file, target);
+                    return target;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<File>() {

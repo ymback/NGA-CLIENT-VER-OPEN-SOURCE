@@ -2,7 +2,6 @@ package sp.phone.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -186,12 +185,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         startActivity(intent);
     }
 
-    public boolean isTablet() {
-        boolean xlarge = ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 0x04);// Configuration.SCREENLAYOUT_SIZE_XLARGE);
-        boolean large = ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-        return xlarge || large;
-    }
-
     @Override
     public void jumpToLogin() {
 //        if (isTablet()) {
@@ -283,7 +276,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         } else {
             mBoardPagerAdapter.notifyDataSetChanged();
         }
-        setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT,0));
+        setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT, 0));
 
         if (mHeaderView != null) {
             updateHeaderView();

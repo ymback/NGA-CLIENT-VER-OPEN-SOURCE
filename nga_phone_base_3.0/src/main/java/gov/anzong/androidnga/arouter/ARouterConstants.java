@@ -16,4 +16,8 @@ public class ARouterConstants {
     public static final String ACTIVITY_TOPIC_CONTENT = "/activity/topic_content";
 
     public static final String ACTIVITY_TOPIC_LIST = "/activity/topic_list";
+
+    public static final String ACTIVITY_NOTIFICATION = "/activity/notification";
+
+    public static final String ACTIVITY_MESSAGE_LIST = "/activity/message_list";
 }

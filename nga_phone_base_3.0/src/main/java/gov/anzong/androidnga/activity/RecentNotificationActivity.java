@@ -5,10 +5,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 
-import sp.phone.fragment.RecentNotificationFragment;
+import com.alibaba.android.arouter.facade.annotation.Route;
+
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.fragment.RecentNotificationFragment;
 
-public class RecentNotificationActivity extends SwipeBackAppCompatActivity {
+@Route(path = ARouterConstants.ACTIVITY_NOTIFICATION)
+public class RecentNotificationActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

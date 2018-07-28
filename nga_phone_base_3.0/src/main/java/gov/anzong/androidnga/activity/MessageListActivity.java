@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
@@ -19,7 +20,8 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.MessageListFragment;
 import sp.phone.util.StringUtils;
 
-public class MessageListActivity extends SwipeBackAppCompatActivity
+@Route(path = ARouterConstants.ACTIVITY_MESSAGE_LIST)
+public class MessageListActivity extends BaseActivity
         implements View.OnClickListener {
 
     @Override
