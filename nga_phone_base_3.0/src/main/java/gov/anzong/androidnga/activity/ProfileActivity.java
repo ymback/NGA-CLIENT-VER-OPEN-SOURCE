@@ -1,5 +1,6 @@
 package gov.anzong.androidnga.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -18,7 +19,6 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
-import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +43,7 @@ import sp.phone.util.StringUtils;
 import sp.phone.view.webview.WebViewEx;
 
 @Route(path = ARouterConstants.ACTIVITY_PROFILE)
-public class ProfileActivity extends SwipeBackAppCompatActivity implements OnProfileLoadFinishedListener {
+public class ProfileActivity extends BaseActivity implements OnProfileLoadFinishedListener {
 
     private static final String TAG = "ProfileActivity";
 
@@ -416,13 +416,12 @@ public class ProfileActivity extends SwipeBackAppCompatActivity implements OnPro
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == 321) {
+        if (requestCode == 321 && resultCode == Activity.RESULT_OK) {
             String signData = data.getStringExtra("sign");
             mProfileData.set_sign(signData);
             mSignWebView.requestLayout();
             handleSignWebView(mSignWebView, mProfileData);
-        }
-        if (resultCode == 123) {
+        } else if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
             String avatarData = data.getStringExtra("avatar");
             mProfileData.set_avatar(avatarData);
             mSignWebView.requestLayout();
