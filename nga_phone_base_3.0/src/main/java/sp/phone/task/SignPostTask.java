@@ -7,7 +7,6 @@ import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.SignPostParam;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.retrofit.RetrofitHelper;
@@ -19,9 +18,9 @@ import sp.phone.rxjava.BaseSubscriber;
  */
 public class SignPostTask {
 
-    private RetrofitService mService;
+    private final RetrofitService mService;
 
-    private Map<String, String> mParamMap = new HashMap<>();
+    private final Map<String, String> mParamMap = new HashMap<>();
 
     private Subscription mSubscription;
 

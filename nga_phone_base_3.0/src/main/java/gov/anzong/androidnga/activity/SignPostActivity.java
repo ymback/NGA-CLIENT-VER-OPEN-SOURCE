@@ -80,7 +80,7 @@ public class SignPostActivity extends BaseActivity {
                 postSign();
                 break;
             default:
-                super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }
