@@ -67,6 +67,7 @@ public class SignPostTask {
 
                     @Override
                     public void onError(Throwable throwable) {
+                        mSubscription = null;
                         callBack.onError(throwable.getMessage());
                     }
                 });

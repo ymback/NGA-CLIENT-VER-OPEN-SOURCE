@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 
 import org.apache.commons.io.FileUtils;
+import org.reactivestreams.Subscription;
 
 import java.io.File;
 
@@ -19,8 +20,6 @@ import sp.phone.common.ApplicationContextHolder;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.ActivityUtils;
 
-/**
- */
 public class SaveImageTask {
 
     private Context mContext;
@@ -29,7 +28,7 @@ public class SaveImageTask {
 
     private static final String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/nga_open_source/";
 
-    private boolean mTaskRunning;
+    private Subscription mSubscription;
 
     public SaveImageTask() {
         mContext = ApplicationContextHolder.getContext();
@@ -49,12 +48,11 @@ public class SaveImageTask {
 
     public void execute(String... urls) {
 
-        if (mTaskRunning) {
+        if (isRunning()) {
             ActivityUtils.showToast("图片正在下载，防止风怒！！");
             return;
         }
 
-        mTaskRunning = true;
         mDownloadCount = 0;
         Observable.fromArray(urls)
                 .observeOn(Schedulers.io())
@@ -87,17 +85,31 @@ public class SaveImageTask {
                             } else {
                                 ActivityUtils.showToast(mContext.getString(R.string.file_saved) + file.getAbsolutePath());
                             }
-                            mTaskRunning = false;
                         }
                     }
 
                     @Override
+                    public void onComplete() {
+                        mSubscription = null;
+                    }
+
+                    @Override
+                    public void onSubscribe(Subscription subscription) {
+                        super.onSubscribe(subscription);
+                        mSubscription = subscription;
+                    }
+
+                    @Override
                     public void onError(Throwable throwable) {
-                        mTaskRunning = false;
+                        mSubscription = null;
                         ActivityUtils.showToast("下载失败");
                     }
 
                 });
+    }
+
+    private boolean isRunning() {
+        return mSubscription != null;
     }
 
 
