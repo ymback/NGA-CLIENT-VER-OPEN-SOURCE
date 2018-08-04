@@ -9,7 +9,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.fragment.SettingsFragment;
 import sp.phone.fragment.SettingsFragment;
 
-public class SettingsActivity extends SwipeBackAppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     private PreferenceFragment mSettingsFragment;
 

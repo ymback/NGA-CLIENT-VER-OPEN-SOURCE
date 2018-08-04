@@ -1,6 +1,5 @@
 package gov.anzong.androidnga.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -14,7 +13,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.forumoperation.PostParam;
 import sp.phone.fragment.TopicPostFragment;
-import sp.phone.interfaces.OnEmotionPickedListener;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
@@ -22,9 +20,6 @@ import sp.phone.util.StringUtils;
 public class PostActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_SELECT_PIC = 1;
-
-    private final String LOG_TAG = Activity.class.getSimpleName();
-
 
     private TopicPostFragment mPostFragment;
 

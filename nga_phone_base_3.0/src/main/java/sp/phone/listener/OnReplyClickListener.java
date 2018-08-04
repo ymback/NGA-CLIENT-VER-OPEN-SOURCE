@@ -1,5 +1,6 @@
 package sp.phone.listener;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
@@ -14,6 +15,7 @@ import sp.phone.util.StringUtils;
 public class OnReplyClickListener implements OnClickListener {
 
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void onClick(View view) {
 
@@ -29,7 +31,7 @@ public class OnReplyClickListener implements OnClickListener {
             @Override
             protected Void doInBackground(Void... params) {
                 Intent intent = new Intent();
-                StringBuffer postPrefix = new StringBuffer();
+                StringBuilder postPrefix = new StringBuilder();
                 String mention = null;
 
                 final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";

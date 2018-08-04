@@ -7,7 +7,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.fragment.MessageDetailFragment;
 import sp.phone.util.StringUtils;
 
-public class MessageDetailActivity extends SwipeBackAppCompatActivity {
+public class MessageDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

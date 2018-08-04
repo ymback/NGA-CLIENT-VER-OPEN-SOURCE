@@ -1,11 +1,8 @@
 package gov.anzong.androidnga.activity;
 
-import android.annotation.TargetApi;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -14,33 +11,28 @@ import android.webkit.WebViewClient;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
-import sp.phone.task.DownloadImageTask;
-import sp.phone.view.webview.WebViewClientEx;
-import sp.phone.task.DownloadImageTask;
 import sp.phone.view.webview.WebViewClientEx;
 
-public class WebViewerActivity extends SwipeBackAppCompatActivity {
-    private WebView wv;
+public class WebViewerActivity extends BaseActivity {
 
-    @SuppressWarnings("static-access")
+    private WebView mWebView;
+
     @Override
-    protected void onCreate(Bundle arg0) {
+    protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_PROGRESS);
-        super.onCreate(arg0);
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_webview_layout, null, false);
-        this.setContentView(view);
-        wv = (WebView) findViewById(R.id.webview);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_webview_layout);
+        mWebView = (WebView) findViewById(R.id.webview);
         WebViewClient client = new WebViewClientEx(this);
-        wv.setWebViewClient(client);
-        wv.getSettings().setUserAgentString(getString(R.string.clientua) + BuildConfig.VERSION_CODE);
-        wv.setWebChromeClient(new WebChromeClient() {
+        mWebView.setWebViewClient(client);
+        mWebView.getSettings().setUserAgentString(getString(R.string.clientua) + BuildConfig.VERSION_CODE);
+        mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
 
                 WebViewerActivity.this.setProgress(progress * 100);
             }
         });
-
-
+        setTitle("查看内容");
     }
 
     @Override
@@ -53,17 +45,14 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         return getIntent().getStringExtra("path");
     }
 
-    @TargetApi(8)
     private void load() {
         final String uri = getPath();
-        final WebSettings settings = wv.getSettings();
-        getSupportActionBar().setTitle("查看内容");
+        final WebSettings settings = mWebView.getSettings();
 
-        if (uri.endsWith(".swf"))//android 2.2
-        {
-            wv.setWebChromeClient(new WebChromeClient());
+        if (uri.endsWith(".swf")) {
+            mWebView.setWebChromeClient(new WebChromeClient());
             //settings.setPluginState(PluginState.ON);
-            wv.loadUrl(uri);
+            mWebView.loadUrl(uri);
 
         } else {//images
             settings.setSupportZoom(true);
@@ -72,7 +61,7 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
 //			settings.setUseWideViewPort(true); 
             settings.setLoadWithOverviewMode(true);
             //settings.setUserAgentString(IPHONE_UA);
-            wv.loadUrl(uri);
+            mWebView.loadUrl(uri);
         }
 
     }
@@ -80,15 +69,15 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
 
     @Override
     protected void onPause() {
-        wv.stopLoading();
-        wv.loadUrl("about:blank");
+        mWebView.stopLoading();
+        mWebView.loadUrl("about:blank");
         super.onPause();
     }
 
 
     @Override
     protected void onStop() {
-        wv.stopLoading();
+        mWebView.stopLoading();
         super.onStop();
     }
 
@@ -96,11 +85,6 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         this.getMenuInflater().inflate(R.menu.webview_option_menu, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @TargetApi(11)
-    private void runOnExecutor(DownloadImageTask task, String path) {
-        task.executeOnExecutor(DownloadImageTask.THREAD_POOL_EXECUTOR, path);
     }
 
     @Override
@@ -115,12 +99,5 @@ public class WebViewerActivity extends SwipeBackAppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        // TODO Auto-generated method stub
-        //super.onSaveInstanceState(outState);
-    }
-
 
 }

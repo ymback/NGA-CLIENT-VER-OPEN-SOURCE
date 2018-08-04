@@ -25,7 +25,7 @@ import sp.phone.util.StringUtils;
  * 帖子列表
  */
 @Route(path = ARouterConstants.ACTIVITY_TOPIC_LIST)
-public class TopicListActivity extends SwipeBackAppCompatActivity {
+public class TopicListActivity extends BaseActivity {
 
     private static String TAG = TopicListActivity.class.getSimpleName();
 

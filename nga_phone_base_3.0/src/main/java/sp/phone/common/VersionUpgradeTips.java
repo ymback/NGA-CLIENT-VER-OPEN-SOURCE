@@ -80,4 +80,10 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2086 = "更新内容\n"
+            + "● 支持批量浏览和下载单个楼层的图片\n"
+            + "● 修复无法修改签名的bug\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 }

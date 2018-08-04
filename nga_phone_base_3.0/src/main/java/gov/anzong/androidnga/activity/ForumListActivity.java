@@ -22,7 +22,7 @@ import sp.phone.task.GetAllForumsTask;
  * Created by elrond on 2017/9/28.
  */
 
-public class ForumListActivity extends SwipeBackAppCompatActivity {
+public class ForumListActivity extends BaseActivity {
 
     private List<ForumsListModel.Forum> mDataList = new ArrayList<>();
     private ForumListAdapter mAdapter;
