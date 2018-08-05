@@ -3,6 +3,7 @@ package sp.phone.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
@@ -11,6 +12,7 @@ import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
+import sp.phone.util.NLog;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
     public Class<?> topicActivityClass = TopicListActivity.class;
@@ -131,7 +133,8 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     }
 
     private void initialize() {
-        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        Context context = ApplicationContextHolder.getContext();
+        SharedPreferences sp = context.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         sp.registerOnSharedPreferenceChangeListener(this);
         mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
         mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
@@ -141,7 +144,8 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         mShowSignature = sp.getBoolean(PreferenceKey.SHOW_SIGNATURE, false);
         mShowColorText = sp.getBoolean(PreferenceKey.SHOW_COLORTXT, false);
         mTopicContentSize = sp.getInt(PreferenceKey.WEB_SIZE, 16);
-        mTopicTitleSize = sp.getFloat(PreferenceKey.TEXT_SIZE, 21f);
+        mTopicTitleSize = sp.getFloat(PreferenceKey.TEXT_SIZE, context.getResources().getDimension(R.dimen.textsize_common_title));
+        NLog.d("torahlog", "mTopicTitleSize" + mTopicTitleSize);
         mUpdateAfterPost = sp.getBoolean(PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE, true);
         mAvatarWidth = sp.getInt(PreferenceKey.NICK_WIDTH, 100);
         mShowClassicIcon = sp.getBoolean(PreferenceKey.SHOW_ICON_MODE, false);
@@ -184,6 +188,10 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         return mAvatarWidth;
     }
 
+    /**
+     *
+     * @return TypedValue.COMPLEX_UNIT_PX
+     */
     public float getTopicTitleSize() {
         return mTopicTitleSize;
     }

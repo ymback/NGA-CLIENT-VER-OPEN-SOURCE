@@ -3,6 +3,7 @@ package sp.phone.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +130,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
                     .unEscapeHtml(title)));
         }
 
-        holder.title.setTextSize(size);
+        holder.title.setTextSize(TypedValue.COMPLEX_UNIT_PX,size);
         final TextPaint tp = holder.title.getPaint();
         tp.setFakeBoldText(false);
 

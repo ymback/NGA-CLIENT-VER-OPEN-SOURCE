@@ -15,11 +15,11 @@
     <color name="color_state_inactive">#808080</color>
     <color name="color_state_muted">#FF4500</color>
 
-    <color name="colorAccent">#FF591804</color>
+    <color name="colorAccent">@color/accent</color>
 
-    <color name="colorAccentBrown">#FF591804</color>
-    <color name="colorPrimaryBrown">#FF591804</color>
-    <color name="colorPrimaryDarkBrown">#FF591804</color>
+    <color name="colorAccentBrown">@color/accent</color>
+    <color name="colorPrimaryBrown">@color/primary</color>
+    <color name="colorPrimaryDarkBrown">@color/primary_dark</color>
 
     <color name="colorAccentGreen">#FF128F80</color>
     <color name="colorPrimaryGreen">#FF128F80</color>
