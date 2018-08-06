@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextPaint;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -542,8 +543,7 @@ public class FunctionUtils {
         initStaticStrings(context);
         String nickName = row.getAuthor();
         // int now = 0;
-        if ("-1".equals(row.getYz()))// nuked
-        {
+        if ("-1".equals(row.getYz())) {// nuked
             fgColor = nickNameTV.getResources().getColor(R.color.title_red);
             nickName += "(VIP)";
         } else if (!StringUtils.isEmpty(row.getMuteTime())
@@ -556,8 +556,8 @@ public class FunctionUtils {
             nickName += "(" + blacklistban + ")";
         }
         nickNameTV.setText(nickName);
-        TextPaint tp = nickNameTV.getPaint();
-        tp.setFakeBoldText(true);// bold for Chinese character
+//        TextPaint tp = nickNameTV.getPaint();
+//        tp.setFakeBoldText(true);// bold for Chinese character
         nickNameTV.setTextColor(fgColor);
     }
 
@@ -576,8 +576,11 @@ public class FunctionUtils {
 
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
-
-        String formated_html_data = HtmlUtils.convertToHtmlText(row, isShowImage(), showImageQuality(), fgColorStr, context);
+        float density = context.getResources().getDisplayMetrics().scaledDensity;
+        int contentTextSize = (int) (context.getResources().getDimension(R.dimen.textsize_common_content) / density);
+        NLog.d("torahlog", "fillFormatedHtmlData --- contentTextSize:" + contentTextSize);
+        String formated_html_data = HtmlUtils.convertToHtmlText(row, isShowImage(), showImageQuality(),
+                fgColorStr, contentTextSize + "", context);
         row.setFormattedHtmlData(formated_html_data);
     }
 

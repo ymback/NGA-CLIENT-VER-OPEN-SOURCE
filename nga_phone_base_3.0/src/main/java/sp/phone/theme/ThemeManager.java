@@ -77,6 +77,10 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         return mCurrentTheme.getForegroundColor();
     }
 
+    public int getSecondTextColor() {
+        return mCurrentTheme.getSecondTextColor();
+    }
+
     public int getBackgroundColor() {
         return getBackgroundColor(0);
     }

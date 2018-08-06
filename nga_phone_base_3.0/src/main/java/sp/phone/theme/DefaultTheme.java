@@ -44,6 +44,11 @@ public class DefaultTheme implements ITheme {
     }
 
     @Override
+    public int getSecondTextColor() {
+        return R.color.secondary_text;
+    }
+
+    @Override
     public int getActiveColor() {
         return R.color.color_state_active;
     }
