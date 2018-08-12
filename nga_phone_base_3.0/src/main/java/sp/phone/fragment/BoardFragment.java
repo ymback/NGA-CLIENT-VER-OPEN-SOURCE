@@ -86,14 +86,22 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setupToolbar(toolbar);
+
+        initDrawerLayout(view, toolbar);
+        initNavigationView(view);
 
         mViewPager = view.findViewById(R.id.pager);
         TabLayout tabLayout = view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout);
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.loadBoardInfo();
+    }
+
+    private void initDrawerLayout(View rootView, Toolbar toolbar) {
+        DrawerLayout drawerLayout = rootView.findViewById(R.id.drawer_layout);
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -111,11 +119,14 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        NavigationView navigationView = view.findViewById(R.id.nav_view);
+    }
+
+    private void initNavigationView(View rootView) {
+        NavigationView navigationView = rootView.findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this::onOptionsItemSelected);
+        MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_gun);
         NavigationMenuView menuView = (NavigationMenuView) navigationView.getChildAt(0);
         menuView.setVerticalScrollBarEnabled(false);
-        MenuItem menuItem = navigationView.getMenu().findItem(R.id.menu_gun);
         View actionView = getLayoutInflater().inflate(R.layout.nav_menu_action_view_gun, null);
         menuItem.setActionView(actionView);
         menuItem.expandActionView();
@@ -123,8 +134,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         navigationView.getHeaderView(0).setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(getContext()));
         mHeaderView = navigationView.getHeaderView(0).findViewById(R.id.viewFlipper);
         updateHeaderView();
-        super.onViewCreated(view, savedInstanceState);
-        mPresenter.loadBoardInfo();
     }
 
     private void setReplyCount(int count) {
@@ -187,14 +196,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     @Override
     public void jumpToLogin() {
-//        if (isTablet()) {
-//            DialogFragment df = new LoginDialogFragment();
-//            df.show(getSupportFragmentManager(), "login");
-//        } else {
-//            Intent intent = new Intent();
-//            intent.setClass(getContext(), LoginActivity.class);
-//            startActivityForResult(intent, ActivityUtils.REQUEST_CODE_LOGIN);
-//        }
         ARouter.getInstance().build(ARouterConstants.ACTIVITY_LOGIN).navigation(getActivity(), 1);
     }
 
@@ -212,12 +213,12 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public View getUserView(List<User> userList, int position) {
-        View privateView = getLayoutInflater().inflate(R.layout.nav_header_view_login_user, null);
-        TextView loginState = privateView.findViewById(R.id.loginstate);
-        TextView loginId = privateView.findViewById(R.id.loginnameandid);
-        ImageView avatarImage = privateView.findViewById(R.id.avatarImage);
-        ImageView nextImage = privateView.findViewById(R.id.nextImage);
+    private View getUserView(List<User> userList, int position) {
+        View userView = getLayoutInflater().inflate(R.layout.nav_header_view_login_user, null);
+        TextView loginState = userView.findViewById(R.id.loginstate);
+        TextView loginId = userView.findViewById(R.id.loginnameandid);
+        ImageView avatarImage = userView.findViewById(R.id.avatarImage);
+        ImageView nextImage = userView.findViewById(R.id.nextImage);
         if (userList == null) {
             loginState.setText("未登录");
             loginId.setText("点击下面的登录账号登录");
@@ -231,13 +232,13 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             } else {
                 loginState.setText(String.format("已登录%s", String.valueOf(userList.size() + "个账户,点击切换")));
             }
-            if (userList.size() > 0) {
+            if (!userList.isEmpty()) {
                 User user = userList.get(position);
                 loginId.setText(String.format("当前:%s(%s)", user.getNickName(), user.getUserId()));
                 handleUserAvatar(avatarImage, user.getAvatarUrl());
             }
         }
-        return privateView;
+        return userView;
     }
 
     public void handleUserAvatar(ImageView avatarIV, String url) {

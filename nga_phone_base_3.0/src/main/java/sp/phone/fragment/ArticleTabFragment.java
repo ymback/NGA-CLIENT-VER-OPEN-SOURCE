@@ -43,7 +43,7 @@ import sp.phone.task.BookmarkTask;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
-import sp.phone.view.behavior.ScrollAwareFabBehavior;
+import sp.phone.view.behavior.ScrollAwareFamBehavior;
 
 /**
  * 帖子详情Fragment
@@ -69,7 +69,7 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     private int mReplyCount;
 
-    private ScrollAwareFabBehavior mBehavior;
+    private ScrollAwareFamBehavior mBehavior;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,7 +123,7 @@ public class ArticleTabFragment extends BaseRxFragment {
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                mBehavior.animateIn();
+                mBehavior.animateIn(mFam);
                 super.onPageSelected(position);
             }
         });
@@ -135,7 +135,7 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     private void updateFloatingMenu() {
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
-        mBehavior = (ScrollAwareFabBehavior) lp.getBehavior();
+        mBehavior = (ScrollAwareFamBehavior) lp.getBehavior();
         if (mConfig.isLeftHandMode()) {
             lp.gravity = Gravity.START | Gravity.BOTTOM;
             mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);

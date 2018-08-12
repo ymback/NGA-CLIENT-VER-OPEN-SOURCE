@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            app:layout_behavior="com.getbase.floatingactionbutton.ScrollAwareFamBehavior">
+            app:layout_behavior="sp.phone.view.behavior.ScrollAwareFamBehavior">
 
 
             <com.getbase.floatingactionbutton.FloatingActionButton
