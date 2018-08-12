@@ -228,9 +228,9 @@ public class StringUtils {
         if (StringUtils.isEmpty(s))
             return "";
         // s = StringUtils.unEscapeHtml(s);
-        String quoteStyle = "<div style='background:#E8E8E8;border:1px solid #888' >";
-        if (ThemeManager.getInstance().getMode() == ThemeManager.MODE_NIGHT)
-            quoteStyle = "<div style='background:#000000;border:1px solid #888' >";
+        String quoteStyle = "<div style='background:#E8E8E8;padding:5px;border:1px solid #888' >";
+        if (ThemeManager.getInstance().isNightMode())
+            quoteStyle = "<div style='background:#000000;padding:5px;border:1px solid #888' >";
 
         final String styleLeft = "<div style='float:left' >";
         final String styleRight = "<div style='float:right' >";

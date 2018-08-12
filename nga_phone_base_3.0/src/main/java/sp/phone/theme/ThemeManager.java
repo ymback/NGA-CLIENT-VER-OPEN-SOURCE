@@ -13,11 +13,6 @@ import sp.phone.common.PreferenceKey;
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Deprecated
-    public static final int MODE_NORMAL = 0;
-
-    @Deprecated
-    public static final int MODE_NIGHT = 1;
-
     private ITheme[] mThemes = {
             new DefaultTheme(),
             new GreenTheme(),
@@ -83,11 +78,6 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     public int getBackgroundColor(int position) {
         return position % 2 == 1 ? mCurrentTheme.getBackgroundColor2() : mCurrentTheme.getBackgroundColor();
-    }
-
-    @Deprecated
-    public int getMode() {
-        return mNightMode ? MODE_NIGHT : MODE_NORMAL;
     }
 
     public boolean isNightMode() {
