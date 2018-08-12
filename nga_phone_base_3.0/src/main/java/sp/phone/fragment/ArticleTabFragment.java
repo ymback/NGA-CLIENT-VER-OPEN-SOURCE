@@ -43,6 +43,7 @@ import sp.phone.task.BookmarkTask;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
+import sp.phone.view.behavior.ScrollAwareFabBehavior;
 
 /**
  * 帖子详情Fragment
@@ -67,6 +68,8 @@ public class ArticleTabFragment extends BaseRxFragment {
     public FloatingActionsMenu mFam;
 
     private int mReplyCount;
+
+    private ScrollAwareFabBehavior mBehavior;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +120,13 @@ public class ArticleTabFragment extends BaseRxFragment {
         updateFloatingMenu();
         mPagerAdapter = new ArticlePagerAdapter(getChildFragmentManager(), mRequestParam);
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                mBehavior.animateIn();
+                super.onPageSelected(position);
+            }
+        });
 
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -124,8 +134,9 @@ public class ArticleTabFragment extends BaseRxFragment {
     }
 
     private void updateFloatingMenu() {
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
+        mBehavior = (ScrollAwareFabBehavior) lp.getBehavior();
         if (mConfig.isLeftHandMode()) {
-            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFam.getLayoutParams();
             lp.gravity = Gravity.START | Gravity.BOTTOM;
             mFam.setExpandDirection(FloatingActionsMenu.EXPAND_UP, FloatingActionsMenu.LABELS_ON_RIGHT_SIDE);
             mFam.setLayoutParams(lp);

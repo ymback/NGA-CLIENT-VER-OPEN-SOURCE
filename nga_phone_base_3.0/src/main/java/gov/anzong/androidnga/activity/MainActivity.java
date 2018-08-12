@@ -33,19 +33,26 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setActionBarEnabled(false);
         super.onCreate(savedInstanceState);
-        prepare();
+        checkPermission();
+        checkNewVersion();
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
-        getSwipeBackLayout().setEnableGesture(false);
-
+        setSwipeBackEnable(false);
     }
 
-    private void prepare() {
-        checkNewVersion();
+    private void checkPermission() {
         if (!PermissionUtils.hasStoragePermission(this)) {
             PermissionUtils.requestStoragePermission(this);
+        }
+    }
+
+    private void checkNewVersion() {
+        NgaClientApp app = (NgaClientApp) getApplication();
+        if (app.isNewVersion()) {
+            app.setNewVersion(false);
+            new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
         }
     }
 
@@ -56,15 +63,6 @@ public class MainActivity extends BaseActivity {
             startActivity(getIntent());
         }
         super.onResume();
-    }
-
-    //OK
-    private void checkNewVersion() {
-        NgaClientApp app = (NgaClientApp) getApplication();
-        if (app.isNewVersion()) {
-            app.setNewVersion(false);
-            new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
-        }
     }
 
     private void initView() {
@@ -88,7 +86,7 @@ public class MainActivity extends BaseActivity {
         // Handle action buttons
         switch (item.getItemId()) {
             case R.id.menu_setting:
-                jumpToSetting();
+                startSettingActivity();
                 break;
             case R.id.menu_bookmark:
                 startFavoriteTopicActivity();
@@ -134,7 +132,7 @@ public class MainActivity extends BaseActivity {
         new AboutClientDialogFragment().show(getSupportFragmentManager());
     }
 
-    private void jumpToSetting() {
+    private void startSettingActivity() {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, SettingsActivity.class);
         startActivityForResult(intent, ActivityUtils.REQUEST_CODE_SETTING);
