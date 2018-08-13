@@ -18,7 +18,7 @@ android {
     signingConfigs {
         signingConfig {
             if (isJenkins()) {
-                storeFile file('../keystore/nga.jks')
+                storeFile file('../../android19910914.keystore')
             } else {
                 storeFile file('..\\keystore\\nga.jks')
             }
