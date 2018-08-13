@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -72,10 +71,8 @@ public class HtmlUtils {
         }
 
         List<String> imageUrls = new ArrayList<>();
-
         String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage,
                 imageQuality, imageUrls);
-        row.getImageUrls().addAll(imageUrls);
         if (row.get_isInBlackList()) {
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
                     + "<body "
@@ -94,7 +91,7 @@ public class HtmlUtils {
             //ngaHtml = replaceLinkText(ngaHtml);
             ngaHtml = ngaHtml
                     + buildComment(row, fgColorStr, showImage, imageQuality)
-                    + buildAttachment(row, showImage, imageQuality, null)
+                    + buildAttachment(row, showImage, imageQuality, imageUrls)
                     + buildSignature(row, showImage, imageQuality)
                     + buildVote(row);
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
@@ -105,6 +102,7 @@ public class HtmlUtils {
                     + fgColorStr
                     + "' size='2'>" + ngaHtml + "</font></body>";
         }
+        row.getImageUrls().addAll(imageUrls);
         return ngaHtml;
     }
 
@@ -126,7 +124,7 @@ public class HtmlUtils {
 
 
     @SuppressWarnings("static-access")
-    private static String buildAttachment(ThreadRowInfo row, boolean showImage, int imageQuality, HashSet<String> imageURLSet) {
+    private static String buildAttachment(ThreadRowInfo row, boolean showImage, int imageQuality, List<String> imageUrls) {
         if (row == null || row.getAttachs() == null
                 || row.getAttachs().size() == 0) {
             return "";
@@ -147,9 +145,6 @@ public class HtmlUtils {
         int imageAttachmentCount = 0;
         while (it.hasNext()) {
             Map.Entry<String, Attachment> entry = it.next();
-            if (imageURLSet != null && imageURLSet.size() > 0 && imageURLSet.contains(entry.getValue().getAttachurl())) {
-                continue;
-            }
             // String url = "http://img.nga.178.com/attachments/" +
             // entry.getValue().getAttachurl();
             String attachUrl = entry.getValue().getAttachurl();
@@ -159,7 +154,7 @@ public class HtmlUtils {
                 ret = buildVideoAttachment(ret, entry.getValue());
             } else {
                 imageAttachmentCount++;
-                buildImageAttachment(ret, entry.getValue(), imageAttachmentCount);
+                buildImageAttachment(ret, entry.getValue(), imageAttachmentCount, imageUrls);
             }
             attachmentCount++;
         }
@@ -197,7 +192,7 @@ public class HtmlUtils {
         return ret;
     }
 
-    private static StringBuilder buildImageAttachment(StringBuilder ret, Attachment attachment, int index) {
+    private static StringBuilder buildImageAttachment(StringBuilder ret, Attachment attachment, int index, List<String> imageUrls) {
 
         String attachUrl = "http://" + HttpUtil.NGA_ATTACHMENT_HOST + "/attachments/" + attachment.getAttachurl();
         String attachUrlThumb = attachUrl;
@@ -210,6 +205,10 @@ public class HtmlUtils {
                 .append(String.format("<a href=%s>", attachUrl))
                 .append(String.format("<img style='max-width:100%%'; id='img%s'/>", indexStr))
                 .append("</a></td></tr>");
+        if (!imageUrls.contains(attachUrl)) {
+            imageUrls.add(attachUrl);
+        }
+
         return ret;
     }
 
