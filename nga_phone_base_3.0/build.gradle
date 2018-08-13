@@ -88,20 +88,9 @@ android {
         variant.outputs.all { output ->
             def newName
             def timeNow
-            def outDirectory
-            if (isJenkins()) {
-                newName = 'NGA-v' + project.appVersionName + '-' + variant.buildType.name + '.apk'
-                outputFileName = new File(newName)
-            } else {
-                timeNow = getDate()
-                outDirectory = output.outputFile.parent
-                if (variant.buildType.name == 'debug') {
-                    newName = 'NGA-v' + project.appVersionName + '-debug.apk'
-                } else {
-                    newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
-                }
-                outputFileName = new File(newName)
-            }
+            timeNow = getDate()
+            newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
+            outputFileName = new File(newName)
 
         }
     }
