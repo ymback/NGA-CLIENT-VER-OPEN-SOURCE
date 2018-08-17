@@ -64,7 +64,7 @@ public class HtmlUtils {
 
     public static String convertToHtmlText(final ThreadRowInfo row,
                                            boolean showImage, int imageQuality, final String fgColorStr,
-                                           Context context) {
+                                           final String commentFontPx, Context context) {
         if (StringUtils.isEmpty(hide)) {
             if (context != null)
                 initStaticStrings(context);
@@ -95,12 +95,13 @@ public class HtmlUtils {
                     + buildSignature(row, showImage, imageQuality)
                     + buildVote(row);
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
+                    + "<META name=\"viewport\" content=\"width=device-width\" >"
                     + buildHeader(row, fgColorStr)
                     + "<body style=word-break:break-all; "
                     + "'>"
                     + "<font color='#"
                     + fgColorStr
-                    + "' size='2'>" + ngaHtml + "</font></body>";
+                    + "' size='3'>" + ngaHtml + "</font></body>";
         }
         row.getImageUrls().addAll(imageUrls);
         return ngaHtml;
@@ -217,7 +218,7 @@ public class HtmlUtils {
         if (row == null || row.getComments() == null || row.getComments().isEmpty()) {
             return ret;
         }
-        ret.append(String.format("<br/><br/>%s<hr/><br/><table border='1px' cellpadding='10px' style='table-layout:fixed;word-break:break-all;border-collapse:collapse; color:%s'>", comment, fgColor));
+        ret.append(String.format("<br/><br/>%s<hr/><br/><table border='1px' cellpadding='10px' style='table-layout:fixed;word-break:break-all;border-collapse:collapse;color:%s'>", comment, fgColor));
 
         for (ThreadRowInfo comment : row.getComments()) {
             String author = comment.getAuthor();

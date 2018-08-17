@@ -40,7 +40,12 @@ public class DefaultTheme implements ITheme {
 
     @Override
     public int getForegroundColor() {
-        return R.color.foreground_color;
+        return R.color.primary_text;
+    }
+
+    @Override
+    public int getSecondTextColor() {
+        return R.color.secondary_text;
     }
 
     @Override

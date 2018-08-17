@@ -12,6 +12,7 @@ import gov.anzong.androidnga.BuildConfig;
 public class NLog {
 
     private static boolean sDebugMode = BuildConfig.DEBUG;
+    private static boolean sShowLine = true;
 
     public static final String TAG = "NGA";
 
@@ -21,7 +22,7 @@ public class NLog {
 
     public static int v(String tag, String msg) {
         if (sDebugMode) {
-            return Log.v(tag, msg);
+            return Log.v(tag, msg + getCurLineForJump(4));
         } else {
             return 0;
         }
@@ -29,15 +30,26 @@ public class NLog {
 
     public static int d(String tag, String msg) {
         if (sDebugMode) {
-            return Log.d(tag, msg);
+            return Log.d(tag, msg + getCurLineForJump(4));
         } else {
             return 0;
         }
     }
 
+    private static String getCurLineForJump(int precount) {
+        if (!sShowLine) {
+            return "";
+        }
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        if (stackTrace != null && precount >= 0 && precount < stackTrace.length) {
+            return "\n==> at " + stackTrace[precount];
+        }
+        return "";
+    }
+
     public static int i(String tag, String msg) {
         if (sDebugMode) {
-            return Log.i(tag, msg);
+            return Log.i(tag, msg + getCurLineForJump(4));
         } else {
             return 0;
         }
@@ -45,18 +57,18 @@ public class NLog {
 
     public static int w(String tag, String msg) {
         if (sDebugMode) {
-            return Log.w(tag, msg);
+            return Log.w(tag, msg + getCurLineForJump(4));
         } else {
             return 0;
         }
     }
 
     public static int e(String tag, String msg) {
-        return Log.e(tag, msg);
+        return Log.e(tag, msg + getCurLineForJump(4));
     }
 
     public static int e(String msg) {
-        return Log.e(TAG, msg);
+        return Log.e(TAG, msg + getCurLineForJump(4));
     }
 
 

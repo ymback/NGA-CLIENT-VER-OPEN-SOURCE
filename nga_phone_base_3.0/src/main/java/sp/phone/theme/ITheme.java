@@ -27,6 +27,9 @@ public interface ITheme {
     int getForegroundColor();
 
     @ColorRes
+    int getSecondTextColor();
+
+    @ColorRes
     int getActiveColor();
 
     @ColorRes

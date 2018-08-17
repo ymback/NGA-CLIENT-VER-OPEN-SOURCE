@@ -11,6 +11,7 @@ import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
         int progress = (int) (100.0f * textSize / mDefaultFontSize);
         seekBar.setProgress(progress);
         seekBar.setOnSeekBarChangeListener(this);
-        mFontSizeView.setTextSize(textSize);
+        mFontSizeView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSize);
     }
 
     private void initWebFontSizeView(View rootView){

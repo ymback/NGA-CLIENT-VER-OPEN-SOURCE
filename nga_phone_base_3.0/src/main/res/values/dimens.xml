@@ -6,6 +6,13 @@
 
     <dimen name="cardview_default_margin_left_right">8dp</dimen>
     <dimen name="cardview_default_margin_top_bottom">4dp</dimen>
+    <dimen name="cardview_default_margin">8dp</dimen>
+    <!--通用字体大小-->
+    <dimen name="textsize_big_title">24sp</dimen>
+    <dimen name="textsize_actionbar">20sp</dimen>
+    <dimen name="textsize_common_title">16sp</dimen>
+    <dimen name="textsize_common_content">14sp</dimen>
+    <dimen name="textsize_second_content">12sp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>

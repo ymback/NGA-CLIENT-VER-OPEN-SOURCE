@@ -156,8 +156,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         onBindDeviceType(holder.clientIv, row);
         onBindWebView(holder.contentTV, row);
 
-        int fgColor = ContextCompat.getColor(mContext, mThemeManager.getForegroundColor());
-        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
+        int fgColor = ContextCompat.getColor(mContext, mThemeManager.getSecondTextColor());
+        FunctionUtils.handleNickName(row,
+                fgColor,// ContextCompat.getColor(mContext, mThemeManager.getForegroundColor()),
+                holder.nickNameTV, mContext);
 
         holder.floorTv.setText(MessageFormat.format("[{0} 楼]", String.valueOf(row.getLou())));
         holder.floorTv.setTextColor(fgColor);
