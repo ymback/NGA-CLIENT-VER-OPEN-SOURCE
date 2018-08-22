@@ -7,11 +7,12 @@ import android.content.SharedPreferences;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.debug.BlockCanaryWatcher;
 import sp.phone.common.BoardManagerImpl;
-import sp.phone.debug.LeakCanaryWatcher;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.debug.BlockCanaryWatcher;
+import sp.phone.debug.LeakCanaryWatcher;
+import sp.phone.task.DeviceStatisticsTask;
 import sp.phone.util.NLog;
 
 public class NgaClientApp extends Application {
@@ -29,9 +30,9 @@ public class NgaClientApp extends Application {
         checkNewVersion();
         initCoreModule();
         initRouter();
-
         super.onCreate();
     }
+
 
     private void initRouter() {
         if (BuildConfig.DEBUG) {   // 这两行必须写在init之前，否则这些配置在init过程中将无效
@@ -56,6 +57,9 @@ public class NgaClientApp extends Application {
         if (sp.getInt(PreferenceKey.VERSION, 0) < versionCode) {
             sp.edit().putInt(PreferenceKey.VERSION, versionCode).apply();
             mNewVersion = true;
+        }
+        if (mNewVersion) {
+            DeviceStatisticsTask.execute();
         }
     }
 
