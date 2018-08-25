@@ -7,13 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
 import sp.phone.bean.Attachment;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.theme.ThemeManager;
 
 /**
@@ -21,32 +20,24 @@ import sp.phone.theme.ThemeManager;
  */
 public class HtmlUtils {
 
-    private static final String TAG = "HtmlUtils";
+    private static final String TAG_IGNORE_CASE = "(?i)";
 
-    public static String userDistance = null;
-    static String meter = null;
-    static String kiloMeter = null;
-    static String hide = null;
+    private static final String TAG_END_DIV = "</div>";
+
+    public static String hide = null;
     static String blacklistban = null;
     static String legend = null;
     static String attachment = null;
     static String comment = null;
     static String sig = null;
 
-    static Pattern linkPattern = null;
-
     public static void initStaticStrings(Context activity) {
-        userDistance = activity.getString(R.string.user_distance);
-        meter = activity.getString(R.string.meter);
-        kiloMeter = activity.getString(R.string.kilo_meter);
         hide = activity.getString(R.string.hide);
         blacklistban = activity.getString(R.string.blacklistban);
         legend = activity.getString(R.string.legend);
         attachment = activity.getString(R.string.attachment);
         comment = activity.getString(R.string.comment);
         sig = activity.getString(R.string.sig);
-
-        linkPattern = Pattern.compile("<a(?: [^>]*)+href=([^ >]*)(?: [^>]*)*>");
     }
 
     private static String buildHeader(ThreadRowInfo row, String fgColorStr) {
@@ -71,8 +62,7 @@ public class HtmlUtils {
         }
 
         List<String> imageUrls = new ArrayList<>();
-        String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage,
-                imageQuality, imageUrls);
+        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls);
         if (row.get_isInBlackList()) {
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
                     + "<body "
@@ -87,8 +77,6 @@ public class HtmlUtils {
             if (StringUtils.isEmpty(ngaHtml)) {
                 ngaHtml = "<font color='red'>[" + hide + "]</font>";
             }
-            // 把链接替换为短字符
-            //ngaHtml = replaceLinkText(ngaHtml);
             ngaHtml = ngaHtml
                     + buildComment(row, fgColorStr, showImage, imageQuality)
                     + buildAttachment(row, showImage, imageQuality, imageUrls)
@@ -100,30 +88,14 @@ public class HtmlUtils {
                     + "'>"
                     + "<font color='#"
                     + fgColorStr
-                    + "' size='2'>" + ngaHtml + "</font></body>";
+                    + "' size='2'>" + ngaHtml + "</font>"
+                    + "<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>"
+                    + "</body>";
         }
         row.getImageUrls().addAll(imageUrls);
         return ngaHtml;
     }
 
-    /**
-     * 匹配超链接, 把链接文字缩短或替换
-     *
-     * @param input
-     * @return
-     */
-    private static String replaceLinkText(String input) {
-        String ret = "";
-        Matcher matcher = linkPattern.matcher(input);
-        while (matcher.find()) {
-            String pre = matcher.group();
-            ret = pre + "链接</a>";
-        }
-        return ret;
-    }
-
-
-    @SuppressWarnings("static-access")
     private static String buildAttachment(ThreadRowInfo row, boolean showImage, int imageQuality, List<String> imageUrls) {
         if (row == null || row.getAttachs() == null
                 || row.getAttachs().size() == 0) {
@@ -229,7 +201,7 @@ public class HtmlUtils {
             int end = content.indexOf("[/b]");
             String time = '(' + comment.getPostdate() + ')';
             content = content.substring(end + 4);
-            content = StringUtils.decodeForumTag(content, showImage, imageQuality, null);
+            content = new ForumDecoder(true).decode(content, null);
             ret.append(String.format("<tr><td width='10%%'> <img src='%s' align='absmiddle' style='max-width:32;' />  <span style='font-weight:bold'>%s %s</span>%s</td></tr>",
                     avatarUrl, author, time, content));
 

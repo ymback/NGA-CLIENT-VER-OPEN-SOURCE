@@ -104,7 +104,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     public ArticleListAdapter(Context context) {
         mContext = context;
-        if (HtmlUtils.userDistance == null) {
+        if (HtmlUtils.hide == null) {
             HtmlUtils.initStaticStrings(mContext);
         }
         mLayoutInflater = LayoutInflater.from(mContext);

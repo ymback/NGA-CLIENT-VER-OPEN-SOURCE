@@ -29,7 +29,6 @@ public class StringUtils {
     private static final String styleAlignLeft = "<div style='text-align:left' >";
     private static final String styleAlignCenter = "<div style='text-align:center' >";
     private static final String styleColor = "<span style='color:$1' >";
-    private static final String collapseStart = "<div style='border:1px solid #888' >";
     private static final String ignoreCaseTag = "(?i)";
     private static final String endDiv = "</div>";
 
@@ -223,9 +222,9 @@ public class StringUtils {
         return s;
     }
 
-    public static String decodeForumTag(String s, boolean showImage,
+    public static String decodeForumTag(String ret, boolean showImage,
                                         int imageQuality, @Nullable List<String> imageUrls) {
-        if (StringUtils.isEmpty(s))
+        if (StringUtils.isEmpty(ret))
             return "";
         // s = StringUtils.unEscapeHtml(s);
         String quoteStyle = "<div style='background:#E8E8E8;padding:5px;border:1px solid #888' >";
@@ -234,53 +233,53 @@ public class StringUtils {
 
         final String styleLeft = "<div style='float:left' >";
         final String styleRight = "<div style='float:right' >";
-        s = decodealbum(s, quoteStyle);
-        s = s.replaceAll(ignoreCaseTag + "&amp;", "&");
-        s = s.replaceAll(ignoreCaseTag + "\\[l\\]", styleLeft);
-        s = s.replaceAll(ignoreCaseTag + "\\[/l\\]", endDiv);
-        // s = s.replaceAll("\\[L\\]", styleLeft);
-        // s = s.replaceAll("\\[/L\\]", endDiv);
+        ret = decodealbum(ret, quoteStyle);
+        ret = ret.replaceAll(ignoreCaseTag + "&amp;", "&");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[l\\]", styleLeft);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/l\\]", endDiv);
+        // ret = ret.replaceAll("\\[L\\]", styleLeft);
+        // ret = ret.replaceAll("\\[/L\\]", endDiv);
 
-        s = s.replaceAll(ignoreCaseTag + "\\[r\\]", styleRight);
-        s = s.replaceAll(ignoreCaseTag + "\\[/r\\]", endDiv);
-        // s = s.replaceAll("\\[R\\]", styleRight);
-        // s = s.replaceAll("\\[/R\\]", endDiv);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[r\\]", styleRight);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/r\\]", endDiv);
+        // ret = ret.replaceAll("\\[R\\]", styleRight);
+        // ret = ret.replaceAll("\\[/R\\]", endDiv);
 
-        s = s.replaceAll(ignoreCaseTag + "\\[align=right\\]", styleAlignRight);
-        s = s.replaceAll(ignoreCaseTag + "\\[align=left\\]", styleAlignLeft);
-        s = s.replaceAll(ignoreCaseTag + "\\[align=center\\]", styleAlignCenter);
-        s = s.replaceAll(ignoreCaseTag + "\\[/align\\]", endDiv);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[align=right\\]", styleAlignRight);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[align=left\\]", styleAlignLeft);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[align=center\\]", styleAlignCenter);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/align\\]", endDiv);
 
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag
                         + "\\[b\\]Reply to \\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\] (.+?)\\[/b\\]",
                 "[quote]Reply to [b]<a href='" + Utils.getNGAHost() + "read.php?searchpost=1&pid=$1' style='font-weight: bold;'>[Reply]</a> $4[/b][/quote]");
 
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
                 "<a href='" + Utils.getNGAHost() + "read.php?searchpost=1&pid=$1' style='font-weight: bold;'>[Reply]</a>");
 
         // 某些帖子会导致这个方法卡住, 暂时不清楚原因, 和这个方法的作用.... by elrond
-        /*s = s.replaceAll(
+        /*ret = ret.replaceAll(
                 ignoreCaseTag + "={3,}((^=){0,}(.*?){0,}(^=){0,})={3,}",
                 "<h4 style='font-weight: bold;border-bottom: 1px solid #AAA;clear: both;margin-bottom: 0px;'>$1</h4>");*/
 
-        s = s.replaceAll(ignoreCaseTag + "\\[quote\\]", quoteStyle);
-        s = s.replaceAll(ignoreCaseTag + "\\[/quote\\]", endDiv);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[quote\\]", quoteStyle);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/quote\\]", endDiv);
 
-        s = s.replaceAll(ignoreCaseTag + "\\[code\\]", quoteStyle + "Code:");
-        s = s.replaceAll(ignoreCaseTag + "\\[code(.+?)\\]", quoteStyle);
-        s = s.replaceAll(ignoreCaseTag + "\\[/code\\]", endDiv);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[code\\]", quoteStyle + "Code:");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[code(.+?)\\]", quoteStyle);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/code\\]", endDiv);
         // reply
-        // s = s.replaceAll(
+        // ret = ret.replaceAll(
         // ignoreCaseTag +"\\[pid=\\d+\\]Reply\\[/pid\\]", "Reply");
-        // s = s.replaceAll(
+        // ret = ret.replaceAll(
         // ignoreCaseTag +"\\[pid=\\d+,\\d+,\\d\\]Reply\\[/pid\\]", "Reply");
 
         // topic
-        s = s.replaceAll(ignoreCaseTag + "\\[tid=\\d+\\]Topic\\[/pid\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[tid=\\d+\\]Topic\\[/pid\\]",
                 "Topic");
-        s = s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\]Topic\\[/tid\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\]Topic\\[/tid\\]",
                 "<a href='" + Utils.getNGAHost() + "read.php?tid=$1' style='font-weight: bold;'>[Topic]</a>");
         // reply
         // s =
@@ -288,172 +287,167 @@ public class StringUtils {
         // , "Reply to Reply <b>$1</b>");
         // 转换 tag
         // [b]
-        s = s.replaceAll(ignoreCaseTag + "\\[b\\]", "<b>");
-        s = s.replaceAll(ignoreCaseTag + "\\[/b\\]", "</b>"/* "</font>" */);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[b\\]", "<b>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/b\\]", "</b>"/* "</font>" */);
 
         // item
-        s = s.replaceAll(ignoreCaseTag + "\\[item\\]", "<b>");
-        s = s.replaceAll(ignoreCaseTag + "\\[/item\\]", "</b>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[item\\]", "<b>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/item\\]", "</b>");
 
-        s = s.replaceAll(ignoreCaseTag + "\\[u\\]", "<u>");
-        s = s.replaceAll(ignoreCaseTag + "\\[/u\\]", "</u>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[u\\]", "<u>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/u\\]", "</u>");
 
-        s = s.replaceAll(ignoreCaseTag + "\\[s:(\\d+)\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[s:(\\d+)\\]",
                 "<img src='file:///android_asset/a$1.gif'>");
-        s = buildEmoticonImage(s);
-        s = s.replace(ignoreCaseTag + "<br/><br/>", "<br/>");
+        ret = buildEmoticonImage(ret);
+        ret = ret.replace(ignoreCaseTag + "<br/><br/>", "<br/>");
         // [url][/url]
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag + "\\[url\\]/([^\\[|\\]]+)\\[/url\\]",
                 "<a href=\"" + Utils.getNGAHost() + "$1\">" + Utils.getNGAHost() + "$1</a>");
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag + "\\[url\\]([^\\[|\\]]+)\\[/url\\]",
                 "<a href=\"$1\">$1</a>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[url=/([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]",
                 "<a href=\"" + Utils.getNGAHost() + "$1\">$2</a>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[url=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]",
                 "<a href=\"$1\">$2</a>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                 + "\\[uid=?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag + "Post by\\s{0,}([^\\[\\s]{1,})\\s{0,}\\(",
                 "Post by <a href='" + Utils.getNGAHost() + "nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag + "\\[@(.{2,20}?)\\]",
                 "<a href='" + Utils.getNGAHost() + "nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                 + "\\[uid=-?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[hip\\](.+?)\\[\\/hip\\]",
                 "$1");
-        s = s.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\](.+?)\\[/tid\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\](.+?)\\[/tid\\]",
                 "<a href='" + Utils.getNGAHost() + "read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag
                         + "\\[pid=(.+?)\\]\\[/pid\\]",
                 "<a href='" + Utils.getNGAHost() + "read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag
                         + "\\[pid=(.+?)\\](.+?)\\[/pid\\]",
                 "<a href='" + Utils.getNGAHost() + "read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
         // flash
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 ignoreCaseTag + "\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",
                 "<a href=\"$1\"><img src='file:///android_asset/flash.png' style= 'max-width:100%;' ></a>");
         // color
 
-        // s = s.replaceAll("\\[color=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/color\\]"
+        // ret = ret.replaceAll("\\[color=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/color\\]"
         // ,"<b style=\"color:$1\">$2</b>");
-        s = s.replaceAll(ignoreCaseTag + "\\[color=([^\\[|\\]]+)\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[color=([^\\[|\\]]+)\\]",
                 styleColor);
-        s = s.replaceAll(ignoreCaseTag + "\\[/color\\]", "</span>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/color\\]", "</span>");
 
         // lessernuke
-        s = s.replaceAll("\\[lessernuke\\]", lesserNukeStyle);
-        s = s.replaceAll("\\[/lessernuke\\]", endDiv);
+        ret = ret.replaceAll("\\[lessernuke\\]", lesserNukeStyle);
+        ret = ret.replaceAll("\\[/lessernuke\\]", endDiv);
 
-        s = s.replaceAll(
+        ret = ret.replaceAll(
                 "\\[table\\]",
                 "<div><table cellspacing='0px' style='border:1px solid #aaa;width:99.9%;'><tbody>");
-        s = s.replaceAll("\\[/table\\]", "</tbody></table></div>");
-        s = s.replaceAll("\\[tr\\]", "<tr>");
-        s = s.replaceAll("\\[/tr\\]", "<tr>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll("\\[/table\\]", "</tbody></table></div>");
+        ret = ret.replaceAll("\\[tr\\]", "<tr>");
+        ret = ret.replaceAll("\\[/tr\\]", "<tr>");
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td(\\d+)\\]",
                 "<td style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\scolspan(\\d+)\\swidth(\\d+)\\]",
                 "<td colspan='$1' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\swidth(\\d+)\\scolspan(\\d+)\\]",
                 "<td colspan='$2' style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
 
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\swidth(\\d+)\\srowspan(\\d+)\\]",
                 "<td rowspan='$2' style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\srowspan(\\d+)\\swidth(\\d+)\\]",
                 "<td rowspan='$1' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
 
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\scolspan(\\d+)\\srowspan(\\d+)\\swidth(\\d+)\\]",
                 "<td colspan='$1' rowspan='$2' style='width:$3%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\scolspan(\\d+)\\swidth(\\d+)\\srowspan(\\d+)\\]",
                 "<td colspan='$1' rowspan='$3' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\srowspan(\\d+)\\scolspan(\\d+)\\swidth(\\d+)\\]",
                 "<td rowspan='$1' colspan='$2' style='width:$3%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\srowspan(\\d+)\\swidth(\\d+)\\scolspan(\\d+)\\]",
                 "<td rowspan='$1' colspan='$3' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\swidth(\\d+)\\scolspan(\\d+)\\srowspan(\\d+)\\]",
                 "<td rowspan='$3' colspan='$2' style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\swidth(\\d+)\\srowspan(\\d+)\\scolspan(\\d+)\\]",
                 "<td rowspan='$2' colspan='$3'  style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
 
 
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\scolspan=(\\d+)\\]",
                 "<td colspan='$1' style='border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[td\\srowspan=(\\d+)\\]",
                 "<td rowspan='$1' style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
-        s = s.replaceAll("\\[td\\]", "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
-        s = s.replaceAll("\\[/td\\]", "<td>");
+        ret = ret.replaceAll("\\[td\\]", "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
+        ret = ret.replaceAll("\\[/td\\]", "<td>");
         // [i][/i]
-        s = s.replaceAll(ignoreCaseTag + "\\[i\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[i\\]",
                 "<i style=\"font-style:italic\">");
-        s = s.replaceAll(ignoreCaseTag + "\\[/i\\]", "</i>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/i\\]", "</i>");
         // [del][/del]
-        s = s.replaceAll(ignoreCaseTag + "\\[del\\]", "<del class=\"gray\">");
-        s = s.replaceAll(ignoreCaseTag + "\\[/del\\]", "</del>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[del\\]", "<del class=\"gray\">");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/del\\]", "</del>");
 
-        s = s.replaceAll(ignoreCaseTag + "\\[font=([^\\[|\\]]+)\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[font=([^\\[|\\]]+)\\]",
                 "<span style=\"font-family:$1\">");
-        s = s.replaceAll(ignoreCaseTag + "\\[/font\\]", "</span>");
-
-        // collapse
-        s = s.replaceAll(ignoreCaseTag
-                        + "\\[collapse([^\\[|\\]])*\\](([\\d|\\D])+?)\\[/collapse\\]",
-                collapseStart + "$2" + endDiv);
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/font\\]", "</span>");
 
         // size
-        s = s.replaceAll(ignoreCaseTag + "\\[size=(\\d+)%\\]",
+        ret = ret.replaceAll(ignoreCaseTag + "\\[size=(\\d+)%\\]",
                 "<span style=\"font-size:$1%;line-height:$1%\">");
-        s = s.replaceAll(ignoreCaseTag + "\\[/size\\]", "</span>");
+        ret = ret.replaceAll(ignoreCaseTag + "\\[/size\\]", "</span>");
 
         // [img]./ddd.jpg[/img]
         // if(showImage){
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]",
                 "<a href='http://" + HttpUtil.NGA_ATTACHMENT_HOST
                         + "/attachments$1'><img src='http://"
                         + HttpUtil.NGA_ATTACHMENT_HOST
                         + "/attachments$1' style= 'max-width:100%' ></a>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]",
                 "<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
 
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[list\\](.+?)\\[/list\\]",
                 "<ul>$1</ul>");
-        s = s.replaceAll(ignoreCaseTag
+        ret = ret.replaceAll(ignoreCaseTag
                         + "\\[\\*\\](.+?)<br/>",
                 "<li>$1</li>");
 
         try {
-            s = buildImage(s, showImage, imageUrls);
-            s = buildAudioHtml(s);
-            s = buildVideoHtml(s);
-            s = convertGifImage(s);
+            ret = buildImage(ret, showImage, imageUrls);
+            ret = buildAudioHtml(ret);
+            ret = buildVideoHtml(ret);
+            ret = convertGifImage(ret);
         } catch (Exception e) {
         }
-        return s;
+        return ret;
     }
 
     private static String buildImage(String content, boolean showImage, List<String> imageUrls) {
