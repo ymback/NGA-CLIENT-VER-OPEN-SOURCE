@@ -43,4 +43,8 @@ public class ForumDecoder {
         }
         return content;
     }
+
+    public String decode(String content) {
+        return decode(content, null);
+    }
 }

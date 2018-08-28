@@ -10,11 +10,10 @@ import java.util.List;
 
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.mvp.model.convert.builder.HtmlBuilder;
+import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
-import sp.phone.theme.ThemeManager;
-import sp.phone.util.HtmlUtils;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
@@ -112,7 +111,6 @@ public class ArticleConvertFactory {
     }
 
     private static void buildRowContent(ThreadRowInfo row) {
-        ThemeManager theme = ThemeManager.getInstance();
         if (row.getContent() == null) {
             row.setContent(row.getSubject());
             row.setSubject(null);
@@ -122,11 +120,11 @@ public class ArticleConvertFactory {
                 && !StringUtils.isEmpty(row.getContent())) {
             row.setContent(StringUtils.unescape(row.getContent()));
         }
-
-        int webTextColor = theme.getWebTextColor();
-        final String fgColorStr = String.format("%06x", webTextColor & 0xffffff);
-        String formattedHtmlData = HtmlUtils.convertToHtmlText(row, true, 0, fgColorStr, ApplicationContextHolder.getContext());
-        row.setFormattedHtmlData(formattedHtmlData);
+        List<String> imageUrls = new ArrayList<>();
+        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls);
+        ngaHtml = HtmlBuilder.build(row, ngaHtml, imageUrls);
+        row.getImageUrls().addAll(imageUrls);
+        row.setFormattedHtmlData(ngaHtml);
     }
 
     private static void buildRowVote(ThreadRowInfo row, JSONObject rowObj) {
