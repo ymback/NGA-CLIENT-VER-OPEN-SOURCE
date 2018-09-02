@@ -47,7 +47,7 @@ public class MessageDetailModel extends BaseModel implements MessageDetailContra
     public void loadPage(final int page, int mid, final OnHttpCallBack<MessageDetailInfo> callBack) {
         mParamMap.put("page",String.valueOf(page));
         mParamMap.put("mid",String.valueOf(mid));
-        mService.getInfo(mParamMap)
+        mService.get(mParamMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(new Function<String, MessageDetailInfo>() {

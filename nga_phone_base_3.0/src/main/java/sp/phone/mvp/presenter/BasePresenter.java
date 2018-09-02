@@ -32,8 +32,10 @@ public abstract class BasePresenter<T extends BaseContract.View, E extends BaseC
         }
     }
 
-    public void onResume() {
+    public void onViewCreated() {
+    }
 
+    public void onResume() {
     }
 
     @Override

@@ -22,7 +22,7 @@ import retrofit2.http.Url;
 public interface RetrofitService {
 
     @GET("nuke.php")
-    Observable<String> getInfo(@QueryMap Map<String, String> map);
+    Observable<String> get(@QueryMap Map<String, String> map);
 
     @GET
     Observable<String> get(@Url String url);

@@ -1,79 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <sp.phone.view.KeyboardLayout
-        android:id="@+id/keyboard_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
 
-        <TableRow
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/reply_titile_edittext"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:hint="@string/title"
+            android:inputType="textNoSuggestions"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="标题"/>
-
-
-            <EditText
-                android:id="@+id/reply_titile_edittext"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:hint="@string/title"
-                android:inputType="textNoSuggestions"/>
-
-            <CheckBox
-                android:id="@+id/anony"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="@string/anony"/>
-
-        </TableRow>
-
-
-    </TableLayout>
+        <CheckBox
+            android:id="@+id/anony"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/anony"/>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/reply_body_edittext"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_margin="8dp"
         android:layout_weight="1"
         android:background="@null"
-        android:gravity="top|left"
+        android:gravity="top|start|center_vertical|center_horizontal|center"
         android:hint="@string/replycontent"
         android:imeOptions="actionDone"
-        android:inputType="textMultiLine|textNoSuggestions"
+        android:inputType="none|text|textMultiLine|textNoSuggestions"
         android:layerType="software"
         android:scrollbars="vertical">
 
         <requestFocus/>
     </EditText>
 
-
-    <ViewStub
-        android:id="@+id/bottom_emoticon_stub"
+    <sp.phone.view.toolbar.ToolbarContainer
+        android:id="@+id/control_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout="@layout/layout_bottom_emoticon"/>
+        android:orientation="vertical">
+
+        <sp.phone.view.KeyboardLayout
+            android:id="@+id/keyboard_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <ImageButton
+                android:id="@+id/btn_emoticon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/btn_ic_insert_emoticon"/>
+
+            <ImageButton
+                android:id="@+id/btn_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/btn_ic_text_fields"/>
+
+            <ImageButton
+                android:id="@+id/btn_attachment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/ic_image_24dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/ic_subtitles_24dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_keyboard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/ic_keyboard_24dp"/>
+        </LinearLayout>
+
+        <ViewStub
+            android:id="@+id/bottom_emoticon_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/layout_toolbar_panel_emoticon"/>
+
+        <ViewStub
+            android:id="@+id/bottom_text_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/layout_toolbar_panel_formatted_text"/>
+
+        <!--
+                <ViewStub
+                    android:id="@+id/bottom_attachment_stub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout="@layout/layout_tab_emoticon"/>
+        -->
+
+        <ViewStub
+            android:id="@+id/bottom_category_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/layout_toolbar_panel_category"/>
+    </sp.phone.view.toolbar.ToolbarContainer>
 
 </LinearLayout>

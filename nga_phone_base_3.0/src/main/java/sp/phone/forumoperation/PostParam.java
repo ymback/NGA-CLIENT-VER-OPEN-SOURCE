@@ -9,46 +9,29 @@ import java.net.URLEncoder;
 import sp.phone.util.StringUtils;
 
 public class PostParam implements Parcelable {
-    private int step_;
-    private String pid_;
-    private String mAction;
-    private int mFid;
-    private String tid_;
-    private String _ff_;
-    private String attachments_;
-    private String attachments_check_;
-    private String force_topic_key_;
-    private int filter_key_;
-    private String post_subject_;
-    private String post_content_;
-    private String checkkey_;
-    private String mention_;
-    private String __ngaClientChecksum;
-    private boolean __isanony;//&anony=1
 
-    private String auth = "";
+    private boolean mAnonymous;
 
-    protected PostParam(Parcel in) {
-        step_ = in.readInt();
-        pid_ = in.readString();
-        mAction = in.readString();
-        mFid = in.readInt();
-        tid_ = in.readString();
-        _ff_ = in.readString();
-        attachments_ = in.readString();
-        attachments_check_ = in.readString();
-        force_topic_key_ = in.readString();
-        filter_key_ = in.readInt();
-        post_subject_ = in.readString();
-        post_content_ = in.readString();
-        checkkey_ = in.readString();
-        mention_ = in.readString();
-        __ngaClientChecksum = in.readString();
-        __isanony = in.readByte() != 0;
-        auth = in.readString();
-    }
+    private StringBuilder mAttachments;
+
+    private StringBuilder mAttachmentsCheck;
+
+    private String mAuthCode;
+
+    private String mPostAction;
+
+    private String mPostContent;
+
+    private int mPostFid;
+
+    private String mPostPid;
+
+    private String mPostSubject;
+
+    private String mPostTid;
 
     public static final Creator<PostParam> CREATOR = new Creator<PostParam>() {
+
         @Override
         public PostParam createFromParcel(Parcel in) {
             return new PostParam(in);
@@ -60,194 +43,132 @@ public class PostParam implements Parcelable {
         }
     };
 
-    public String getAuth() {
-        return auth;
-    }
-
-    public String getAction(){
-        return mAction;
-    }
-
-    public synchronized void setAuth(String auth) {
-        this.auth = auth;
-    }
-
-    public String getTid(){
-        return tid_;
-    }
-
-    public String getPid(){
-        return pid_;
-    }
-
-    public PostParam(String tid, String subject, String content) {
-        step_ = 2;
-        pid_ = "";
-        mAction = "new";
-        mFid = 0;
-        tid_ = tid;
-        _ff_ = "";
-        attachments_ = "";
-        attachments_check_ = "";
-        force_topic_key_ = "";
-        filter_key_ = 1;
-        post_subject_ = subject;
-        post_content_ = content;
-        checkkey_ = "";
-        mention_ = "";
-        __isanony = false;
-
-
-    }
-
-    public int getFid() {
-        return mFid;
-    }
-
-    public void setFid(int fid) {
-        mFid = fid;
-    }
-
-    public void set__isanony(boolean isanony) {
-        __isanony = isanony;
-    }
-
-    public String getPost_subject_() {
-        return post_subject_;
-    }
-
-    public void setPost_subject_(String postSubject) {
-        post_subject_ = postSubject;
-    }
-
-    public String getPost_content_() {
-        return post_content_;
-    }
-
-    public void setPost_content_(String postContent) {
-        post_content_ = postContent;
-    }
-
-    public void setPid_(String pid) {
-        pid_ = pid;
-    }
-
-    public void setTid_(String tid) {
-        tid_ = tid;
-    }
-
-
-    public void setAction(String action) {
-        mAction = action;
-    }
-
-    public void set__ngaClientChecksum(String getngaClientChecksum) {
-        // TODO Auto-generated method stub
-        __ngaClientChecksum = getngaClientChecksum;
-    }
-
-    public void setMention_(String mention_) {
-        this.mention_ = mention_;
-    }
-
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("step=");
-        sb.append(step_);
-        sb.append("&pid=");
-        sb.append(pid_);
-        sb.append("&action=");
-        sb.append(mAction);
-
-        if (!mAction.equals("modify")) {
-            sb.append("&fid=");
-            sb.append(mFid);
-        } else {
-            sb.append("&fid=");
-        }
-        sb.append("&tid=");
-        sb.append(tid_);
-        if (__isanony) {
-            sb.append("&anony=1");
-        }
-        sb.append("&_ff=");
-        sb.append(_ff_);
-        sb.append("&attachments=");
-        sb.append(attachments_);
-        sb.append("&attachments_check=");
-        sb.append(attachments_check_);
-        sb.append("&force_topic_key=");
-        sb.append(force_topic_key_);
-        sb.append("&filter_key=");
-        sb.append(filter_key_);
-        sb.append("&post_subject=");
-        sb.append(StringUtils.encodeUrl(post_subject_, "GBK"));
-        sb.append("&post_content=");
-        sb.append(StringUtils.encodeUrl(post_content_, "GBK"));
-        if (mention_.length() != 0) {
-            sb.append("&mention=");
-            sb.append(StringUtils.encodeUrl(mention_, "GBK"));
-
-        } else {
-            sb.append("&mention=");
-            sb.append(StringUtils.encodeUrl("", "GBK"));
-        }
-        sb.append("&checkkey=");
-        sb.append(checkkey_);
-        sb.append("&__ngaClientChecksum=");
-        sb.append(__ngaClientChecksum);
-        return sb.toString();
-    }
-
-    public void appendAttachments_(String attachments_) {
-        if (StringUtils.isEmpty(this.attachments_))
-            this.attachments_ = attachments_;
-        else {
-            try {
-                this.attachments_ = this.attachments_ + URLEncoder.encode("\t", "GBK") + attachments_;
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void appendAttachments_check_(String attachments_check_) {
-        if (StringUtils.isEmpty(this.attachments_check_))
-            this.attachments_check_ = attachments_check_;
-        else {
-            try {
-                this.attachments_check_ = this.attachments_check_ + URLEncoder.encode("\t", "GBK") + attachments_check_;
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
+    protected PostParam(Parcel in) {
+        mPostPid = in.readString();
+        mPostAction = in.readString();
+        mPostFid = in.readInt();
+        mPostTid = in.readString();
+        mPostSubject = in.readString();
+        mPostContent = in.readString();
+        mAnonymous = in.readByte() != (byte) 0;
+        mAuthCode = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(step_);
-        dest.writeString(pid_);
-        dest.writeString(mAction);
-        dest.writeInt(mFid);
-        dest.writeString(tid_);
-        dest.writeString(_ff_);
-        dest.writeString(attachments_);
-        dest.writeString(attachments_check_);
-        dest.writeString(force_topic_key_);
-        dest.writeInt(filter_key_);
-        dest.writeString(post_subject_);
-        dest.writeString(post_content_);
-        dest.writeString(checkkey_);
-        dest.writeString(mention_);
-        dest.writeString(__ngaClientChecksum);
-        dest.writeByte((byte) (__isanony ? 1 : 0));
-        dest.writeString(auth);
+        dest.writeString(mPostPid);
+        dest.writeString(mPostAction);
+        dest.writeInt(mPostFid);
+        dest.writeString(mPostTid);
+        dest.writeString(mPostSubject);
+        dest.writeString(mPostContent);
+        dest.writeByte((byte) (mAnonymous ? 1 : 0));
+        dest.writeString(mAuthCode);
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public String getPostAction() {
+        return mPostAction;
+    }
+
+    public synchronized String getAuthCode() {
+        return mAuthCode;
+    }
+
+    public synchronized void setAuthCode(String authCode) {
+        mAuthCode = authCode;
+    }
+
+    public PostParam(String tid, String subject, String content) {
+        mPostTid = tid;
+        mPostSubject = subject;
+        mPostContent = content;
+    }
+
+    public void setPostAction(String postAction) {
+        mPostAction = postAction;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        mAnonymous = anonymous;
+    }
+
+    public String getPostSubject() {
+        return mPostSubject;
+    }
+
+    public void setPostSubject(String postSubject) {
+        mPostSubject = postSubject;
+    }
+
+    public String getPostContent() {
+        return mPostContent;
+    }
+
+    public void setPostContent(String postContent) {
+        mPostContent = postContent;
+    }
+
+    public String getPostPid() {
+        return mPostPid;
+    }
+
+    public void setPostPid(String postPid) {
+        mPostPid = postPid;
+    }
+
+    public int getPostFid() {
+        return mPostFid;
+    }
+
+    public void setPostFid(int postFid) {
+        mPostFid = postFid;
+    }
+
+    public String getPostTid() {
+        return mPostTid;
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder("step=2");
+        builder.append("&post_content=").append(StringUtils.encodeUrl(mPostContent, "GBK"));
+        if (mPostPid != null) {
+            builder.append("&pid=").append(mPostPid);
+        }
+        if (mPostTid != null) {
+            builder.append("&tid=").append(mPostTid);
+        }
+        if (mPostAction != null) {
+            builder.append("&action=").append(mPostAction);
+        }
+        if (mPostSubject != null) {
+            builder.append("&post_subject=").append(StringUtils.encodeUrl(mPostSubject, "GBK"));
+        }
+        if (mPostFid != 0) {
+            builder.append("&fid=").append(mPostFid);
+        }
+        if (mAnonymous) {
+            builder.append("&anony=1");
+        }
+        if (mAttachments != null) {
+            builder.append("&attachments=").append(mAttachments).append("&attachments_check=").append(mAttachmentsCheck);
+        }
+        return builder.toString();
+    }
+
+    public void appendAttachment(String attachment, String attachmentCheck) {
+        try {
+            if (mAttachments == null) {
+                mAttachments = new StringBuilder();
+                mAttachmentsCheck = new StringBuilder();
+            }
+            mAttachments.append(URLEncoder.encode("\t", "GBK")).append(attachment);
+            mAttachmentsCheck.append(URLEncoder.encode("\t", "GBK")).append(attachmentCheck);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }
-

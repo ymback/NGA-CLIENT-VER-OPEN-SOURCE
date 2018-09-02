@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 
 import sp.phone.mvp.contract.BaseContract;
 import sp.phone.mvp.presenter.BasePresenter;
-import sp.phone.mvp.contract.BaseContract;
-import sp.phone.mvp.presenter.BasePresenter;
 
 /**
  * Created by Justwen on 2017/11/25.
@@ -48,6 +46,14 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseRxFra
             mPresenter.detach();
         }
         super.onDetach();
+    }
+
+    @Override
+    public void onViewCreated(android.view.View view, @Nullable Bundle savedInstanceState) {
+        if (mPresenter != null) {
+            mPresenter.onViewCreated();
+        }
+        super.onViewCreated(view, savedInstanceState);
     }
 
     protected abstract T onCreatePresenter();

@@ -1,6 +1,5 @@
 package sp.phone.mvp.presenter;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,11 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import gov.anzong.androidnga.R;
 import sp.phone.adapter.ExtensionEmotionAdapter;
@@ -29,23 +30,17 @@ import sp.phone.util.FunctionUtils;
 import sp.phone.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 
-/**
- * Created by Justwen on 2017/6/6.
- */
-
-public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPostModel> implements TopicPostContract.Presenter, TopicPostTask.CallBack {
-
-
-    private PostParam mPostParam;
-
-    private final static Object COMMIT_LOCK = new Object();
+public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPostModel>
+        implements TopicPostContract.Presenter, TopicPostTask.CallBack {
 
     private boolean mLoading;
+
+    private PostParam mPostParam;
 
     @Override
     public void setEmoticon(String emotion) {
         String urlTemp = emotion.replaceAll("\\n", "");
-        if (urlTemp.indexOf("http") > 0) {
+        if (urlTemp.contains("http")) {
             urlTemp = urlTemp.substring(5, urlTemp.length() - 6);
             String sourceFile = ExtensionEmotionAdapter.getPathByURI(urlTemp);
             try (InputStream is = mBaseView.getContext().getResources().getAssets().open(sourceFile)) {
@@ -69,9 +64,8 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
             int[] emotions = {1, 2, 3, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34,
                     35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 5, 6, 7, 8};
             for (int i = 0; i < 27; i++) {
-                if (emotion.indexOf("[s:" + String.valueOf(emotions[i]) + "]") == 0) {
-                    String sourceFile = "a" + String.valueOf(emotions[i])
-                            + ".gif";
+                if (emotion.indexOf("[s:" + emotions[i] + "]") == 0) {
+                    String sourceFile = "a" + emotions[i] + ".gif";
                     try (InputStream is = mBaseView.getContext().getResources().getAssets().open(sourceFile)) {
                         if (is != null) {
                             Bitmap bitmap = BitmapFactory.decodeStream(is);
@@ -89,7 +83,6 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
                             mBaseView.insertBodyText(emotion);
                         }
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     break;
@@ -98,47 +91,59 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         }
     }//
 
-    @Override
-    public void setTopicPostAction(PostParam postAction) {
-        mPostParam = postAction;
+    public void setPostParam(PostParam postParam) {
+        mPostParam = postParam;
+        mBaseModel.getPostInfo(mPostParam, new OnHttpCallBack<PostParam>() {
+            public void onError(String text) {
+                if (mBaseView != null) {
+                    ActivityUtils.showToast(text);
+                }
+            }
+
+            public void onSuccess(PostParam data) {
+                mPostParam = data;
+            }
+        });
     }
 
     @Override
-    public void post(String title, String body, boolean isAnony) {
-        synchronized (COMMIT_LOCK) {
-            if (mLoading) {
-                mBaseView.showToast(R.string.avoidWindfury);
-                return;
-            }
-            mLoading = true;
+    public void onViewCreated() {
+        if (!TextUtils.isEmpty(mPostParam.getPostSubject())) {
+            mBaseView.insertTitleText(mPostParam.getPostSubject());
         }
+        if (!TextUtils.isEmpty(mPostParam.getPostContent())) {
+            mBaseView.insertBodyText(mPostParam.getPostContent());
+        }
+        super.onViewCreated();
+    }
 
-        mPostParam.set__isanony(isAnony);
-        mPostParam.setPost_subject_(title);
-        if (body.length() > 0) {
-            mPostParam.setPost_content_(FunctionUtils.ColorTxtCheck(body));
+    public void post(String title, String body, boolean isAnony) {
+        if (mLoading) {
+            mBaseView.showToast(R.string.avoidWindfury);
+            return;
+        }
+        mLoading = true;
+        mPostParam.setAnonymous(isAnony);
+        mPostParam.setPostSubject(title);
+        if (!body.isEmpty()) {
+            mPostParam.setPostContent(FunctionUtils.ColorTxtCheck(body));
             mBaseModel.post(mPostParam, this);
         }
     }
 
-    @Override
     public void showFilePicker() {
-        if (DeviceUtils.isGreaterEqual_6_0()) {
-            if (PermissionUtils.hasStoragePermission(mBaseView.getContext())) {
-                mBaseView.showFilePicker();
-            } else {
-                PermissionUtils.requestStoragePermission(mBaseView);
-            }
-        } else {
+        if (!DeviceUtils.isGreaterEqual_6_0()) {
             mBaseView.showFilePicker();
+        } else if (PermissionUtils.hasStoragePermission(mBaseView.getContext())) {
+            mBaseView.showFilePicker();
+        } else {
+            PermissionUtils.requestStoragePermission(mBaseView);
         }
     }
 
-    @Override
-    public void startUploadTask(Uri uri) {
+    public void startUploadTask(final Uri uri) {
         mBaseView.showUploadFileProgressBar();
         mBaseModel.uploadFile(uri, mPostParam, new OnHttpCallBack<String>() {
-            @Override
             public void onError(String text) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
@@ -146,7 +151,6 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
                 }
             }
 
-            @Override
             public void onSuccess(String data) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
@@ -157,26 +161,50 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         });
     }
 
-    @Override
-    public void getPostInfo() {
-
-        mBaseModel.getPostInfo(mPostParam, new OnHttpCallBack<PostParam>() {
-            @Override
-            public void onError(String text) {
-                if (mBaseView != null) {
-                    ActivityUtils.showToast(text);
-                }
-            }
-
-            @Override
-            public void onSuccess(PostParam data) {
-                mPostParam = data;
-            }
-
-        });
+    public void insertAtFormat() {
+        mBaseView.insertBodyText("[@]", 2);
     }
 
-    @Override
+    public void insertQuoteFormat() {
+        mBaseView.insertBodyText("[quote][/quote]", "[quote]".length());
+    }
+
+    public void insertUrlFormat() {
+        mBaseView.insertBodyText("[url][/url]", "[url]".length());
+    }
+
+    public void insertBoldFormat() {
+        mBaseView.insertBodyText("[b][/b]", "[b]".length());
+    }
+
+    public void insertItalicFormat() {
+        mBaseView.insertBodyText("[i][/i]", "[i]".length());
+    }
+
+    public void insertUnderLineFormat() {
+        mBaseView.insertBodyText("[u][/u]", "[u]".length());
+    }
+
+    public void insertDeleteLineFormat() {
+        mBaseView.insertBodyText("[del][/del]", "[del]".length());
+    }
+
+    public void insertFontColorFormat(String fontColor) {
+        mBaseView.insertBodyText(fontColor, fontColor.length() - "[/color]".length());
+    }
+
+    public void insertFontSizeFormat(String fontSize) {
+        mBaseView.insertBodyText(fontSize, "[size=100%]".length());
+    }
+
+    public void insertTopicCategory(String category) {
+        mBaseView.insertTitleText(category);
+    }
+
+    public void loadTopicCategory(OnHttpCallBack<List<String>> callBack) {
+        mBaseModel.loadTopicCategory(mPostParam, callBack);
+    }
+
     public void onArticlePostFinished(boolean isSuccess, String result) {
         ActivityUtils.getInstance().dismiss();
         if (mBaseView != null) {
@@ -184,13 +212,11 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
                 mBaseView.showToast(result);
             }
             if (isSuccess) {
-                mBaseView.setResult(Activity.RESULT_OK);
+                mBaseView.setResult(-1);
                 mBaseView.finish();
             }
         }
-        synchronized (COMMIT_LOCK) {
-            mLoading = false;
-        }
+        mLoading = false;
     }
 
     private void finishUpload(String picUrl, Uri uri) {
@@ -228,7 +254,6 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         }
     }
 
-    @Override
     protected TopicPostModel onCreateModel() {
         return new TopicPostModel();
     }

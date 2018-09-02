@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sp.phone.view.toolbar.CategoryControlPanel
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_category_panel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone">
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="加载失败，请点击重试！"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.Material.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+</sp.phone.view.toolbar.CategoryControlPanel>

@@ -46,7 +46,7 @@ public class MessageListModel extends BaseModel implements MessageListContract.I
     @Override
     public void loadPage(int page, final OnHttpCallBack<MessageListInfo> callBack) {
         mParamMap.put("page",String.valueOf(page));
-        mService.getInfo(mParamMap)
+        mService.get(mParamMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(new Function<String, MessageListInfo>() {
