@@ -36,6 +36,8 @@ public class ThreadRowInfo {
     private String from_client;
     private String from_client_model;
 
+    private boolean mMuted;
+
     private List<String> mImageUrlList = new ArrayList<>();
 
     public void addImageUrl(String url) {
@@ -254,5 +256,11 @@ public class ThreadRowInfo {
         this.formattedHtmlData = formattedHtmlData;
     }
 
+    public boolean isMuted() {
+        return mMuted;
+    }
 
+    public void setMuted(boolean muted) {
+        mMuted = muted;
+    }
 }

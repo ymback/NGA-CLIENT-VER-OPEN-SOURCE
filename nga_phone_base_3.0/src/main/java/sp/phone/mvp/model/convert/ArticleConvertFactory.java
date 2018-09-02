@@ -10,6 +10,7 @@ import java.util.List;
 
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.ForumConstants;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.convert.builder.HtmlBuilder;
 import sp.phone.mvp.model.convert.decoder.ForumDecoder;
@@ -223,6 +224,13 @@ public class ArticleConvertFactory {
             row.setAurvrc(0);
         }
         row.setSignature(userInfo.getString("signature"));
+
+        JSONObject obj = userInfo.getJSONObject("buffs");
+        if (obj != null) {
+            if (obj.containsKey(ForumConstants.BUFF_MUTE_ID)) {
+                row.setMuted(true);
+            }
+        }
     }
 
 }

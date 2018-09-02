@@ -540,7 +540,7 @@ public class FunctionUtils {
             fgColor = nickNameTV.getResources().getColor(R.color.title_red);
             nickName += "(VIP)";
         } else if (!StringUtils.isEmpty(row.getMuteTime())
-                && !"0".equals(row.getMuteTime())) {
+                && !"0".equals(row.getMuteTime()) || row.isMuted()) {
             fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
             nickName += "(" + legend + ")";
         }
