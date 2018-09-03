@@ -31,36 +31,36 @@ public class ArticleConvertFactory {
     }
 
     private static ThreadData parseJsonThreadPage(String js) {
-        if (js.isEmpty()) {
-            return null;
-        } else if (js.contains("/*error fill content")) {
-            js = js.substring(0, js.indexOf("/*error fill content"));
-        }
-
-        js = js.replaceAll("/\\*\\$js\\$\\*/", "")
-                .replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",")
-                .replaceAll("\"subject\":\\+(\\d+),", "\"subject\":\"+$1\",")
-                .replaceAll("\"content\":(0\\d+),", "\"content\":\"$1\",")
-                .replaceAll("\"subject\":(0\\d+),", "\"subject\":\"$1\",")
-                .replaceAll("\"author\":(0\\d+),", "\"author\":\"$1\",")
-                .replaceAll("\"alterinfo\":\"\\[(\\w|\\s)+\\]\\s+\",", ""); //部分页面打不开的问题
-
-        JSONObject obj = null;
+        ThreadData data = null;
         try {
-            obj = (JSONObject) JSON.parseObject(js).get("data");
+            if (js.isEmpty()) {
+                return null;
+            } else if (js.contains("/*error fill content")) {
+                js = js.substring(0, js.indexOf("/*error fill content"));
+            }
+
+            js = js.replaceAll("/\\*\\$js\\$\\*/", "")
+                    .replaceAll("\"content\":\\+(\\d+),", "\"content\":\"+$1\",")
+                    .replaceAll("\"subject\":\\+(\\d+),", "\"subject\":\"+$1\",")
+                    .replaceAll("\"content\":(0\\d+),", "\"content\":\"$1\",")
+                    .replaceAll("\"subject\":(0\\d+),", "\"subject\":\"$1\",")
+                    .replaceAll("\"author\":(0\\d+),", "\"author\":\"$1\",")
+                    .replaceAll("\"alterinfo\":\"\\[(\\w|\\s)+\\]\\s+\",", ""); //部分页面打不开的问题
+
+            JSONObject obj = (JSONObject) JSON.parseObject(js).get("data");
+            NLog.e(TAG, "can not parse :\n" + js);
+            if (obj == null) {
+                return null;
+            }
+            int allRows = (Integer) obj.get("__ROWS");
+            data = new ThreadData();
+            data.setThreadInfo(buildThreadPageInfo(obj));
+            data.setRowList(buildThreadRowList(obj));
+            data.set__ROWS(allRows);
+            data.setRowNum(data.getRowList().size());
         } catch (Exception e) {
             NLog.e(TAG, "can not parse :\n" + js);
         }
-        if (obj == null) {
-            return null;
-        }
-        int allRows = (Integer) obj.get("__ROWS");
-        ThreadData data = new ThreadData();
-        data.setThreadInfo(buildThreadPageInfo(obj));
-        data.setRowList(buildThreadRowList(obj));
-        data.set__ROWS(allRows);
-        data.setRowNum(data.getRowList().size());
-
         return data;
     }
 

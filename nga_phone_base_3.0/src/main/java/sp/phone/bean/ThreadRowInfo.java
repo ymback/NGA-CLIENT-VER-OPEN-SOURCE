@@ -32,7 +32,9 @@ public class ThreadRowInfo {
     public List<String> hotReplies; //热门回复
 
     private boolean isInBlackList;
-    private String formattedHtmlData;
+
+    private String mFormattedHtmlData;
+
     private String from_client;
     private String from_client_model;
 
@@ -249,11 +251,11 @@ public class ThreadRowInfo {
     }
 
     public String getFormattedHtmlData() {
-        return formattedHtmlData;
+        return mFormattedHtmlData;
     }
-
+    
     public void setFormattedHtmlData(String formattedHtmlData) {
-        this.formattedHtmlData = formattedHtmlData;
+        mFormattedHtmlData = formattedHtmlData;
     }
 
     public boolean isMuted() {
