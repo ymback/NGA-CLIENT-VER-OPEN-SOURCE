@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.ApplicationContextHolder;
@@ -12,14 +13,17 @@ import sp.phone.common.PreferenceKey;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Deprecated
-    private ITheme[] mThemes = {
-            new DefaultTheme(),
-            new GreenTheme(),
-            new BlackTheme()
+    private int[] mAppThemes = {
+            R.style.AppThemeDayNightBrown_NoActionBar,
+            R.style.AppThemeDayNightGreen_NoActionBar,
+            R.style.AppThemeDayNightBlack_NoActionBar,
     };
 
-    private ITheme mCurrentTheme;
+    private int[] mAppThemesActionBar = {
+            R.style.AppThemeDayNightBrown,
+            R.style.AppThemeDayNightGreen,
+            R.style.AppThemeDayNightBlack,
+    };
 
     private int mThemeIndex;
 
@@ -27,15 +31,18 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     private Context mContext;
 
+    private WebViewTheme mWebViewTheme;
+
+    private TypedValue mTypedValue = new TypedValue();
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
         if (key.equals(PreferenceKey.NIGHT_MODE)) {
             mNightMode = sp.getBoolean(key, false);
-            updateTheme();
         } else if (key.equals(PreferenceKey.MATERIAL_THEME)) {
             mThemeIndex = Integer.parseInt(sp.getString(key, "0"));
-            updateTheme();
         }
+        mWebViewTheme = null;
     }
 
     private static class ThemeManagerHolder {
@@ -49,27 +56,21 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         sp.registerOnSharedPreferenceChangeListener(this);
         mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
         mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0"));
-        updateTheme();
     }
 
     public static ThemeManager getInstance() {
         return ThemeManagerHolder.sInstance;
     }
 
-    public void updateTheme() {
-        if (isNightMode()) {
-            mCurrentTheme = mThemes[0];
-        } else {
-            mCurrentTheme = mThemes[mThemeIndex];
+
+    public void initializeWebTheme(Context context) {
+        if (mWebViewTheme == null) {
+            mWebViewTheme = new WebViewTheme(context);
         }
     }
 
-    public ITheme getCurrentTheme() {
-        return mCurrentTheme;
-    }
-
     public int getForegroundColor() {
-        return mCurrentTheme.getForegroundColor();
+        return R.color.foreground_color;
     }
 
     public int getBackgroundColor() {
@@ -77,7 +78,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     public int getBackgroundColor(int position) {
-        return position % 2 == 1 ? mCurrentTheme.getBackgroundColor2() : mCurrentTheme.getBackgroundColor();
+        return position % 2 == 1 ? R.color.background_color2 : R.color.background_color;
     }
 
     public boolean isNightMode() {
@@ -86,46 +87,23 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     @ColorInt
     public int getPrimaryColor(Context context) {
-        return ContextCompat.getColor(context, mCurrentTheme.getPrimaryColor());
-    }
-
-    @ColorInt
-    public int getAccentColor(Context context) {
-        return ContextCompat.getColor(context, mCurrentTheme.getAccentColor());
-    }
-
-    @ColorInt
-    public int getActiveColor() {
-        return ContextCompat.getColor(mContext, R.color.color_state_active);
-    }
-
-    @ColorInt
-    public int getInactiveColor() {
-        return ContextCompat.getColor(mContext, R.color.color_state_inactive);
-    }
-
-    @ColorInt
-    public int getNukedColor() {
-        return ContextCompat.getColor(mContext, R.color.color_state_nuked);
-    }
-
-    @ColorInt
-    public int getMutedColor() {
-        return ContextCompat.getColor(mContext, R.color.color_state_muted);
+        context.getTheme().resolveAttribute(android.R.attr.colorPrimary, mTypedValue, true);
+        return ContextCompat.getColor(context, mTypedValue.resourceId);
     }
 
     @ColorInt
     public int getWebTextColor() {
-        return ContextCompat.getColor(mContext, mCurrentTheme.getWebTextColor());
+        return mWebViewTheme.getWebTextColor();
+    }
+
+    @ColorInt
+    public int getWebQuoteBackgroundColor() {
+        return mWebViewTheme.getQuoteBackgroundColor();
     }
 
     @StyleRes
-    public int getNoActionBarTheme() {
-        return mCurrentTheme.getNoActionBarTheme();
-    }
-
-    @StyleRes
-    public int getActionBarTheme() {
-        return mCurrentTheme.getActionBarTheme();
+    public int getTheme(boolean actionbarEnabled) {
+        int index = isNightMode() ? 0 : mThemeIndex;
+        return actionbarEnabled ? mAppThemesActionBar[index] : mAppThemes[index];
     }
 }

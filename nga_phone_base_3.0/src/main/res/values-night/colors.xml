@@ -3,7 +3,9 @@
 
     <color name="text_color">#FFFFFFFF</color>
     <color name="text_color_disabled">#FF6F6F6F</color>
-    <color name="text_color_web">#FF999999</color>
+
+    <color name="web_text_color">#FF999999</color>
+    <color name="web_quote_background_color">#FF000000</color>
 
     <color name="window_background">#FF303030</color>
     <color name="background_color">@color/night_bg_color</color>

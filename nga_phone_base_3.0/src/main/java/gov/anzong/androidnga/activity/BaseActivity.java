@@ -39,6 +39,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         updateThemeUi();
         super.onCreate(savedInstanceState);
         initSwipeBack();
+        ThemeManager.getInstance().initializeWebTheme(this);
     }
 
     protected void setActionBarEnabled(boolean enabled) {
@@ -72,11 +73,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     protected void updateThemeUi() {
         ThemeManager tm = ThemeManager.getInstance();
-        if (mActionBarEnabled) {
-            setTheme(tm.getActionBarTheme());
-        } else {
-            setTheme(tm.getNoActionBarTheme());
-        }
+        setTheme(tm.getTheme(mActionBarEnabled));
         if (tm.isNightMode()) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

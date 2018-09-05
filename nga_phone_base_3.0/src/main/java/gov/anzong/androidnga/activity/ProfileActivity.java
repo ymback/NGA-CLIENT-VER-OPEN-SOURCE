@@ -114,7 +114,7 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
     @Override
     protected void updateThemeUi() {
-        setTheme(mThemeManager.getNoActionBarTheme());
+        setTheme(mThemeManager.getTheme(false));
         if (mThemeManager.isNightMode()) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -237,19 +237,19 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
             if (profileInfo.get_muteTime().equals("-1")) {
                 mUserMuteTime.setVisibility(View.GONE);
                 mUserStateTv.setText("已激活");
-                mUserStateTv.setTextColor(mThemeManager.getActiveColor());
+                mUserStateTv.setTextColor(getColor(R.color.color_state_active));
             } else {
                 mUserMuteTime.setText(profileInfo.get_muteTime());
                 mUserStateTv.setText("已禁言");
-                mUserStateTv.setTextColor(mThemeManager.getMutedColor());
+                mUserStateTv.setTextColor(getColor(R.color.color_state_muted));
             }
         } else if (verified == 0) {
             mUserStateTv.setText("未激活(?)");
-            mUserStateTv.setTextColor(mThemeManager.getInactiveColor());
+            mUserStateTv.setTextColor(getColor(R.color.color_state_inactive));
             mUserMuteTime.setVisibility(View.GONE);
         } else if (verified == -1) {
             mUserStateTv.setText("NUKED(?)");
-            mUserStateTv.setTextColor(mThemeManager.getNukedColor());
+            mUserStateTv.setTextColor(getColor(R.color.color_state_nuked));
             if (profileInfo.get_muteTime().equals("-1")) {
                 mUserMuteTime.setVisibility(View.GONE);
             } else {
@@ -257,7 +257,7 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
             }
         } else {
             mUserStateTv.setText("已禁言");
-            mUserStateTv.setTextColor(mThemeManager.getMutedColor());
+            mUserStateTv.setTextColor(getColor(R.color.color_state_muted));
             if (profileInfo.get_muteTime().equals("-1")) {
                 mUserMuteTime.setVisibility(View.GONE);
             } else {

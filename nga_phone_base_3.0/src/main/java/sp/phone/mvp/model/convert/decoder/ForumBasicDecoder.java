@@ -2,6 +2,7 @@ package sp.phone.mvp.model.convert.decoder;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.HtmlUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.StringUtils;
 
@@ -18,14 +19,21 @@ public class ForumBasicDecoder implements IForumDecoder {
     private static final String ignoreCaseTag = "(?i)";
     private static final String endDiv = "</div>";
 
+    private static final String STYLE_QUOTE = "<div style='background:%s;padding:5px;border:1px solid #888' >";
+
     @Override
     public String decode(String content) {
         if (StringUtils.isEmpty(content))
             return "";
         // s = StringUtils.unEscapeHtml(s);
-        String quoteStyle = "<div style='background:#E8E8E8;padding:5px;border:1px solid #888' >";
-        if (ThemeManager.getInstance().isNightMode())
-            quoteStyle = "<div style='background:#000000;padding:5px;border:1px solid #888' >";
+
+        int quoteColor = ThemeManager.getInstance().getWebQuoteBackgroundColor();
+        String quoteColorStr = HtmlUtils.convertWebColor(quoteColor);
+        String quoteStyle = String.format(STYLE_QUOTE,quoteColorStr);
+
+//        String quoteStyle = "<div style='background:#E8E8E8;padding:5px;border:1px solid #888' >";
+//        if (ThemeManager.getInstance().isNightMode())
+//            quoteStyle = "<div style='background:#000000;padding:5px;border:1px solid #888' >";
 
         final String styleLeft = "<div style='float:left' >";
         final String styleRight = "<div style='float:right' >";

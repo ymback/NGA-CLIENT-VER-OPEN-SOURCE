@@ -1,6 +1,7 @@
 package sp.phone.util;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ public class HtmlUtils {
         attachment = activity.getString(R.string.attachment);
         comment = activity.getString(R.string.comment);
         sig = activity.getString(R.string.sig);
+    }
+
+    public static String convertWebColor(@ColorInt int color) {
+        return String.format("#%06x", color & 0xFFFFFF);
     }
 
     private static String buildHeader(ThreadRowInfo row, String fgColorStr) {

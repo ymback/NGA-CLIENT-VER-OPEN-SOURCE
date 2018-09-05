@@ -131,7 +131,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
         menuItem.setActionView(actionView);
         menuItem.expandActionView();
         mReplyCountView = actionView.findViewById(R.id.reply_count);
-        navigationView.getHeaderView(0).setBackgroundColor(ThemeManager.getInstance().getPrimaryColor(getContext()));
         mHeaderView = navigationView.getHeaderView(0).findViewById(R.id.viewFlipper);
         updateHeaderView();
     }

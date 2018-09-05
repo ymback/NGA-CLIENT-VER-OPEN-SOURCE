@@ -64,8 +64,6 @@ public class RecentNotificationAdapter extends RecyclerView.Adapter<RecentNotifi
         holder.typeTv.setText(getTypeStr(info.getType()));
         holder.timeTv.setText(StringUtils.timeStamp2Date1(info.getTimeStamp()));
 
-        holder.userNameTv.setTextColor(ThemeManager.getInstance().getAccentColor(mContext));
-
         if (isUnread(info)) {
             holder.timeTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             holder.topicTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));

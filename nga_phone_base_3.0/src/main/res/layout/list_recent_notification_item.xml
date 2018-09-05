@@ -20,6 +20,7 @@
         android:layout_toEndOf="@id/iv_avatar"
         android:maxLines="1"
         android:text="@string/sample_nick_name"
+        android:textColor="?colorAccent"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <TextView

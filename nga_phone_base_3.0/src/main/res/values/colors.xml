@@ -3,12 +3,14 @@
 
     <color name="text_color">#FF21201B</color>
     <color name="text_color_disabled">#FFC4BEAE</color>
-    <color name="text_color_web">#FF000000</color>
     <color name="window_background">@color/shit2</color>
     <color name="toolbar_text_color">#FFFFFF</color>
     <color name="background_color">@color/shit2</color>
     <color name="background_color2">@color/shit1</color>
     <color name="foreground_color">@color/black</color>
+
+    <color name="web_text_color">#FF000000</color>
+    <color name="web_quote_background_color">#FFE8E8E8</color>
 
     <color name="color_state_nuked">#DD0000</color>
     <color name="color_state_active">#3D9F0E</color>
