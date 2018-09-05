@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.adapter.ExtensionEmotionAdapter;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.util.DeviceUtils;
 import sp.phone.util.HttpUtil;
 
 /**
@@ -20,11 +24,19 @@ public class ForumImageDecoder implements IForumDecoder {
         Pattern p = Pattern.compile("<img src='(http\\S+)' style= 'max-width:100%' >");
         Matcher m = p.matcher(content);
         mImageUrls.clear();
+       boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
+                || DeviceUtils.isWifiConnected(ApplicationContextHolder.getContext());
         while (m.find()) {
             String s0 = m.group();
             String s1 = m.group(1);
             String path = ExtensionEmotionAdapter.getPathByURI(s1);
             if (path != null) {
+                String newImgBlock = "<img src='"
+                        + "file:///android_asset/" + path
+                        + "' style= 'max-width:100%' >";
+                content = content.replace(s0, newImgBlock);
+            } else if (!showImage) {
+                path = "ic_offline_image.png";
                 String newImgBlock = "<img src='"
                         + "file:///android_asset/" + path
                         + "' style= 'max-width:100%' >";
