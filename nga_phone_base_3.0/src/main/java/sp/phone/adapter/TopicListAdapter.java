@@ -12,6 +12,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Base64;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
     @Override
     public TopicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TopicViewHolder viewHolder = new TopicViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_topic, parent, false));
-        viewHolder.title.setTextSize(PhoneConfiguration.getInstance().getTopicTitleSize());
+        viewHolder.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, PhoneConfiguration.getInstance().getTopicTitleSize());
         viewHolder.title.setTextColor(ContextCompat.getColor(mContext, mThemeManager.getForegroundColor()));
         RxUtils.clicks(viewHolder.itemView, mOnClickListener);
         viewHolder.itemView.setOnLongClickListener(mOnLongClickListener);
