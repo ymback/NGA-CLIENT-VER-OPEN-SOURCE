@@ -235,8 +235,13 @@ public class ArticleConvertFactory {
         }
 
         JSONObject obj = userInfo.getJSONObject("buffs");
-        if (obj != null && obj.containsKey(ForumConstants.BUFF_MUTE_ID)) {
-            row.setMuted(true);
+        if (obj != null) {
+            for (String id : ForumConstants.BUFF_MUTE_IDS) {
+                if (obj.containsKey(id)) {
+                    row.setMuted(true);
+                    break;
+                }
+            }
         }
     }
 
