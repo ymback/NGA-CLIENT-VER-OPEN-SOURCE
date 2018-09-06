@@ -92,6 +92,13 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     @ColorInt
+    public int getAccentColor(Context context) {
+        context.getTheme().resolveAttribute(android.R.attr.colorAccent, mTypedValue, true);
+        return ContextCompat.getColor(context, mTypedValue.resourceId);
+    }
+
+
+    @ColorInt
     public int getWebTextColor() {
         return mWebViewTheme.getWebTextColor();
     }

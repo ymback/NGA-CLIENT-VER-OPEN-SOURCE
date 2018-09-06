@@ -40,6 +40,12 @@ public class ThreadRowInfo {
 
     private boolean mMuted;
 
+    private String mPostCount;
+
+    private float mReputation;
+
+    private String mMemberGroup;
+
     private List<String> mImageUrlList = new ArrayList<>();
 
     public void addImageUrl(String url) {
@@ -253,7 +259,7 @@ public class ThreadRowInfo {
     public String getFormattedHtmlData() {
         return mFormattedHtmlData;
     }
-    
+
     public void setFormattedHtmlData(String formattedHtmlData) {
         mFormattedHtmlData = formattedHtmlData;
     }
@@ -264,5 +270,29 @@ public class ThreadRowInfo {
 
     public void setMuted(boolean muted) {
         mMuted = muted;
+    }
+
+    public String getPostCount() {
+        return mPostCount;
+    }
+
+    public void setPostCount(String postCount) {
+        mPostCount = postCount;
+    }
+
+    public float getReputation() {
+        return mReputation;
+    }
+
+    public void setReputation(float reputation) {
+        mReputation = reputation;
+    }
+
+    public String getMemberGroup() {
+        return mMemberGroup;
+    }
+
+    public void setMemberGroup(String memberGroup) {
+        mMemberGroup = memberGroup;
     }
 }

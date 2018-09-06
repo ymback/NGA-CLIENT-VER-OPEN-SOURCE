@@ -187,6 +187,8 @@ public class ArticleConvertFactory {
         }
         JSONObject userInfo = (JSONObject) userInfoMap.get(String.valueOf(row
                 .getAuthorid()));
+        JSONObject groupObj = userInfoMap.getJSONObject("__GROUPS");
+
         if (userInfo == null) {
             return;
         }
@@ -225,11 +227,16 @@ public class ArticleConvertFactory {
         }
         row.setSignature(userInfo.getString("signature"));
 
+        try {
+            row.setPostCount(userInfo.getString("postnum"));
+            row.setReputation(Float.parseFloat(userInfo.getString("rvrc")) / 10.0f);
+            row.setMemberGroup(groupObj.getJSONObject(userInfo.getString("memberid")).getString("0"));
+        } catch (Exception e) {
+        }
+
         JSONObject obj = userInfo.getJSONObject("buffs");
-        if (obj != null) {
-            if (obj.containsKey(ForumConstants.BUFF_MUTE_ID)) {
-                row.setMuted(true);
-            }
+        if (obj != null && obj.containsKey(ForumConstants.BUFF_MUTE_ID)) {
+            row.setMuted(true);
         }
     }
 

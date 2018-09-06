@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:ignore="WebViewLayout">
+    android:padding="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:minHeight="40dp">
+        android:layout_marginBottom="12dp">
 
         <FrameLayout
             android:id="@+id/fl_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp">
 
             <ImageView
                 android:id="@+id/iv_avatar"
@@ -27,55 +25,71 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/avatar"
                 android:focusable="false"
-                android:scaleType="centerInside"/>
-
+                android:scaleType="centerCrop"/>
         </FrameLayout>
 
         <TextView
             android:id="@+id/tv_nickName"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@id/fl_avatar"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@+id/fl_avatar"
+            android:textColor="?attr/colorAccent"
             android:textIsSelectable="false"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_floor"
+            android:id="@+id/tv_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:gravity="center"
-            android:textIsSelectable="false"/>
-
-        <ImageView
-            android:id="@+id/iv_client"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/tv_floor"
-            android:layout_alignTop="@id/tv_floor"
-            android:layout_marginEnd="2dp"
-            android:layout_toStartOf="@id/tv_floor"
-            android:visibility="gone"/>
+            android:layout_below="@+id/tv_nickName"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@+id/fl_avatar"
+            android:textColor="@color/text_color_disabled"
+            android:textSize="14dp"/>
 
         <TextView
             android:id="@+id/tv_post_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@+id/tv_nickName"
             android:layout_alignParentEnd="true"
-            android:textIsSelectable="false"/>
+            android:textColor="@color/text_color_disabled"
+            android:textIsSelectable="false"
+            android:textSize="14dp"/>
 
+        <TextView
+            android:id="@+id/tv_floor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_detail"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tv_detail"
+            android:layout_below="@+id/tv_post_time"
+            android:textColor="@color/text_color_disabled"
+            android:textIsSelectable="false"
+            android:textSize="14dp"/>
+
+        <ImageView
+            android:id="@+id/iv_client"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_floor"
+            android:layout_alignTop="@+id/tv_floor"
+            android:layout_below="@+id/tv_post_time"
+            android:layout_marginEnd="2dp"
+            android:layout_toStartOf="@+id/tv_floor"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <sp.phone.view.webview.WebViewEx
         android:id="@+id/wv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:focusable="false"/>
-
+        android:focusable="false"
+        android:scrollbars="none"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,10 +115,10 @@
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:src="@drawable/ic_more_ver_24dp"/>
 
     </LinearLayout>
-
 </LinearLayout>
+

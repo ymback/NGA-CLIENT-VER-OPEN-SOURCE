@@ -11,18 +11,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import java.text.MessageFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.UserManagerImpl;
 import sp.phone.listener.OnAvatarClickListener;
 import sp.phone.listener.OnClientClickListener;
 import sp.phone.listener.OnProfileClickListener;
@@ -32,7 +28,7 @@ import sp.phone.theme.ThemeManager;
 import sp.phone.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.HtmlUtils;
-import sp.phone.util.PermissionUtils;
+import sp.phone.util.ImageUtils;
 import sp.phone.view.webview.WebViewEx;
 
 /**
@@ -96,6 +92,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         @BindView(R.id.fl_avatar)
         FrameLayout avatarPanel;
 
+        @BindView(R.id.tv_detail)
+        TextView detailTv;
+
         public ArticleViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -124,7 +123,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         ArticleViewHolder viewHolder = new ArticleViewHolder(view);
         ViewGroup.LayoutParams lp = viewHolder.avatarIv.getLayoutParams();
         lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarWidth();
-
         viewHolder.contentTV.setLocalMode();
         RxUtils.clicks(viewHolder.nickNameTV, mOnProfileClickListener);
         RxUtils.clicks(viewHolder.replyBtn, mOnReplyClickListener);
@@ -156,15 +154,14 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         onBindDeviceType(holder.clientIv, row);
         onBindWebView(holder.contentTV, row);
 
-        int fgColor = ContextCompat.getColor(mContext, mThemeManager.getForegroundColor());
+        int fgColor = mThemeManager.getAccentColor(mContext);
         FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
 
         holder.floorTv.setText(MessageFormat.format("[{0} 楼]", String.valueOf(row.getLou())));
-        holder.floorTv.setTextColor(fgColor);
         holder.postTimeTv.setText(row.getPostdate());
-        holder.postTimeTv.setTextColor(fgColor);
         holder.scoreTv.setText(MessageFormat.format("顶 : {0}", row.getScore()));
-        holder.scoreTv.setTextColor(fgColor);
+
+        holder.detailTv.setText(String.format("级别：%s   威望：%s   发帖：%s", row.getMemberGroup(), row.getReputation(), row.getPostCount()));
 
     }
 
@@ -211,23 +208,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     }
 
     private void onBindAvatarView(ImageView avatarIv, ThreadRowInfo row) {
-        if (!PermissionUtils.hasStoragePermission(mContext)) {
-            avatarIv.setImageResource(R.drawable.default_avatar);
-            return;
-        }
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());
         final boolean downImg = DeviceUtils.isWifiConnected(mContext)
                 || PhoneConfiguration.getInstance()
                 .isDownAvatarNoWifi();
-        if (avatarUrl != null) {
-            GlideApp.with(mContext)
-                    .load(avatarUrl)
-                    .placeholder(R.drawable.default_avatar)
-                    .onlyRetrieveFromCache(!downImg)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(avatarIv);
-            UserManagerImpl.getInstance().setAvatarUrl(row.getAuthorid(), avatarUrl);
-        }
+
+        ImageUtils.loadRoundCornerAvatar(avatarIv, avatarUrl, !downImg);
     }
 
 }

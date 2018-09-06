@@ -425,45 +425,45 @@ public class ImageUtils {
     }
 
     public static Bitmap toRoundCorner(Bitmap bitmap, float ratio) { // 绝无问题
-        if (bitmap.getWidth() > bitmap.getHeight()) {
-            bitmap = Bitmap.createBitmap(bitmap,
-                    (bitmap.getWidth() - bitmap.getHeight()) / 2, 0,
-                    bitmap.getHeight(), bitmap.getHeight());
-        } else if (bitmap.getWidth() < bitmap.getHeight()) {
-            bitmap = Bitmap.createBitmap(bitmap, 0,
-                    (bitmap.getHeight() - bitmap.getWidth()) / 2,
-                    bitmap.getWidth(), bitmap.getWidth());
-        }
+        int size = Math.min(bitmap.getWidth(), bitmap.getHeight());
+
+        bitmap = Bitmap.createBitmap(bitmap, (bitmap.getWidth() - size) / 2, (bitmap.getHeight() - size) / 2, size, size);
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+
         Canvas canvas = new Canvas(output);
-
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        RectF rectF = new RectF(rect);
         paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawRoundRect(rectF, bitmap.getWidth() / ratio,
-                bitmap.getHeight() / ratio, paint);
 
+        canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawRoundRect(rectF, ((float) bitmap.getWidth()) / ratio, ((float) bitmap.getHeight()) / ratio, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
-
         return output;
     }
 
-    public static void loadRoundCornerAvatar(ImageView imageView, String url) {
+    public static void loadRoundCornerAvatar(ImageView imageView, String url, boolean onlyRetrieveFromCache) {
         Context context = ApplicationContextHolder.getContext();
         if (sDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
         }
+        if (!PermissionUtils.hasStoragePermission(context)) {
+            imageView.setImageDrawable(sDefaultAvatar);
+            return;
+        }
         GlideApp.with(ApplicationContextHolder.getContext())
                 .load(url)
                 .placeholder(sDefaultAvatar)
                 .circleCrop()
+                .onlyRetrieveFromCache(onlyRetrieveFromCache)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(imageView);
+    }
+
+    public static void loadRoundCornerAvatar(ImageView imageView, String url) {
+        loadRoundCornerAvatar(imageView, url, false);
     }
 
     public static void loadDefaultAvatar(ImageView imageView, String url) {
