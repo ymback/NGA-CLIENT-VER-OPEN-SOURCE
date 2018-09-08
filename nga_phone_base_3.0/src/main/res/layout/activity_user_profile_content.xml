@@ -2,7 +2,6 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,11 +35,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:text=":: 基础信息 ::"
-                    android:textColor="#712D08"
+                    android:textColor="#712d08"
                     android:textIsSelectable="false"
                     android:textSize="16dp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tv_user_email_title"
@@ -48,9 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_base_info_title"
                     android:text="邮箱 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 用户邮箱 -->
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_email"
@@ -63,8 +60,7 @@
                     android:singleLine="true"
                     android:text="N/A"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_tel"
@@ -76,8 +72,7 @@
                     android:singleLine="true"
                     android:text="N/A"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/user_tel_title"
@@ -86,9 +81,8 @@
                     android:layout_alignTop="@+id/tv_user_tel"
                     android:layout_toStartOf="@+id/tv_user_tel"
                     android:text="Tel : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_group_title"
@@ -96,9 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_user_email_title"
                     android:text="用户组 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 用户组 -->
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_group"
@@ -109,8 +102,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_post_count"
@@ -120,9 +112,9 @@
                     android:layout_alignTop="@+id/tv_user_group_title"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:text="N/A"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_post_count_title"
@@ -131,9 +123,8 @@
                     android:layout_alignTop="@+id/tv_post_count"
                     android:layout_toStartOf="@+id/tv_post_count"
                     android:text="发帖数 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 用户名 -->
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_money_title"
@@ -141,9 +132,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_user_group_title"
                     android:text="金钱 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 用户组 -->
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_money_gold"
@@ -152,8 +142,7 @@
                     android:layout_alignTop="@+id/tv_user_money_title"
                     android:layout_toEndOf="@+id/tv_user_money_title"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <ImageView
                     android:id="@+id/iv_avatar_gold"
@@ -176,8 +165,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_toEndOf="@+id/iv_avatar_gold"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <ImageView
                     android:id="@+id/iv_avatar_silver"
@@ -199,8 +187,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_toEndOf="@+id/iv_avatar_silver"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <ImageView
                     android:id="@+id/iv_avatar_copper"
@@ -223,9 +210,8 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="已激活"
-                    android:textColor="#3D9F0E"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textColor="#3d9f0e"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_state_title"
@@ -234,58 +220,28 @@
                     android:layout_alignTop="@+id/tv_user_state"
                     android:layout_toStartOf="@+id/tv_user_state"
                     android:text="状态 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 激活 -->
-
-
-                <TextView
-                    android:id="@+id/tv_user_title_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_user_money_title"
-                    android:text="头衔 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 用户组 -->
-
-
-                <TextView
-                    android:id="@+id/tv_user_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tv_user_title_title"
-                    android:layout_marginStart="4dp"
-                    android:layout_toEndOf="@+id/tv_user_title_title"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
-
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_mute_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@+id/tv_user_title_title"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/color_state_muted"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tv_user_register_time_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_user_title_title"
+                    android:layout_below="@+id/tv_user_money_title"
                     android:text="注册日期 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 用户组 -->
-
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
 
                 <TextView
                     android:id="@+id/tv_user_register_time"
@@ -295,31 +251,9 @@
                     android:layout_toEndOf="@+id/tv_user_register_time_title"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:text="N/A"
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
-
-                <TextView
-                    android:id="@+id/tv_user_last_login_time_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_user_register_time_title"
-                    android:text="最近访问 : "
-                    android:textColor="#121C46"
-                    android:textIsSelectable="false">
-                </TextView> <!-- 用户组 -->
-
-                <TextView
-                    android:id="@+id/tv_user_last_login_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tv_user_last_login_time_title"
-                    android:layout_toEndOf="@+id/tv_user_last_login_time_title"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -335,8 +269,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="WebViewLayout">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_sign_title"
@@ -344,17 +277,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:text=":: 签名 ::"
-                    android:textColor="#712D08"
+                    android:textColor="#712d08"
                     android:textIsSelectable="false"
                     android:textSize="16dp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/btn_modify_sign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/tv_sign_title"
+                    android:layout_alignBottom="@+id/tv_sign_title"
                     android:layout_alignParentEnd="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -363,17 +295,14 @@
                     android:text="[更改签名]"
                     android:textColor="#551200"
                     android:textSize="12dp"
-                    android:visibility="gone">
-                </TextView>
+                    android:visibility="gone"/>
 
                 <sp.phone.view.webview.WebViewEx
                     android:id="@+id/wv_sign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_sign_title"/>
-
+                    android:layout_below="@+id/tv_sign_title"/>
             </RelativeLayout>
-
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -390,18 +319,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:ignore="WebViewLayout">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_admin_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=":: 管理权限 ::"
-                    android:textColor="#712D08"
+                    android:textColor="#712d08"
                     android:textSize="16dp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tv_admin_sub_title"
@@ -409,16 +336,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:text="在以下版面担任版主 "
-                    android:textColor="#808080">
-                </TextView>
+                    android:textColor="#808080"/>
 
                 <sp.phone.view.webview.WebViewEx
                     android:id="@+id/wv_admin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
             </LinearLayout>
-
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -434,19 +358,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:ignore="WebViewLayout">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_fame_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=":: 声望 ::"
-                    android:textColor="#712D08"
+                    android:textColor="#712d08"
                     android:textIsSelectable="false"
                     android:textSize="16dp"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tv_fame_sub_title"
@@ -454,19 +376,13 @@
                     android:layout_height="wrap_content"
                     android:text="表示与 论坛/某版面/某用户 的关系 "
                     android:textColor="#808080"
-                    android:textIsSelectable="false">
-                </TextView>
+                    android:textIsSelectable="false"/>
 
                 <sp.phone.view.webview.WebViewEx
                     android:id="@+id/wv_fame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
             </LinearLayout>
-
         </android.support.v7.widget.CardView>
-
     </LinearLayout>
-
-
 </android.support.v4.widget.NestedScrollView>

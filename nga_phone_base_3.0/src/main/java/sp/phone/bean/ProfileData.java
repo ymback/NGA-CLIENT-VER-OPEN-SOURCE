@@ -3,194 +3,164 @@ package sp.phone.bean;
 import java.util.List;
 
 public class ProfileData {
-    public String iplog;
-    List<ReputationData> ReputationEntryList;
-    List<adminForumsData> adminForumsEntryList;
-    private String uid;
-    private String username;
-    private String fame;
-    private boolean hasemail = false, hastel = false;
-    private String email, tel;
-    private String group;
-    private String posts;
-    private String money;
-    private String title;
-    private String verified;
-    private String muteTime;
-    private String regdate, lastpost;
-    private String sign;
-    private String avatar;
-    private int ReputationEntryListrows;
-    private int adminForumsEntryListrows;
 
-    public String get_uid() {
-        return uid;
+    private List<AdminForumsData> mAdminForums;
+
+    private List<ReputationData> mReputationEntryList;
+
+    private String mAvatarUrl;
+
+    private String mEmailAddress;
+
+    private String mFrame;
+
+    private String mMemberGroup;
+
+    private String mMoney;
+
+    private boolean mMuted;
+
+    private String mMutedTime;
+
+    private boolean mNuked;
+
+    private String mPhoneNumber;
+
+    private String mPostCount;
+
+    private String mRegisterDate;
+
+    private String mSign;
+
+    private String mUid;
+
+    private String mUserName;
+
+    public String getFrame() {
+        return mFrame;
     }
 
-    public void set_uid(String uid) {
-        this.uid = uid;
+    public void setFrame(String frame) {
+        mFrame = frame;
     }
 
-    public String get_username() {
-        return username;
+    public String getSign() {
+        return mSign;
     }
 
-    public void set_username(String username) {
-        this.username = username;
+    public void setSign(String sign) {
+        mSign = sign;
     }
 
-    public String get_iplog() {
-        return iplog;
+    public String getAvatarUrl() {
+        return mAvatarUrl;
     }
 
-    public void set_iplog(String iplog) {
-        this.iplog = iplog;
+    public void setAvatarUrl(String avatarUrl) {
+        mAvatarUrl = avatarUrl;
     }
 
-    public String get_fame() {
-        return fame;
+    public String getEmailAddress() {
+        return mEmailAddress;
     }
 
-    public void set_fame(String fame) {
-        this.fame = fame;
+    public void setEmailAddress(String emailAddress) {
+        mEmailAddress = emailAddress;
     }
 
-    public void set_hasemail(boolean hasemail, String email) {
-        this.hasemail = hasemail;
-        this.email = email;
+    public String getPhoneNumber() {
+        return mPhoneNumber;
     }
 
-    public void set_hastel(boolean hastel, String tel) {
-        this.hastel = hastel;
-        this.tel = tel;
+    public void setPhoneNumber(String phoneNumber) {
+        mPhoneNumber = phoneNumber;
     }
 
-    public boolean get_hasemail() {
-        return hasemail;
+    public String getPostCount() {
+        return mPostCount;
     }
 
-    public String get_email() {
-        return email;
+    public void setPostCount(String postCount) {
+        mPostCount = postCount;
     }
 
-    public boolean get_hastel() {
-        return hastel;
+    public String getMoney() {
+        return mMoney;
     }
 
-    public String get_tel() {
-        return tel;
+    public void setMoney(String money) {
+        mMoney = money;
     }
 
-    public String get_group() {
-        return group;
+    public String getRegisterDate() {
+        return mRegisterDate;
     }
 
-    public void set_group(String group) {
-        this.group = group;
+    public void setRegisterDate(String registerDate) {
+        mRegisterDate = registerDate;
     }
 
-    public String get_posts() {
-        return posts;
+    public String getMutedTime() {
+        return mMutedTime;
     }
 
-    public void set_posts(String posts) {
-        this.posts = posts;
+    public void setMutedTime(String mutedTime) {
+        mMutedTime = mutedTime;
     }
 
-    public String get_money() {
-        return money;
+    public boolean isMuted() {
+        return mMuted;
     }
 
-    public void set_money(String money) {
-        this.money = money;
+    public void setMuted(boolean muted) {
+        mMuted = muted;
     }
 
-    public String get_title() {
-        return title;
+    public boolean isNuked() {
+        return mNuked;
     }
 
-    public void set_title(String title) {
-        this.title = title;
+    public void setNuked(boolean nuked) {
+        mNuked = nuked;
     }
 
-    public String get_verified() {
-        return verified;
+    public String getUserName() {
+        return mUserName;
     }
 
-    public void set_verified(String verified) {
-        this.verified = verified;
+    public void setUserName(String userName) {
+        mUserName = userName;
     }
 
-    public String get_muteTime() {
-        return muteTime;
+    public String getUid() {
+        return mUid;
     }
 
-    public void set_muteTime(String muteTime) {
-        this.muteTime = muteTime;
+    public void setUid(String uid) {
+        mUid = uid;
     }
 
-    public String get_regdate() {
-        return regdate;
+    public String getMemberGroup() {
+        return mMemberGroup;
     }
 
-    public void set_regdate(String regdate) {
-        this.regdate = regdate;
+    public void setMemberGroup(String memberGroup) {
+        mMemberGroup = memberGroup;
     }
 
-    public String get_lastpost() {
-        return lastpost;
+    public List<AdminForumsData> getAdminForums() {
+        return mAdminForums;
     }
 
-    public void set_lastpost(String lastpost) {
-        this.lastpost = lastpost;
+    public void setAdminForums(List<AdminForumsData> adminForums) {
+        mAdminForums = adminForums;
     }
 
-    public String get_sign() {
-        return sign;
+    public List<ReputationData> getReputationEntryList() {
+        return mReputationEntryList;
     }
 
-    public void set_sign(String sign) {
-        this.sign = sign;
+    public void setReputationEntryList(List<ReputationData> reputationEntryList) {
+        mReputationEntryList = reputationEntryList;
     }
-
-    public String get_avatar() {
-        return avatar;
-    }
-
-    public void set_avatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public List<ReputationData> get_ReputationEntryList() {
-        return ReputationEntryList;
-    }
-
-    public void set_ReputationEntryList(List<ReputationData> ReputationEntryList) {
-        this.ReputationEntryList = ReputationEntryList;
-    }
-
-    public int get_ReputationEntryListrows() {
-        return ReputationEntryListrows;
-    }
-
-    public void set_ReputationEntryListrows(int ReputationEntryListrows) {
-        this.ReputationEntryListrows = ReputationEntryListrows;
-    }
-
-    public List<adminForumsData> get_adminForumsEntryList() {
-        return adminForumsEntryList;
-    }
-
-    public void set_adminForumsEntryList(List<adminForumsData> adminForumsEntryList) {
-        this.adminForumsEntryList = adminForumsEntryList;
-    }
-
-    public int get_adminForumsEntryListrows() {
-        return adminForumsEntryListrows;
-    }
-
-    public void set_adminForumsEntryListrows(int adminForumsEntryListrows) {
-        this.adminForumsEntryListrows = adminForumsEntryListrows;
-    }
-
 }

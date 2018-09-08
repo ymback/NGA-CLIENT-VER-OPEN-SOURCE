@@ -26,14 +26,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import sp.phone.bean.AdminForumsData;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
-import sp.phone.bean.adminForumsData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ParamKey;
-import sp.phone.interfaces.OnProfileLoadFinishedListener;
+import sp.phone.listener.OnHttpCallBack;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
@@ -43,7 +43,7 @@ import sp.phone.util.StringUtils;
 import sp.phone.view.webview.WebViewEx;
 
 @Route(path = ARouterConstants.ACTIVITY_PROFILE)
-public class ProfileActivity extends BaseActivity implements OnProfileLoadFinishedListener {
+public class ProfileActivity extends BaseActivity implements OnHttpCallBack<ProfileData> {
 
     private static final String TAG = "ProfileActivity";
 
@@ -76,12 +76,6 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
     @BindView(R.id.tv_user_register_time)
     public TextView mRegisterTimeTv;
 
-    @BindView(R.id.tv_user_last_login_time)
-    public TextView mLastLoginTv;
-
-    @BindView(R.id.tv_user_title)
-    public TextView mUserTitleTv;
-
     @BindView(R.id.tv_user_tel)
     public TextView mUserTelTv;
 
@@ -111,6 +105,8 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
     @BindView(R.id.wv_sign)
     public WebViewEx mSignWebView;
+
+    private JsonProfileLoadTask mProfileLoadTask;
 
     @Override
     protected void updateThemeUi() {
@@ -188,87 +184,61 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
         setContentView(R.layout.activity_user_profile);
         ButterKnife.bind(this);
-        setupActionBar();
+        setupToolbar();
         updateToolbarLayout();
         refresh();
     }
 
     private void refresh() {
-        refreshSaying();
-        JsonProfileLoadTask task = new JsonProfileLoadTask(this, this);
-        task.execute(mParams);
-    }// 读取JSON了
-
-    private void refreshSaying() {
         ActivityUtils.getInstance().noticeSaying(this);
+        mProfileLoadTask = new JsonProfileLoadTask(this);
+        mProfileLoadTask.execute(mParams);
+    }
+
+
+    protected void onDestroy() {
+        mProfileLoadTask.cancel();
+        super.onDestroy();
     }
 
     private void loadBasicProfile(ProfileData profileInfo) {
-        String userName = profileInfo.get_username();
-        mToolbarLayout.setTitle(userName);
-        mUidTv.setText(String.format("用户ID : %s", profileInfo.get_uid()));
-        mPostCountTv.setText(profileInfo.get_posts());
-        if (profileInfo.get_hasemail()) {
-            mUserEmailTv.setText(profileInfo.get_email());
-        }
-        if (profileInfo.get_hastel()) {
-            mUserTelTv.setText(profileInfo.get_tel());
-        }
-        mUserGroupTv.setText(profileInfo.get_group());
-
+        mToolbarLayout.setTitle(profileInfo.getUserName());
+        mUidTv.setText(String.format("用户ID : %s", profileInfo.getUid()));
+        mPostCountTv.setText(profileInfo.getPostCount());
+        mRegisterTimeTv.setText(profileInfo.getRegisterDate());
+        mUserEmailTv.setText(profileInfo.getEmailAddress());
+        mUserTelTv.setText(profileInfo.getPhoneNumber());
+        mUserGroupTv.setText(profileInfo.getMemberGroup());
         if (mCurrentUser) {
             mModifySignBtn.setVisibility(View.VISIBLE);
         } else {
             mModifySignBtn.setVisibility(View.GONE);
         }
-
-        mRegisterTimeTv.setText(profileInfo.get_regdate());
-        mLastLoginTv.setText(profileInfo.get_lastpost());
-        mUserTitleTv.setText(profileInfo.get_title());
-
         handleAvatar(profileInfo);
         handleUserState(profileInfo);
         handleUserMoney(profileInfo);
     }
 
     private void handleUserState(ProfileData profileInfo) {
-        int verified = Integer.parseInt(profileInfo.get_verified());
-        if (verified > 0) {
-            if (profileInfo.get_muteTime().equals("-1")) {
-                mUserMuteTime.setVisibility(View.GONE);
-                mUserStateTv.setText("已激活");
-                mUserStateTv.setTextColor(getColor(R.color.color_state_active));
-            } else {
-                mUserMuteTime.setText(profileInfo.get_muteTime());
-                mUserStateTv.setText("已禁言");
-                mUserStateTv.setTextColor(getColor(R.color.color_state_muted));
-            }
-        } else if (verified == 0) {
-            mUserStateTv.setText("未激活(?)");
-            mUserStateTv.setTextColor(getColor(R.color.color_state_inactive));
-            mUserMuteTime.setVisibility(View.GONE);
-        } else if (verified == -1) {
-            mUserStateTv.setText("NUKED(?)");
-            mUserStateTv.setTextColor(getColor(R.color.color_state_nuked));
-            if (profileInfo.get_muteTime().equals("-1")) {
-                mUserMuteTime.setVisibility(View.GONE);
-            } else {
-                mUserMuteTime.setText(profileInfo.get_muteTime());
-            }
-        } else {
+        if (profileInfo.isMuted()) {
             mUserStateTv.setText("已禁言");
             mUserStateTv.setTextColor(getColor(R.color.color_state_muted));
-            if (profileInfo.get_muteTime().equals("-1")) {
-                mUserMuteTime.setVisibility(View.GONE);
-            } else {
-                mUserMuteTime.setText(profileInfo.get_muteTime());
+            if (!StringUtils.isEmpty(profileInfo.getMutedTime())) {
+                mUserMuteTime.setText(profileInfo.getMutedTime());
+                //  mUserMuteTime.setVisibility(View.VISIBLE);
             }
+        } else if (profileInfo.isNuked()) {
+            mUserStateTv.setText("NUKED(?)");
+            mUserStateTv.setTextColor(getColor(R.color.color_state_nuked));
+        } else {
+            mUserStateTv.setText("已激活");
+            mUserStateTv.setTextColor(getColor(R.color.color_state_active));
         }
     }
 
     private void handleUserMoney(ProfileData profileInfo) {
 
-        int money = Integer.parseInt(profileInfo.get_money());
+        int money = Integer.parseInt(profileInfo.getMoney());
         int gold = money / 10000;
         int silver = (money - gold * 10000) / 100;
         int copper = (money - gold * 10000 - silver * 100);
@@ -283,16 +253,16 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
     private String createAdminHtml(ProfileData ret) {
         StringBuilder builder = new StringBuilder();
-        List<adminForumsData> adminForumsEntryList = ret.get_adminForumsEntryList();
-        for (int i = 0; i < ret.get_adminForumsEntryListrows(); i++) {
-            builder.append("<a style=\"color:#551200;\" href=\"http://nga.178.com/thread.php?fid=")
-                    .append(adminForumsEntryList.get(i).get_fid())
-                    .append("\">[")
-                    .append(adminForumsEntryList.get(i).get_fname()).append("]</a>&nbsp;");
-        }
-        if (builder.length() == 0) {
+        List<AdminForumsData> adminForumsEntryList = ret.getAdminForums();
+        if (adminForumsEntryList == null) {
             builder.append("无管理板块");
         } else {
+            for (AdminForumsData data : adminForumsEntryList) {
+                builder.append("<a style=\"color:#551200;\" href=\"http://nga.178.com/thread.php?fid=")
+                        .append(data.getFid()).append("\">[")
+                        .append(data.getForumName())
+                        .append("]</a>&nbsp;");
+            }
             builder.append("<br>");
         }
         return builder.toString();
@@ -301,7 +271,7 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
     @OnClick(R.id.btn_modify_sign)
     public void startChangeSignActivity() {
         Intent intent = new Intent();
-        intent.putExtra("prefix", mProfileData.get_sign());
+        intent.putExtra("prefix", mProfileData.getSign());
         intent.setClass(this, PhoneConfiguration.getInstance().signPostActivityClass);
         startActivityForResult(intent, 321);
     }
@@ -313,28 +283,29 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
         handleFameWebView(mFameWebView, profileInfo);
     }
 
-
     private String createFameHtml(ProfileData ret, String color) {
         StringBuilder builder = new StringBuilder("<ul style=\"padding: 0px; margin: 0px;\">");
-        String fame = ret.get_fame();
-        double fameCount = Double.parseDouble(fame) / 10;
         builder.append("<li style=\"display: block;float: left;width: 33%;\">")
                 .append("<label style=\"float: left;color: ").append(color).append(";\">威望</label>")
                 .append("<span style=\"float: left; color: #808080;\">:</span>")
                 .append("<span style=\"float: left; color: #808080;\">")
-                .append(Double.toString(fameCount)).append("</span></li>");
-        List<ReputationData> reputationEntryList = ret.get_ReputationEntryList();
-        for (int i = 0; i < ret.get_ReputationEntryListrows(); i++) {
-            builder.append("<li style=\"display: block;float: left;width: 33%;\">")
-                    .append("<label style=\"float: left;color: ").append(color).append(";\">")
-                    .append(reputationEntryList.get(i).get_name()).append("</label>")
-                    .append("<span style=\"float: left; color: #808080;\">:</span>")
-                    .append("<span style=\"float: left; color: #808080;\">")
-                    .append(reputationEntryList.get(i).get_data()).append("</span></li>");
+                .append(Double.toString(Double.parseDouble(ret.getFrame()) / 10.0d))
+                .append("</span></li>");
+        List<ReputationData> reputationEntryList = ret.getReputationEntryList();
+        if (reputationEntryList != null) {
+            for (ReputationData data : reputationEntryList) {
+                builder.append("<li style=\"display: block;float: left;width: 33%;\">")
+                        .append("<label style=\"float: left;color: ")
+                        .append(color).append(";\">").append(data.getName()).append("</label>")
+                        .append("<span style=\"float: left; color: #808080;\">:</span>")
+                        .append("<span style=\"float: left; color: #808080;\">")
+                        .append(data.getData()).append("</span></li>");
+            }
         }
         builder.append("</ul><br>");
         return builder.toString();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -345,13 +316,13 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mCurrentUser) {
-            menu.findItem(R.id.menu_send_message).setVisible(false);
-        } else {
-            menu.findItem(R.id.menu_modify_avatar).setVisible(false);
-        }
         menu.findItem(R.id.menu_copy_url).setVisible(true);
         menu.findItem(R.id.menu_open_by_browser).setVisible(true);
+
+        menu.findItem(R.id.menu_search_post).setVisible(mProfileData != null);
+        menu.findItem(R.id.menu_search_reply).setVisible(mProfileData != null);
+        menu.findItem(R.id.menu_send_message).setVisible(mProfileData != null && !mCurrentUser);
+        menu.findItem(R.id.menu_modify_avatar).setVisible(mProfileData != null && mCurrentUser);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -385,15 +356,15 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
     private void startModifyAvatar() {
         Intent intent = new Intent();
-        intent.putExtra("prefix", mProfileData.get_sign());
+        intent.putExtra("prefix", mProfileData.getSign());
         intent.setClass(this, AvatarPostActivity.class);
         startActivity(intent);
     }
 
     private void sendShortMessage() {
         Intent intent = new Intent();
-        intent.putExtra("to", mProfileData.get_username());
-        intent.putExtra("action", "new");
+        intent.putExtra("to", mProfileData.getUserName());
+        intent.putExtra(ParamKey.KEY_ACTION, "new");
         intent.putExtra("messagemode", "yes");
         intent.setClass(this, PhoneConfiguration.getInstance().messagePostActivityClass);
         startActivity(intent);
@@ -401,16 +372,16 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
     private void searchPost() {
         Intent intent = new Intent(this, PhoneConfiguration.getInstance().topicActivityClass);
-        intent.putExtra(ParamKey.KEY_AUTHOR_ID, Integer.parseInt(mProfileData.get_uid()));
-        intent.putExtra(ParamKey.KEY_AUTHOR, mProfileData.get_username());
+        intent.putExtra(ParamKey.KEY_AUTHOR_ID, Integer.parseInt(mProfileData.getUid()));
+        intent.putExtra(ParamKey.KEY_AUTHOR, mProfileData.getUserName());
         startActivity(intent);
     }
 
     private void searchReply() {
         Intent intent = new Intent(this, PhoneConfiguration.getInstance().topicActivityClass);
-        intent.putExtra(ParamKey.KEY_AUTHOR_ID, Integer.parseInt(mProfileData.get_uid()));
+        intent.putExtra(ParamKey.KEY_AUTHOR_ID, Integer.parseInt(mProfileData.getUid()));
         intent.putExtra(ParamKey.KEY_SEARCH_POST, 1);
-        intent.putExtra(ParamKey.KEY_AUTHOR, mProfileData.get_username());
+        intent.putExtra(ParamKey.KEY_AUTHOR, mProfileData.getUserName());
         startActivity(intent);
     }
 
@@ -418,12 +389,12 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 321 && resultCode == Activity.RESULT_OK) {
             String signData = data.getStringExtra("sign");
-            mProfileData.set_sign(signData);
+            mProfileData.setSign(signData);
             mSignWebView.requestLayout();
             handleSignWebView(mSignWebView, mProfileData);
         } else if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
             String avatarData = data.getStringExtra("avatar");
-            mProfileData.set_avatar(avatarData);
+            mProfileData.setAvatarUrl(avatarData);
             mSignWebView.requestLayout();
             //  handleAvatar(avatarImage, mProfileData);
         }
@@ -524,7 +495,7 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
 
     public String signatureToHtmlText(final ProfileData ret, boolean showImage,
                                       int imageQuality, final String fgColorStr, final String bgcolorStr) {
-        String ngaHtml = StringUtils.decodeForumTag(ret.get_sign(), showImage,
+        String ngaHtml = StringUtils.decodeForumTag(ret.getSign(), showImage,
                 imageQuality, null);
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
                 + "<body bgcolor= '#"
@@ -540,17 +511,22 @@ public class ProfileActivity extends BaseActivity implements OnProfileLoadFinish
     }
 
     private void handleAvatar(ProfileData row) {
-        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.get_avatar());//
+        final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getAvatarUrl());//
         ImageUtils.loadRoundCornerAvatar(mAvatarIv, avatarUrl);
         ImageUtils.loadDefaultAvatar((ImageView) findViewById(R.id.iv_toolbar_layout_bg), avatarUrl);
 
     }
 
     @Override
-    public void jsonfinishLoad(ProfileData result) {
-        mProfileData = result;
-        if (result != null) {
-            loadProfileInfo(result);
+    public void onError(String text) {
+        ActivityUtils.showToast(text);
+    }
+
+    @Override
+    public void onSuccess(ProfileData data) {
+        mProfileData = data;
+        if (data != null) {
+            loadProfileInfo(data);
         }
     }
 }
