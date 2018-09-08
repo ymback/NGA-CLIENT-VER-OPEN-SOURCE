@@ -2,13 +2,8 @@ package sp.phone.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
@@ -28,17 +23,12 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
-import java.security.MessageDigest;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.User;
@@ -47,7 +37,6 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.AddBoardDialogFragment;
 import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
-import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.ImageUtils;
 
@@ -68,8 +57,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     private TextView mReplyCountView;
 
     private BoardPagerAdapter mBoardPagerAdapter;
-
-    private Drawable mDefaultAvatar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -241,28 +228,8 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     }
 
     public void handleUserAvatar(ImageView avatarIV, String url) {
-        if (mDefaultAvatar == null) {
-            Bitmap defaultAvatar = BitmapFactory.decodeResource(getResources(), R.drawable.default_avatar);
-            mDefaultAvatar = new BitmapDrawable(getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
-        }
-
         avatarIV.setImageTintList(null);
-        GlideApp.with(this)
-                .load(url)
-                .placeholder(mDefaultAvatar)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .transforms(new BitmapTransformation() {
-                    @Override
-                    protected Bitmap transform(@NonNull BitmapPool bitmapPool, @NonNull Bitmap bitmap, int i, int i1) {
-                        return ImageUtils.toRoundCorner(bitmap, 2);
-                    }
-
-                    @Override
-                    public void updateDiskCacheKey(MessageDigest messageDigest) {
-
-                    }
-                })
-                .into(avatarIV);
+        ImageUtils.loadRoundCornerAvatar(avatarIV, url);
     }
 
     @Override
