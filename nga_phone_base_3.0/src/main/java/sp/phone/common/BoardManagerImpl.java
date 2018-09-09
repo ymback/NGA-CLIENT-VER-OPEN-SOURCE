@@ -11,8 +11,7 @@ import java.util.List;
 
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
-import sp.phone.bean.Board;
-import sp.phone.bean.BoardCategory;
+import sp.phone.bean.OldBoard;
 
 public class BoardManagerImpl implements BoardManager {
 
@@ -40,86 +39,86 @@ public class BoardManagerImpl implements BoardManager {
         BoardCategory category = new BoardCategory("综合讨论");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
-        category.add(new Board("7", "议事厅", 7, 7));
-        category.add(new Board("323", "国服以外讨论", 323, 323));
-        category.add(new Board("10", "银色黎明", 10, 10));
-        category.add(new Board("230", "艾泽拉斯风纪委员会", 230, 230));
+        category.add(new Board("7", "议事厅"));
+        category.add(new Board("323", "国服以外讨论"));
+        category.add(new Board("10", "银色黎明"));
+        category.add(new Board("230", "艾泽拉斯风纪委员会"));
 
         category = new BoardCategory("大漩涡系列");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
-        category.add(new Board("-7", "大漩涡", 354, 354));
-        category.add(new Board("-343809", "汽车俱乐部", 343809, 343809));
-        category.add(new Board("-81981", "生命之杯", 81981, 81981));
-        category.add(new Board("-576177", "影音讨论区", 576177));
-        category.add(new Board("-43", "军事历史", 43));
-        category.add(new Board("414", "游戏综合讨论", 414, 414));
-        category.add(new Board("427", "怪物猎人", 427, 427));
-        category.add(new Board("431", "风暴英雄", 431, 431));
-        category.add(new Board("436", "消费电子 IT新闻", 436));
-        category.add(new Board("498", "二手交易", 498));
-        category.add(new Board("-187579", "大漩涡历史博物馆", 187579));
-        category.add(new Board("485", "篮球", 485, 485));
-        category.add(new Board("491", "议会", 491));
+        category.add(new Board("-7", "大漩涡"));
+        category.add(new Board("-343809", "汽车俱乐部"));
+        category.add(new Board("-81981", "生命之杯"));
+        category.add(new Board("-576177", "影音讨论区"));
+        category.add(new Board("-43", "军事历史"));
+        category.add(new Board("414", "游戏综合讨论"));
+        category.add(new Board("427", "怪物猎人"));
+        category.add(new Board("431", "风暴英雄"));
+        category.add(new Board("436", "消费电子 IT新闻"));
+        category.add(new Board("498", "二手交易"));
+        category.add(new Board("-187579", "大漩涡历史博物馆"));
+        category.add(new Board("485", "篮球"));
+        category.add(new Board("491", "议会"));
 
 
         category = new BoardCategory("职业讨论区");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
-        category.add(new Board("390", "五晨寺", 390, 390));
-        category.add(new Board("320", "黑锋要塞", 320, 320));
-        category.add(new Board("181", "铁血沙场", 181, 181));
-        category.add(new Board("182", "魔法圣堂", 182, 182));
-        category.add(new Board("183", "信仰神殿", 183, 183));
-        category.add(new Board("185", "风暴祭坛", 185, 185));
-        category.add(new Board("186", "翡翠梦境", 186, 186));
-        category.add(new Board("187", "猎手大厅", 187, 187));
-        category.add(new Board("184", "圣光之力", 184, 184));
-        category.add(new Board("188", "恶魔深渊", 188, 188));
-        category.add(new Board("189", "暗影裂口", 189, 189));
-        category.add(new Board("477", "伊利达雷", 477, 477));
+        category.add(new Board("390", "五晨寺"));
+        category.add(new Board("320", "黑锋要塞"));
+        category.add(new Board("181", "铁血沙场"));
+        category.add(new Board("182", "魔法圣堂"));
+        category.add(new Board("183", "信仰神殿"));
+        category.add(new Board("185", "风暴祭坛"));
+        category.add(new Board("186", "翡翠梦境"));
+        category.add(new Board("187", "猎手大厅"));
+        category.add(new Board("184", "圣光之力"));
+        category.add(new Board("188", "恶魔深渊"));
+        category.add(new Board("189", "暗影裂口"));
+        category.add(new Board("477", "伊利达雷"));
 
 
         category = new BoardCategory("冒险心得");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
-        category.add(new Board("310", "精英议会", 310, 310));
-        category.add(new Board("190", "任务讨论", 190, 190));
-        category.add(new Board("213", "战争档案", 213, 213));
-        category.add(new Board("218", "副本专区", 218, 218));
-        category.add(new Board("258", "战场讨论", 258, 258));
-        category.add(new Board("272", "竞技场", 272, 272));
-        category.add(new Board("191", "地精商会", 191, 191));
-        category.add(new Board("200", "插件研究", 200, 200));
-        category.add(new Board("240", "BigFoot", 240, 240));
-        category.add(new Board("460", "大脚综合", 460));
-        category.add(new Board("461", "大脚水区", 461));
-        category.add(new Board("458", "大脚LOL", 458));
-        category.add(new Board("274", "插件发布", 274, 274));
-        category.add(new Board("315", "战斗统计", 315, 315));
-        category.add(new Board("333", "DKP系统", 333, 333));
-        category.add(new Board("327", "成就讨论", 327, 327));
-        category.add(new Board("388", "幻化讨论", 388, 388));
-        category.add(new Board("411", "宠物讨论", 411, 411));
-        category.add(new Board("463", "要塞讨论", 463));
-        category.add(new Board("255", "公会管理", 255));
-        category.add(new Board("306", "人员招募", 306));
+        category.add(new Board("310", "精英议会"));
+        category.add(new Board("190", "任务讨论"));
+        category.add(new Board("213", "战争档案"));
+        category.add(new Board("218", "副本专区"));
+        category.add(new Board("258", "战场讨论"));
+        category.add(new Board("272", "竞技场"));
+        category.add(new Board("191", "地精商会"));
+        category.add(new Board("200", "插件研究"));
+        category.add(new Board("240", "BigFoot"));
+        category.add(new Board("460", "大脚综合"));
+        category.add(new Board("461", "大脚水区"));
+        category.add(new Board("458", "大脚LOL"));
+        category.add(new Board("274", "插件发布"));
+        category.add(new Board("315", "战斗统计"));
+        category.add(new Board("333", "DKP系统"));
+        category.add(new Board("327", "成就讨论"));
+        category.add(new Board("388", "幻化讨论"));
+        category.add(new Board("411", "宠物讨论"));
+        category.add(new Board("463", "要塞讨论"));
+        category.add(new Board("255", "公会管理"));
+        category.add(new Board("306", "人员招募"));
 
         category = new BoardCategory("麦迪文之塔");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
-        category.add(new Board("264", "卡拉赞剧院", 264, 264));
-        category.add(new Board("8", "大图书馆", 8, 8));
-        category.add(new Board("102", "作家协会", 102, 102));
-        category.add(new Board("124", "壁画洞窟", 124));
-        category.add(new Board("254", "镶金玫瑰", 254, 254));
-        category.add(new Board("355", "龟岩兄弟会", 355, 355));
-        category.add(new Board("116", "奇迹之泉", 116, 116));
+        category.add(new Board("264", "卡拉赞剧院"));
+        category.add(new Board("8", "大图书馆"));
+        category.add(new Board("102", "作家协会"));
+        category.add(new Board("124", "壁画洞窟"));
+        category.add(new Board("254", "镶金玫瑰"));
+        category.add(new Board("355", "龟岩兄弟会"));
+        category.add(new Board("116", "奇迹之泉"));
 
         category = new BoardCategory("系统软硬件讨论");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
-        category.add(new Board("193", "帐号安全", 193, 193));
+        category.add(new Board("193", "帐号安全"));
         category.add(new Board("334", "PC软硬件", 334, 334));
         category.add(new Board("201", "系统问题", 201, 201));
         category.add(new Board("335", "网站开发", 335, 335));
@@ -254,7 +253,18 @@ public class BoardManagerImpl implements BoardManager {
         BoardCategory category = new BoardCategory("我的收藏");
         String bookmarkStr = sp.getString(PreferenceKey.BOOKMARK_BOARD, null);
         if (bookmarkStr != null) {
-            List<Board> boards = JSON.parseArray(bookmarkStr, Board.class);
+            List<Board> boards;
+            if (bookmarkStr.contains("url")) {
+                List<OldBoard> oldBoards = JSON.parseArray(bookmarkStr, OldBoard.class);
+                boards = new ArrayList<>();
+                for (OldBoard oldBoard : oldBoards) {
+                    boards.add(new Board(oldBoard.getUrl(), oldBoard.getName()));
+                }
+                sp.edit().putString(PreferenceKey.BOOKMARK_BOARD, JSON.toJSONString(boards)).apply();
+            } else {
+                boards = JSON.parseArray(bookmarkStr, Board.class);
+            }
+
             if (!boards.isEmpty()) {
                 category.getBoardList().addAll(boards);
             }

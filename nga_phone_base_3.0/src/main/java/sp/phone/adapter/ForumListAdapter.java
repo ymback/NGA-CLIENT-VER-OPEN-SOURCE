@@ -15,10 +15,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.GlideApp;
-import sp.phone.mvp.model.ForumsListModel;
+import sp.phone.common.ApiConstants;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.theme.ThemeManager;
 import sp.phone.mvp.model.ForumsListModel;
+import sp.phone.theme.ThemeManager;
 
 /**
  * 版块列表
@@ -50,7 +50,11 @@ public class ForumListAdapter extends RecyclerView.Adapter<ForumListAdapter.View
         ForumsListModel.Forum forum = mList.get(position);
         holder.name.setText(forum.getName());
         holder.itemView.setTag(forum);
-        GlideApp.with(mContext).load("http://img4.nga.cn/ngabbs/nga_classic/f/" + forum.getId() + ".png").placeholder(R.drawable.default_icon).dontAnimate().into(holder.icon);
+        GlideApp.with(mContext)
+                .load(String.format(ApiConstants.URL_BOARD_ICON, forum.getId()))
+                .placeholder(R.drawable.default_board_icon)
+                .dontAnimate()
+                .into(holder.icon);
     }
 
     @Override

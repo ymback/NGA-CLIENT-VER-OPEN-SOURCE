@@ -80,7 +80,7 @@ public class TopicConvertFactory {
                 Map<String, String> boardMap = subBoardMap.get(key);
                 SubBoard board = new SubBoard();
                 Object obj = boardMap.get("0");
-                board.setUrl(obj.toString());
+                board.setFid(Integer.parseInt(obj.toString()));
 
                 // 有些子版块的fid的key是3，大部分都是1
                 if (boardMap.containsKey("3")) {

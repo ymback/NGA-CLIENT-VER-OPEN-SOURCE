@@ -3,53 +3,60 @@ package sp.phone.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import sp.phone.util.StringUtils;
+
 public class Board implements Parcelable {
 
-    private int category;
+    private int mFid;
 
+    private String mName;
+
+    private int mCategory;
+
+    @Deprecated
     private String url;
 
-    private String name;
-
-    private int icon;
-
-    private int iconOld;
+    public Board(int fid, String name) {
+        mFid = fid;
+        mName = name;
+    }
 
     public Board() {
 
     }
 
+    @Deprecated
     public Board(String url, String name, int icon, int iconOld) {
-        this.name = name;
-        this.url = url;
-        this.icon = icon;
-        this.iconOld = iconOld;
+        this(Integer.parseInt(url), name);
     }
 
+    @Deprecated
     public Board(String url, String name, int icon) {
-        this(url, name, icon, 0);
+        this(Integer.parseInt(url), name);
     }
 
+    @Deprecated
     public Board(String url, String name) {
-        this(url, name, 0, 0);
+        this(Integer.parseInt(url), name);
     }
 
 
     protected Board(Parcel in) {
-        category = in.readInt();
+        mFid = in.readInt();
+        mName = in.readString();
+        mCategory = in.readInt();
         url = in.readString();
-        name = in.readString();
-        icon = in.readInt();
-        iconOld = in.readInt();
+        if (!StringUtils.isEmpty(url) && mFid == 0) {
+            mFid = Integer.parseInt(url);
+        }
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(category);
+        dest.writeInt(mFid);
+        dest.writeString(mName);
+        dest.writeInt(mCategory);
         dest.writeString(url);
-        dest.writeString(name);
-        dest.writeInt(icon);
-        dest.writeInt(iconOld);
     }
 
     @Override
@@ -69,44 +76,33 @@ public class Board implements Parcelable {
         }
     };
 
-    public int getCategory() {
-        return category;
-    }
-
     public void setCategory(int category) {
-        this.category = category;
+        mCategory = category;
     }
 
+    @Deprecated
     public String getUrl() {
-        return url;
+        return String.valueOf(getFid());
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        mFid = Integer.parseInt(url);
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        mName = name;
     }
 
-    public int getIcon() {
-        return icon;
+    public int getFid() {
+        return mFid;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
-    }
-
-    public int getIconOld() {
-        return iconOld;
-    }
-
-    public void setIconOld(int iconOld) {
-        this.iconOld = iconOld;
+    public void setFid(int fid) {
+        mFid = fid;
     }
 
 }

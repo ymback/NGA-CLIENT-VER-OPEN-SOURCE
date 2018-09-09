@@ -10,6 +10,8 @@ public interface ApiConstants {
 
     String NGA_NOTIFICATION_DELETE_ALL = NGA_HOST + "nuke.php?__lib=noti&raw=3&__act=del";
 
+    String URL_BOARD_ICON = "http://img4.nga.178.com/ngabbs/nga_classic/f/app/%s.png";
+
     int NGA_NOTIFICATION_TYPE_TOPIC_REPLY = 1;
 
     int NGA_NOTIFICATION_TYPE_REPLY_REPLY = 2;

@@ -109,11 +109,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="showiconmode"
-            android:title="@string/iconmode"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="showSignature"
             android:title="@string/showSignature"/>
 

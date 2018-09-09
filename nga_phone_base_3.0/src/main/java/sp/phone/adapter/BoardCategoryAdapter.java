@@ -16,8 +16,7 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.bean.BoardCategory;
-import sp.phone.bean.BoardCategory;
-import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.ApiConstants;
 
 /**
  * 版块Grid Adapter
@@ -52,7 +51,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
     }
 
     public Object getItem(int position) {
-        return mCategory == null ? null : mCategory.get(position).getUrl();
+        return mCategory == null ? null : mCategory.get(position).getFid();
     }
 
     @Override
@@ -66,7 +65,11 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         Drawable draw = getDrawable(position);
         if (draw == null) {
             long resId = getItemId(position);
-            GlideApp.with(mActivity).load("http://img4.nga.cn/ngabbs/nga_classic/f/" + resId + ".png").placeholder(R.drawable.default_icon).dontAnimate().into(holder.icon);
+            GlideApp.with(mActivity)
+                    .load(String.format(ApiConstants.URL_BOARD_ICON, resId))
+                    .placeholder(R.drawable.default_board_icon)
+                    .dontAnimate()
+                    .into(holder.icon);
         } else {
             holder.icon.setImageDrawable(draw);
         }
@@ -84,12 +87,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
     @Override
     public long getItemId(int position) {
-        String url = mCategory.get(position).getUrl();
-        if (url == null || url.equals("")) {
-            return 0;
-        }
-
-        return Long.parseLong(mCategory.get(position).getUrl());
+        return mCategory.get(position).getFid();
     }
 
     @Override
@@ -98,12 +96,8 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
     }
 
     private int getResId(int position) {
-        String resName;
-        if (PhoneConfiguration.getInstance().isShowClassicIcon()) {
-            resName = "oldp" + mCategory.get(position).getIconOld();
-        } else {
-            resName = "p" + mCategory.get(position).getIcon();
-        }
+        int fid = mCategory.get(position).getFid();
+        String resName = fid > 0 ? "p" + fid : "p_" + Math.abs(fid);
         return mActivity.getResources().getIdentifier(resName, "drawable", mActivity.getPackageName());
     }
 
@@ -112,7 +106,10 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         int resId = getResId(position);
         if (resId != 0) {
             drawable = ContextCompat.getDrawable(mActivity, resId);
+        } else if (mCategory.getCategoryIndex() > 0){
+            drawable = ContextCompat.getDrawable(mActivity, R.drawable.default_board_icon);
         }
+
         return drawable;
     }
 

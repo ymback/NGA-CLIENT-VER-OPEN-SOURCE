@@ -3,7 +3,7 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/oldp354"
+        android:icon="@drawable/p_7"
         android:shortcutId="shortcut_id_daxuanwo"
         android:shortcutLongLabel="@string/shortcut_label_daxuanwo"
         android:shortcutShortLabel="@string/shortcut_label_daxuanwo">
@@ -22,7 +22,7 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/oldp7"
+        android:icon="@drawable/p7"
         android:shortcutId="shortcut_id_yishiting"
         android:shortcutLongLabel="@string/shortcut_label_yishiting"
         android:shortcutShortLabel="@string/shortcut_label_yishiting">
