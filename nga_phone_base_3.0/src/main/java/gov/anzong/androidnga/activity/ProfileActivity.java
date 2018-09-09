@@ -196,6 +196,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
 
+    @Override
     protected void onDestroy() {
         mProfileLoadTask.cancel();
         super.onDestroy();

@@ -2,7 +2,6 @@ package sp.phone.task;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.moduth.blockcanary.internal.BlockInfo;
 
 import org.reactivestreams.Subscription;
 
@@ -159,8 +158,7 @@ public class JsonProfileLoadTask {
         String userName = obj.getString("username");
         ret.setUserName(StringUtils.isEmpty(userName) ? defaultValue : userName);
 
-
-        String uid = obj.getString(BlockInfo.KEY_UID);
+        String uid = obj.getString("uid");
         ret.setUid(StringUtils.isEmpty(uid) ? defaultValue : uid);
 
         String group = obj.getString("group");

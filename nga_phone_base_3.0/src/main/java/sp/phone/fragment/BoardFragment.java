@@ -186,9 +186,8 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     }
 
     private void showAddBoardDialog() {
-        new AddBoardDialogFragment().setOnAddBookmarkListener((name, fid) -> {
-            mPresenter.addBoard(fid, name);
-        }).show(getChildFragmentManager());
+        new AddBoardDialogFragment().setOnAddBookmarkListener((name, fid) -> mPresenter.addBoard(fid, name))
+                .show(getChildFragmentManager());
     }
 
     @Override
