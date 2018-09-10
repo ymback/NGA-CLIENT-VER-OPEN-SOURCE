@@ -153,6 +153,7 @@ public class MainActivity extends BaseActivity {
                 .navigation(this);
     }
 
+    // NPE问题
     private void startPostActivity(boolean isReply) {
         String userName = UserManagerImpl.getInstance().getActiveUser().getNickName();
         Postcard postcard = ARouter.getInstance()
