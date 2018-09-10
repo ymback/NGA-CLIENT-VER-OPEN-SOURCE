@@ -2,13 +2,20 @@ package sp.phone.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
+import android.util.Xml;
 
 import com.alibaba.fastjson.JSON;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gov.anzong.androidnga.R;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 import sp.phone.bean.OldBoard;
@@ -35,14 +42,48 @@ public class BoardManagerImpl implements BoardManager {
         loadPreloadBoards();
     }
 
+    // 不要移除
+    private void loadPreloadBoardsFromXml() {
+        XmlResourceParser xrp = mContext.getResources().getXml(R.xml.boards);
+        try {
+            int event;
+            BoardCategory category = null;
+            while ((event = xrp.next()) != XmlResourceParser.END_DOCUMENT) {
+                if (event == XmlResourceParser.START_TAG) {
+                    String tag = xrp.getName();
+                    if (tag.equals("Category")) {
+                        TypedArray a = mContext.getResources().obtainAttributes(Xml.asAttributeSet(xrp), R.styleable.board);
+                        String name = a.getString(R.styleable.board_name);
+                        category = new BoardCategory(name);
+                        category.setCategoryIndex(mCategoryList.size());
+                        mCategoryList.add(category);
+                        a.recycle();
+                    } else if (tag.equals("Board")) {
+                        TypedArray a = mContext.getResources().obtainAttributes(Xml.asAttributeSet(xrp), R.styleable.board);
+                        String name = a.getString(R.styleable.board_name);
+                        int fid = a.getInt(R.styleable.board_fid, 0);
+                        if (category != null) {
+                            category.add(new Board(fid, name));
+                        }
+                        a.recycle();
+                    }
+                }
+            }
+        } catch (XmlPullParserException | IOException | NullPointerException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void loadPreloadBoards() {
         BoardCategory category = new BoardCategory("综合讨论");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
         category.add(new Board("7", "议事厅"));
+        category.add(new Board("310", "精英议会"));
         category.add(new Board("323", "国服以外讨论"));
         category.add(new Board("10", "银色黎明"));
-        category.add(new Board("230", "艾泽拉斯风纪委员会"));
+        category.add(new Board("230", "风纪委员会"));
 
         category = new BoardCategory("大漩涡系列");
         category.setCategoryIndex(mCategoryList.size());
@@ -51,16 +92,11 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("-343809", "汽车俱乐部"));
         category.add(new Board("-81981", "生命之杯"));
         category.add(new Board("-576177", "影音讨论区"));
-        category.add(new Board("-43", "军事历史"));
         category.add(new Board("414", "游戏综合讨论"));
-        category.add(new Board("427", "怪物猎人"));
-        category.add(new Board("431", "风暴英雄"));
         category.add(new Board("436", "消费电子 IT新闻"));
         category.add(new Board("498", "二手交易"));
         category.add(new Board("-187579", "大漩涡历史博物馆"));
         category.add(new Board("485", "篮球"));
-        category.add(new Board("491", "议会"));
-
 
         category = new BoardCategory("职业讨论区");
         category.setCategoryIndex(mCategoryList.size());
@@ -90,17 +126,12 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("272", "竞技场"));
         category.add(new Board("191", "地精商会"));
         category.add(new Board("200", "插件研究"));
-        category.add(new Board("240", "BigFoot"));
-        category.add(new Board("460", "大脚综合"));
-        category.add(new Board("461", "大脚水区"));
-        category.add(new Board("458", "大脚LOL"));
+        category.add(new Board("460", "BigFoot"));
         category.add(new Board("274", "插件发布"));
-        category.add(new Board("315", "战斗统计"));
         category.add(new Board("333", "DKP系统"));
         category.add(new Board("327", "成就讨论"));
         category.add(new Board("388", "幻化讨论"));
         category.add(new Board("411", "宠物讨论"));
-        category.add(new Board("463", "要塞讨论"));
         category.add(new Board("255", "公会管理"));
         category.add(new Board("306", "人员招募"));
 
@@ -128,7 +159,7 @@ public class BoardManagerImpl implements BoardManager {
         mCategoryList.add(category);
         category.add(new Board("414", "游戏综合讨论", 414, 414));
         category.add(new Board("428", "手机游戏", 428, 428));
-        category.add(new Board("431", "风暴英雄", 431, 431));
+        category.add(new Board("-152678", "英雄联盟", 152678, 152678));
         category.add(new Board("-452227", "口袋妖怪", 452227, 452227));
         category.add(new Board("426", "智龙迷城", 426, 426));
         category.add(new Board("-51095", "部落冲突", 51095, 51095));
@@ -138,24 +169,20 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("427", "怪物猎人", 427, 427));
         category.add(new Board("-47218", "地下城与勇士", 47218));
         category.add(new Board("425", "行星边际2", 425, 425));
-        category.add(new Board("422", "炉石传说", 422, 422));
         category.add(new Board("-65653", "剑灵", 65653, 65653));
         category.add(new Board("412", "巫师之怒", 412, 412));
         category.add(new Board("-235147", "激战2", 235147, 235147));
         category.add(new Board("442", "逆战", 442, 442));
         category.add(new Board("-46468", "洛拉斯的战争世界", 46468, 46468));
-        category.add(new Board("483", "洛拉斯的战争世界:插件", 46468, 46468));
         category.add(new Board("432", "战机世界", 432, 432));
         category.add(new Board("441", "战舰世界", 441));
         category.add(new Board("321", "DotA", 321, 321));
-        category.add(new Board("375", "DotA联赛饰品", 375));
         category.add(new Board("-2371813", "EVE", 2371813, 2371813));
         category.add(new Board("-7861121", "剑叁 ", 7861121, 7861121));
         category.add(new Board("448", "剑叁同人 ", 448));
         category.add(new Board("-793427", "斗战神", 793427));
         category.add(new Board("332", "战锤40K", 332, 332));
         category.add(new Board("416", "火炬之光2", 416));
-        category.add(new Board("406", "星际争霸2", 406));
         category.add(new Board("420", "MT Online", 420, 420));
         category.add(new Board("424", "圣斗士星矢", 424));
         category.add(new Board("-1513130", "鲜血兄弟会", 1513130));
@@ -184,37 +211,15 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("495", "光荣三国志系列", 495));
         category.add(new Board("496", "九十九姬", 496));
 
-        category = new BoardCategory("暗黑破坏神");
-        category.setCategoryIndex(mCategoryList.size());
-        mCategoryList.add(category);
-        category.add(new Board("318", "暗黑破坏神3", 318, 318));
-        category.add(new Board("403", "购买/安装/共享", 403, 403));
-        category.add(new Board("393", "背景故事与文艺作品", 393, 393));
-        category.add(new Board("400", "职业讨论区", 400));
-        category.add(new Board("395", "野蛮人", 395, 395));
-        category.add(new Board("396", "猎魔人", 396, 396));
-        category.add(new Board("397", "武僧", 397, 397));
-        category.add(new Board("398", "巫医", 398, 398));
-        category.add(new Board("399", "魔法师", 399, 399));
-        category.add(new Board("446", "圣教军", 446));
-
         category = new BoardCategory("暴雪游戏");
         category.setCategoryIndex(mCategoryList.size());
         mCategoryList.add(category);
         category.add(new Board("422", "炉石传说", 422, 422));
-        category.add(new Board("429", "战术讨论", 429));
-        category.add(new Board("450", "文章存档", 450));
         category.add(new Board("431", "风暴英雄", 431, 431));
-        category.add(new Board("457", "视频资料", 457));
         category.add(new Board("459", "守望先锋", 459, 459));
+        category.add(new Board("318", "暗黑破坏神3", 318, 318));
         category.add(new Board("490", "魔兽争霸", 490));
-
-        category = new BoardCategory("英雄联盟");
-        category.setCategoryIndex(mCategoryList.size());
-        mCategoryList.add(category);
-        category.add(new Board("-152678", "英雄联盟", 152678, 152678));
-        category.add(new Board("418", "游戏视频", 418));
-        category.add(new Board("479", "赛事讨论", 152678, 152678));
+        category.add(new Board("406", "星际争霸2", 406));
 
         category = new BoardCategory("个人版面");
         category.setCategoryIndex(mCategoryList.size());

@@ -119,7 +119,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
         switch (seekBar.getId()) {
             case R.id.fontsize_seekBar:
                 if (progress != 0) {
-                    mFontSizeView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mDefaultFontSize * progress / 100.0f);
+                    mFontSizeView.setTextSize(mDefaultFontSize * progress / 100.0f);
                 }
                 break;
             case R.id.webszie_bar:

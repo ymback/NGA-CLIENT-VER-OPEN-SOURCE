@@ -44,7 +44,7 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
     @Override
     public TopicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TopicViewHolder viewHolder = new TopicViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_topic, parent, false));
-        viewHolder.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, PhoneConfiguration.getInstance().getTopicTitleSize());
+        viewHolder.title.setTextSize(PhoneConfiguration.getInstance().getTopicTitleSize());
         viewHolder.title.setTextColor(ContextCompat.getColor(mContext, mThemeManager.getForegroundColor()));
         RxUtils.clicks(viewHolder.itemView, mOnClickListener);
         viewHolder.itemView.setOnLongClickListener(mOnLongClickListener);

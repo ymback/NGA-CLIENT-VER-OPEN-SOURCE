@@ -3,8 +3,6 @@ package sp.phone.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import sp.phone.util.StringUtils;
-
 public class Board implements Parcelable {
 
     private int mFid;
@@ -12,9 +10,6 @@ public class Board implements Parcelable {
     private String mName;
 
     private int mCategory;
-
-    @Deprecated
-    private String url;
 
     public Board(int fid, String name) {
         mFid = fid;
@@ -45,10 +40,6 @@ public class Board implements Parcelable {
         mFid = in.readInt();
         mName = in.readString();
         mCategory = in.readInt();
-        url = in.readString();
-        if (!StringUtils.isEmpty(url) && mFid == 0) {
-            mFid = Integer.parseInt(url);
-        }
     }
 
     @Override
@@ -56,7 +47,6 @@ public class Board implements Parcelable {
         dest.writeInt(mFid);
         dest.writeString(mName);
         dest.writeInt(mCategory);
-        dest.writeString(url);
     }
 
     @Override
@@ -83,10 +73,6 @@ public class Board implements Parcelable {
     @Deprecated
     public String getUrl() {
         return String.valueOf(getFid());
-    }
-
-    public void setUrl(String url) {
-        mFid = Integer.parseInt(url);
     }
 
     public String getName() {

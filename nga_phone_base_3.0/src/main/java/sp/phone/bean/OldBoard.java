@@ -3,6 +3,7 @@ package sp.phone.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@Deprecated
 public class OldBoard implements Parcelable {
 
     private int category;
