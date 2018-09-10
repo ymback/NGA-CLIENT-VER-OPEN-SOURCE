@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
 import sp.phone.mvp.presenter.LoginPresenter;
 import sp.phone.util.StringUtils;
 
@@ -32,7 +33,7 @@ public class LoginWebFragment extends BaseFragment {
     private static final int MAX_PROGRESS = 100;
 
     //"https://bbs.ngacn.cc/nuke.php?__lib=login&__act=account&login";
-    private static final String LOGIN_URL = "https://bbs.ngacn.cc/nuke.php?__lib=login&__act=login_ui";
+    private static final String LOGIN_URL = Utils.getNGAHost() + "nuke.php?__lib=login&__act=login_ui";
 
 
     private LoginPresenter mLoginPresenter;

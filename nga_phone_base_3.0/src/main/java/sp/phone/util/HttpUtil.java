@@ -30,7 +30,7 @@ import sp.phone.bean.ArticlePage;
 public class HttpUtil {
 
     public final static String PATH_OLD = android.os.Environment.getExternalStorageDirectory().getPath() + "/nga_cache";
-    public static final String NGA_ATTACHMENT_HOST = "img.ngacn.cc";
+    public static final String NGA_ATTACHMENT_HOST = "img.nga.178.com"; //img.ngacn.cc";
     public static final String Servlet_phone = "/servlet/PhoneServlet";
     public static final String Servlet_timer = "/servlet/TimerServlet";
     private static final String servers[] = {"http://nga.178.com", "http://bbs.ngacn.cc"};
