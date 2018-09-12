@@ -33,7 +33,7 @@ public class LoginWebFragment extends BaseFragment {
     private static final int MAX_PROGRESS = 100;
 
     //"https://bbs.ngacn.cc/nuke.php?__lib=login&__act=account&login";
-    private static final String LOGIN_URL = Utils.getNGAHost() + "nuke.php?__lib=login&__act=login_ui";
+    private String mLoginUrl = Utils.getNGAHost() + "nuke.php?__lib=login&__act=login_ui";
 
 
     private LoginPresenter mLoginPresenter;
@@ -108,7 +108,7 @@ public class LoginWebFragment extends BaseFragment {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         mProgressBar = view.findViewById(R.id.progressBar);
         mProgressBar.setMax(MAX_PROGRESS);
-        mWebView.loadUrl(LOGIN_URL);
+        mWebView.loadUrl(mLoginUrl);
         super.onViewCreated(view, savedInstanceState);
     }
 

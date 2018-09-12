@@ -29,16 +29,16 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
 
     private final String result_end_tag = "<br/>";
 
-    private static final String REPLY_URL = Utils.getNGAHost() + "post.php?";
+    private String mReplyUrl = Utils.getNGAHost() + "post.php?";
 
     private boolean mHasError = false;
 
     private CallBack mCallBack;
 
 
-    public interface CallBack{
+    public interface CallBack {
 
-        void onArticlePostFinished(boolean isSuccess,String result);
+        void onArticlePostFinished(boolean isSuccess, String result);
     }
 
     public TopicPostTask(Context context, CallBack callBack) {
@@ -55,13 +55,13 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onCancelled() {
-        mCallBack.onArticlePostFinished(false,null);
+        mCallBack.onArticlePostFinished(false, null);
         super.onCancelled();
     }
 
     @Override
     protected void onCancelled(String result) {
-        mCallBack.onArticlePostFinished(false,null);
+        mCallBack.onArticlePostFinished(false, null);
         super.onCancelled();
     }
 
@@ -70,7 +70,7 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
         if (params.length < 1)
             return "parameter error";
         String ret = "网络错误";
-        String url = REPLY_URL;
+        String url = mReplyUrl;
         String body = params[0];
 
         HttpPostClient c = new HttpPostClient(url);
@@ -131,7 +131,7 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
             if (!success)
                 mHasError = true;
         }
-        mCallBack.onArticlePostFinished(!mHasError,result);
+        mCallBack.onArticlePostFinished(!mHasError, result);
         super.onPostExecute(result);
     }
 }

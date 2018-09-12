@@ -20,6 +20,7 @@ public class PostActivity extends BaseActivity {
 
     private TopicPostFragment mPostFragment;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         setActionBarEnabled(false);
         super.onCreate(savedInstanceState);
@@ -70,6 +71,7 @@ public class PostActivity extends BaseActivity {
         return act;
     }
 
+    @Override
     public void onBackPressed() {
         if (!mPostFragment.onBackPressed()) {
             super.onBackPressed();

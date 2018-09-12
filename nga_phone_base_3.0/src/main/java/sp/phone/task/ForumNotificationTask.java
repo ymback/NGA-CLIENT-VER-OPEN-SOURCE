@@ -7,16 +7,10 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.List;
 
+import gov.anzong.androidnga.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.mvp.model.convert.ForumNotificationFactory;
-import sp.phone.mvp.model.entity.NotificationInfo;
-import sp.phone.mvp.model.entity.RecentReplyInfo;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
-import sp.phone.common.ApiConstants;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.mvp.model.convert.ForumNotificationFactory;
 import sp.phone.mvp.model.entity.NotificationInfo;
@@ -32,6 +26,8 @@ public class ForumNotificationTask {
 
     private LifecycleProvider<FragmentEvent> mLifecycleProvider;
 
+    private String mNotificationUrl =  Utils.getNGAHost() + "nuke.php?__lib=noti&lite=js&__act=get_all";
+
     public ForumNotificationTask(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         mLifecycleProvider = lifecycleProvider;
         mService = RetrofitHelper.getInstance().getService();
@@ -40,7 +36,7 @@ public class ForumNotificationTask {
 
     // 只返回最近被喷的信息
     public void queryRecentReply(@NonNull OnHttpCallBack<List<RecentReplyInfo>> callBack) {
-        mService.get(ApiConstants.NGA_NOTIFICATION)
+        mService.get(mNotificationUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(new Function<String, List<RecentReplyInfo>>() {
@@ -68,7 +64,7 @@ public class ForumNotificationTask {
     // 返回最近被喷和短信的信息
     public void queryNotification(@NonNull OnHttpCallBack<List<NotificationInfo>> callBack) {
 
-        mService.get(ApiConstants.NGA_NOTIFICATION)
+        mService.get(mNotificationUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(new Function<String, List<NotificationInfo>>() {
@@ -93,7 +89,9 @@ public class ForumNotificationTask {
     }
 
     public void clearAllNotification() {
-        mService.post(ApiConstants.NGA_NOTIFICATION_DELETE_ALL)
+        String NGA_NOTIFICATION_DELETE_ALL = Utils.getNGAHost()+ "nuke.php?__lib=noti&raw=3&__act=del";
+
+        mService.post(NGA_NOTIFICATION_DELETE_ALL)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<String>() {

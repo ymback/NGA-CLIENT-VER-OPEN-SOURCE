@@ -51,7 +51,7 @@ import sp.phone.util.StringUtils;
 
 public class TopicPostModel extends BaseModel implements TopicPostContract.Model {
 
-    private static final String HOST = Utils.getNGAHost() + "post.php?";
+    private String mHostUrl = Utils.getNGAHost() + "post.php?";
 
     private static final String BASE_URL_ATTACHMENT_SERVER = "http://" + HttpUtil.NGA_ATTACHMENT_HOST + ":8080/attach.php?";
 
@@ -63,7 +63,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     @Override
     public void getPostInfo(PostParam postParam, OnHttpCallBack<PostParam> callBack) {
-        StringBuilder builder = new StringBuilder(HOST);
+        StringBuilder builder = new StringBuilder(mHostUrl);
         builder.append("fid=")
                 .append(postParam.getPostFid())
                 .append("&lite=js");

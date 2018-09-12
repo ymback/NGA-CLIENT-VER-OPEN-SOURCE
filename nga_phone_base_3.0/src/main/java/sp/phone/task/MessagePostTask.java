@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
+import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.HttpPostClient;
 import sp.phone.util.ActivityUtils;
@@ -29,7 +30,7 @@ public class MessagePostTask extends AsyncTask<String, Integer, String> {
 
     private boolean mSuccess = true;
 
-    private static final String REPLY_URL = "http://nga.178.com/nuke.php?";
+    private  String mReplyUrl = Utils.getNGAHost() + "nuke.php?";
 
     private static final String LOG_TAG = MessagePostTask.class.getSimpleName();
 
@@ -72,7 +73,7 @@ public class MessagePostTask extends AsyncTask<String, Integer, String> {
         String ret = "网络错误";
         String body = params[0];
 
-        HttpPostClient c = new HttpPostClient(REPLY_URL);
+        HttpPostClient c = new HttpPostClient(mReplyUrl);
         String cookie = PhoneConfiguration.getInstance().getCookie();
         c.setCookie(cookie);
         try {
