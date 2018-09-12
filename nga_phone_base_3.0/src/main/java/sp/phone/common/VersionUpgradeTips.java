@@ -108,4 +108,9 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2090 = "更新内容\n"
+            + "● 修复域名不可用的问题\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 }
