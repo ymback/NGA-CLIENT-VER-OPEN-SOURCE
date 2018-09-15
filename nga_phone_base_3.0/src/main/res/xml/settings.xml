@@ -47,7 +47,7 @@
         android:title="@string/setting_option">
 
         <ListSummaryPreference
-            android:defaultValue="0"
+            android:defaultValue="1"
             android:dialogTitle="@string/setting_nga_domain"
             android:entries="@array/nga_domain"
             android:entryValues="@array/nga_domain_value"
