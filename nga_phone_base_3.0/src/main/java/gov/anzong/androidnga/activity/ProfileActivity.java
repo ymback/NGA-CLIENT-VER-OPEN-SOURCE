@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -223,17 +224,17 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     private void handleUserState(ProfileData profileInfo) {
         if (profileInfo.isMuted()) {
             mUserStateTv.setText("已禁言");
-            mUserStateTv.setTextColor(getColor(R.color.color_state_muted));
+            mUserStateTv.setTextColor(ContextCompat.getColor(this, R.color.color_state_muted));
             if (!StringUtils.isEmpty(profileInfo.getMutedTime())) {
                 mUserMuteTime.setText(profileInfo.getMutedTime());
                 //  mUserMuteTime.setVisibility(View.VISIBLE);
             }
         } else if (profileInfo.isNuked()) {
             mUserStateTv.setText("NUKED(?)");
-            mUserStateTv.setTextColor(getColor(R.color.color_state_nuked));
+            mUserStateTv.setTextColor(ContextCompat.getColor(this, R.color.color_state_nuked));
         } else {
             mUserStateTv.setText("已激活");
-            mUserStateTv.setTextColor(getColor(R.color.color_state_active));
+            mUserStateTv.setTextColor(ContextCompat.getColor(this, R.color.color_state_active));
         }
     }
 
