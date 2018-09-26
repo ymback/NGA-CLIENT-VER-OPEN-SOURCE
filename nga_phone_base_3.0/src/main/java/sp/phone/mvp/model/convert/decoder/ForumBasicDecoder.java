@@ -29,7 +29,7 @@ public class ForumBasicDecoder implements IForumDecoder {
 
         int quoteColor = ThemeManager.getInstance().getWebQuoteBackgroundColor();
         String quoteColorStr = HtmlUtils.convertWebColor(quoteColor);
-        String quoteStyle = String.format(STYLE_QUOTE,quoteColorStr);
+        String quoteStyle = String.format(STYLE_QUOTE, quoteColorStr);
 
 //        String quoteStyle = "<div style='background:#E8E8E8;padding:5px;border:1px solid #888' >";
 //        if (ThemeManager.getInstance().isNightMode())
@@ -235,12 +235,17 @@ public class ForumBasicDecoder implements IForumDecoder {
                         + "\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]",
                 "<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
 
-        content = content.replaceAll(ignoreCaseTag
-                        + "\\[list\\](.+?)\\[/list\\]",
-                "<ul>$1</ul>");
-        content = content.replaceAll(ignoreCaseTag
-                        + "\\[\\*\\](.+?)<br/>",
-                "<li>$1</li>");
+        // [list][/list]
+        // TODO: 2018/9/18  部分页面里和 collapse 标签有冲突 http://bbs.nga.cn/read.php?tid=14949699
+        content = content
+                .replaceAll(IGNORE_CASE_TAG + "\\[list\\](.+?)\\[/list\\]", "<ul>$1</ul>")
+                .replaceAll(IGNORE_CASE_TAG + "\\[list\\]", "")
+                .replaceAll(IGNORE_CASE_TAG + "\\[/list\\]", "")
+                .replaceAll(IGNORE_CASE_TAG + "\\[\\*\\](.+?)<br/>", "<li>$1</li>");
+
+        // [h][/h]
+        content = content
+                .replaceAll(IGNORE_CASE_TAG + "\\[h\\](.+?)\\[/h\\]", "<b>$1</b>");
 
         return content;
     }
