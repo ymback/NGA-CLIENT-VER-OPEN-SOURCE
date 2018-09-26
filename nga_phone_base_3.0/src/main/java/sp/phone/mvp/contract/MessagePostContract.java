@@ -20,6 +20,8 @@ public interface MessagePostContract {
 
     interface View {
 
+        void setRecipient(String recipient);
+
         void finish(int resultCode);
 
         void hideRecipientEditor();

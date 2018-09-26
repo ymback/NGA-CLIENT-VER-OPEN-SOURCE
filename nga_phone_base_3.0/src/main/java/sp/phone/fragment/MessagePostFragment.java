@@ -84,6 +84,14 @@ public class MessagePostFragment extends BaseMvpFragment<MessagePostPresenter> i
     }
 
     @Override
+    public void setRecipient(String recipient) {
+        mRecipientEditor.setText(recipient);
+        if (recipient != null) {
+            mRecipientEditor.setSelection(recipient.length());
+        }
+    }
+
+    @Override
     public void finish(int resultCode) {
         getActivity().setResult(resultCode);
         getActivity().finish();

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 
 import java.util.List;
 
@@ -108,6 +109,8 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     public WebViewEx mSignWebView;
 
     private JsonProfileLoadTask mProfileLoadTask;
+
+    private Menu mOptionMenu;
 
     @Override
     protected void updateThemeUi() {
@@ -283,6 +286,9 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         handleSignWebView(mSignWebView, profileInfo);
         handleAdminWebView(mAdminWebView, profileInfo);
         handleFameWebView(mFameWebView, profileInfo);
+        if (mOptionMenu != null) {
+            onPrepareOptionsMenu(mOptionMenu);
+        }
     }
 
     private String createFameHtml(ProfileData ret, String color) {
@@ -313,6 +319,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_user_profile, menu);
         getMenuInflater().inflate(R.menu.menu_default, menu);
+        mOptionMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -364,12 +371,12 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
     private void sendShortMessage() {
-        Intent intent = new Intent();
-        intent.putExtra("to", mProfileData.getUserName());
-        intent.putExtra(ParamKey.KEY_ACTION, "new");
-        intent.putExtra("messagemode", "yes");
-        intent.setClass(this, PhoneConfiguration.getInstance().messagePostActivityClass);
-        startActivity(intent);
+        ARouter.getInstance()
+                .build(ARouterConstants.ACTIVITY_MESSAGE_POST)
+                .withString("to",mProfileData.getUserName())
+                .withString(ParamKey.KEY_ACTION, "new")
+                .withString("messagemode", "yes")
+                .navigation(this);
     }
 
     private void searchPost() {

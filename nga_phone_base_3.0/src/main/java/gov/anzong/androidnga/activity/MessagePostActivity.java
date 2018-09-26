@@ -53,6 +53,9 @@ public class MessagePostActivity extends BaseActivity {
             int mid = intent.getIntExtra("mid", 0);
             postParam = new MessagePostParam(action, mid, subject);
         }
+        if (postParam != null) {
+            postParam.setRecipient(intent.getStringExtra("to"));
+        }
         return postParam;
     }
 

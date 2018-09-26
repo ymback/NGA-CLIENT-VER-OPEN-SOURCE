@@ -35,6 +35,9 @@ public class MessagePostParam implements Parcelable {
         mRecipient = in.readString();
     }
 
+    public String getRecipient() {
+        return mRecipient;
+    }
 
     public String getPostSubject() {
         return mPostSubject;
@@ -73,20 +76,18 @@ public class MessagePostParam implements Parcelable {
     };
 
     public void setRecipient(String recipient) {
-        if (recipient == null) {
-            return;
-        }
-        recipient = recipient.replaceAll("，", ",");
-        mRecipient = StringUtils.encodeUrl(recipient, "GBK");
+        mRecipient = recipient;
     }
 
     @Override
     public String toString() {
+        String recipient = mRecipient.replaceAll("，", ",");
+        recipient = StringUtils.encodeUrl(recipient, "GBK");
         StringBuilder builder = new StringBuilder();
         builder.append("__lib=message&__act=message&lite=js&act=")
                 .append(mAction)
                 .append("&to=")
-                .append(mRecipient)
+                .append(recipient)
                 .append("&mid=")
                 .append(mMid)
                 .append("&subject=")
