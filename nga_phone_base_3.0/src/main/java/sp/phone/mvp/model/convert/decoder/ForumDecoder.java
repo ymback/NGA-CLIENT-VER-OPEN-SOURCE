@@ -37,7 +37,7 @@ public class ForumDecoder {
     public String decode(String content, List<String> urls) {
         for (IForumDecoder decoder : mForumDecoders) {
             content = decoder.decode(content);
-            if (urls != null && decoder.getImageUrls() != null) {
+            if (urls != null && decoder.getImageUrls() != null && !decoder.getImageUrls().isEmpty()) {
                 urls.addAll(decoder.getImageUrls());
             }
         }
