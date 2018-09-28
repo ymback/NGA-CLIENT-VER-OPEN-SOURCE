@@ -15,6 +15,7 @@ import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.ArticleListModel;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.rxjava.RxUtils;
+import sp.phone.task.LikeTask;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
@@ -24,6 +25,7 @@ import sp.phone.util.StringUtils;
 
 public class ArticleListPresenter extends BasePresenter<ArticleListFragment, ArticleListModel> implements ArticleListContract.Presenter {
 
+    private LikeTask mLikeTask;
 
     @Override
     protected ArticleListModel onCreateModel() {
@@ -126,6 +128,22 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
             prefix = prefix + "\n";
         }
         mBaseView.showPostCommentDialog(prefix, bundle);
+    }
+
+    @Override
+    public void postSupportTask(int tid) {
+        if (mLikeTask == null) {
+            mLikeTask = new LikeTask();
+        }
+        mLikeTask.execute(tid, LikeTask.SUPPORT, data -> mBaseView.showToast(data));
+    }
+
+    @Override
+    public void postOpposeTask(int tid) {
+        if (mLikeTask == null) {
+            mLikeTask = new LikeTask();
+        }
+        mLikeTask.execute(tid, LikeTask.OPPOSE, data -> mBaseView.showToast(data));
     }
 
     @Override

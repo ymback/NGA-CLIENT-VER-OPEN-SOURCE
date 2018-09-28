@@ -10,10 +10,12 @@
         androidnga:showAsAction="ifRoom|withText"/>
 
     <item
-        android:id="@+id/menu_like"
-        android:icon="@drawable/ic_menu_thumbs_up"
-        android:title="@string/like"
-        androidnga:showAsAction="ifRoom|withText"/>
+        android:id="@+id/menu_support"
+        android:title="@string/menu_support"/>
+
+    <item
+        android:id="@+id/menu_oppose"
+        android:title="@string/menu_oppose"/>
 
     <item
         android:id="@+id/menu_ban_this_one"

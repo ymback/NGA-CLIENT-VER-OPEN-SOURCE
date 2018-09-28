@@ -1,86 +1,63 @@
 package sp.phone.task;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.widget.Toast;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
-import org.apache.commons.io.IOUtils;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.util.Locale;
-
-import gov.anzong.androidnga.Utils;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.util.ActivityUtils;
-import sp.phone.util.StringUtils;
+import gov.anzong.androidnga.R;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.listener.OnSimpleHttpCallBack;
+import sp.phone.retrofit.RetrofitHelper;
+import sp.phone.retrofit.RetrofitService;
+import sp.phone.rxjava.BaseSubscriber;
 
 /**
  * 赞或者踩
  * Created by elrond on 2017/9/1.
  */
 
-public class LikeTask extends AsyncTask<String, Integer, String> {
+public class LikeTask {
 
-    private static final String URL = "__lib=topic_recommend&__act=add&tid=%1$d&pid=%2$d&value=%3$d&raw=3";
-    private Context context;
-    private String mBody;
-    private String mUrl;
+    public static final int SUPPORT = 1;
 
-    public LikeTask(Context context, int tid, int pid, int value) {
-        this.context = context;
-        mBody = String.format(Locale.SIMPLIFIED_CHINESE, URL, tid, pid, value);
-        mUrl = Utils.getNGAHost() + "nuke.php?" + mBody;
+    public static final int OPPOSE = -1;
+
+    private RetrofitService mService;
+
+    private Map<String, String> mParamMap;
+
+    public LikeTask() {
+        mService = RetrofitHelper.getInstance().getService();
+        mParamMap = new HashMap<>();
+        mParamMap.put("__lib", "topic_recommend");
+        mParamMap.put("__act", "add");
+        mParamMap.put("raw", "3");
+        mParamMap.put("pid", "0");
+        mParamMap.put("__output", "8");
     }
 
-    @Override
-    protected String doInBackground(String... params) {
-        HttpPostClient c = new HttpPostClient(mUrl);
-        String cookie = PhoneConfiguration.getInstance().getCookie();
-        c.setCookie(cookie);
+    public void execute(int tid, int like, OnSimpleHttpCallBack<String> callBack) {
+        Map<String, String> map = new HashMap<>(mParamMap);
+        map.put("value", String.valueOf(like));
+        map.put("tid", String.valueOf(tid));
+        mService.post(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        try {
+                            JSONObject obj = JSON.parseObject(s).getJSONObject("data");
+                            callBack.onResult(obj.getString("0"));
+                        } catch (Exception e) {
+                            callBack.onResult(ApplicationContextHolder.getString(R.string.network_error));
+                        }
+                    }
+                });
 
-        String ret = null;
-        try {
-            InputStream input = null;
-            HttpURLConnection conn = c.post_body(mBody);
-            if (conn != null)
-                input = conn.getInputStream();
-
-            if (input != null) {
-                ret = IOUtils.toString(input, "gbk");
-            }
-
-        } catch (IOException ignore) {
-        }
-        return ret;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        ActivityUtils.getInstance().noticeSaying(context);
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        ActivityUtils.getInstance().dismiss();
-        if (StringUtils.isEmpty(result))
-            return;
-
-        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"").result;
-        if (!StringUtils.isEmpty(msg)) {
-            Toast.makeText(context, msg.trim(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    protected void onCancelled(String result) {
-        this.onCancelled();
-    }
-
-    @Override
-    protected void onCancelled() {
-        ActivityUtils.getInstance().dismiss();
     }
 }

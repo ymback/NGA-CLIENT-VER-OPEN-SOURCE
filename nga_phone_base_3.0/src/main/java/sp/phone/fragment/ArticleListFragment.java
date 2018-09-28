@@ -36,7 +36,6 @@ import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.presenter.ArticleListPresenter;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
-import sp.phone.task.LikeTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
@@ -127,8 +126,11 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                             .withInt("fromreplyactivity", 1)
                             .navigation();
                     break;
-                case R.id.menu_like:
-                    doLike(tid, row.getPid(), 1);
+                case R.id.menu_support:
+                    mPresenter.postSupportTask(tid);
+                    break;
+                case R.id.menu_oppose:
+                    mPresenter.postOpposeTask(tid);
                     break;
                 default:
                     break;
@@ -236,12 +238,6 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
     public void loadPage() {
         mPresenter.loadPage(mRequestParam);
-    }
-
-
-    private void doLike(int tid, int pid, int value) {
-        LikeTask lt = new LikeTask(getActivity(), tid, pid, value);
-        lt.execute();
     }
 
     @Override

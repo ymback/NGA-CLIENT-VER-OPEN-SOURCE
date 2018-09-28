@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.listener.OnHttpCallBack;
 
@@ -23,6 +21,10 @@ public interface ArticleListContract {
         void banThisSB(ThreadRowInfo row);
 
         void postComment(ArticleListParam param, ThreadRowInfo row);
+
+        void postSupportTask(int tid);
+
+        void postOpposeTask(int tid);
 
         void quote(ArticleListParam param, ThreadRowInfo row);
     }
