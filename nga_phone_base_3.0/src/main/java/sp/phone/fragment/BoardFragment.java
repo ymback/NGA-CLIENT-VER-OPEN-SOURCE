@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -167,13 +168,23 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
                 jumpToLogin();
                 break;
             case R.id.menu_clear_recent:
-                mPresenter.clearRecentBoards();
+                clearFavoriteBoards();
                 break;
             default:
                 return getActivity().onOptionsItemSelected(item);
         }
         return true;
     }
+
+    private void clearFavoriteBoards() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("是否要清空我的收藏？")
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> mPresenter.clearRecentBoards())
+                .create()
+                .show();
+    }
+
 
     private void gotoForumList() {
         Intent intent = new Intent(getActivity(), ForumListActivity.class);
