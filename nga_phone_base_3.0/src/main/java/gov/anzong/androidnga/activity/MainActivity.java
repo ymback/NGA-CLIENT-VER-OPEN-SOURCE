@@ -14,6 +14,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.BoardFragment;
@@ -155,7 +156,8 @@ public class MainActivity extends BaseActivity {
 
     // NPE问题
     private void startPostActivity(boolean isReply) {
-        String userName = UserManagerImpl.getInstance().getActiveUser().getNickName();
+        User user = UserManagerImpl.getInstance().getActiveUser();
+        String userName = user != null ? user.getNickName() : "";
         Postcard postcard = ARouter.getInstance()
                 .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                 .withString(ParamKey.KEY_AUTHOR, userName);

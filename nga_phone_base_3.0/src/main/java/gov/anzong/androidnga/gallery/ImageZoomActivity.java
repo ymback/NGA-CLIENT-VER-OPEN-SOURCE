@@ -89,12 +89,7 @@ public class ImageZoomActivity extends BaseActivity {
         mTxtView.setMovementMethod(new ScrollingMovementMethod());
         mTxtView.setText(String.valueOf(mPageIndex + 1) + " / " + String.valueOf(mGalleryUrls.length));
         ImageView download = (ImageView) findViewById(R.id.reader_image_download);
-        download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveBitmap(mGalleryUrls[mPageIndex]);
-            }
-        });
+        download.setOnClickListener(v -> saveBitmap(mGalleryUrls[mPageIndex >= 0 ? mPageIndex : 0]));
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         mProgressBar.setVisibility(View.VISIBLE);
     }
