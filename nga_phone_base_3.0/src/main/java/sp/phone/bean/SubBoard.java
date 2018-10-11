@@ -11,6 +11,8 @@ public class SubBoard extends Board implements Parcelable {
 
     private String mTidStr;
 
+    private int mStid;
+
     private int mType;
 
     private boolean mChecked = true;
@@ -25,6 +27,7 @@ public class SubBoard extends Board implements Parcelable {
     protected SubBoard(Parcel in) {
         super(in);
         mTidStr = in.readString();
+        mStid = in.readInt();
         mType = in.readInt();
         mChecked = in.readByte() != 0;
         mDescription = in.readString();
@@ -35,6 +38,7 @@ public class SubBoard extends Board implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(mTidStr);
+        dest.writeInt(mStid);
         dest.writeInt(mType);
         dest.writeByte((byte) (mChecked ? 1 : 0));
         dest.writeString(mDescription);
@@ -57,6 +61,15 @@ public class SubBoard extends Board implements Parcelable {
             return new SubBoard[size];
         }
     };
+
+
+    public int getStid() {
+        return mStid;
+    }
+
+    public void setStid(int stid) {
+        mStid = stid;
+    }
 
     public String getTidStr() {
         return mTidStr;

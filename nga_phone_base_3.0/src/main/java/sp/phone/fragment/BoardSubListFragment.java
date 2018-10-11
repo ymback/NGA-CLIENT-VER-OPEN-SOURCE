@@ -10,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.TopicListActivity;
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.adapter.BoardSubListAdapter;
 import sp.phone.bean.SubBoard;
 import sp.phone.listener.OnHttpCallBack;
@@ -82,10 +85,12 @@ public class BoardSubListFragment extends BaseRxFragment implements View.OnClick
                 mSubscribeTask.subscribe(board, callBack);
             }
         } else {
-            Intent intent = new Intent(getContext(), TopicListActivity.class);
-            intent.putExtra(ParamKey.KEY_TITLE, board.getName());
-            intent.putExtra(ParamKey.KEY_FID, Integer.parseInt(board.getUrl()));
-            startActivity(intent);
+            ARouter.getInstance()
+                    .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                    .withString(ParamKey.KEY_TITLE, board.getName())
+                    .withInt(ParamKey.KEY_FID, board.getFid())
+                    .withInt(ParamKey.KEY_STID, board.getStid())
+                    .navigation(getContext());
         }
     }
 }

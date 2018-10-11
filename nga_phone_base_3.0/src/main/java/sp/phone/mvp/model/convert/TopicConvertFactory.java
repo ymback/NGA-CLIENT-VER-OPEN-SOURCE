@@ -14,7 +14,7 @@ import sp.phone.bean.TopicListBean;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.util.BoardUtils;
+import sp.phone.util.ForumUtils;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
@@ -80,7 +80,11 @@ public class TopicConvertFactory {
                 Map<String, String> boardMap = subBoardMap.get(key);
                 SubBoard board = new SubBoard();
                 Object obj = boardMap.get("0");
-                board.setFid(Integer.parseInt(obj.toString()));
+                if (key.startsWith("t")) {
+                    board.setStid(Integer.parseInt(obj.toString()));
+                } else {
+                    board.setFid(Integer.parseInt(obj.toString()));
+                }
 
                 // 有些子版块的fid的key是3，大部分都是1
                 if (boardMap.containsKey("3")) {
@@ -95,7 +99,7 @@ public class TopicConvertFactory {
                 board.setDescription(boardMap.get("2"));
                 if (boardMap.containsKey("4")) {
                     obj = boardMap.get("4");
-                    board.setChecked(BoardUtils.isBoardSubscribed(Integer.parseInt(obj.toString())));
+                    board.setChecked(ForumUtils.isBoardSubscribed(Integer.parseInt(obj.toString())));
                 } else {
                     board.setType(-1);
                     board.setChecked(true);

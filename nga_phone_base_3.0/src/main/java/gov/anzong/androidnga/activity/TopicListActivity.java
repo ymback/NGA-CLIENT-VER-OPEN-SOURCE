@@ -46,6 +46,7 @@ public class TopicListActivity extends BaseActivity {
             requestParam.fidGroup = StringUtils.getStringBetween(url, 0, "fidgroup=", "&").result;
             requestParam.content = StringUtils.getUrlParameter(url, "content");
             requestParam.fid = StringUtils.getUrlParameter(url, "fid");
+            requestParam.stid = StringUtils.getUrlParameter(url, "stid");
         } else if (bundle != null) {
             requestParam = bundle.getParcelable(ParamKey.KEY_PARAM);
             if (requestParam == null) {
@@ -60,6 +61,7 @@ public class TopicListActivity extends BaseActivity {
                 requestParam.fidGroup = bundle.getString(ParamKey.KEY_FID_GROUP);
                 requestParam.title = bundle.getString(ParamKey.KEY_TITLE);
                 requestParam.recommend = bundle.getInt(ParamKey.KEY_RECOMMEND, 0);
+                requestParam.stid = bundle.getInt(ParamKey.KEY_STID, 0);
             }
         }
 

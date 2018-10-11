@@ -9,6 +9,9 @@ public interface ParamKey {
     // 版面ID  整数 或 逗号分隔的整数
     String KEY_FID = "fid";
 
+    // 有些子版面是stid
+    String KEY_STID = "stid";
+
     //主题作者用户id  整数
     String KEY_AUTHOR_ID = "authorid";
 

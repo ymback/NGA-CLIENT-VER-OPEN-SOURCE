@@ -18,4 +18,14 @@ public class ForumUtils {
         int index = Integer.parseInt(sp.getString(PreferenceKey.KEY_NGA_DOMAIN, "1"));
         return context.getResources().getStringArray(R.array.nga_domain)[index];
     }
+
+    /**
+     * @param statusCode
+     * @return 返回子板块是否被订阅
+     */
+    public static boolean isBoardSubscribed(int statusCode) {
+        // 3,810 返回false
+        return statusCode == 7 || statusCode == 558 || statusCode == 542;
+    }
+
 }
