@@ -16,7 +16,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.Utils;
 import sp.phone.mvp.presenter.LoginPresenter;
 import sp.phone.util.StringUtils;
 
@@ -26,15 +25,13 @@ import sp.phone.util.StringUtils;
 
 public class LoginWebFragment extends BaseFragment {
 
-    private ProgressBar mProgressBar;
-
-    private WebView mWebView;
+    private static final String URL_LOGIN = "https://bbs.ngacn.cc/nuke.php?__lib=login&__act=account&login";
 
     private static final int MAX_PROGRESS = 100;
 
-    //"https://bbs.ngacn.cc/nuke.php?__lib=login&__act=account&login";
-    private String mLoginUrl = Utils.getNGAHost() + "nuke.php?__lib=login&__act=login_ui";
+    private ProgressBar mProgressBar;
 
+    private WebView mWebView;
 
     private LoginPresenter mLoginPresenter;
 
@@ -99,7 +96,6 @@ public class LoginWebFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         mWebView = view.findViewById(R.id.webview);
         mWebView.setWebChromeClient(new LoginWebChromeClient());
         mWebView.setWebViewClient(new LoginWebViewClient());
@@ -108,7 +104,7 @@ public class LoginWebFragment extends BaseFragment {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         mProgressBar = view.findViewById(R.id.progressBar);
         mProgressBar.setMax(MAX_PROGRESS);
-        mWebView.loadUrl(mLoginUrl);
+        mWebView.loadUrl(URL_LOGIN);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -141,13 +137,6 @@ public class LoginWebFragment extends BaseFragment {
             mWebView = null;
         }
         super.onDestroy();
-    }
-
-    /**
-     * Gets the WebView.
-     */
-    public WebView getWebView() {
-        return mWebView;
     }
 
     @Override
