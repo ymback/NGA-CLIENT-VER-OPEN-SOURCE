@@ -163,7 +163,7 @@
     <string name="unknow_error">客户端发生未知错误</string>
     <string name="copied_to_clipboard">已经复制到剪切板</string>
     <string name="search_dialog_hint">强撸灰飞烟灭</string>
-    <string name="profile_search_dialog_hint">直接按确定查看自己的用户信息</string>
+    <string name="profile_search_dialog_hint">默认查看自己的用户信息</string>
     <string name="addfid_dialog_hintA">输入版面名称</string>
     <string name="addfid_dialog_url">输入URL地址(板块或帖子)</string>
     <string name="addfid_dialog_hintB">输入版面ID(个人版面有负号)</string>

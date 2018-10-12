@@ -24,6 +24,9 @@ public interface RetrofitService {
     @GET("nuke.php")
     Observable<String> get(@QueryMap Map<String, String> map);
 
+    @GET("forum.php")
+    Observable<String> getByForum(@QueryMap Map<String, String> map);
+
     @GET
     Observable<String> get(@Url String url);
 

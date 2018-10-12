@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity {
                 aboutNgaClient();
                 break;
             case R.id.menu_search:
-                searchProfile();
+                startSearchActivity();
                 break;
             case R.id.menu_forward:
                 new UrlInputDialogFragment().show(getSupportFragmentManager());
@@ -119,8 +119,10 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
-    private void searchProfile() {
-        new ProfileSearchDialogFragment().show(getSupportFragmentManager());
+    private void startSearchActivity() {
+        ARouter.getInstance()
+                .build(ARouterConstants.ACTIVITY_SEARCH)
+                .navigation(this);
     }
 
     private void startMessageActivity() {

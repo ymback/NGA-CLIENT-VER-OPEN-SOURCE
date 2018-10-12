@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
@@ -120,10 +121,10 @@ public class TopicListActivity extends BaseActivity {
                 showRecommendTopicList();
                 break;
             case R.id.menu_search:
-                Bundle bundle = new Bundle();
-                bundle.putInt("fid", mRequestParam.fid);
-                bundle.putInt("authorid", mRequestParam.authorId);
-                ActivityUtils.startSearchDialog(this, bundle);
+                ARouter.getInstance()
+                        .build(ARouterConstants.ACTIVITY_SEARCH)
+                        .withInt("fid", mRequestParam.fid)
+                        .navigation(this);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

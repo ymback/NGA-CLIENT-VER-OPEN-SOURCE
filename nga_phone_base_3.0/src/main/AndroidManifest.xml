@@ -207,8 +207,11 @@
         <activity
             android:name=".activity.RecentNotificationActivity"
             android:theme="@style/SwipeBackTheme"/>
-
         <activity android:name=".activity.LauncherSubActivity"/>
+
+        <activity
+            android:name=".activity.SearchActivity"
+            android:label="@string/search"/>
 
     </application>
 
