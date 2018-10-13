@@ -130,6 +130,7 @@ public interface VersionUpgradeTips {
     String TIPS_2093 = "更新内容\n"
             + "● 原登录界面接口被干掉了，替换了最新的接口\n"
             + "● 解决某些子版面打不开的bug\n"
+            + "● 支持直接搜索板块了\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 }
