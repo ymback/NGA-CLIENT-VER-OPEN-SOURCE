@@ -40,6 +40,7 @@ import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.ReportDialogFragment;
+import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.proxy.ProxyBridge;
 import sp.phone.theme.ThemeManager;
 import sp.phone.view.webview.WebViewClientEx;
@@ -227,8 +228,8 @@ public class FunctionUtils {
         int htmlfgColor = fgColor & 0xffffff;
         final String fgColorStr = String.format("%06x", htmlfgColor);
 
-        WebViewClient client = new WebViewClientEx((FragmentActivity) context);
-        WebView contentTV = (WebView) view.findViewById(R.id.signature);
+        WebViewClient client = new WebViewClientEx();
+        WebView contentTV = view.findViewById(R.id.signature);
         contentTV.setBackgroundColor(0);
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
@@ -238,7 +239,7 @@ public class FunctionUtils {
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
-        setting.setJavaScriptEnabled(false);
+        setting.setJavaScriptEnabled(true);
         contentTV.setWebViewClient(client);
         contentTV
                 .loadDataWithBaseURL(
@@ -591,8 +592,7 @@ public class FunctionUtils {
                                              boolean showImage, int imageQuality, final String fgColorStr,
                                              final String bgcolorStr, Context context) {
         initStaticStrings(context);
-        String ngaHtml = StringUtils.decodeForumTag(row.getSignature(),
-                showImage, imageQuality, null);
+        String ngaHtml = new ForumDecoder(true).decode(row.getSignature(), null);
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();
         }
@@ -605,7 +605,8 @@ public class FunctionUtils {
                 + bgcolorStr
                 + "'>"
                 + "<font color='#"
-                + fgColorStr + "' size='2'>" + ngaHtml + "</font></body>";
+                + fgColorStr + "' size='2'>" + ngaHtml + "</font></body>"
+                + "<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>";
 
         return ngaHtml;
     }

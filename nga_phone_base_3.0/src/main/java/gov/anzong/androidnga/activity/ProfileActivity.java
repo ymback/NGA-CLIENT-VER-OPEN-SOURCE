@@ -36,6 +36,7 @@ import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.listener.OnHttpCallBack;
+import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
@@ -373,7 +374,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     private void sendShortMessage() {
         ARouter.getInstance()
                 .build(ARouterConstants.ACTIVITY_MESSAGE_POST)
-                .withString("to",mProfileData.getUserName())
+                .withString("to", mProfileData.getUserName())
                 .withString(ParamKey.KEY_ACTION, "new")
                 .withString("messagemode", "yes")
                 .navigation(this);
@@ -426,7 +427,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         contentTV.setLocalMode();
         contentTV.loadDataWithBaseURL(
                 null,
-                signatureToHtmlText(ret, FunctionUtils.isShowImage(), FunctionUtils.showImageQuality(), fgColorStr, bgcolorStr),
+                signatureToHtmlText(ret, fgColorStr, bgcolorStr),
                 "text/html", "utf-8", null);
     }
 
@@ -502,10 +503,9 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         return ngaHtml;
     }
 
-    public String signatureToHtmlText(final ProfileData ret, boolean showImage,
-                                      int imageQuality, final String fgColorStr, final String bgcolorStr) {
-        String ngaHtml = StringUtils.decodeForumTag(ret.getSign(), showImage,
-                imageQuality, null);
+    public String signatureToHtmlText(final ProfileData ret, final String fgColorStr, final String bgcolorStr) {
+        String ngaHtml = new ForumDecoder(true).decode(ret.getSign(), null);
+
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
                 + "<body bgcolor= '#"
                 + bgcolorStr
@@ -514,7 +514,8 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
                 + fgColorStr
                 + "' size='2'>"
                 + "<div style=\"border: 3px solid rgb(204, 204, 204);padding: 2px; \">"
-                + ngaHtml + "</div>" + "</font></body>";
+                + ngaHtml + "</div>" + "</font></body>"
+                + "<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>";
 
         return ngaHtml;
     }
