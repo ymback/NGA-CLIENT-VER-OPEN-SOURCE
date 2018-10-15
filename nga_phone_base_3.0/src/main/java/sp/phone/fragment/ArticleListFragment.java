@@ -127,10 +127,10 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                             .navigation();
                     break;
                 case R.id.menu_support:
-                    mPresenter.postSupportTask(tid);
+                    mPresenter.postSupportTask(tid, row.getPid());
                     break;
                 case R.id.menu_oppose:
-                    mPresenter.postOpposeTask(tid);
+                    mPresenter.postOpposeTask(tid, row.getPid());
                     break;
                 default:
                     break;

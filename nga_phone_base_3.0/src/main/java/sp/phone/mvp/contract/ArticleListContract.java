@@ -22,9 +22,9 @@ public interface ArticleListContract {
 
         void postComment(ArticleListParam param, ThreadRowInfo row);
 
-        void postSupportTask(int tid);
+        void postSupportTask(int tid, int pid);
 
-        void postOpposeTask(int tid);
+        void postOpposeTask(int tid, int pid);
 
         void quote(ArticleListParam param, ThreadRowInfo row);
     }

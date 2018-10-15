@@ -40,10 +40,11 @@ public class LikeTask {
         mParamMap.put("__output", "8");
     }
 
-    public void execute(int tid, int like, OnSimpleHttpCallBack<String> callBack) {
+    public void execute(int tid, int pid, int like, OnSimpleHttpCallBack<String> callBack) {
         Map<String, String> map = new HashMap<>(mParamMap);
         map.put("value", String.valueOf(like));
         map.put("tid", String.valueOf(tid));
+        map.put("pid", String.valueOf(pid));
         mService.post(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

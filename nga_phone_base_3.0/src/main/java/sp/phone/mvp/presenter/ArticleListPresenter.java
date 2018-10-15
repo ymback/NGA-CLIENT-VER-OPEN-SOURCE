@@ -131,19 +131,19 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
     }
 
     @Override
-    public void postSupportTask(int tid) {
+    public void postSupportTask(int tid, int pid) {
         if (mLikeTask == null) {
             mLikeTask = new LikeTask();
         }
-        mLikeTask.execute(tid, LikeTask.SUPPORT, data -> mBaseView.showToast(data));
+        mLikeTask.execute(tid, pid, LikeTask.SUPPORT, data -> mBaseView.showToast(data));
     }
 
     @Override
-    public void postOpposeTask(int tid) {
+    public void postOpposeTask(int tid, int pid) {
         if (mLikeTask == null) {
             mLikeTask = new LikeTask();
         }
-        mLikeTask.execute(tid, LikeTask.OPPOSE, data -> mBaseView.showToast(data));
+        mLikeTask.execute(tid, pid, LikeTask.OPPOSE, data -> mBaseView.showToast(data));
     }
 
     @Override
