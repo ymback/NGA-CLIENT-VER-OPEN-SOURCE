@@ -41,17 +41,13 @@ public class ForumImageDecoder implements IForumDecoder {
                         + "file:///android_asset/" + path
                         + "' style= 'max-width:100%' >";
                 content = content.replace(s0, newImgBlock);
-                if (s1.contains(HttpUtil.NGA_ATTACHMENT_HOST)) {
-                    mImageUrls.add(s1);
-                }
+                mImageUrls.add(s1);
             } else {
                 String newImgBlock = "<img src='"
                         + s1
                         + "' style= 'max-width:100%' >";
                 content = content.replace(s0, newImgBlock);
-                if (s1.contains(HttpUtil.NGA_ATTACHMENT_HOST)) {
-                    mImageUrls.add(s1);
-                }
+                mImageUrls.add(s1);
             }
         }
         return convertGifImage(content);
