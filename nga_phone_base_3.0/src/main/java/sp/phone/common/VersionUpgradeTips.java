@@ -133,4 +133,12 @@ public interface VersionUpgradeTips {
             + "● 支持直接搜索板块了\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
+    String TIPS_2094 = "更新内容\n"
+            + "● 解决在bbs.nga.cn域名下，无法在帖子里直接查看用户信息的bug\n"
+            + "● 解决无法对回复的楼层支持或者反对的bug\n"
+            + "● 解决部分图片无法查看大图的bug\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 }
