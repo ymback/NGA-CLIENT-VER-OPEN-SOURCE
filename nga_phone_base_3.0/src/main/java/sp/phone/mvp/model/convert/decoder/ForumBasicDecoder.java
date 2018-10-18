@@ -206,6 +206,8 @@ public class ForumBasicDecoder implements IForumDecoder {
                 "<td rowspan='$1' style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
         content = content.replaceAll("\\[td\\]", "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
         content = content.replaceAll("\\[/td\\]", "<td>");
+        // 处理表格外面的额外空行
+        content = content.replaceAll("<([/]?(table|tbody|tr|td))><br/>", "<$1>");
         // [i][/i]
         content = content.replaceAll(ignoreCaseTag + "\\[i\\]",
                 "<i style=\"font-style:italic\">");
