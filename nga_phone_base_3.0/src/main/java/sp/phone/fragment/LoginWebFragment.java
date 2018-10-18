@@ -3,17 +3,19 @@ package sp.phone.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
-import android.webkit.JsResult;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.presenter.LoginPresenter;
@@ -53,20 +55,6 @@ public class LoginWebFragment extends BaseFragment {
             mProgressBar.setProgress(newProgress);
             super.onProgressChanged(view, newProgress);
         }
-
-        @Override
-        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            if (message.contains("成功")) {
-                String cookieStr = CookieManager.getInstance().getCookie(view.getUrl());
-                if (!StringUtils.isEmpty(cookieStr)) {
-                    mLoginPresenter.parseCookie(cookieStr);
-                    if (mActivity != null) {
-                        mActivity.setResult(Activity.RESULT_OK);
-                    }
-                }
-            }
-            return super.onJsAlert(view, url, message, result);
-        }
     }
 
     private class LoginWebViewClient extends WebViewClient {
@@ -81,8 +69,14 @@ public class LoginWebFragment extends BaseFragment {
             view.loadUrl(url);
             return true;
         }
-    }
 
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            // 强制 Web 方法调用替换为 Android 的方法调用
+            view.loadUrl("javascript:window.parent.__API.get=function(name,params){window.ngaObj.doAction(name,params)};");
+        }
+    }
 
     @Nullable
     @Override
@@ -104,6 +98,25 @@ public class LoginWebFragment extends BaseFragment {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         mProgressBar = view.findViewById(R.id.progressBar);
         mProgressBar.setMax(MAX_PROGRESS);
+        mWebView.addJavascriptInterface(new Object() {
+            @JavascriptInterface
+            public void doAction(String n, Object a) {
+                Log.d("doAction", n);
+                if ("loginSuccess".equals(n)) {
+                    mWebView.post(() -> {
+                        String cookieStr = CookieManager.getInstance().getCookie(mWebView.getUrl());
+                        if (!StringUtils.isEmpty(cookieStr)) {
+                            mLoginPresenter.parseCookie(cookieStr);
+                            Toast.makeText(mActivity, "登陆成功", Toast.LENGTH_SHORT).show();
+                            if (mActivity != null) {
+                                mActivity.setResult(Activity.RESULT_OK);
+                                mActivity.finish();
+                            }
+                        }
+                    });
+                }
+            }
+        }, "ngaObj");
         mWebView.loadUrl(URL_LOGIN);
         super.onViewCreated(view, savedInstanceState);
     }
