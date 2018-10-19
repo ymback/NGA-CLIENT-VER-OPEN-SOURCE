@@ -34,6 +34,6 @@ project.ext {
     compileSdkVersion = 26
     buildToolsVersion = '27.0.3'
     androidSupportVersion = '26.1.0'
-    appVersionName = '2.0.94'
-    appVersionCode = 2094
+    appVersionName = '2.0.95'
+    appVersionCode = 2095
 }
