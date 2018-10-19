@@ -82,18 +82,6 @@ android {
         abortOnError false
         disable 'MissingTranslation'
     }
-
-    //修改生成的apk名字
-    android.applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def newName
-            def timeNow
-            timeNow = getDate()
-            newName = 'NGA-v' + project.appVersionName + '-' + timeNow + '-' + variant.buildType.name + '.apk'
-            outputFileName = new File(newName)
-
-        }
-    }
 }
 
 dependencies {
