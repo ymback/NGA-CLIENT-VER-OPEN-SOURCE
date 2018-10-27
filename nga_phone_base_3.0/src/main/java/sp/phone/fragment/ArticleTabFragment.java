@@ -130,6 +130,11 @@ public class ArticleTabFragment extends BaseRxFragment {
 
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mFam.getAddFloatingActionButton().setOnLongClickListener(v -> {
+            mBehavior.animateOut(mFam);
+            return true;
+        });
         super.onViewCreated(view, savedInstanceState);
     }
 

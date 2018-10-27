@@ -40,7 +40,7 @@ public class ScrollAwareFamBehavior extends com.getbase.floatingactionbutton.Scr
 
     }
 
-    private void animateOut(FloatingActionsMenu button) {
+    public void animateOut(FloatingActionsMenu button) {
         int height = button.getAddFloatingActionButton().getHeight() + button.getAddButtonMarginBottom();
         ViewCompat.animate(button).translationY((float) height).setInterpolator(INTERPOLATOR).setListener(new ViewPropertyAnimatorListener() {
             public void onAnimationStart(View view) {
