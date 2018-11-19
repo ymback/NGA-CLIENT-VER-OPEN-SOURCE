@@ -7,10 +7,10 @@
     <color name="web_text_color">#FF999999</color>
     <color name="web_quote_background_color">#FF000000</color>
 
-    <color name="window_background">#FF303030</color>
+    <color name="window_background">@color/night_bg_color</color>
     <color name="background_color">@color/night_bg_color</color>
     <color name="background_color2">@color/night_bg_color</color>
-    <color name="foreground_color">#FF6F6F6F</color>
+    <color name="foreground_color">#FF999999</color>
 
     <color name="colorAccentBrown">#FF128F80</color>
     <color name="colorPrimaryBrown">#ff212121</color>
