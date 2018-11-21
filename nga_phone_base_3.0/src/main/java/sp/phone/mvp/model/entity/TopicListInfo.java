@@ -32,4 +32,6 @@ public class TopicListInfo {
         return mSubBoardList;
     }
 
+    public int curTime;
+
 }
