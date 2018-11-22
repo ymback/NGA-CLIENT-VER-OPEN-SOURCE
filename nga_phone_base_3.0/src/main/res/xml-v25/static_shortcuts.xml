@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/p_7"
+        android:shortcutId="shortcut_id_daxuanwo"
+        android:shortcutLongLabel="@string/shortcut_label_daxuanwo"
+        android:shortcutShortLabel="@string/shortcut_label_daxuanwo">
+
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="gov.anzong.androidnga.activity.MainActivity"
+            android:targetPackage="gov.anzong.androidnga"/>
+
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:data="http://bbs.ngacn.cc/thread.php?fid=-7"
+            android:targetClass="gov.anzong.androidnga.activity.TopicListActivity"
+            android:targetPackage="gov.anzong.androidnga"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/p7"
+        android:shortcutId="shortcut_id_yishiting"
+        android:shortcutLongLabel="@string/shortcut_label_yishiting"
+        android:shortcutShortLabel="@string/shortcut_label_yishiting">
+
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="gov.anzong.androidnga.activity.MainActivity"
+            android:targetPackage="gov.anzong.androidnga"/>
+
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:data="http://bbs.ngacn.cc/thread.php?fid=7"
+            android:targetClass="gov.anzong.androidnga.activity.TopicListActivity"
+            android:targetPackage="gov.anzong.androidnga"/>
+    </shortcut>
+
+</shortcuts>

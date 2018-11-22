@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_show_whole_thread"
+        android:icon="@drawable/ic_action_storage"
+        android:title="@string/show_whole_thread"
+        androidnga:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:id="@+id/menu_support"
+        android:title="@string/menu_support"/>
+
+    <item
+        android:id="@+id/menu_oppose"
+        android:title="@string/menu_oppose"/>
+
+    <item
+        android:id="@+id/menu_ban_this_one"
+        android:title="@string/ban_thisone"
+        androidnga:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_vote"
+        android:title="@string/vote_dialog"
+        androidnga:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/btn_ic_share"
+        android:title="@string/share"
+        androidnga:showAsAction="never"/>
+
+</menu>

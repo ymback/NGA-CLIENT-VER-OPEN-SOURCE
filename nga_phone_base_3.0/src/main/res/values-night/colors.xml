@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_color">#FFFFFFFF</color>
+    <color name="text_color_disabled">#FF6F6F6F</color>
+
+    <color name="web_text_color">#FF999999</color>
+    <color name="web_quote_background_color">#FF000000</color>
+
+    <color name="window_background">#FF303030</color>
+    <color name="background_color">@color/night_bg_color</color>
+    <color name="background_color2">@color/night_bg_color</color>
+    <color name="foreground_color">#FF6F6F6F</color>
+
+    <color name="colorAccentBrown">#FF128F80</color>
+    <color name="colorPrimaryBrown">#ff212121</color>
+    <color name="colorPrimaryDarkBrown">@android:color/black</color>
+
+</resources>

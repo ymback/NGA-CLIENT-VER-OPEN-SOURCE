@@ -1,5 +1,2 @@
-include ':PinterestLikeAdapterView'
-include ':ActionBar-PullToRefresh'
-include ':SwipeBackLayoutLibrary'
-include ':ActionBar-PullToRefresh-Library'
+include ':SwipeBackLayoutLibrary', ':statistics'
 include ':nga_phone_base_3.0'

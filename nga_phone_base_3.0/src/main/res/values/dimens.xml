@@ -1,0 +1,19 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+
+    <dimen name="article_list_tab_height">40dp</dimen>
+
+    <dimen name="cardview_default_margin_left_right">8dp</dimen>
+    <dimen name="cardview_default_margin_top_bottom">4dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="app_bar_height">160dp</dimen>
+
+    <dimen name="status_bar_height">16dp</dimen>
+
+    <dimen name="bottom_emoticon_tab_height">32dp</dimen>
+    <dimen name="bottom_emoticon_min_height">250dp</dimen>
+
+</resources>

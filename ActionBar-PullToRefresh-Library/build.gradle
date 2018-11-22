@@ -1,15 +1,16 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile "com.android.support:appcompat-v7:$Version_AndroidSupport"
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation "com.android.support:appcompat-v7:" + project.androidSupportVersion
 }
 
 android {
-    compileSdkVersion General_CompileSdkVersion as int
-    buildToolsVersion General_BuildToolsVersion
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 21
+        targetSdkVersion 26
     }
     sourceSets {
         main {
@@ -21,7 +22,7 @@ android {
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
         }
-        instrumentTest.setRoot('tests')
+        //instrumentTest.setRoot('tests')
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }

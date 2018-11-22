@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Boards
+    xmlns:android="http://schemas.android.com/apk/res-auto">
+
+    <Category android:name="魔兽世界">
+
+        <Board
+            android:fid="7"
+            android:name="议事厅"/>
+
+        <Board
+            android:fid="10"
+            android:name="银色黎明"/>
+
+        <Board
+            android:fid="230"
+            android:name="艾泽拉斯风纪委员会"/>
+
+        <Board
+            android:fid="323"
+            android:name="国服以外讨论"/>
+
+        <Board
+            android:fid="586"
+            android:name="争霸艾泽拉斯"/>
+
+        <Board
+            android:fid="310"
+            android:name="前瞻资讯"/>
+
+    </Category>
+
+    <Category android:name="大漩涡系列">
+
+        <Board
+            android:fid="7"
+            android:name="大漩涡"/>
+
+        <Board
+            android:fid="-343809"
+            android:name="汽车俱乐部"/>
+
+        <Board
+            android:fid="-81981"
+            android:name="生命之杯"/>
+
+        <Board
+            android:fid="-576177"
+            android:name="影音讨论区"/>
+        <Board
+            android:fid="414"
+            android:name="游戏综合讨论"/>
+
+        <Board
+            android:fid="436"
+            android:name="消费电子 IT新闻"/>
+
+        <Board
+            android:fid="498"
+            android:name="二手交易"/>
+
+        <Board
+            android:fid="-187579"
+            android:name="大漩涡历史博物馆"/>
+
+        <Board
+            android:fid="485"
+            android:name="篮球"/>
+
+    </Category>
+
+    <Category android:name="职业讨论区">
+
+        <Board
+            android:fid="390"
+            android:name="五晨寺"/>
+
+        <Board
+            android:fid="320"
+            android:name="黑锋要塞"/>
+
+        <Board
+            android:fid="181"
+            android:name="铁血沙场"/>
+
+        <Board
+            android:fid="182"
+            android:name="魔法圣堂"/>
+        <Board
+            android:fid="183"
+            android:name="信仰神殿"/>
+
+        <Board
+            android:fid="185"
+            android:name="风暴祭坛"/>
+
+        <Board
+            android:fid="186"
+            android:name="翡翠梦境"/>
+
+        <Board
+            android:fid="187"
+            android:name="猎手大厅"/>
+
+        <Board
+            android:fid="184"
+            android:name="圣光之力"/>
+
+        <Board
+            android:fid="188"
+            android:name="恶魔深渊"/>
+
+        <Board
+            android:fid="189"
+            android:name="暗影裂口"/>
+
+        <Board
+            android:fid="477"
+            android:name="伊利达雷"/>
+
+    </Category>
+
+    <Category android:name="冒险心得">
+
+        <Board
+            android:fid="310"
+            android:name="前瞻资讯"/>
+
+        <Board
+            android:fid="190"
+            android:name="组队招募"/>
+
+        <Board
+            android:fid="213"
+            android:name="战争档案馆"/>
+
+        <Board
+            android:fid="218"
+            android:name="副本专区"/>
+        <Board
+            android:fid="258"
+            android:name="战场讨论"/>
+
+        <Board
+            android:fid="272"
+            android:name="竞技场"/>
+
+        <Board
+            android:fid="191"
+            android:name="地精商会"/>
+
+        <Board
+            android:fid="200"
+            android:name="插件研究"/>
+
+        <Board
+            android:fid="460"
+            android:name="BigFoot"/>
+
+        <Board
+            android:fid="274"
+            android:name="插件发布"/>
+
+        <Board
+            android:fid="327"
+            android:name="成就讨论"/>
+
+        <Board
+            android:fid="388"
+            android:name="幻化讨论"/>
+        <Board
+            android:fid="411"
+            android:name="宠物讨论"/>
+
+        <Board
+            android:fid="255"
+            android:name="公会管理"/>
+
+        <Board
+            android:fid="306"
+            android:name="人员招募"/>
+
+    </Category>
+
+    <Category android:name="麦迪文之塔">
+
+        <Board
+            android:fid="264"
+            android:name="卡拉赞剧院"/>
+
+        <Board
+            android:fid="8"
+            android:name="大图书馆"/>
+
+        <Board
+            android:fid="102"
+            android:name="作家协会"/>
+
+        <Board
+            android:fid="124"
+            android:name="壁画洞窟"/>
+        <Board
+            android:fid="254"
+            android:name="镶金玫瑰"/>
+
+        <Board
+            android:fid="355"
+            android:name="龟岩兄弟会"/>
+
+    </Category>
+
+    <Category android:name="系统软硬件讨论">
+
+        <Board
+            android:fid="193"
+            android:name="帐号安全"/>
+
+        <Board
+            android:fid="334"
+            android:name="PC软硬件"/>
+
+        <Board
+            android:fid="201"
+            android:name="系统问题"/>
+
+        <Board
+            android:fid="335"
+            android:name="论坛开发"/>
+
+    </Category>
+
+    <Category android:name="暴雪游戏">
+
+        <Board
+            android:fid="422"
+            android:name="炉石传说"/>
+
+        <Board
+            android:fid="459"
+            android:name="守望先锋"/>
+
+        <Board
+            android:fid="431"
+            android:name="风暴英雄"/>
+
+        <Board
+            android:fid="490"
+            android:name="魔兽争霸"/>
+        <Board
+            android:fid="318"
+            android:name="暗黑破坏神3"/>
+
+    </Category>
+
+    <Category android:name="其他游戏">
+
+        <Board
+            android:fid="414"
+            android:name="游戏综合讨论"/>
+
+        <Board
+            android:fid="428"
+            android:name="手机 网页游戏综合讨论"/>
+
+        <Board
+            android:fid="-152678"
+            android:name="英雄联盟"/>
+
+        <Board
+            android:fid="482"
+            android:name="CS:GO"/>
+        <Board
+            android:fid="321"
+            android:name="DOTA2"/>
+
+        <Board
+            android:fid="622"
+            android:name="刀塔卡牌 Artifact"/>
+
+        <Board
+            android:fid="-452227"
+            android:name="口袋妖怪"/>
+
+        <Board
+            android:fid="426"
+            android:name="智龙迷城"/>
+
+        <Board
+            android:fid="-51095"
+            android:name="部落冲突"/>
+
+        <Board
+            android:fid="492"
+            android:name="部落冲突:皇室战争"/>
+
+    </Category>
+
+    <Category android:name="个人版面">
+
+        <Board
+            android:fid="-447601"
+            android:name="二次元国家地理"/>
+
+    </Category>
+
+
+</Boards>

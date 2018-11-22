@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<sp.phone.view.toolbar.EmoticonControlPanel
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_emoticon_panel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <sp.phone.view.ScrollableViewPager
+        android:id="@+id/bottom_emoticon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/bottom_emoticon_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_emoticon_tab_height"/>
+
+</sp.phone.view.toolbar.EmoticonControlPanel>
