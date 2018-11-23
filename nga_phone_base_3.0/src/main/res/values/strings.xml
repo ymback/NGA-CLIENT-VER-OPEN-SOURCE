@@ -342,6 +342,7 @@
     <string name="setting_title_filter_sub_board">过滤版主固定的渣帖子</string>
     <string name="setting_nga_domain">NGA域名</string>
 
+    <string name="twenty_four">24小时热帖</string>
     <string name="menu_add_bookmark_board">添加至我的收藏</string>
     <string name="menu_remove_bookmark_board">取消收藏</string>
     <string name="menu_search">搜索</string>
