@@ -146,5 +146,12 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2096 = "更新内容\n"
+            + "● 支持长按隐藏浮动按钮\n"
+            + "● 支持自适应app图标\n"
+            + "● 增加24小时热帖的功能呢\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 
 }

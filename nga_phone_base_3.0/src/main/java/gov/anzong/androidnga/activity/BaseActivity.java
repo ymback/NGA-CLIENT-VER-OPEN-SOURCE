@@ -97,8 +97,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, true)) {
             final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
             getSwipeBackLayout().setEdgeSize((int) (10 * density + 0.5f));// 10dp
-            int pos = SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_RIGHT;
-            getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
             setSwipeBackEnable(true);
         } else {
             setSwipeBackEnable(false);
