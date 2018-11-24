@@ -150,6 +150,7 @@ public interface VersionUpgradeTips {
             + "● 支持长按隐藏浮动按钮\n"
             + "● 支持自适应app图标\n"
             + "● 增加24小时热帖的功能呢\n"
+            + "● 修复在三星手机上侧滑返回时界面会闪一下的bug\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
