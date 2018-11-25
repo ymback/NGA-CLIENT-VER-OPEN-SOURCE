@@ -10,6 +10,7 @@ public class ForumEmoticonDecoder implements IForumDecoder {
     // color filter css class for night mode, we invert color for certain emotion icon
     private static final String INVERT_CSS_HTML = "\n <style> .invertfilter { filter: invert(100%); </style> \n";
     private static final String CLASS_FIELD = " class=\"invertfilter\"";
+    private static final String PX_WIDTH= " width=\"60\"";
     private String localClassField;
     private ThemeManager mThemeManager = ThemeManager.getInstance();
 
@@ -131,28 +132,28 @@ public class ForumEmoticonDecoder implements IForumDecoder {
         for (int i = 0; i < 45; i++) {
             content = content.replaceAll(ignoreCaseTag + "\\[s:ac:" + acniangofubbcode[i]
                     + "]", "<img src='file:///android_asset/acniang/"
-                    + acniangappadd[i] + "'" + localClassField + ">");
+                    + acniangappadd[i] + "'" + localClassField + PX_WIDTH + ">");
         }
         for (int i = 0; i < 46; i++) {
             content = content.replaceAll(ignoreCaseTag + "\\[s:a2:" + newacniangofubbcode[i]
                     + "]", "<img src='file:///android_asset/newacniang/"
-                    + newacniangappadd[i] + "'" + localClassField + ">");
+                    + newacniangappadd[i] + "'" + localClassField + PX_WIDTH + ">");
 
         }
         for (int i = 0; i < penguinOfUBBCode.length; i++) {
             content = content.replaceAll(ignoreCaseTag + "\\[s:pg:" + penguinOfUBBCode[i]
                     + "]", "<img src='file:///android_asset/pg/"
-                    + penguinAppAdd[i] + "' width=" + 60 + " height=" + 60 + ">");
+                    + penguinAppAdd[i] + "'" + PX_WIDTH + ">");
         }
         for (int i = 0; i < 65; i++) {
             content = content.replaceAll(ignoreCaseTag + "\\[s:pst:" + pstofubbcode[i]
                     + "]", "<img src='file:///android_asset/pst/"
-                    + pstappadd[i] + "'>");
+                    + pstappadd[i] + "'" + PX_WIDTH + "'>");
         }
         for (int i = 0; i < 33; i++) {
             content = content.replaceAll(ignoreCaseTag + "\\[s:dt:" + dtofubbcode[i]
                     + "]", "<img src='file:///android_asset/dt/"
-                    + dtappadd[i] + "'" + localClassField + ">");
+                    + dtappadd[i] + "'" + localClassField + PX_WIDTH + ">");
         }
         content = INVERT_CSS_HTML + content;
         return content;
