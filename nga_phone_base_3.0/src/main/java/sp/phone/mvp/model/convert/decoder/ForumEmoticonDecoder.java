@@ -1,5 +1,6 @@
 package sp.phone.mvp.model.convert.decoder;
 
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
 
 /**
@@ -10,12 +11,13 @@ public class ForumEmoticonDecoder implements IForumDecoder {
     // color filter css class for night mode, we invert color for certain emotion icon
     private static final String INVERT_CSS_HTML = "\n <style> .invertfilter { filter: invert(100%); </style> \n";
     private static final String CLASS_FIELD = " class=\"invertfilter\"";
-    private static final String PX_WIDTH= " width=\"60\"";
+    private static String PX_WIDTH = "";
     private String localClassField;
     private ThemeManager mThemeManager = ThemeManager.getInstance();
 
     @Override
     public String decode(String content) {
+        PX_WIDTH= " width=\"" + Integer.toString(PhoneConfiguration.getInstance().getEmotionWidth()) + "\"";
         final String acniangofubbcode[] = {"blink", "goodjob", "上", "中枪",
                 "偷笑", "冷", "凌乱", "反对", "吓", "吻", "呆", "咦", "哦", "哭", "哭1",
                 "哭笑", "哼", "喘", "喷", "嘲笑", "嘲笑1", "囧", "委屈", "心", "忧伤", "怒",

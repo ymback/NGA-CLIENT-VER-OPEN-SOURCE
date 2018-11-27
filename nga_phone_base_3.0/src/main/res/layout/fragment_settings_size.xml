@@ -84,6 +84,47 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="@color/night_fore_color"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/listPreferredItemHeight"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/emotionsize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:contentDescription="@string/emotion"
+                android:src="@drawable/default_avatar"/>
+
+            <TextView
+                android:id="@+id/textView_emotionsize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/emotion_size"
+                android:textColor="@color/text_color_selector"/>
+
+            <SeekBar
+                android:id="@+id/emotionsize_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:max="200"
+                android:paddingEnd="20dp"
+                android:paddingStart="30dp"/>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
