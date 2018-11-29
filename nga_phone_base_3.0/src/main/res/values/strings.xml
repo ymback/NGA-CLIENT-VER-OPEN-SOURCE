@@ -58,6 +58,7 @@
     <string name="book_mark_successfully">收藏成功</string>
     <string name="already_bookmarked">链接已经在收藏夹里了</string>
     <string name="avatar_size">头像大小</string>
+    <string name="emotion_size">表情大小</string>
     <string name="clear_recent_board">清除最近访问列表</string>
     <string name="showAnimation">显示动画</string>
     <string name="modify_thread">编辑帖子</string>

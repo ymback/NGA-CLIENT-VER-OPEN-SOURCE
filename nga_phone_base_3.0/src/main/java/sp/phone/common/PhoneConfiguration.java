@@ -44,6 +44,8 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     private int mAvatarWidth;
 
+    private int mEmotionWidth;
+
     private boolean mShowClassicIcon;
 
     private boolean mLeftHandMode;
@@ -91,6 +93,9 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
                 break;
             case PreferenceKey.NICK_WIDTH:
                 mAvatarWidth = sp.getInt(key, 100);
+                break;
+            case PreferenceKey.EMO_WIDTH:
+                mEmotionWidth = sp.getInt(key, 150);
                 break;
             case PreferenceKey.SHOW_ICON_MODE:
                 mShowClassicIcon = sp.getBoolean(key, false);
@@ -144,6 +149,7 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         mTopicTitleSize = sp.getFloat(PreferenceKey.TEXT_SIZE, Constants.DEFAULT_TEXT_SIZE);
         mUpdateAfterPost = sp.getBoolean(PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE, true);
         mAvatarWidth = sp.getInt(PreferenceKey.NICK_WIDTH, 100);
+        mEmotionWidth = sp.getInt(PreferenceKey.EMO_WIDTH, 150);
         mShowClassicIcon = sp.getBoolean(PreferenceKey.SHOW_ICON_MODE, false);
         mLeftHandMode = sp.getBoolean(PreferenceKey.LEFT_HAND, false);
         mShowBottomTab = sp.getBoolean(PreferenceKey.BOTTOM_TAB, false);
@@ -182,6 +188,10 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     public int getAvatarWidth() {
         return mAvatarWidth;
+    }
+
+    public int getEmotionWidth() {
+        return mEmotionWidth;
     }
 
     public float getTopicTitleSize() {

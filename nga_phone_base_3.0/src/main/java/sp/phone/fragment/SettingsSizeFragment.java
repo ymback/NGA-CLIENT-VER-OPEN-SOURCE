@@ -36,6 +36,8 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
 
     private ImageView mAvatarSizeView;
 
+    private ImageView mEmotionSizeView;
+
     private float mDefaultFontSize;
 
     private int mDefaultWebFontSize;
@@ -65,6 +67,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
         initFontSizeView(rootView);
         initAvatarSizeView(rootView);
         initWebFontSizeView(rootView);
+        initEmotionSizeView(rootView);
 
     }
 
@@ -108,14 +111,26 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
         SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.avatarsize_seekBar);
         int progress = mConfiguration.getAvatarWidth();
         Drawable defaultAvatar = ContextCompat.getDrawable(mContext, R.drawable.default_avatar);
-        Bitmap bitmap = ImageUtils.zoomImageByWidth(defaultAvatar, progress);
+        Bitmap bitmap = ImageUtils.zoomImageByWidth(defaultAvatar, progress, false);
         mAvatarSizeView.setImageBitmap(bitmap);
+        seekBar.setProgress(progress);
+        seekBar.setOnSeekBarChangeListener(this);
+    }
+
+    private void initEmotionSizeView(View rootView) {
+        mEmotionSizeView = (ImageView) rootView.findViewById(R.id.emotionsize);
+        SeekBar seekBar = (SeekBar) rootView.findViewById(R.id.emotionsize_seekBar);
+        int progress = mConfiguration.getEmotionWidth();
+        Drawable defaultEmotion = ContextCompat.getDrawable(mContext, R.drawable.acniang_large);
+        Bitmap bitmap = ImageUtils.zoomImageByWidth(defaultEmotion, progress, true);
+        mEmotionSizeView.setImageBitmap(bitmap);
         seekBar.setProgress(progress);
         seekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        Bitmap bitmap;
         switch (seekBar.getId()) {
             case R.id.fontsize_seekBar:
                 if (progress != 0) {
@@ -133,10 +148,23 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
                     progress = 2;
                 }
                 Drawable defaultAvatar = ContextCompat.getDrawable(mContext, R.drawable.default_avatar);
-                Bitmap bitmap = ImageUtils.zoomImageByWidth(defaultAvatar, progress);
+                bitmap = ImageUtils.zoomImageByWidth(defaultAvatar, progress, false);
                 try {
                     ImageUtils.recycleImageView(mAvatarSizeView);
                     mAvatarSizeView.setImageBitmap(bitmap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.emotionsize_seekBar:
+                if (2 > progress) {
+                    progress = 2;
+                }
+                Drawable defaultEmotion = ContextCompat.getDrawable(mContext, R.drawable.acniang_large);
+                bitmap = ImageUtils.zoomImageByWidth(defaultEmotion, progress, true);
+                try {
+                    ImageUtils.recycleImageView(mEmotionSizeView);
+                    mEmotionSizeView.setImageBitmap(bitmap);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -152,6 +180,7 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
+        int progress;
         SharedPreferences share = mContext.getSharedPreferences(PreferenceKey.PERFERENCE,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = share.edit();
@@ -167,11 +196,19 @@ public class SettingsSizeFragment extends PreferenceFragment implements SeekBar.
                 editor.apply();
                 break;
             case R.id.avatarsize_seekBar:
-                int progress = seekBar.getProgress();
+                progress = seekBar.getProgress();
                 if (2 > progress) {
                     progress = 2;
                 }
                 editor.putInt(PreferenceKey.NICK_WIDTH, progress);
+                editor.apply();
+                break;
+            case R.id.emotionsize_seekBar:
+                progress = seekBar.getProgress();
+                if (2 > progress) {
+                    progress = 2;
+                }
+                editor.putInt(PreferenceKey.EMO_WIDTH, progress);
                 editor.apply();
                 break;
         }

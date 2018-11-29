@@ -17,6 +17,7 @@ public interface PreferenceKey {
     String NIGHT_MODE = "nightmode";
     String VERSION = "version";
     String NICK_WIDTH = "nickWidth";
+    String EMO_WIDTH = "emotionWidth";
     String REFRESH_AFTERPOST_SETTING_MODE = "refresh_after_post_setting_mode";
     String SHOW_SIGNATURE = "showSignature";
     String SHOW_STATIC = "showStatic";
