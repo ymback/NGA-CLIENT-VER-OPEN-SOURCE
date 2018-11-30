@@ -24,7 +24,7 @@ public class ForumImageDecoder implements IForumDecoder {
         Pattern p = Pattern.compile("<img src='(http\\S+)' style= 'max-width:100%' >");
         Matcher m = p.matcher(content);
         mImageUrls.clear();
-       boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
+        boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
                 || DeviceUtils.isWifiConnected(ApplicationContextHolder.getContext());
         while (m.find()) {
             String s0 = m.group();
@@ -35,6 +35,7 @@ public class ForumImageDecoder implements IForumDecoder {
                         + "file:///android_asset/" + path
                         + "' style= 'max-width:100%' >";
                 content = content.replace(s0, newImgBlock);
+                content = content.replace("<a href='" + s1 + "'>", "");
             } else if (!showImage) {
                 path = "ic_offline_image.png";
                 String newImgBlock = "<img src='"
