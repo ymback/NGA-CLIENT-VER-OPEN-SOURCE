@@ -78,6 +78,13 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
         mTitleEditText.setOnFocusChangeListener(mToolbarContainer);
         mBodyEditText.setOnTouchListener(mToolbarContainer);
         mTitleEditText.setOnTouchListener(mToolbarContainer);
+
+        if (getArguments().containsKey("savedInstanceState")) {
+            Bundle savedData = getArguments().getBundle("savedInstanceState");
+            mBodyEditText.setText(savedData.getString("body"));
+            mTitleEditText.setText(savedData.getString("title"));
+            mAnonyCheckBox.setChecked(savedData.getBoolean("anony"));
+        }
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -87,6 +94,14 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             mPresenter.showFilePicker();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("body", mBodyEditText.getText().toString());
+        outState.putString("title", mTitleEditText.getText().toString());
+        outState.putBoolean("anoay", mAnonyCheckBox.isChecked());
     }
 
     @Override
