@@ -166,7 +166,8 @@ public class BoardManagerImpl implements BoardManager {
         category.add(new Board("492", "部落冲突:皇室战争", 492, 492));
         category.add(new Board("-362960", "最终幻想14", 362960, 362960));
         category.add(new Board("-6194253", "战争雷霆", 6194253, 6194253));
-        category.add(new Board("427", "怪物猎人", 427, 427));
+        category.add(new Board(489, "怪物猎人"));
+        category.add(new Board("427", "怪物猎人Online", 427, 427));
         category.add(new Board("-47218", "地下城与勇士", 47218));
         category.add(new Board("425", "行星边际2", 425, 425));
         category.add(new Board("-65653", "剑灵", 65653, 65653));
