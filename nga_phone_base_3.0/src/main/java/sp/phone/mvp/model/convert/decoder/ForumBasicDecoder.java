@@ -16,7 +16,6 @@ public class ForumBasicDecoder implements IForumDecoder {
     private static final String styleAlignLeft = "<div style='text-align:left' >";
     private static final String styleAlignCenter = "<div style='text-align:center' >";
     private static final String styleColor = "<span style='color:$1' >";
-    private static final String ignoreCaseTag = "(?i)";
     private static final String endDiv = "</div>";
 
     private static final String STYLE_QUOTE = "<div style='background:%s;padding:5px;border:1px solid #888' >";
