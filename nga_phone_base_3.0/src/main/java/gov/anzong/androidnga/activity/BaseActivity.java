@@ -15,6 +15,7 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
@@ -34,6 +35,9 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (ApplicationContextHolder.getContext() == null) {
+            ApplicationContextHolder.setContext(this);
+        }
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
