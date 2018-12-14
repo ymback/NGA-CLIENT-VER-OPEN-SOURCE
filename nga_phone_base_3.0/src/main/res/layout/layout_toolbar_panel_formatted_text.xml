@@ -67,7 +67,7 @@
 
         </TableRow>
 
-        <TableRow android:orientation="vertical">
+        <TableRow>
 
             <TextView
                 android:id="@+id/btn_italic"
@@ -78,9 +78,9 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:drawableTop="@drawable/ic_format_italic_black"
                 android:gravity="center_horizontal|bottom"
-                android:padding="6dp"
+                android:padding="12dp"
                 android:text="@string/italic"
-                android:textStyle="italic" />
+                android:textStyle="italic"/>
 
             <TextView
                 android:id="@+id/btn_under_line"
@@ -93,7 +93,7 @@
                 android:drawableTop="@drawable/ic_format_underlined_black"
                 android:gravity="center_horizontal|bottom"
                 android:padding="12dp"
-                android:text="@string/underline" />
+                android:text="@string/underline"/>
 
             <TextView
                 android:id="@+id/btn_delete_line"
@@ -105,7 +105,7 @@
                 android:drawableTop="@drawable/ic_format_strike_through_black"
                 android:gravity="center_horizontal|bottom"
                 android:padding="12dp"
-                android:text="@string/delline" />
+                android:text="@string/delline"/>
 
 
             <TextView
