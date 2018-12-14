@@ -248,6 +248,7 @@
     <string name="fontcolor">颜色</string>
     <string name="fontsize">字号</string>
     <string name="delline">删除线</string>
+    <string name="collapse">折叠</string>
     <string name="filter_hint">(输入文字过滤你想要的标题)</string>
     <string name="clientua">Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36 AndroidNGAOS/</string>
     <!-- string name="checksecret">4103ca8d364d2402e5e304ea07454a2a</string -->

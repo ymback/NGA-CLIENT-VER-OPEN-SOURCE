@@ -46,6 +46,8 @@ public interface TopicPostContract {
 
         void insertDeleteLineFormat();
 
+        void insertCollapseFormat();
+
         void insertFontColorFormat(String fontColor);
 
         void insertFontSizeFormat(String fontSize);

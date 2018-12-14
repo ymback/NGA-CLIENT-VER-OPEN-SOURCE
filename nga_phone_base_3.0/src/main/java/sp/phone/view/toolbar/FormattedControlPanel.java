@@ -92,6 +92,7 @@ public class FormattedControlPanel extends ScrollView {
         findViewById(R.id.btn_italic).setOnClickListener(v -> mPresenter.insertItalicFormat());
         findViewById(R.id.btn_under_line).setOnClickListener(v -> mPresenter.insertUnderLineFormat());
         findViewById(R.id.btn_delete_line).setOnClickListener(v -> mPresenter.insertDeleteLineFormat());
+        findViewById(R.id.btn_collapse).setOnClickListener(v -> mPresenter.insertCollapseFormat());
 
         Spinner spinner = findViewById(R.id.sp_size);
         spinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, mFontSize));
