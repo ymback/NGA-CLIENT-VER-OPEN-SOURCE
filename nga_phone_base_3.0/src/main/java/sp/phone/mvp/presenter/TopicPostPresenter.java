@@ -189,6 +189,11 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         mBaseView.insertBodyText("[del][/del]", "[del]".length());
     }
 
+    @Override
+    public void insertCollapseFormat() {
+        mBaseView.insertBodyText("[collapse][/collapse]", "[collapse]".length());
+    }
+
     public void insertFontColorFormat(String fontColor) {
         mBaseView.insertBodyText(fontColor, fontColor.length() - "[/color]".length());
     }
