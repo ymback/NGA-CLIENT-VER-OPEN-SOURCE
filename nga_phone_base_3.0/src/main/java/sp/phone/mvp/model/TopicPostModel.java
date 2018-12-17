@@ -159,13 +159,13 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                             throw new IllegalArgumentException(context.getString(R.string.invalid_img_selected));
                         }
                         String fileName = contentType.replace('/', '.');
-                        long fileSize = pfd.getStatSize();
-                        byte[] img;
-                        if (fileSize >= 1024 * 1024) {
-                            img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
-                        } else {
-                            img = IOUtils.toByteArray(cr.openInputStream(uri));
-                        }
+//                        long fileSize = pfd.getStatSize();
+                        byte[] img = IOUtils.toByteArray(cr.openInputStream(uri));
+//                        if (fileSize >= 1024 * 1024) {
+//                            img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
+//                        } else {
+//                            img = IOUtils.toByteArray(cr.openInputStream(uri));
+//                        }
 
                         return buildMultipartBody(fileName, img, postParam);
                     }
