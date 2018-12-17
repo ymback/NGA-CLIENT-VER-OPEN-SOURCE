@@ -158,6 +158,8 @@ public interface VersionUpgradeTips {
             + "● 解决表情可以被点击的bug\n"
             + "● 支持在设置里自定义表情大小\n"
             + "● 支持直接在app内打开https链接\n"
+            + "● 发帖支持折叠标签\n"
+            + "● 更新了怪物猎人板块\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
