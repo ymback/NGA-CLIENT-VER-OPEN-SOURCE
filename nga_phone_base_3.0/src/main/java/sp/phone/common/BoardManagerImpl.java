@@ -24,7 +24,7 @@ public class BoardManagerImpl implements BoardManager {
 
     private Context mContext;
 
-    private List<BoardCategory> mCategoryList;
+    private List<BoardCategory> mCategoryList = new ArrayList<>();
 
     private static class BoardManagerHolder {
         static BoardManager sInstance = new BoardManagerImpl();
@@ -37,7 +37,6 @@ public class BoardManagerImpl implements BoardManager {
     @Override
     public void initialize(Context context) {
         mContext = context.getApplicationContext();
-        mCategoryList = new ArrayList<>();
         loadBookmarkBoards();
         loadPreloadBoards();
     }
