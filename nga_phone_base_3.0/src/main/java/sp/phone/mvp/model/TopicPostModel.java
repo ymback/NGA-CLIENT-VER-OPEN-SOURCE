@@ -230,11 +230,13 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .addFormDataPart("func", "upload")
                 .addFormDataPart("v2", "1")
                 .addFormDataPart("lite", "js")
-                .addFormDataPart("attachment_file1_auto_size", "1")
+                // 1 为自动缩图
+                .addFormDataPart("attachment_file1_auto_size", "")
+                //水印位置tl/tr/bl/br 左上右上左下右下 不设为无水印
                 .addFormDataPart("attachment_file1_watermark", "")
                 .addFormDataPart("attachment_file1_dscp", "")
                 .addFormDataPart("attachment_file1_img", "1")
-                .addFormDataPart("origin_domain", "bbs.ngacn.cc");
+                .addFormDataPart("origin_domain", "bbs.nga.cn");
         return builder.build();
     }
 
