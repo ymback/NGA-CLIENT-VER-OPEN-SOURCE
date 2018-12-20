@@ -31,7 +31,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     public void showToast(String toast) {
         if (getContext() != null) {
-            Toast.makeText(getContext(),toast,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -40,18 +40,28 @@ public abstract class BaseDialogFragment extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog instanceof AlertDialog) {
             if (mPositiveClickListener != null) {
-                ((AlertDialog)dialog).getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(mPositiveClickListener);
+                ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(mPositiveClickListener);
             }
 
             if (mNegativeClickListener != null) {
-                ((AlertDialog)dialog).getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(mNegativeClickListener);
+                ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(mNegativeClickListener);
             }
         }
         super.onViewCreated(view, savedInstanceState);
     }
 
     public void show(FragmentManager fm) {
-        show(fm,getClass().getSimpleName());
+        show(fm, getClass().getSimpleName());
+    }
+
+    public static void show(FragmentManager fm, Bundle args, Class<?> target) {
+        try {
+            DialogFragment df = (DialogFragment) target.newInstance();
+            df.setArguments(args);
+            df.show(fm, target.getSimpleName());
+        } catch (IllegalAccessException | java.lang.InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
 }

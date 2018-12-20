@@ -48,7 +48,7 @@ public class ImageUtils {
     public static int DtoP(int dValue) {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float ret = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dValue, metrics);
-        return (int)ret;
+        return (int) ret;
     }
 
     public static Bitmap zoomImageByWidth(Bitmap bitmap, int bookWidth, boolean isDIP) {
@@ -56,7 +56,7 @@ public class ImageUtils {
             return null;
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-        int newWidth = isDIP? DtoP(bookWidth): bookWidth;
+        int newWidth = isDIP ? DtoP(bookWidth) : bookWidth;
 
         float newHeight = ((height * newWidth) / width);
 
@@ -476,7 +476,12 @@ public class ImageUtils {
         loadRoundCornerAvatar(imageView, url, false);
     }
 
+    @Deprecated
     public static void loadDefaultAvatar(ImageView imageView, String url) {
+        loadAvatar(imageView, url);
+    }
+
+    public static void loadAvatar(ImageView imageView, String url) {
         Context context = ApplicationContextHolder.getContext();
         if (sDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
