@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.ToastUtils;
 import sp.phone.interfaces.OnPostCommentFinishedListener;
 import sp.phone.task.PostCommentTask;
 import sp.phone.util.NLog;
@@ -84,8 +85,8 @@ public class PostCommentDialogFragment extends BaseDialogFragment implements
 
     @Override
     public void OnPostCommentFinished(String result, boolean success) {
-        Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-        if (success == true) {
+        ToastUtils.showShortToast(result);
+        if (success) {
             NLog.i("TAG", "SUCCESS");
             try {
                 Field field = OptionDialog.getClass().getSuperclass()
