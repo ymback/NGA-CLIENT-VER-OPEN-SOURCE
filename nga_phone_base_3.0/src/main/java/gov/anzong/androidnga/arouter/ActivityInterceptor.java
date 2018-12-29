@@ -25,7 +25,7 @@ public class ActivityInterceptor implements IInterceptor {
                 if (activity.equals(path)) {
                     interceptorCallback.onInterrupt(new Exception("未登录"));
                     ARouter.getInstance().build(ARouterConstants.ACTIVITY_LOGIN).navigation();
-                    break;
+                    return;
                 }
             }
         }
