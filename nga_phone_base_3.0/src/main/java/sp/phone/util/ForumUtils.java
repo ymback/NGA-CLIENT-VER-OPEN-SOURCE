@@ -25,7 +25,7 @@ public class ForumUtils {
      */
     public static boolean isBoardSubscribed(int statusCode) {
         // 3,810 返回false
-        return statusCode == 7 || statusCode == 558 || statusCode == 542;
+        return statusCode == 7 || statusCode == 558 || statusCode == 542 || statusCode == 2606;
     }
 
 }
