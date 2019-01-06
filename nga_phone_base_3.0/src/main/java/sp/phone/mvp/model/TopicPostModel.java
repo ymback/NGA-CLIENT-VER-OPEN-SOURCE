@@ -237,7 +237,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .addFormDataPart("attachment_file1_watermark", "")
                 .addFormDataPart("attachment_file1_dscp", "")
                 .addFormDataPart("attachment_file1_img", "1")
-                .addFormDataPart("origin_domain", ForumUtils.getAvailableDomainNoHttp());
+                .addFormDataPart("origin_domain", "bbs.ngacn.cc");
         return builder.build();
     }
 
