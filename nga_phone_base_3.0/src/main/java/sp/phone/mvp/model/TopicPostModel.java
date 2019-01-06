@@ -40,6 +40,7 @@ import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
+import sp.phone.util.ForumUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;
@@ -236,7 +237,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .addFormDataPart("attachment_file1_watermark", "")
                 .addFormDataPart("attachment_file1_dscp", "")
                 .addFormDataPart("attachment_file1_img", "1")
-                .addFormDataPart("origin_domain", "bbs.nga.cn");
+                .addFormDataPart("origin_domain", ForumUtils.getAvailableDomainNoHttp());
         return builder.build();
     }
 
