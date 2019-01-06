@@ -40,6 +40,7 @@ import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
+import sp.phone.util.DeviceUtils;
 import sp.phone.util.ForumUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.ImageUtils;
@@ -160,13 +161,14 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                             throw new IllegalArgumentException(context.getString(R.string.invalid_img_selected));
                         }
                         String fileName = contentType.replace('/', '.');
-//                        long fileSize = pfd.getStatSize();
-                        byte[] img = IOUtils.toByteArray(cr.openInputStream(uri));
-//                        if (fileSize >= 1024 * 1024) {
-//                            img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
-//                        } else {
-//                            img = IOUtils.toByteArray(cr.openInputStream(uri));
-//                        }
+                        long fileSize = pfd.getStatSize();
+                        byte[] img;// = IOUtils.toByteArray(cr.openInputStream(uri));
+                        // TODO: 2019/1/6 android 9.0 不压缩会上传图片失败，暂时不知道原因
+                        if (DeviceUtils.isGreaterEqual_9_0() && fileSize >= 1024 * 1024) {
+                            img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
+                        } else {
+                            img = IOUtils.toByteArray(cr.openInputStream(uri));
+                        }
 
                         return buildMultipartBody(fileName, img, postParam);
                     }
