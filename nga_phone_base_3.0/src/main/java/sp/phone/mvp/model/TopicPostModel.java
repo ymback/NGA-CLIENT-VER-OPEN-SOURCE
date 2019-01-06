@@ -209,7 +209,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                             callBack.onSuccess(object.getString("url"));
                         } catch (Exception e) {
                             NLog.e("exception occur while uploading file " + s);
-                            callBack.onError("上传图片失败，请重试");
+                            callBack.onError("上传图片失败，请尝试更换域名后重试");
                         }
                     }
 
