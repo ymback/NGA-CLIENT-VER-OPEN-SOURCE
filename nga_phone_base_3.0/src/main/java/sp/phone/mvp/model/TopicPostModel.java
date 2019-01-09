@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.util.ToastUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -146,6 +147,11 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     @Override
     public void uploadFile(Uri uri, PostParam postParam, OnHttpCallBack<String> callBack) {
+        uploadFile(uri, postParam, callBack, false);
+
+    }
+
+    private void uploadFile(Uri uri, PostParam postParam, OnHttpCallBack<String> callBack, boolean compress) {
         Observable.just(uri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -163,8 +169,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                         String fileName = contentType.replace('/', '.');
                         long fileSize = pfd.getStatSize();
                         byte[] img;// = IOUtils.toByteArray(cr.openInputStream(uri));
-                        // TODO: 2019/1/6 android 9.0 不压缩会上传图片失败，暂时不知道原因
-                        if (DeviceUtils.isGreaterEqual_9_0() && fileSize >= 1024 * 1024) {
+                        if (compress && fileSize >= 1024 * 1024) {
                             img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
                         } else {
                             img = IOUtils.toByteArray(cr.openInputStream(uri));
@@ -177,7 +182,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .subscribe(new BaseSubscriber<MultipartBody>() {
                     @Override
                     public void onNext(MultipartBody body) {
-                        uploadFile(body, postParam, callBack);
+                        uploadFileInner(body, uri, postParam, callBack, compress);
                     }
 
                     @Override
@@ -188,7 +193,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     }
 
-    private void uploadFile(MultipartBody multipartBody, PostParam postParam, OnHttpCallBack<String> callBack) {
+    private void uploadFileInner(MultipartBody multipartBody, Uri uri, PostParam postParam, OnHttpCallBack<String> callBack, boolean compress) {
         RetrofitService service = RetrofitHelper.getInstance().getService();
         service.uploadFile(BASE_URL_ATTACHMENT_SERVER, multipartBody)
                 .subscribeOn(Schedulers.io())
@@ -206,7 +211,16 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                     public void onNext(String s) {
                         try {
                             s = s.replace("window.script_muti_get_var_store=", "");
-                            JSONObject object = JSON.parseObject(s).getJSONObject("data");
+                            JSONObject object = JSON.parseObject(s);
+                            if (object.containsKey("error_code")) {
+                                int errorCode = object.getInteger("error_code");
+                                if (errorCode == 9 && !compress) {
+                                    ToastUtils.showShortToast("附件过大，无法上传，重新进行压缩并上传");
+                                    uploadFile(uri, postParam, callBack, true);
+                                    return;
+                                }
+                            }
+                            object = object.getJSONObject("data");
                             postParam.appendAttachment(object.getString("attachments"), object.getString("attachments_check"));
                             callBack.onSuccess(object.getString("url"));
                         } catch (Exception e) {
