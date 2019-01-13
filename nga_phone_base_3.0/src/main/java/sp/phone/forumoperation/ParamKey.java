@@ -30,6 +30,9 @@ public interface ParamKey {
     //推荐精华加分的主题  为1时显示推荐 精华 加分的主题
     String KEY_RECOMMEND = "recommend";
 
+    //24 小时热帖
+    String KEY_TWENTYFOUR= "twentyfour";
+
     //主题id  整数
     String KEY_TID = "tid";
 

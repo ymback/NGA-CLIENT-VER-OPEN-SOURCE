@@ -213,7 +213,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         ((BaseActivity) getActivity()).setupActionBar();
-        mArticleAdapter = new ArticleListAdapter(getContext());
+        mArticleAdapter = new ArticleListAdapter(getContext(),getActivity().getSupportFragmentManager());
         mArticleAdapter.setMenuTogglerListener(mMenuTogglerListener);
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setItemViewCacheSize(20);

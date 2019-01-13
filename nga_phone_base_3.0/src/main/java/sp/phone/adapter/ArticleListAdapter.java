@@ -1,7 +1,8 @@
 package sp.phone.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,12 +20,14 @@ import gov.anzong.androidnga.R;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.listener.OnAvatarClickListener;
+import sp.phone.fragment.dialog.AvatarDialogFragment;
+import sp.phone.fragment.dialog.BaseDialogFragment;
 import sp.phone.listener.OnClientClickListener;
 import sp.phone.listener.OnProfileClickListener;
 import sp.phone.listener.OnReplyClickListener;
 import sp.phone.rxjava.RxUtils;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.ActivityUtils;
 import sp.phone.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.HtmlUtils;
@@ -44,6 +47,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private Context mContext;
 
+    private FragmentManager mFragmentManager;
+
     private ThreadData mData;
 
     private LayoutInflater mLayoutInflater;
@@ -56,7 +61,21 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private View.OnClickListener mOnProfileClickListener = new OnProfileClickListener();
 
-    private View.OnClickListener mOnAvatarClickListener = new OnAvatarClickListener();
+    private View.OnClickListener mOnAvatarClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ThreadRowInfo row = (ThreadRowInfo) view.getTag();
+            if (row.getISANONYMOUS()) {
+                ActivityUtils.showToast("这白痴匿名了,神马都看不到");
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putString("name", row.getAuthor());
+                bundle.putString("url", FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar()));
+                BaseDialogFragment.show(mFragmentManager, bundle, AvatarDialogFragment.class);
+                //FunctionUtils.Create_Avatar_Dialog(row, view.getContext(), null);
+            }
+        }
+    };
 
     private View.OnClickListener mMenuTogglerListener;
 
@@ -101,8 +120,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         }
     }
 
-    public ArticleListAdapter(Context context) {
+    public ArticleListAdapter(Context context, FragmentManager fm) {
         mContext = context;
+        mFragmentManager = fm;
         if (HtmlUtils.hide == null) {
             HtmlUtils.initStaticStrings(mContext);
         }

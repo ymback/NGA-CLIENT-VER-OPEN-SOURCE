@@ -62,6 +62,7 @@ public class TopicListActivity extends BaseActivity {
                 requestParam.fidGroup = bundle.getString(ParamKey.KEY_FID_GROUP);
                 requestParam.title = bundle.getString(ParamKey.KEY_TITLE);
                 requestParam.recommend = bundle.getInt(ParamKey.KEY_RECOMMEND, 0);
+                requestParam.twentyfour = bundle.getInt(ParamKey.KEY_TWENTYFOUR, 0);
                 requestParam.stid = bundle.getInt(ParamKey.KEY_STID, 0);
             }
         }
@@ -101,6 +102,7 @@ public class TopicListActivity extends BaseActivity {
 
     private boolean isBoardTopicList() {
         return mRequestParam.recommend == 0
+                && mRequestParam.twentyfour == 0
                 && mRequestParam.key == null
                 && mRequestParam.favor == 0
                 && mRequestParam.authorId == 0
@@ -119,6 +121,9 @@ public class TopicListActivity extends BaseActivity {
                 break;
             case R.id.menu_recommend:
                 showRecommendTopicList();
+                break;
+            case R.id.menu_twenty_four:
+                showTwentyFourList();
                 break;
             case R.id.menu_search:
                 ARouter.getInstance()
@@ -140,6 +145,15 @@ public class TopicListActivity extends BaseActivity {
         bundle.putParcelable(ParamKey.KEY_PARAM, param);
         intent.putExtras(bundle);
         ActivityUtils.startRecommendTopicActivity(this, intent);
+    }
+    private void showTwentyFourList() {
+        TopicListParam param = (TopicListParam) mRequestParam.clone();
+        param.twentyfour = 1;
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ParamKey.KEY_PARAM, param);
+        intent.putExtras(bundle);
+        ActivityUtils.startTwentyFourActivity(this, intent);
     }
 
     @Override

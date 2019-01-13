@@ -22,4 +22,11 @@ public class ARouterConstants {
     public static final String ACTIVITY_NOTIFICATION = "/activity/notification";
 
     public static final String ACTIVITY_MESSAGE_LIST = "/activity/message_list";
+
+    public static final String[] ACTIVITY_NEED_LOGIN = {
+            ACTIVITY_MESSAGE_LIST,
+            ACTIVITY_PROFILE,
+            ACTIVITY_NOTIFICATION,
+            ACTIVITY_SEARCH,
+    };
 }

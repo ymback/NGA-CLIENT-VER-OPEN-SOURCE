@@ -31,10 +31,19 @@ public class PostActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString(ParamKey.KEY_ACTION, act.getPostAction());
         bundle.putParcelable("param", act);
+        if (savedInstanceState != null) {
+            bundle.putBundle("savedInstanceState", savedInstanceState);
+        }
         mPostFragment = new TopicPostFragment();
         mPostFragment.setArguments(bundle);
         mPostFragment.setHasOptionsMenu(true);
         getSupportFragmentManager().beginTransaction().replace(R.id.content, mPostFragment).commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mPostFragment.onSaveInstanceState(outState);
     }
 
     private int getTitleResId(String action) {

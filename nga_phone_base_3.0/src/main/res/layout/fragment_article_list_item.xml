@@ -97,9 +97,7 @@
         <sp.phone.view.webview.WebViewEx
             android:id="@+id/wv_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:scrollbars="none"/>
+            android:layout_height="wrap_content" />
 
     </FrameLayout>
 

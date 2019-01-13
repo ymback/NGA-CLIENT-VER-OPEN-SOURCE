@@ -55,6 +55,9 @@ public class BoardCategory implements Parcelable{
 
 
     public List<Board> getBoardList() {
+        if (mBoardList == null) {
+            mBoardList = new ArrayList<>();
+        }
         return mBoardList;
     }
 

@@ -30,6 +30,10 @@ public class DeviceUtils {
         return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
+    public static boolean isGreaterEqual_9_0() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    }
+
     public static boolean isTablet(Context context) {
         int screenLayout = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
         return screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE;

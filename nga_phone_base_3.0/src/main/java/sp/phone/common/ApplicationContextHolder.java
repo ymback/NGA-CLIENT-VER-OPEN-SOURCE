@@ -20,6 +20,9 @@ public class ApplicationContextHolder {
 
     public static void setContext(Context context) {
         sContext = context.getApplicationContext();
+        if (sContext == null) {
+            sContext = context;
+        }
     }
 
     public static String getString(@StringRes int resId) {

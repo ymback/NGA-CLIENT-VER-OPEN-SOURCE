@@ -16,4 +16,9 @@
     <dimen name="bottom_emoticon_tab_height">32dp</dimen>
     <dimen name="bottom_emoticon_min_height">250dp</dimen>
 
+    <dimen name="material_standard">8dp</dimen>
+    <dimen name="material_standard_half">4dp</dimen>
+    <dimen name="material_standard_double">16dp</dimen>
+
+
 </resources>

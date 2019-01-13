@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.util.ToastUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -40,6 +41,8 @@ import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
+import sp.phone.util.DeviceUtils;
+import sp.phone.util.ForumUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;
@@ -144,6 +147,11 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     @Override
     public void uploadFile(Uri uri, PostParam postParam, OnHttpCallBack<String> callBack) {
+        uploadFile(uri, postParam, callBack, false);
+
+    }
+
+    private void uploadFile(Uri uri, PostParam postParam, OnHttpCallBack<String> callBack, boolean compress) {
         Observable.just(uri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -160,8 +168,8 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                         }
                         String fileName = contentType.replace('/', '.');
                         long fileSize = pfd.getStatSize();
-                        byte[] img;
-                        if (fileSize >= 1024 * 1024) {
+                        byte[] img;// = IOUtils.toByteArray(cr.openInputStream(uri));
+                        if (compress && fileSize >= 1024 * 1024) {
                             img = ImageUtils.fitImageToUpload(cr.openInputStream(uri), cr.openInputStream(uri));
                         } else {
                             img = IOUtils.toByteArray(cr.openInputStream(uri));
@@ -174,7 +182,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .subscribe(new BaseSubscriber<MultipartBody>() {
                     @Override
                     public void onNext(MultipartBody body) {
-                        uploadFile(body, postParam, callBack);
+                        uploadFileInner(body, uri, postParam, callBack, compress);
                     }
 
                     @Override
@@ -185,7 +193,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     }
 
-    private void uploadFile(MultipartBody multipartBody, PostParam postParam, OnHttpCallBack<String> callBack) {
+    private void uploadFileInner(MultipartBody multipartBody, Uri uri, PostParam postParam, OnHttpCallBack<String> callBack, boolean compress) {
         RetrofitService service = RetrofitHelper.getInstance().getService();
         service.uploadFile(BASE_URL_ATTACHMENT_SERVER, multipartBody)
                 .subscribeOn(Schedulers.io())
@@ -203,12 +211,21 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                     public void onNext(String s) {
                         try {
                             s = s.replace("window.script_muti_get_var_store=", "");
-                            JSONObject object = JSON.parseObject(s).getJSONObject("data");
+                            JSONObject object = JSON.parseObject(s);
+                            if (object.containsKey("error_code")) {
+                                int errorCode = object.getInteger("error_code");
+                                if (errorCode == 9 && !compress) {
+                                    ToastUtils.showShortToast("附件过大，无法上传，重新进行压缩并上传");
+                                    uploadFile(uri, postParam, callBack, true);
+                                    return;
+                                }
+                            }
+                            object = object.getJSONObject("data");
                             postParam.appendAttachment(object.getString("attachments"), object.getString("attachments_check"));
                             callBack.onSuccess(object.getString("url"));
                         } catch (Exception e) {
                             NLog.e("exception occur while uploading file " + s);
-                            callBack.onError("上传图片失败，请重试");
+                            callBack.onError("上传图片失败，请尝试更换域名后重试");
                         }
                     }
 
@@ -230,7 +247,9 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .addFormDataPart("func", "upload")
                 .addFormDataPart("v2", "1")
                 .addFormDataPart("lite", "js")
-                .addFormDataPart("attachment_file1_auto_size", "1")
+                // 1 为自动缩图
+                .addFormDataPart("attachment_file1_auto_size", "")
+                //水印位置tl/tr/bl/br 左上右上左下右下 不设为无水印
                 .addFormDataPart("attachment_file1_watermark", "")
                 .addFormDataPart("attachment_file1_dscp", "")
                 .addFormDataPart("attachment_file1_img", "1")

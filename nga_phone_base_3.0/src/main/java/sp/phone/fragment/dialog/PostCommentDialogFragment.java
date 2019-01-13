@@ -2,100 +2,87 @@ package sp.phone.fragment.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.lang.reflect.Field;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.ToastUtils;
 import sp.phone.interfaces.OnPostCommentFinishedListener;
 import sp.phone.task.PostCommentTask;
 import sp.phone.util.NLog;
 
 public class PostCommentDialogFragment extends BaseDialogFragment implements
         OnPostCommentFinishedListener {
-    EditText input = null;
-    CheckBox anony;
-    AlertDialog OptionDialog;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        final View view = layoutInflater.inflate(R.layout.dialog_post_comment, null);
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setView(view);
-        anony = (CheckBox) view.findViewById(R.id.anony);
-        input = (EditText) view.findViewById(R.id.post_data);
-        alert.setTitle(R.string.post_comment);
-        alert.setPositiveButton("发送", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                int length = input.getText().toString().length();
-                if (length > 5 && length < 651) {
-                    int tid = getArguments().getInt("tid", 0);
-                    int pid = getArguments().getInt("pid", 0);
-                    int fid = getArguments().getInt("fid", 0);
-                    int anonymode = 0;
-                    if (anony.isChecked()) {
-                        anonymode = 1;
-                    }
-                    String prefix = getArguments().getString("prefix");
-                    new PostCommentTask(fid, pid, tid, anonymode, prefix,
-                            getActivity(), PostCommentDialogFragment.this)
-                            .execute(input.getText().toString());
-                } else {
-                    Toast.makeText(getActivity(), "贴条内容长度必须在6~650字节范围内",
-                            Toast.LENGTH_SHORT).show();
-                }
-                try {
-                    Field field = dialog.getClass().getSuperclass()
-                            .getDeclaredField("mShowing");
-                    field.setAccessible(true);
-                    field.set(dialog, false);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        alert.setNegativeButton(android.R.string.cancel,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                        try {
-                            Field field = dialog.getClass().getSuperclass()
-                                    .getDeclaredField("mShowing");
-                            field.setAccessible(true);
-                            field.set(dialog, true);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+        final View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_post_comment, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        CheckBox anony = view.findViewById(R.id.anony);
+        EditText input = view.findViewById(R.id.post_data);
+        builder.setTitle(R.string.post_comment)
+                .setView(view)
+                .setPositiveButton("发送", (dialog, whichButton) -> {
+                    int length = input.getText().toString().length();
+                    if (length > 5 && length < 651) {
+                        int tid = getArguments().getInt("tid", 0);
+                        int pid = getArguments().getInt("pid", 0);
+                        int fid = getArguments().getInt("fid", 0);
+                        int anonymode = 0;
+                        if (anony.isChecked()) {
+                            anonymode = 1;
                         }
+                        String prefix = getArguments().getString("prefix");
+                        new PostCommentTask(fid, pid, tid, anonymode, prefix,
+                                getActivity(), PostCommentDialogFragment.this)
+                                .execute(input.getText().toString());
+                    } else {
+                        ToastUtils.showShortToast("贴条内容长度必须在6~650字节范围内");
+                    }
+                    try {
+                        Field field = dialog.getClass().getSuperclass()
+                                .getDeclaredField("mShowing");
+                        field.setAccessible(true);
+                        field.set(dialog, false);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).setNegativeButton(android.R.string.cancel,
+                (dialog, whichButton) -> {
+                    dialog.dismiss();
+                    try {
+                        Field field = dialog.getClass().getSuperclass()
+                                .getDeclaredField("mShowing");
+                        field.setAccessible(true);
+                        field.set(dialog, true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 });
-        OptionDialog = alert.create();
-        return OptionDialog;
+        return builder.create();
     }
 
     @Override
     public void OnPostCommentFinished(String result, boolean success) {
-        Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-        if (success == true) {
-            NLog.i("TAG", "SUCCESS");
-            try {
-                Field field = OptionDialog.getClass().getSuperclass()
-                        .getDeclaredField("mShowing");
-                field.setAccessible(true);
-                field.set(OptionDialog, true);
-            } catch (Exception e) {
-                e.printStackTrace();
+        ToastUtils.showShortToast(result);
+        if (getActivity() != null) {
+            if (success) {
+                NLog.i("TAG", "SUCCESS");
+                try {
+                    Field field = getDialog().getClass().getSuperclass()
+                            .getDeclaredField("mShowing");
+                    field.setAccessible(true);
+                    field.set(getDialog(), true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                getDialog().dismiss();
             }
-            OptionDialog.dismiss();
         }
     }
 

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
@@ -34,6 +35,9 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (ApplicationContextHolder.getContext() == null) {
+            ApplicationContextHolder.setContext(this);
+        }
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
@@ -97,8 +101,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, true)) {
             final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
             getSwipeBackLayout().setEdgeSize((int) (10 * density + 0.5f));// 10dp
-            int pos = SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_RIGHT;
-            getSwipeBackLayout().setEdgeTrackingEnabled(pos);
+            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
             setSwipeBackEnable(true);
         } else {
             setSwipeBackEnable(false);

@@ -331,6 +331,14 @@ public class ActivityUtils {
         }
     }
 
+    public static void startTwentyFourActivity(Context context, Intent intent) {
+        if (UserManagerImpl.getInstance().getActiveUser() == null) {
+            startLoginActivity(context);
+        } else {
+            intent.setClass(context, PhoneConfiguration.getInstance().topicActivityClass);
+            context.startActivity(intent);
+        }
+    }
     public static void startSearchDialog(AppCompatActivity activity, Bundle bundle) {
         if (UserManagerImpl.getInstance().getActiveUser() == null) {
             startLoginActivity(activity);

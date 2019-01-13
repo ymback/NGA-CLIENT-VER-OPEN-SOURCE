@@ -27,6 +27,8 @@ public class TopicListParam implements Cloneable, Parcelable {
 
     public int recommend;
 
+    public int twentyfour;
+
     public String title;
 
     public int stid;
@@ -44,6 +46,7 @@ public class TopicListParam implements Cloneable, Parcelable {
         fidGroup = in.readString();
         author = in.readString();
         recommend = in.readInt();
+        twentyfour = in.readInt();
         title = in.readString();
         stid = in.readInt();
     }
@@ -59,6 +62,7 @@ public class TopicListParam implements Cloneable, Parcelable {
         dest.writeString(fidGroup);
         dest.writeString(author);
         dest.writeInt(recommend);
+        dest.writeInt(twentyfour);
         dest.writeString(title);
         dest.writeInt(stid);
     }

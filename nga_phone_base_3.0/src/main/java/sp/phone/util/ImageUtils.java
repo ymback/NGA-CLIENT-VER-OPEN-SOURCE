@@ -15,6 +15,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -32,6 +34,8 @@ import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 
+import static sp.phone.common.ApplicationContextHolder.getResources;
+
 public class ImageUtils {
     static final String LOG_TAG = ImageUtils.class.getSimpleName();
     //final static int max_avatar_width = 200;
@@ -40,14 +44,20 @@ public class ImageUtils {
 
     private static Drawable sDefaultAvatar;
 
-    public static Bitmap zoomImageByWidth(Bitmap bitmap, int bookWidth) {
+    // Convert to pixels
+    public static int DtoP(int dValue) {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float ret = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dValue, metrics);
+        return (int) ret;
+    }
+
+    public static Bitmap zoomImageByWidth(Bitmap bitmap, int bookWidth, boolean isDIP) {
         if (bitmap == null)
             return null;
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
+        int newWidth = isDIP ? DtoP(bookWidth) : bookWidth;
 
-
-        int newWidth = bookWidth;
         float newHeight = ((height * newWidth) / width);
 
         if (newWidth < 2 || newHeight < 1.01f)
@@ -94,7 +104,7 @@ public class ImageUtils {
      * @param bookWidth
      * @return
      */
-    public static Bitmap zoomImageByWidth(Drawable drawable, int bookWidth) {
+    public static Bitmap zoomImageByWidth(Drawable drawable, int bookWidth, boolean isDIP) {
         if (drawable == null)
             return null;
 
@@ -119,7 +129,7 @@ public class ImageUtils {
 
 
         Bitmap origBmp = drawableToBitmap(drawable);
-        Bitmap newbmp = zoomImageByWidth(origBmp, bookWidth);
+        Bitmap newbmp = zoomImageByWidth(origBmp, bookWidth, isDIP);
         if (origBmp != newbmp)
             origBmp.recycle();
         return newbmp;
@@ -295,7 +305,7 @@ public class ImageUtils {
         bitmap = BitmapFactory.decodeFile(avatarPath, opts);
         if (bitmap != null && bitmap.getWidth() != avatarWidth) {
             Bitmap tmp = bitmap;
-            bitmap = zoomImageByWidth(tmp, avatarWidth);
+            bitmap = zoomImageByWidth(tmp, avatarWidth, false);
             tmp.recycle();
         }
 
@@ -304,7 +314,7 @@ public class ImageUtils {
 
     @SuppressWarnings("ResourceType")
     public static Bitmap loadDefaultAvatar() {
-        Resources res = ApplicationContextHolder.getResources();
+        Resources res = getResources();
         InputStream is = res.openRawResource(R.drawable.default_avatar);
         InputStream is2 = res.openRawResource(R.drawable.default_avatar);
         return loadAvatarFromStream(is, is2);
@@ -332,7 +342,7 @@ public class ImageUtils {
         Bitmap bitmap = BitmapFactory.decodeStream(is2, null, opts);
         if (bitmap != null && bitmap.getWidth() != avatarWidth) {
             Bitmap tmp = bitmap;
-            bitmap = zoomImageByWidth(tmp, avatarWidth);
+            bitmap = zoomImageByWidth(tmp, avatarWidth, false);
             tmp.recycle();
         }
         return bitmap;
@@ -466,7 +476,12 @@ public class ImageUtils {
         loadRoundCornerAvatar(imageView, url, false);
     }
 
+    @Deprecated
     public static void loadDefaultAvatar(ImageView imageView, String url) {
+        loadAvatar(imageView, url);
+    }
+
+    public static void loadAvatar(ImageView imageView, String url) {
         Context context = ApplicationContextHolder.getContext();
         if (sDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);

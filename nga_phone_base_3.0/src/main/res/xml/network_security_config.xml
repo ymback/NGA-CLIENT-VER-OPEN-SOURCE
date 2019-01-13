@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--<domain-config cleartextTrafficPermitted="true">-->
+        <!--<domain includeSubdomains="true">bbs.ngacn.cc</domain>-->
+        <!--<domain includeSubdomains="true">nga.178.com</domain>-->
+        <!--<domain includeSubdomains="true">bbs.nga.cn</domain>-->
+        <!--<domain includeSubdomains="true">nga.donews.com</domain>-->
+    <!--</domain-config>-->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

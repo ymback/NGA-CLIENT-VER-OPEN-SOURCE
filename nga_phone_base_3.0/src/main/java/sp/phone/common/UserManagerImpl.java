@@ -320,6 +320,9 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public void putAvatarUrl(ThreadData info) {
+        if (info.getRowList() == null) {
+            return;
+        }
         SharedPreferences.Editor editor = mAvatarPreferences.edit();
         for (ThreadRowInfo rowInfo : info.getRowList()) {
             String uid = String.valueOf(rowInfo.getAuthorid());

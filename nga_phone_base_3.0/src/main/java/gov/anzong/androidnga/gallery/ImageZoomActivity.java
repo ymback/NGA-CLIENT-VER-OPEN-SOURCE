@@ -81,6 +81,10 @@ public class ImageZoomActivity extends BaseActivity {
         Intent intent = getIntent();
         mGalleryUrls = intent.getStringArrayExtra(KEY_GALLERY_URLS);
         String curUrl = intent.getStringExtra(KEY_GALLERY_CUR_URL);
+        if (mGalleryUrls == null) {
+            mGalleryUrls = new String[1];
+            mGalleryUrls[0] = curUrl;
+        }
         mPageIndex = Arrays.asList(mGalleryUrls).indexOf(curUrl);
     }
 

@@ -1,2 +1,2 @@
-include ':SwipeBackLayoutLibrary', ':statistics'
+include ':statistics'
 include ':nga_phone_base_3.0'

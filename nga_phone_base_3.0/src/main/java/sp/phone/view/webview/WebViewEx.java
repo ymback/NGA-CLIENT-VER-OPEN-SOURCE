@@ -24,6 +24,12 @@ public class WebViewEx extends WebView implements DownloadListener {
 
     private void initialize() {
         setDownloadListener(this);
+        try {
+            setFocusable(false);
+            setVerticalScrollBarEnabled(false);
+        } catch (Exception e) {
+            // 某些机型的WebView不支持以上方法的调用
+        }
     }
 
     private void downloadByBrowser(String url) {
