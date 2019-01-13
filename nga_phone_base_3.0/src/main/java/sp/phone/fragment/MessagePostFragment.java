@@ -54,6 +54,7 @@ public class MessagePostFragment extends BaseMvpFragment<MessagePostPresenter> i
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
+        mBodyEditor.requestFocus();
         super.onViewCreated(view, savedInstanceState);
     }
 
