@@ -59,6 +59,9 @@ public class SearchActivity extends BaseActivity {
 
     private void updateTabChanged(String mode) {
         mCurrentMode = mode;
+        if (mEditText == null) {
+            return;
+        }
         if (mCurrentMode.equals(SEARCH_MODE_USER)) {
             mEditText.setHint(R.string.profile_search_dialog_hint);
         } else {

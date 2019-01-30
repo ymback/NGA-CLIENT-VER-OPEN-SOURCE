@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,10 +51,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkNewVersion() {
-        NgaClientApp app = (NgaClientApp) getApplication();
-        if (app.isNewVersion()) {
-            app.setNewVersion(false);
-            new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
+        Application app = getApplication();
+        if (app instanceof NgaClientApp) {
+            if (((NgaClientApp) app).isNewVersion()) {
+                ((NgaClientApp) app).setNewVersion(false);
+                new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
+            }
         }
     }
 
