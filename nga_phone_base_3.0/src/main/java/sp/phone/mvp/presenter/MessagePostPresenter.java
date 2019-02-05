@@ -50,11 +50,11 @@ public class MessagePostPresenter extends BasePresenter<MessagePostFragment, Mes
 
     @Override
     public void onMessagePostFinished(boolean result, String resultInfo) {
-        if (resultInfo != null) {
+        if (resultInfo != null && mBaseView != null) {
             mBaseView.showToast(resultInfo);
         }
         ActivityUtils.getInstance().dismiss();
-        if (result) {
+        if (result && mBaseView != null) {
             if (!isNewMessage()) {
                 mBaseView.finish(123);
             } else {
