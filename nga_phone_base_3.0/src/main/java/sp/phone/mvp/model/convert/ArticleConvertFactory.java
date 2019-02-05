@@ -13,6 +13,7 @@ import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.ForumConstants;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.convert.builder.HtmlBuilder;
+import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.util.NLog;
@@ -122,8 +123,9 @@ public class ArticleConvertFactory {
             row.setContent(StringUtils.unescape(row.getContent()));
         }
         List<String> imageUrls = new ArrayList<>();
-        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls);
-        ngaHtml = HtmlBuilder.build(row, ngaHtml, imageUrls);
+        ForumDecodeRecord decodeResult = new ForumDecodeRecord();
+        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls, decodeResult);
+        ngaHtml = HtmlBuilder.build(row, ngaHtml, imageUrls, decodeResult);
         row.getImageUrls().addAll(imageUrls);
         row.setFormattedHtmlData(ngaHtml);
     }

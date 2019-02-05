@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.theme.ThemeManager;
 
 /**
@@ -17,7 +18,7 @@ public class HtmlBuilder {
         return String.format("%06x", webTextColor & 0xffffff);
     }
 
-    public static String build(ThreadRowInfo row, String ngaHtml, List<String> imageUrls) {
+    public static String build(ThreadRowInfo row, String ngaHtml, List<String> imageUrls, ForumDecodeRecord decodeResult) {
         if (row.get_isInBlackList()) {
             return HtmlBlackListBuilder.build();
         }
@@ -44,9 +45,11 @@ public class HtmlBuilder {
                 .append(HtmlAttachmentBuilder.build(row, imageUrls))
                 .append(HtmlSignatureBuilder.build(row))
                 .append(HtmlVoteBuilder.build(row))
-                .append("</font>")
-                .append("<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>")
-                .append("</body>");
+                .append("</font>");
+        if (decodeResult.hasCollapseTag()) {
+            retBuilder.append("<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>");
+        }
+        retBuilder.append("</body>");
         return retBuilder.toString();
     }
 }

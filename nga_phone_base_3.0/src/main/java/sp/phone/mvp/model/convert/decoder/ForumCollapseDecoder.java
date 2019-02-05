@@ -20,10 +20,18 @@ public class ForumCollapseDecoder implements IForumDecoder {
 
     @Override
     public String decode(String content) {
+        return decode(content, null);
+    }
+
+    @Override
+    public String decode(String content, ForumDecodeRecord result) {
         Pattern pattern = Pattern.compile(REGEX_COLLAPSE);
         Matcher matcher = pattern.matcher(content);
         int index = 0;
         while (matcher.find()) {
+            if (result != null) {
+                result.setHasCollapseTag(true);
+            }
             String title = matcher.group(1);
             content = matcher.group(2);
             content = String.format(HTML_COLLAPSE, index, content);
