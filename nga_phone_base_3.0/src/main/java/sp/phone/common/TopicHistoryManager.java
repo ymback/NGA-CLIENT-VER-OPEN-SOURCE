@@ -21,7 +21,7 @@ public class TopicHistoryManager {
 
     private List<ThreadPageInfo> mTopicList;
 
-    private static final int MAX_HISTORY_TOPIC_COUNT = 20;
+    private static final int MAX_HISTORY_TOPIC_COUNT = 40;
 
     private static class SingleTonHolder {
 
