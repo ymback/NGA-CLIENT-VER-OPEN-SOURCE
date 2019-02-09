@@ -15,7 +15,7 @@ public class LauncherSubActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent.getBooleanExtra("hideActionBar", false)) {
-            hideActionBar();
+            setToolbarEnabled(true);
         }
         super.onCreate(savedInstanceState);
         String fragmentStr = intent.getStringExtra("fragment");

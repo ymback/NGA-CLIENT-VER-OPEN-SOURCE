@@ -1,16 +1,13 @@
 package gov.anzong.androidnga.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -25,11 +22,9 @@ import sp.phone.theme.ThemeManager;
  */
 public abstract class BaseActivity extends SwipeBackActivity {
 
-    protected Toast mToast;
-
     protected PhoneConfiguration mConfig;
 
-    private boolean mActionBarEnabled = true;
+    private boolean mToolbarEnabled;
 
     private boolean mHardwareAcceleratedEnabled = true;
 
@@ -46,8 +41,8 @@ public abstract class BaseActivity extends SwipeBackActivity {
         ThemeManager.getInstance().initializeWebTheme(this);
     }
 
-    protected void setActionBarEnabled(boolean enabled) {
-        mActionBarEnabled = enabled;
+    protected void setToolbarEnabled(boolean enabled) {
+        mToolbarEnabled = enabled;
     }
 
     protected void setHardwareAcceleratedEnabled(boolean enabled) {
@@ -69,15 +64,21 @@ public abstract class BaseActivity extends SwipeBackActivity {
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
     }
 
-    @Deprecated
-    protected void hideActionBar() {
-        setActionBarEnabled(false);
-        // mNeedActionBar = false;
+    public void setupActionBar() {
+        if (mToolbarEnabled) {
+            setupToolbar();
+        } else {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
+        }
     }
 
     protected void updateThemeUi() {
         ThemeManager tm = ThemeManager.getInstance();
-        setTheme(tm.getTheme(mActionBarEnabled));
+        setTheme(tm.getTheme(mToolbarEnabled));
         if (tm.isNightMode()) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -118,29 +119,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
                 actionBar.setHomeButtonEnabled(true);
             }
         }
-    }
-
-    @Deprecated
-    public void setupActionBar() {
-        setupActionBar((Toolbar) findViewById(R.id.toolbar));
-    }
-
-    @Deprecated
-    protected void showToast(@StringRes int res) {
-        String str = getString(res);
-        showToast(str);
-    }
-
-    @Deprecated
-    @SuppressLint("ShowToast")
-    protected void showToast(String res) {
-        if (mToast != null) {
-            mToast.setText(res);
-            mToast.setDuration(Toast.LENGTH_SHORT);
-        } else {
-            mToast = Toast.makeText(this, res, Toast.LENGTH_SHORT);
-        }
-        mToast.show();
     }
 
     @Override

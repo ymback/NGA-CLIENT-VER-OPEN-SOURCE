@@ -27,6 +27,14 @@ public class ToastUtils {
         sToast.show();
     }
 
+    public static void showToast(String text) {
+        showShortToast(text);
+    }
+
+    public static void showToast(@StringRes int strId) {
+        showShortToast(strId);
+    }
+
     @SuppressLint("ShowToast")
     private static void initToast() {
         if (sToast == null) {

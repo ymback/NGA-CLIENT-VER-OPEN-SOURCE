@@ -75,7 +75,7 @@ public class TopicListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setToolbarEnabled(true);
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
         setupFragment();

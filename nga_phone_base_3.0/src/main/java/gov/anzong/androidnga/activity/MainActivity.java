@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setActionBarEnabled(false);
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
         checkPermission();
         checkNewVersion();

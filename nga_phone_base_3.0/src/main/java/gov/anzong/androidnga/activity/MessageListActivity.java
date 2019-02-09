@@ -26,7 +26,7 @@ public class MessageListActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_list);
         setupActionBar();

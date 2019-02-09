@@ -92,6 +92,7 @@ dependencies {
     implementation "com.android.support:support-v4:" + project.androidSupportVersion
     implementation "com.android.support:design:" + project.androidSupportVersion
     implementation 'com.android.support:cardview-v7:' + project.androidSupportVersion
+    implementation 'com.android.support:preference-v7:' + project.androidSupportVersion
 
     implementation 'com.alibaba:fastjson:1.2.41'
     implementation 'com.jakewharton:butterknife:8.8.1'

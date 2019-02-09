@@ -68,6 +68,7 @@
             android:name=".activity.SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
+            android:label="@string/menu_setting"
             android:theme="@style/SwipeBackTheme"/>
         <activity
             android:name=".activity.MessageListActivity"

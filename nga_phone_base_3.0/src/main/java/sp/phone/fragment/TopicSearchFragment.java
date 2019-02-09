@@ -108,7 +108,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
-        ((BaseActivity) getActivity()).setupActionBar();
+        ((BaseActivity) getActivity()).setupToolbar();
 
         if (mRequestParam.searchPost > 0) {
             mAdapter = new ReplyListAdapter(getContext());

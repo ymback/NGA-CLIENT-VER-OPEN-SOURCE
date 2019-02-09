@@ -22,7 +22,7 @@ public class PostActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setActionBarEnabled(false);
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         setupToolbar();

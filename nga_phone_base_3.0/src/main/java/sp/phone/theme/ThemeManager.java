@@ -109,8 +109,8 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     @StyleRes
-    public int getTheme(boolean actionbarEnabled) {
+    public int getTheme(boolean toolbarEnabled) {
         int index = isNightMode() ? 0 : mThemeIndex;
-        return actionbarEnabled ? mAppThemesActionBar[index] : mAppThemes[index];
+        return toolbarEnabled ? mAppThemes[index] : mAppThemesActionBar[index];
     }
 }

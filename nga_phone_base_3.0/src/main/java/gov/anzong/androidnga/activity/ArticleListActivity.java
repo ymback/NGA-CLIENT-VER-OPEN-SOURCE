@@ -69,7 +69,7 @@ public class ArticleListActivity extends BaseActivity implements PreferenceKey {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setToolbarEnabled(true);
         mRequestParam = getArticleListParam();
         super.onCreate(savedInstanceState);
         setupFragment();
