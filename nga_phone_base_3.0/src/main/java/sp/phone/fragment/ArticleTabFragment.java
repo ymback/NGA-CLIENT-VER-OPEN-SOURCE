@@ -184,8 +184,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_bookmark:
-                BookmarkTask bt = new BookmarkTask(getContext());
-                bt.execute(String.valueOf(mRequestParam.tid));
+                BookmarkTask.execute(mRequestParam.tid);
                 break;
             case R.id.menu_goto_floor:
                 createGotoDialog();

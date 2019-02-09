@@ -55,19 +55,6 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    @Deprecated
-    protected void setSupportActionBar(Toolbar toolbar) {
-        if (mActivity != null) {
-            mActivity.setupActionBar(toolbar);
-        }
-    }
-
-    protected void setupToolbar() {
-        if (mActivity != null) {
-            mActivity.setupToolbar();
-        }
-    }
-
     protected void setupToolbar(Toolbar toolbar) {
         if (mActivity != null) {
             mActivity.setupToolbar(toolbar);
