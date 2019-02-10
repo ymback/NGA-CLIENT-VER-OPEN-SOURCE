@@ -9,8 +9,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.squareup.haha.perflib.Main;
-
 import java.util.ArrayList;
 import java.util.List;
 
