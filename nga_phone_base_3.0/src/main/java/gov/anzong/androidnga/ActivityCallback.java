@@ -33,7 +33,6 @@ public class ActivityCallback implements Application.ActivityLifecycleCallbacks 
         for (Activity activity : mActivityList) {
             activity.finish();
         }
-        mActivityList.clear();
     }
 
     @Override
@@ -86,8 +85,5 @@ public class ActivityCallback implements Application.ActivityLifecycleCallbacks 
     @Override
     public void onActivityDestroyed(Activity activity) {
         mActivityList.remove(activity);
-        if (activity instanceof MainActivity && !mActivityList.isEmpty()) {
-            finishAllActivities();
-        }
     }
 }
