@@ -14,6 +14,11 @@
             android:key="pref_black_list"
             android:title="@string/setting_title_black_list"/>
 
+        <PreferenceScreen
+            android:fragment="sp.phone.fragment.FilterKeywordsFragment"
+            android:key="pref_keyword"
+            android:title="@string/filter_keywords" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

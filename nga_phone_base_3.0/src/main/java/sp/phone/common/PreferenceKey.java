@@ -29,6 +29,7 @@ public interface PreferenceKey {
 
     String USER_LIST = "userList";
     String BLACK_LIST = "";
+    String FILTER_KEYWORDS_LIST = "filter_keywords";
 
     String SHOW_ICON_MODE = "showiconmode";
 

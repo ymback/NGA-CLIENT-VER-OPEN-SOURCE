@@ -339,6 +339,7 @@ public class ActivityUtils {
             context.startActivity(intent);
         }
     }
+
     public static void startSearchDialog(AppCompatActivity activity, Bundle bundle) {
         if (UserManagerImpl.getInstance().getActiveUser() == null) {
             startLoginActivity(activity);

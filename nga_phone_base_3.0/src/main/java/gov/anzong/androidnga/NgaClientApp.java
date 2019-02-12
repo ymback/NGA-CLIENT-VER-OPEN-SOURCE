@@ -8,6 +8,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.BoardManagerImpl;
+import sp.phone.common.FilterKeywordsManager;
+import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.debug.BlockCanaryWatcher;
@@ -45,6 +47,7 @@ public class NgaClientApp extends Application {
     private void initCoreModule() {
         UserManagerImpl.getInstance().initialize(this);
         BoardManagerImpl.getInstance().initialize(this);
+        FilterKeywordsManagerImpl.getInstance().initialize(this);
         // 注册crashHandler
         CrashHandler.getInstance().init(this);
 
