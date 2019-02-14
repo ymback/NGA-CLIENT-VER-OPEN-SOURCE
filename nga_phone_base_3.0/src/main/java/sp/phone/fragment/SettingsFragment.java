@@ -110,6 +110,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.ADJUST_SIZE:
             case PreferenceKey.PREF_USER:
             case PreferenceKey.PREF_BLACK_LIST:
+            case "pref_keyword":
                 Intent intent = new Intent(getActivity(), LauncherSubActivity.class);
                 intent.putExtra("fragment", preference.getFragment());
                 startActivity(intent);

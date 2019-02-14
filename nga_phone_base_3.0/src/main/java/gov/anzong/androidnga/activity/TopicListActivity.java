@@ -146,6 +146,7 @@ public class TopicListActivity extends BaseActivity {
         intent.putExtras(bundle);
         ActivityUtils.startRecommendTopicActivity(this, intent);
     }
+
     private void showTwentyFourList() {
         TopicListParam param = (TopicListParam) mRequestParam.clone();
         param.twentyfour = 1;
