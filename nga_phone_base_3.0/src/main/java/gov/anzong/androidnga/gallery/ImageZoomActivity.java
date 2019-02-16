@@ -1,24 +1,29 @@
 package gov.anzong.androidnga.gallery;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.io.File;
 import java.util.Arrays;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import sp.phone.listener.OnSimpleHttpCallBack;
+import sp.phone.util.DeviceUtils;
 
 /**
  * 显示图片
@@ -43,6 +48,8 @@ public class ImageZoomActivity extends BaseActivity {
     private ViewPager mViewPager;
 
     private SaveImageTask mSaveImageTask;
+
+    private SaveImageTask.DownloadResult[] mDownloadResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +79,8 @@ public class ImageZoomActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 mPageIndex = position;
-                mTxtView.setText(String.valueOf(position + 1) + " / " + String.valueOf(mGalleryUrls.length));
+                setTitle((position + 1) + " / " + mGalleryUrls.length);
+                //  mTxtView.setText(String.valueOf(position + 1) + " / " + String.valueOf(mGalleryUrls.length));
             }
         });
     }
@@ -86,29 +94,44 @@ public class ImageZoomActivity extends BaseActivity {
             mGalleryUrls[0] = curUrl;
         }
         mPageIndex = Arrays.asList(mGalleryUrls).indexOf(curUrl);
+        mDownloadResults = new SaveImageTask.DownloadResult[mGalleryUrls.length];
     }
 
     private void initBottomView() {
-        mTxtView = (TextView) findViewById(R.id.reader_image_desc);
-        mTxtView.setMovementMethod(new ScrollingMovementMethod());
-        mTxtView.setText(String.valueOf(mPageIndex + 1) + " / " + String.valueOf(mGalleryUrls.length));
-        ImageView download = (ImageView) findViewById(R.id.reader_image_download);
-        download.setOnClickListener(v -> saveBitmap(mGalleryUrls[mPageIndex >= 0 ? mPageIndex : 0]));
+//        mTxtView = (TextView) findViewById(R.id.reader_image_desc);
+//        mTxtView.setMovementMethod(new ScrollingMovementMethod());11
+//        mTxtView.setText(String.valueOf(mPageIndex + 1) + " / " + String.valueOf(mGalleryUrls.length));
+//        ImageView download = (ImageView) findViewById(R.id.reader_image_download);
+//        download.setOnClickListener(v -> saveBitmap(mGalleryUrls[mPageIndex >= 0 ? mPageIndex : 0]));
         mProgressBar = (ProgressBar) findViewById(R.id.progress);
         mProgressBar.setVisibility(View.VISIBLE);
+        setTitle((mPageIndex + 1) + " / " + mGalleryUrls.length);
+    }
+
+    private void saveBitmap(OnSimpleHttpCallBack<SaveImageTask.DownloadResult> callBack, String... urls) {
+        new RxPermissions(this)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) { // Always true pre-M
+                        if (mSaveImageTask == null) {
+                            mSaveImageTask = new SaveImageTask();
+                        }
+                        mSaveImageTask.execute(callBack, urls);
+                    } else {
+                        // Oups permission denied
+                    }
+                });
     }
 
     private void saveBitmap(String... urls) {
-        if (mSaveImageTask == null) {
-            mSaveImageTask = new SaveImageTask();
-        }
-        mSaveImageTask.execute(urls);
-    }
-
-    private String getPath() {
-        String ret = mGalleryUrls[mPageIndex];
-        //  ret = ret.replaceAll("img.nga.178.com", "img.ngacn.cc");
-        return ret;
+        saveBitmap(data -> {
+            for (int i = 0; i < mGalleryUrls.length; i++) {
+                if (mGalleryUrls[i].equals(data.url)) {
+                    mDownloadResults[i] = data;
+                    break;
+                }
+            }
+        }, urls);
     }
 
     @Override
@@ -117,18 +140,48 @@ public class ImageZoomActivity extends BaseActivity {
         return true;
     }
 
+    private void share(File file) {
+        if (DeviceUtils.isGreaterEqual_7_0()) {
+            Uri contentUri = FileProvider.getUriForFile(this,
+                    "gov.anzong.androidnga", file);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            intent.setType("image/jpeg");
+            String text = getResources().getString(R.string.share);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(intent, text));
+        } else {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            intent.setType("image/jpeg");
+            String text = getResources().getString(R.string.share);
+            startActivity(Intent.createChooser(intent, text));
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_share:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(getPath()));
-                intent.setType("image/jpeg");
-                String text = getResources().getString(R.string.share);
-                startActivity(Intent.createChooser(intent, text));
+                if (mDownloadResults[mPageIndex] != null) {
+                    share(mDownloadResults[mPageIndex].file);
+                } else {
+                    saveBitmap(data -> {
+                        for (int i = 0; i < mGalleryUrls.length; i++) {
+                            if (mGalleryUrls[i].equals(data.url)) {
+                                mDownloadResults[i] = data;
+                                break;
+                            }
+                        }
+                        share(data.file);
+                    }, mGalleryUrls[mPageIndex]);
+                }
                 break;
             case R.id.menu_download_all:
                 showDownloadAllDialog();
+                break;
+            case R.id.menu_download:
+                saveBitmap(mGalleryUrls[mPageIndex]);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

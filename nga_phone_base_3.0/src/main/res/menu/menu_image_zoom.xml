@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:androidnga="http://schemas.android.com/apk/res-auto"
-    >
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_download"
+        android:icon="@drawable/btn_ic_save"
+        android:title="下载保存"
+        androidnga:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/btn_ic_share"
         android:title="@string/share"
-        android:visible="false"/>
+        androidnga:showAsAction="ifRoom"/>
+
 
     <item
         android:id="@+id/menu_download_all"
         android:icon="@drawable/ic_file_download"
         android:title="@string/menu_download_all"
-        androidnga:showAsAction="ifRoom"/>
+        androidnga:showAsAction="never"/>
 
 </menu>

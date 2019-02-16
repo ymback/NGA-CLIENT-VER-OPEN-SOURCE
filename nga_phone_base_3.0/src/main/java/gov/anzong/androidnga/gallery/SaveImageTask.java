@@ -3,6 +3,7 @@ package gov.anzong.androidnga.gallery;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.util.Pair;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
@@ -17,6 +18,8 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.common.ApplicationContextHolder;
+import sp.phone.listener.OnHttpCallBack;
+import sp.phone.listener.OnSimpleHttpCallBack;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.ActivityUtils;
 
@@ -34,7 +37,7 @@ public class SaveImageTask {
         mContext = ApplicationContextHolder.getContext();
     }
 
-    private static class DownloadResult {
+    public static class DownloadResult {
 
         File file;
 
@@ -46,7 +49,7 @@ public class SaveImageTask {
         }
     }
 
-    public void execute(String... urls) {
+    public void execute(OnSimpleHttpCallBack<DownloadResult> callBack, String... urls) {
 
         if (isRunning()) {
             ActivityUtils.showToast("图片正在下载，防止风怒！！");
@@ -70,22 +73,23 @@ public class SaveImageTask {
                     String path = PATH_IMAGES + System.currentTimeMillis() + suffix;
                     File target = new File(path);
                     FileUtils.copyFile(result.file, target);
-                    return target;
+                    return new DownloadResult(target, url);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<File>() {
+                .subscribe(new BaseSubscriber<DownloadResult>() {
                     @Override
-                    public void onNext(File file) {
-                        Uri uri = Uri.fromFile(file);
+                    public void onNext(DownloadResult result) {
+                        Uri uri = Uri.fromFile(result.file);
                         ApplicationContextHolder.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
                         mDownloadCount++;
                         if (mDownloadCount == urls.length) {
                             if (urls.length > 1) {
                                 ActivityUtils.showToast("所有图片已保存");
                             } else {
-                                ActivityUtils.showToast(mContext.getString(R.string.file_saved) + file.getAbsolutePath());
+                                ActivityUtils.showToast(mContext.getString(R.string.file_saved) + result.file.getAbsolutePath());
                             }
                         }
+                        callBack.onResult(result);
                     }
 
                     @Override
