@@ -50,24 +50,6 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
             }
             mBaseView.clearData();
             mBaseView.scrollTo(0);
-            data.setThreadPageList(
-                    data.getThreadPageList().stream().filter(threadPageInfo -> {
-                        return FilterKeywordsManagerImpl
-                                .getInstance()
-                                .getKeywords()
-                                .parallelStream()
-                                .noneMatch(filterKeyword -> {
-                                    if (filterKeyword.isEnabled()) {
-                                        return threadPageInfo
-                                                .getSubject()
-                                                .contains(filterKeyword.getKeyword());
-                                    } else {
-                                        return false;
-                                    }
-                                });
-                    }).collect(Collectors.toList())
-            );
-            // TODO: 如果第一页全部都是被屏蔽的，可能会认为加载失败
             setData(data);
             mBaseView.hideLoadingView();
         }
