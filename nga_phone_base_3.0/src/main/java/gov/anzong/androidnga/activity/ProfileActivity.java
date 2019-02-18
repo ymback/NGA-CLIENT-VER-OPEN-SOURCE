@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -113,16 +112,6 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
 
     private Menu mOptionMenu;
 
-    @Override
-    protected void updateThemeUi() {
-        setTheme(mThemeManager.getTheme(false));
-        if (mThemeManager.isNightMode()) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-    }
-
     /**
      * 利用反射获取状态栏高度
      */
@@ -137,25 +126,6 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
             result = res.getDimensionPixelSize(R.dimen.status_bar_height);
         }
         return result;
-    }
-
-    @Override
-    protected void updateWindowFlag() {
-        if (mConfig.isFullScreenMode()) {
-            super.updateWindowFlag();
-        } else {
-            Window window = getWindow();
-            View decorView = window.getDecorView();
-            //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            int flag = WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
-            if (mConfig.isHardwareAcceleratedEnabled()) {
-                flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
-            }
-            window.addFlags(flag);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
     }
 
     private void updateToolbarLayout() {
@@ -173,6 +143,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
@@ -189,9 +160,19 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
 
         setContentView(R.layout.activity_user_profile);
         ButterKnife.bind(this);
-        setupToolbar();
+        setupActionBar();
         updateToolbarLayout();
+        setupStatusBar();
         refresh();
+    }
+
+    private void setupStatusBar() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(option);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     private void refresh() {
