@@ -13,7 +13,6 @@ def isJenkins() {
 
 android {
     compileSdkVersion project.compileSdkVersion
-    buildToolsVersion project.buildToolsVersion
 
     signingConfigs {
         signingConfig {
@@ -38,8 +37,8 @@ android {
 
     defaultConfig {
         applicationId "gov.anzong.androidnga"
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
         multiDexEnabled true
         resConfigs "zh", "en"
 
@@ -89,9 +88,9 @@ dependencies {
 
     implementation(name: 'floatingactionmenu', ext: 'aar')
 
-    implementation "com.android.support:support-v4:" + project.androidSupportVersion
-    implementation "com.android.support:design:" + project.androidSupportVersion
-    implementation 'com.android.support:cardview-v7:' + project.androidSupportVersion
+    implementation "com.android.support:support-v4:$project.androidSupportVersion"
+    implementation "com.android.support:design:$project.androidSupportVersion"
+    implementation "com.android.support:cardview-v7:$project.androidSupportVersion"
    // implementation 'com.android.support:preference-v7:' + project.androidSupportVersion
 
     implementation 'com.alibaba:fastjson:1.2.41'
