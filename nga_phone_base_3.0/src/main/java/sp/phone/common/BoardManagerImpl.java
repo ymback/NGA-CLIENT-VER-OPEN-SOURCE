@@ -18,7 +18,6 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
-import sp.phone.bean.OldBoard;
 
 public class BoardManagerImpl implements BoardManager {
 
@@ -258,18 +257,7 @@ public class BoardManagerImpl implements BoardManager {
         BoardCategory category = new BoardCategory("我的收藏");
         String bookmarkStr = sp.getString(PreferenceKey.BOOKMARK_BOARD, null);
         if (bookmarkStr != null) {
-            List<Board> boards;
-            if (bookmarkStr.contains("url")) {
-                List<OldBoard> oldBoards = JSON.parseArray(bookmarkStr, OldBoard.class);
-                boards = new ArrayList<>();
-                for (OldBoard oldBoard : oldBoards) {
-                    boards.add(new Board(oldBoard.getUrl(), oldBoard.getName()));
-                }
-                sp.edit().putString(PreferenceKey.BOOKMARK_BOARD, JSON.toJSONString(boards)).apply();
-            } else {
-                boards = JSON.parseArray(bookmarkStr, Board.class);
-            }
-
+            List<Board> boards = JSON.parseArray(bookmarkStr, Board.class);
             if (!boards.isEmpty()) {
                 category.getBoardList().addAll(boards);
             }
