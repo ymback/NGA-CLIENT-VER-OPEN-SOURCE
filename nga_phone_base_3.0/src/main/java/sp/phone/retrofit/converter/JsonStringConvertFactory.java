@@ -3,6 +3,7 @@ package sp.phone.retrofit.converter;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
@@ -33,8 +34,12 @@ public class JsonStringConvertFactory extends Converter.Factory {
         private static final JsonStringConverter sInstance = new JsonStringConverter();
 
         @Override
-        public String convert(ResponseBody responseBody) throws IOException {
-            return IOUtils.toString(responseBody.byteStream(),"GBK");
+        public String convert(ResponseBody responseBody) {
+            try (InputStream is = responseBody.byteStream()) {
+                return IOUtils.toString(is, "GBK");
+            } catch (IOException e) {
+                return "";
+            }
         }
     }
 }
