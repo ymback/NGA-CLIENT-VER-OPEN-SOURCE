@@ -7,12 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
+import com.mahang.utils.LogUtils;
 
 import gov.anzong.androidnga.R;
 import sp.phone.mvp.presenter.LoginPresenter;
@@ -51,6 +55,15 @@ public class LoginWebFragment extends BaseFragment {
             }
             mProgressBar.setProgress(newProgress);
             super.onProgressChanged(view, newProgress);
+        }
+
+        @Override
+        public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+//            LogUtils.d("onJsConfirm:" + url + "," + message);
+            if (message.contains("登录成功") ) {
+                setCookies();
+            }
+            return super.onJsConfirm(view, url, message, result);
         }
     }
 
@@ -93,7 +106,6 @@ public class LoginWebFragment extends BaseFragment {
     }
 
 
-
     /**
      * Called when the fragment is no longer resumed. Pauses the WebView.
      */
@@ -108,9 +120,8 @@ public class LoginWebFragment extends BaseFragment {
      */
     @Override
     public void onResume() {
-        setCookies();
-        mWebView.onResume();
         super.onResume();
+        mWebView.onResume();
     }
 
     /**
@@ -142,6 +153,7 @@ public class LoginWebFragment extends BaseFragment {
 //            Toast.makeText(mActivity, "登陆成功", Toast.LENGTH_SHORT).show();
             if (mActivity != null) {
                 mActivity.setResult(Activity.RESULT_OK);
+                finish();
             }
         }
     }
