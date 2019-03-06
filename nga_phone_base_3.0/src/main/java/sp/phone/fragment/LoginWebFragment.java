@@ -93,21 +93,22 @@ public class LoginWebFragment extends BaseFragment {
     }
 
 
-    /**
-     * Called when the fragment is visible to the user and actively running. Resumes the WebView.
-     */
-    @Override
-    public void onPause() {
-        setCookies();
-        super.onPause();
-        mWebView.onPause();
-    }
 
     /**
      * Called when the fragment is no longer resumed. Pauses the WebView.
      */
     @Override
+    public void onPause() {
+        super.onPause();
+        mWebView.onPause();
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running. Resumes the WebView.
+     */
+    @Override
     public void onResume() {
+        setCookies();
         mWebView.onResume();
         super.onResume();
     }
