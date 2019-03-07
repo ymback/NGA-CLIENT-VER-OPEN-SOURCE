@@ -31,12 +31,12 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.adapter.BoardPagerAdapter;
+import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.AddBoardDialogFragment;
-import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.ImageUtils;
@@ -58,12 +58,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     private TextView mReplyCountView;
 
     private BoardPagerAdapter mBoardPagerAdapter;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setTitle(R.string.start_title);
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -245,9 +239,9 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
     @Override
     public void onResume() {
         if (mBoardPagerAdapter == null) {
-            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager(), (PageCategoryOwner) mPresenter);
+            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager());
             mViewPager.setAdapter(mBoardPagerAdapter);
-            if (((PageCategoryOwner) mPresenter).getCategory(0).size() == 0) {
+            if (BoardManagerImpl.getInstance().getCategory(0).size() == 0) {
                 mViewPager.setCurrentItem(1);
             }
         } else {

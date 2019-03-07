@@ -376,6 +376,7 @@
     <string name="label_activity_message_detail">短消息正文</string>
     <string name="label_activity_topic_history">浏览历史</string>
     <string name="label_activity_login">登录</string>
+    <string name="label_activity_main">NGA客户端开源版</string>
 
     <!-- error -->
     <string name="error_load_failed">加载失败，请重试！</string>

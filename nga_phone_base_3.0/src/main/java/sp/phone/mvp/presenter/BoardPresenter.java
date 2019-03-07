@@ -8,17 +8,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import sp.phone.bean.BoardCategory;
-import sp.phone.interfaces.PageCategoryOwner;
-import sp.phone.mvp.contract.BoardContract;
-import sp.phone.util.StringUtils;
-import sp.phone.bean.BoardCategory;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.NLog;
@@ -29,7 +24,7 @@ import sp.phone.util.StringUtils;
  * Created by Justwen on 2017/6/29.
  */
 
-public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwner {
+public class BoardPresenter implements BoardContract.Presenter {
 
     private BoardContract.View mView;
 
@@ -88,7 +83,7 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
                     }
                 }
                 mView.showToast("添加成功");
-                BoardManagerImpl.getInstance().addBookmark(fid,name);
+                BoardManagerImpl.getInstance().addBookmark(fid, name);
                 return true;
             }
         }
@@ -107,6 +102,7 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
 
     /**
      * 跳转到对应版块
+     *
      * @param position
      * @param fidString
      */
@@ -159,22 +155,5 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
         mBoardManager.removeAllBookmarks();
         mView.notifyDataSetChanged();
     }
-
-
-    @Override
-    public int getCategoryCount() {
-        return BoardManagerImpl.getInstance().getCategoryList().size();
-    }
-
-    @Override
-    public String getCategoryName(int position) {
-        return BoardManagerImpl.getInstance().getCategoryList().get(position).getName();
-    }
-
-    @Override
-    public BoardCategory getCategory(int category) {
-        return BoardManagerImpl.getInstance().getCategoryList().get(category);
-    }
-
 
 }

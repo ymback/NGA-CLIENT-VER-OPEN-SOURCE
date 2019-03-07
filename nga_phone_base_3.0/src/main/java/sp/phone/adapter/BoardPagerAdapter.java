@@ -1,40 +1,43 @@
 package sp.phone.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import sp.phone.common.BoardManager;
+import sp.phone.common.BoardManagerImpl;
 import sp.phone.fragment.BoardCategoryFragment;
-import sp.phone.interfaces.PageCategoryOwner;
-import sp.phone.fragment.BoardCategoryFragment;
-import sp.phone.interfaces.PageCategoryOwner;
 
 /**
  * 版块分页Adapter
  */
 public class BoardPagerAdapter extends FragmentStatePagerAdapter {
 
-    private PageCategoryOwner mPageCategoryOwner;
 
-    public BoardPagerAdapter(FragmentManager fm, PageCategoryOwner pageCategoryOwner) {
+    private BoardManager mBoardManager = BoardManagerImpl.getInstance();
+
+    public BoardPagerAdapter(FragmentManager fm) {
         super(fm);
-        mPageCategoryOwner = pageCategoryOwner;
-
     }
 
     @Override
     public Fragment getItem(int index) {
-        return BoardCategoryFragment.newInstance(mPageCategoryOwner.getCategory(index));
+        BoardCategoryFragment fragment = new BoardCategoryFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("category", mBoardManager.getCategory(index));
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public int getCount() {
-        return mPageCategoryOwner.getCategoryCount();
+        return mBoardManager.getCategorySize();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mPageCategoryOwner.getCategoryName(position);
+        return mBoardManager.getCategory(position).getName();
     }
 
     @Override
