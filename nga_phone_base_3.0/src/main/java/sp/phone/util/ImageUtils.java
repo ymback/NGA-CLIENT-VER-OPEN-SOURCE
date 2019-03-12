@@ -1,5 +1,6 @@
 package sp.phone.util;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
@@ -459,7 +461,7 @@ public class ImageUtils {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
         }
-        if (!PermissionUtils.hasStoragePermission(context)) {
+        if (!PermissionUtils.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             imageView.setImageDrawable(sDefaultAvatar);
             return;
         }

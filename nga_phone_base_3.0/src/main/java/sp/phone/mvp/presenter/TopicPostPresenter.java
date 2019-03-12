@@ -1,5 +1,6 @@
 package sp.phone.mvp.presenter;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,9 +26,8 @@ import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
-import sp.phone.util.PermissionUtils;
+import gov.anzong.androidnga.base.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 
 public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPostModel>
@@ -132,13 +132,11 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
     }
 
     public void showFilePicker() {
-        if (!DeviceUtils.isGreaterEqual_6_0()) {
-            mBaseView.showFilePicker();
-        } else if (PermissionUtils.hasStoragePermission(mBaseView.getContext())) {
-            mBaseView.showFilePicker();
-        } else {
-            PermissionUtils.requestStoragePermission(mBaseView);
-        }
+        PermissionUtils.request(mBaseView, aBoolean -> {
+            if (aBoolean) {
+                mBaseView.showFilePicker();
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     public void startUploadTask(final Uri uri) {

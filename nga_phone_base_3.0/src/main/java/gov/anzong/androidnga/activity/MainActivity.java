@@ -1,5 +1,6 @@
 package gov.anzong.androidnga.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
@@ -20,14 +21,13 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.dialog.AboutClientDialogFragment;
-import sp.phone.fragment.dialog.ProfileSearchDialogFragment;
 import sp.phone.fragment.dialog.UrlInputDialogFragment;
 import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.presenter.BoardPresenter;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.PermissionUtils;
+import gov.anzong.androidnga.base.util.PermissionUtils;
 
 public class MainActivity extends BaseActivity {
 
@@ -45,9 +45,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkPermission() {
-        if (!PermissionUtils.hasStoragePermission(this)) {
-            PermissionUtils.requestStoragePermission(this);
-        }
+        PermissionUtils.request(this, null, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private void checkNewVersion() {
