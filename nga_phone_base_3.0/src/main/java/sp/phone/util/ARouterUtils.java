@@ -10,14 +10,12 @@ import com.alibaba.android.arouter.launcher.ARouter;
  */
 public class ARouterUtils {
 
-    private static ARouter sARouter = ARouter.getInstance();
-
     private ARouterUtils() {
 
     }
 
     public static Postcard build(String path) {
-        return sARouter.build(path);
+        return ARouter.getInstance().build(path);
     }
 
     public static void navigation(String path) {
@@ -25,6 +23,7 @@ public class ARouterUtils {
     }
 
     public static void navigation(Context context, String path) {
-        sARouter.build(path).navigation(context);
+        ARouter.getInstance().build(path).navigation(context);
     }
+
 }
