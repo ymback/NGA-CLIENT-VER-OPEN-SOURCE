@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.base.common.PreferenceKey;
 import sp.phone.forumoperation.ArticleListParam;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.ArticleSearchFragment;

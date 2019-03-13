@@ -8,9 +8,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.BoardManagerImpl;
-import sp.phone.common.FilterKeywordsManager;
 import sp.phone.common.FilterKeywordsManagerImpl;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.base.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.debug.BlockCanaryWatcher;
 import sp.phone.debug.LeakCanaryWatcher;

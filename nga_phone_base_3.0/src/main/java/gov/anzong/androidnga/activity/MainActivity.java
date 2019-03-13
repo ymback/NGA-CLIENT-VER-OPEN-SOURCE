@@ -36,12 +36,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setToolbarEnabled(true);
+        setSwipeBackEnable(false);
         super.onCreate(savedInstanceState);
         checkPermission();
         checkNewVersion();
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
-        setSwipeBackEnable(false);
     }
 
     private void checkPermission() {

@@ -17,7 +17,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.base.common.PreferenceKey;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.theme.ThemeManager;
 

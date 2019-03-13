@@ -17,7 +17,7 @@ import sp.phone.bean.AdminForumsData;
 import sp.phone.bean.ProfileData;
 import sp.phone.bean.ReputationData;
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.base.common.PreferenceKey;
 import sp.phone.listener.OnHttpCallBack;
 import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;

@@ -9,7 +9,7 @@ import android.util.TypedValue;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.base.common.PreferenceKey;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 

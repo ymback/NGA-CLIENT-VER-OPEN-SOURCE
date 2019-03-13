@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.mvp.model.entity.ThreadPageInfo;
+import gov.anzong.androidnga.base.common.PreferenceKey;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 
 /**

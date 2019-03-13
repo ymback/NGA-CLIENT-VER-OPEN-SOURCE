@@ -1,6 +1,5 @@
 package gov.anzong.androidnga.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -10,11 +9,9 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import gov.anzong.androidnga.R;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import gov.anzong.androidnga.base.activity.SwipeBackActivity;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
 
 /**
@@ -36,9 +33,18 @@ public abstract class BaseActivity extends SwipeBackActivity {
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
+        onCreateBeforeSuper(savedInstanceState);
         super.onCreate(savedInstanceState);
-        initSwipeBack();
         ThemeManager.getInstance().initializeWebTheme(this);
+        onCreateAfterSuper(savedInstanceState);
+    }
+
+    protected void onCreateBeforeSuper(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    protected void onCreateAfterSuper(@Nullable Bundle savedInstanceState) {
+
     }
 
     protected void setToolbarEnabled(boolean enabled) {
@@ -96,17 +102,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
             flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
-    }
-
-    private void initSwipeBack() {
-        if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, true)) {
-            final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
-            getSwipeBackLayout().setEdgeSize((int) (10 * density + 0.5f));// 10dp
-            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
-            setSwipeBackEnable(true);
-        } else {
-            setSwipeBackEnable(false);
-        }
     }
 
     @Deprecated
