@@ -69,7 +69,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         switch (key) {
             case PreferenceKey.NIGHT_MODE:
             case PreferenceKey.MATERIAL_THEME:
-                Observable.timer(500, TimeUnit.MILLISECONDS)
+                Observable.timer(0, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new BaseSubscriber<Long>() {
                             @Override
