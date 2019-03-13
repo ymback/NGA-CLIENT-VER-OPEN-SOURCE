@@ -43,7 +43,7 @@ public abstract class SwipeBackActivity extends AppCompatActivity {
     }
 
     private void configSwipeBack() {
-        if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, true)
+        if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, false)
                 && mSwipeBackState != -1) {
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
