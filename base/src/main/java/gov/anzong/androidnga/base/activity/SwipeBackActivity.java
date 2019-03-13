@@ -50,7 +50,7 @@ public abstract class SwipeBackActivity extends AppCompatActivity {
             SwipeBackLayout swipeBackLayout = mHelper.getSwipeBackLayout();
             float density = getResources().getDisplayMetrics().density;
             swipeBackLayout.setEdgeSize((int) (10 * density + 0.5f));
-            swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
+            swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT | SwipeBackLayout.EDGE_RIGHT);
         }
     }
 

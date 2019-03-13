@@ -200,4 +200,12 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2106 = "更新内容\n"
+            + "● 移除全屏模式，全屏模式下有诸多bug，不再进行适配\n"
+            + "● 修复切换主题，状态栏颜色错误的问题\n"
+            + "● 滑动返回现在只能左滑和右滑返回了，去掉了下滑返回\n"
+            + "● 滑动返回在android P上默认关闭\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
 }
