@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,7 +22,6 @@ import sp.phone.forumoperation.ParamKey;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.presenter.TopicPostPresenter;
 import sp.phone.rxjava.RxEvent;
-import sp.phone.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.toolbar.ToolbarContainer;
 
@@ -86,14 +84,6 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
             mAnonyCheckBox.setChecked(savedData.getBoolean("anony"));
         }
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PermissionUtils.REQUEST_CODE_WRITE_EXTERNAL_STORAGE
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            mPresenter.showFilePicker();
-        }
     }
 
     @Override

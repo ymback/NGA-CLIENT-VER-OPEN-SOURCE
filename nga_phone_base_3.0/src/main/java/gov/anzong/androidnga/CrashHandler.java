@@ -1,5 +1,6 @@
 package gov.anzong.androidnga;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -20,7 +21,7 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import sp.phone.util.NLog;
-import sp.phone.util.PermissionUtils;
+import gov.anzong.androidnga.base.util.PermissionUtils;
 
 
 /**
@@ -88,7 +89,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        if ((!PermissionUtils.hasStoragePermission(mContext) || !handleException(ex)) && mDefaultHandler != null) {
+        if ((!PermissionUtils.hasPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) || !handleException(ex)) && mDefaultHandler != null) {
             //如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
