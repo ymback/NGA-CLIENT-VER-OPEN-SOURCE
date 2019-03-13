@@ -129,7 +129,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
     private void updateToolbarLayout() {
-        if (!mConfig.isFullScreenMode()) {
+     //   if (!mConfig.isFullScreenMode()) {
             int statusBarHeight = getStatusBarHeight();
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
@@ -137,7 +137,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
 
             View parentView = (View) mAvatarIv.getParent();
             parentView.setPadding(0, statusBarHeight, 0, 0);
-        }
+     //   }
 
     }
 

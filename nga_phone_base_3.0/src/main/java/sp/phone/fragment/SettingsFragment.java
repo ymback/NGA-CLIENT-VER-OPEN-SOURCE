@@ -82,9 +82,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.SHOW_ICON_MODE:
                 getActivity().setResult(Activity.RESULT_OK);
                 break;
-            case PreferenceKey.FULLSCREENMODE:
-                setFullScreen((Boolean) newValue);
-                break;
             default:
                 break;
 

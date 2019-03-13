@@ -27,8 +27,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     private boolean mNotificationSoundEnabled;
 
-    private boolean mFullScreenMode;
-
     private boolean mDownAvatarNoWifi;
 
     private boolean mDownImgNoWifi;
@@ -67,9 +65,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
                 break;
             case PreferenceKey.ENABLE_NOTIFIACTION:
                 mNotificationEnabled = sp.getBoolean(key, true);
-                break;
-            case PreferenceKey.FULLSCREENMODE:
-                mFullScreenMode = sp.getBoolean(key, false);
                 break;
             case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
                 mDownAvatarNoWifi = sp.getBoolean(key, true);
@@ -141,7 +136,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         sp.registerOnSharedPreferenceChangeListener(this);
         mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
         mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
-        mFullScreenMode = sp.getBoolean(PreferenceKey.FULLSCREENMODE, false);
         mDownAvatarNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI, true);
         mDownImgNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI, true);
         mShowSignature = sp.getBoolean(PreferenceKey.SHOW_SIGNATURE, false);
@@ -205,10 +199,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     public boolean isShowSignature() {
         return mShowSignature;
-    }
-
-    public boolean isFullScreenMode() {
-        return mFullScreenMode;
     }
 
     public boolean isShowColorText() {

@@ -70,15 +70,9 @@
             android:title="@string/refresh_after_post_setting_mode"/>
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="swipe_back"
             android:title="@string/setting_title_swipe_back"/>
-
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="fullscreen"
-            android:title="@string/fullscreenmode"/>
 
         <SwitchPreference
             android:defaultValue="false"

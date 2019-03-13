@@ -94,9 +94,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     protected void updateWindowFlag() {
         int flag = 0;
-        if (mConfig.isFullScreenMode()) {
-            flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        }
 
         if (mHardwareAcceleratedEnabled) {
             flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;

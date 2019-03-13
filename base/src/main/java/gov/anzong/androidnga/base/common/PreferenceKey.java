@@ -25,7 +25,6 @@ public interface PreferenceKey {
     String SHOW_NEWWEIBA = "showNewweiba";
     String SHOW_LAJIBANKUAI = "showLajibankuai";
     String HANDSIDE = "HandSide";
-    String FULLSCREENMODE = "fullscreen";
 
     String USER_LIST = "userList";
     String BLACK_LIST = "";
