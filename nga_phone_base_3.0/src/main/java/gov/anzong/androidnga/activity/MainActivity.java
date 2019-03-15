@@ -133,7 +133,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void aboutNgaClient() {
-        new AboutClientDialogFragment().show(getSupportFragmentManager());
+       // new AboutClientDialogFragment().show(getSupportFragmentManager());
+        startActivity(new Intent(this,AboutActivity.class));
     }
 
     private void startSettingActivity() {

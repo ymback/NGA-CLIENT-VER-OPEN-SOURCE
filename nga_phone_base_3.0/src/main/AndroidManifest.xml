@@ -204,9 +204,13 @@
             android:name=".activity.SearchActivity"
             android:label="@string/search"/>
 
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/title_about"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="gov.anzong.androidnga"
+            android:authorities="{applicationId}"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

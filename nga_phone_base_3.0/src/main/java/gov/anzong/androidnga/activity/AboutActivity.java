@@ -1,0 +1,124 @@
+package gov.anzong.androidnga.activity;
+
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
+import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
+import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
+import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
+
+import gov.anzong.androidnga.BuildConfig;
+import gov.anzong.androidnga.R;
+import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
+import sp.phone.util.FunctionUtils;
+
+public class AboutActivity extends MaterialAboutActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.Theme_AboutActivity_Green);
+        super.onCreate(savedInstanceState);
+    }
+
+    @NonNull
+    @Override
+    protected MaterialAboutList getMaterialAboutList(@NonNull Context context) {
+        return new MaterialAboutList(buildAppCard(), buildDevelopCard(), buildExtraCard());
+    }
+
+    private MaterialAboutCard buildAppCard() {
+        MaterialAboutCard.Builder builder = new MaterialAboutCard.Builder();
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text(R.string.start_title)
+                .icon(R.mipmap.ic_launcher)
+                .setOnClickAction(() -> new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null))
+                .build());
+
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("版本")
+                .subText(BuildConfig.VERSION_NAME)
+                .icon(R.drawable.ic_about)
+                .setOnClickAction(() -> {
+                    try {
+                        String url = "market://details?id=" + getPackageName();
+                        Intent intent = new Intent("android.intent.action.VIEW");
+                        intent.setData(Uri.parse(url));
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        startExternalBrowser("https://www.coolapk.com/apk/gov.anzong.androidnga");
+                    }
+                })
+                .build());
+
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("License")
+                .subText("GNU GPL v2,开放源代码许可")
+                .setOnClickAction(() -> {
+                    Intent intent = new Intent(AboutActivity.this, WebViewerActivity.class);
+                    intent.putExtra("path", "file:///android_asset/OSLICENSE.TXT");
+                    startActivity(intent);
+
+                })
+                .icon(R.drawable.ic_license)
+                .build());
+
+        return builder.build();
+    }
+
+    private MaterialAboutCard buildDevelopCard() {
+        MaterialAboutCard.Builder builder = new MaterialAboutCard.Builder();
+        builder.title("开发团队");
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("代码")
+                .subText("[@竹井詩織里]/[@cfan8]/[@jjimmys]\n[@Moandor]/[@Elrond]/[@Justwen]")
+                .icon(R.drawable.ic_code_black_24dp)
+                .build());
+
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("美工")
+                .subText("[@那个惩戒骑]/[@从来不卖萌]")
+                .icon(R.drawable.ic_code_black_24dp)
+                .build());
+
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("Github")
+                .subText("bug & 建议")
+                .setOnClickAction(() -> startExternalBrowser("https://github.com/ymback/NGA-CLIENT-VER-OPEN-SOURCE/issues"))
+                .icon(R.drawable.ic_github)
+                .build());
+
+        return builder.build();
+    }
+
+
+    private MaterialAboutCard buildExtraCard() {
+        MaterialAboutCard.Builder builder = new MaterialAboutCard.Builder();
+        builder.title("赞美片总!感谢[@force0119]");
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("客户端吐槽QQ群,欢迎加入捡肥皂")
+                .subText("172503242")
+                .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "172503242"))
+                .icon(R.drawable.ic_github)
+                .build());
+
+        return builder.build();
+    }
+
+    private void startExternalBrowser(String url) {
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+    }
+
+    @Nullable
+    @Override
+    protected CharSequence getActivityTitle() {
+        return "关于";
+    }
+}

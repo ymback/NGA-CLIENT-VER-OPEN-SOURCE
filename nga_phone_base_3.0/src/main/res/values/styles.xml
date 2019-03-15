@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppThemeDayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:textColor">@color/text_color_selector</item>
@@ -45,6 +45,30 @@
     <style name="AppThemeDayNightBlack.NoActionBar" parent="@style/AppThemeDayNightBlack">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AboutActivity" parent="Theme.Mal.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/material_window_background</item>
+        <item name="mal_card_background">@android:color/background_light</item>
+    </style>
+
+    <style name="Theme.AboutActivity.Green" parent="Theme.AboutActivity">
+        <item name="colorPrimary">@color/colorPrimaryGreen</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
+        <item name="colorAccent">@color/colorAccentGreen</item>
+    </style>
+
+    <!-- 默认主题 -->
+    <style name="Theme.AboutActivity.Brown" parent="Theme.AboutActivity">
+        <item name="colorPrimary">@color/colorPrimaryBrown</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBrown</item>
+        <item name="colorAccent">@color/colorAccentBrown</item>
+    </style>
+
+    <style name="Theme.AboutActivity.Black" parent="Theme.AboutActivity">
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlack</item>
+        <item name="colorAccent">@color/colorAccentBlack</item>
     </style>
 
 
