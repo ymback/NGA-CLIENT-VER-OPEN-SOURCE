@@ -16,13 +16,14 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
+import sp.phone.theme.ThemeManager;
 import sp.phone.util.FunctionUtils;
 
 public class AboutActivity extends MaterialAboutActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setTheme(R.style.Theme_AboutActivity_Green);
+        ThemeManager.getInstance().applyAboutTheme(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -51,7 +52,7 @@ public class AboutActivity extends MaterialAboutActivity {
                         intent.setData(Uri.parse(url));
                         startActivity(intent);
                     } catch (ActivityNotFoundException e) {
-                        startExternalBrowser("https://www.coolapk.com/apk/gov.anzong.androidnga");
+                        FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://www.coolapk.com/apk/gov.anzong.androidnga");
                     }
                 })
                 .build());
@@ -89,7 +90,7 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Github")
                 .subText("bug & 建议")
-                .setOnClickAction(() -> startExternalBrowser("https://github.com/ymback/NGA-CLIENT-VER-OPEN-SOURCE/issues"))
+                .setOnClickAction(() -> FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://github.com/ymback/NGA-CLIENT-VER-OPEN-SOURCE/issues"))
                 .icon(R.drawable.ic_github)
                 .build());
 
@@ -110,15 +111,9 @@ public class AboutActivity extends MaterialAboutActivity {
         return builder.build();
     }
 
-    private void startExternalBrowser(String url) {
-        Intent intent = new Intent("android.intent.action.VIEW");
-        intent.setData(Uri.parse(url));
-        startActivity(intent);
-    }
-
     @Nullable
     @Override
     protected CharSequence getActivityTitle() {
-        return "关于";
+        return getString(R.string.title_about);
     }
 }

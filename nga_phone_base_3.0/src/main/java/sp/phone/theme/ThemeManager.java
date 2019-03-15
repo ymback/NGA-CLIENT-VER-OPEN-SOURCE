@@ -1,5 +1,6 @@
 package sp.phone.theme;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.ColorInt;
@@ -8,8 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.ApplicationContextHolder;
 import gov.anzong.androidnga.base.common.PreferenceKey;
+import sp.phone.common.ApplicationContextHolder;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -112,5 +113,13 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     public int getTheme(boolean toolbarEnabled) {
         int index = isNightMode() ? 0 : mThemeIndex;
         return toolbarEnabled ? mAppThemes[index] : mAppThemesActionBar[index];
+    }
+
+    public void applyAboutTheme(Activity activity) {
+        activity.setTheme(ThemeConstants.THEME_ACTIVITY_ABOUT[mThemeIndex]);
+    }
+
+    public void applyTheme(Activity activity) {
+
     }
 }
