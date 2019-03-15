@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.mahang.utils.LogUtils;
+
 /**
  * Created by Justwen on 2018/2/16.
  */
@@ -57,6 +59,15 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment impleme
     public void onClick(View v) {
         if (onPositiveClick()) {
             dismiss();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        try {
+            super.onStart();
+        } catch (IllegalStateException e) {
+            LogUtils.d(e.getMessage());
         }
     }
 }

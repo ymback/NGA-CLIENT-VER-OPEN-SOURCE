@@ -94,6 +94,9 @@ public class ImageZoomActivity extends BaseActivity {
             mGalleryUrls[0] = curUrl;
         }
         mPageIndex = Arrays.asList(mGalleryUrls).indexOf(curUrl);
+        if (mPageIndex < 0) {
+            mPageIndex = 0;
+        }
         mDownloadResults = new SaveImageTask.DownloadResult[mGalleryUrls.length];
     }
 
