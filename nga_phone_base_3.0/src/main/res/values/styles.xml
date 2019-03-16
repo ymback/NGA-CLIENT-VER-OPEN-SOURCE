@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="AppThemeDayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:textColor">@color/text_color_selector</item>
@@ -47,9 +47,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.AboutActivity" parent="Theme.Mal.Light.DarkActionBar">
+    <style name="Theme.AboutActivity" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/material_window_background</item>
-        <item name="mal_card_background">@android:color/background_light</item>
+        <item name="mal_card_background">@color/material_card_background</item>
+        <item name="mal_toolbarTheme">@style/Theme.Mal.Toolbar.Dark</item>
+        <item name="mal_toolbarPopupTheme">@style/Theme.Mal.Toolbar.Light</item>
+        <item name="mal_color_primary">@color/material_title_color</item>
+        <item name="mal_color_secondary">@color/material_sub_title_color</item>
     </style>
 
     <style name="Theme.AboutActivity.Green" parent="Theme.AboutActivity">

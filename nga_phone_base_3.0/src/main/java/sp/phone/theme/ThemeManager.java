@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.TypedValue;
 
 import gov.anzong.androidnga.R;
@@ -115,8 +117,9 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         return toolbarEnabled ? mAppThemes[index] : mAppThemesActionBar[index];
     }
 
-    public void applyAboutTheme(Activity activity) {
-        activity.setTheme(ThemeConstants.THEME_ACTIVITY_ABOUT[mThemeIndex]);
+    public void applyAboutTheme(AppCompatActivity activity) {
+        activity.setTheme(ThemeConstants.THEME_ACTIVITY_ABOUT[isNightMode() ? 0 : mThemeIndex]);
+        activity.getDelegate().setLocalNightMode(isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     public void applyTheme(Activity activity) {
