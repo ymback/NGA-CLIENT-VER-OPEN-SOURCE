@@ -34,4 +34,5 @@
     <color name="topic_content_btn_color">#FF858585</color>
 
     <color name="material_window_background">#FFF4F4F4</color>
+    <color name="material_icon_color">#FF727473</color>
 </resources>

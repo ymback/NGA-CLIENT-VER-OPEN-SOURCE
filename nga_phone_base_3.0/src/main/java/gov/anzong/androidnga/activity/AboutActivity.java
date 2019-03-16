@@ -78,13 +78,13 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("代码")
                 .subText("[@竹井詩織里]/[@cfan8]/[@jjimmys]\n[@Moandor]/[@Elrond]/[@Justwen]")
-                .icon(R.drawable.ic_code_black_24dp)
+                .icon(R.drawable.ic_code)
                 .build());
 
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("美工")
                 .subText("[@那个惩戒骑]/[@从来不卖萌]")
-                .icon(R.drawable.ic_code_black_24dp)
+                .icon(R.drawable.ic_color_lens)
                 .build());
 
         builder.addItem(new MaterialAboutActionItem.Builder()
@@ -105,7 +105,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .text("客户端吐槽QQ群,欢迎加入捡肥皂")
                 .subText("172503242")
                 .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "172503242"))
-                .icon(R.drawable.ic_github)
+                .icon(R.drawable.ic_qq)
                 .build());
 
         return builder.build();
