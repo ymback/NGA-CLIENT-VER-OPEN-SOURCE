@@ -6,7 +6,7 @@ public class ThemeConstants {
 
     public static final int[] THEME_ACTIVITY_ABOUT = {
             R.style.Theme_AboutActivity_Brown,
-            R.style.Theme_AboutActivity_Brown,
+            R.style.Theme_AboutActivity_Green,
             R.style.Theme_AboutActivity_Black,
     };
 }
