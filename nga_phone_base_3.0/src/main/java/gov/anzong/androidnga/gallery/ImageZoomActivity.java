@@ -20,6 +20,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.io.File;
 import java.util.Arrays;
 
+import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.listener.OnSimpleHttpCallBack;
@@ -146,7 +147,7 @@ public class ImageZoomActivity extends BaseActivity {
     private void share(File file) {
         if (DeviceUtils.isGreaterEqual_7_0()) {
             Uri contentUri = FileProvider.getUriForFile(this,
-                    "gov.anzong.androidnga", file);
+                    BuildConfig.APPLICATION_ID, file);
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_STREAM, contentUri);
             intent.setType("image/jpeg");
