@@ -58,4 +58,8 @@ public class ToastUtils {
                 .show();
     }
 
+    public static void warn(String text) {
+        Toasty.warning(ContextUtils.getContext(), text).show();
+    }
+
 }

@@ -2,9 +2,12 @@ package gov.anzong.androidnga.base.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -44,4 +47,17 @@ public class ContextUtils {
     public static String getString(@StringRes int id) {
         return sContext.getString(id);
     }
+
+    public static int getDimension(@DimenRes int id) {
+        return sContext.getResources().getDimensionPixelSize(id);
+    }
+
+    public static SharedPreferences getDefaultSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(sContext);
+    }
+
+    public static SharedPreferences getSharedPreferences(String name) {
+        return sContext.getSharedPreferences(name, Context.MODE_PRIVATE);
+    }
+
 }
