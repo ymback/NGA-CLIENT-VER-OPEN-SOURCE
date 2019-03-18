@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.widget.TabLayoutEx;
 import io.reactivex.annotations.NonNull;
 import sp.phone.adapter.ArticlePagerAdapter;
 import sp.phone.common.PhoneConfiguration;
@@ -60,7 +60,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     private ArticleListParam mRequestParam;
 
     @BindView(R.id.tabs)
-    public TabLayout mTabLayout;
+    public TabLayoutEx mTabLayout;
 
     private static final String GOTO_TAG = "goto";
 
@@ -90,12 +90,9 @@ public class ArticleTabFragment extends BaseRxFragment {
                     count++;
                 }
                 if (count > mPagerAdapter.getCount()) {
-                    if (count <= 5) {
-                        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-                    } else {
-                        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                    }
                     mPagerAdapter.setCount(count);
+                    mTabLayout.setTabOnScreenLimit(count <= 5 ? count : 0);
+                    mTabLayout.notifyDataSetChanged();
                 }
                 break;
             default:
@@ -128,8 +125,8 @@ public class ArticleTabFragment extends BaseRxFragment {
             }
         });
 
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabOnScreenLimit(1);
+        mTabLayout.setUpWithViewPager(mViewPager);
 
         mFam.getAddFloatingActionButton().setOnLongClickListener(v -> {
             mBehavior.animateOut(mFam);

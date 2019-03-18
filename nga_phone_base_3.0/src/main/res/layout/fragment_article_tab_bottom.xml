@@ -69,7 +69,7 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <android.support.design.widget.TabLayout
+    <gov.anzong.androidnga.base.widget.TabLayoutEx
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="@dimen/article_list_tab_height"
