@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.ApplicationContextHolder;
-import gov.anzong.androidnga.base.common.PreferenceKey;
+import sp.phone.common.PreferenceKey;
 
 /**
  * Created by Justwen on 2018/7/2.

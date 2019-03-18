@@ -20,7 +20,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.adapter.SearchHistoryAdapter;
-import gov.anzong.androidnga.base.common.PreferenceKey;
+import sp.phone.common.PreferenceKey;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.task.SearchBoardTask;
 import sp.phone.util.ActivityUtils;

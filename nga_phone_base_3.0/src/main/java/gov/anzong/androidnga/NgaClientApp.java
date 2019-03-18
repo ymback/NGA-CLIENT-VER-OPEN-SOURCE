@@ -10,7 +10,7 @@ import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.FilterKeywordsManagerImpl;
-import gov.anzong.androidnga.base.common.PreferenceKey;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.debug.BlockCanaryWatcher;
 import sp.phone.debug.LeakCanaryWatcher;

@@ -12,7 +12,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import sp.phone.common.ApplicationContextHolder;
-import gov.anzong.androidnga.base.common.PreferenceKey;
+import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.retrofit.converter.JsonStringConvertFactory;
 import sp.phone.util.ForumUtils;

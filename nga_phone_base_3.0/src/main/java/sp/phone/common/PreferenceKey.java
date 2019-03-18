@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.base.common;
+package sp.phone.common;
 
 public interface PreferenceKey {
 

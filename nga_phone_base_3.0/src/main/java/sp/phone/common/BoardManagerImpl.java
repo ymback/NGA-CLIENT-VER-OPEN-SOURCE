@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.base.common.PreferenceKey;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 

@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.PhoneConfiguration;
-import gov.anzong.androidnga.base.common.PreferenceKey;
+import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ImageUtils;
 

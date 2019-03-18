@@ -1,29 +1,35 @@
 package gov.anzong.androidnga.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.base.activity.SwipeBackActivity;
+import gov.anzong.androidnga.base.common.SwipeBackHelper;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
 
 /**
  * Created by liuboyu on 16/6/28.
  */
-public abstract class BaseActivity extends SwipeBackActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected PhoneConfiguration mConfig;
 
     private boolean mToolbarEnabled;
 
     private boolean mHardwareAcceleratedEnabled = true;
+
+    private SwipeBackHelper mSwipeBackHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,10 +39,40 @@ public abstract class BaseActivity extends SwipeBackActivity {
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
+        setSwipeBackEnable(getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, false));
         onCreateBeforeSuper(savedInstanceState);
         super.onCreate(savedInstanceState);
-        ThemeManager.getInstance().initializeWebTheme(this);
         onCreateAfterSuper(savedInstanceState);
+        ThemeManager.getInstance().initializeWebTheme(this);
+
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.onCreate(this);
+        }
+    }
+
+    protected void setSwipeBackEnable(boolean enable) {
+        if (!enable) {
+            mSwipeBackHelper = null;
+        } else if (mSwipeBackHelper == null) {
+            mSwipeBackHelper = new SwipeBackHelper();
+        }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.onPostCreate();
+        }
+    }
+
+    @Override
+    public <T extends View> T findViewById(int id) {
+        T t = super.findViewById(id);
+        if (t == null && mSwipeBackHelper != null) {
+            t = mSwipeBackHelper.findViewById(id);
+        }
+        return t;
     }
 
     protected void onCreateBeforeSuper(@Nullable Bundle savedInstanceState) {
