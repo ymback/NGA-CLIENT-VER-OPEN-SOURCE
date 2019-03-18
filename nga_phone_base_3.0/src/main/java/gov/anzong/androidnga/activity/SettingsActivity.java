@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 
+import gov.anzong.androidnga.base.util.ThemeUtils;
 import sp.phone.fragment.SettingsFragment;
 
 public class SettingsActivity extends BaseActivity {
@@ -26,6 +27,7 @@ public class SettingsActivity extends BaseActivity {
             View contentView = findViewById(android.R.id.content);
             contentView.post(() -> startAnimation(contentView));
             mRecreated = false;
+            ThemeUtils.init(this);
         }
     }
 

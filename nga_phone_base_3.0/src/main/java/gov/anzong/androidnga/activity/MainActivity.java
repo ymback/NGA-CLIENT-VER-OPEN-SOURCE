@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.ThemeUtils;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ParamKey;
@@ -39,6 +40,7 @@ public class MainActivity extends BaseActivity {
         setToolbarEnabled(true);
         setSwipeBackEnable(false);
         super.onCreate(savedInstanceState);
+        ThemeUtils.init(this);
         checkPermission();
         checkNewVersion();
         initView();

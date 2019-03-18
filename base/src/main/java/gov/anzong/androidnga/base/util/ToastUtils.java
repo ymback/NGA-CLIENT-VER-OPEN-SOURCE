@@ -45,7 +45,7 @@ public class ToastUtils {
 
     public static void success(String text) {
         Toasty.custom(ContextUtils.getContext(), text, ContextUtils.getDrawable(es.dmoral.toasty.R.drawable.ic_check_white_24dp),
-                Color.parseColor("#FF128F80"), Color.WHITE, Toast.LENGTH_SHORT, true, true)
+                ThemeUtils.getAccentColor(), Color.WHITE, Toast.LENGTH_SHORT, true, true)
                 .show();
     }
 
@@ -54,7 +54,7 @@ public class ToastUtils {
     }
 
     public static void info(String text) {
-        Toasty.custom(ContextUtils.getContext(), text, null, Color.parseColor("#FF128F80"), Color.WHITE, Toast.LENGTH_SHORT, false, false)
+        Toasty.custom(ContextUtils.getContext(), text, null, ThemeUtils.getAccentColor(), Color.WHITE, Toast.LENGTH_SHORT, false, false)
                 .show();
     }
 

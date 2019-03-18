@@ -5,7 +5,7 @@ import android.graphics.Color;
 
 import net.steamcrafted.loadtoast.LoadToast;
 
-import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.ThemeUtils;
 
 public class ProgressBarEx {
 
@@ -13,7 +13,7 @@ public class ProgressBarEx {
 
     public ProgressBarEx(Activity activity) {
         mLoadToast = new LoadToast(activity);
-        mLoadToast.setBackgroundColor(ContextUtils.getPrimaryColor(activity));
+        mLoadToast.setBackgroundColor(ThemeUtils.getAccentColor());
         mLoadToast.setTextColor(Color.WHITE);
         mLoadToast.setTranslationY(activity.getResources().getDisplayMetrics().heightPixels * 3 / 4);
     }
