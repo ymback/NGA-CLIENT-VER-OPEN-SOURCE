@@ -2,7 +2,6 @@ package sp.phone.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.widget.ProgressBarEx;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.presenter.TopicPostPresenter;
@@ -33,7 +33,7 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
 
     private EditText mBodyEditText;
 
-    private ProgressDialog mProgressDialog;
+    private ProgressBarEx mProgressBar;
 
     private EditText mTitleEditText;
 
@@ -162,21 +162,18 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
         startActivityForResult(intent, REQUEST_CODE_SELECT_PIC);
     }
 
+
     @Override
     public void showUploadFileProgressBar() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getContext());
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage("上传文件中......");
-            mProgressDialog.setProgressStyle(0);
-            mProgressDialog.setIndeterminate(true);
+        if (mProgressBar == null) {
+            mProgressBar = new ProgressBarEx(getActivity());
         }
-        mProgressDialog.show();
+        mProgressBar.show("上传文件中......");
     }
 
     @Override
     public void hideUploadFileProgressBar() {
-        mProgressDialog.dismiss();
+        mProgressBar.hide();
     }
 
     @Override

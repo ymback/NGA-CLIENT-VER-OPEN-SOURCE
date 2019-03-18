@@ -1,0 +1,61 @@
+package gov.anzong.androidnga.base.util;
+
+import android.graphics.Color;
+import android.support.annotation.StringRes;
+import android.widget.Toast;
+
+import es.dmoral.toasty.Toasty;
+
+/**
+ * Created by Justwen on 2018/8/11.
+ */
+public class ToastUtils {
+
+    @Deprecated
+    public static void showShortToast(String text) {
+        info(text);
+    }
+
+    @Deprecated
+    public static void showShortToast(@StringRes int strId) {
+        showShortToast(ContextUtils.getString(strId));
+    }
+
+    @Deprecated
+    public static void showToast(String text) {
+        showShortToast(text);
+    }
+
+    @Deprecated
+    public static void showToast(@StringRes int strId) {
+        showShortToast(strId);
+    }
+
+    public static void success(@StringRes int id) {
+        success(ContextUtils.getString(id));
+    }
+
+    public static void error(@StringRes int id) {
+        error(ContextUtils.getString(id));
+    }
+
+    public static void info(@StringRes int id) {
+        info(ContextUtils.getString(id));
+    }
+
+    public static void success(String text) {
+        Toasty.custom(ContextUtils.getContext(), text, ContextUtils.getDrawable(es.dmoral.toasty.R.drawable.ic_check_white_24dp),
+                Color.parseColor("#FF128F80"), Color.WHITE, Toast.LENGTH_SHORT, true, true)
+                .show();
+    }
+
+    public static void error(String text) {
+        Toasty.error(ContextUtils.getContext(), text).show();
+    }
+
+    public static void info(String text) {
+        Toasty.custom(ContextUtils.getContext(), text, null, Color.parseColor("#FF128F80"), Color.WHITE, Toast.LENGTH_SHORT, false, false)
+                .show();
+    }
+
+}

@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.PermissionUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.forumoperation.PostParam;
@@ -27,7 +29,6 @@ import sp.phone.mvp.model.TopicPostModel;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
-import gov.anzong.androidnga.base.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 
 public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPostModel>
@@ -145,14 +146,14 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
             public void onError(String text) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
-                    ActivityUtils.showToast(text);
+                    ToastUtils.error(text);
                 }
             }
 
             public void onSuccess(String data) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
-                    ActivityUtils.showToast("上传成功");
+                    ToastUtils.success("上传成功");
                     finishUpload(data, uri);
                 }
             }

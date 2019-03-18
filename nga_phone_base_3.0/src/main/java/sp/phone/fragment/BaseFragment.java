@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.debug.LeakCanaryWatcher;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.util.ActivityUtils;
@@ -31,22 +32,15 @@ public abstract class BaseFragment extends Fragment {
 
     private CharSequence mTitleStr;
 
+    @Deprecated
     public void showToast(int res) {
         String str = getString(res);
         showToast(str);
     }
 
+    @Deprecated
     public void showToast(String res) {
-        if (mActivity == null) {
-            return;
-        }
-        if (mToast != null) {
-            mToast.setText(res);
-            mToast.setDuration(Toast.LENGTH_SHORT);
-        } else {
-            mToast = Toast.makeText(mActivity, res, Toast.LENGTH_SHORT);
-        }
-        mToast.show();
+        ToastUtils.info(res);
     }
 
     public void finish() {

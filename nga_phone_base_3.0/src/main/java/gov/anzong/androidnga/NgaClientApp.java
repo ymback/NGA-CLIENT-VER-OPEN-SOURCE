@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
+import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.FilterKeywordsManagerImpl;
@@ -26,6 +27,7 @@ public class NgaClientApp extends Application {
     public void onCreate() {
         NLog.w(TAG, "app nga android start");
         ApplicationContextHolder.setContext(this);
+        ContextUtils.setContext(this);
         LeakCanaryWatcher.initialize(this);
         BlockCanaryWatcher.startWatching(this);
         checkNewVersion();

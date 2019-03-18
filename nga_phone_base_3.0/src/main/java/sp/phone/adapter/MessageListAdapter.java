@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.bean.MessageListInfo;
 import sp.phone.bean.MessageThreadPageInfo;
 import sp.phone.bean.MessageListInfo;
@@ -83,7 +84,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         if (position + 1 == getItemCount()
                 && !hasNextPage()
                 && !mPrompted) {
-            Toast.makeText(mContext, R.string.last_page_prompt_message, Toast.LENGTH_SHORT).show();
+            ToastUtils.showShortToast(R.string.last_page_prompt_message);
             mPrompted = true;
         }
     }
