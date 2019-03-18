@@ -1,5 +1,6 @@
 package gov.anzong.androidnga.activity;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class SettingsActivity extends BaseActivity {
             contentView.post(() -> startAnimation(contentView));
             mRecreated = false;
             ThemeUtils.init(this);
+            setResult(Activity.RESULT_OK);
         }
     }
 
