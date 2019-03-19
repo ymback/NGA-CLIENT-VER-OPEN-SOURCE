@@ -3,6 +3,7 @@ package gov.anzong.androidnga.base.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
@@ -40,6 +41,10 @@ public class ContextUtils {
 
     public static int getDimension(@DimenRes int id) {
         return sContext.getResources().getDimensionPixelSize(id);
+    }
+
+    public static Resources getResources() {
+        return sContext.getResources();
     }
 
     public static SharedPreferences getDefaultSharedPreferences() {

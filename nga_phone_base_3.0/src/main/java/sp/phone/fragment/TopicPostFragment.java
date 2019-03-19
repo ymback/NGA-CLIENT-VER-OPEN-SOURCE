@@ -166,7 +166,7 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
     @Override
     public void showUploadFileProgressBar() {
         if (mProgressBar == null) {
-            mProgressBar = new ProgressBarEx(getActivity());
+            mProgressBar = new ProgressBarEx(this);
         }
         mProgressBar.show("上传文件中......");
     }
