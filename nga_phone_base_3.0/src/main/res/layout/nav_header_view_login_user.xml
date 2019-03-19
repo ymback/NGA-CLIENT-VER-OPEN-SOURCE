@@ -50,6 +50,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
+        android:padding="8dp"
         android:background="@drawable/ic_action_next_item"
         android:contentDescription="@string/avatar"
         android:focusable="false"
