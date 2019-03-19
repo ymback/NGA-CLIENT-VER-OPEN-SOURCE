@@ -1,5 +1,6 @@
 package sp.phone.mvp.presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
@@ -15,6 +17,8 @@ import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.contract.BoardContract;
+import sp.phone.util.ARouterUtils;
+import sp.phone.util.ActivityUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
@@ -154,6 +158,19 @@ public class BoardPresenter implements BoardContract.Presenter {
     public void clearRecentBoards() {
         mBoardManager.removeAllBookmarks();
         mView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void startUserProfile(String userName) {
+        ARouterUtils.build(ARouterConstants.ACTIVITY_PROFILE)
+                .withString("mode", "username")
+                .withString("username", userName)
+                .navigation(mView.getContext());
+    }
+
+    @Override
+    public void startLogin() {
+        ARouterUtils.build(ARouterConstants.ACTIVITY_LOGIN).navigation((Activity) mView.getContext(), ActivityUtils.REQUEST_CODE_LOGIN);
     }
 
 }

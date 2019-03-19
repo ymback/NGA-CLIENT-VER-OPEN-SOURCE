@@ -21,6 +21,7 @@ import gov.anzong.androidnga.base.util.ThemeUtils;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ParamKey;
+import sp.phone.fragment.BaseFragment;
 import sp.phone.fragment.BoardFragment;
 import sp.phone.fragment.dialog.AboutClientDialogFragment;
 import sp.phone.fragment.dialog.UrlInputDialogFragment;
@@ -34,6 +35,8 @@ import gov.anzong.androidnga.base.util.PermissionUtils;
 public class MainActivity extends BaseActivity {
 
     private boolean mIsNightMode;
+
+    private BaseFragment mBoardFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +80,12 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(BoardFragment.class.getSimpleName());
-        if (fragment == null) {
-            fragment = new BoardFragment();
-            fm.beginTransaction().replace(android.R.id.content, fragment, BoardFragment.class.getSimpleName()).commit();
+        mBoardFragment = (BaseFragment) fm.findFragmentByTag(BoardFragment.class.getSimpleName());
+        if (mBoardFragment== null) {
+            mBoardFragment = new BoardFragment();
+            fm.beginTransaction().replace(android.R.id.content, mBoardFragment, BoardFragment.class.getSimpleName()).commit();
         }
-        new BoardPresenter((BoardContract.View) fragment);
+        new BoardPresenter((BoardContract.View) mBoardFragment);
     }
 
     @Override
@@ -156,7 +159,7 @@ public class MainActivity extends BaseActivity {
         if (requestCode == ActivityUtils.REQUEST_CODE_SETTING && resultCode == Activity.RESULT_OK) {
             recreate();
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            mBoardFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

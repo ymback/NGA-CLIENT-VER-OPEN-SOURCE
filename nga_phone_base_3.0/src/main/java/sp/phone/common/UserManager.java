@@ -9,6 +9,8 @@ import sp.phone.bean.ThreadData;
 
 public interface UserManager {
 
+    int getUserSize();
+
     User getActiveUser();
 
     void initialize(Context context);

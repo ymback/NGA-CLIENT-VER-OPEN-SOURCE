@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="7dp"
-            android:textColor="@color/toolbar_text_color"
-            android:text="已登入" />
+            android:text="已登入"
+            android:textColor="@color/toolbar_text_color" />
 
         <TextView
             android:id="@+id/loginnameandid"
@@ -38,22 +38,21 @@
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/toolbar_text_color"
-            android:text="竹井詩織里(58)" />
+            android:text="竹井詩織里(58)"
+            android:textColor="@color/toolbar_text_color" />
 
     </LinearLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/nextImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/ic_action_next_item"
-        android:clickable="false"
         android:layout_marginRight="8dp"
+        android:background="@drawable/ic_action_next_item"
         android:contentDescription="@string/avatar"
         android:focusable="false"
-        android:longClickable="false" />
+        android:src="@drawable/ic_action_next_item" />
 
 </RelativeLayout>

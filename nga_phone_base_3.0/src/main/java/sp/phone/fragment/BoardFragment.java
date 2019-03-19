@@ -19,27 +19,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-
-import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.widget.ViewFlipperEx;
 import sp.phone.adapter.BoardPagerAdapter;
+import sp.phone.adapter.FlipperUserAdapter;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
-import sp.phone.common.User;
-import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.AddBoardDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.ImageUtils;
 
 
 /**
@@ -53,7 +48,7 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     private ViewPager mViewPager;
 
-    private ViewFlipper mHeaderView;
+    private ViewFlipperEx mHeaderView;
 
     private TextView mReplyCountView;
 
@@ -123,20 +118,11 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     @Override
     public void updateHeaderView() {
-        mHeaderView.removeAllViews();
-        UserManager um = UserManagerImpl.getInstance();
-        final List<User> userList = um.getUserList();
-        if (userList.isEmpty()) {
-            mHeaderView.addView(getUserView(null, 0));
-        } else {
-            for (int i = 0; i < userList.size(); i++) {
-                mHeaderView.addView(getUserView(userList, i));
-            }
-            mHeaderView.setDisplayedChild(um.getActiveUserIndex());
-        }
-        mHeaderView.setOnClickListener(v -> mPresenter.toggleUser(userList));
+        FlipperUserAdapter adapter = new FlipperUserAdapter(mPresenter);
+        mHeaderView.setAdapter(adapter);
         mHeaderView.setInAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_in));
         mHeaderView.setOutAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.right_out));
+        mHeaderView.setDisplayedChild(UserManagerImpl.getInstance().getActiveUserIndex());
     }
 
     @Override
@@ -197,43 +183,10 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ActivityUtils.REQUEST_CODE_LOGIN && resultCode == Activity.RESULT_OK) {
-            updateHeaderView();
+        if (requestCode == ActivityUtils.REQUEST_CODE_LOGIN && resultCode == Activity.RESULT_OK || requestCode == ActivityUtils.REQUEST_CODE_SETTING) {
+            mHeaderView.getAdapter().notifyDataSetChanged();
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private View getUserView(List<User> userList, int position) {
-        View userView = getLayoutInflater().inflate(R.layout.nav_header_view_login_user, null);
-        TextView loginState = userView.findViewById(R.id.loginstate);
-        TextView loginId = userView.findViewById(R.id.loginnameandid);
-        ImageView avatarImage = userView.findViewById(R.id.avatarImage);
-        ImageView nextImage = userView.findViewById(R.id.nextImage);
-        if (userList == null) {
-            loginState.setText("未登录");
-            loginId.setText("点击下面的登录账号登录");
-            nextImage.setVisibility(View.GONE);
-        } else {
-            if (userList.size() <= 1) {
-                nextImage.setVisibility(View.GONE);
-            }
-            if (userList.size() == 1) {
-                loginState.setText("已登录1个账户");
-            } else {
-                loginState.setText(String.format("已登录%s", String.valueOf(userList.size() + "个账户,点击切换")));
-            }
-            if (!userList.isEmpty()) {
-                User user = userList.get(position);
-                loginId.setText(String.format("当前:%s(%s)", user.getNickName(), user.getUserId()));
-                handleUserAvatar(avatarImage, user.getAvatarUrl());
-            }
-        }
-        return userView;
-    }
-
-    public void handleUserAvatar(ImageView avatarIV, String url) {
-        avatarIV.setImageTintList(null);
-        ImageUtils.loadRoundCornerAvatar(avatarIV, url);
     }
 
     @Override
@@ -248,10 +201,6 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
             mBoardPagerAdapter.notifyDataSetChanged();
         }
         setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT, 0));
-
-        if (mHeaderView != null) {
-            updateHeaderView();
-        }
         super.onResume();
     }
 

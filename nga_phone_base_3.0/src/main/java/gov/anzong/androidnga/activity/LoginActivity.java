@@ -1,5 +1,6 @@
 package gov.anzong.androidnga.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
@@ -31,5 +32,11 @@ public class LoginActivity extends BaseActivity {
         if (!mLoginFragment.onBackPressed()) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void finish() {
+        setResult(Activity.RESULT_OK);
+        super.finish();
     }
 }

@@ -291,6 +291,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public int getUserSize() {
+        return mUserList == null ? 0 : mUserList.size();
+    }
+
+    @Override
     public boolean checkBlackList(String authorId) {
         for (User user : mBlackList) {
             if (user.getUserId().equals(authorId)) {

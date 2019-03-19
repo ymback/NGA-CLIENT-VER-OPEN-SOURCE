@@ -26,6 +26,10 @@ public interface BoardContract {
 
         void clearRecentBoards();
 
+        void startUserProfile(String userName);
+
+        void startLogin();
+
     }
 
     interface View extends sp.phone.mvp.contract.tmp.BaseContract.View<Presenter> {
