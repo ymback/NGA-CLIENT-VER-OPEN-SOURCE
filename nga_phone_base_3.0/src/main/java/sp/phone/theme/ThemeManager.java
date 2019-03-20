@@ -58,7 +58,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         sp.registerOnSharedPreferenceChangeListener(this);
         mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
-        mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0"));
+        mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "1"));
     }
 
     public static ThemeManager getInstance() {
