@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,14 +77,14 @@ public class FlipperUserAdapter extends RecyclerView.Adapter<FlipperUserAdapter.
 
         ImageView avatarImage;
 
-        ImageButton nextImage;
+        ImageView nextImage;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
-            loginState = itemView.findViewById(R.id.loginstate);
-            loginId = itemView.findViewById(R.id.loginnameandid);
-            avatarImage = itemView.findViewById(R.id.avatarImage);
-            nextImage = itemView.findViewById(R.id.nextImage);
+            loginState = itemView.findViewById(R.id.tv_login_state);
+            loginId = itemView.findViewById(R.id.tv_user_name);
+            avatarImage = itemView.findViewById(R.id.iv_avatar);
+            nextImage = itemView.findViewById(R.id.iv_next);
         }
     }
 }
