@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.widget.DividerItemDecorationEx;
 import sp.phone.adapter.BaseAppendableAdapter;
 import sp.phone.adapter.ReplyListAdapter;
 import sp.phone.adapter.TopicListAdapter;
@@ -34,7 +36,6 @@ import sp.phone.mvp.presenter.TopicListPresenter;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
-import sp.phone.util.NLog;
 
 public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
 
@@ -92,7 +93,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
             }
         } else if (mRequestParam.recommend == 1) {
             setTitle(mRequestParam.title + " - 精华区");
-        } else if (mRequestParam.twentyfour == 1){
+        } else if (mRequestParam.twentyfour == 1) {
             setTitle(mRequestParam.title + " - 24小时热帖");
         } else if (!TextUtils.isEmpty(mRequestParam.title)) {
             setTitle(mRequestParam.title);
@@ -132,6 +133,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
         });
         mListView.setEmptyView(view.findViewById(R.id.empty_view));
         mListView.setAdapter(mAdapter);
+        mListView.addItemDecoration(new DividerItemDecorationEx(view.getContext(), ContextUtils.getDimension(R.dimen.topic_list_item_padding), DividerItemDecoration.VERTICAL));
 
         mSwipeRefreshLayout.setVisibility(View.GONE);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

@@ -20,5 +20,8 @@
     <dimen name="material_standard_half">4dp</dimen>
     <dimen name="material_standard_double">16dp</dimen>
 
+    <dimen name="topic_list_item_padding">12dp</dimen>
+    <dimen name="topic_list_item_sub_text_size">12dp</dimen>
+
 
 </resources>

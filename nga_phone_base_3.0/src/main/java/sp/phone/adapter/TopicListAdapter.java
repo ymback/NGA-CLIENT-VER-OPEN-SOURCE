@@ -68,7 +68,7 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
         holder.itemView.setTag(info);
 
         if (!mThemeManager.isNightMode()) {
-            holder.itemView.setBackgroundResource(mThemeManager.getBackgroundColor(position));
+          //  holder.itemView.setBackgroundResource(mThemeManager.getBackgroundColor(position));
         }
         handleJsonList(holder, info);
     }

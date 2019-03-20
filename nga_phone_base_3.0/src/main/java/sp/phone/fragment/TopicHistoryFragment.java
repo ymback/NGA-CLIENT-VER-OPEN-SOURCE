@@ -1,8 +1,10 @@
 package sp.phone.fragment;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -16,6 +18,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.widget.DividerItemDecorationEx;
 import sp.phone.adapter.TopicListAdapter;
 import sp.phone.common.TopicHistoryManager;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
@@ -63,6 +67,7 @@ public class TopicHistoryFragment extends BaseFragment implements View.OnClickLi
         mListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mListView.setEmptyView(view.findViewById(R.id.empty_view));
         mListView.setAdapter(mTopicListAdapter);
+        mListView.addItemDecoration(new DividerItemDecorationEx(view.getContext(), ContextUtils.getDimension(R.dimen.topic_list_item_padding), DividerItemDecoration.VERTICAL));
 
         super.onViewCreated(view, savedInstanceState);
         ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
