@@ -10,7 +10,6 @@
         android:id="@id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FF545454"
         android:textIsSelectable="false"
         android:textSize="17.0sp" />
 
@@ -18,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom|end"
-        android:paddingTop="8dp">
+        android:paddingTop="12dp">
 
         <ImageView
             android:id="@+id/iv_person"
