@@ -142,7 +142,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item, parent, false);
         ArticleViewHolder viewHolder = new ArticleViewHolder(view);
         ViewGroup.LayoutParams lp = viewHolder.avatarIv.getLayoutParams();
-        lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarWidth();
+        lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarSize();
         viewHolder.contentTV.setLocalMode();
         RxUtils.clicks(viewHolder.nickNameTV, mOnProfileClickListener);
         RxUtils.clicks(viewHolder.replyBtn, mOnReplyClickListener);

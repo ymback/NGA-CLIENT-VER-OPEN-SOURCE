@@ -3,6 +3,7 @@ package sp.phone.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
     @Override
     public TopicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         TopicViewHolder viewHolder = new TopicViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_topic, parent, false));
-        viewHolder.title.setTextSize(PhoneConfiguration.getInstance().getTopicTitleSize());
+        viewHolder.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, PhoneConfiguration.getInstance().getTopicTitleSize());
         RxUtils.clicks(viewHolder.itemView, mOnClickListener);
         viewHolder.itemView.setOnLongClickListener(mOnLongClickListener);
         return viewHolder;

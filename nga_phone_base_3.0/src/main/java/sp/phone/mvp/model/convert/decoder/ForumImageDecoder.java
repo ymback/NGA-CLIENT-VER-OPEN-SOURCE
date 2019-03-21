@@ -39,7 +39,7 @@ public class ForumImageDecoder implements IForumDecoder {
             String s1 = m.group(1);
             String path = ExtensionEmotionAdapter.getPathByURI(s1);
             if (path != null) {
-                int emoticonWidth = PhoneConfiguration.getInstance().getEmotionWidth();
+                int emoticonWidth = PhoneConfiguration.getInstance().getEmoticonSize();
                 String newImgBlock = String.format(HTML_EMOTICON, path, emoticonWidth);
                 content = content.replace(s0, newImgBlock)
                         // 移除可点击状态

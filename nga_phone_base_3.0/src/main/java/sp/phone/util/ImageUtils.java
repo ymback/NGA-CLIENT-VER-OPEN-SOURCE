@@ -296,7 +296,7 @@ public class ImageUtils {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
         Bitmap bitmap = BitmapFactory.decodeFile(avatarPath, opts);
-        final int avatarWidth = PhoneConfiguration.getInstance().getAvatarWidth();
+        final int avatarWidth = PhoneConfiguration.getInstance().getAvatarSize();
 
         final int minSideLength = Math.min(avatarWidth, maxHeight);
         opts.inSampleSize = ImageUtils.computeSampleSize(opts, minSideLength,
@@ -333,7 +333,7 @@ public class ImageUtils {
             return null;
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
-        final int avatarWidth = PhoneConfiguration.getInstance().getAvatarWidth();
+        final int avatarWidth = PhoneConfiguration.getInstance().getAvatarSize();
 
         final int minSideLength = Math.min(avatarWidth, maxHeight);
         opts.inSampleSize = ImageUtils.computeSampleSize(opts, minSideLength,

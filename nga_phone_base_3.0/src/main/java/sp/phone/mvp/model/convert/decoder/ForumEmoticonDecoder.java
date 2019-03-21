@@ -156,7 +156,7 @@ public class ForumEmoticonDecoder implements IForumDecoder {
 
     @Override
     public String decode(String content) {
-        int emoticonWidth = PhoneConfiguration.getInstance().getEmotionWidth();
+        int emoticonWidth = PhoneConfiguration.getInstance().getEmoticonSize();
 
         // If it is night mode we attach class field to invert color.
         String localClassField = mThemeManager.isNightMode() ? CLASS_FIELD : "";
