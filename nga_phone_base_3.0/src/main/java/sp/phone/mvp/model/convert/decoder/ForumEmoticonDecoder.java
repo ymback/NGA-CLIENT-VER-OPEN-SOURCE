@@ -158,6 +158,8 @@ public class ForumEmoticonDecoder implements IForumDecoder {
     public String decode(String content) {
         int emoticonWidth = PhoneConfiguration.getInstance().getEmoticonSize();
 
+        String tempContent = content;
+
         // If it is night mode we attach class field to invert color.
         String localClassField = mThemeManager.isNightMode() ? CLASS_FIELD : "";
 
@@ -186,7 +188,9 @@ public class ForumEmoticonDecoder implements IForumDecoder {
                     String.format(HTML_EMOTICON, "dt", IMG_ADD_DT[i], emoticonWidth, localClassField));
         }
 
-        content = INVERT_CSS_HTML + content;
+        if (!tempContent.equals(content)) {
+            content = INVERT_CSS_HTML + content;
+        }
         return content;
     }
 }

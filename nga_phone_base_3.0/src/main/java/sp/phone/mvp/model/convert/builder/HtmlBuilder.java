@@ -3,8 +3,10 @@ package sp.phone.mvp.model.convert.builder;
 import android.text.TextUtils;
 
 import java.util.List;
+import java.util.Locale;
 
 import sp.phone.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.theme.ThemeManager;
 
@@ -22,15 +24,6 @@ public class HtmlBuilder {
         if (row.get_isInBlackList()) {
             return HtmlBlackListBuilder.build();
         }
-        String fgColorStr = getForegroundColorStr();
-        StringBuilder retBuilder = new StringBuilder();
-        retBuilder.append("<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">")
-                .append(HtmlHeaderBuilder.build(row, fgColorStr))
-                .append("<body style=word-break:break-all; ")
-                .append("'>")
-                .append("<font color='#")
-                .append(fgColorStr)
-                .append("' size='2'>");
 
         if (TextUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();
@@ -40,16 +33,32 @@ public class HtmlBuilder {
             ngaHtml = HtmlHideBuilder.build();
         }
 
-        retBuilder.append(ngaHtml)
+        String fgColorStr = getForegroundColorStr();
+        StringBuilder builder = new StringBuilder();
+        builder.append(ngaHtml)
                 .append(HtmlCommentBuilder.build(row, fgColorStr))
                 .append(HtmlAttachmentBuilder.build(row, imageUrls))
                 .append(HtmlSignatureBuilder.build(row))
-                .append(HtmlVoteBuilder.build(row))
-                .append("</font>");
-        if (decodeResult.hasCollapseTag()) {
-            retBuilder.append("<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>");
+                .append(HtmlVoteBuilder.build(row));
+        if (builder.length() == row.getContent().length() && row.getContent().equals(ngaHtml) && TextUtils.isEmpty(row.getSubject())) {
+            row.setContent(row.getContent().replaceAll("<br/>","\n"));
+            return null;
+        } else {
+            int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
+            StringBuilder retBuilder = new StringBuilder();
+            retBuilder.append("<!DOCTYPE html><HTML><HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">")
+                    .append(HtmlHeaderBuilder.build(row, fgColorStr))
+                    .append(String.format(Locale.getDefault(), "<style>body {font-size:%dpx;word-break:break-all;color:#%s }</style>", webTextSize, fgColorStr))
+                    .append("<body>")
+                    .append(builder);
+
+            if (decodeResult.hasCollapseTag()) {
+                retBuilder.append("<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>");
+            }
+            retBuilder.append("</body>");
+            return retBuilder.toString();
         }
-        retBuilder.append("</body>");
-        return retBuilder.toString();
+
+
     }
 }

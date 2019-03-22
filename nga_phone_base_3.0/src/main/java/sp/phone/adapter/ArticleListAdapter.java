@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +115,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         @BindView(R.id.tv_detail)
         TextView detailTv;
 
+        @BindView(R.id.tv_content)
+        TextView contentTextView;
+
         public ArticleViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -149,6 +153,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         RxUtils.clicks(viewHolder.clientIv, mOnClientClickListener);
         RxUtils.clicks(viewHolder.menuIv, mMenuTogglerListener);
         RxUtils.clicks(viewHolder.avatarPanel, mOnAvatarClickListener);
+        viewHolder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, PhoneConfiguration.getInstance().getTopicContentSize());
+       // viewHolder.contentTV.setTextSize(PhoneConfiguration.getInstance().getTopicContentSize());
         return viewHolder;
     }
 
@@ -172,7 +178,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         onBindAvatarView(holder.avatarIv, row);
         onBindDeviceType(holder.clientIv, row);
-        onBindWebView(holder.contentTV, row);
+        onBindContentView(holder, row);
 
         int fgColor = mThemeManager.getAccentColor(mContext);
         FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
@@ -185,11 +191,18 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     }
 
-    private void onBindWebView(WebViewEx webView, ThreadRowInfo row) {
+    private void onBindContentView(ArticleViewHolder holder, ThreadRowInfo row) {
         String html = row.getFormattedHtmlData();
-        webView.setTextSize(PhoneConfiguration.getInstance().getWebSize());
-        webView.getWebViewClientEx().setImgUrls(row.getImageUrls());
-        webView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+        if (html != null) {
+            holder.contentTV.setVisibility(View.VISIBLE);
+            holder.contentTextView.setVisibility(View.GONE);
+            holder.contentTV.getWebViewClientEx().setImgUrls(row.getImageUrls());
+            holder.contentTV.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+        } else {
+            holder.contentTV.setVisibility(View.GONE);
+            holder.contentTextView.setVisibility(View.VISIBLE);
+            holder.contentTextView.setText(row.getContent());
+        }
     }
 
     private void onBindDeviceType(ImageView clientBtn, ThreadRowInfo row) {
