@@ -6,7 +6,6 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,8 +21,7 @@ import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.fragment.BaseFragment;
-import sp.phone.fragment.BoardFragment;
-import sp.phone.fragment.dialog.AboutClientDialogFragment;
+import sp.phone.fragment.NavigationDrawerFragment;
 import sp.phone.fragment.dialog.UrlInputDialogFragment;
 import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
@@ -80,10 +78,10 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         FragmentManager fm = getSupportFragmentManager();
-        mBoardFragment = (BaseFragment) fm.findFragmentByTag(BoardFragment.class.getSimpleName());
+        mBoardFragment = (BaseFragment) fm.findFragmentByTag(NavigationDrawerFragment.class.getSimpleName());
         if (mBoardFragment== null) {
-            mBoardFragment = new BoardFragment();
-            fm.beginTransaction().replace(android.R.id.content, mBoardFragment, BoardFragment.class.getSimpleName()).commit();
+            mBoardFragment = new NavigationDrawerFragment();
+            fm.beginTransaction().replace(android.R.id.content, mBoardFragment, NavigationDrawerFragment.class.getSimpleName()).commit();
         }
         new BoardPresenter((BoardContract.View) mBoardFragment);
     }

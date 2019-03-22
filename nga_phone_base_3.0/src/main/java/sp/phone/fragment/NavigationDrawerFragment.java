@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
@@ -42,7 +43,7 @@ import sp.phone.util.ActivityUtils;
  * Created by Justwen on 2017/6/29.
  */
 
-public class BoardFragment extends BaseFragment implements BoardContract.View, AdapterView.OnItemClickListener {
+public class NavigationDrawerFragment extends BaseFragment implements BoardContract.View, AdapterView.OnItemClickListener {
 
     private BoardContract.Presenter mPresenter;
 
@@ -56,12 +57,12 @@ public class BoardFragment extends BaseFragment implements BoardContract.View, A
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_board, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         setupToolbar(toolbar);
 
