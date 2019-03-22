@@ -1,10 +1,11 @@
-package sp.phone.util;
+package gov.anzong.androidnga.base.util;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.DisplayMetrics;
 
 /**
  * Created by Justwen on 2017/7/16.
@@ -34,11 +35,6 @@ public class DeviceUtils {
         return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
     }
 
-    public static boolean isTablet(Context context) {
-        int screenLayout = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-        return screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE;
-    }
-
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
@@ -49,5 +45,12 @@ public class DeviceUtils {
 
     public static boolean isLandscape(Context context) {
         return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    public static boolean isFullScreenDevice() {
+        DisplayMetrics dm = ContextUtils.getResources().getDisplayMetrics();
+        float width = dm.widthPixels;
+        float height = dm.heightPixels;
+        return height / width >= 1.97f;
     }
 }

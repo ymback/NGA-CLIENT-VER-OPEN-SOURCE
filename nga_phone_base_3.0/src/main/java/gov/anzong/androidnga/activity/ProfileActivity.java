@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +39,7 @@ import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.StringUtils;
@@ -129,15 +130,17 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
     private void updateToolbarLayout() {
-     //   if (!mConfig.isFullScreenMode()) {
-            int statusBarHeight = getStatusBarHeight();
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
-            lp.setMargins(0, statusBarHeight, 0, 0);
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        if (DeviceUtils.isFullScreenDevice()) {
+            appBarLayout.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.app_bar_height_full_screen);
+        }
+        int statusBarHeight = getStatusBarHeight();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
+        lp.setMargins(0, statusBarHeight, 0, 0);
 
-            View parentView = (View) mAvatarIv.getParent();
-            parentView.setPadding(0, statusBarHeight, 0, 0);
-     //   }
+        View parentView = (View) mAvatarIv.getParent();
+        parentView.setPadding(0, statusBarHeight, 0, 0);
 
     }
 

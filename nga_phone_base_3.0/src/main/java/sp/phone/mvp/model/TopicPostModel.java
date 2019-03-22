@@ -41,8 +41,6 @@ import sp.phone.retrofit.RetrofitHelper;
 import sp.phone.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
-import sp.phone.util.DeviceUtils;
-import sp.phone.util.ForumUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;

@@ -10,6 +10,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="app_bar_height">160dp</dimen>
+    <dimen name="app_bar_height_full_screen">180dp</dimen>
 
     <dimen name="status_bar_height">16dp</dimen>
 

@@ -24,7 +24,7 @@ import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import sp.phone.listener.OnSimpleHttpCallBack;
-import sp.phone.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 
 /**
  * 显示图片

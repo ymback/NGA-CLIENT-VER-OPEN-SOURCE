@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 
 /**
  * Created by Justwen on 2018/8/25.

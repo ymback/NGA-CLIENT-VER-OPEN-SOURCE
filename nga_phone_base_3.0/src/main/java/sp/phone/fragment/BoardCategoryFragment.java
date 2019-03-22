@@ -14,9 +14,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import gov.anzong.androidnga.R;
 import sp.phone.bean.BoardCategory;
 import sp.phone.adapter.BoardCategoryAdapter;
-import sp.phone.bean.BoardCategory;
 import sp.phone.common.BoardManagerImpl;
-import sp.phone.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.util.NLog;
 
 /**

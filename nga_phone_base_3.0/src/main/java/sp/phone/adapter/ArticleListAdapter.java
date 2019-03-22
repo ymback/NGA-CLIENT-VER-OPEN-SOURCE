@@ -28,7 +28,7 @@ import sp.phone.listener.OnReplyClickListener;
 import sp.phone.rxjava.RxUtils;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.HtmlUtils;
 import sp.phone.util.ImageUtils;
