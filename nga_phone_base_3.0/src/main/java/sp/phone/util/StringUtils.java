@@ -1,8 +1,13 @@
 package sp.phone.util;
 
 import android.annotation.SuppressLint;
+import android.content.res.AssetManager;
 import android.support.annotation.Nullable;
 
+import com.mahang.utils.LogUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +21,7 @@ import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.bean.StringFindResult;
 import sp.phone.common.ApplicationContextHolder;
@@ -744,6 +750,19 @@ public class StringUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(timeStamp) * 1000);
         return new SimpleDateFormat(format, Locale.getDefault()).format(calendar.getTime());
+    }
+
+    public static String getStringFromAssets(String path) {
+        AssetManager assetManager = ContextUtils.getContext().getAssets();
+        try (InputStream is = assetManager.open(path)) {
+            int length = is.available();
+            byte[] buffer = new byte[length];
+            is.read(buffer);
+            return new String(buffer, "utf-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
 }

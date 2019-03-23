@@ -212,7 +212,8 @@ public interface VersionUpgradeTips {
             + "● 新增一个关于界面\n"
             + "● 解决超大帖子加载卡顿的问题\n"
             + "● 替换部分UI组件\n"
-            + "● 继续适配android P\n"
+            + "● 适配android P\n"
+            + "● 优化内核\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 

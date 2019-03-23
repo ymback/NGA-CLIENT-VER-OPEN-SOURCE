@@ -19,7 +19,7 @@ public class Constants {
     public static final int EMOTICON_SIZE_MIN = 90;
     public static final int EMOTICON_SIZE_MAX = 200;
 
-    public static final int TOPIC_CONTENT_SIZE_DEFAULT = 16;
+    public static final int TOPIC_CONTENT_SIZE_DEFAULT = 19;
     public static final int TOPIC_CONTENT_SIZE_MIN = 13;
     public static final int TOPIC_CONTENT_SIZE_MAX = 34;
 }
