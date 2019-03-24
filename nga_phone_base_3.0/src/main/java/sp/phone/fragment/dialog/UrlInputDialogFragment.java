@@ -3,6 +3,7 @@ package sp.phone.fragment.dialog;
 import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,8 +18,8 @@ import java.util.Locale;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.util.ARouterUtils;
+import gov.anzong.androidnga.activity.ArticleListActivity;
+import gov.anzong.androidnga.activity.TopicListActivity;
 
 public class UrlInputDialogFragment extends BaseDialogFragment {
 
@@ -35,9 +36,9 @@ public class UrlInputDialogFragment extends BaseDialogFragment {
             if (url.contains("thread.php")) {
                 url = url.replaceAll("(?i)[^\\[|\\]]+stid=(-?\\d+)[^\\[|\\]]*", Utils.getNGAHost() + "thread.php?stid=$1")
                         .replaceAll("(?i)[^\\[|\\]]+fid=(-?\\d+)[^\\[|\\]]*", Utils.getNGAHost() + "thread.php?fid=$1");
-                ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
-                        .setUri(Uri.parse(url))
-                        .navigation(getContext());
+                Intent intent = new Intent(getContext(), TopicListActivity.class);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
                 return true;
             } else if (url.contains("read.php")) {
                 if (url.contains("tid") && url.contains("pid")) {
@@ -51,9 +52,9 @@ public class UrlInputDialogFragment extends BaseDialogFragment {
                 } else if (url.contains("pid") && !url.contains("tid")) {
                     url = url.replaceAll("(?i)[^\\[|\\]]+pid=(\\d+)[^\\[|\\]]{0,}", Utils.getNGAHost() + "read.php?pid=$1");
                 }
-                ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_CONTENT)
-                        .setUri(Uri.parse(url))
-                        .navigation(getContext());
+                Intent intent = new Intent(getContext(), ArticleListActivity.class);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
                 return true;
             } else {
                 mUrlAddEditText.setError("输入的地址并非NGA的板块地址或帖子地址,或缺少fid/pid/tid信息,请检查后再试");
@@ -69,7 +70,7 @@ public class UrlInputDialogFragment extends BaseDialogFragment {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_url_to, null);
         mUrlAddEditText = contentView.findViewById(R.id.et_add_url);
         mUrlAddEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 if (event.getAction() == KeyEvent.ACTION_UP && onPositiveClick()) {
                     dismiss();
                 }

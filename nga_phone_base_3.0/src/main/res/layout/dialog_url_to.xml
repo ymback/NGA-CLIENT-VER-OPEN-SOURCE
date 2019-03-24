@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/addfid_dialog_url"
         android:inputType="textUri"
+        android:imeOptions="actionGo"
         android:maxLines="6"
         android:scrollbars="vertical"
         android:selectAllOnFocus="true"/>
