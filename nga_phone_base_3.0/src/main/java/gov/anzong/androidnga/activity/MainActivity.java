@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
         checkNewVersion();
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
+        setTitle(R.string.start_title);
     }
 
     @Override

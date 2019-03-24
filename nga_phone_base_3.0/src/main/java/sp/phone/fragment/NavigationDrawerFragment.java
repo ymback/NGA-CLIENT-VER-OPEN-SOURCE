@@ -80,20 +80,6 @@ public class NavigationDrawerFragment extends BaseFragment implements BoardContr
 
     private void initDrawerLayout(View rootView, Toolbar toolbar) {
         DrawerLayout drawerLayout = rootView.findViewById(R.id.drawer_layout);
-        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                setTitle("赞美片总");
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                setTitle(R.string.start_title);
-                super.onDrawerClosed(drawerView);
-            }
-        });
-
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
