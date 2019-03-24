@@ -2,6 +2,7 @@ package sp.phone.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import java.text.MessageFormat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.bean.ThreadData;
 import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
@@ -29,7 +31,6 @@ import sp.phone.listener.OnReplyClickListener;
 import sp.phone.rxjava.RxUtils;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
-import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.HtmlUtils;
 import sp.phone.util.ImageUtils;
@@ -45,6 +46,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     private static final String DEVICE_TYPE_ANDROID = "android";
 
     private static final String DEVICE_TYPE_WP = "wp";
+
+    private static final int VIEW_TYPE_WEB_VIEW = 0;
+
+    private static final int VIEW_TYPE_NATIVE_VIEW = 1;
 
     private Context mContext;
 
@@ -142,24 +147,37 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     }
 
     @Override
-    public ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        ThreadRowInfo row = mData.getRowList().get(position);
+        return TextUtils.isEmpty(row.getFormattedHtmlData()) ? VIEW_TYPE_NATIVE_VIEW : VIEW_TYPE_WEB_VIEW;
+    }
+
+    @Override
+    public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.fragment_article_list_item, parent, false);
         ArticleViewHolder viewHolder = new ArticleViewHolder(view);
         ViewGroup.LayoutParams lp = viewHolder.avatarIv.getLayoutParams();
         lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarSize();
-        viewHolder.contentTV.setLocalMode();
+        if (viewType == VIEW_TYPE_WEB_VIEW) {
+            viewHolder.contentTextView.setVisibility(View.GONE);
+            viewHolder.contentTV.setVisibility(View.VISIBLE);
+            viewHolder.contentTV.setLocalMode();
+        } else {
+            viewHolder.contentTextView.setVisibility(View.VISIBLE);
+            viewHolder.contentTV.setVisibility(View.GONE);
+        }
         RxUtils.clicks(viewHolder.nickNameTV, mOnProfileClickListener);
         RxUtils.clicks(viewHolder.replyBtn, mOnReplyClickListener);
         RxUtils.clicks(viewHolder.clientIv, mOnClientClickListener);
         RxUtils.clicks(viewHolder.menuIv, mMenuTogglerListener);
         RxUtils.clicks(viewHolder.avatarPanel, mOnAvatarClickListener);
         viewHolder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, PhoneConfiguration.getInstance().getTopicContentSize());
-       // viewHolder.contentTV.setTextSize(PhoneConfiguration.getInstance().getTopicContentSize());
+        // viewHolder.contentTV.setTextSize(PhoneConfiguration.getInstance().getTopicContentSize());
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final ArticleViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ArticleViewHolder holder, final int position) {
 
         final ThreadRowInfo row = mData.getRowList().get(position);
 
@@ -194,13 +212,9 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     private void onBindContentView(ArticleViewHolder holder, ThreadRowInfo row) {
         String html = row.getFormattedHtmlData();
         if (html != null) {
-            holder.contentTV.setVisibility(View.VISIBLE);
-            holder.contentTextView.setVisibility(View.GONE);
             holder.contentTV.getWebViewClientEx().setImgUrls(row.getImageUrls());
             holder.contentTV.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
         } else {
-            holder.contentTV.setVisibility(View.GONE);
-            holder.contentTextView.setVisibility(View.VISIBLE);
             holder.contentTextView.setText(row.getContent());
         }
     }
