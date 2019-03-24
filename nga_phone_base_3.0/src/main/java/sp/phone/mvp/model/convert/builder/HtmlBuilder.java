@@ -26,15 +26,6 @@ public class HtmlBuilder {
         return String.format("%06x", webTextColor & 0xffffff);
     }
 
-    /**
-     * 1 字体大小
-     * 2 字体颜色
-     * 3 标题
-     * 4 内容
-     * 5 状态 （屏蔽/隐藏）
-     *
-     * @return 格式化HTML串
-     */
     private static String getHtmlTemplate() {
         if (sHtmlTemplate == null) {
             sHtmlTemplate = StringUtils.getStringFromAssets("html/html_template.html");
@@ -43,33 +34,34 @@ public class HtmlBuilder {
     }
 
     public static String build(ThreadRowInfo row, String ngaHtml, List<String> imageUrls, ForumDecodeRecord decodeResult) {
-        String status = "";
+
+        StringBuilder builder = new StringBuilder();
         if (row.get_isInBlackList()) {
-            status = HTML_TEXT_SHIELD;
-            ngaHtml = "";
-        } else if (TextUtils.isEmpty(ngaHtml) && !TextUtils.isEmpty(row.getAlterinfo())) {
-            ngaHtml = row.getAlterinfo();
-        } else if (TextUtils.isEmpty(ngaHtml)) {
-            status = HTML_TEXT_HIDE;
+            builder.append("<h5>[屏蔽]</h5>");
+        } else if (TextUtils.isEmpty(ngaHtml) && TextUtils.isEmpty(row.getAlterinfo())) {
+            builder.append("<h5>[隐藏]</h5>");
+        } else {
+            if (!TextUtils.isEmpty(row.getSubject())) {
+                builder.append("<h4>").append(row.getSubject()).append("</h4>");
+            }
+            if (TextUtils.isEmpty(ngaHtml)) {
+                ngaHtml = row.getAlterinfo();
+            }
+            builder.append(ngaHtml)
+                    .append(HtmlCommentBuilder.build(row))
+                    .append(HtmlAttachmentBuilder.build(row, imageUrls))
+                    .append(HtmlSignatureBuilder.build(row))
+                    .append(HtmlVoteBuilder.build(row));
+            if (builder.length() == row.getContent().length()
+                    && row.getContent().equals(ngaHtml)) {
+                row.setContent(row.getContent().replaceAll("<br/>", "\n"));
+                return null;
+            }
         }
 
+        int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
         String fgColorStr = getForegroundColorStr();
-        StringBuilder builder = new StringBuilder();
-        builder.append(ngaHtml)
-                .append(HtmlCommentBuilder.build(row))
-                .append(HtmlAttachmentBuilder.build(row, imageUrls))
-                .append(HtmlSignatureBuilder.build(row))
-                .append(HtmlVoteBuilder.build(row));
-        if (builder.length() == row.getContent().length()
-                && row.getContent().equals(ngaHtml)
-                && TextUtils.isEmpty(row.getSubject())
-                && TextUtils.isEmpty(status)) {
-            row.setContent(row.getContent().replaceAll("<br/>", "\n"));
-            return null;
-        } else {
-            int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
-            String template = getHtmlTemplate();
-            return String.format(template, webTextSize, fgColorStr, row.getSubject(), builder.toString(), status);
-        }
+        String template = getHtmlTemplate();
+        return String.format(template, webTextSize, fgColorStr, builder.toString());
     }
 }
