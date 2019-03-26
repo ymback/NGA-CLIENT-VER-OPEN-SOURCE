@@ -95,7 +95,6 @@ public class TopicListActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
             fragment.setArguments(bundle);
-            fragment.setHasOptionsMenu(true);
             fm.beginTransaction().replace(android.R.id.content, fragment).commit();
         }
     }

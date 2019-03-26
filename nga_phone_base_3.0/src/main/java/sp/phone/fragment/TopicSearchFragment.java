@@ -58,6 +58,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
         setTitle();
