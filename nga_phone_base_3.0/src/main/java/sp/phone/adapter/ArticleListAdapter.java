@@ -171,7 +171,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         RxUtils.clicks(viewHolder.clientIv, mOnClientClickListener);
         RxUtils.clicks(viewHolder.menuIv, mMenuTogglerListener);
         RxUtils.clicks(viewHolder.avatarPanel, mOnAvatarClickListener);
-        viewHolder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, PhoneConfiguration.getInstance().getTopicContentSize());
+        viewHolder.contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, PhoneConfiguration.getInstance().getTopicContentSize());
         // viewHolder.contentTV.setTextSize(PhoneConfiguration.getInstance().getTopicContentSize());
         return viewHolder;
     }
