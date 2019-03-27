@@ -42,7 +42,7 @@ public class HtmlBuilder {
             builder.append("<h5>[隐藏]</h5>");
         } else {
             if (!TextUtils.isEmpty(row.getSubject())) {
-                builder.append("<h4>").append(row.getSubject()).append("</h4>");
+                builder.append("<div class='title'>").append(row.getSubject()).append("</div><br>");
             }
             if (TextUtils.isEmpty(ngaHtml)) {
                 ngaHtml = row.getAlterinfo();
