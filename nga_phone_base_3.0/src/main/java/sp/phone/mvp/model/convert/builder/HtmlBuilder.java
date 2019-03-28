@@ -52,7 +52,8 @@ public class HtmlBuilder {
                     .append(HtmlAttachmentBuilder.build(row, imageUrls))
                     .append(HtmlSignatureBuilder.build(row))
                     .append(HtmlVoteBuilder.build(row));
-            if (builder.length() == row.getContent().length()
+            if (!PhoneConfiguration.getInstance().useOldWebCore()
+                    && builder.length() == row.getContent().length()
                     && row.getContent().equals(ngaHtml)) {
                 row.setContent(row.getContent().replaceAll("<br/>", "\n"));
                 return null;

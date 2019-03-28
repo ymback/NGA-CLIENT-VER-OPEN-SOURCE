@@ -1,18 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="@string/setting_category_user">
+    <PreferenceCategory android:title="通用设置">
+
+        <ListSummaryPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/setting_nga_domain"
+            android:entries="@array/nga_domain"
+            android:entryValues="@array/nga_domain_value"
+            android:key="nga_domain"
+            android:title="@string/setting_nga_domain" />
 
         <PreferenceScreen
             android:fragment="sp.phone.fragment.SettingsUserFragment"
             android:key="pref_user"
-            android:title="@string/setting_title_user"/>
+            android:title="@string/setting_title_user" />
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="nightmode"
+            android:title="@string/nightmode" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="left_hand"
+            android:title="@string/setting_title_left_hand" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="swipe_back"
+            android:title="@string/setting_title_swipe_back" />
+
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="enableNotification"
+            android:title="@string/notification_on" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="enableNotification"
+            android:key="notificationSound"
+            android:title="@string/notification_sound" />
+
+
+        <ListSummaryPreference
+            android:defaultValue="1"
+            android:entries="@array/material_theme"
+            android:entryValues="@array/material_theme_value"
+            android:key="material_theme"
+            android:title="@string/setting_title_material_theme" />
 
         <PreferenceScreen
-            android:fragment="sp.phone.fragment.SettingsBlackListFragment"
-            android:key="pref_black_list"
-            android:title="@string/setting_title_black_list"/>
+            android:fragment="sp.phone.fragment.SettingsSizeFragment"
+            android:key="adjust_size"
+            android:title="@string/setting_title_size" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="主题列表设置">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="sort_by_post"
+            android:title="@string/setting_title_sort_by_post" />
+
+
+        <SwitchPreference
+            android:key="filter_sub_board"
+            android:title="@string/setting_title_filter_sub_board" />
 
         <PreferenceScreen
             android:fragment="sp.phone.fragment.FilterKeywordsFragment"
@@ -21,132 +78,61 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="picshowtitle"
-        android:title="@string/setting_picshow">
+    <PreferenceCategory android:title="主题详情设置">
+
+        <PreferenceScreen
+            android:fragment="sp.phone.fragment.SettingsBlackListFragment"
+            android:key="pref_black_list"
+            android:title="@string/setting_title_black_list" />
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="down_load_without_wifi"
-            android:title="@string/nowifi_downimg"/>
-
-        <!--<android.preference.ListCompatPreference-->
-        <!--android:defaultValue="0"-->
-        <!--android:dependency="down_load_without_wifi"-->
-        <!--android:dialogTitle="@string/image_quality_chooser_prompt"-->
-        <!--android:entries="@array/image_quality_option"-->
-        <!--android:entryValues="@array/image_quality_option_value"-->
-        <!--android:key="download_img_quality_without_wifi"-->
-        <!--android:title="@string/image_quality_info"/>-->
+            android:summary="@string/setting_image_network_summary"
+            android:title="@string/setting_image_network_title" />
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="download_avatar_nowifi"
-            android:title="@string/download_avatar_nowifi"/>
-
-    </PreferenceCategory>
-
-
-    <PreferenceCategory
-        android:key="optiontitle"
-        android:title="@string/setting_option">
-
-        <ListSummaryPreference
-            android:defaultValue="1"
-            android:dialogTitle="@string/setting_nga_domain"
-            android:entries="@array/nga_domain"
-            android:entryValues="@array/nga_domain_value"
-            android:key="nga_domain"
-            android:title="@string/setting_nga_domain"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="showColortxt"
-            android:title="@string/color_txt"/>
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="refresh_after_post_setting_mode"
-            android:title="@string/refresh_after_post_setting_mode"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="swipe_back"
-            android:title="@string/setting_title_swipe_back"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="sort_by_post"
-            android:title="@string/setting_title_sort_by_post"/>
-
-        <!--<SwitchPreference-->
-        <!--android:defaultValue="false"-->
-        <!--android:key="auto_sign_in"-->
-        <!--android:title="自动签到"/>-->
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="enableNotification"
-            android:title="@string/notification_on"/>
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="enableNotification"
-            android:key="notificationSound"
-            android:title="@string/notification_sound"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="uishowtitle"
-        android:title="@string/setting_uishow">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="nightmode"
-            android:title="@string/nightmode"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="showSignature"
-            android:title="@string/showSignature"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="left_hand"
-            android:title="@string/setting_title_left_hand"/>
-
-        <!--<SwitchPreference-->
-        <!--android:defaultValue="false"-->
-        <!--android:key="showStatic"-->
-        <!--android:title="@string/show_static"/>-->
-
-        <SwitchPreference
-            android:key="filter_sub_board"
-            android:title="@string/setting_title_filter_sub_board"/>
+            android:summary="@string/setting_avatar_network_summary"
+            android:title="@string/setting_avatar_network_title" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="bottom_tab"
-            android:title="@string/setting_title_bottom_tab"/>
+            android:title="@string/setting_title_bottom_tab" />
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="hardware_accelerated"
             android:summary="@string/setting_summary_hardware_accelerated"
-            android:title="@string/setting_title_hardware_accelerated"/>
+            android:title="@string/setting_title_hardware_accelerated" />
 
-        <ListSummaryPreference
-            android:defaultValue="0"
-            android:entries="@array/material_theme"
-            android:entryValues="@array/material_theme_value"
-            android:key="material_theme"
-            android:title="@string/setting_title_material_theme"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="showSignature"
+            android:title="@string/showSignature" />
 
-        <PreferenceScreen
-            android:fragment="sp.phone.fragment.SettingsSizeFragment"
-            android:key="adjust_size"
-            android:title="@string/setting_title_size"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="use_old_web_core"
+            android:summary="@string/setting_web_core_summary"
+            android:title="@string/setting_web_core_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="发帖设置">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="showColortxt"
+            android:summary="@string/setting_post_color_text_summary"
+            android:title="@string/setting_post_color_text_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="refresh_after_post_setting_mode"
+            android:title="@string/refresh_after_post_setting_mode" />
 
     </PreferenceCategory>
 

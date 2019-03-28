@@ -71,4 +71,6 @@ public interface PreferenceKey {
     public static final String KEY_AVATAR_SIZE = "avatar_size";
 
     public static final String KEY_EMOTICON_SIZE = "emoticon_size";
+
+    public static final String KEY_USE_OLD_WEB_CORE = "use_old_web_core";
 }
