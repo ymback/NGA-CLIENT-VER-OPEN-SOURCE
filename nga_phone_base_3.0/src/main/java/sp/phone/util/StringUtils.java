@@ -678,9 +678,7 @@ public class StringUtils {
     }
 
     public static String unEscapeHtml(String s) {
-        String ret = "";
-        ret = StringHelper.unescapeHTML(s);
-        return ret;
+        return StringHelper.unescapeHTML(s);
     }
 
     public static StringFindResult getStringBetween(String data, int begPosition, String startStr, String endStr) {

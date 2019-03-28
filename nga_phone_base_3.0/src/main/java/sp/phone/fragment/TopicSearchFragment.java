@@ -218,7 +218,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
             ArticleListParam param = new ArticleListParam();
             param.tid = info.getTid();
             param.page = info.getPage();
-            param.title = info.getSubject();
+            param.title = StringUtils.unEscapeHtml(info.getSubject());
             if (mRequestParam.searchPost != 0) {
                 param.pid = info.getPid();
                 param.authorId = info.getAuthorId();
