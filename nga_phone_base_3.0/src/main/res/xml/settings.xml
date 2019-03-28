@@ -32,6 +32,11 @@
             android:key="swipe_back"
             android:title="@string/setting_title_swipe_back" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="use_solid_color_bg"
+            android:summary="@string/setting_solid_color_bg_summary"
+            android:title="@string/setting_solid_color_bg_title" />
 
         <SwitchPreference
             android:defaultValue="true"

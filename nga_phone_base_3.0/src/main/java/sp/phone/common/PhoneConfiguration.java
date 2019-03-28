@@ -2,6 +2,7 @@ package sp.phone.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.Preference;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
@@ -11,6 +12,7 @@ import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -191,6 +193,10 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     public boolean useOldWebCore() {
         return PreferenceUtils.getData(PreferenceKey.KEY_USE_OLD_WEB_CORE, false);
+    }
+
+    public boolean useSolidColorBackground() {
+        return ContextUtils.getSharedPreferences(PreferenceKey.PERFERENCE).getBoolean(PreferenceKey.KEY_USE_SOLID_COLOR_BG, true);
     }
 
     public boolean isShowSignature() {

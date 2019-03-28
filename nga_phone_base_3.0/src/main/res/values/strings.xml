@@ -352,6 +352,8 @@
     <string name="setting_image_network_summary">移动数据网络下载入帖子图片</string>
     <string name="setting_post_color_text_title">彩虹模式发帖</string>
     <string name="setting_post_color_text_summary">慎用，有被禁言的风险！</string>
+    <string name="setting_solid_color_bg_title">使用纯色背景</string>
+    <string name="setting_solid_color_bg_summary">主题列表和主题详情页面使用纯色背景</string>
 
     <string name="filter_keywords">关键字屏蔽</string>
     <string name="twenty_four">24小时热帖</string>

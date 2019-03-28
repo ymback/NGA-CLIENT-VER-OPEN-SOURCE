@@ -134,7 +134,8 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
         });
         mListView.setEmptyView(view.findViewById(R.id.empty_view));
         mListView.setAdapter(mAdapter);
-        mListView.addItemDecoration(new DividerItemDecorationEx(view.getContext(), ContextUtils.getDimension(R.dimen.topic_list_item_padding), DividerItemDecoration.VERTICAL));
+        int padding = PhoneConfiguration.getInstance().useSolidColorBackground() ? ContextUtils.getDimension(R.dimen.topic_list_item_padding) : 0;
+        mListView.addItemDecoration(new DividerItemDecorationEx(view.getContext(), padding, DividerItemDecoration.VERTICAL));
 
         mSwipeRefreshLayout.setVisibility(View.GONE);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

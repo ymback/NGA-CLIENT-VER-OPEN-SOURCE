@@ -185,6 +185,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             return;
         }
 
+        if (!PhoneConfiguration.getInstance().useSolidColorBackground()) {
+            holder.itemView.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor(position));
+        }
+
         holder.replyBtn.setTag(row);
         holder.nickNameTV.setTag(row);
         holder.menuIv.setTag(row);

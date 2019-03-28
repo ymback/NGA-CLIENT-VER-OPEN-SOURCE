@@ -18,6 +18,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.forumoperation.TopicTitleHelper;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.rxjava.RxUtils;
+import sp.phone.theme.ThemeManager;
 
 public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, TopicListAdapter.TopicViewHolder> {
 
@@ -51,6 +52,9 @@ public class TopicListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Topi
         holder.itemView.setTag(info);
 
         handleJsonList(holder, info);
+        if (!PhoneConfiguration.getInstance().useSolidColorBackground()) {
+            holder.itemView.setBackgroundResource(ThemeManager.getInstance().getBackgroundColor(position));
+        }
     }
 
     private void handleJsonList(TopicViewHolder holder, ThreadPageInfo entry) {
