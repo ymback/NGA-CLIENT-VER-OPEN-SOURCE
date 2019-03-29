@@ -392,6 +392,10 @@ public class FunctionUtils {
             fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
             nickName += "(" + blacklistban + ")";
         }
+        if (row.getISANONYMOUS()) {
+            fgColor = nickNameTV.getResources().getColor(R.color.title_red);
+            nickName += "(匿名)";
+        }
         nickNameTV.setText(nickName);
         TextPaint tp = nickNameTV.getPaint();
         tp.setFakeBoldText(true);// bold for Chinese character
