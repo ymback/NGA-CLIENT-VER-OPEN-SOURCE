@@ -213,7 +213,7 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
-    String TIPS_2107 = "更新内容\n"
+    String TIPS_2108 = "更新内容\n"
             + "● 解决android P上首次进入主题详情页面背景为黑色的问题\n"
             + "● 解决主题详情页面字体大小不统一问题n"
             + "● 增加设置项 使用旧版本内核 解决字体样式不统一问题，默认关闭\n"
