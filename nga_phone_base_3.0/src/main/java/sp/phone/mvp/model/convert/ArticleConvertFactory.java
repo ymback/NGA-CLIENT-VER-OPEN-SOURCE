@@ -61,6 +61,7 @@ public class ArticleConvertFactory {
             data.setRowNum(data.getRowList().size());
         } catch (Exception e) {
             NLog.e(TAG, "can not parse :\n" + js);
+            e.printStackTrace();
         }
         return data;
     }

@@ -3,7 +3,6 @@ package sp.phone.mvp.model.convert.decoder;
 import gov.anzong.androidnga.Utils;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.HtmlUtils;
-import sp.phone.util.HttpUtil;
 import sp.phone.util.StringUtils;
 
 /**
@@ -223,18 +222,6 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = content.replaceAll(ignoreCaseTag + "\\[size=(\\d+)%\\]",
                 "<span style=\"font-size:$1%;line-height:$1%\">");
         content = content.replaceAll(ignoreCaseTag + "\\[/size\\]", "</span>");
-
-        // [img]./ddd.jpg[/img]
-        // if(showImage){
-        content = content.replaceAll(ignoreCaseTag
-                        + "\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]",
-                "<a href='http://" + HttpUtil.NGA_ATTACHMENT_HOST
-                        + "/attachments$1'><img src='http://"
-                        + HttpUtil.NGA_ATTACHMENT_HOST
-                        + "/attachments$1' style= 'max-width:100%' ></a>");
-        content = content.replaceAll(ignoreCaseTag
-                        + "\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]",
-                "<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
 
         // [list][/list]
         // TODO: 2018/9/18  部分页面里和 collapse 标签有冲突 http://bbs.nga.cn/read.php?tid=14949699

@@ -63,6 +63,7 @@ public class HtmlBuilder {
         int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
         String fgColorStr = getForegroundColorStr();
         String template = getHtmlTemplate();
-        return String.format(template, webTextSize, fgColorStr, builder.toString());
+        int emoticonSize = PhoneConfiguration.getInstance().getEmoticonSize();
+        return String.format(template, webTextSize, fgColorStr, emoticonSize, builder.toString());
     }
 }

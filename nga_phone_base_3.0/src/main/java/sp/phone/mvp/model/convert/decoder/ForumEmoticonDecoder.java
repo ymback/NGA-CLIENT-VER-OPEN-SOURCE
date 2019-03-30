@@ -154,6 +154,7 @@ public class ForumEmoticonDecoder implements IForumDecoder {
 
     private ThemeManager mThemeManager = ThemeManager.getInstance();
 
+    // 解析从官方客户端和网页版发布的表情
     @Override
     public String decode(String content) {
         int emoticonWidth = PhoneConfiguration.getInstance().getEmoticonSize();
