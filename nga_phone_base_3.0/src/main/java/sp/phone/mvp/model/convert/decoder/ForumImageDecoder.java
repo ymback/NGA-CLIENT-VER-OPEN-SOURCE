@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import sp.phone.adapter.ExtensionEmotionAdapter;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
-import gov.anzong.androidnga.base.util.DeviceUtils;
+import sp.phone.util.EmoticonUtils;
 
 /**
  * Created by Justwen on 2018/8/25.
@@ -37,7 +37,7 @@ public class ForumImageDecoder implements IForumDecoder {
         while (m.find()) {
             String s0 = m.group();
             String s1 = m.group(1);
-            String path = ExtensionEmotionAdapter.getPathByURI(s1);
+            String path = EmoticonUtils.getPathByURI(s1);
             if (path != null) {
                 int emoticonWidth = PhoneConfiguration.getInstance().getEmoticonSize();
                 String newImgBlock = String.format(HTML_EMOTICON, path, emoticonWidth);
