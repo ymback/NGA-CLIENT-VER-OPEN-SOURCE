@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import sp.phone.common.EmoticonConstants;
+import sp.phone.util.EmoticonUtils;
 
 /**
  * Created by Justwen on 2018/6/8.
@@ -32,7 +32,7 @@ public class EmoticonParentAdapter extends PagerAdapter {
         recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         EmoticonChildAdapter adapter = new EmoticonChildAdapter(mContext, mHeight);
-        adapter.setData(EmoticonConstants.EMOTICON_LABEL[position][0], EmoticonConstants.EMOTICON_URL[position]);
+        adapter.setData(EmoticonUtils.EMOTICON_LABEL[position][0], EmoticonUtils.EMOTICON_URL[position]);
 
         recyclerView.setAdapter(adapter);
 
@@ -42,7 +42,7 @@ public class EmoticonParentAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return EmoticonConstants.EMOTICON_LABEL[position][1];
+        return EmoticonUtils.EMOTICON_LABEL[position][1];
     }
 
     @Override
@@ -53,7 +53,7 @@ public class EmoticonParentAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return EmoticonConstants.EMOTICON_LABEL.length;
+        return EmoticonUtils.EMOTICON_LABEL.length;
     }
 
     @Override

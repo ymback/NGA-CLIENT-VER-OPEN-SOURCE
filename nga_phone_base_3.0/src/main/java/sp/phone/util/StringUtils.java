@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.util.ContextUtils;
-import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.bean.StringFindResult;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.theme.ThemeManager;
@@ -463,7 +462,7 @@ public class StringUtils {
         while (m.find()) {
             String s0 = m.group();
             String s1 = m.group(1);
-            String path = ExtensionEmotionAdapter.getPathByURI(s1);
+            String path = EmoticonUtils.getPathByURI(s1);
             if (path != null) {
 
                 String newImgBlock = "<img src='"

@@ -19,7 +19,6 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
-import sp.phone.adapter.ExtensionEmotionAdapter;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.forumoperation.PostParam;
 import sp.phone.fragment.TopicPostFragment;
@@ -28,6 +27,7 @@ import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.ActivityUtils;
+import sp.phone.util.EmoticonUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
@@ -43,7 +43,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         String urlTemp = emotion.replaceAll("\\n", "");
         if (urlTemp.contains("http")) {
             urlTemp = urlTemp.substring(5, urlTemp.length() - 6);
-            String sourceFile = ExtensionEmotionAdapter.getPathByURI(urlTemp);
+            String sourceFile = EmoticonUtils.getPathByURI(urlTemp);
             try (InputStream is = mBaseView.getContext().getResources().getAssets().open(sourceFile)) {
                 if (is != null) {
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
