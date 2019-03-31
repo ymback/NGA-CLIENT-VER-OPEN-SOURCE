@@ -18,7 +18,7 @@ public class HtmlBuilder {
 
     private static String sHtmlTemplate;
 
-`    private static String getForegroundColorStr() {
+    private static String getForegroundColorStr() {
         int webTextColor = ThemeManager.getInstance().getWebTextColor();
         return String.format("%06x", webTextColor & 0xffffff);
     }
