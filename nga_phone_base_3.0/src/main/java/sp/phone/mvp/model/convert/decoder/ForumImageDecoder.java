@@ -24,7 +24,7 @@ public class ForumImageDecoder implements IForumDecoder {
 
     private static final String HTML_IMG_LINK = "<a href='%s'>";
 
-    private static final String REGEX_IMG = "<img src='(http\\S+)'>";
+    private static final String REGEX_IMG = IGNORE_CASE_TAG + "<img src='(http\\S+)'>";
 
     private static final String REGEX_IMG_NO_HTTP = IGNORE_CASE_TAG + "\\[img]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img]";
 
@@ -32,14 +32,17 @@ public class ForumImageDecoder implements IForumDecoder {
 
     private static final String REGEX_IMG_WITH_HTTP = IGNORE_CASE_TAG + "\\[img]\\s*(http[^\\[|\\]]+)\\s*\\[/img]";
 
-    private static final String REPLACE_IMG_WITH_HTTP = "<a href='$1'><img src='$1' ></a>";
+    private static final String REPLACE_IMG_WITH_HTTP = "<a href='$1'><img src='$1'></a>";
 
     @Override
     public String decode(String content) {
 
         String replace = String.format(REPLACE_IMG_NO_HTTP, HttpUtil.NGA_ATTACHMENT_HOST, "$1");
-        content = content.replaceAll(REGEX_IMG_NO_HTTP, replace)
-                .replaceAll(REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP);
+        content = content
+                .replaceAll(REGEX_IMG_NO_HTTP, replace)
+                .replaceAll(REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP)
+                .replaceAll("(http\\S+).gif.(.*?).jpg", "$1.gif")
+                .replaceAll("(http\\S+).png.(.*?).jpg", "$1.png");
 
         Pattern p = Pattern.compile(REGEX_IMG);
         Matcher m = p.matcher(content);
@@ -55,22 +58,12 @@ public class ForumImageDecoder implements IForumDecoder {
                 content = content.replace(s0, newImgBlock)
                         // 移除可点击状态
                         .replace(String.format(HTML_IMG_LINK, s1), "");
-            } else if (!showImage) {
-                content = content.replace(s0, HTML_IMG_DEFAULT);
-                mImageUrls.add(s1);
             } else {
+                if (!showImage) {
+                    content = content.replace(s0, HTML_IMG_DEFAULT);
+                }
                 mImageUrls.add(s1);
             }
-        }
-        return convertGifImage(content);
-    }
-
-    private String convertGifImage(String content) {
-        Pattern pattern = Pattern.compile("(http\\S+).gif.(.*?).jpg");
-        Matcher matcher = pattern.matcher(content);
-        while (matcher.find()) {
-            String s = matcher.group(0);
-            content = content.replaceAll(s, s.substring(0, s.indexOf(".gif") + 4));
         }
         return content;
     }
