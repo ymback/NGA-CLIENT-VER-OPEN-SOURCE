@@ -1,6 +1,8 @@
 package sp.phone.mvp.model.convert.decoder;
 
-import sp.phone.common.PhoneConfiguration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import sp.phone.theme.ThemeManager;
 
 /**
@@ -135,63 +137,35 @@ public class ForumEmoticonDecoder implements IForumDecoder {
             "dt30.png", "dt31.png", "dt32.png", "dt33.png",//0-32
     };
 
-    private static final String NGA_UBB_CODE_ACNIANG = "%s\\[s:ac:%s]";
+    private static final String HTML_EMOTICON = "<img class='%s',src='file:///android_asset/%s/%s'>";
 
-    private static final String NGA_UBB_CODE_ACNIANG_NEW = "%s\\[s:a2:%s]";
+    private static final String HTML_EMOTICON_ACNIANG = "<img class='emoticon %s' src='file:///android_asset/%s/%s'>";
 
-    private static final String NGA_UBB_CODE_PENGUIN = "%s\\[s:pg:%s]";
-
-    private static final String NGA_UBB_CODE_PST = "%s\\[s:pst:%s]";
-
-    private static final String NGA_UBB_CODE_DT = "%s\\[s:dt:%s]";
-
-    private static final String HTML_EMOTICON = "<img src='file:///android_asset/%s/%s' width='%s' %s>";
-
-    // color filter css class for night mode, we invert color for certain emotion icon
-    private static final String INVERT_CSS_HTML = "\n <style> .invertfilter { filter: invert(100%); </style> \n";
-
-    private static final String CLASS_FIELD = " class=\"invertfilter\"";
-
-    private ThemeManager mThemeManager = ThemeManager.getInstance();
+    private String decode(String content, String regex, String[] ubbCodes, String category, String[] fileNames) {
+        Pattern pattern = Pattern.compile(IGNORE_CASE_TAG + regex);
+        Matcher matcher = pattern.matcher(content);
+        String html = HTML_EMOTICON_ACNIANG;/*category.contains("acniang") ? HTML_EMOTICON_ACNIANG : HTML_EMOTICON*/;
+        String nightStyle = ThemeManager.getInstance().isNightMode() ? "invertFilter" : "";
+        while (matcher.find()) {
+            String emoticon = matcher.group(1);
+            for (int i = 0; i < ubbCodes.length; i++) {
+                if (ubbCodes[i].equals(emoticon)) {
+                    content = content.replace(matcher.group(0), String.format(html, nightStyle, category, fileNames[i]));
+                    break;
+                }
+            }
+        }
+        return content;
+    }
 
     // 解析从官方客户端和网页版发布的表情
     @Override
     public String decode(String content) {
-        int emoticonWidth = PhoneConfiguration.getInstance().getEmoticonSize();
-
-        String tempContent = content;
-
-        // If it is night mode we attach class field to invert color.
-        String localClassField = mThemeManager.isNightMode() ? CLASS_FIELD : "";
-
-        for (int i = 0; i < UBB_CODE_ACNIANG.length; i++) {
-            content = content.replaceAll(String.format(NGA_UBB_CODE_ACNIANG, IGNORE_CASE_TAG, UBB_CODE_ACNIANG[i]),
-                    String.format(HTML_EMOTICON, "acniang", IMG_ADD_ACNIANG[i], emoticonWidth, localClassField));
-        }
-
-        for (int i = 0; i < UBB_CODE_ACNIANG_NEW.length; i++) {
-            content = content.replaceAll(String.format(NGA_UBB_CODE_ACNIANG_NEW, IGNORE_CASE_TAG, UBB_CODE_ACNIANG_NEW[i]),
-                    String.format(HTML_EMOTICON, "newacniang", IMG_ADD_ACNIANG_NEW[i], emoticonWidth, localClassField));
-        }
-
-        for (int i = 0; i < UBB_CODE_PENGUIN.length; i++) {
-            content = content.replaceAll(String.format(NGA_UBB_CODE_PENGUIN, IGNORE_CASE_TAG, UBB_CODE_PENGUIN[i]),
-                    String.format(HTML_EMOTICON, "pg", IMG_ADD_PENGUIN[i], emoticonWidth, ""));
-        }
-
-        for (int i = 0; i < UBB_CODE_PST.length; i++) {
-            content = content.replaceAll(String.format(NGA_UBB_CODE_PST, IGNORE_CASE_TAG, UBB_CODE_PST[i]),
-                    String.format(HTML_EMOTICON, "pst", IMG_ADD_PST[i], emoticonWidth, ""));
-        }
-
-        for (int i = 0; i < UBB_CODE_DT.length; i++) {
-            content = content.replaceAll(String.format(NGA_UBB_CODE_DT, IGNORE_CASE_TAG, UBB_CODE_DT[i]),
-                    String.format(HTML_EMOTICON, "dt", IMG_ADD_DT[i], emoticonWidth, localClassField));
-        }
-
-        if (!tempContent.equals(content)) {
-            content = INVERT_CSS_HTML + content;
-        }
+        content = decode(content, "\\[s:ac:(.*?)]", UBB_CODE_ACNIANG, "acniang", IMG_ADD_ACNIANG);
+        content = decode(content, "\\[s:a2:(.*?)]", UBB_CODE_ACNIANG_NEW, "newacniang", IMG_ADD_ACNIANG_NEW);
+        content = decode(content, "\\[s:pg:(.*?)]", UBB_CODE_PENGUIN, "pg", IMG_ADD_PENGUIN);
+        content = decode(content, "\\[s:pst:(.*?)]", UBB_CODE_PST, "pst", IMG_ADD_PST);
+        content = decode(content, "\\[s:dt:(.*?)]", UBB_CODE_DT, "dt", IMG_ADD_DT);
         return content;
     }
 }
