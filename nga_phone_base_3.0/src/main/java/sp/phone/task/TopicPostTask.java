@@ -48,12 +48,6 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected void onPreExecute() {
-        ActivityUtils.getInstance().noticeSaying(mContext);
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onCancelled() {
         mCallBack.onArticlePostFinished(false, null);
         super.onCancelled();
