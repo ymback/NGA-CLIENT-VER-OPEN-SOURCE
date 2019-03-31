@@ -17,7 +17,7 @@ public class ForumBasicDecoder implements IForumDecoder {
     private static final String styleColor = "<span style='color:$1' >";
     private static final String endDiv = "</div>";
 
-    private static final String STYLE_QUOTE = "<div style='background:%s;padding:5px;border:1px solid #888' >";
+    private static final String STYLE_QUOTE = "<div class='quote' >";
 
     @Override
     public String decode(String content) {
@@ -25,13 +25,7 @@ public class ForumBasicDecoder implements IForumDecoder {
             return "";
         // s = StringUtils.unEscapeHtml(s);
 
-        int quoteColor = ThemeManager.getInstance().getWebQuoteBackgroundColor();
-        String quoteColorStr = HtmlUtils.convertWebColor(quoteColor);
-        String quoteStyle = String.format(STYLE_QUOTE, quoteColorStr);
-
-//        String quoteStyle = "<div style='background:#E8E8E8;padding:5px;border:1px solid #888' >";
-//        if (ThemeManager.getInstance().isNightMode())
-//            quoteStyle = "<div style='background:#000000;padding:5px;border:1px solid #888' >";
+        String quoteStyle = STYLE_QUOTE;
 
         final String styleLeft = "<div style='float:left' >";
         final String styleRight = "<div style='float:right' >";

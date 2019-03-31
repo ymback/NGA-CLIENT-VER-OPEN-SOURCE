@@ -8,6 +8,7 @@ import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.HtmlUtils;
 import sp.phone.util.StringUtils;
 
 /**
@@ -17,11 +18,7 @@ public class HtmlBuilder {
 
     private static String sHtmlTemplate;
 
-    private static final String HTML_TEXT_HIDE = "[隱藏]";
-
-    private static final String HTML_TEXT_SHIELD = "[屏蔽]";
-
-    private static String getForegroundColorStr() {
+`    private static String getForegroundColorStr() {
         int webTextColor = ThemeManager.getInstance().getWebTextColor();
         return String.format("%06x", webTextColor & 0xffffff);
     }
@@ -64,6 +61,10 @@ public class HtmlBuilder {
         String fgColorStr = getForegroundColorStr();
         String template = getHtmlTemplate();
         int emoticonSize = PhoneConfiguration.getInstance().getEmoticonSize();
-        return String.format(template, webTextSize, fgColorStr, emoticonSize, builder.toString());
+
+        int quoteColor = ThemeManager.getInstance().getWebQuoteBackgroundColor();
+        String quoteColorStr = HtmlUtils.convertWebColor(quoteColor);
+
+        return String.format(template, webTextSize, fgColorStr, emoticonSize, quoteColorStr, builder.toString());
     }
 }
