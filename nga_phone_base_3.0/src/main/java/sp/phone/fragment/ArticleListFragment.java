@@ -189,7 +189,9 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
     @Override
     protected void accept(@NonNull RxEvent rxEvent) {
-        if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE && rxEvent.arg + 1 == mRequestParam.page) {
+        if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE
+                && rxEvent.arg == mRequestParam.page
+                && rxEvent.obj.equals(mRequestParam)) {
             loadPage();
         } else if (rxEvent.what == RxEvent.EVENT_ARTICLE_GO_FLOOR
                 && rxEvent.arg + 1 == mRequestParam.page

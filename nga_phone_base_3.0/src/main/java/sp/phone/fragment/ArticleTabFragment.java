@@ -173,7 +173,8 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     @OnClick(R.id.fab_refresh)
     public void refresh() {
-        RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem()));
+        mRequestParam.page = mViewPager.getCurrentItem() + 1;
+        RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem() + 1, mRequestParam));
         mFam.collapse();
     }
 

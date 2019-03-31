@@ -74,6 +74,19 @@ public class ArticleListParam implements Parcelable, Cloneable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArticleListParam) {
+            return pid == ((ArticleListParam) obj).pid
+                    && tid == ((ArticleListParam) obj).tid
+                    && authorId == ((ArticleListParam) obj).authorId
+                    && page == ((ArticleListParam) obj).page
+                    && searchPost == ((ArticleListParam) obj).searchPost;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public Object clone() {
         try {
             return super.clone();
