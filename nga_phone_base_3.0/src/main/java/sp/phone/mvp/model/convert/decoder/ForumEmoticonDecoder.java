@@ -3,8 +3,6 @@ package sp.phone.mvp.model.convert.decoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import sp.phone.theme.ThemeManager;
-
 /**
  * Created by Justwen on 2018/8/25.
  */
@@ -137,20 +135,19 @@ public class ForumEmoticonDecoder implements IForumDecoder {
             "dt30.png", "dt31.png", "dt32.png", "dt33.png",//0-32
     };
 
-    private static final String HTML_EMOTICON = "<img class='%s',src='file:///android_asset/%s/%s'>";
+    private static final String HTML_EMOTICON = "<img src='file:///android_asset/%s/%s'>";
 
-    private static final String HTML_EMOTICON_ACNIANG = "<img class='emoticon %s' src='file:///android_asset/%s/%s'>";
+    private static final String HTML_EMOTICON_ACNIANG = "<img class='emoticon invertFilter' src='file:///android_asset/%s/%s'>";
 
     private String decode(String content, String regex, String[] ubbCodes, String category, String[] fileNames) {
         Pattern pattern = Pattern.compile(IGNORE_CASE_TAG + regex);
         Matcher matcher = pattern.matcher(content);
-        String html = HTML_EMOTICON_ACNIANG;/*category.contains("acniang") ? HTML_EMOTICON_ACNIANG : HTML_EMOTICON*/;
-        String nightStyle = ThemeManager.getInstance().isNightMode() ? "invertFilter" : "";
+        String html = category.contains("acniang") ? HTML_EMOTICON_ACNIANG : HTML_EMOTICON;
         while (matcher.find()) {
             String emoticon = matcher.group(1);
             for (int i = 0; i < ubbCodes.length; i++) {
                 if (ubbCodes[i].equals(emoticon)) {
-                    content = content.replace(matcher.group(0), String.format(html, nightStyle, category, fileNames[i]));
+                    content = content.replace(matcher.group(0), String.format(html, category, fileNames[i]));
                     break;
                 }
             }

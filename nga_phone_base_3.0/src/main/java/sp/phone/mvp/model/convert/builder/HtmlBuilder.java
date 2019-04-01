@@ -8,7 +8,6 @@ import sp.phone.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.theme.ThemeManager;
-import sp.phone.util.HtmlUtils;
 import sp.phone.util.StringUtils;
 
 /**
@@ -18,16 +17,25 @@ public class HtmlBuilder {
 
     private static String sHtmlTemplate;
 
+    private static String sDarkHtmlTemplate;
+
     private static String getForegroundColorStr() {
         int webTextColor = ThemeManager.getInstance().getWebTextColor();
         return String.format("%06x", webTextColor & 0xffffff);
     }
 
     private static String getHtmlTemplate() {
-        if (sHtmlTemplate == null) {
-            sHtmlTemplate = StringUtils.getStringFromAssets("html/html_template.html");
+        if (ThemeManager.getInstance().isNightMode()) {
+            if (sDarkHtmlTemplate == null) {
+                sDarkHtmlTemplate = StringUtils.getStringFromAssets("html/html_template_dark.html");
+            }
+            return sDarkHtmlTemplate;
+        } else {
+            if (sHtmlTemplate == null) {
+                sHtmlTemplate = StringUtils.getStringFromAssets("html/html_template.html");
+            }
+            return sHtmlTemplate;
         }
-        return sHtmlTemplate;
     }
 
     public static String build(ThreadRowInfo row, String ngaHtml, List<String> imageUrls, ForumDecodeRecord decodeResult) {
@@ -56,15 +64,10 @@ public class HtmlBuilder {
                 return null;
             }
         }
-
-        int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
-        String fgColorStr = getForegroundColorStr();
         String template = getHtmlTemplate();
+        int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
         int emoticonSize = PhoneConfiguration.getInstance().getEmoticonSize();
 
-        int quoteColor = ThemeManager.getInstance().getWebQuoteBackgroundColor();
-        String quoteColorStr = HtmlUtils.convertWebColor(quoteColor);
-
-        return String.format(template, webTextSize, fgColorStr, emoticonSize, quoteColorStr, builder.toString());
+        return String.format(template, webTextSize, emoticonSize, builder.toString());
     }
 }
