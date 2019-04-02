@@ -38,11 +38,11 @@ public class ForumImageDecoder implements IForumDecoder {
     public String decode(String content) {
 
         String replace = String.format(REPLACE_IMG_NO_HTTP, HttpUtil.NGA_ATTACHMENT_HOST, "$1");
-        content = content
-                .replaceAll(REGEX_IMG_NO_HTTP, replace)
-                .replaceAll(REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP)
-                .replaceAll("(http\\S+).gif.(.*?).jpg", "$1.gif")
-                .replaceAll("(http\\S+).png.(.*?).jpg", "$1.png");
+        content = content.replaceAll(REGEX_IMG_NO_HTTP, replace);
+        content = content.replaceAll(REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP);
+        content = content.replaceAll("(http\\S+).png.(thumb_s|medium|thumb|thumb_ss).jpg", "$1.png");
+        content = content.replaceAll("(http\\S+).gif.(thumb_s|medium|thumb|thumb_ss).jpg", "$1.gif");
+        content = content.replaceAll("(http\\S+).jpg.(thumb_s|medium|thumb|thumb_ss).jpg", "$1.jpg");
 
         Pattern p = Pattern.compile(REGEX_IMG);
         Matcher m = p.matcher(content);
