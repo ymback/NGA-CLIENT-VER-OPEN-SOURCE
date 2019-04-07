@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.common.SwipeBackHelper;
@@ -47,6 +48,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (mSwipeBackHelper != null) {
             mSwipeBackHelper.onCreate(this);
+        }
+
+        if (getResources().getBoolean(R.bool.night_mode) != ThemeManager.getInstance().isNightMode()) {
+            new WebView(this);
         }
     }
 
