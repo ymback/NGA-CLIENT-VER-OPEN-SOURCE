@@ -40,6 +40,7 @@ import sp.phone.fragment.dialog.GotoDialogFragment;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
 import sp.phone.task.BookmarkTask;
+import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
@@ -82,6 +83,11 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     @Override
     protected void accept(@NonNull RxEvent rxEvent) {
+        if (getResources().getBoolean(R.bool.night_mode) != ThemeManager.getInstance().isNightMode()
+                && getActivity() != null) {
+            getActivity().recreate();
+            return;
+        }
         switch (rxEvent.what) {
             case RxEvent.EVENT_ARTICLE_TAB_UPDATE:
                 mReplyCount = rxEvent.arg;
