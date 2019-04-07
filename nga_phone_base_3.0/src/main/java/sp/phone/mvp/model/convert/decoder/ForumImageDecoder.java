@@ -40,7 +40,8 @@ public class ForumImageDecoder implements IForumDecoder {
         String replace = String.format(REPLACE_IMG_NO_HTTP, HttpUtil.NGA_ATTACHMENT_HOST, "$1");
         content = content.replaceAll(REGEX_IMG_NO_HTTP, replace);
         content = content.replaceAll(REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP);
-        content = content.replaceAll("(http\\S+).(png|gif|jpg).(thumb_s|medium|thumb|thumb_ss).jpg", "$1.$2");
+        content = content.replaceAll("(http\\S+).gif.(thumb_s|medium|thumb|thumb_ss).jpg", "$1.gif");
+        content = content.replaceAll("<a href='(http\\S+).(png|jpg).(thumb_s|medium|thumb|thumb_ss).jpg'", "<a href='$1.$2'");
 
         Pattern p = Pattern.compile(REGEX_IMG);
         Matcher m = p.matcher(content);
@@ -60,9 +61,11 @@ public class ForumImageDecoder implements IForumDecoder {
                 if (!showImage) {
                     content = content.replace(s0, HTML_IMG_DEFAULT);
                 }
+                s1 = s1.replaceFirst("(http\\S+).(png|jpg).(thumb_s|medium|thumb|thumb_ss).jpg", "$1.$2");
                 mImageUrls.add(s1);
             }
         }
+
         return content;
     }
 
