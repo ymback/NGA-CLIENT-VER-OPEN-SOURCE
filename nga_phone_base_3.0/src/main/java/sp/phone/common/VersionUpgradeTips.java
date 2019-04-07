@@ -223,4 +223,9 @@ public interface VersionUpgradeTips {
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 
+    String TIPS_2109 = "更新内容\n"
+            + "● 点击查看图片时默认显示原图\n"
+            + "● 提高帖子加载速度\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 }
