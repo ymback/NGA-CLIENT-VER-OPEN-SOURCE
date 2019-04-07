@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.base.widget.ProgressBarEx;
 import sp.phone.forumoperation.ParamKey;
 import sp.phone.mvp.contract.TopicPostContract;
@@ -54,7 +55,7 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_topic_post, container, false);
         mTitleEditText = rootView.findViewById(R.id.reply_titile_edittext);
         mBodyEditText = rootView.findViewById(R.id.reply_body_edittext);
@@ -67,7 +68,7 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mAnonyCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                showToast("匿名发帖/回复每次将扣除一百铜币,慎重");
+                ToastUtils.info("匿名发帖/回复每次将扣除一百铜币,慎重");
             }
         });
         mToolbarContainer = view.findViewById(R.id.control_panel);

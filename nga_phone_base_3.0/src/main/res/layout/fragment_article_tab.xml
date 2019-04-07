@@ -53,7 +53,7 @@
             android:id="@+id/fab_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_title="@string/new_thread"
+            app:fab_title="@string/reply_thread"
             app:srcCompat="@drawable/btn_ic_create"
             tools:ignore="VectorDrawableCompat" />
 
