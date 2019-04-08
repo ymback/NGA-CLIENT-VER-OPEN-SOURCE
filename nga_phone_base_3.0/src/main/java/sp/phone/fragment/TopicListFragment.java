@@ -135,7 +135,7 @@ public class TopicListFragment extends TopicSearchFragment {
             menu.findItem(R.id.menu_sub_board).setVisible(false);
         }
 
-        if (mRequestParam.fid == 0) {
+        if (mRequestParam.fid == 0 && mRequestParam.stid == 0) {
             menu.findItem(R.id.menu_add_bookmark).setVisible(false);
             menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
         }
