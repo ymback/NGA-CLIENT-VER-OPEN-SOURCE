@@ -1,8 +1,11 @@
 package sp.phone.fragment;
 
 import android.app.Activity;
+import android.app.UiModeManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +25,7 @@ import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.forumoperation.ParamKey;
@@ -60,8 +64,16 @@ public class TopicListFragment extends TopicSearchFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_topic_list_board, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        int layoutId;
+
+        UiModeManager uiModeManager = (UiModeManager) getContext().getSystemService(Context.UI_MODE_SERVICE);
+        if (DeviceUtils.isGreaterEqual_9_0() && uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES) {
+            layoutId = R.layout.fragment_topic_list_board_night;
+        } else {
+            layoutId = R.layout.fragment_topic_list_board;
+        }
+        return inflater.inflate(layoutId, container, false);
     }
 
     @Override

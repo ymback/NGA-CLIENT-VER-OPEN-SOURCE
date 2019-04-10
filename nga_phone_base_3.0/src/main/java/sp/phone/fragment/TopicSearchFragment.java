@@ -1,7 +1,10 @@
 package sp.phone.fragment;
 
+import android.app.UiModeManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +22,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.widget.DividerItemDecorationEx;
 import sp.phone.adapter.BaseAppendableAdapter;
 import sp.phone.adapter.ReplyListAdapter;
@@ -103,8 +107,16 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_topic_list, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        int layoutId;
+
+        UiModeManager uiModeManager = (UiModeManager) getContext().getSystemService(Context.UI_MODE_SERVICE);
+        if (DeviceUtils.isGreaterEqual_9_0() && uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES) {
+            layoutId = R.layout.fragment_topic_list_night;
+        } else {
+            layoutId = R.layout.fragment_topic_list;
+        }
+        return inflater.inflate(layoutId, container, false);
     }
 
     @Override
