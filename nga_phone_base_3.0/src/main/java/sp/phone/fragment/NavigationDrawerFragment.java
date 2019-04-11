@@ -32,6 +32,7 @@ import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.adapter.FlipperUserAdapter;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.fragment.dialog.AddBoardDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
@@ -188,6 +189,9 @@ public class NavigationDrawerFragment extends BaseFragment implements BoardContr
             mBoardPagerAdapter.notifyDataSetChanged();
         }
         setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT, 0));
+        if (UserManagerImpl.getInstance().getUserSize() > 0) {
+            mHeaderView.setDisplayedChild(UserManagerImpl.getInstance().getActiveUserIndex());
+        }
         super.onResume();
     }
 

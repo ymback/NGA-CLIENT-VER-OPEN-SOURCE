@@ -83,11 +83,6 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     @Override
     protected void accept(@NonNull RxEvent rxEvent) {
-        if (getResources().getBoolean(R.bool.night_mode) != ThemeManager.getInstance().isNightMode()
-                && getActivity() != null) {
-            getActivity().recreate();
-            return;
-        }
         switch (rxEvent.what) {
             case RxEvent.EVENT_ARTICLE_TAB_UPDATE:
                 mReplyCount = rxEvent.arg;
