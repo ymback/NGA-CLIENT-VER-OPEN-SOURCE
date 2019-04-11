@@ -189,8 +189,9 @@ public class NavigationDrawerFragment extends BaseFragment implements BoardContr
             mBoardPagerAdapter.notifyDataSetChanged();
         }
         setReplyCount(PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(PreferenceKey.KEY_REPLY_COUNT, 0));
-        if (UserManagerImpl.getInstance().getUserSize() > 0) {
-            mHeaderView.setDisplayedChild(UserManagerImpl.getInstance().getActiveUserIndex());
+        UserManager um = UserManagerImpl.getInstance();
+        if (um.getUserSize() > 0 && um.getActiveUserIndex() != mHeaderView.getDisplayedChild()) {
+            mHeaderView.setDisplayedChild(um.getActiveUserIndex());
         }
         super.onResume();
     }
