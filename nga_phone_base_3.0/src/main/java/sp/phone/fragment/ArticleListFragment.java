@@ -191,7 +191,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
     protected void accept(@NonNull RxEvent rxEvent) {
         if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE
                 && rxEvent.arg == mRequestParam.page
-                && rxEvent.obj.equals(mRequestParam)) {
+                && (rxEvent.obj == null || rxEvent.obj.equals(mRequestParam))) {
             loadPage();
         } else if (rxEvent.what == RxEvent.EVENT_ARTICLE_GO_FLOOR
                 && rxEvent.arg + 1 == mRequestParam.page
@@ -221,9 +221,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
         mListView.setItemViewCacheSize(20);
         mListView.setAdapter(mArticleAdapter);
         mListView.setEmptyView(view.findViewById(R.id.empty_view));
-        if (PhoneConfiguration.getInstance().useSolidColorBackground()) {
-            mListView.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
-        }
+        mListView.addItemDecoration(new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL));
 
         TextView sayingView = (TextView) mLoadingView.findViewById(R.id.saying);
         sayingView.setText(ActivityUtils.getSaying());
