@@ -14,6 +14,7 @@ import android.webkit.WebView;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.common.SwipeBackHelper;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
@@ -37,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (ApplicationContextHolder.getContext() == null) {
             ApplicationContextHolder.setContext(this);
         }
+        ContextUtils.setContext(this);
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
