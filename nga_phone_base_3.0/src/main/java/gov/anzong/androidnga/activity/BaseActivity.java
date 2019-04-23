@@ -16,6 +16,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.common.SwipeBackHelper;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
+import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
@@ -35,10 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (ApplicationContextHolder.getContext() == null) {
-            ApplicationContextHolder.setContext(this);
-        }
-        ContextUtils.setContext(this);
+        initBaseModule();
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
@@ -55,6 +53,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getResources().getBoolean(R.bool.night_mode) != ThemeManager.getInstance().isNightMode()) {
             new WebView(this);
         }
+    }
+
+    private void initBaseModule() {
+        ContextUtils.setContext(this);
+        ApplicationContextHolder.setContext(this);
+        BoardManagerImpl.getInstance().initialize(this);
     }
 
     protected void setSwipeBackEnable(boolean enable) {
