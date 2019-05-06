@@ -119,6 +119,7 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
             for (String success_result : success_results) {
                 if (result.contains(success_result)) {
                     success = true;
+                    result = success_result;
                     break;
                 }
             }
