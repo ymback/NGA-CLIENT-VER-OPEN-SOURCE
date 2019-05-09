@@ -58,7 +58,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void initBaseModule() {
         ContextUtils.setContext(this);
         ApplicationContextHolder.setContext(this);
-        BoardManagerImpl.getInstance().initialize(this);
     }
 
     protected void setSwipeBackEnable(boolean enable) {
