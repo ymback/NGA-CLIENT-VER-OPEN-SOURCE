@@ -8,9 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.common.SwipeBackHelper;
@@ -171,5 +175,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return true;
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        try {
+            return super.dispatchTouchEvent(ev);
+        } catch (IllegalArgumentException e) {
+            StringWriter writer = new StringWriter();
+            PrintWriter pr = new PrintWriter(writer);
+            e.printStackTrace(pr);
+            if (writer.toString().contains("SwipeBackLayout")) {
+                return false;
+            } else {
+                throw e;
+            }
+        }
     }
 }
