@@ -34,10 +34,12 @@ public class ForumImageDecoder implements IForumDecoder {
 
     private static final String REPLACE_IMG_WITH_HTTP = "<a href='$1'><img src='$1'></a>";
 
+    private static final String NGA_ATTACHMENT_HOST = "img.nga.178.com";
+
     @Override
     public String decode(String content) {
 
-        String replace = String.format(REPLACE_IMG_NO_HTTP, HttpUtil.NGA_ATTACHMENT_HOST, "$1");
+        String replace = String.format(REPLACE_IMG_NO_HTTP, NGA_ATTACHMENT_HOST, "$1");
         content = content.replaceAll(REGEX_IMG_NO_HTTP, replace);
         content = content.replaceAll(REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP);
         content = content.replaceAll("(http\\S+).gif.(thumb_s|medium|thumb|thumb_ss).jpg", "$1.gif");
