@@ -34,7 +34,7 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment impleme
             DialogFragment df = (DialogFragment) target.newInstance();
             df.setArguments(args);
             df.show(fm, target.getSimpleName());
-        } catch (IllegalAccessException | java.lang.InstantiationException e) {
+        } catch (IllegalAccessException | java.lang.InstantiationException | IllegalStateException e) {
             e.printStackTrace();
         }
     }
