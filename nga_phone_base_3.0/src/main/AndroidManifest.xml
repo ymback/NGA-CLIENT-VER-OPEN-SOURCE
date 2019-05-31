@@ -145,8 +145,7 @@
         <activity
             android:name=".activity.ArticleListActivity"
             android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
-            android:exported="true"
-            android:multiprocess="true">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
