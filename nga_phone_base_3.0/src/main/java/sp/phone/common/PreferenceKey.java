@@ -75,4 +75,6 @@ public interface PreferenceKey {
     public static final String KEY_USE_OLD_WEB_CORE = "use_old_web_core";
 
     public static final String KEY_USE_SOLID_COLOR_BG = "use_solid_color_bg";
+
+    public static final String KEY_BETA_FIX_NIGHT_THEME = "key_beta_fix_night_theme";
 }

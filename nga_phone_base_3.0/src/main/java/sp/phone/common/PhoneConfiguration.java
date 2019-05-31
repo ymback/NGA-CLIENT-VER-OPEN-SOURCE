@@ -1,5 +1,6 @@
 package sp.phone.common;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.Preference;
@@ -13,6 +14,7 @@ import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -230,6 +232,12 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     public String getCookie() {
         return UserManagerImpl.getInstance().getCookie();
+    }
+
+    public boolean isBetaFixNightTheme() {
+        UiModeManager uiModeManager = (UiModeManager) ContextUtils.getContext().getSystemService(Context.UI_MODE_SERVICE);
+        return (PreferenceUtils.getData(PreferenceKey.KEY_BETA_FIX_NIGHT_THEME, false) || uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES)
+                && DeviceUtils.isGreaterEqual_9_0();
     }
 
 }
