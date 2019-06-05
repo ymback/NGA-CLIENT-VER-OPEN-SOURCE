@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.webkit.WebView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.awp.webkit.AwpEnvironment;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
@@ -37,6 +38,7 @@ public class NgaClientApp extends Application {
         initCoreModule();
         initRouter();
         super.onCreate();
+        AwpEnvironment.init(this, true);
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
 
         if (DeviceUtils.isGreaterEqual_9_0()) {
