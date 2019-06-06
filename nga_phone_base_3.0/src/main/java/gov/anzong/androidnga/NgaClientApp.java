@@ -12,8 +12,8 @@ import com.awp.webkit.AwpEnvironment;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.FilterKeywordsManagerImpl;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.debug.BlockCanaryWatcher;
@@ -38,7 +38,9 @@ public class NgaClientApp extends Application {
         initCoreModule();
         initRouter();
         super.onCreate();
-        AwpEnvironment.init(this, true);
+        if (!PhoneConfiguration.getInstance().useOldWebCore()) {
+            AwpEnvironment.init(this, true);
+        }
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
 
         if (DeviceUtils.isGreaterEqual_9_0()) {
@@ -65,7 +67,7 @@ public class NgaClientApp extends Application {
 
     }
 
-    public  String getProcessName(Context context) {
+    public String getProcessName(Context context) {
         if (context == null) return null;
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {

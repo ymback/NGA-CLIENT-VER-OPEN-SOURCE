@@ -345,7 +345,7 @@
     <string name="setting_title_filter_sub_board">过滤版主固定的渣帖子</string>
     <string name="setting_nga_domain">NGA域名</string>
     <string name="setting_web_core_title">使用旧版本内核</string>
-    <string name="setting_web_core_summary">如果主题详情页字体样式或者大小不统一可打开此项</string>
+    <string name="setting_web_core_summary">如果主题详情页有崩溃或者显示不正常可尝试打开此项</string>
     <string name="setting_avatar_network_title">载入头像</string>
     <string name="setting_avatar_network_summary">移动数据网络下载入头像</string>
     <string name="setting_image_network_title">载入帖子图片</string>
