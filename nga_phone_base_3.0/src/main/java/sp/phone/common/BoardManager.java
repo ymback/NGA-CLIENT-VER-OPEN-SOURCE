@@ -1,15 +1,10 @@
 package sp.phone.common;
 
-import android.content.Context;
-
 import java.util.List;
 
 import sp.phone.bean.BoardCategory;
-import sp.phone.bean.BoardCategory;
 
 public interface BoardManager {
-
-    void initialize(Context context);
 
     List<BoardCategory> getCategoryList();
 

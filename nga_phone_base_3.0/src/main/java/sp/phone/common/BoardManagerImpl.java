@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 
@@ -25,17 +26,22 @@ public class BoardManagerImpl implements BoardManager {
 
     private List<BoardCategory> mCategoryList = new ArrayList<>();
 
-    private static class BoardManagerHolder {
-        static BoardManager sInstance = new BoardManagerImpl();
-    }
+    private volatile static BoardManager sBoardManager;
 
     public static BoardManager getInstance() {
-        return BoardManagerHolder.sInstance;
+        if (sBoardManager == null) {
+            synchronized (BoardManagerImpl.class) {
+                if (sBoardManager == null) {
+                    sBoardManager = new BoardManagerImpl();
+                }
+            }
+        }
+        return sBoardManager;
     }
 
-    @Override
-    public void initialize(Context context) {
-        mContext = context.getApplicationContext();
+
+    private BoardManagerImpl() {
+        mContext = ContextUtils.getContext();
         loadBookmarkBoards();
         loadPreloadBoards();
     }
