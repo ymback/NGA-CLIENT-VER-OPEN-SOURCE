@@ -1,16 +1,13 @@
 package gov.anzong.androidnga;
 
-import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.webkit.WebView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.awp.webkit.AwpEnvironment;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
-import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PhoneConfiguration;
@@ -42,13 +39,6 @@ public class NgaClientApp extends Application {
             AwpEnvironment.init(this, true);
         }
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
-
-        if (DeviceUtils.isGreaterEqual_9_0()) {
-            String processName = getProcessName(this);
-            if (!getPackageName().equals(processName) && processName != null) {
-                WebView.setDataDirectorySuffix(processName);
-            }
-        }
     }
 
     private void initRouter() {
@@ -65,17 +55,6 @@ public class NgaClientApp extends Application {
         // 注册crashHandler
         CrashHandler.getInstance().init(this);
 
-    }
-
-    public String getProcessName(Context context) {
-        if (context == null) return null;
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {
-            if (processInfo.pid == android.os.Process.myPid()) {
-                return processInfo.processName;
-            }
-        }
-        return null;
     }
 
     private void checkNewVersion() {
