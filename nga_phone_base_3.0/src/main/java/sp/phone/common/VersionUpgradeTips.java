@@ -244,4 +244,10 @@ public interface VersionUpgradeTips {
             + "● 修改帖子列表滑动策略：上滑优先显示上方工具栏\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
+
+    String TIPS_2115 = "更新内容\n"
+            + "● 修复android P上无法播放帖子音频或者视频的问题\n"
+            + "● 增加一个设置项修复android P帖子详情颜色错误的问题 \n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:172503242,欢迎加入捡肥皂\n";
 }
