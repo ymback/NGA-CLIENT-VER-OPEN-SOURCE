@@ -2,8 +2,8 @@ package sp.phone.common;
 
 import java.util.List;
 
-import sp.phone.bean.Board;
-import sp.phone.bean.BoardCategory;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.BoardCategory;
 
 public interface BoardManager {
 

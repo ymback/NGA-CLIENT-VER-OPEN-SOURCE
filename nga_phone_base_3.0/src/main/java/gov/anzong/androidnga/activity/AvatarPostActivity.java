@@ -36,9 +36,8 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.ToastUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.AvatarPostAction;
-import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
+import sp.phone.param.AvatarPostAction;
+import sp.phone.param.HttpPostClient;
 import sp.phone.task.AvatarFileUploadTask;
 import sp.phone.task.ChangeAvatarLoadTask;
 import sp.phone.theme.ThemeManager;
@@ -49,7 +48,7 @@ import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
 public class AvatarPostActivity extends BaseActivity implements
-        AvatarFileUploadTask.onFileUploaded, ChangeAvatarLoadCompleteCallBack {
+        AvatarFileUploadTask.onFileUploaded, ChangeAvatarLoadTask.ChangeAvatarLoadCompleteCallBack {
 
     final int REQUEST_CODE_SELECT_PIC = 1;
     private final String LOG_TAG = Activity.class.getSimpleName();

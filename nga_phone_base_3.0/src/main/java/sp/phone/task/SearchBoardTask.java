@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.bean.Board;
-import sp.phone.listener.OnSimpleHttpCallBack;
-import sp.phone.retrofit.RetrofitHelper;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.http.OnSimpleHttpCallBack;
+import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.StringUtils;
 

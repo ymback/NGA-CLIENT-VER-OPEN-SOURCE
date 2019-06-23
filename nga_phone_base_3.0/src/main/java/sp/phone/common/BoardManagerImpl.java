@@ -10,9 +10,9 @@ import java.util.Collections;
 import java.util.List;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
-import sp.phone.bean.Board;
-import sp.phone.bean.BoardCategory;
-import sp.phone.bean.SubBoard;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.BoardCategory;
+import sp.phone.mvp.model.entity.SubBoard;
 
 public class BoardManagerImpl implements BoardManager {
 

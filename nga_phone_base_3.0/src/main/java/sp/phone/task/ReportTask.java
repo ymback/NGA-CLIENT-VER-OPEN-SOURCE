@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.R;
-import sp.phone.forumoperation.HttpPostClient;
+import sp.phone.param.HttpPostClient;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.util.StringUtils;
 

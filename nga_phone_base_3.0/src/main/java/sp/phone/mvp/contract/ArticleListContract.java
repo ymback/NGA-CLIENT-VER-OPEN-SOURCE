@@ -3,10 +3,10 @@ package sp.phone.mvp.contract;
 import android.content.Intent;
 import android.os.Bundle;
 
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
-import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
+import sp.phone.param.ArticleListParam;
+import sp.phone.http.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/11/22.

@@ -2,10 +2,9 @@ package sp.phone.mvp.contract;
 
 import java.util.List;
 
-import sp.phone.bean.Board;
-import sp.phone.mvp.contract.tmp.BaseContract;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.BoardCategory;
 import sp.phone.common.User;
-import sp.phone.mvp.contract.tmp.BaseContract;
 
 /**
  * Created by Justwen on 2017/6/29.
@@ -13,15 +12,15 @@ import sp.phone.mvp.contract.tmp.BaseContract;
 
 public interface BoardContract {
 
-    interface Presenter extends sp.phone.mvp.contract.tmp.BaseContract.Presenter {
+    interface Presenter {
 
         void loadBoardInfo();
 
-        boolean addBoard(String fid,String name);
+        boolean addBoard(String fid, String name);
 
         void toggleUser(List<User> userList);
 
-        void toTopicListPage(int position,String fidString);
+        void toTopicListPage(int position, String fidString);
 
         void notifyDataSetChanged();
 
@@ -33,9 +32,13 @@ public interface BoardContract {
 
         void showTopicList(Board board);
 
+        void showTopicList(int fid, int stid, String boardName);
+
+        void showTopic(String url);
+
     }
 
-    interface View extends sp.phone.mvp.contract.tmp.BaseContract.View<Presenter> {
+    interface View {
 
         int switchToNextUser();
 
@@ -48,7 +51,20 @@ public interface BoardContract {
         int getCurrentItem();
     }
 
-    interface Model extends BaseContract.Model {
+    interface Model {
 
+        void addBookmark(int fid, int stid, String boardName);
+
+        void removeBookmark(int fid, int stid);
+
+        void removeAllBookmarks();
+
+        boolean isBookmark(int fid, int stid);
+
+        void swapBookmark(int from, int to);
+
+        int getCategorySize();
+
+        BoardCategory getBoardCategory(int index);
     }
 }

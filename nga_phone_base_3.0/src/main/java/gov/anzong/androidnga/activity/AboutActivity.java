@@ -15,7 +15,7 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
+import sp.phone.ui.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.FunctionUtils;
 

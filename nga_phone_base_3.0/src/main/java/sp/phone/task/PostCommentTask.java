@@ -14,12 +14,16 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.interfaces.OnPostCommentFinishedListener;
+import sp.phone.param.HttpPostClient;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
 public class PostCommentTask extends AsyncTask<String, Integer, String> {
+
+    public interface OnPostCommentFinishedListener {
+        void OnPostCommentFinished(String result, boolean success);
+    }
+
     private static final String postCommentUri = Utils.getNGAHost() + "post.php";
     private final int pid;
     private final int tid;

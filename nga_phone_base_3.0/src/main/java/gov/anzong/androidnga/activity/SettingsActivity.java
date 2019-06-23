@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 
 import gov.anzong.androidnga.base.util.ThemeUtils;
-import sp.phone.fragment.SettingsFragment;
+import sp.phone.ui.fragment.SettingsFragment;
 
 public class SettingsActivity extends BaseActivity {
 

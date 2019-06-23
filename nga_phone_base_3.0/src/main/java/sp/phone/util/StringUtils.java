@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
 import android.support.annotation.Nullable;
 
-import com.mahang.utils.LogUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -22,7 +20,7 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.util.ContextUtils;
-import sp.phone.bean.StringFindResult;
+import sp.phone.http.bean.StringFindResult;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.theme.ThemeManager;
 

@@ -27,6 +27,7 @@ public interface BaseContract {
 
     interface View {
 
+        @Deprecated
         void showToast(String text);
 
         LifecycleProvider getLifecycleProvider();

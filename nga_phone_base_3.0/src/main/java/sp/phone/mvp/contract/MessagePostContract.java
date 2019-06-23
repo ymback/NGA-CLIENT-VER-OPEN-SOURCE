@@ -1,7 +1,6 @@
 package sp.phone.mvp.contract;
 
-import sp.phone.forumoperation.MessagePostParam;
-import sp.phone.mvp.contract.tmp.BaseContract;
+import sp.phone.param.MessagePostParam;
 import sp.phone.task.MessagePostTask;
 
 /**
@@ -27,7 +26,7 @@ public interface MessagePostContract {
         void hideRecipientEditor();
     }
 
-    interface Model extends BaseContract.Model {
+    interface Model  {
 
         void postMessage(MessagePostParam param, MessagePostTask.CallBack callBack);
 

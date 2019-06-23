@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.EmoticonParentAdapter;
+import sp.phone.ui.adapter.EmoticonParentAdapter;
 
 public class EmoticonControlPanel extends LinearLayout {
 

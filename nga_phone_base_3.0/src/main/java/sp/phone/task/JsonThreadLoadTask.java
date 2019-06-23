@@ -7,18 +7,20 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.ThreadData;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
+import sp.phone.http.bean.ThreadData;
 import sp.phone.util.ArticleUtil;
-import sp.phone.bean.ThreadData;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.interfaces.OnThreadPageLoadFinishedListener;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.ArticleUtil;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.NLog;
 
 public class JsonThreadLoadTask extends AsyncTask<String, Integer, ThreadData> {
+
+    public interface OnThreadPageLoadFinishedListener {
+        void finishLoad(ThreadData data);
+
+    }
+
     static final String TAG = JsonThreadLoadTask.class.getSimpleName();
     final private Context context;
     final private OnThreadPageLoadFinishedListener notifier;
