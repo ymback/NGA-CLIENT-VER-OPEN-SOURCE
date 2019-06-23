@@ -119,7 +119,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
 
     @Override
     protected TopicListModel onCreateModel() {
-        return new TopicListModel();
+        return TopicListModel.getInstance();
     }
 
     @Override

@@ -42,16 +42,16 @@ public class BoardManagerImpl implements BoardManager {
 
     private void loadPreloadBoardsFromJson() {
 //        String categoryJson = StringUtils.getStringFromAssets("json/category.json");
-//        List<BoardCategoryBean> beans = JSON.parseArray(categoryJson, BoardCategoryBean.class);
+//        List<BoardBean> beans = JSON.parseArray(categoryJson, BoardBean.class);
 //
-//        for (BoardCategoryBean categoryBean : beans) {
+//        for (BoardBean categoryBean : beans) {
 //            BoardCategory category = new BoardCategory(categoryBean.name);
 //
-//            for (BoardCategoryBean.SubBean subBean : categoryBean.sub) {
+//            for (BoardBean.SubBean subBean : categoryBean.sub) {
 //
 //                BoardCategory subCategory = new BoardCategory(subBean.name);
 //
-//                for (BoardCategoryBean.SubBean.ContentBean contentBean : subBean.content) {
+//                for (BoardBean.SubBean.ContentBean contentBean : subBean.content) {
 //                    if (TextUtils.isEmpty(contentBean.nameS)) {
 //                        subCategory.add(new Board(contentBean.fid, contentBean.name));
 //                    } else {
