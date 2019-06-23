@@ -2,6 +2,7 @@ package sp.phone.mvp.contract;
 
 import java.util.List;
 
+import sp.phone.bean.Board;
 import sp.phone.mvp.contract.tmp.BaseContract;
 import sp.phone.common.User;
 import sp.phone.mvp.contract.tmp.BaseContract;
@@ -29,6 +30,8 @@ public interface BoardContract {
         void startUserProfile(String userName);
 
         void startLogin();
+
+        void showTopicList(Board board);
 
     }
 

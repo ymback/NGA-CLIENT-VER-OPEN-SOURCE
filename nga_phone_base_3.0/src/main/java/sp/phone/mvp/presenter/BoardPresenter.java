@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.launcher.ARouter;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
@@ -16,6 +20,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.forumoperation.ParamKey;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.util.ARouterUtils;
 import sp.phone.util.ActivityUtils;
@@ -171,6 +176,15 @@ public class BoardPresenter implements BoardContract.Presenter {
     @Override
     public void startLogin() {
         ARouterUtils.build(ARouterConstants.ACTIVITY_LOGIN).navigation((Activity) mView.getContext(), ActivityUtils.REQUEST_CODE_LOGIN);
+    }
+
+    @Override
+    public void showTopicList(Board board) {
+        ARouter.getInstance().build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                .withInt(ParamKey.KEY_FID, board.getFid())
+                .withInt(ParamKey.KEY_STID, board.getStid())
+                .withString(ParamKey.KEY_TITLE, board.getName())
+                .navigation(mView.getContext());
     }
 
 }

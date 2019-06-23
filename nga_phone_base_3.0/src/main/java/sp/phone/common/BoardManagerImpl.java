@@ -12,6 +12,7 @@ import java.util.List;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
+import sp.phone.bean.SubBoard;
 
 public class BoardManagerImpl implements BoardManager {
 
@@ -248,6 +249,10 @@ public class BoardManagerImpl implements BoardManager {
         String bookmarkStr = sp.getString(PreferenceKey.BOOKMARK_BOARD, null);
         if (bookmarkStr != null) {
             List<Board> boards = JSON.parseArray(bookmarkStr, Board.class);
+            SubBoard board = new SubBoard();
+            board.setStid(12007887);
+            board.setName("test");
+            boards.add(board);
             if (!boards.isEmpty()) {
                 category.getBoardList().addAll(boards);
             }
@@ -319,6 +324,21 @@ public class BoardManagerImpl implements BoardManager {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isBookmarkBoard(int stid) {
+        for (Board board : mCategoryList.get(0).getBoardList()) {
+            if (board.getStid() != 0 && board.getStid() == stid) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isBookmarkBoard(Board board) {
+        return mCategoryList.get(0).getBoardList().contains(board);
     }
 
     @Override

@@ -73,6 +73,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         } else {
             holder.icon.setImageDrawable(draw);
         }
+        holder.itemView.setTag(mCategory.get(position));
         holder.name.setText(mCategory.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

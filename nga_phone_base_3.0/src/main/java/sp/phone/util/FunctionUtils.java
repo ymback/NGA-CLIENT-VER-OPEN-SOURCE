@@ -577,22 +577,6 @@ public class FunctionUtils {
 
     }
 
-    public static void start_send_message(Context context, ThreadRowInfo row) {
-        Intent intent_bookmark = new Intent();
-        intent_bookmark.putExtra("to", row.getAuthor());
-        intent_bookmark.putExtra("action", "new");
-        intent_bookmark.putExtra("messagemode", "yes");
-        if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
-            intent_bookmark.setClass(context,
-                    PhoneConfiguration.getInstance().messagePostActivityClass);
-        } else {
-            intent_bookmark.setClass(context,
-                    PhoneConfiguration.getInstance().loginActivityClass);
-        }
-        context.startActivity(intent_bookmark);
-    }
-
-
     public static String checkContent(String content) {
         int i;
         boolean mode = false;

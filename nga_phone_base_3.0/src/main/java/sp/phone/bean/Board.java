@@ -91,4 +91,18 @@ public class Board implements Parcelable {
         mFid = fid;
     }
 
+    public int getStid() {
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Board
+                && (mFid != 0 && mFid == ((Board) obj).mFid || getStid() != 0 && getStid() == ((Board) obj).getStid());
+    }
+
+    @Override
+    public int hashCode() {
+        return mFid != 0 ? mFid : getStid();
+    }
 }

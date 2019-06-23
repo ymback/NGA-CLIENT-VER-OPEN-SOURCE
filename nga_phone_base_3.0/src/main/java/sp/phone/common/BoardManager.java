@@ -2,6 +2,7 @@ package sp.phone.common;
 
 import java.util.List;
 
+import sp.phone.bean.Board;
 import sp.phone.bean.BoardCategory;
 
 public interface BoardManager {
@@ -20,7 +21,13 @@ public interface BoardManager {
 
     String getBoardName(String fid);
 
+    @Deprecated
     boolean isBookmarkBoard(String fid);
+
+    @Deprecated
+    boolean isBookmarkBoard(int stid);
+
+    boolean isBookmarkBoard(Board board);
 
     void swapBookmark(int from, int to);
 

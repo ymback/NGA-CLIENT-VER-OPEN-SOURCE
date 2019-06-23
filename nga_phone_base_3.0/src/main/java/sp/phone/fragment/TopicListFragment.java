@@ -129,7 +129,7 @@ public class TopicListFragment extends TopicSearchFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestParam.fid))) {
+        if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestParam.fid)) || mBoardManager.isBookmarkBoard(mRequestParam.stid)) {
             menu.findItem(R.id.menu_add_bookmark).setVisible(false);
             menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
         } else {

@@ -30,6 +30,7 @@ import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.widget.ViewFlipperEx;
 import sp.phone.adapter.BoardPagerAdapter;
 import sp.phone.adapter.FlipperUserAdapter;
+import sp.phone.bean.Board;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManager;
@@ -212,10 +213,11 @@ public class NavigationDrawerFragment extends BaseFragment implements BoardContr
         String fidString;
         if (parent != null) {
             fidString = (String) parent.getItemAtPosition(position);
+            mPresenter.toTopicListPage(position, fidString);
         } else {
-            fidString = String.valueOf(id);
+            mPresenter.showTopicList((Board) view.getTag());
         }
 
-        mPresenter.toTopicListPage(position, fidString);
+
     }
 }
