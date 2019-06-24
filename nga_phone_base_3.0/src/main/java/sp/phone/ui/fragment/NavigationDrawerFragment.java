@@ -28,16 +28,17 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.widget.ViewFlipperEx;
-import sp.phone.ui.adapter.BoardPagerAdapter;
-import sp.phone.ui.adapter.FlipperUserAdapter;
-import sp.phone.mvp.model.entity.Board;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.ui.fragment.dialog.AddBoardDialogFragment;
 import sp.phone.mvp.contract.BoardContract;
+import sp.phone.mvp.model.entity.Board;
 import sp.phone.mvp.presenter.BoardPresenter;
+import sp.phone.rxjava.RxEvent;
+import sp.phone.ui.adapter.BoardPagerAdapter;
+import sp.phone.ui.adapter.FlipperUserAdapter;
+import sp.phone.ui.fragment.dialog.AddBoardDialogFragment;
 import sp.phone.util.ActivityUtils;
 
 
@@ -55,6 +56,21 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
     private TextView mReplyCountView;
 
     private BoardPagerAdapter mBoardPagerAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        registerRxBus();
+    }
+
+    @Override
+    protected void accept(RxEvent rxEvent) {
+        if (rxEvent.what == RxEvent.EVENT_SHOW_TOPIC_LIST) {
+            mPresenter.showTopicList((Board) rxEvent.obj);
+        } else {
+            super.accept(rxEvent);
+        }
+    }
 
     @Nullable
     @Override
@@ -219,4 +235,5 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
 
 
     }
+
 }

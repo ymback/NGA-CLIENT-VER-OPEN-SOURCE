@@ -249,10 +249,6 @@ public class BoardManagerImpl implements BoardManager {
         String bookmarkStr = sp.getString(PreferenceKey.BOOKMARK_BOARD, null);
         if (bookmarkStr != null) {
             List<Board> boards = JSON.parseArray(bookmarkStr, Board.class);
-            SubBoard board = new SubBoard();
-            board.setStid(12007887);
-            board.setName("test");
-            boards.add(board);
             if (!boards.isEmpty()) {
                 category.getBoardList().addAll(boards);
             }

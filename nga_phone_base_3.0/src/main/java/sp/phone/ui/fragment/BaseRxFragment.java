@@ -28,7 +28,7 @@ public class BaseRxFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRxLifecycleProvider.onNext(FragmentEvent.CREATE_VIEW);
     }
@@ -81,7 +81,7 @@ public class BaseRxFragment extends BaseFragment {
 
     protected void registerRxBus(FragmentEvent event) {
         RxBus.getInstance().register(RxEvent.class)
-                .compose(mRxLifecycleProvider.<RxEvent>bindUntilEvent(event))
+                .compose(mRxLifecycleProvider.bindUntilEvent(event))
                 .subscribe(new BaseSubscriber<RxEvent>() {
                     @Override
                     public void onNext(@NonNull RxEvent rxEvent) {
