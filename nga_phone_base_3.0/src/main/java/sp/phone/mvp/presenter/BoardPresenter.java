@@ -2,27 +2,28 @@ package sp.phone.mvp.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
-
-import com.alibaba.android.arouter.launcher.ARouter;
+import android.net.Uri;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gov.anzong.androidnga.activity.ArticleListActivity;
+import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.util.ToastUtils;
-import sp.phone.mvp.model.entity.Board;
-import sp.phone.mvp.model.entity.BoardCategory;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.param.ParamKey;
-import sp.phone.ui.fragment.NavigationDrawerFragment;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.model.BoardModel;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.BoardCategory;
+import sp.phone.param.ParamKey;
+import sp.phone.ui.fragment.NavigationDrawerFragment;
 import sp.phone.util.ARouterUtils;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.HttpUtil;
@@ -168,13 +169,34 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
     }
 
     @Override
+    public void clearAllBookmarkBoards() {
+        mBaseModel.removeAllBookmarks();
+        mBaseView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void swapBookmarkBoard(int from, int to) {
+        mBaseModel.swapBookmark(from, to);
+    }
+
+    @Override
+    public void addBookmarkBoard(int fid, int stid, String name) {
+        if (mBaseModel.isBookmark(fid, stid)) {
+            ToastUtils.showToast("该版面已存在");
+        } else {
+            mBaseModel.addBookmark(fid, stid, name);
+            ToastUtils.showToast("添加成功");
+        }
+    }
+
+    @Override
     public void showTopicList(Board board) {
         showTopicList(board.getFid(), board.getStid(), board.getName());
     }
 
     @Override
     public void showTopicList(int fid, int stid, String boardName) {
-        ARouter.getInstance().build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+        ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                 .withInt(ParamKey.KEY_FID, fid)
                 .withInt(ParamKey.KEY_STID, stid)
                 .withString(ParamKey.KEY_TITLE, boardName)
@@ -182,8 +204,21 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
     }
 
     @Override
-    public void showTopic(String url) {
+    public void showTopicList(String url) {
+        Intent intent = new Intent(mBaseView.getContext(), TopicListActivity.class);
+        intent.setData(Uri.parse(url));
+        if (mBaseView.getContext() != null) {
+            mBaseView.getContext().startActivity(intent);
+        }
+    }
 
+    @Override
+    public void showTopicContent(String url) {
+        Intent intent = new Intent(mBaseView.getContext(), ArticleListActivity.class);
+        intent.setData(Uri.parse(url));
+        if (mBaseView.getContext() != null) {
+            mBaseView.getContext().startActivity(intent);
+        }
     }
 
     @Override

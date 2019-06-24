@@ -80,17 +80,28 @@ public class BoardCategory implements Parcelable{
 
     }
 
+    @Deprecated
     public void remove(int index) {
         mBoardList.remove(index);
     }
 
+    @Deprecated
     public void removeAll() {
         mBoardList.clear();
     }
 
+    @Deprecated
     public void add(Board board) {
         board.setCategory(mCategoryIndex);
         mBoardList.add(board);
+    }
+
+    public void addBoards(List<Board> data) {
+        mBoardList.addAll(data);
+    }
+
+    public void removeAllBoards() {
+        mBoardList.clear();
     }
 
     @Override
