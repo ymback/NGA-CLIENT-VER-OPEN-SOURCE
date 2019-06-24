@@ -9,18 +9,12 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.http.bean.MessageDetailInfo;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.MessageDetailContract;
 import sp.phone.mvp.model.convert.MessageConvertFactory;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.mvp.model.convert.MessageConvertFactory;
-import sp.phone.mvp.contract.MessageDetailContract;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 
 /**
  * Created by Justwen on 2017/10/11.

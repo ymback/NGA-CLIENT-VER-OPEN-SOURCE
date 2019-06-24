@@ -9,10 +9,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import sp.phone.bean.SubBoard;
-import sp.phone.bean.TopicListBean;
+import sp.phone.mvp.model.entity.SubBoard;
+import sp.phone.http.bean.TopicListBean;
 import sp.phone.common.FilterKeyword;
 import sp.phone.common.FilterKeywordsManager;
 import sp.phone.common.FilterKeywordsManagerImpl;

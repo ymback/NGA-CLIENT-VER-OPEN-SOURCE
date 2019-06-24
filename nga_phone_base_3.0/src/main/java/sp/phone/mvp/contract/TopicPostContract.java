@@ -4,8 +4,8 @@ import android.net.Uri;
 
 import java.util.List;
 
-import sp.phone.forumoperation.PostParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.PostParam;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.task.TopicPostTask.CallBack;
 
 public interface TopicPostContract {

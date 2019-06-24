@@ -12,7 +12,7 @@
             android:title="@string/setting_nga_domain" />
 
         <PreferenceScreen
-            android:fragment="sp.phone.fragment.SettingsUserFragment"
+            android:fragment="sp.phone.ui.fragment.SettingsUserFragment"
             android:key="pref_user"
             android:title="@string/setting_title_user" />
 
@@ -58,7 +58,7 @@
             android:title="@string/setting_title_material_theme" />
 
         <PreferenceScreen
-            android:fragment="sp.phone.fragment.SettingsSizeFragment"
+            android:fragment="sp.phone.ui.fragment.SettingsSizeFragment"
             android:key="adjust_size"
             android:title="@string/setting_title_size" />
 
@@ -77,7 +77,7 @@
             android:title="@string/setting_title_filter_sub_board" />
 
         <PreferenceScreen
-            android:fragment="sp.phone.fragment.FilterKeywordsFragment"
+            android:fragment="sp.phone.ui.fragment.FilterKeywordsFragment"
             android:key="pref_keyword"
             android:title="@string/filter_keywords" />
 
@@ -86,7 +86,7 @@
     <PreferenceCategory android:title="主题详情设置">
 
         <PreferenceScreen
-            android:fragment="sp.phone.fragment.SettingsBlackListFragment"
+            android:fragment="sp.phone.ui.fragment.SettingsBlackListFragment"
             android:key="pref_black_list"
             android:title="@string/setting_title_black_list" />
 

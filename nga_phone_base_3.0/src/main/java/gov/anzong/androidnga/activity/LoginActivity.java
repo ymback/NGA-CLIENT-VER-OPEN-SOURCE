@@ -7,8 +7,8 @@ import android.support.v7.app.ActionBar;
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.fragment.BaseFragment;
-import sp.phone.fragment.LoginWebFragment;
+import sp.phone.ui.fragment.BaseFragment;
+import sp.phone.ui.fragment.LoginWebFragment;
 
 @Route(path = ARouterConstants.ACTIVITY_LOGIN)
 public class LoginActivity extends BaseActivity {

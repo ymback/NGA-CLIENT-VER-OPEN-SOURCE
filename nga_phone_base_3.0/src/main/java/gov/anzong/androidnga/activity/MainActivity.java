@@ -19,13 +19,11 @@ import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ThemeUtils;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.ParamKey;
-import sp.phone.fragment.BaseFragment;
-import sp.phone.fragment.NavigationDrawerFragment;
-import sp.phone.fragment.dialog.UrlInputDialogFragment;
-import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
-import sp.phone.mvp.contract.BoardContract;
-import sp.phone.mvp.presenter.BoardPresenter;
+import sp.phone.param.ParamKey;
+import sp.phone.ui.fragment.BaseFragment;
+import sp.phone.ui.fragment.NavigationDrawerFragment;
+import sp.phone.ui.fragment.dialog.UrlInputDialogFragment;
+import sp.phone.ui.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import gov.anzong.androidnga.base.util.PermissionUtils;
@@ -84,7 +82,6 @@ public class MainActivity extends BaseActivity {
             mBoardFragment = new NavigationDrawerFragment();
             fm.beginTransaction().replace(android.R.id.content, mBoardFragment, NavigationDrawerFragment.class.getSimpleName()).commit();
         }
-        new BoardPresenter((BoardContract.View) mBoardFragment);
     }
 
     @Override

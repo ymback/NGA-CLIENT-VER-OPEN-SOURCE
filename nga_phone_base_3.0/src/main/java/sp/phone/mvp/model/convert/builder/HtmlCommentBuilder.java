@@ -2,7 +2,7 @@ package sp.phone.mvp.model.convert.builder;
 
 import android.text.TextUtils;
 
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;

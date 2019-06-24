@@ -23,7 +23,7 @@ import java.util.Arrays;
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
-import sp.phone.listener.OnSimpleHttpCallBack;
+import sp.phone.http.OnSimpleHttpCallBack;
 import gov.anzong.androidnga.base.util.DeviceUtils;
 
 /**

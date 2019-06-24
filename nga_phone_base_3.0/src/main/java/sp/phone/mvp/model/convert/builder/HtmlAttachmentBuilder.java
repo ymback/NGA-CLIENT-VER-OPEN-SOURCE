@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import sp.phone.bean.Attachment;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.Attachment;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.HttpUtil;
 

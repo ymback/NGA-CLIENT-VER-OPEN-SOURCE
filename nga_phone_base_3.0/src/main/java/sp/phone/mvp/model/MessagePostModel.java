@@ -1,7 +1,7 @@
 package sp.phone.mvp.model;
 
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.forumoperation.MessagePostParam;
+import sp.phone.param.MessagePostParam;
 import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
 

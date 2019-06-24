@@ -9,8 +9,8 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.forumoperation.MessagePostParam;
-import sp.phone.fragment.MessagePostFragment;
+import sp.phone.param.MessagePostParam;
+import sp.phone.ui.fragment.MessagePostFragment;
 
 @Route(path = ARouterConstants.ACTIVITY_MESSAGE_POST)
 public class MessagePostActivity extends BaseActivity {

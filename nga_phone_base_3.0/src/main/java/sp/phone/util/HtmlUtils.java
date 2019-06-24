@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.Attachment;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.Attachment;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.theme.ThemeManager;

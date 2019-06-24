@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.theme.ThemeManager;

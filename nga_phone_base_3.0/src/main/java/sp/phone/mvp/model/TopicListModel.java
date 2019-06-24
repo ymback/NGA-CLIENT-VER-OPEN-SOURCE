@@ -14,17 +14,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.forumoperation.TopicListParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.TopicListParam;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.convert.ErrorConvertFactory;
 import sp.phone.mvp.model.convert.TopicConvertFactory;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.util.HttpUtil;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
@@ -40,7 +39,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     private TopicConvertFactory mConvertFactory;
 
-    public TopicListModel() {
+    private TopicListModel() {
         mService = (RetrofitService) RetrofitHelper.getInstance().getService(RetrofitService.class);
         mConvertFactory = new TopicConvertFactory();
     }
@@ -193,5 +192,13 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
             jsonUri.append("&recommend=1&order_by=postdatedesc&user=1");
         }
         return jsonUri.toString();
+    }
+
+    private static class SingletonHolder {
+        private static TopicListModel sInstance = new TopicListModel();
+    }
+
+    public static TopicListModel getInstance() {
+        return SingletonHolder.sInstance;
     }
 }

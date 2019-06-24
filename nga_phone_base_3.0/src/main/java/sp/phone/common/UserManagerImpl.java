@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 
 
 public class UserManagerImpl implements UserManager {

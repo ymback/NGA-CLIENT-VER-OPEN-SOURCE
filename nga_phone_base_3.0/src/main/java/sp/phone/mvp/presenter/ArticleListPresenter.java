@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.fragment.ArticleListFragment;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.ArticleListParam;
+import sp.phone.ui.fragment.ArticleListFragment;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.ArticleListModel;
 import sp.phone.rxjava.BaseSubscriber;

@@ -3,7 +3,6 @@ package gov.anzong.androidnga.gallery;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.util.Pair;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
@@ -18,8 +17,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.listener.OnSimpleHttpCallBack;
+import sp.phone.http.OnSimpleHttpCallBack;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.ActivityUtils;
 

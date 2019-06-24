@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
-import sp.phone.fragment.BaseFragment;
+import sp.phone.ui.fragment.BaseFragment;
 
 public class LauncherSubActivity extends BaseActivity {
 

@@ -9,8 +9,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 

@@ -1,7 +1,7 @@
 package sp.phone.mvp.contract;
 
-import sp.phone.forumoperation.TopicListParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.TopicListParam;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 

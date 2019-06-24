@@ -2,23 +2,17 @@ package sp.phone.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
-import android.util.Xml;
 
 import com.alibaba.fastjson.JSON;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.ContextUtils;
-import sp.phone.bean.Board;
-import sp.phone.bean.BoardCategory;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.BoardCategory;
+import sp.phone.mvp.model.entity.SubBoard;
 
 public class BoardManagerImpl implements BoardManager {
 
@@ -46,37 +40,28 @@ public class BoardManagerImpl implements BoardManager {
         loadPreloadBoards();
     }
 
-    // 不要移除
-    private void loadPreloadBoardsFromXml() {
-        XmlResourceParser xrp = mContext.getResources().getXml(R.xml.boards);
-        try {
-            int event;
-            BoardCategory category = null;
-            while ((event = xrp.next()) != XmlResourceParser.END_DOCUMENT) {
-                if (event == XmlResourceParser.START_TAG) {
-                    String tag = xrp.getName();
-                    if (tag.equals("Category")) {
-                        TypedArray a = mContext.getResources().obtainAttributes(Xml.asAttributeSet(xrp), R.styleable.board);
-                        String name = a.getString(R.styleable.board_name);
-                        category = new BoardCategory(name);
-                        category.setCategoryIndex(mCategoryList.size());
-                        mCategoryList.add(category);
-                        a.recycle();
-                    } else if (tag.equals("Board")) {
-                        TypedArray a = mContext.getResources().obtainAttributes(Xml.asAttributeSet(xrp), R.styleable.board);
-                        String name = a.getString(R.styleable.board_name);
-                        int fid = a.getInt(R.styleable.board_fid, 0);
-                        if (category != null) {
-                            category.add(new Board(fid, name));
-                        }
-                        a.recycle();
-                    }
-                }
-            }
-        } catch (XmlPullParserException | IOException | NullPointerException e) {
-            e.printStackTrace();
-        }
-
+    private void loadPreloadBoardsFromJson() {
+//        String categoryJson = StringUtils.getStringFromAssets("json/category.json");
+//        List<BoardBean> beans = JSON.parseArray(categoryJson, BoardBean.class);
+//
+//        for (BoardBean categoryBean : beans) {
+//            BoardCategory category = new BoardCategory(categoryBean.name);
+//
+//            for (BoardBean.SubBean subBean : categoryBean.sub) {
+//
+//                BoardCategory subCategory = new BoardCategory(subBean.name);
+//
+//                for (BoardBean.SubBean.ContentBean contentBean : subBean.content) {
+//                    if (TextUtils.isEmpty(contentBean.nameS)) {
+//                        subCategory.add(new Board(contentBean.fid, contentBean.name));
+//                    } else {
+//                        subCategory.add(new Board(contentBean.fid, contentBean.nameS));
+//                    }
+//                }
+//                category.addSubCategory(subCategory);
+//            }
+//            mCategoryList.add(category);
+//        }
     }
 
     private void loadPreloadBoards() {
@@ -264,6 +249,10 @@ public class BoardManagerImpl implements BoardManager {
         String bookmarkStr = sp.getString(PreferenceKey.BOOKMARK_BOARD, null);
         if (bookmarkStr != null) {
             List<Board> boards = JSON.parseArray(bookmarkStr, Board.class);
+            SubBoard board = new SubBoard();
+            board.setStid(12007887);
+            board.setName("test");
+            boards.add(board);
             if (!boards.isEmpty()) {
                 category.getBoardList().addAll(boards);
             }
@@ -335,6 +324,21 @@ public class BoardManagerImpl implements BoardManager {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isBookmarkBoard(int stid) {
+        for (Board board : mCategoryList.get(0).getBoardList()) {
+            if (board.getStid() != 0 && board.getStid() == stid) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isBookmarkBoard(Board board) {
+        return mCategoryList.get(0).getBoardList().contains(board);
     }
 
     @Override

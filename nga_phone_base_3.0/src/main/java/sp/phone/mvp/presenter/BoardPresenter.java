@@ -1,22 +1,28 @@
 package sp.phone.mvp.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+
+import com.alibaba.android.arouter.launcher.ARouter;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.bean.BoardCategory;
+import gov.anzong.androidnga.util.ToastUtils;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.BoardCategory;
 import sp.phone.common.BoardManager;
 import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.param.ParamKey;
+import sp.phone.ui.fragment.NavigationDrawerFragment;
 import sp.phone.mvp.contract.BoardContract;
+import sp.phone.mvp.model.BoardModel;
 import sp.phone.util.ARouterUtils;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.HttpUtil;
@@ -28,30 +34,18 @@ import sp.phone.util.StringUtils;
  * Created by Justwen on 2017/6/29.
  */
 
-public class BoardPresenter implements BoardContract.Presenter {
-
-    private BoardContract.View mView;
+public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, BoardModel> implements BoardContract.Presenter {
 
     private BoardManager mBoardManager;
 
     private UserManager mUserManager;
 
-    public BoardPresenter(BoardContract.View view) {
-        mView = view;
-        mView.setPresenter(this);
+    public BoardPresenter() {
+        super();
         mBoardManager = BoardManagerImpl.getInstance();
         mUserManager = UserManagerImpl.getInstance();
     }
 
-    @Override
-    public Context getContext() {
-        return mView.getContext();
-    }
-
-    @Override
-    public void setView(Object view) {
-
-    }
 
     @Override
     public void loadBoardInfo() {
@@ -61,7 +55,7 @@ public class BoardPresenter implements BoardContract.Presenter {
     @Override
     public boolean addBoard(String fid, String name) {
         if (name.equals("")) {
-            mView.showToast("请输入版面名称");
+            ToastUtils.showToast("请输入版面名称");
             return false;
         } else {
             Pattern pattern = Pattern.compile("-?[0-9]*");
@@ -73,7 +67,7 @@ public class BoardPresenter implements BoardContract.Presenter {
                 checkInt = false;
             }
             if (!match.matches() || fid.equals("") || !checkInt) {
-                mView.showToast("请输入正确的版面ID(个人版面要加负号)");
+                ToastUtils.showToast("请输入正确的版面ID(个人版面要加负号)");
                 return false;
             } else {// CHECK PASS, READY TO ADD FID
                 for (int i = 0; i < mBoardManager.getCategorySize(); i++) {
@@ -81,12 +75,12 @@ public class BoardPresenter implements BoardContract.Presenter {
                     for (int j = 0; j < curr.size(); j++) {
                         String URL = curr.get(j).getUrl();
                         if (URL.equals(fid)) {
-                            mView.showToast("该版面已经存在于列表" + curr.get(j).getName() + "中");
+                            ToastUtils.showToast("该版面已经存在于列表" + curr.get(j).getName() + "中");
                             return false;
                         }
                     }
                 }
-                mView.showToast("添加成功");
+                ToastUtils.showToast("添加成功");
                 BoardManagerImpl.getInstance().addBookmark(fid, name);
                 return true;
             }
@@ -96,11 +90,11 @@ public class BoardPresenter implements BoardContract.Presenter {
     @Override
     public void toggleUser(List<User> userList) {
         if (userList != null && userList.size() > 1) {
-            int index = mView.switchToNextUser();
+            int index = mBaseView.switchToNextUser();
             mUserManager.setActiveUser(index);
-            mView.showToast("切换账户成功,当前账户名:" + mUserManager.getActiveUser().getNickName());
+            ToastUtils.showToast("切换账户成功,当前账户名:" + mUserManager.getActiveUser().getNickName());
         } else {
-            mView.jumpToLogin();
+            mBaseView.jumpToLogin();
         }
     }
 
@@ -125,7 +119,7 @@ public class BoardPresenter implements BoardContract.Presenter {
         }
         if (fid == 0) {
             String tip = fidString + "绝对不存在";
-            mView.showToast(tip);
+            ToastUtils.showToast(tip);
             return;
         }
 
@@ -136,28 +130,28 @@ public class BoardPresenter implements BoardContract.Presenter {
         if (!StringUtils.isEmpty(config.getCookie())) {
             url = url + "&" + config.getCookie().replace("; ", "&");
         } else if (fid < 0) {
-            mView.jumpToLogin();
+            mBaseView.jumpToLogin();
             return;
         }
         if (!StringUtils.isEmpty(url)) {
             Intent intent = new Intent();
             intent.putExtra("tab", "1");
             intent.putExtra("fid", fid);
-            intent.setClass(getContext(), config.topicActivityClass);
-            getContext().startActivity(intent);
+            intent.setClass(mBaseView.getContext(), config.topicActivityClass);
+            mBaseView.getContext().startActivity(intent);
         }
     }
 
     @Override
     public void notifyDataSetChanged() {
         loadBoardInfo();
-        mView.notifyDataSetChanged();
+        mBaseView.notifyDataSetChanged();
     }
 
     @Override
     public void clearRecentBoards() {
         mBoardManager.removeAllBookmarks();
-        mView.notifyDataSetChanged();
+        mBaseView.notifyDataSetChanged();
     }
 
     @Override
@@ -165,12 +159,35 @@ public class BoardPresenter implements BoardContract.Presenter {
         ARouterUtils.build(ARouterConstants.ACTIVITY_PROFILE)
                 .withString("mode", "username")
                 .withString("username", userName)
-                .navigation(mView.getContext());
+                .navigation(mBaseView.getContext());
     }
 
     @Override
     public void startLogin() {
-        ARouterUtils.build(ARouterConstants.ACTIVITY_LOGIN).navigation((Activity) mView.getContext(), ActivityUtils.REQUEST_CODE_LOGIN);
+        ARouterUtils.build(ARouterConstants.ACTIVITY_LOGIN).navigation((Activity) mBaseView.getContext(), ActivityUtils.REQUEST_CODE_LOGIN);
     }
 
+    @Override
+    public void showTopicList(Board board) {
+        showTopicList(board.getFid(), board.getStid(), board.getName());
+    }
+
+    @Override
+    public void showTopicList(int fid, int stid, String boardName) {
+        ARouter.getInstance().build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                .withInt(ParamKey.KEY_FID, fid)
+                .withInt(ParamKey.KEY_STID, stid)
+                .withString(ParamKey.KEY_TITLE, boardName)
+                .navigation(mBaseView.getContext());
+    }
+
+    @Override
+    public void showTopic(String url) {
+
+    }
+
+    @Override
+    protected BoardModel onCreateModel() {
+        return BoardModel.getInstance();
+    }
 }
