@@ -77,6 +77,9 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void loadTopicList(final int page, TopicListParam param, final OnHttpCallBack<TopicListInfo> callBack) {
+        if (getLifecycleProvider() == null) {
+            return;
+        }
         String url = getUrl(page, param);
         mService.get(url)
                 .subscribeOn(Schedulers.io())
