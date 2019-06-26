@@ -11,9 +11,17 @@ public class Board implements Parcelable {
 
     private int mCategory;
 
+    private int mStd;
+
     public Board(int fid, String name) {
         mFid = fid;
         mName = name;
+    }
+
+    public Board(int fid, int stid, String name) {
+        mFid = fid;
+        mName = name;
+        mStd = stid;
     }
 
     public Board() {

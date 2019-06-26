@@ -6,17 +6,13 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardCategory implements Parcelable{
+public class BoardCategory implements Parcelable {
 
     private List<Board> mBoardList;
 
     private String mCategoryName;
 
     private int mCategoryIndex;
-
-    public BoardCategory() {
-        mBoardList = new ArrayList<>();
-    }
 
     public BoardCategory(String name) {
         mBoardList = new ArrayList<>();
@@ -102,6 +98,14 @@ public class BoardCategory implements Parcelable{
 
     public void removeAllBoards() {
         mBoardList.clear();
+    }
+
+    public void addBoard(Board board) {
+        mBoardList.add(board);
+    }
+
+    public void removeBoard(Board board) {
+        mBoardList.remove(board);
     }
 
     @Override
