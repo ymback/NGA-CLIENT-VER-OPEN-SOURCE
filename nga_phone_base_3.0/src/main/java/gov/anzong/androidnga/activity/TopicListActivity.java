@@ -12,8 +12,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.NotificationController;
+import sp.phone.mvp.model.BoardModel;
 import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
 import sp.phone.ui.fragment.TopicFavoriteFragment;
@@ -68,7 +68,7 @@ public class TopicListActivity extends BaseActivity {
         }
 
         if (requestParam != null && TextUtils.isEmpty(requestParam.title)) {
-            requestParam.title = BoardManagerImpl.getInstance().getBoardName(String.valueOf(requestParam.fid));
+            requestParam.title = BoardModel.getInstance().getBoardName(requestParam.fid,requestParam.stid);
         }
         return requestParam;
     }

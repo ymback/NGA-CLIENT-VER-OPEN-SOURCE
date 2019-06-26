@@ -12,8 +12,6 @@ import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.util.ToastUtils;
-import sp.phone.common.BoardManager;
-import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
@@ -37,13 +35,10 @@ import sp.phone.util.StringUtils;
 
 public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, BoardModel> implements BoardContract.Presenter {
 
-    private BoardManager mBoardManager;
-
     private UserManager mUserManager;
 
     public BoardPresenter() {
         super();
-        mBoardManager = BoardManagerImpl.getInstance();
         mUserManager = UserManagerImpl.getInstance();
     }
 
@@ -71,8 +66,8 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
                 ToastUtils.showToast("请输入正确的版面ID(个人版面要加负号)");
                 return false;
             } else {// CHECK PASS, READY TO ADD FID
-                for (int i = 0; i < mBoardManager.getCategorySize(); i++) {
-                    BoardCategory curr = mBoardManager.getCategory(i);
+                for (int i = 0; i < mBaseModel.getCategorySize(); i++) {
+                    BoardCategory curr = mBaseModel.getBoardCategory(i);
                     for (int j = 0; j < curr.size(); j++) {
                         String URL = curr.get(j).getUrl();
                         if (URL.equals(fid)) {
@@ -82,7 +77,7 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
                     }
                 }
                 ToastUtils.showToast("添加成功");
-                BoardManagerImpl.getInstance().addBookmark(fid, name);
+                mBaseModel.addBookmark(Integer.parseInt(fid), 0, name);
                 return true;
             }
         }
@@ -151,7 +146,7 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
 
     @Override
     public void clearRecentBoards() {
-        mBoardManager.removeAllBookmarks();
+        mBaseModel.removeAllBookmarks();
         mBaseView.notifyDataSetChanged();
     }
 
@@ -166,6 +161,16 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
     @Override
     public void startLogin() {
         ARouterUtils.build(ARouterConstants.ACTIVITY_LOGIN).navigation((Activity) mBaseView.getContext(), ActivityUtils.REQUEST_CODE_LOGIN);
+    }
+
+    @Override
+    public BoardCategory getBookmarkCategory() {
+        return mBaseModel.getBookmarkCategory();
+    }
+
+    @Override
+    public List<BoardCategory> getBoardCategories() {
+        return mBaseModel.getBoardCategories();
     }
 
     @Override

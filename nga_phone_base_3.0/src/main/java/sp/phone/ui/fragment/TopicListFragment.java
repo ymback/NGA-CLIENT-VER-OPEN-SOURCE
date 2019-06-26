@@ -23,8 +23,7 @@ import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.common.BoardManager;
-import sp.phone.common.BoardManagerImpl;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.param.ParamKey;
 import sp.phone.util.ActivityUtils;
 
@@ -36,8 +35,6 @@ public class TopicListFragment extends TopicSearchFragment {
 
     private Menu mOptionMenu;
 
-    private BoardManager mBoardManager;
-
     @BindView(R.id.fab_menu)
     public FloatingActionsMenu mFam;
 
@@ -46,12 +43,6 @@ public class TopicListFragment extends TopicSearchFragment {
 
     @BindView(R.id.toolbar)
     public Toolbar mToolbar;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        mBoardManager = BoardManagerImpl.getInstance();
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     protected void setTitle() {
@@ -129,7 +120,7 @@ public class TopicListFragment extends TopicSearchFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (mBoardManager.isBookmarkBoard(String.valueOf(mRequestParam.fid)) || mBoardManager.isBookmarkBoard(mRequestParam.stid)) {
+        if (mPresenter.isBookmarkBoard(mRequestParam.fid, mRequestParam.stid)) {
             menu.findItem(R.id.menu_add_bookmark).setVisible(false);
             menu.findItem(R.id.menu_remove_bookmark).setVisible(true);
         } else {
@@ -162,16 +153,16 @@ public class TopicListFragment extends TopicSearchFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_bookmark:
-                mBoardManager.addBookmark(String.valueOf(mRequestParam.fid), mRequestParam.title);
+                mPresenter.addBookmarkBoard(mRequestParam.fid, mRequestParam.stid, mRequestParam.title);
                 item.setVisible(false);
                 mOptionMenu.findItem(R.id.menu_remove_bookmark).setVisible(true);
-                showToast(R.string.toast_add_bookmark_board);
+                ToastUtils.showToast(R.string.toast_add_bookmark_board);
                 break;
             case R.id.menu_remove_bookmark:
-                mBoardManager.removeBookmark(String.valueOf(mRequestParam.fid));
+                mPresenter.removeBookmarkBoard(mRequestParam.fid, mRequestParam.stid);
                 item.setVisible(false);
                 mOptionMenu.findItem(R.id.menu_add_bookmark).setVisible(true);
-                showToast(R.string.toast_remove_bookmark_board);
+                ToastUtils.showToast(R.string.toast_remove_bookmark_board);
                 break;
             case R.id.menu_sub_board:
                 showSubBoardList();

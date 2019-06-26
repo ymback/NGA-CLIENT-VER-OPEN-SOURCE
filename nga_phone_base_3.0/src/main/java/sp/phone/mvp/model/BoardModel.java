@@ -6,7 +6,9 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import sp.phone.common.PreferenceKey;
@@ -22,6 +24,8 @@ import sp.phone.util.StringUtils;
 public class BoardModel extends BaseModel implements BoardContract.Model {
 
     private List<BoardCategory> mBoardCategoryList = new ArrayList<>();
+
+    private Map<Board.BoardKey, Board> mBoardMap = new HashMap<>();
 
     private BoardCategory mBookmarkCategory;
 
@@ -54,6 +58,7 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
         BoardCategory category = new BoardCategory("我的收藏");
         List<Board> bookmarkBoards = PreferenceUtils.getData(PreferenceKey.BOOKMARK_BOARD, Board.class);
         category.addBoards(bookmarkBoards);
+        category.setBookmarkCategory(true);
         return category;
     }
 
@@ -118,6 +123,27 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
         return mBoardCategoryList.get(index);
     }
 
+    @Override
+    public List<BoardCategory> getBoardCategories() {
+        return mBoardCategoryList;
+    }
+
+    @Override
+    public String getBoardName(int fid, int stid) {
+        for (BoardCategory category : mBoardCategoryList) {
+            for (Board board : category.getBoardList()) {
+                if (board.getFid() != 0 && board.getFid() == fid || board.getStid() != 0 && board.getStid() == stid) {
+                    return board.getName();
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public BoardCategory getBookmarkCategory() {
+        return mBookmarkCategory;
+    }
 
     private static class SingletonHolder {
         private static BoardModel sInstance = new BoardModel();

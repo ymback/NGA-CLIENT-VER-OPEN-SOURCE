@@ -28,7 +28,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ForumListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.widget.ViewFlipperEx;
-import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
@@ -201,9 +200,9 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
     @Override
     public void onResume() {
         if (mBoardPagerAdapter == null) {
-            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager());
+            mBoardPagerAdapter = new BoardPagerAdapter(getChildFragmentManager(), mPresenter.getBoardCategories());
             mViewPager.setAdapter(mBoardPagerAdapter);
-            if (BoardManagerImpl.getInstance().getCategory(0).size() == 0) {
+            if (mPresenter.getBookmarkCategory().size() == 0) {
                 mViewPager.setCurrentItem(1);
             }
         } else {

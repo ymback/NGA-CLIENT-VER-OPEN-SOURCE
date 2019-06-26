@@ -13,7 +13,8 @@ import android.view.ViewGroup;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.DeviceUtils;
-import sp.phone.common.BoardManagerImpl;
+import sp.phone.mvp.model.BoardModel;
+import sp.phone.mvp.model.entity.Board;
 import sp.phone.mvp.model.entity.BoardCategory;
 import sp.phone.ui.adapter.BoardCategoryAdapter;
 
@@ -68,18 +69,19 @@ public class BoardCategoryFragment extends Fragment {
 
         mAdapter = new BoardCategoryAdapter(getActivity(), mBoardCategory);
 
-        if (mBoardCategory.getCategoryIndex() == 0) {
+        if (mBoardCategory.isBookmarkCategory()) {
             ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, 0) {
                 @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                    BoardManagerImpl.getInstance().swapBookmark(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    BoardModel.getInstance().swapBookmark(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                     mListView.getAdapter().notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                     return true;
                 }
 
                 @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                    BoardManagerImpl.getInstance().removeBookmark(viewHolder.getAdapterPosition());
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    Board board = mBoardCategory.getBoard(viewHolder.getAdapterPosition());
+                    BoardModel.getInstance().removeBookmark(board.getFid(),board.getStid());
                     mListView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
 
                 }

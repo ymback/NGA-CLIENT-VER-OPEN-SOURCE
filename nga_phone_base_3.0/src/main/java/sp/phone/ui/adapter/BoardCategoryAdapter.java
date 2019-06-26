@@ -100,7 +100,7 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         int resId = getResId(position);
         if (resId != 0) {
             drawable = ContextCompat.getDrawable(mActivity, resId);
-        } else if (mCategory.getCategoryIndex() > 0) {
+        } else if (!mCategory.isBookmarkCategory()) {
             drawable = ContextCompat.getDrawable(mActivity, R.drawable.default_board_icon);
         }
 

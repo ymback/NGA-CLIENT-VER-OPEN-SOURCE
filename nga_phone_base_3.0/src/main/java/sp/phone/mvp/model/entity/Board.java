@@ -2,6 +2,9 @@ package sp.phone.mvp.model.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
+
+import java.util.Locale;
 
 public class Board implements Parcelable {
 
@@ -13,9 +16,57 @@ public class Board implements Parcelable {
 
     private int mStd;
 
+    private BoardKey mBoardKey;
+
+    public static class BoardKey implements Parcelable {
+
+        int fid;
+
+        int stid;
+
+        protected BoardKey(Parcel in) {
+            fid = in.readInt();
+            stid = in.readInt();
+        }
+
+        public static final Creator<BoardKey> CREATOR = new Creator<BoardKey>() {
+            @Override
+            public BoardKey createFromParcel(Parcel in) {
+                return new BoardKey(in);
+            }
+
+            @Override
+            public BoardKey[] newArray(int size) {
+                return new BoardKey[size];
+            }
+        };
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            return obj instanceof BoardKey
+                    && (fid != 0 && fid == ((BoardKey) obj).fid || stid != 0 && stid == ((BoardKey) obj).stid);
+        }
+
+        @Override
+        public int hashCode() {
+            return String.format(Locale.getDefault(), "&fid=%d&stid=%d", fid, stid).hashCode();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(fid);
+            dest.writeInt(stid);
+        }
+    }
+
     public Board(int fid, String name) {
-        mFid = fid;
         mName = name;
+        mFid = fid;
     }
 
     public Board(int fid, int stid, String name) {
@@ -81,6 +132,14 @@ public class Board implements Parcelable {
     @Deprecated
     public String getUrl() {
         return String.valueOf(getFid());
+    }
+
+    public String compueUrl() {
+        if (mBoardKey.stid != 0) {
+            return String.format(Locale.getDefault(), "stid=%d", mBoardKey.stid);
+        } else {
+            return String.format(Locale.getDefault(), "fid=%d", mBoardKey.fid);
+        }
     }
 
     public String getName() {

@@ -18,6 +18,12 @@ public interface TopicListContract {
         void loadPage(int page, TopicListParam requestInfo);
 
         void loadNextPage(int page, TopicListParam requestInfo);
+
+        boolean isBookmarkBoard(int fid, int stid);
+
+        void addBookmarkBoard(int fid, int stid, String boardName);
+
+        void removeBookmarkBoard(int fid, int stid);
     }
 
     interface View {

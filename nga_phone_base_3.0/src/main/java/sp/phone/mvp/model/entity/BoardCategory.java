@@ -12,7 +12,7 @@ public class BoardCategory implements Parcelable {
 
     private String mCategoryName;
 
-    private int mCategoryIndex;
+    private boolean mIsBookmarkCategory;
 
     public BoardCategory(String name) {
         mBoardList = new ArrayList<>();
@@ -22,11 +22,18 @@ public class BoardCategory implements Parcelable {
     protected BoardCategory(Parcel in) {
         mBoardList = in.createTypedArrayList(Board.CREATOR);
         mCategoryName = in.readString();
-        mCategoryIndex = in.readInt();
     }
 
-    public String getName() {
-        return mCategoryName;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(mBoardList);
+        dest.writeString(mCategoryName);
+        dest.writeByte((byte) (mIsBookmarkCategory ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<BoardCategory> CREATOR = new Creator<BoardCategory>() {
@@ -41,14 +48,9 @@ public class BoardCategory implements Parcelable {
         }
     };
 
-    public void setCategoryIndex(int index) {
-        mCategoryIndex = index;
+    public String getName() {
+        return mCategoryName;
     }
-
-    public int getCategoryIndex() {
-        return mCategoryIndex;
-    }
-
 
     public List<Board> getBoardList() {
         if (mBoardList == null) {
@@ -88,7 +90,6 @@ public class BoardCategory implements Parcelable {
 
     @Deprecated
     public void add(Board board) {
-        board.setCategory(mCategoryIndex);
         mBoardList.add(board);
     }
 
@@ -108,15 +109,16 @@ public class BoardCategory implements Parcelable {
         mBoardList.remove(board);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isBookmarkCategory() {
+        return mIsBookmarkCategory;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(mBoardList);
-        dest.writeString(mCategoryName);
-        dest.writeInt(mCategoryIndex);
+    public void setBookmarkCategory(boolean bookmarkCategory) {
+        mIsBookmarkCategory = bookmarkCategory;
     }
+
+    public Board getBoard(int index) {
+        return mBoardList.get(index);
+    }
+
 }

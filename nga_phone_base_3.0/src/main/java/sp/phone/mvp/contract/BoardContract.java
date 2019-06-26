@@ -32,6 +32,11 @@ public interface BoardContract {
         void startLogin();
 
 
+
+        BoardCategory getBookmarkCategory();
+
+        List<BoardCategory> getBoardCategories();
+
         void clearAllBookmarkBoards();
 
         void swapBookmarkBoard(int from, int to);
@@ -76,5 +81,11 @@ public interface BoardContract {
         int getCategorySize();
 
         BoardCategory getBoardCategory(int index);
+
+        List<BoardCategory> getBoardCategories();
+
+        String getBoardName(int fid, int stid);
+
+        BoardCategory getBookmarkCategory();
     }
 }
