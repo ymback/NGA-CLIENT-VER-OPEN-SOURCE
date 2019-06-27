@@ -6,9 +6,7 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import sp.phone.common.PreferenceKey;
@@ -24,8 +22,6 @@ import sp.phone.util.StringUtils;
 public class BoardModel extends BaseModel implements BoardContract.Model {
 
     private List<BoardCategory> mBoardCategoryList = new ArrayList<>();
-
-    private Map<Board.BoardKey, Board> mBoardMap = new HashMap<>();
 
     private BoardCategory mBookmarkCategory;
 
@@ -64,19 +60,19 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
 
     @Override
     public void addBookmark(int fid, int stid, String boardName) {
-        if (!isBookmark(fid, stid)) {
-            mBookmarkCategory.addBoard(new Board(fid, stid, boardName));
+        addBookmark(new Board.BoardKey(fid, stid), boardName);
+    }
+
+    @Override
+    public void addBookmark(Board.BoardKey boardKey, String boardName) {
+        if (!mBookmarkCategory.contains(boardKey)) {
+            mBookmarkCategory.addBoard(new Board(boardKey, boardName));
         }
     }
 
     @Override
     public void removeBookmark(int fid, int stid) {
-        for (Board board : mBookmarkCategory.getBoardList()) {
-            if (board.getFid() != 0 && board.getFid() == fid || board.getStid() != 0 && board.getStid() == stid) {
-                mBookmarkCategory.removeBoard(board);
-                return;
-            }
-        }
+        mBookmarkCategory.removeBoard(new Board.BoardKey(fid, stid));
     }
 
     @Override
@@ -86,12 +82,7 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
 
     @Override
     public boolean isBookmark(int fid, int stid) {
-        for (Board board : mBookmarkCategory.getBoardList()) {
-            if (board.getFid() != 0 && board.getFid() == fid || board.getStid() != 0 && board.getStid() == stid) {
-                return true;
-            }
-        }
-        return false;
+        return mBookmarkCategory.contains(new Board.BoardKey(fid, stid));
     }
 
     @Override
@@ -129,15 +120,19 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
     }
 
     @Override
-    public String getBoardName(int fid, int stid) {
-        for (BoardCategory category : mBoardCategoryList) {
-            for (Board board : category.getBoardList()) {
-                if (board.getFid() != 0 && board.getFid() == fid || board.getStid() != 0 && board.getStid() == stid) {
-                    return board.getName();
-                }
+    public String getBoardName(Board.BoardKey boardKey) {
+        for (BoardCategory boardCategory : mBoardCategoryList) {
+            Board board = boardCategory.getBoard(boardKey);
+            if (board != null) {
+                return board.getName();
             }
         }
         return null;
+    }
+
+    @Override
+    public String getBoardName(int fid, int stid) {
+        return getBoardName(new Board.BoardKey(fid, stid));
     }
 
     @Override

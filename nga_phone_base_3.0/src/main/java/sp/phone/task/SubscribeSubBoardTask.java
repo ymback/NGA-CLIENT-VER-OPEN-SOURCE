@@ -82,7 +82,7 @@ public class SubscribeSubBoardTask {
         int type = subBoard.getType();
         String action = getAction(type, isSubscribe);
         String parentFid = subBoard.getParentFidStr();
-        String fid = type == 1 ? subBoard.getTidStr() : subBoard.getUrl();
+        String fid = type == 1 ? subBoard.getTidStr() : String.valueOf(subBoard.getFid());
         String url;
         if (!isSubscribe) {
             url = String.format("http://bbs.ngacn.cc/nuke.php?__lib=user_option&__act=set&raw=3&type=%s&__output=8&fid=%s&%s=%s", type, parentFid, action, fid);

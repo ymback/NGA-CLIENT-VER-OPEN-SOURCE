@@ -70,6 +70,8 @@ public interface BoardContract {
 
         void addBookmark(int fid, int stid, String boardName);
 
+        void addBookmark(Board.BoardKey boardKey, String boardName);
+
         void removeBookmark(int fid, int stid);
 
         void removeAllBookmarks();
@@ -83,6 +85,8 @@ public interface BoardContract {
         BoardCategory getBoardCategory(int index);
 
         List<BoardCategory> getBoardCategories();
+
+        String getBoardName(Board.BoardKey boardKey);
 
         String getBoardName(int fid, int stid);
 

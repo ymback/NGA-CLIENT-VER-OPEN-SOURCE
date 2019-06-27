@@ -4,15 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import java.util.Locale;
-
 public class Board implements Parcelable {
 
     private int mFid;
 
     private String mName;
-
-    private int mCategory;
 
     private int mStd;
 
@@ -23,6 +19,11 @@ public class Board implements Parcelable {
         int fid;
 
         int stid;
+
+        public BoardKey(int fid, int stid) {
+            this.fid = fid;
+            this.stid = stid;
+        }
 
         protected BoardKey(Parcel in) {
             fid = in.readInt();
@@ -49,7 +50,7 @@ public class Board implements Parcelable {
 
         @Override
         public int hashCode() {
-            return String.format(Locale.getDefault(), "&fid=%d&stid=%d", fid, stid).hashCode();
+            return toString().hashCode();
         }
 
         @Override
@@ -62,84 +63,44 @@ public class Board implements Parcelable {
             dest.writeInt(fid);
             dest.writeInt(stid);
         }
+
+        @Override
+        public String toString() {
+            if (stid != 0) {
+                return "stid=" + stid;
+            } else {
+                return "fid=" + fid;
+            }
+        }
+    }
+
+    protected Board(Parcel in) {
+        mFid = in.readInt();
+        mName = in.readString();
+        mStd = in.readInt();
+        mBoardKey = in.readParcelable(BoardKey.class.getClassLoader());
     }
 
     public Board(int fid, String name) {
-        mName = name;
-        mFid = fid;
+        this(fid, 0, name);
     }
 
     public Board(int fid, int stid, String name) {
         mFid = fid;
         mName = name;
         mStd = stid;
+        mBoardKey = new BoardKey(fid, stid);
+    }
+
+    public Board(BoardKey boardKey, String name) {
+        mFid = boardKey.fid;
+        mName = name;
+        mStd = boardKey.stid;
+        mBoardKey = boardKey;
     }
 
     public Board() {
 
-    }
-
-    @Deprecated
-    public Board(String url, String name, int icon, int iconOld) {
-        this(Integer.parseInt(url), name);
-    }
-
-    @Deprecated
-    public Board(String url, String name, int icon) {
-        this(Integer.parseInt(url), name);
-    }
-
-    @Deprecated
-    public Board(String url, String name) {
-        this(Integer.parseInt(url), name);
-    }
-
-
-    protected Board(Parcel in) {
-        mFid = in.readInt();
-        mName = in.readString();
-        mCategory = in.readInt();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mFid);
-        dest.writeString(mName);
-        dest.writeInt(mCategory);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Board> CREATOR = new Creator<Board>() {
-        @Override
-        public Board createFromParcel(Parcel in) {
-            return new Board(in);
-        }
-
-        @Override
-        public Board[] newArray(int size) {
-            return new Board[size];
-        }
-    };
-
-    public void setCategory(int category) {
-        mCategory = category;
-    }
-
-    @Deprecated
-    public String getUrl() {
-        return String.valueOf(getFid());
-    }
-
-    public String compueUrl() {
-        if (mBoardKey.stid != 0) {
-            return String.format(Locale.getDefault(), "stid=%d", mBoardKey.stid);
-        } else {
-            return String.format(Locale.getDefault(), "fid=%d", mBoardKey.fid);
-        }
     }
 
     public String getName() {
@@ -162,14 +123,47 @@ public class Board implements Parcelable {
         return 0;
     }
 
+    public BoardKey getBoardKey() {
+        return mBoardKey;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Board
                 && (mFid != 0 && mFid == ((Board) obj).mFid || getStid() != 0 && getStid() == ((Board) obj).getStid());
     }
 
+    public String toUrlString() {
+        return mBoardKey.toString();
+    }
+
     @Override
     public int hashCode() {
         return mFid != 0 ? mFid : getStid();
+    }
+
+    public static final Creator<Board> CREATOR = new Creator<Board>() {
+        @Override
+        public Board createFromParcel(Parcel in) {
+            return new Board(in);
+        }
+
+        @Override
+        public Board[] newArray(int size) {
+            return new Board[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mFid);
+        dest.writeString(mName);
+        dest.writeInt(mStd);
+        dest.writeParcelable(mBoardKey, flags);
     }
 }

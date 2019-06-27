@@ -51,10 +51,6 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
         return mCategory == null ? 0 : mCategory.size();
     }
 
-    public Object getItem(int position) {
-        return mCategory == null ? null : mCategory.get(position).getFid();
-    }
-
     @Override
     public BoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = getLayoutInflater().inflate(R.layout.list_board_icon, parent, false);

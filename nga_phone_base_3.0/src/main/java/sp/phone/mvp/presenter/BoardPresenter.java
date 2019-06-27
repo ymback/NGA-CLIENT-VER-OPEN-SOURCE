@@ -69,7 +69,7 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
                 for (int i = 0; i < mBaseModel.getCategorySize(); i++) {
                     BoardCategory curr = mBaseModel.getBoardCategory(i);
                     for (int j = 0; j < curr.size(); j++) {
-                        String URL = curr.get(j).getUrl();
+                        String URL = String.valueOf(curr.getBoard(j).getFid());
                         if (URL.equals(fid)) {
                             ToastUtils.showToast("该版面已经存在于列表" + curr.get(j).getName() + "中");
                             return false;

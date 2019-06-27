@@ -107,7 +107,7 @@ public class TopicConvertFactory {
             Collections.sort(subBoards, new Comparator<SubBoard>() {
                 @Override
                 public int compare(SubBoard o1, SubBoard o2) {
-                    return Integer.parseInt(o1.getUrl()) < Integer.parseInt(o2.getUrl()) ? 1 : -1;
+                    return o1.getFid() < o2.getFid() ? 1 : -1;
                 }
             });
         }

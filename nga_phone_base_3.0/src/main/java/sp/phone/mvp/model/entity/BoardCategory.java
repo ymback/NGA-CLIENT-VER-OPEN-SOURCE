@@ -4,11 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BoardCategory implements Parcelable {
 
     private List<Board> mBoardList;
+
+    private Map<Board.BoardKey, Board> mBoardMap;
 
     private String mCategoryName;
 
@@ -16,12 +20,24 @@ public class BoardCategory implements Parcelable {
 
     public BoardCategory(String name) {
         mBoardList = new ArrayList<>();
+        mBoardMap = new HashMap<>();
         mCategoryName = name;
     }
 
     protected BoardCategory(Parcel in) {
         mBoardList = in.createTypedArrayList(Board.CREATOR);
         mCategoryName = in.readString();
+        mIsBookmarkCategory = in.readByte() != 0;
+
+        if (mBoardList == null) {
+            mBoardList = new ArrayList<>();
+        }
+
+        mBoardMap = new HashMap<>();
+
+        for (Board board : mBoardList) {
+            mBoardMap.put(board.getBoardKey(), board);
+        }
     }
 
     @Override
@@ -53,60 +69,48 @@ public class BoardCategory implements Parcelable {
     }
 
     public List<Board> getBoardList() {
-        if (mBoardList == null) {
-            mBoardList = new ArrayList<>();
-        }
         return mBoardList;
     }
 
-
+    @Deprecated
     public Board get(int index) {
-        return mBoardList.get(index);
+        return getBoard(index);
     }
 
     public int size() {
         return mBoardList.size();
     }
 
-    public void remove(String fid) {
-        for (Board board : mBoardList) {
-            if (board.getUrl().equals(fid)) {
-                mBoardList.remove(board);
-                break;
-            }
-        }
-
-    }
-
-    @Deprecated
-    public void remove(int index) {
-        mBoardList.remove(index);
-    }
-
-    @Deprecated
-    public void removeAll() {
-        mBoardList.clear();
-    }
-
-    @Deprecated
-    public void add(Board board) {
-        mBoardList.add(board);
-    }
-
     public void addBoards(List<Board> data) {
         mBoardList.addAll(data);
-    }
-
-    public void removeAllBoards() {
-        mBoardList.clear();
+        for (Board board : data) {
+            mBoardMap.put(board.getBoardKey(), board);
+        }
     }
 
     public void addBoard(Board board) {
         mBoardList.add(board);
+        mBoardMap.put(board.getBoardKey(), board);
     }
+
+
+    public void removeAllBoards() {
+        mBoardList.clear();
+        mBoardMap.clear();
+    }
+
 
     public void removeBoard(Board board) {
         mBoardList.remove(board);
+        mBoardMap.remove(board.getBoardKey());
+    }
+
+    public void removeBoard(Board.BoardKey boardKey) {
+        Board board = mBoardMap.get(boardKey);
+        if (board != null) {
+            mBoardList.remove(board);
+            mBoardMap.remove(boardKey);
+        }
     }
 
     public boolean isBookmarkCategory() {
@@ -119,6 +123,18 @@ public class BoardCategory implements Parcelable {
 
     public Board getBoard(int index) {
         return mBoardList.get(index);
+    }
+
+    public Board getBoard(Board.BoardKey boardKey) {
+        return mBoardMap.get(boardKey);
+    }
+
+    public boolean contains(Board board) {
+        return mBoardList.contains(board);
+    }
+
+    public boolean contains(Board.BoardKey boardKey) {
+        return mBoardMap.containsKey(boardKey);
     }
 
 }
