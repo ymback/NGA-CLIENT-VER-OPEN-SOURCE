@@ -13,6 +13,7 @@ import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.common.VersionUpgradeHelper;
 import sp.phone.debug.BlockCanaryWatcher;
 import sp.phone.debug.LeakCanaryWatcher;
 import sp.phone.task.DeviceStatisticsTask;
@@ -31,6 +32,7 @@ public class NgaClientApp extends Application {
         ContextUtils.setContext(this);
         LeakCanaryWatcher.initialize(this);
         BlockCanaryWatcher.startWatching(this);
+        VersionUpgradeHelper.upgrade();
         checkNewVersion();
         initCoreModule();
         initRouter();
