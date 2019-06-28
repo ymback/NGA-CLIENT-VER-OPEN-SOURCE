@@ -67,17 +67,21 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
     public void addBookmark(Board.BoardKey boardKey, String boardName) {
         if (!mBookmarkCategory.contains(boardKey)) {
             mBookmarkCategory.addBoard(new Board(boardKey, boardName));
+            saveBookmark();
         }
     }
 
     @Override
     public void removeBookmark(int fid, int stid) {
-        mBookmarkCategory.removeBoard(new Board.BoardKey(fid, stid));
+        if (mBookmarkCategory.removeBoard(new Board.BoardKey(fid, stid))) {
+            saveBookmark();
+        }
     }
 
     @Override
     public void removeAllBookmarks() {
         mBookmarkCategory.removeAllBoards();
+        saveBookmark();
     }
 
     @Override
