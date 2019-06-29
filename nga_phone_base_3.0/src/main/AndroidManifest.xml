@@ -96,6 +96,21 @@
                     android:path="/thread.php"
                     android:scheme="http" />
 
+                <data
+                    android:host="bbs.nga.cn"
+                    android:path="/thread.php"
+                    android:scheme="https" />
+
+                <data
+                    android:host="bbs.ngacn.cc"
+                    android:path="/thread.php"
+                    android:scheme="https" />
+
+                <data
+                    android:host="nga.178.com"
+                    android:path="/thread.php"
+                    android:scheme="https" />
+
             </intent-filter>
         </activity>
 
@@ -113,35 +128,29 @@
                 <data
                     android:host="nga.178.com"
                     android:path="/read.php"
-                    android:scheme="@string/myscheme" />
+                    android:scheme="http" />
                 <data
                     android:host="bbs.ngacn.cc"
                     android:path="/read.php"
-                    android:scheme="@string/myscheme" />
-                <data
-                    android:host="bbs.bigccq.cn"
-                    android:path="/read.php"
-                    android:scheme="@string/myscheme" />
+                    android:scheme="http" />
                 <data
                     android:host="bbs.nga.cn"
                     android:path="/read.php"
-                    android:scheme="@string/myscheme" />
+                    android:scheme="http" />
+
                 <data
                     android:host="nga.178.com"
                     android:path="/read.php"
-                    android:scheme="http" />
+                    android:scheme="https" />
                 <data
                     android:host="bbs.ngacn.cc"
                     android:path="/read.php"
-                    android:scheme="http" />
-                <data
-                    android:host="bbs.bigccq.cn"
-                    android:path="/read.php"
-                    android:scheme="http" />
+                    android:scheme="https" />
                 <data
                     android:host="bbs.nga.cn"
                     android:path="/read.php"
-                    android:scheme="http" />
+                    android:scheme="https" />
+
             </intent-filter>
         </activity>
         <activity android:name=".gallery.ImageZoomActivity" />
