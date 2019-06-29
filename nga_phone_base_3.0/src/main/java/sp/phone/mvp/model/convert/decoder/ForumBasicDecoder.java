@@ -154,8 +154,8 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = content.replaceAll("\\[tr\\]", "<tr>");
         content = content.replaceAll("\\[/tr\\]", "<tr>");
         content = content.replaceAll(ignoreCaseTag
-                        + "\\[td(\\d+)\\]",
-                "<td style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+                        + "\\[td[ ]*(\\d+)\\]",
+                "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
         content = content.replaceAll(ignoreCaseTag
                         + "\\[td\\scolspan(\\d+)\\swidth(\\d+)\\]",
                 "<td colspan='$1' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
