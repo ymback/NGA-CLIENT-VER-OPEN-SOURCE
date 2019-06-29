@@ -37,6 +37,8 @@ public class ArticleListActivity extends BaseActivity implements PreferenceKey {
             bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
             fragment.setArguments(bundle);
             fm.beginTransaction().replace(android.R.id.content, fragment).commit();
+        } else {
+            fragment.setHasOptionsMenu(true);
         }
     }
 
