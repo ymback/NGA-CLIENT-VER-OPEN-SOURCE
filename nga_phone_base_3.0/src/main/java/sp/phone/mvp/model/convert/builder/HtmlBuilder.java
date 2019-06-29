@@ -68,6 +68,6 @@ public class HtmlBuilder {
         int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
         int emoticonSize = PhoneConfiguration.getInstance().getEmoticonSize();
 
-        return String.format(template, webTextSize, emoticonSize, builder.toString());
+        return String.format(template, webTextSize, (int) (webTextSize * 0.9), emoticonSize, builder.toString());
     }
 }

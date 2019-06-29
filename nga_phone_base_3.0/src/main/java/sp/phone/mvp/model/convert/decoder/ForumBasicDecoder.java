@@ -149,7 +149,7 @@ public class ForumBasicDecoder implements IForumDecoder {
 
         content = content.replaceAll(
                 "\\[table\\]",
-                "<div><table cellspacing='0px' style='border:1px solid #aaa;width:99.9%;'><tbody>");
+                "<div><table cellspacing='0px' class='default'><tbody>");
         content = content.replaceAll("\\[/table\\]", "</tbody></table></div>");
         content = content.replaceAll("\\[tr\\]", "<tr>");
         content = content.replaceAll("\\[/tr\\]", "<tr>");

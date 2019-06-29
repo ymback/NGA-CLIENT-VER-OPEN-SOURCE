@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp">
+        android:padding="10dp">
 
         <FrameLayout
             android:id="@+id/fl_avatar"
@@ -112,6 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end|center"
+        android:padding="10dp"
         android:orientation="horizontal">
 
         <TextView
