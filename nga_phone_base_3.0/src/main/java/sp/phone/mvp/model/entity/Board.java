@@ -127,6 +127,13 @@ public class Board implements Parcelable {
         return mBoardKey;
     }
 
+    @Deprecated
+    public void fixBoardKey() {
+        if (mBoardKey == null) {
+            mBoardKey = new BoardKey(mFid, mStd);
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Board
