@@ -94,7 +94,9 @@
         <sp.phone.view.webview.WebViewEx
             android:id="@+id/wv_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp" />
 
         <TextView
             android:id="@+id/tv_content"
@@ -111,8 +113,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end|center"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_score"
