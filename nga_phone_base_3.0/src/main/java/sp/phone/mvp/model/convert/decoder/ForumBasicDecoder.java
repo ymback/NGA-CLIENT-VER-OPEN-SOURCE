@@ -1,8 +1,8 @@
 package sp.phone.mvp.model.convert.decoder;
 
+import com.mahang.utils.LogUtils;
+
 import gov.anzong.androidnga.Utils;
-import sp.phone.theme.ThemeManager;
-import sp.phone.util.HtmlUtils;
 import sp.phone.util.StringUtils;
 
 /**
@@ -147,12 +147,11 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = content.replaceAll("\\[lessernuke\\]", lesserNukeStyle);
         content = content.replaceAll("\\[/lessernuke\\]", endDiv);
 
-        content = content.replaceAll(
-                "\\[table\\]",
-                "<div><table cellspacing='0px' class='default'><tbody>");
-        content = content.replaceAll("\\[/table\\]", "</tbody></table></div>");
-        content = content.replaceAll("\\[tr\\]", "<tr>");
-        content = content.replaceAll("\\[/tr\\]", "</tr>");
+        // [table][/table]
+        content = content.replaceAll("\\[table](.*?)[/table]", "<div><table cellspacing='0px' class='default'><tbody>$1</tbody></table></div>");
+
+        // [tr][/tr]
+        content = content.replaceAll("\\[tr](.*?)\\[/tr]", "<tr>$1</tr>");
         content = content.replaceAll(ignoreCaseTag
                         + "\\[td[ ]*(\\d+)\\]",
                 "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
@@ -226,8 +225,7 @@ public class ForumBasicDecoder implements IForumDecoder {
                 .replaceAll(IGNORE_CASE_TAG + "\\[\\*\\](.+?)<br/>", "<li>$1</li>");
 
         // [h][/h]
-        content = content
-                .replaceAll(IGNORE_CASE_TAG + "\\[h\\](.+?)\\[/h\\]", "<b>$1</b>");
+        content = content.replaceAll(IGNORE_CASE_TAG + "\\[h](.+?)\\[/h]", "<b>$1</b>");
 
         return content;
     }
