@@ -36,6 +36,15 @@ public class ThreadPageInfo {
 
     private String mBoard;
 
+    /**
+     * 是否是版面镜像
+     */
+    private boolean mMirrorBoard;
+
+    public boolean isMirrorBoard() {
+        return mMirrorBoard;
+    }
+
     public int getPostDate() {
         return mPostDate;
     }
@@ -168,8 +177,9 @@ public class ThreadPageInfo {
         return mBoard;
     }
 
-    public void setBoard(String board) {
-        mBoard = board;
+    public void setBoard(String parentBoard) {
+        mBoard = parentBoard;
+        mMirrorBoard = "版面镜像".equals(parentBoard);
     }
 
     public static class ReplyInfo {

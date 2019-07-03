@@ -10,12 +10,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import sp.phone.mvp.model.entity.SubBoard;
-import sp.phone.http.bean.TopicListBean;
 import sp.phone.common.FilterKeyword;
 import sp.phone.common.FilterKeywordsManager;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.http.bean.TopicListBean;
+import sp.phone.mvp.model.entity.SubBoard;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.util.ForumUtils;
@@ -87,7 +87,7 @@ public class TopicConvertFactory {
 //                                }
 //                            });
 //                }).collect(Collectors.toList())
- //       );
+        //       );
 
     }
 
@@ -183,7 +183,7 @@ public class TopicConvertFactory {
             int tid = tBean.getTid();
             String tpcUrl = tBean.getTpcurl();
             if (tpcUrl != null && tpcUrl.contains("tid")) {
-                tid = StringUtils.getUrlParameter(tpcUrl,"tid");
+                tid = StringUtils.getUrlParameter(tpcUrl, "tid");
             }
             pageInfo.setTid(tid);
             pageInfo.setPage(page);
@@ -200,12 +200,21 @@ public class TopicConvertFactory {
                 pageInfo.setReplyInfo(replyInfo);
             }
 
-            Map<String,String> parent = tBean.getParent();
+            Map<String, String> parent = tBean.getParent();
             if (parent != null) {
                 pageInfo.setBoard(parent.get("2"));
             }
 
             pageInfo.setPostDate(tBean.getPostdate());
+
+            Map<String, String> topicMiscVar = tBean.topic_misc_var;
+            if (topicMiscVar != null && pageInfo.isMirrorBoard()) {
+                Object obj = topicMiscVar.get("3");
+                if (obj != null) {
+                    pageInfo.setFid(Integer.parseInt(obj.toString()));
+                }
+            }
+
 
             listInfo.addThreadPage(pageInfo);
             count++;

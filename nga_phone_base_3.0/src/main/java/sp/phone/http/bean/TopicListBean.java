@@ -230,6 +230,7 @@ public class TopicListBean {
              * admin_ui : 1
              * tpcurl : /read.php?tid=11915941&fav=c7cf9a59
              * parent : {"0":275,"2":"测试版面"}
+             * topic_misc_var:{"3":-1459709,"1":32},
              */
 
             private int tid;
@@ -256,6 +257,8 @@ public class TopicListBean {
              * 2 : 测试版面
              */
             private Map<String, String> parent;
+
+            public Map<String, String> topic_misc_var;
 
             public int getTid() {
                 return tid;

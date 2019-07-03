@@ -24,19 +24,20 @@ import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.widget.DividerItemDecorationEx;
-import sp.phone.ui.adapter.BaseAppendableAdapter;
-import sp.phone.ui.adapter.ReplyListAdapter;
-import sp.phone.ui.adapter.TopicListAdapter;
 import sp.phone.common.ApiConstants;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.TopicHistoryManager;
-import sp.phone.param.ArticleListParam;
-import sp.phone.param.ParamKey;
-import sp.phone.param.TopicListParam;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.mvp.presenter.TopicListPresenter;
+import sp.phone.param.ArticleListParam;
+import sp.phone.param.ParamKey;
+import sp.phone.param.TopicListParam;
+import sp.phone.ui.adapter.BaseAppendableAdapter;
+import sp.phone.ui.adapter.ReplyListAdapter;
+import sp.phone.ui.adapter.TopicListAdapter;
+import sp.phone.util.ARouterUtils;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
@@ -220,7 +221,12 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     public void onClick(View view) {
         ThreadPageInfo info = (ThreadPageInfo) view.getTag();
 
-        if ((info.getType() & ApiConstants.MASK_TYPE_ASSEMBLE) == ApiConstants.MASK_TYPE_ASSEMBLE) {
+        if (info.isMirrorBoard()) {
+            ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                    .withInt(ParamKey.KEY_FID, info.getFid())
+                    .withString(ParamKey.KEY_TITLE, info.getSubject())
+                    .navigation(view.getContext());
+        } else if ((info.getType() & ApiConstants.MASK_TYPE_ASSEMBLE) == ApiConstants.MASK_TYPE_ASSEMBLE) {
             TopicListParam param = new TopicListParam();
             param.title = info.getSubject();
             param.stid = info.getTid();
