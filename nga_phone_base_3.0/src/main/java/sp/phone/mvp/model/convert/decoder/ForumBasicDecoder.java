@@ -152,7 +152,7 @@ public class ForumBasicDecoder implements IForumDecoder {
                 "<div><table cellspacing='0px' class='default'><tbody>");
         content = content.replaceAll("\\[/table\\]", "</tbody></table></div>");
         content = content.replaceAll("\\[tr\\]", "<tr>");
-        content = content.replaceAll("\\[/tr\\]", "<tr>");
+        content = content.replaceAll("\\[/tr\\]", "</tr>");
         content = content.replaceAll(ignoreCaseTag
                         + "\\[td[ ]*(\\d+)\\]",
                 "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
@@ -197,7 +197,7 @@ public class ForumBasicDecoder implements IForumDecoder {
                         + "\\[td\\srowspan=(\\d+)\\]",
                 "<td rowspan='$1' style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
         content = content.replaceAll("\\[td\\]", "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
-        content = content.replaceAll("\\[/td\\]", "<td>");
+        content = content.replaceAll("\\[/td\\]", "</td>");
         // 处理表格外面的额外空行
         content = content.replaceAll("<([/]?(table|tbody|tr|td))><br/>", "<$1>");
         // [i][/i]
