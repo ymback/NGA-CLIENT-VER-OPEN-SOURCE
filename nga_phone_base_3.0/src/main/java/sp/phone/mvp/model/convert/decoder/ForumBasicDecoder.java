@@ -1,7 +1,5 @@
 package sp.phone.mvp.model.convert.decoder;
 
-import com.mahang.utils.LogUtils;
-
 import gov.anzong.androidnga.Utils;
 import sp.phone.util.StringUtils;
 
@@ -148,7 +146,7 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = content.replaceAll("\\[/lessernuke\\]", endDiv);
 
         // [table][/table]
-        content = content.replaceAll("\\[table](.*?)[/table]", "<div><table cellspacing='0px' class='default'><tbody>$1</tbody></table></div>");
+        content = content.replaceAll("\\[table](.*?)\\[/table]", "<div><table cellspacing='0px' class='default'><tbody>$1</tbody></table></div>");
 
         // [tr][/tr]
         content = content.replaceAll("\\[tr](.*?)\\[/tr]", "<tr>$1</tr>");
