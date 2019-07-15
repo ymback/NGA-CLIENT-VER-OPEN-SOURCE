@@ -33,6 +33,7 @@
     <string name="nowifi_downimg">载入帖子图片</string>
     <string name="video_layout_loading">正在缓冲&#8230;</string>
     <string name="nightmode">夜间模式</string>
+    <string name="daymode">日间模式</string>
     <string name="iconmode">使用原版板块图标</string>
     <string name="refresh">刷新</string>
     <string name="back">返回</string>

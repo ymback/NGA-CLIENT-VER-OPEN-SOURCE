@@ -88,6 +88,14 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         return mNightMode;
     }
 
+    public void setNightMode(boolean isNightMode){
+        mContext = ApplicationContextHolder.getContext();
+        SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        sp.registerOnSharedPreferenceChangeListener(this);
+        mNightMode = isNightMode;
+        sp.edit().putBoolean(PreferenceKey.NIGHT_MODE,isNightMode).apply();
+    }
+
     @ColorInt
     public int getPrimaryColor(Context context) {
         context.getTheme().resolveAttribute(android.R.attr.colorPrimary, mTypedValue, true);

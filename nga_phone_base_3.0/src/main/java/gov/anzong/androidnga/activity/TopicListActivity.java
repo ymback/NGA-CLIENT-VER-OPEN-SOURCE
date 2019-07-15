@@ -16,6 +16,7 @@ import sp.phone.common.NotificationController;
 import sp.phone.mvp.model.BoardModel;
 import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
+import sp.phone.theme.ThemeManager;
 import sp.phone.ui.fragment.TopicFavoriteFragment;
 import sp.phone.ui.fragment.TopicListFragment;
 import sp.phone.ui.fragment.TopicSearchFragment;
@@ -27,6 +28,8 @@ import sp.phone.util.StringUtils;
  */
 @Route(path = ARouterConstants.ACTIVITY_TOPIC_LIST)
 public class TopicListActivity extends BaseActivity {
+
+    private boolean mIsNightMode;
 
     private static String TAG = TopicListActivity.class.getSimpleName();
 
@@ -79,6 +82,7 @@ public class TopicListActivity extends BaseActivity {
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
         setupFragment();
+        mIsNightMode = ThemeManager.getInstance().isNightMode();
     }
 
     private void setupFragment() {
@@ -158,8 +162,12 @@ public class TopicListActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        NotificationController.getInstance().checkNotificationDelay();
         super.onResume();
+        if (mIsNightMode != ThemeManager.getInstance().isNightMode()) {
+            recreate();
+            return;
+        }
+        NotificationController.getInstance().checkNotificationDelay();
     }
 
 

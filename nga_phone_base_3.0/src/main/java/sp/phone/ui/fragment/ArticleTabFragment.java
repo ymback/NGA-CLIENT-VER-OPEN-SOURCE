@@ -24,13 +24,20 @@ import android.view.ViewGroup;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.widget.TabLayoutEx;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import sp.phone.common.PreferenceKey;
+import sp.phone.rxjava.BaseSubscriber;
+import sp.phone.theme.ThemeManager;
 import sp.phone.ui.adapter.ArticlePagerAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
@@ -193,6 +200,28 @@ public class ArticleTabFragment extends BaseRxFragment {
             case R.id.menu_copy_url:
                 copyUrl();
                 break;
+            case R.id.menu_nightmode:
+                ThemeManager.getInstance().setNightMode(true);
+                Observable.timer(0, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<Long>() {
+                            @Override
+                            public void onNext(Long aLong) {
+                                getActivity().recreate();
+                            }
+                        });
+                break;
+            case R.id.menu_daymode:
+                ThemeManager.getInstance().setNightMode(false);
+                Observable.timer(0, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<Long>() {
+                            @Override
+                            public void onNext(Long aLong) {
+                                getActivity().recreate();
+                            }
+                        });
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -240,6 +269,14 @@ public class ArticleTabFragment extends BaseRxFragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.menu_goto_floor).setVisible(mReplyCount != 0);
+
+        if (ThemeManager.getInstance().isNightMode()) {
+            menu.findItem(R.id.menu_nightmode).setVisible(false);
+            menu.findItem(R.id.menu_daymode).setVisible(true);
+        } else {
+            menu.findItem(R.id.menu_nightmode).setVisible(true);
+            menu.findItem(R.id.menu_daymode).setVisible(false);
+        }
         super.onPrepareOptionsMenu(menu);
     }
 
