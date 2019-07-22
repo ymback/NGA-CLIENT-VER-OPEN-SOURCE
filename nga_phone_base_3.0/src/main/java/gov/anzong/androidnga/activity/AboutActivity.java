@@ -103,8 +103,8 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.title("赞美片总!感谢[@force0119]");
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("客户端吐槽QQ群,欢迎加入捡肥皂")
-                .subText("172503242")
-                .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "172503242"))
+                .subText("714556852")
+                .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "714556852"))
                 .icon(R.drawable.ic_qq)
                 .build());
 
