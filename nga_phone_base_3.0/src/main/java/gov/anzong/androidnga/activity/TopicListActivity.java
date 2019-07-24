@@ -78,7 +78,11 @@ public class TopicListActivity extends BaseActivity {
         setToolbarEnabled(true);
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
-        setupFragment();
+        if (mRequestParam != null) {
+            setupFragment();
+        } else {
+            finish();
+        }
     }
 
     private void setupFragment() {
