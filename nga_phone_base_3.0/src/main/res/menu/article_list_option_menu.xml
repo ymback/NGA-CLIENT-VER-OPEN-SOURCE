@@ -23,4 +23,18 @@
         android:title="@string/share"
         androidnga:showAsAction="never"/>
 
+    <item
+        android:id="@+id/menu_nightmode"
+        android:icon="@drawable/btn_ic_star_on"
+        android:title="@string/nightmode"
+        android:visible="false"
+        androidnga:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_daymode"
+        android:icon="@drawable/btn_ic_star_on"
+        android:title="@string/daymode"
+        android:visible="false"
+        androidnga:showAsAction="never" />
+
 </menu>
