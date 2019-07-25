@@ -181,14 +181,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         try {
             return super.dispatchTouchEvent(ev);
         } catch (IllegalArgumentException e) {
-            StringWriter writer = new StringWriter();
-            PrintWriter pr = new PrintWriter(writer);
-            e.printStackTrace(pr);
-            if (writer.toString().contains("SwipeBackLayout")) {
-                return false;
-            } else {
-                throw e;
-            }
+            e.printStackTrace();
+            return false;
         }
     }
 }
