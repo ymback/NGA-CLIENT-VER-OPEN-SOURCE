@@ -89,7 +89,7 @@ public class UserManagerImpl implements UserManager {
     @Nullable
     @Override
     public User getActiveUser() {
-        return mUserList.isEmpty() ? null : mUserList.get(mActiveIndex);
+        return mUserList == null || mUserList.isEmpty() ? null : mUserList.get(mActiveIndex);
     }
 
     @Override
