@@ -33,6 +33,6 @@ project.ext {
     compileSdkVersion = 28
     buildToolsVersion = '28.0.3'
     androidSupportVersion = '28.0.0'
-    appVersionName = '2.1.16'
-    appVersionCode = 2116
+    appVersionName = '2.1.17'
+    appVersionCode = 2117
 }
