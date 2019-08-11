@@ -120,7 +120,7 @@ public class Board implements Parcelable {
     }
 
     public int getStid() {
-        return 0;
+        return mStd;
     }
 
     public BoardKey getBoardKey() {
