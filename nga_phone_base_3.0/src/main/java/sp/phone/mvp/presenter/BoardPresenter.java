@@ -3,6 +3,7 @@ package sp.phone.mvp.presenter;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -49,37 +50,29 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
     }
 
     @Override
-    public boolean addBoard(String fid, String name) {
+    public boolean addBoard(String fidStr, String name, String stidStr) {
         if (name.equals("")) {
             ToastUtils.showToast("请输入版面名称");
             return false;
         } else {
-            Pattern pattern = Pattern.compile("-?[0-9]*");
-            Matcher match = pattern.matcher(fid);
-            boolean checkInt = true;
+            int fid = 0;
+            int stid = 0;
             try {
-                Integer.parseInt(fid);
-            } catch (NumberFormatException e) {
-                checkInt = false;
-            }
-            if (!match.matches() || fid.equals("") || !checkInt) {
-                ToastUtils.showToast("请输入正确的版面ID(个人版面要加负号)");
-                return false;
-            } else {// CHECK PASS, READY TO ADD FID
-                for (int i = 0; i < mBaseModel.getCategorySize(); i++) {
-                    BoardCategory curr = mBaseModel.getBoardCategory(i);
-                    for (int j = 0; j < curr.size(); j++) {
-                        String URL = String.valueOf(curr.getBoard(j).getFid());
-                        if (URL.equals(fid)) {
-                            ToastUtils.showToast("该版面已经存在于列表" + curr.get(j).getName() + "中");
-                            return false;
-                        }
-                    }
+                if (!TextUtils.isEmpty(fidStr)) {
+                    fid = Integer.parseInt(fidStr);
                 }
-                ToastUtils.showToast("添加成功");
-                mBaseModel.addBookmark(Integer.parseInt(fid), 0, name);
+
+                if (!TextUtils.isEmpty(stidStr)) {
+                    stid = Integer.parseInt(stidStr);
+                }
+
+                addBookmarkBoard(fid, stid, name);
                 return true;
+            } catch (NumberFormatException e) {
+                ToastUtils.showToast("请输入正确的版面ID或者合集ID");
+                return false;
             }
+
         }
     }
 

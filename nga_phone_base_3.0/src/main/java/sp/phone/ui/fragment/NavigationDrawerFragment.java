@@ -185,7 +185,7 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
     }
 
     private void showAddBoardDialog() {
-        new AddBoardDialogFragment().setOnAddBookmarkListener((name, fid) -> mPresenter.addBoard(fid, name))
+        new AddBoardDialogFragment().setOnAddBookmarkListener((name, fid, stid) -> mPresenter.addBoard(fid, name, stid))
                 .show(getChildFragmentManager());
     }
 

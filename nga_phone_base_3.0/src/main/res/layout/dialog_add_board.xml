@@ -31,5 +31,15 @@
         android:scrollbars="vertical"
         android:selectAllOnFocus="true"/>
 
+    <EditText
+        android:id="@+id/add_stid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/add_stid_dialog_hintB"
+        android:maxLines="6"
+        android:scrollbars="vertical"
+        android:selectAllOnFocus="true"/>
+
 </LinearLayout>
    

@@ -16,8 +16,7 @@ public interface BoardContract {
 
         void loadBoardInfo();
 
-        @Deprecated
-        boolean addBoard(String fid, String name);
+        boolean addBoard(String fid, String name, String stid);
 
         void toggleUser(List<User> userList);
 

@@ -266,4 +266,10 @@ public interface VersionUpgradeTips {
             + "● 帖子内可以直接切换夜间模式 \n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_2118 = "更新内容\n"
+            + "● 解决无法从我的收藏正确进入合集的问题\n"
+            + "● 支持手动添加合集\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
 }

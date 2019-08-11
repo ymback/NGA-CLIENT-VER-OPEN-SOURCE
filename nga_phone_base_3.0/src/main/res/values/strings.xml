@@ -168,7 +168,8 @@
     <string name="profile_search_dialog_hint">默认查看自己的用户信息</string>
     <string name="addfid_dialog_hintA">输入版面名称</string>
     <string name="addfid_dialog_url">输入URL地址(板块或帖子)</string>
-    <string name="addfid_dialog_hintB">输入版面ID(个人版面有负号)</string>
+    <string name="addfid_dialog_hintB">输入版面ID(fid)(个人版面有负号)</string>
+    <string name="add_stid_dialog_hintB">输入合集ID(stid)</string>
     <string name="search_dialog_hint_topic_reply_byself">直接按确定搜索自己的发帖</string>
     <string name="search_dialog_hint_reply_byself">直接按确定搜索自己的回复</string>
     <string name="user_distance">该用户距离你</string>
