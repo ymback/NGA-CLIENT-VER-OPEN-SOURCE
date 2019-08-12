@@ -13,9 +13,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.common.SwipeBackHelper;
 import gov.anzong.androidnga.base.util.ContextUtils;
@@ -23,6 +20,7 @@ import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.NLog;
 
 /**
  * Created by liuboyu on 16/6/28.
@@ -55,6 +53,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (getResources().getBoolean(R.bool.night_mode) != ThemeManager.getInstance().isNightMode()) {
             new WebView(this);
+        }
+
+        try {
+            getWindow().setNavigationBarColor(getColor(R.color.background_color));
+        } catch (Exception e) {
+            NLog.e("set navigation bar color exception occur: " + e);
         }
     }
 
