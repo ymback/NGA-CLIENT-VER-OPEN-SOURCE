@@ -123,6 +123,10 @@ public class Board implements Parcelable {
         return mStd;
     }
 
+    public void setStid(int std) {
+        mStd = std;
+    }
+
     public BoardKey getBoardKey() {
         return mBoardKey;
     }

@@ -63,10 +63,12 @@ public class SubBoard extends Board implements Parcelable {
     };
 
 
+    @Override
     public int getStid() {
         return mStid;
     }
 
+    @Override
     public void setStid(int stid) {
         mStid = stid;
     }
