@@ -30,7 +30,7 @@ public interface BaseContract {
         @Deprecated
         void showToast(String text);
 
-        LifecycleProvider getLifecycleProvider();
+        LifecycleProvider<FragmentEvent> getLifecycleProvider();
     }
 
 }

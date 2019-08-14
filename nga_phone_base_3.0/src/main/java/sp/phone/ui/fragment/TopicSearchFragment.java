@@ -196,7 +196,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
     @Override
     public void setRefreshing(boolean refreshing) {
-        if (mSwipeRefreshLayout.isShown()) {
+        if (mSwipeRefreshLayout.getVisibility() == View.VISIBLE) {
             mSwipeRefreshLayout.setRefreshing(refreshing);
         }
     }
