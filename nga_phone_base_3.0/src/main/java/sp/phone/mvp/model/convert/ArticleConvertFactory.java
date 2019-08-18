@@ -49,7 +49,7 @@ public class ArticleConvertFactory {
                     .replaceAll("\"alterinfo\":\"\\[(\\w|\\s)+\\]\\s+\",", ""); //部分页面打不开的问题
 
             JSONObject obj = (JSONObject) JSON.parseObject(js).get("data");
-            NLog.e(TAG, "can not parse :\n" + js);
+            NLog.d(TAG, "js = :\n" + js);
             if (obj == null) {
                 return null;
             }

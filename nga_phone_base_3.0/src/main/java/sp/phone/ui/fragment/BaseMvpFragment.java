@@ -3,6 +3,7 @@ package sp.phone.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import sp.phone.mvp.contract.BaseContract;
 import sp.phone.mvp.presenter.BasePresenter;
@@ -35,6 +36,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseRxFra
     @Override
     public void onResume() {
         if (mPresenter != null) {
+            mPresenter.attachView(this);
             mPresenter.onResume();
         }
         super.onResume();
@@ -49,7 +51,7 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseRxFra
     }
 
     @Override
-    public void onViewCreated(android.view.View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         if (mPresenter != null) {
             mPresenter.onViewCreated();
         }
