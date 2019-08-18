@@ -24,5 +24,7 @@
     <dimen name="topic_list_item_padding">12dp</dimen>
     <dimen name="topic_list_item_sub_text_size">12dp</dimen>
 
+    <dimen name="article_list_webview_padding_top_bottom">10dp</dimen>
+
 
 </resources>

@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import java.util.List;
 
+import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
@@ -67,7 +69,8 @@ public class HtmlBuilder {
         String template = getHtmlTemplate();
         int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
         int emoticonSize = PhoneConfiguration.getInstance().getEmoticonSize();
+        int paddingTopBottom = ContextUtils.getDimension(R.dimen.article_list_webview_padding_top_bottom);
 
-        return String.format(template, webTextSize, (int) (webTextSize * 0.9), emoticonSize, builder.toString());
+        return String.format(template, paddingTopBottom, paddingTopBottom, webTextSize, (int) (webTextSize * 0.9), emoticonSize, builder.toString());
     }
 }
