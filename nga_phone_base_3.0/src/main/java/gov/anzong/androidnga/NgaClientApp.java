@@ -38,7 +38,7 @@ public class NgaClientApp extends Application {
         initRouter();
         super.onCreate();
         if (!PhoneConfiguration.getInstance().useOldWebCore()) {
-            AwpEnvironment.init(this, true);
+          //  AwpEnvironment.init(this, true);
         }
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
     }
