@@ -275,4 +275,9 @@ public interface VersionUpgradeTips {
             + "● 解决主题详情页面在只有单行的情况下，长按菜单会覆盖内容的问题"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_2119 = "更新内容\n"
+            + "● 解决复制光标难以拖动的问题\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
+            + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
 }

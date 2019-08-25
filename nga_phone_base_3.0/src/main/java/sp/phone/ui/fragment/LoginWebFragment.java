@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.mvp.presenter.LoginPresenter;
 import sp.phone.util.StringUtils;
 
@@ -38,6 +39,7 @@ public class LoginWebFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         mLoginPresenter = new LoginPresenter();
         super.onCreate(savedInstanceState);
+        ToastUtils.info("不支持QQ和微博登录");
     }
 
     private class LoginWebChromeClient extends WebChromeClient {
