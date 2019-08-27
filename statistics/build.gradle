@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
         applicationId "gov.anzong.androidnga.statistics"
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -26,7 +26,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:' + project.androidSupportVersion
+    implementation "com.android.support:appcompat-v7:$project.androidSupportVersion"
     implementation(name: 'bmob-sdk-3.6.3', ext: 'aar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

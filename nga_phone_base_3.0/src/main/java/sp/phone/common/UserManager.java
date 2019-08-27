@@ -4,10 +4,11 @@ import android.content.Context;
 
 import java.util.List;
 
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadData;
+import sp.phone.http.bean.ThreadData;
 
 public interface UserManager {
+
+    int getUserSize();
 
     User getActiveUser();
 

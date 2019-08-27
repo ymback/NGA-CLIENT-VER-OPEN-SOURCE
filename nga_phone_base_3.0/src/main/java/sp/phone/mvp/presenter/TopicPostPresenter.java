@@ -1,5 +1,6 @@
 package sp.phone.mvp.presenter;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,18 +17,18 @@ import java.io.InputStream;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.adapter.ExtensionEmotionAdapter;
+import gov.anzong.androidnga.base.util.PermissionUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.forumoperation.PostParam;
-import sp.phone.fragment.TopicPostFragment;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.PostParam;
+import sp.phone.ui.fragment.TopicPostFragment;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.DeviceUtils;
+import sp.phone.util.EmoticonUtils;
 import sp.phone.util.FunctionUtils;
-import sp.phone.util.PermissionUtils;
 import sp.phone.util.StringUtils;
 
 public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPostModel>
@@ -42,7 +43,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         String urlTemp = emotion.replaceAll("\\n", "");
         if (urlTemp.contains("http")) {
             urlTemp = urlTemp.substring(5, urlTemp.length() - 6);
-            String sourceFile = ExtensionEmotionAdapter.getPathByURI(urlTemp);
+            String sourceFile = EmoticonUtils.getPathByURI(urlTemp);
             try (InputStream is = mBaseView.getContext().getResources().getAssets().open(sourceFile)) {
                 if (is != null) {
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
@@ -132,13 +133,11 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
     }
 
     public void showFilePicker() {
-        if (!DeviceUtils.isGreaterEqual_6_0()) {
-            mBaseView.showFilePicker();
-        } else if (PermissionUtils.hasStoragePermission(mBaseView.getContext())) {
-            mBaseView.showFilePicker();
-        } else {
-            PermissionUtils.requestStoragePermission(mBaseView);
-        }
+        PermissionUtils.request(mBaseView, aBoolean -> {
+            if (aBoolean) {
+                mBaseView.showFilePicker();
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     public void startUploadTask(final Uri uri) {
@@ -147,14 +146,14 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
             public void onError(String text) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
-                    ActivityUtils.showToast(text);
+                    ToastUtils.error(text);
                 }
             }
 
             public void onSuccess(String data) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
-                    ActivityUtils.showToast("上传成功");
+                    ToastUtils.success("上传成功");
                     finishUpload(data, uri);
                 }
             }

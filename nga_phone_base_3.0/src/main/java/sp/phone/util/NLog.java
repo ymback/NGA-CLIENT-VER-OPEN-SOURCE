@@ -13,7 +13,7 @@ public class NLog {
 
     private static boolean sDebugMode = BuildConfig.DEBUG;
 
-    public static final String TAG = "NGA";
+    public static final String TAG = "NGAClient";
 
     public static void setDebug(boolean debug) {
         sDebugMode = debug;

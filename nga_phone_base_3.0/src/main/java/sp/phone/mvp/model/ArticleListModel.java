@@ -6,24 +6,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.bean.ThreadData;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.mvp.contract.ArticleListContract;
-import sp.phone.mvp.model.convert.ArticleConvertFactory;
-import sp.phone.mvp.model.convert.ErrorConvertFactory;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
-import sp.phone.bean.ThreadData;
+import sp.phone.http.bean.ThreadData;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.ArticleListParam;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.convert.ArticleConvertFactory;
 import sp.phone.mvp.model.convert.ErrorConvertFactory;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.util.HttpUtil;
+import sp.phone.util.NLog;
 
 /**
  * 加载帖子内容
@@ -71,7 +64,9 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                 .map(new Function<String, ThreadData>() {
                     @Override
                     public ThreadData apply(@NonNull String s) throws Exception {
+                        long time = System.currentTimeMillis();
                         ThreadData data = ArticleConvertFactory.getArticleInfo(s);
+                        NLog.e(TAG, "time = " + (System.currentTimeMillis() - time));
                         if (data == null) {
                             throw new Exception(ErrorConvertFactory.getErrorMessage(s));
                         } else {

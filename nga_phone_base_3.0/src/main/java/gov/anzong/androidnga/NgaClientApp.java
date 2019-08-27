@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.awp.webkit.AwpEnvironment;
 
+import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.BoardManagerImpl;
+import sp.phone.common.FilterKeywordsManagerImpl;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.common.VersionUpgradeHelper;
 import sp.phone.debug.BlockCanaryWatcher;
 import sp.phone.debug.LeakCanaryWatcher;
 import sp.phone.task.DeviceStatisticsTask;
@@ -25,14 +29,19 @@ public class NgaClientApp extends Application {
     public void onCreate() {
         NLog.w(TAG, "app nga android start");
         ApplicationContextHolder.setContext(this);
+        ContextUtils.setContext(this);
         LeakCanaryWatcher.initialize(this);
         BlockCanaryWatcher.startWatching(this);
+        VersionUpgradeHelper.upgrade();
         checkNewVersion();
         initCoreModule();
         initRouter();
         super.onCreate();
+        if (!PhoneConfiguration.getInstance().useOldWebCore()) {
+          //  AwpEnvironment.init(this, true);
+        }
+        registerActivityLifecycleCallbacks(new ActivityCallback(this));
     }
-
 
     private void initRouter() {
         if (BuildConfig.DEBUG) {   // 这两行必须写在init之前，否则这些配置在init过程中将无效
@@ -44,7 +53,7 @@ public class NgaClientApp extends Application {
 
     private void initCoreModule() {
         UserManagerImpl.getInstance().initialize(this);
-        BoardManagerImpl.getInstance().initialize(this);
+        FilterKeywordsManagerImpl.getInstance().initialize(this);
         // 注册crashHandler
         CrashHandler.getInstance().init(this);
 

@@ -1,9 +1,6 @@
 package sp.phone.mvp.model.convert.decoder;
 
 import gov.anzong.androidnga.Utils;
-import sp.phone.theme.ThemeManager;
-import sp.phone.util.HtmlUtils;
-import sp.phone.util.HttpUtil;
 import sp.phone.util.StringUtils;
 
 /**
@@ -18,7 +15,7 @@ public class ForumBasicDecoder implements IForumDecoder {
     private static final String styleColor = "<span style='color:$1' >";
     private static final String endDiv = "</div>";
 
-    private static final String STYLE_QUOTE = "<div style='background:%s;padding:5px;border:1px solid #888' >";
+    private static final String STYLE_QUOTE = "<div class='quote' >";
 
     @Override
     public String decode(String content) {
@@ -26,13 +23,7 @@ public class ForumBasicDecoder implements IForumDecoder {
             return "";
         // s = StringUtils.unEscapeHtml(s);
 
-        int quoteColor = ThemeManager.getInstance().getWebQuoteBackgroundColor();
-        String quoteColorStr = HtmlUtils.convertWebColor(quoteColor);
-        String quoteStyle = String.format(STYLE_QUOTE, quoteColorStr);
-
-//        String quoteStyle = "<div style='background:#E8E8E8;padding:5px;border:1px solid #888' >";
-//        if (ThemeManager.getInstance().isNightMode())
-//            quoteStyle = "<div style='background:#000000;padding:5px;border:1px solid #888' >";
+        String quoteStyle = STYLE_QUOTE;
 
         final String styleLeft = "<div style='float:left' >";
         final String styleRight = "<div style='float:right' >";
@@ -154,15 +145,14 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = content.replaceAll("\\[lessernuke\\]", lesserNukeStyle);
         content = content.replaceAll("\\[/lessernuke\\]", endDiv);
 
-        content = content.replaceAll(
-                "\\[table\\]",
-                "<div><table cellspacing='0px' style='border:1px solid #aaa;width:99.9%;'><tbody>");
-        content = content.replaceAll("\\[/table\\]", "</tbody></table></div>");
-        content = content.replaceAll("\\[tr\\]", "<tr>");
-        content = content.replaceAll("\\[/tr\\]", "<tr>");
+        // [table][/table]
+        content = content.replaceAll("\\[table](.*?)\\[/table]", "<div><table cellspacing='0px' class='default'><tbody>$1</tbody></table></div>");
+
+        // [tr][/tr]
+        content = content.replaceAll("\\[tr](.*?)\\[/tr]", "<tr>$1</tr>");
         content = content.replaceAll(ignoreCaseTag
-                        + "\\[td(\\d+)\\]",
-                "<td style='width:$1%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
+                        + "\\[td[ ]*(\\d+)\\]",
+                "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
         content = content.replaceAll(ignoreCaseTag
                         + "\\[td\\scolspan(\\d+)\\swidth(\\d+)\\]",
                 "<td colspan='$1' style='width:$2%;border-left:1px solid #aaa;border-bottom:1px solid #aaa'>");
@@ -204,7 +194,7 @@ public class ForumBasicDecoder implements IForumDecoder {
                         + "\\[td\\srowspan=(\\d+)\\]",
                 "<td rowspan='$1' style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
         content = content.replaceAll("\\[td\\]", "<td style='border-left:1px solid #aaa;border-bottom:1px solid #aaa;'>");
-        content = content.replaceAll("\\[/td\\]", "<td>");
+        content = content.replaceAll("\\[/td\\]", "</td>");
         // 处理表格外面的额外空行
         content = content.replaceAll("<([/]?(table|tbody|tr|td))><br/>", "<$1>");
         // [i][/i]
@@ -224,18 +214,6 @@ public class ForumBasicDecoder implements IForumDecoder {
                 "<span style=\"font-size:$1%;line-height:$1%\">");
         content = content.replaceAll(ignoreCaseTag + "\\[/size\\]", "</span>");
 
-        // [img]./ddd.jpg[/img]
-        // if(showImage){
-        content = content.replaceAll(ignoreCaseTag
-                        + "\\[img\\]\\s*\\.(/[^\\[|\\]]+)\\s*\\[/img\\]",
-                "<a href='http://" + HttpUtil.NGA_ATTACHMENT_HOST
-                        + "/attachments$1'><img src='http://"
-                        + HttpUtil.NGA_ATTACHMENT_HOST
-                        + "/attachments$1' style= 'max-width:100%' ></a>");
-        content = content.replaceAll(ignoreCaseTag
-                        + "\\[img\\]\\s*(http[^\\[|\\]]+)\\s*\\[/img\\]",
-                "<a href='$1'><img src='$1' style= 'max-width:100%' ></a>");
-
         // [list][/list]
         // TODO: 2018/9/18  部分页面里和 collapse 标签有冲突 http://bbs.nga.cn/read.php?tid=14949699
         content = content
@@ -245,8 +223,7 @@ public class ForumBasicDecoder implements IForumDecoder {
                 .replaceAll(IGNORE_CASE_TAG + "\\[\\*\\](.+?)<br/>", "<li>$1</li>");
 
         // [h][/h]
-        content = content
-                .replaceAll(IGNORE_CASE_TAG + "\\[h\\](.+?)\\[/h\\]", "<b>$1</b>");
+        content = content.replaceAll(IGNORE_CASE_TAG + "\\[h](.+?)\\[/h]", "<b>$1</b>");
 
         return content;
     }

@@ -11,12 +11,12 @@ import gov.anzong.androidnga.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.model.convert.ForumNotificationFactory;
 import sp.phone.mvp.model.entity.NotificationInfo;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.NLog;
 

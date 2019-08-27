@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 
 
 public class UserManagerImpl implements UserManager {
@@ -89,7 +89,7 @@ public class UserManagerImpl implements UserManager {
     @Nullable
     @Override
     public User getActiveUser() {
-        return mUserList.isEmpty() ? null : mUserList.get(mActiveIndex);
+        return mUserList == null || mUserList.isEmpty() ? null : mUserList.get(mActiveIndex);
     }
 
     @Override
@@ -288,6 +288,11 @@ public class UserManagerImpl implements UserManager {
                 return;
             }
         }
+    }
+
+    @Override
+    public int getUserSize() {
+        return mUserList == null ? 0 : mUserList.size();
     }
 
     @Override

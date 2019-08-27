@@ -1,8 +1,11 @@
 package sp.phone.util;
 
 import android.annotation.SuppressLint;
+import android.content.res.AssetManager;
 import android.support.annotation.Nullable;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +19,8 @@ import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
-import sp.phone.adapter.ExtensionEmotionAdapter;
-import sp.phone.bean.StringFindResult;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import sp.phone.http.bean.StringFindResult;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.theme.ThemeManager;
 
@@ -457,7 +460,7 @@ public class StringUtils {
         while (m.find()) {
             String s0 = m.group();
             String s1 = m.group(1);
-            String path = ExtensionEmotionAdapter.getPathByURI(s1);
+            String path = EmoticonUtils.getPathByURI(s1);
             if (path != null) {
 
                 String newImgBlock = "<img src='"
@@ -672,9 +675,7 @@ public class StringUtils {
     }
 
     public static String unEscapeHtml(String s) {
-        String ret = "";
-        ret = StringHelper.unescapeHTML(s);
-        return ret;
+        return StringHelper.unescapeHTML(s);
     }
 
     public static StringFindResult getStringBetween(String data, int begPosition, String startStr, String endStr) {
@@ -744,6 +745,19 @@ public class StringUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(timeStamp) * 1000);
         return new SimpleDateFormat(format, Locale.getDefault()).format(calendar.getTime());
+    }
+
+    public static String getStringFromAssets(String path) {
+        AssetManager assetManager = ContextUtils.getContext().getAssets();
+        try (InputStream is = assetManager.open(path)) {
+            int length = is.available();
+            byte[] buffer = new byte[length];
+            is.read(buffer);
+            return new String(buffer, "utf-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
 }

@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/listPreferredItemHeight"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <TextView
-                android:id="@+id/textView_font_size"
+                style="?android:attr/textAppearanceListItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/text_size"
-                android:textColor="@color/text_color_selector"/>
+                android:textColor="@color/text_color_selector" />
 
-            <SeekBar
-                android:id="@+id/fontsize_seekBar"
+            <gov.anzong.androidnga.base.widget.SeekBarEx
+                android:id="@+id/seek_topic_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:max="300"
-                android:paddingEnd="20dp"
-                android:paddingStart="30dp"/>
+                app:ssb_second_track_color="?colorPrimary"
+                app:ssb_second_track_size="3dp"
+                app:ssb_show_sign="true"
+                app:ssb_sign_color="?colorAccent"
+                app:ssb_thumb_radius="8dp"
+                app:ssb_thumb_radius_on_dragging="10dp"
+                app:ssb_track_color="@color/text_color_disabled"
+                app:ssb_track_size="3dp" />
 
         </LinearLayout>
 
@@ -45,116 +47,110 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="6dp"
-            android:background="@color/night_fore_color"/>
+            android:background="@color/night_fore_color" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/listPreferredItemHeight"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/avatarsize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="6dp"
-                android:contentDescription="@string/avatar_description"
-                android:src="@drawable/default_avatar"/>
-
-            <TextView
-                android:id="@+id/textView_avatarsize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/avatar_size"
-                android:textColor="@color/text_color_selector"/>
-
-            <SeekBar
-                android:id="@+id/avatarsize_seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:max="200"
-                android:paddingEnd="20dp"
-                android:paddingStart="30dp"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="6dp"
-            android:background="@color/night_fore_color"/>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/listPreferredItemHeight"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/emotionsize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="6dp"
-                android:contentDescription="@string/emotion"
-                android:src="@drawable/default_avatar"/>
-
-            <TextView
-                android:id="@+id/textView_emotionsize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/emotion_size"
-                android:textColor="@color/text_color_selector"/>
-
-            <SeekBar
-                android:id="@+id/emotionsize_seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:max="200"
-                android:paddingEnd="20dp"
-                android:paddingStart="30dp"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="6dp"
-            android:background="@color/night_fore_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/listPreferredItemHeight"
             android:orientation="vertical"
-            tools:ignore="WebViewLayout">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
-            <WebView
-                android:id="@+id/websize_view"
+            <TextView
+                style="?android:attr/textAppearanceListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/avatar_size"
+                android:textColor="@color/text_color_selector" />
+
+            <gov.anzong.androidnga.base.widget.SeekBarEx
+                android:id="@+id/seek_avatar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="6dp"/>
+                app:ssb_second_track_color="?colorPrimary"
+                app:ssb_second_track_size="3dp"
+                app:ssb_show_sign="true"
+                app:ssb_sign_color="?colorAccent"
+                app:ssb_thumb_radius="8dp"
+                app:ssb_thumb_radius_on_dragging="10dp"
+                app:ssb_track_color="@color/text_color_disabled"
+                app:ssb_track_size="3dp" />
 
-            <SeekBar
-                android:id="@+id/webszie_bar"
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/night_fore_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/listPreferredItemHeight"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                style="?android:attr/textAppearanceListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/emotion_size"
+                android:textColor="@color/text_color_selector" />
+
+
+            <gov.anzong.androidnga.base.widget.SeekBarEx
+                android:id="@+id/seek_emoticon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:max="300"
-                android:paddingEnd="20dp"
-                android:paddingStart="30dp"/>
+                app:ssb_second_track_color="?colorPrimary"
+                app:ssb_second_track_size="3dp"
+                app:ssb_show_sign="true"
+                app:ssb_sign_color="?colorAccent"
+                app:ssb_thumb_radius="8dp"
+                app:ssb_thumb_radius_on_dragging="10dp"
+                app:ssb_track_color="@color/text_color_disabled"
+                app:ssb_track_size="3dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/night_fore_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/listPreferredItemHeight"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                style="?android:attr/textAppearanceListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="帖子内字体大小"
+                android:textColor="@color/text_color_selector" />
+
+            <gov.anzong.androidnga.base.widget.SeekBarEx
+                android:id="@+id/seek_web_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ssb_second_track_color="?colorPrimary"
+                app:ssb_second_track_size="3dp"
+                app:ssb_show_sign="true"
+                app:ssb_sign_color="?colorAccent"
+                app:ssb_thumb_radius="8dp"
+                app:ssb_thumb_radius_on_dragging="10dp"
+                app:ssb_track_color="@color/text_color_disabled"
+                app:ssb_track_size="3dp" />
 
         </LinearLayout>
 

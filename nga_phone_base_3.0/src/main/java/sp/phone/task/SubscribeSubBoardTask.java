@@ -6,14 +6,10 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.bean.SubBoard;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
-import sp.phone.bean.SubBoard;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
+import sp.phone.mvp.model.entity.SubBoard;
+import sp.phone.http.OnHttpCallBack;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 
 /**
@@ -86,7 +82,7 @@ public class SubscribeSubBoardTask {
         int type = subBoard.getType();
         String action = getAction(type, isSubscribe);
         String parentFid = subBoard.getParentFidStr();
-        String fid = type == 1 ? subBoard.getTidStr() : subBoard.getUrl();
+        String fid = type == 1 ? subBoard.getTidStr() : String.valueOf(subBoard.getFid());
         String url;
         if (!isSubscribe) {
             url = String.format("http://bbs.ngacn.cc/nuke.php?__lib=user_option&__act=set&raw=3&type=%s&__output=8&fid=%s&%s=%s", type, parentFid, action, fid);

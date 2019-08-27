@@ -3,9 +3,6 @@ package sp.phone.mvp.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.bean.SubBoard;
-import sp.phone.bean.SubBoard;
-
 public class TopicListInfo {
 
     private ArrayList<SubBoard> mSubBoardList = new ArrayList<>();

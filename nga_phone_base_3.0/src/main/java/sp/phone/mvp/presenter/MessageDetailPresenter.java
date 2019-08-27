@@ -1,10 +1,9 @@
 package sp.phone.mvp.presenter;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.fragment.MessageDetailFragment;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.http.bean.MessageDetailInfo;
+import sp.phone.ui.fragment.MessageDetailFragment;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.model.MessageDetailModel;
 import sp.phone.mvp.contract.MessageDetailContract;
 

@@ -5,15 +5,14 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,18 +27,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.bean.AdminForumsData;
-import sp.phone.bean.ProfileData;
-import sp.phone.bean.ReputationData;
+import sp.phone.http.bean.AdminForumsData;
+import sp.phone.http.bean.ProfileData;
+import sp.phone.http.bean.ReputationData;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.ParamKey;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.ParamKey;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.StringUtils;
@@ -113,16 +113,6 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
 
     private Menu mOptionMenu;
 
-    @Override
-    protected void updateThemeUi() {
-        setTheme(mThemeManager.getTheme(false));
-        if (mThemeManager.isNightMode()) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-    }
-
     /**
      * 利用反射获取状态栏高度
      */
@@ -139,40 +129,24 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         return result;
     }
 
-    @Override
-    protected void updateWindowFlag() {
-        if (mConfig.isFullScreenMode()) {
-            super.updateWindowFlag();
-        } else {
-            Window window = getWindow();
-            View decorView = window.getDecorView();
-            //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            int flag = WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
-            if (mConfig.isHardwareAcceleratedEnabled()) {
-                flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
-            }
-            window.addFlags(flag);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-    }
-
     private void updateToolbarLayout() {
-        if (!mConfig.isFullScreenMode()) {
-            int statusBarHeight = getStatusBarHeight();
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
-            lp.setMargins(0, statusBarHeight, 0, 0);
-
-            View parentView = (View) mAvatarIv.getParent();
-            parentView.setPadding(0, statusBarHeight, 0, 0);
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        if (DeviceUtils.isFullScreenDevice()) {
+            appBarLayout.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen.app_bar_height_full_screen);
         }
+        int statusBarHeight = getStatusBarHeight();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) toolbar.getLayoutParams();
+        lp.setMargins(0, statusBarHeight, 0, 0);
+
+        View parentView = (View) mAvatarIv.getParent();
+        parentView.setPadding(0, statusBarHeight, 0, 0);
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
@@ -189,9 +163,19 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
 
         setContentView(R.layout.activity_user_profile);
         ButterKnife.bind(this);
-        setupToolbar();
+        setupActionBar();
         updateToolbarLayout();
+        setupStatusBar();
         refresh();
+    }
+
+    private void setupStatusBar() {
+        Window window = getWindow();
+        View decorView = window.getDecorView();
+        //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(option);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     private void refresh() {

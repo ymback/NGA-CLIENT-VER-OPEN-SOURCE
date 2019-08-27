@@ -1,22 +1,24 @@
 package sp.phone.common;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
-import gov.anzong.androidnga.activity.MessagePostActivity;
 import gov.anzong.androidnga.activity.PostActivity;
 import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.PreferenceUtils;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
     public Class<?> postActivityClass = PostActivity.class;
-    public Class<?> messagePostActivityClass = MessagePostActivity.class;
     public Class<?> signPostActivityClass = SignPostActivity.class;
     public Class<?> profileActivityClass = ProfileActivity.class;
     public Class<?> loginActivityClass = LoginActivity.class;
@@ -25,8 +27,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     private boolean mNotificationEnabled;
 
     private boolean mNotificationSoundEnabled;
-
-    private boolean mFullScreenMode;
 
     private boolean mDownAvatarNoWifi;
 
@@ -37,14 +37,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     private boolean mShowColorText;
 
     private boolean mUpdateAfterPost;
-
-    private float mTopicTitleSize;
-
-    private int mTopicContentSize;
-
-    private int mAvatarWidth;
-
-    private int mEmotionWidth;
 
     private boolean mShowClassicIcon;
 
@@ -67,9 +59,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
             case PreferenceKey.ENABLE_NOTIFIACTION:
                 mNotificationEnabled = sp.getBoolean(key, true);
                 break;
-            case PreferenceKey.FULLSCREENMODE:
-                mFullScreenMode = sp.getBoolean(key, false);
-                break;
             case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
                 mDownAvatarNoWifi = sp.getBoolean(key, true);
                 break;
@@ -82,20 +71,8 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
             case PreferenceKey.SHOW_COLORTXT:
                 mShowColorText = sp.getBoolean(key, false);
                 break;
-            case PreferenceKey.WEB_SIZE:
-                mTopicContentSize = sp.getInt(key, 16);
-                break;
-            case PreferenceKey.TEXT_SIZE:
-                mTopicTitleSize = sp.getFloat(key, Constants.DEFAULT_TEXT_SIZE);
-                break;
             case PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE:
                 mUpdateAfterPost = sp.getBoolean(key, true);
-                break;
-            case PreferenceKey.NICK_WIDTH:
-                mAvatarWidth = sp.getInt(key, 100);
-                break;
-            case PreferenceKey.EMO_WIDTH:
-                mEmotionWidth = sp.getInt(key, 150);
                 break;
             case PreferenceKey.SHOW_ICON_MODE:
                 mShowClassicIcon = sp.getBoolean(key, false);
@@ -140,16 +117,11 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         sp.registerOnSharedPreferenceChangeListener(this);
         mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
         mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
-        mFullScreenMode = sp.getBoolean(PreferenceKey.FULLSCREENMODE, false);
         mDownAvatarNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI, true);
         mDownImgNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI, true);
         mShowSignature = sp.getBoolean(PreferenceKey.SHOW_SIGNATURE, false);
         mShowColorText = sp.getBoolean(PreferenceKey.SHOW_COLORTXT, false);
-        mTopicContentSize = sp.getInt(PreferenceKey.WEB_SIZE, 16);
-        mTopicTitleSize = sp.getFloat(PreferenceKey.TEXT_SIZE, Constants.DEFAULT_TEXT_SIZE);
         mUpdateAfterPost = sp.getBoolean(PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE, true);
-        mAvatarWidth = sp.getInt(PreferenceKey.NICK_WIDTH, 100);
-        mEmotionWidth = sp.getInt(PreferenceKey.EMO_WIDTH, 150);
         mShowClassicIcon = sp.getBoolean(PreferenceKey.SHOW_ICON_MODE, false);
         mLeftHandMode = sp.getBoolean(PreferenceKey.LEFT_HAND, false);
         mShowBottomTab = sp.getBoolean(PreferenceKey.BOTTOM_TAB, false);
@@ -186,28 +158,48 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         return mShowClassicIcon;
     }
 
-    public int getAvatarWidth() {
-        return mAvatarWidth;
+    public int getAvatarSize() {
+        return PreferenceUtils.getData(PreferenceKey.KEY_AVATAR_SIZE, Constants.AVATAR_SIZE_DEFAULT);
     }
 
-    public int getEmotionWidth() {
-        return mEmotionWidth;
+    public void setAvatarSize(int value) {
+        PreferenceUtils.putData(PreferenceKey.KEY_AVATAR_SIZE, value);
+    }
+
+    public int getEmoticonSize() {
+        return PreferenceUtils.getData(PreferenceKey.KEY_EMOTICON_SIZE, Constants.EMOTICON_SIZE_DEFAULT);
+    }
+
+    public void setEmoticonSize(int value) {
+        PreferenceUtils.putData(PreferenceKey.KEY_EMOTICON_SIZE, value);
     }
 
     public float getTopicTitleSize() {
-        return mTopicTitleSize;
+        return PreferenceUtils.getData(PreferenceKey.KEY_TOPIC_TITLE_SIZE, Constants.TOPIC_TITLE_SIZE_DEFAULT);
+    }
+
+    public void setTopicTitleSize(int size) {
+        PreferenceUtils.putData(PreferenceKey.KEY_TOPIC_TITLE_SIZE, size);
     }
 
     public int getTopicContentSize() {
-        return mTopicContentSize;
+        return PreferenceUtils.getData(PreferenceKey.KEY_TOPIC_CONTENT_SIZE, Constants.TOPIC_CONTENT_SIZE_DEFAULT);
+    }
+
+    public void setTopicContentSize(int size) {
+        PreferenceUtils.putData(PreferenceKey.KEY_TOPIC_CONTENT_SIZE, size);
+    }
+
+    public boolean useOldWebCore() {
+        return PreferenceUtils.getData(PreferenceKey.KEY_USE_OLD_WEB_CORE, false);
+    }
+
+    public boolean useSolidColorBackground() {
+        return ContextUtils.getSharedPreferences(PreferenceKey.PERFERENCE).getBoolean(PreferenceKey.KEY_USE_SOLID_COLOR_BG, true);
     }
 
     public boolean isShowSignature() {
         return mShowSignature;
-    }
-
-    public boolean isFullScreenMode() {
-        return mFullScreenMode;
     }
 
     public boolean isShowColorText() {
@@ -230,12 +222,19 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         return mDownImgNoWifi;
     }
 
+    @Deprecated
     public int getWebSize() {
         return getTopicContentSize();
     }
 
     public String getCookie() {
         return UserManagerImpl.getInstance().getCookie();
+    }
+
+    public boolean isBetaFixNightTheme() {
+        UiModeManager uiModeManager = (UiModeManager) ContextUtils.getContext().getSystemService(Context.UI_MODE_SERVICE);
+        return (PreferenceUtils.getData(PreferenceKey.KEY_BETA_FIX_NIGHT_THEME, false) || uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES)
+                && DeviceUtils.isGreaterEqual_9_0();
     }
 
 }

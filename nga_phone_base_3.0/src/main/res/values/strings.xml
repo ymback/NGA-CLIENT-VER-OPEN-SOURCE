@@ -33,6 +33,7 @@
     <string name="nowifi_downimg">载入帖子图片</string>
     <string name="video_layout_loading">正在缓冲&#8230;</string>
     <string name="nightmode">夜间模式</string>
+    <string name="daymode">日间模式</string>
     <string name="iconmode">使用原版板块图标</string>
     <string name="refresh">刷新</string>
     <string name="back">返回</string>
@@ -167,7 +168,8 @@
     <string name="profile_search_dialog_hint">默认查看自己的用户信息</string>
     <string name="addfid_dialog_hintA">输入版面名称</string>
     <string name="addfid_dialog_url">输入URL地址(板块或帖子)</string>
-    <string name="addfid_dialog_hintB">输入版面ID(个人版面有负号)</string>
+    <string name="addfid_dialog_hintB">输入版面ID(fid)(个人版面有负号)</string>
+    <string name="add_stid_dialog_hintB">输入合集ID(stid)</string>
     <string name="search_dialog_hint_topic_reply_byself">直接按确定搜索自己的发帖</string>
     <string name="search_dialog_hint_reply_byself">直接按确定搜索自己的回复</string>
     <string name="user_distance">该用户距离你</string>
@@ -232,7 +234,7 @@
     <string name="cancle">取消</string>
     <string name="showColortxtWarn">彩虹发帖模式易导致禁言,专供有自杀需求的用户!</string>
     <string name="showNewweibaWarn">发送可见尾巴易导致禁言,专供有自杀需求的用户!</string>
-    <string name="about_client">NGA客户端开源版开发团队&lt;br/&gt;代码:[@竹井詩織里]/[@cfan8]/[@jjimmys]/[@Moandor]/[@Elrond]/[@Justwen]&lt;br/&gt;美工:[@那个惩戒骑]/[@从来不卖萌]&lt;br/&gt;查找更新请前往Play商店或酷安&lt;br/&gt;赞美片总!感谢[@force0119]!&lt;br/&gt;客户端吐槽QQ群:172503242&lt;br/&gt;License:&lt;a style="color:blue;" href="file:///android_asset/LICENSE.TXT"&gt;GNU GPL v2&lt;/a&gt;,&lt;a style="color:blue;" href="file:///android_asset/OSLICENSE.TXT"&gt;开放源代码许可&lt;/a&gt;&lt;br/&gt;软件版本:%1$s</string>
+    <string name="about_client">NGA客户端开源版开发团队&lt;br/&gt;代码:[@竹井詩織里]/[@cfan8]/[@jjimmys]/[@Moandor]/[@Elrond]/[@Justwen]&lt;br/&gt;美工:[@那个惩戒骑]/[@从来不卖萌]&lt;br/&gt;查找更新请前往Play商店或酷安&lt;br/&gt;赞美片总!感谢[@force0119]!&lt;br/&gt;客户端吐槽QQ群:714556852&lt;br/&gt;License:&lt;a style="color:blue;" href="file:///android_asset/LICENSE.TXT"&gt;GNU GPL v2&lt;/a&gt;,&lt;a style="color:blue;" href="file:///android_asset/OSLICENSE.TXT"&gt;开放源代码许可&lt;/a&gt;&lt;br/&gt;软件版本:%1$s</string>
     <string name="richtext">富文本</string>
     <string name="atsomeone">[@用户名]</string>
     <string name="urladd">[url]</string>
@@ -250,6 +252,7 @@
     <string name="delline">删除线</string>
     <string name="collapse">折叠</string>
     <string name="filter_hint">(输入文字过滤你想要的标题)</string>
+    <string name="filter_keywords_hint">(输入关键字后按回车添加)</string>
     <string name="clientua">Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36 AndroidNGAOS/</string>
     <!-- string name="checksecret">4103ca8d364d2402e5e304ea07454a2a</string -->
     <string name="checksecret">3ebd769858c56bd345898154e4b44427</string>
@@ -343,7 +346,18 @@
     <string name="setting_title_black_list">黑名单</string>
     <string name="setting_title_filter_sub_board">过滤版主固定的渣帖子</string>
     <string name="setting_nga_domain">NGA域名</string>
+    <string name="setting_web_core_title">使用旧版本内核</string>
+    <string name="setting_web_core_summary">如果主题详情页有崩溃或者显示不正常可尝试打开此项</string>
+    <string name="setting_avatar_network_title">载入头像</string>
+    <string name="setting_avatar_network_summary">移动数据网络下载入头像</string>
+    <string name="setting_image_network_title">载入帖子图片</string>
+    <string name="setting_image_network_summary">移动数据网络下载入帖子图片</string>
+    <string name="setting_post_color_text_title">彩虹模式发帖</string>
+    <string name="setting_post_color_text_summary">慎用，有被禁言的风险！</string>
+    <string name="setting_solid_color_bg_title">使用纯色背景</string>
+    <string name="setting_solid_color_bg_summary">主题列表和主题详情页面使用纯色背景</string>
 
+    <string name="filter_keywords">关键字屏蔽</string>
     <string name="twenty_four">24小时热帖</string>
     <string name="menu_add_bookmark_board">添加至我的收藏</string>
     <string name="menu_remove_bookmark_board">取消收藏</string>
@@ -374,6 +388,8 @@
     <string name="label_activity_message_detail">短消息正文</string>
     <string name="label_activity_topic_history">浏览历史</string>
     <string name="label_activity_login">登录</string>
+    <string name="label_activity_main">NGA客户端开源版</string>
+    <string name="title_about">关于</string>
 
     <!-- error -->
     <string name="error_load_failed">加载失败，请重试！</string>

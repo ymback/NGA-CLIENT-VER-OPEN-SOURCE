@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
-import sp.phone.fragment.BaseFragment;
+import sp.phone.ui.fragment.BaseFragment;
 
 public class LauncherSubActivity extends BaseActivity {
 
@@ -15,7 +15,7 @@ public class LauncherSubActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent.getBooleanExtra("hideActionBar", false)) {
-            hideActionBar();
+            setToolbarEnabled(true);
         }
         super.onCreate(savedInstanceState);
         String fragmentStr = intent.getStringExtra("fragment");

@@ -7,9 +7,9 @@ import java.net.URLDecoder;
 
 import gov.anzong.androidnga.R;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.LoginParam;
-import sp.phone.fragment.LoginFragment;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.LoginParam;
+import sp.phone.ui.fragment.LoginFragment;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.LoginContract;
 import sp.phone.mvp.model.LoginModel;
 import sp.phone.util.ActivityUtils;

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="gov.anzong.androidnga"
-          android:configChanges="orientation|screenSize"
-          android:installLocation="auto"
-          android:largeHeap="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="gov.anzong.androidnga"
+    android:configChanges="orientation|screenSize"
+    android:installLocation="auto"
+    android:largeHeap="true">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".NgaClientApp"
         android:anyDensity="false"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="@string/app_name"
+        android:label="@string/label_activity_main"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@android:style/Theme.Holo.Light"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup"
+        tools:replace="android:label">
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
@@ -30,12 +31,12 @@
             <!-- add static shortcut -->
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/static_shortcuts"/>
+                android:resource="@xml/static_shortcuts" />
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -43,177 +44,136 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/label_activity_login"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".activity.ProfileActivity"
-            android:theme="@style/SwipeBackTheme"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.ProfileActivity" />
         <activity
             android:name=".activity.PostActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/SwipeBackTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.AvatarPostActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SignPostActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.MessagePostActivity"
-            android:theme="@style/SwipeBackTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SettingsActivity"
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTop"
-            android:theme="@style/SwipeBackTheme"/>
+            android:label="@string/menu_setting"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.MessageListActivity"
-            android:label="@string/label_activity_message_list"
-            android:theme="@style/SwipeBackTheme"/>
+            android:label="@string/label_activity_message_list" />
         <activity
             android:name=".activity.MessageDetailActivity"
-            android:label="@string/label_activity_message_detail"
-            android:theme="@style/SwipeBackTheme"/>
+            android:label="@string/label_activity_message_detail" />
+
         <activity
             android:name=".activity.TopicListActivity"
             android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
-            android:exported="true"
-            android:theme="@style/SwipeBackTheme">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="bbs.nga.cn"
+                    android:path="/thread.php"
+                    android:scheme="http" />
 
                 <data
                     android:host="bbs.ngacn.cc"
                     android:path="/thread.php"
-                    android:scheme="@string/myscheme"/>
+                    android:scheme="http" />
+
                 <data
                     android:host="nga.178.com"
                     android:path="/thread.php"
-                    android:scheme="@string/myscheme"/>
-                <data
-                    android:host="bbs.bigccq.cn"
-                    android:path="/thread.php"
-                    android:scheme="@string/myscheme"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                    android:scheme="http" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:host="bbs.nga.cn"
+                    android:path="/thread.php"
+                    android:scheme="https" />
 
                 <data
                     android:host="bbs.ngacn.cc"
                     android:path="/thread.php"
-                    android:scheme="@string/myscheme"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                    android:scheme="https" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                    android:host="bbs.ngacn.cc"
-                    android:path="/thread.php"
-                    android:scheme="http"/>
                 <data
                     android:host="nga.178.com"
                     android:path="/thread.php"
-                    android:scheme="http"/>
-                <data
-                    android:host="bbs.bigccq.cn"
-                    android:path="/thread.php"
-                    android:scheme="http"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                    android:scheme="https" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                    android:host="bbs.ngacn.cc"
-                    android:path="/thread.php"
-                    android:scheme="http"/>
-                <data
-                    android:host="nga.178.com"
-                    android:path="/thread.php"
-                    android:scheme="http"/>
-                <data
-                    android:host="bbs.bigccq.cn"
-                    android:path="/thread.php"
-                    android:scheme="http"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.ArticleListActivity"
             android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
-            android:exported="true"
-            android:multiprocess="true"
-            android:theme="@style/SwipeBackTheme">
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="nga.178.com"
                     android:path="/read.php"
-                    android:scheme="@string/myscheme"/>
+                    android:scheme="http" />
                 <data
                     android:host="bbs.ngacn.cc"
                     android:path="/read.php"
-                    android:scheme="@string/myscheme"/>
-                <data
-                    android:host="bbs.bigccq.cn"
-                    android:path="/read.php"
-                    android:scheme="@string/myscheme"/>
+                    android:scheme="http" />
                 <data
                     android:host="bbs.nga.cn"
                     android:path="/read.php"
-                    android:scheme="@string/myscheme"/>
+                    android:scheme="http" />
+
                 <data
                     android:host="nga.178.com"
                     android:path="/read.php"
-                    android:scheme="http"/>
+                    android:scheme="https" />
                 <data
                     android:host="bbs.ngacn.cc"
                     android:path="/read.php"
-                    android:scheme="http"/>
-                <data
-                    android:host="bbs.bigccq.cn"
-                    android:path="/read.php"
-                    android:scheme="http"/>
+                    android:scheme="https" />
                 <data
                     android:host="bbs.nga.cn"
                     android:path="/read.php"
-                    android:scheme="http"/>
+                    android:scheme="https" />
+
             </intent-filter>
         </activity>
-        <activity
-            android:name=".gallery.ImageZoomActivity"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity
-            android:name=".activity.ForumListActivity"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity
-            android:name=".activity.WebViewerActivity"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity
-            android:name=".activity.RecentNotificationActivity"
-            android:theme="@style/SwipeBackTheme"/>
-        <activity android:name=".activity.LauncherSubActivity"/>
-
+        <activity android:name=".gallery.ImageZoomActivity" />
+        <activity android:name=".activity.ForumListActivity" />
+        <activity android:name=".activity.WebViewerActivity" />
+        <activity android:name=".activity.RecentNotificationActivity" />
+        <activity android:name=".activity.LauncherSubActivity" />
         <activity
             android:name=".activity.SearchActivity"
-            android:label="@string/search"/>
+            android:label="@string/search" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/title_about" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

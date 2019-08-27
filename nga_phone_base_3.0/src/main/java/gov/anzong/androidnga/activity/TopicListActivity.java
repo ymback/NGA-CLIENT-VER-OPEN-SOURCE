@@ -12,13 +12,14 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.common.BoardManagerImpl;
 import sp.phone.common.NotificationController;
-import sp.phone.forumoperation.ParamKey;
-import sp.phone.forumoperation.TopicListParam;
-import sp.phone.fragment.TopicFavoriteFragment;
-import sp.phone.fragment.TopicListFragment;
-import sp.phone.fragment.TopicSearchFragment;
+import sp.phone.mvp.model.BoardModel;
+import sp.phone.param.ParamKey;
+import sp.phone.param.TopicListParam;
+import sp.phone.theme.ThemeManager;
+import sp.phone.ui.fragment.TopicFavoriteFragment;
+import sp.phone.ui.fragment.TopicListFragment;
+import sp.phone.ui.fragment.TopicSearchFragment;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 
@@ -29,6 +30,8 @@ import sp.phone.util.StringUtils;
 public class TopicListActivity extends BaseActivity {
 
     private static String TAG = TopicListActivity.class.getSimpleName();
+
+    private boolean mIsNightMode;
 
     private TopicListParam mRequestParam;
 
@@ -68,17 +71,22 @@ public class TopicListActivity extends BaseActivity {
         }
 
         if (requestParam != null && TextUtils.isEmpty(requestParam.title)) {
-            requestParam.title = BoardManagerImpl.getInstance().getBoardName(String.valueOf(requestParam.fid));
+            requestParam.title = BoardModel.getInstance().getBoardName(requestParam.fid,requestParam.stid);
         }
         return requestParam;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setToolbarEnabled(true);
         mRequestParam = getRequestParam();
         super.onCreate(savedInstanceState);
-        setupFragment();
+        if (mRequestParam != null) {
+            setupFragment();
+        } else {
+            finish();
+        }
+        mIsNightMode = ThemeManager.getInstance().isNightMode();
     }
 
     private void setupFragment() {
@@ -95,7 +103,6 @@ public class TopicListActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
             fragment.setArguments(bundle);
-            fragment.setHasOptionsMenu(true);
             fm.beginTransaction().replace(android.R.id.content, fragment).commit();
         }
     }
@@ -146,6 +153,7 @@ public class TopicListActivity extends BaseActivity {
         intent.putExtras(bundle);
         ActivityUtils.startRecommendTopicActivity(this, intent);
     }
+
     private void showTwentyFourList() {
         TopicListParam param = (TopicListParam) mRequestParam.clone();
         param.twentyfour = 1;
@@ -158,8 +166,13 @@ public class TopicListActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        NotificationController.getInstance().checkNotificationDelay();
         super.onResume();
+        if (mIsNightMode != ThemeManager.getInstance().isNightMode()) {
+            recreate();
+            return;
+        }
+        NotificationController.getInstance().checkNotificationDelay();
+
     }
 
 

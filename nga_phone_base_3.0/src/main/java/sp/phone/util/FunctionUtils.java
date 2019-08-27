@@ -35,11 +35,11 @@ import android.widget.Toast;
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.NetUtil;
-import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.MessageArticlePageInfo;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.dialog.ReportDialogFragment;
+import sp.phone.ui.fragment.dialog.ReportDialogFragment;
 import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.proxy.ProxyBridge;
 import sp.phone.theme.ThemeManager;
@@ -392,6 +392,10 @@ public class FunctionUtils {
             fgColor = nickNameTV.getResources().getColor(R.color.title_orange);
             nickName += "(" + blacklistban + ")";
         }
+        if (row.getISANONYMOUS()) {
+            fgColor = nickNameTV.getResources().getColor(R.color.title_red);
+            nickName += "(匿名)";
+        }
         nickNameTV.setText(nickName);
         TextPaint tp = nickNameTV.getPaint();
         tp.setFakeBoldText(true);// bold for Chinese character
@@ -572,22 +576,6 @@ public class FunctionUtils {
         df.show(fm, null);
 
     }
-
-    public static void start_send_message(Context context, ThreadRowInfo row) {
-        Intent intent_bookmark = new Intent();
-        intent_bookmark.putExtra("to", row.getAuthor());
-        intent_bookmark.putExtra("action", "new");
-        intent_bookmark.putExtra("messagemode", "yes");
-        if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
-            intent_bookmark.setClass(context,
-                    PhoneConfiguration.getInstance().messagePostActivityClass);
-        } else {
-            intent_bookmark.setClass(context,
-                    PhoneConfiguration.getInstance().loginActivityClass);
-        }
-        context.startActivity(intent_bookmark);
-    }
-
 
     public static String checkContent(String content) {
         int i;

@@ -16,4 +16,10 @@
     <color name="colorPrimaryBrown">#ff212121</color>
     <color name="colorPrimaryDarkBrown">@android:color/black</color>
 
+    <color name="material_window_background">#FF080C10</color>
+    <color name="material_card_background">#FF424242</color>
+    <color name="material_icon_color">#FFEDEDED</color>
+    <color name="material_title_color">#FFFFFFFF</color>
+    <color name="material_sub_title_color">#B4FFFFFF</color>
+
 </resources>

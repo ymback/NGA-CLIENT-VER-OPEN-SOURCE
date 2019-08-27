@@ -11,8 +11,7 @@ import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.Utils;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.util.ActivityUtils;
+import sp.phone.param.HttpPostClient;
 import sp.phone.util.NLog;
 
 /**
@@ -45,12 +44,6 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
         super();
         mContext = context;
         mCallBack = callBack;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        ActivityUtils.getInstance().noticeSaying(mContext);
-        super.onPreExecute();
     }
 
     @Override
@@ -125,6 +118,7 @@ public class TopicPostTask extends AsyncTask<String, Integer, String> {
             for (String success_result : success_results) {
                 if (result.contains(success_result)) {
                     success = true;
+                    result = success_result;
                     break;
                 }
             }

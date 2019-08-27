@@ -1,9 +1,11 @@
 package gov.anzong.androidnga.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,46 +16,53 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.ThemeUtils;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.ParamKey;
-import sp.phone.fragment.BoardFragment;
-import sp.phone.fragment.dialog.AboutClientDialogFragment;
-import sp.phone.fragment.dialog.ProfileSearchDialogFragment;
-import sp.phone.fragment.dialog.UrlInputDialogFragment;
-import sp.phone.fragment.dialog.VersionUpgradeDialogFragment;
-import sp.phone.mvp.contract.BoardContract;
-import sp.phone.mvp.presenter.BoardPresenter;
+import sp.phone.param.ParamKey;
+import sp.phone.ui.fragment.BaseFragment;
+import sp.phone.ui.fragment.NavigationDrawerFragment;
+import sp.phone.ui.fragment.dialog.UrlInputDialogFragment;
+import sp.phone.ui.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.PermissionUtils;
+import gov.anzong.androidnga.base.util.PermissionUtils;
 
 public class MainActivity extends BaseActivity {
 
     private boolean mIsNightMode;
 
+    private BaseFragment mBoardFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setActionBarEnabled(false);
+        setToolbarEnabled(true);
+        setSwipeBackEnable(false);
         super.onCreate(savedInstanceState);
+        ThemeUtils.init(this);
         checkPermission();
         checkNewVersion();
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
+        setTitle(R.string.start_title);
+    }
+
+    @Override
+    protected void onCreateAfterSuper(@Nullable Bundle savedInstanceState) {
         setSwipeBackEnable(false);
     }
 
     private void checkPermission() {
-        if (!PermissionUtils.hasStoragePermission(this)) {
-            PermissionUtils.requestStoragePermission(this);
-        }
+        PermissionUtils.request(this, null, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private void checkNewVersion() {
-        NgaClientApp app = (NgaClientApp) getApplication();
-        if (app.isNewVersion()) {
-            app.setNewVersion(false);
-            new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
+        Application app = getApplication();
+        if (app instanceof NgaClientApp) {
+            if (((NgaClientApp) app).isNewVersion()) {
+                ((NgaClientApp) app).setNewVersion(false);
+                new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
+            }
         }
     }
 
@@ -68,12 +77,11 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(BoardFragment.class.getSimpleName());
-        if (fragment == null) {
-            fragment = new BoardFragment();
-            fm.beginTransaction().replace(android.R.id.content, fragment, BoardFragment.class.getSimpleName()).commit();
+        mBoardFragment = (BaseFragment) fm.findFragmentByTag(NavigationDrawerFragment.class.getSimpleName());
+        if (mBoardFragment== null) {
+            mBoardFragment = new NavigationDrawerFragment();
+            fm.beginTransaction().replace(android.R.id.content, mBoardFragment, NavigationDrawerFragment.class.getSimpleName()).commit();
         }
-        new BoardPresenter((BoardContract.View) fragment);
     }
 
     @Override
@@ -132,7 +140,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void aboutNgaClient() {
-        new AboutClientDialogFragment().show(getSupportFragmentManager());
+       // new AboutClientDialogFragment().show(getSupportFragmentManager());
+        startActivity(new Intent(this,AboutActivity.class));
     }
 
     private void startSettingActivity() {
@@ -146,7 +155,7 @@ public class MainActivity extends BaseActivity {
         if (requestCode == ActivityUtils.REQUEST_CODE_SETTING && resultCode == Activity.RESULT_OK) {
             recreate();
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            mBoardFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

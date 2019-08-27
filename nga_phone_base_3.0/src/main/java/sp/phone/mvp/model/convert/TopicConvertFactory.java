@@ -6,12 +6,16 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import sp.phone.bean.SubBoard;
-import sp.phone.bean.TopicListBean;
+import sp.phone.common.FilterKeyword;
+import sp.phone.common.FilterKeywordsManager;
+import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.http.bean.TopicListBean;
+import sp.phone.mvp.model.entity.SubBoard;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.util.ForumUtils;
@@ -40,11 +44,50 @@ public class TopicConvertFactory {
             convertTopic(listInfo, topicListBean, page);
             listInfo.curTime = topicListBean.getTime();
             sort(listInfo);
+            filter(listInfo);
             return listInfo;
         } catch (NullPointerException e) {
             NLog.e(TAG, "can not parse :\n" + js);
             return null;
         }
+
+    }
+
+    private void filter(TopicListInfo data) {
+
+        FilterKeywordsManager filterKeywordsManager = FilterKeywordsManagerImpl.getInstance();
+        List<FilterKeyword> list = filterKeywordsManager.getKeywords();
+
+        for (FilterKeyword keyword : list) {
+            if (keyword.isEnabled()) {
+                Iterator<ThreadPageInfo> iterator = data.getThreadPageList().iterator();
+                while (iterator.hasNext()) {
+                    ThreadPageInfo item = iterator.next();
+                    if (item.getSubject().contains(keyword.getKeyword())) {
+                        iterator.remove();
+                    }
+                }
+            }
+        }
+        // 低版本android 没有stream方法
+        // TODO: 如果第一页全部都是被屏蔽的，可能会认为加载失败
+//        data.setThreadPageList(
+//                data.getThreadPageList().stream().filter((ThreadPageInfo threadPageInfo) -> {
+//                    return FilterKeywordsManagerImpl
+//                            .getInstance()
+//                            .getKeywords()
+//                            .parallelStream()
+//                            .noneMatch(filterKeyword -> {
+//                                if (filterKeyword.isEnabled()) {
+//                                    return threadPageInfo
+//                                            .getSubject()
+//                                            .contains(filterKeyword.getKeyword());
+//                                } else {
+//                                    return false;
+//                                }
+//                            });
+//                }).collect(Collectors.toList())
+        //       );
 
     }
 
@@ -64,7 +107,7 @@ public class TopicConvertFactory {
             Collections.sort(subBoards, new Comparator<SubBoard>() {
                 @Override
                 public int compare(SubBoard o1, SubBoard o2) {
-                    return Integer.parseInt(o1.getUrl()) < Integer.parseInt(o2.getUrl()) ? 1 : -1;
+                    return o1.getFid() < o2.getFid() ? 1 : -1;
                 }
             });
         }
@@ -140,7 +183,7 @@ public class TopicConvertFactory {
             int tid = tBean.getTid();
             String tpcUrl = tBean.getTpcurl();
             if (tpcUrl != null && tpcUrl.contains("tid")) {
-                tid = StringUtils.getUrlParameter(tpcUrl,"tid");
+                tid = StringUtils.getUrlParameter(tpcUrl, "tid");
             }
             pageInfo.setTid(tid);
             pageInfo.setPage(page);
@@ -157,12 +200,21 @@ public class TopicConvertFactory {
                 pageInfo.setReplyInfo(replyInfo);
             }
 
-            Map<String,String> parent = tBean.getParent();
+            Map<String, String> parent = tBean.getParent();
             if (parent != null) {
                 pageInfo.setBoard(parent.get("2"));
             }
 
             pageInfo.setPostDate(tBean.getPostdate());
+
+            Map<String, String> topicMiscVar = tBean.topic_misc_var;
+            if (topicMiscVar != null && pageInfo.isMirrorBoard()) {
+                Object obj = topicMiscVar.get("3");
+                if (obj != null) {
+                    pageInfo.setFid(Integer.parseInt(obj.toString()));
+                }
+            }
+
 
             listInfo.addThreadPage(pageInfo);
             count++;

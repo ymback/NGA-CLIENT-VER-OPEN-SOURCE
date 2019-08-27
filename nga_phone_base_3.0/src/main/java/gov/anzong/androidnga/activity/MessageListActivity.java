@@ -13,11 +13,11 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.adapter.ActionBarUserListAdapter;
+import sp.phone.ui.adapter.ActionBarUserListAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.MessageListFragment;
+import sp.phone.ui.fragment.MessageListFragment;
 import sp.phone.util.StringUtils;
 
 @Route(path = ARouterConstants.ACTIVITY_MESSAGE_LIST)
@@ -26,7 +26,7 @@ public class MessageListActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_list);
         setupActionBar();

@@ -8,11 +8,12 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import sp.phone.bean.ThreadData;
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.ForumConstants;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.mvp.model.convert.builder.HtmlBuilder;
+import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.util.NLog;
@@ -48,7 +49,7 @@ public class ArticleConvertFactory {
                     .replaceAll("\"alterinfo\":\"\\[(\\w|\\s)+\\]\\s+\",", ""); //部分页面打不开的问题
 
             JSONObject obj = (JSONObject) JSON.parseObject(js).get("data");
-            NLog.e(TAG, "can not parse :\n" + js);
+            NLog.d(TAG, "js = :\n" + js);
             if (obj == null) {
                 return null;
             }
@@ -60,6 +61,7 @@ public class ArticleConvertFactory {
             data.setRowNum(data.getRowList().size());
         } catch (Exception e) {
             NLog.e(TAG, "can not parse :\n" + js);
+            e.printStackTrace();
         }
         return data;
     }
@@ -122,8 +124,9 @@ public class ArticleConvertFactory {
             row.setContent(StringUtils.unescape(row.getContent()));
         }
         List<String> imageUrls = new ArrayList<>();
-        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls);
-        ngaHtml = HtmlBuilder.build(row, ngaHtml, imageUrls);
+        ForumDecodeRecord decodeResult = new ForumDecodeRecord();
+        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls, decodeResult);
+        ngaHtml = HtmlBuilder.build(row, ngaHtml, imageUrls, decodeResult);
         row.getImageUrls().addAll(imageUrls);
         row.setFormattedHtmlData(ngaHtml);
     }

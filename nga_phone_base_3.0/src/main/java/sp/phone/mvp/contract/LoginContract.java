@@ -1,7 +1,7 @@
 package sp.phone.mvp.contract;
 
-import sp.phone.forumoperation.LoginParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.LoginParam;
+import sp.phone.http.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/6/16.

@@ -1,17 +1,14 @@
 buildscript {
     repositories {
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
-        maven {
-            url 'http://oss.sonatype.org/content/repositories/snapshots'
-        }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url "https://jitpack.io" }
         mavenCentral()
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.4.2'
     }
 }
 
@@ -31,9 +28,11 @@ task clean(type: Delete) {
 }
 
 project.ext {
+    minSdkVersion = 21
+    targetSdkVersion = 28
     compileSdkVersion = 28
-    buildToolsVersion = '27.0.3'
-    androidSupportVersion = '27.1.1'
-    appVersionName = '2.1.2'
-    appVersionCode = 2102
+    buildToolsVersion = '28.0.3'
+    androidSupportVersion = '28.0.0'
+    appVersionName = '2.1.19'
+    appVersionCode = 2119
 }

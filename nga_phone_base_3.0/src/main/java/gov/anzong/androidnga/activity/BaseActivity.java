@@ -1,53 +1,109 @@
 package gov.anzong.androidnga.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
+import android.webkit.WebView;
 
 import gov.anzong.androidnga.R;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import gov.anzong.androidnga.base.common.SwipeBackHelper;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.NLog;
 
 /**
  * Created by liuboyu on 16/6/28.
  */
-public abstract class BaseActivity extends SwipeBackActivity {
-
-    protected Toast mToast;
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected PhoneConfiguration mConfig;
 
-    private boolean mActionBarEnabled = true;
+    private boolean mToolbarEnabled;
 
     private boolean mHardwareAcceleratedEnabled = true;
 
+    private SwipeBackHelper mSwipeBackHelper;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (ApplicationContextHolder.getContext() == null) {
-            ApplicationContextHolder.setContext(this);
-        }
+        initBaseModule();
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
+        setSwipeBackEnable(getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, false));
+        onCreateBeforeSuper(savedInstanceState);
         super.onCreate(savedInstanceState);
-        initSwipeBack();
+        onCreateAfterSuper(savedInstanceState);
         ThemeManager.getInstance().initializeWebTheme(this);
+
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.onCreate(this);
+        }
+
+        if (getResources().getBoolean(R.bool.night_mode) != ThemeManager.getInstance().isNightMode()) {
+            new WebView(this);
+        }
+
+        try {
+            if (ThemeManager.getInstance().isNightMode()) {
+                getWindow().setNavigationBarColor(getColor(R.color.background_color));
+            }
+        } catch (Exception e) {
+            NLog.e("set navigation bar color exception occur: " + e);
+        }
     }
 
-    protected void setActionBarEnabled(boolean enabled) {
-        mActionBarEnabled = enabled;
+    private void initBaseModule() {
+        ContextUtils.setContext(this);
+        ApplicationContextHolder.setContext(this);
+    }
+
+    protected void setSwipeBackEnable(boolean enable) {
+        if (!enable) {
+            mSwipeBackHelper = null;
+        } else if (mSwipeBackHelper == null) {
+            mSwipeBackHelper = new SwipeBackHelper();
+        }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (mSwipeBackHelper != null) {
+            mSwipeBackHelper.onPostCreate();
+        }
+    }
+
+    @Override
+    public <T extends View> T findViewById(int id) {
+        T t = super.findViewById(id);
+        if (t == null && mSwipeBackHelper != null) {
+            t = mSwipeBackHelper.findViewById(id);
+        }
+        return t;
+    }
+
+    protected void onCreateBeforeSuper(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    protected void onCreateAfterSuper(@Nullable Bundle savedInstanceState) {
+
+    }
+
+    protected void setToolbarEnabled(boolean enabled) {
+        mToolbarEnabled = enabled;
     }
 
     protected void setHardwareAcceleratedEnabled(boolean enabled) {
@@ -69,15 +125,21 @@ public abstract class BaseActivity extends SwipeBackActivity {
         setupToolbar((Toolbar) findViewById(R.id.toolbar));
     }
 
-    @Deprecated
-    protected void hideActionBar() {
-        setActionBarEnabled(false);
-        // mNeedActionBar = false;
+    public void setupActionBar() {
+        if (mToolbarEnabled) {
+            setupToolbar();
+        } else {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeButtonEnabled(true);
+            }
+        }
     }
 
     protected void updateThemeUi() {
         ThemeManager tm = ThemeManager.getInstance();
-        setTheme(tm.getTheme(mActionBarEnabled));
+        setTheme(tm.getTheme(mToolbarEnabled));
         if (tm.isNightMode()) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -87,25 +149,11 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     protected void updateWindowFlag() {
         int flag = 0;
-        if (mConfig.isFullScreenMode()) {
-            flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        }
 
         if (mHardwareAcceleratedEnabled) {
             flag = flag | WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         }
         getWindow().addFlags(flag);
-    }
-
-    private void initSwipeBack() {
-        if (getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, true)) {
-            final float density = getResources().getDisplayMetrics().density;// 获取屏幕密度PPI
-            getSwipeBackLayout().setEdgeSize((int) (10 * density + 0.5f));// 10dp
-            getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
-            setSwipeBackEnable(true);
-        } else {
-            setSwipeBackEnable(false);
-        }
     }
 
     @Deprecated
@@ -120,29 +168,6 @@ public abstract class BaseActivity extends SwipeBackActivity {
         }
     }
 
-    @Deprecated
-    public void setupActionBar() {
-        setupActionBar((Toolbar) findViewById(R.id.toolbar));
-    }
-
-    @Deprecated
-    protected void showToast(@StringRes int res) {
-        String str = getString(res);
-        showToast(str);
-    }
-
-    @Deprecated
-    @SuppressLint("ShowToast")
-    protected void showToast(String res) {
-        if (mToast != null) {
-            mToast.setText(res);
-            mToast.setDuration(Toast.LENGTH_SHORT);
-        } else {
-            mToast = Toast.makeText(this, res, Toast.LENGTH_SHORT);
-        }
-        mToast.show();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -155,5 +180,15 @@ public abstract class BaseActivity extends SwipeBackActivity {
         }
         return true;
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        try {
+            return super.dispatchTouchEvent(ev);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

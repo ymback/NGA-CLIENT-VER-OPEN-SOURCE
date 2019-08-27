@@ -9,12 +9,17 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import sp.phone.util.ImageUtils;
-import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
 import sp.phone.util.HttpUtil;
-import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;
 
 public class ChangeAvatarLoadTask extends AsyncTask<String, Integer, Bitmap> {
+
+    public interface ChangeAvatarLoadCompleteCallBack {
+        void OnAvatarLoadStart(String url);
+
+        void OnAvatarLoadComplete(String url, Bitmap result);
+    }
+
     static final String TAG = ChangeAvatarLoadTask.class.getSimpleName();
     final ImageView view;
     final boolean downImg;

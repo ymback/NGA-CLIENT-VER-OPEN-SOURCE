@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:androidnga="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/menu_show_whole_thread"
-        android:icon="@drawable/ic_action_storage"
-        android:title="@string/show_whole_thread"
-        androidnga:showAsAction="ifRoom|withText" />
-</menu>

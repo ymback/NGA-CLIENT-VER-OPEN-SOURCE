@@ -18,6 +18,7 @@
         android:background="#70000000"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
+        android:visibility="gone"
         android:paddingTop="8dp">
 
         <TextView

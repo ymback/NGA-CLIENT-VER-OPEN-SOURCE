@@ -1,57 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="10.0dip"
-    android:paddingRight="10.0dip"
-    android:paddingTop="10.0dip">
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="@dimen/topic_list_item_padding">
 
     <TextView
         android:id="@id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1111111111111111"
-        android:textColor="#FF545454"
         android:textIsSelectable="false"
         android:textSize="17.0sp" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:gravity="bottom|right"
-        android:paddingBottom="11.0dip"
-        android:paddingTop="4.0dip">
+        android:gravity="bottom|end"
+        android:paddingTop="12dp">
+
+        <ImageView
+            android:id="@+id/iv_person"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_person" />
 
         <TextView
             android:id="@+id/author"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="@string/sample_nick_name"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/iv_person"
+            android:gravity="bottom"
             android:maxLines="2"
+            android:text="@string/sample_nick_name"
             android:textColor="@color/night_link_color"
             android:textIsSelectable="false"
-            android:textSize="11.0sp" />
+            android:textSize="@dimen/topic_list_item_sub_text_size" />
 
         <TextView
             android:id="@+id/last_reply"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="9.0dip"
-            android:layout_toLeftOf="@+id/im3"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/im3"
             android:gravity="right"
-            android:text="@string/sample_nick_name"
             android:maxLines="2"
+            android:text="@string/sample_nick_name"
             android:textColor="@color/night_link_color"
             android:textIsSelectable="false"
-            android:textSize="11.0sp" />
+            android:textSize="@dimen/topic_list_item_sub_text_size" />
 
         <ImageView
             android:id="@+id/im3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4.0dip"
-            android:layout_toLeftOf="@id/num"
+            android:layout_marginEnd="4.0dip"
+            android:layout_toStartOf="@id/num"
             android:contentDescription="@string/app_name"
             android:src="@drawable/replies_icon" />
 
@@ -59,12 +64,12 @@
             android:id="@+id/num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:maxLines="1"
-            android:text="111"
             android:textColor="@color/night_link_color"
             android:textIsSelectable="false"
-            android:textSize="11.0sp" />
+            android:textSize="@dimen/topic_list_item_sub_text_size" />
     </RelativeLayout>
-</RelativeLayout>
+
+</LinearLayout>
 			

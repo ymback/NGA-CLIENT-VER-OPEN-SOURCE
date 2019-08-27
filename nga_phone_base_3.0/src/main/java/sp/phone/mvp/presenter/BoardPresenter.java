@@ -1,25 +1,30 @@
 package sp.phone.mvp.presenter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import sp.phone.bean.BoardCategory;
-import sp.phone.interfaces.PageCategoryOwner;
-import sp.phone.mvp.contract.BoardContract;
-import sp.phone.util.StringUtils;
-import sp.phone.bean.BoardCategory;
-import sp.phone.common.BoardManager;
-import sp.phone.common.BoardManagerImpl;
+import gov.anzong.androidnga.activity.ArticleListActivity;
+import gov.anzong.androidnga.activity.TopicListActivity;
+import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.util.ToastUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.interfaces.PageCategoryOwner;
 import sp.phone.mvp.contract.BoardContract;
+import sp.phone.mvp.model.BoardModel;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.BoardCategory;
+import sp.phone.param.ParamKey;
+import sp.phone.ui.fragment.NavigationDrawerFragment;
+import sp.phone.util.ARouterUtils;
+import sp.phone.util.ActivityUtils;
 import sp.phone.util.HttpUtil;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
@@ -29,30 +34,15 @@ import sp.phone.util.StringUtils;
  * Created by Justwen on 2017/6/29.
  */
 
-public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwner {
-
-    private BoardContract.View mView;
-
-    private BoardManager mBoardManager;
+public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, BoardModel> implements BoardContract.Presenter {
 
     private UserManager mUserManager;
 
-    public BoardPresenter(BoardContract.View view) {
-        mView = view;
-        mView.setPresenter(this);
-        mBoardManager = BoardManagerImpl.getInstance();
+    public BoardPresenter() {
+        super();
         mUserManager = UserManagerImpl.getInstance();
     }
 
-    @Override
-    public Context getContext() {
-        return mView.getContext();
-    }
-
-    @Override
-    public void setView(Object view) {
-
-    }
 
     @Override
     public void loadBoardInfo() {
@@ -60,53 +50,46 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
     }
 
     @Override
-    public boolean addBoard(String fid, String name) {
+    public boolean addBoard(String fidStr, String name, String stidStr) {
         if (name.equals("")) {
-            mView.showToast("请输入版面名称");
+            ToastUtils.showToast("请输入版面名称");
             return false;
         } else {
-            Pattern pattern = Pattern.compile("-?[0-9]*");
-            Matcher match = pattern.matcher(fid);
-            boolean checkInt = true;
+            int fid = 0;
+            int stid = 0;
             try {
-                Integer.parseInt(fid);
-            } catch (NumberFormatException e) {
-                checkInt = false;
-            }
-            if (!match.matches() || fid.equals("") || !checkInt) {
-                mView.showToast("请输入正确的版面ID(个人版面要加负号)");
-                return false;
-            } else {// CHECK PASS, READY TO ADD FID
-                for (int i = 0; i < mBoardManager.getCategorySize(); i++) {
-                    BoardCategory curr = mBoardManager.getCategory(i);
-                    for (int j = 0; j < curr.size(); j++) {
-                        String URL = curr.get(j).getUrl();
-                        if (URL.equals(fid)) {
-                            mView.showToast("该版面已经存在于列表" + curr.get(j).getName() + "中");
-                            return false;
-                        }
-                    }
+                if (!TextUtils.isEmpty(fidStr)) {
+                    fid = Integer.parseInt(fidStr);
                 }
-                mView.showToast("添加成功");
-                BoardManagerImpl.getInstance().addBookmark(fid,name);
+
+                if (!TextUtils.isEmpty(stidStr)) {
+                    stid = Integer.parseInt(stidStr);
+                }
+
+                addBookmarkBoard(fid, stid, name);
                 return true;
+            } catch (NumberFormatException e) {
+                ToastUtils.showToast("请输入正确的版面ID或者合集ID");
+                return false;
             }
+
         }
     }
 
     @Override
     public void toggleUser(List<User> userList) {
         if (userList != null && userList.size() > 1) {
-            int index = mView.switchToNextUser();
+            int index = mBaseView.switchToNextUser();
             mUserManager.setActiveUser(index);
-            mView.showToast("切换账户成功,当前账户名:" + mUserManager.getActiveUser().getNickName());
+            ToastUtils.showToast("切换账户成功,当前账户名:" + mUserManager.getActiveUser().getNickName());
         } else {
-            mView.jumpToLogin();
+            mBaseView.jumpToLogin();
         }
     }
 
     /**
      * 跳转到对应版块
+     *
      * @param position
      * @param fidString
      */
@@ -125,7 +108,7 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
         }
         if (fid == 0) {
             String tip = fidString + "绝对不存在";
-            mView.showToast(tip);
+            ToastUtils.showToast(tip);
             return;
         }
 
@@ -136,45 +119,108 @@ public class BoardPresenter implements BoardContract.Presenter, PageCategoryOwne
         if (!StringUtils.isEmpty(config.getCookie())) {
             url = url + "&" + config.getCookie().replace("; ", "&");
         } else if (fid < 0) {
-            mView.jumpToLogin();
+            mBaseView.jumpToLogin();
             return;
         }
         if (!StringUtils.isEmpty(url)) {
             Intent intent = new Intent();
             intent.putExtra("tab", "1");
             intent.putExtra("fid", fid);
-            intent.setClass(getContext(), config.topicActivityClass);
-            getContext().startActivity(intent);
+            intent.setClass(mBaseView.getContext(), config.topicActivityClass);
+            mBaseView.getContext().startActivity(intent);
         }
     }
 
     @Override
     public void notifyDataSetChanged() {
         loadBoardInfo();
-        mView.notifyDataSetChanged();
+        mBaseView.notifyDataSetChanged();
     }
 
     @Override
     public void clearRecentBoards() {
-        mBoardManager.removeAllBookmarks();
-        mView.notifyDataSetChanged();
-    }
-
-
-    @Override
-    public int getCategoryCount() {
-        return BoardManagerImpl.getInstance().getCategoryList().size();
+        mBaseModel.removeAllBookmarks();
+        mBaseView.notifyDataSetChanged();
     }
 
     @Override
-    public String getCategoryName(int position) {
-        return BoardManagerImpl.getInstance().getCategoryList().get(position).getName();
+    public void startUserProfile(String userName) {
+        ARouterUtils.build(ARouterConstants.ACTIVITY_PROFILE)
+                .withString("mode", "username")
+                .withString("username", userName)
+                .navigation(mBaseView.getContext());
     }
 
     @Override
-    public BoardCategory getCategory(int category) {
-        return BoardManagerImpl.getInstance().getCategoryList().get(category);
+    public void startLogin() {
+        ARouterUtils.build(ARouterConstants.ACTIVITY_LOGIN).navigation((Activity) mBaseView.getContext(), ActivityUtils.REQUEST_CODE_LOGIN);
     }
 
+    @Override
+    public BoardCategory getBookmarkCategory() {
+        return mBaseModel.getBookmarkCategory();
+    }
 
+    @Override
+    public List<BoardCategory> getBoardCategories() {
+        return mBaseModel.getBoardCategories();
+    }
+
+    @Override
+    public void clearAllBookmarkBoards() {
+        mBaseModel.removeAllBookmarks();
+        mBaseView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void swapBookmarkBoard(int from, int to) {
+        mBaseModel.swapBookmark(from, to);
+    }
+
+    @Override
+    public void addBookmarkBoard(int fid, int stid, String name) {
+        if (mBaseModel.isBookmark(fid, stid)) {
+            ToastUtils.showToast("该版面已存在");
+        } else {
+            mBaseModel.addBookmark(fid, stid, name);
+            ToastUtils.showToast("添加成功");
+        }
+    }
+
+    @Override
+    public void showTopicList(Board board) {
+        showTopicList(board.getFid(), board.getStid(), board.getName());
+    }
+
+    @Override
+    public void showTopicList(int fid, int stid, String boardName) {
+        ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                .withInt(ParamKey.KEY_FID, fid)
+                .withInt(ParamKey.KEY_STID, stid)
+                .withString(ParamKey.KEY_TITLE, boardName)
+                .navigation(mBaseView.getContext());
+    }
+
+    @Override
+    public void showTopicList(String url) {
+        Intent intent = new Intent(mBaseView.getContext(), TopicListActivity.class);
+        intent.setData(Uri.parse(url));
+        if (mBaseView.getContext() != null) {
+            mBaseView.getContext().startActivity(intent);
+        }
+    }
+
+    @Override
+    public void showTopicContent(String url) {
+        Intent intent = new Intent(mBaseView.getContext(), ArticleListActivity.class);
+        intent.setData(Uri.parse(url));
+        if (mBaseView.getContext() != null) {
+            mBaseView.getContext().startActivity(intent);
+        }
+    }
+
+    @Override
+    protected BoardModel onCreateModel() {
+        return BoardModel.getInstance();
+    }
 }

@@ -31,19 +31,16 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import sp.phone.bean.TopicPostBean;
+import sp.phone.http.bean.TopicPostBean;
 import sp.phone.common.ApplicationContextHolder;
-import sp.phone.forumoperation.ParamKey;
-import sp.phone.forumoperation.PostParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.ParamKey;
+import sp.phone.param.PostParam;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicPostContract;
-import sp.phone.retrofit.RetrofitHelper;
-import sp.phone.retrofit.RetrofitService;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
-import sp.phone.util.DeviceUtils;
-import sp.phone.util.ForumUtils;
-import sp.phone.util.HttpUtil;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
@@ -56,7 +53,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     private String mHostUrl = Utils.getNGAHost() + "post.php?";
 
-    private static final String BASE_URL_ATTACHMENT_SERVER = "http://" + HttpUtil.NGA_ATTACHMENT_HOST + ":8080/attach.php?";
+    private static final String BASE_URL_ATTACHMENT_SERVER = "https://img7.nga.178.com:8081/attach.php?";
 
     private RetrofitService mRetrofitService;
 

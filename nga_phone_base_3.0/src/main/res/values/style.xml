@@ -19,10 +19,6 @@
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
-    <style name="SwipeBackTheme" parent="AppTheme">
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
     <style name="AppThemeNight" parent="@style/Theme.AppCompat">
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>

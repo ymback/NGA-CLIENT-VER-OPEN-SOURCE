@@ -27,7 +27,7 @@
         android:id="@+id/menu_twenty_four"
         android:icon="@drawable/btn_ic_search"
         android:title="@string/twenty_four"
-        androidnga:showAsAction="ifRoom" />
+        androidnga:showAsAction="never" />
 
     <item
         android:id="@+id/menu_history"

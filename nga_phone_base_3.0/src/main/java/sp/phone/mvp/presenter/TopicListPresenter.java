@@ -1,18 +1,17 @@
 package sp.phone.mvp.presenter;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import sp.phone.forumoperation.TopicListParam;
-import sp.phone.fragment.TopicSearchFragment;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.mvp.model.BoardModel;
+import sp.phone.param.TopicListParam;
+import sp.phone.ui.fragment.TopicSearchFragment;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.TopicListModel;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.util.NLog;
 
 /**
  * Created by Justwen on 2017/6/3.
@@ -121,7 +120,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
 
     @Override
     protected TopicListModel onCreateModel() {
-        return new TopicListModel();
+        return TopicListModel.getInstance();
     }
 
     @Override
@@ -171,6 +170,21 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
         } else {
             mBaseModel.loadTopicList(page, requestInfo, mNextPageCallBack);
         }
+    }
+
+    @Override
+    public boolean isBookmarkBoard(int fid, int stid) {
+        return BoardModel.getInstance().isBookmark(fid, stid);
+    }
+
+    @Override
+    public void addBookmarkBoard(int fid, int stid, String boardName) {
+        BoardModel.getInstance().addBookmark(fid, stid, boardName);
+    }
+
+    @Override
+    public void removeBookmarkBoard(int fid, int stid) {
+        BoardModel.getInstance().removeBookmark(fid, stid);
     }
 
 }

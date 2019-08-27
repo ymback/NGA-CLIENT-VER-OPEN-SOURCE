@@ -4,17 +4,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import gov.anzong.androidnga.R;
-import sp.phone.fragment.MessageDetailFragment;
+import sp.phone.ui.fragment.MessageDetailFragment;
 import sp.phone.util.StringUtils;
 
 public class MessageDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_detail);
-        setupActionBar();
+        setupToolbar();
         initFragment();
     }
 

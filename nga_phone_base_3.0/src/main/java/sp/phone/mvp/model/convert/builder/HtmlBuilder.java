@@ -4,49 +4,70 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadRowInfo;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2018/8/28.
  */
 public class HtmlBuilder {
 
+    private static String sHtmlTemplate;
+
+    private static String sDarkHtmlTemplate;
+
     private static String getForegroundColorStr() {
         int webTextColor = ThemeManager.getInstance().getWebTextColor();
         return String.format("%06x", webTextColor & 0xffffff);
     }
 
-    public static String build(ThreadRowInfo row, String ngaHtml, List<String> imageUrls) {
+    private static String getHtmlTemplate() {
+        if (ThemeManager.getInstance().isNightMode()) {
+            if (sDarkHtmlTemplate == null) {
+                sDarkHtmlTemplate = StringUtils.getStringFromAssets("html/html_template_dark.html");
+            }
+            return sDarkHtmlTemplate;
+        } else {
+            if (sHtmlTemplate == null) {
+                sHtmlTemplate = StringUtils.getStringFromAssets("html/html_template.html");
+            }
+            return sHtmlTemplate;
+        }
+    }
+
+    public static String build(ThreadRowInfo row, String ngaHtml, List<String> imageUrls, ForumDecodeRecord decodeResult) {
+
+        StringBuilder builder = new StringBuilder();
         if (row.get_isInBlackList()) {
-            return HtmlBlackListBuilder.build();
+            builder.append("<h5>[屏蔽]</h5>");
+        } else if (TextUtils.isEmpty(ngaHtml) && TextUtils.isEmpty(row.getAlterinfo())) {
+            builder.append("<h5>[隐藏]</h5>");
+        } else {
+            if (!TextUtils.isEmpty(row.getSubject())) {
+                builder.append("<div class='title'>").append(row.getSubject()).append("</div><br>");
+            }
+            if (TextUtils.isEmpty(ngaHtml)) {
+                ngaHtml = row.getAlterinfo();
+            }
+            builder.append(ngaHtml)
+                    .append(HtmlCommentBuilder.build(row))
+                    .append(HtmlAttachmentBuilder.build(row, imageUrls))
+                    .append(HtmlSignatureBuilder.build(row))
+                    .append(HtmlVoteBuilder.build(row));
+//            if (!PhoneConfiguration.getInstance().useOldWebCore()
+//                    && builder.length() == row.getContent().length()
+//                    && row.getContent().equals(ngaHtml)) {
+//                row.setContent(row.getContent().replaceAll("<br/>", "\n"));
+//                return null;
+//            }
         }
-        String fgColorStr = getForegroundColorStr();
-        StringBuilder retBuilder = new StringBuilder();
-        retBuilder.append("<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">")
-                .append(HtmlHeaderBuilder.build(row, fgColorStr))
-                .append("<body style=word-break:break-all; ")
-                .append("'>")
-                .append("<font color='#")
-                .append(fgColorStr)
-                .append("' size='2'>");
+        String template = getHtmlTemplate();
+        int webTextSize = PhoneConfiguration.getInstance().getTopicContentSize();
+        int emoticonSize = PhoneConfiguration.getInstance().getEmoticonSize();
 
-        if (TextUtils.isEmpty(ngaHtml)) {
-            ngaHtml = row.getAlterinfo();
-        }
-
-        if (TextUtils.isEmpty(ngaHtml)) {
-            ngaHtml = HtmlHideBuilder.build();
-        }
-
-        retBuilder.append(ngaHtml)
-                .append(HtmlCommentBuilder.build(row, fgColorStr))
-                .append(HtmlAttachmentBuilder.build(row, imageUrls))
-                .append(HtmlSignatureBuilder.build(row))
-                .append(HtmlVoteBuilder.build(row))
-                .append("</font>")
-                .append("<script type=\"text/javascript\" src=\"file:///android_asset/html/script.js\"></script>")
-                .append("</body>");
-        return retBuilder.toString();
+        return String.format(template, webTextSize, (int) (webTextSize * 0.9), emoticonSize, builder.toString());
     }
 }

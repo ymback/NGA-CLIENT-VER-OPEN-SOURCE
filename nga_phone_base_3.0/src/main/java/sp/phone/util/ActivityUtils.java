@@ -18,8 +18,8 @@ import gov.anzong.androidnga.activity.LauncherSubActivity;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.fragment.TopicHistoryFragment;
-import sp.phone.fragment.dialog.SearchDialogFragment;
+import sp.phone.ui.fragment.TopicHistoryFragment;
+import sp.phone.ui.fragment.dialog.SearchDialogFragment;
 
 public class ActivityUtils {
 
@@ -339,6 +339,7 @@ public class ActivityUtils {
             context.startActivity(intent);
         }
     }
+
     public static void startSearchDialog(AppCompatActivity activity, Bundle bundle) {
         if (UserManagerImpl.getInstance().getActiveUser() == null) {
             startLoginActivity(activity);

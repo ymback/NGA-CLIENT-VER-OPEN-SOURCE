@@ -18,6 +18,10 @@ public class RxEvent {
 
     public static final int EVENT_INSERT_EMOTICON = 5;
 
+    public static final int EVENT_SHOW_TOPIC_LIST = 6;
+
+    public static final int EVENT_SHOW_TOPIC_LIST_BY_URL = 7;
+
     public int what;
 
     public int arg;

@@ -1,15 +1,18 @@
 package sp.phone.theme;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.TypedValue;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PreferenceKey;
+import sp.phone.common.ApplicationContextHolder;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -55,7 +58,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         sp.registerOnSharedPreferenceChangeListener(this);
         mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
-        mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "0"));
+        mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "1"));
     }
 
     public static ThemeManager getInstance() {
@@ -85,6 +88,14 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         return mNightMode;
     }
 
+    public void setNightMode(boolean isNightMode){
+        mContext = ApplicationContextHolder.getContext();
+        SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        sp.registerOnSharedPreferenceChangeListener(this);
+        mNightMode = isNightMode;
+        sp.edit().putBoolean(PreferenceKey.NIGHT_MODE,isNightMode).apply();
+    }
+
     @ColorInt
     public int getPrimaryColor(Context context) {
         context.getTheme().resolveAttribute(android.R.attr.colorPrimary, mTypedValue, true);
@@ -109,8 +120,17 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     @StyleRes
-    public int getTheme(boolean actionbarEnabled) {
+    public int getTheme(boolean toolbarEnabled) {
         int index = isNightMode() ? 0 : mThemeIndex;
-        return actionbarEnabled ? mAppThemesActionBar[index] : mAppThemes[index];
+        return toolbarEnabled ? mAppThemes[index] : mAppThemesActionBar[index];
+    }
+
+    public void applyAboutTheme(AppCompatActivity activity) {
+        activity.setTheme(ThemeConstants.THEME_ACTIVITY_ABOUT[isNightMode() ? 0 : mThemeIndex]);
+        activity.getDelegate().setLocalNightMode(isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    public void applyTheme(Activity activity) {
+
     }
 }

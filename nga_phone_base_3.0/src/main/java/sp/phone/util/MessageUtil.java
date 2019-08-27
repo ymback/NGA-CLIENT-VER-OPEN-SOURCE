@@ -8,17 +8,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.theme.ThemeManager;
-import sp.phone.bean.MessageArticlePageInfo;
-import sp.phone.bean.MessageDetailInfo;
+import sp.phone.http.bean.MessageArticlePageInfo;
+import sp.phone.http.bean.MessageDetailInfo;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;

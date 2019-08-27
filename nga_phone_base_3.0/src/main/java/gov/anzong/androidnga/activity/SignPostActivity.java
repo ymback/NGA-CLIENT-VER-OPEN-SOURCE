@@ -13,9 +13,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.ToastUtils;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.SignPostParam;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.param.SignPostParam;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.task.SignPostTask;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
@@ -88,9 +89,9 @@ public class SignPostActivity extends BaseActivity {
     private void postSign() {
         String bodyText = mBodyText.getText().toString();
         if (StringUtils.isEmpty(bodyText)) {
-            showToast("请输入内容");
+            ToastUtils.showToast("请输入内容");
         } else if (mPostTask != null && mPostTask.isRunning()) {
-            showToast(R.string.avoidWindfury);
+            ToastUtils.showToast(R.string.avoidWindfury);
         } else {
             if (mPostTask == null) {
                 mPostTask = new SignPostTask();

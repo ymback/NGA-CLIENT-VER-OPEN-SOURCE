@@ -33,11 +33,11 @@ import java.net.HttpURLConnection;
 import java.util.HashSet;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.util.ToastUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.forumoperation.AvatarPostAction;
-import sp.phone.forumoperation.HttpPostClient;
-import sp.phone.interfaces.ChangeAvatarLoadCompleteCallBack;
+import sp.phone.param.AvatarPostAction;
+import sp.phone.param.HttpPostClient;
 import sp.phone.task.AvatarFileUploadTask;
 import sp.phone.task.ChangeAvatarLoadTask;
 import sp.phone.theme.ThemeManager;
@@ -48,7 +48,7 @@ import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
 public class AvatarPostActivity extends BaseActivity implements
-        AvatarFileUploadTask.onFileUploaded, ChangeAvatarLoadCompleteCallBack {
+        AvatarFileUploadTask.onFileUploaded, ChangeAvatarLoadTask.ChangeAvatarLoadCompleteCallBack {
 
     final int REQUEST_CODE_SELECT_PIC = 1;
     private final String LOG_TAG = Activity.class.getSimpleName();
@@ -364,17 +364,17 @@ public class AvatarPostActivity extends BaseActivity implements
                 if (titleText.getText().toString().startsWith("http")) {
                     synchronized (commit_lock) {
                         if (loading == true) {
-                            showToast(R.string.avoidWindfury);
+                            ToastUtils.showToast(R.string.avoidWindfury);
                             return;
                         }
                         loading = true;
                     }
                     handleReply(v);
                 } else {
-                    showToast("请输入正确的头像URL地址");
+                    ToastUtils.showToast("请输入正确的头像URL地址");
                 }
             } else {
-                showToast("请输入正确的头像URL地址");
+                ToastUtils.showToast("请输入正确的头像URL地址");
             }
         }
 
@@ -509,7 +509,7 @@ public class AvatarPostActivity extends BaseActivity implements
                 if (!success)
                     keepActivity = true;
             }
-            showToast("操作成功");
+            ToastUtils.showToast("操作成功");
             ActivityUtils.getInstance().dismiss();
             String userId = UserManagerImpl.getInstance().getUserId();
             String avatarPath = HttpUtil.PATH_AVATAR + "/" + userId + ".jpg";

@@ -4,8 +4,6 @@ package sp.phone.util;
 import android.graphics.Bitmap;
 import android.os.Build;
 
-import com.alibaba.fastjson.JSON;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -16,16 +14,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Locale;
 import java.util.zip.GZIPInputStream;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
-
-import sp.phone.bean.ArticlePage;
-import sp.phone.bean.ArticlePage;
 
 public class HttpUtil {
 

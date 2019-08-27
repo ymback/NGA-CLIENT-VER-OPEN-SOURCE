@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp">
+        android:padding="10dp">
 
         <FrameLayout
             android:id="@+id/fl_avatar"
@@ -25,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/avatar"
                 android:focusable="false"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
         </FrameLayout>
 
         <TextView
@@ -37,19 +34,19 @@
             android:layout_toEndOf="@+id/fl_avatar"
             android:textColor="?attr/colorAccent"
             android:textIsSelectable="false"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_floor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_post_time"
+            android:layout_alignTop="@+id/tv_detail"
             android:layout_alignBottom="@+id/tv_detail"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_detail"
-            android:layout_below="@+id/tv_post_time"
             android:textColor="@color/text_color_disabled"
             android:textIsSelectable="false"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tv_detail"
@@ -61,7 +58,7 @@
             android:layout_toStartOf="@id/tv_floor"
             android:layout_toEndOf="@+id/fl_avatar"
             android:textColor="@color/text_color_disabled"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tv_post_time"
@@ -71,19 +68,19 @@
             android:layout_alignParentEnd="true"
             android:textColor="@color/text_color_disabled"
             android:textIsSelectable="false"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
 
 
         <ImageView
             android:id="@+id/iv_client"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_floor"
-            android:layout_alignTop="@+id/tv_floor"
             android:layout_below="@+id/tv_post_time"
+            android:layout_alignTop="@+id/tv_floor"
+            android:layout_alignBottom="@+id/tv_floor"
             android:layout_marginEnd="2dp"
             android:layout_toStartOf="@+id/tv_floor"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <FrameLayout
@@ -92,12 +89,22 @@
 
         <android.support.v4.widget.Space
             android:layout_width="wrap_content"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp" />
 
         <sp.phone.view.webview.WebViewEx
             android:id="@+id/wv_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textColor="@color/web_text_color"
+            android:textIsSelectable="true" />
 
     </FrameLayout>
 
@@ -106,14 +113,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end|center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:textIsSelectable="false"/>
+            android:textIsSelectable="false" />
 
         <ImageView
             android:id="@+id/iv_reply"
@@ -121,14 +129,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:contentDescription="@string/quote_subject"
-            android:src="@drawable/ic_reply_24dp"/>
+            android:src="@drawable/ic_reply_24dp" />
 
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:src="@drawable/ic_more_ver_24dp"/>
+            android:src="@drawable/ic_more_ver_24dp" />
 
     </LinearLayout>
 </LinearLayout>

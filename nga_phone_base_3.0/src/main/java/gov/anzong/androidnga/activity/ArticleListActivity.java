@@ -8,10 +8,10 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.common.PreferenceKey;
-import sp.phone.forumoperation.ArticleListParam;
-import sp.phone.forumoperation.ParamKey;
-import sp.phone.fragment.ArticleSearchFragment;
-import sp.phone.fragment.ArticleTabFragment;
+import sp.phone.param.ArticleListParam;
+import sp.phone.param.ParamKey;
+import sp.phone.ui.fragment.ArticleSearchFragment;
+import sp.phone.ui.fragment.ArticleTabFragment;
 import sp.phone.util.StringUtils;
 
 /**
@@ -37,6 +37,8 @@ public class ArticleListActivity extends BaseActivity implements PreferenceKey {
             bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);
             fragment.setArguments(bundle);
             fm.beginTransaction().replace(android.R.id.content, fragment).commit();
+        } else {
+            fragment.setHasOptionsMenu(true);
         }
     }
 
@@ -69,7 +71,7 @@ public class ArticleListActivity extends BaseActivity implements PreferenceKey {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hideActionBar();
+        setToolbarEnabled(true);
         mRequestParam = getArticleListParam();
         super.onCreate(savedInstanceState);
         setupFragment();

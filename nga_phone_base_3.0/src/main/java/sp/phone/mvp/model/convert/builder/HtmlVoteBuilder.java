@@ -1,6 +1,6 @@
 package sp.phone.mvp.model.convert.builder;
 
-import sp.phone.bean.ThreadRowInfo;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.util.StringUtils;
 
 /**

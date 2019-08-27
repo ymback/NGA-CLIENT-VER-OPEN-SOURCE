@@ -12,9 +12,9 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.fragment.SearchHistoryBoardFragment;
-import sp.phone.fragment.SearchHistoryTopicFragment;
-import sp.phone.fragment.SearchHistoryUserFragment;
+import sp.phone.ui.fragment.SearchHistoryBoardFragment;
+import sp.phone.ui.fragment.SearchHistoryTopicFragment;
+import sp.phone.ui.fragment.SearchHistoryUserFragment;
 
 @Route(path = ARouterConstants.ACTIVITY_SEARCH)
 public class SearchActivity extends BaseActivity {
@@ -59,6 +59,9 @@ public class SearchActivity extends BaseActivity {
 
     private void updateTabChanged(String mode) {
         mCurrentMode = mode;
+        if (mEditText == null) {
+            return;
+        }
         if (mCurrentMode.equals(SEARCH_MODE_USER)) {
             mEditText.setHint(R.string.profile_search_dialog_hint);
         } else {

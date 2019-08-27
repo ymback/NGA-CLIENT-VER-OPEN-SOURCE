@@ -1,9 +1,7 @@
 package sp.phone.mvp.contract;
 
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.listener.OnHttpCallBack;
-import sp.phone.bean.MessageDetailInfo;
-import sp.phone.listener.OnHttpCallBack;
+import sp.phone.http.bean.MessageDetailInfo;
+import sp.phone.http.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/10/11.

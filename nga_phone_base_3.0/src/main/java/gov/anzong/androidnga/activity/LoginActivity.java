@@ -1,13 +1,14 @@
 package gov.anzong.androidnga.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.fragment.BaseFragment;
-import sp.phone.fragment.LoginWebFragment;
+import sp.phone.ui.fragment.BaseFragment;
+import sp.phone.ui.fragment.LoginWebFragment;
 
 @Route(path = ARouterConstants.ACTIVITY_LOGIN)
 public class LoginActivity extends BaseActivity {
@@ -31,5 +32,11 @@ public class LoginActivity extends BaseActivity {
         if (!mLoginFragment.onBackPressed()) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void finish() {
+        setResult(Activity.RESULT_OK);
+        super.finish();
     }
 }

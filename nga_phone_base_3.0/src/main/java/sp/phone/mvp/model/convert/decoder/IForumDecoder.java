@@ -13,6 +13,10 @@ public interface IForumDecoder {
 
     String decode(String content);
 
+    default String decode(String content, ForumDecodeRecord result) {
+        return decode(content);
+    }
+
     default List<String> getImageUrls() {
         return null;
     }

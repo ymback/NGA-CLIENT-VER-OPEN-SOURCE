@@ -11,9 +11,9 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.forumoperation.ParamKey;
-import sp.phone.forumoperation.PostParam;
-import sp.phone.fragment.TopicPostFragment;
+import sp.phone.param.ParamKey;
+import sp.phone.param.PostParam;
+import sp.phone.ui.fragment.TopicPostFragment;
 
 @Route(path = ARouterConstants.ACTIVITY_POST)
 public class PostActivity extends BaseActivity {
@@ -22,7 +22,7 @@ public class PostActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setActionBarEnabled(false);
+        setToolbarEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         setupToolbar();

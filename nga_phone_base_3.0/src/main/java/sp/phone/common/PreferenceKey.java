@@ -12,12 +12,8 @@ public interface PreferenceKey {
     String DOWNLOAD_IMG_QUALITY_NO_WIFI = "download_img_quality_without_wifi";
     String ENABLE_NOTIFIACTION = "enableNotification";
     String NOTIFIACTION_SOUND = "notificationSound";
-    String TEXT_SIZE = "textsize";
-    String WEB_SIZE = "websize";
     String NIGHT_MODE = "nightmode";
     String VERSION = "version";
-    String NICK_WIDTH = "nickWidth";
-    String EMO_WIDTH = "emotionWidth";
     String REFRESH_AFTERPOST_SETTING_MODE = "refresh_after_post_setting_mode";
     String SHOW_SIGNATURE = "showSignature";
     String SHOW_STATIC = "showStatic";
@@ -25,10 +21,10 @@ public interface PreferenceKey {
     String SHOW_NEWWEIBA = "showNewweiba";
     String SHOW_LAJIBANKUAI = "showLajibankuai";
     String HANDSIDE = "HandSide";
-    String FULLSCREENMODE = "fullscreen";
 
     String USER_LIST = "userList";
     String BLACK_LIST = "";
+    String FILTER_KEYWORDS_LIST = "filter_keywords";
 
     String SHOW_ICON_MODE = "showiconmode";
 
@@ -67,4 +63,18 @@ public interface PreferenceKey {
     public static final String KEY_SEARCH_HISTORY_BOARD = "search_history_board";
 
     public static final String KEY_SEARCH_HISTORY_USER = "search_history_user";
+
+    public static final String KEY_TOPIC_TITLE_SIZE = "topic_title_size";
+
+    public static final String KEY_TOPIC_CONTENT_SIZE = "topic_content_size";
+
+    public static final String KEY_AVATAR_SIZE = "avatar_size";
+
+    public static final String KEY_EMOTICON_SIZE = "emoticon_size";
+
+    public static final String KEY_USE_OLD_WEB_CORE = "use_old_web_core";
+
+    public static final String KEY_USE_SOLID_COLOR_BG = "use_solid_color_bg";
+
+    public static final String KEY_BETA_FIX_NIGHT_THEME = "key_beta_fix_night_theme";
 }
