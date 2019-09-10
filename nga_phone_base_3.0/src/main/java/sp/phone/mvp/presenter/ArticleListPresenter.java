@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.UserManager;
@@ -135,7 +136,7 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
         if (mLikeTask == null) {
             mLikeTask = new LikeTask();
         }
-        mLikeTask.execute(tid, pid, LikeTask.SUPPORT, data -> mBaseView.showToast(data));
+        mLikeTask.execute(tid, pid, LikeTask.SUPPORT, ToastUtils::success);
     }
 
     @Override
@@ -143,7 +144,7 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
         if (mLikeTask == null) {
             mLikeTask = new LikeTask();
         }
-        mLikeTask.execute(tid, pid, LikeTask.OPPOSE, data -> mBaseView.showToast(data));
+        mLikeTask.execute(tid, pid, LikeTask.OPPOSE, ToastUtils::success);
     }
 
     @Override
