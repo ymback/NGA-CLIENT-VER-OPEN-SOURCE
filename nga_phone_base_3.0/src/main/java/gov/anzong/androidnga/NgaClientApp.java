@@ -29,7 +29,7 @@ public class NgaClientApp extends Application {
     public void onCreate() {
         NLog.w(TAG, "app nga android start");
         ApplicationContextHolder.setContext(this);
-        ContextUtils.setContext(this);
+        ContextUtils.setApplication(this);
         LeakCanaryWatcher.initialize(this);
         BlockCanaryWatcher.startWatching(this);
         VersionUpgradeHelper.upgrade();
