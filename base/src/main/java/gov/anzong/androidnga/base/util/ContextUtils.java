@@ -1,6 +1,7 @@
 package gov.anzong.androidnga.base.util;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -18,12 +19,23 @@ public class ContextUtils {
     @SuppressLint("StaticFieldLeak")
     private static Context sContext;
 
+    private static Application sApplication;
+
     public static void setContext(Context context) {
         sContext = context.getApplicationContext();
     }
 
     public static Context getContext() {
         return sContext;
+    }
+
+    public static void setApplication(Application application) {
+        sApplication = application;
+        sContext = application.getApplicationContext();
+    }
+
+    public static Application getApplication() {
+        return sApplication;
     }
 
     public static Drawable getDrawable(@DrawableRes int id) {
