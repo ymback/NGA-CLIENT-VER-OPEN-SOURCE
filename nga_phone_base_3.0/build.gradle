@@ -81,6 +81,12 @@ android {
         abortOnError false
         disable 'MissingTranslation'
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "nga_phone_${defaultConfig.versionName}_${getDate()}.apk"
+        }
+    }
 }
 
 dependencies {
