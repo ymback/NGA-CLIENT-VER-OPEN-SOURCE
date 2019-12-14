@@ -25,7 +25,7 @@ import sp.phone.util.StringUtils;
 
 public class LoginWebFragment extends BaseFragment {
 
-    private static final String URL_LOGIN = "https://bbs.nga.cn/nuke.php?__lib=login&__act=account&login";
+    private static final String URL_LOGIN = "https://ngabbs.com/nuke.php?__lib=login&__act=account&login";
 
     private static final int MAX_PROGRESS = 100;
 
