@@ -111,6 +111,16 @@
                     android:path="/thread.php"
                     android:scheme="https" />
 
+                <data
+                    android:host="ngabbs.com"
+                    android:path="/thread.php"
+                    android:scheme="https" />
+
+                <data
+                    android:host="ngabbs.com"
+                    android:path="/thread.php"
+                    android:scheme="https" />
+
             </intent-filter>
         </activity>
 
@@ -148,6 +158,16 @@
                     android:scheme="https" />
                 <data
                     android:host="bbs.nga.cn"
+                    android:path="/read.php"
+                    android:scheme="https" />
+
+                <data
+                    android:host="ngabbs.com"
+                    android:path="/read.php"
+                    android:scheme="https" />
+
+                <data
+                    android:host="ngabbs.com"
                     android:path="/read.php"
                     android:scheme="https" />
 
