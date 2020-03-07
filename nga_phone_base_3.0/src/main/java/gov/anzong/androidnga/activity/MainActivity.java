@@ -25,6 +25,7 @@ import sp.phone.ui.fragment.NavigationDrawerFragment;
 import sp.phone.ui.fragment.dialog.UrlInputDialogFragment;
 import sp.phone.ui.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.ARouterUtils;
 import sp.phone.util.ActivityUtils;
 import gov.anzong.androidnga.base.util.PermissionUtils;
 
@@ -137,7 +138,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startMessageActivity() {
-        ARouter.getInstance()
+        ARouterUtils
                 .build(ARouterConstants.ACTIVITY_MESSAGE_LIST)
                 .navigation(this);
     }
@@ -163,7 +164,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startNotificationActivity() {
-        ARouter.getInstance()
+        ARouterUtils
                 .build(ARouterConstants.ACTIVITY_NOTIFICATION)
                 .navigation(this);
     }
@@ -172,7 +173,7 @@ public class MainActivity extends BaseActivity {
     private void startPostActivity(boolean isReply) {
         User user = UserManagerImpl.getInstance().getActiveUser();
         String userName = user != null ? user.getNickName() : "";
-        Postcard postcard = ARouter.getInstance()
+        Postcard postcard = ARouterUtils
                 .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                 .withString(ParamKey.KEY_AUTHOR, userName);
         if (isReply) {
@@ -182,7 +183,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startFavoriteTopicActivity() {
-        ARouter.getInstance()
+        ARouterUtils
                 .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                 .withInt(ParamKey.KEY_FAVOR, 1)
                 .navigation(this);
