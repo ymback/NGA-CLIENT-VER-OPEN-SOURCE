@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.awp.webkit.AwpEnvironment;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
@@ -16,7 +15,6 @@ import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
 import sp.phone.debug.BlockCanaryWatcher;
 import sp.phone.debug.LeakCanaryWatcher;
-import sp.phone.task.DeviceStatisticsTask;
 import sp.phone.util.NLog;
 
 public class NgaClientApp extends Application {
@@ -41,6 +39,8 @@ public class NgaClientApp extends Application {
           //  AwpEnvironment.init(this, true);
         }
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
+
+        UploadDataManager.init(this);
     }
 
     private void initRouter() {
@@ -66,9 +66,6 @@ public class NgaClientApp extends Application {
         if (sp.getInt(PreferenceKey.VERSION, 0) < versionCode) {
             sp.edit().putInt(PreferenceKey.VERSION, versionCode).apply();
             mNewVersion = true;
-        }
-        if (mNewVersion) {
-            DeviceStatisticsTask.execute();
         }
     }
 
