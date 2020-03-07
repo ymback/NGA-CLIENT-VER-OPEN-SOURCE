@@ -1,2 +1,2 @@
-include ':statistics', ':base'
+include ':lib_upload', ':base'
 include ':nga_phone_base_3.0'
