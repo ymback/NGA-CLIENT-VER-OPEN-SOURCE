@@ -291,4 +291,9 @@ public interface VersionUpgradeTips {
             + "● 支持NGA新域名ngabbs.com\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
             + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_2122 = "更新内容\n"
+            + "● 新增缓存主题内容功能\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
 }
