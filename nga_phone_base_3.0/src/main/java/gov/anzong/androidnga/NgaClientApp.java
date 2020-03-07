@@ -9,7 +9,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.FilterKeywordsManagerImpl;
-import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
@@ -35,9 +34,6 @@ public class NgaClientApp extends Application {
         initCoreModule();
         initRouter();
         super.onCreate();
-        if (!PhoneConfiguration.getInstance().useOldWebCore()) {
-          //  AwpEnvironment.init(this, true);
-        }
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
 
         UploadDataManager.init(this);

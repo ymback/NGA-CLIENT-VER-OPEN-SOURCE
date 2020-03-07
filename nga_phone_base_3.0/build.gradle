@@ -94,7 +94,6 @@ android {
 dependencies {
     implementation fileTree(include: '*.jar', dir: 'libs')
     implementation(name: 'floatingactionmenu', ext: 'aar')
-    implementation(name: 'awp_sdk', ext: 'aar')
     implementation "com.android.support:support-v4:$project.androidSupportVersion"
     implementation "com.android.support:design:$project.androidSupportVersion"
     implementation "com.android.support:cardview-v7:$project.androidSupportVersion"
