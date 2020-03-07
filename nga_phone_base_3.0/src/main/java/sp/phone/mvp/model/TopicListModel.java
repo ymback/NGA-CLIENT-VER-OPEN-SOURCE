@@ -17,6 +17,7 @@ import java.util.Map;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
@@ -63,23 +64,29 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void loadCache(OnHttpCallBack<TopicListInfo> callBack) {
-        ThreadUtils.postOnSubThread(() -> {
-            try {
-                String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/";
-                File[] cacheDirs = new File(path).listFiles();
-                TopicListInfo listInfo = new TopicListInfo();
-                for (File dir : cacheDirs) {
-                    File infoFile = new File(dir, dir.getName() + ".json");
-                    String rawData = FileUtils.readFileToString(infoFile);
-                    listInfo.addThreadPage(JSON.parseObject(rawData, ThreadPageInfo.class));
-                }
-                callBack.onSuccess(listInfo);
-            } catch (IOException e) {
-                e.printStackTrace();
-                callBack.onError("读取缓存失败！");
+        Observable.create((ObservableOnSubscribe<TopicListInfo>) emitter -> {
+            String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/";
+            File[] cacheDirs = new File(path).listFiles();
+            TopicListInfo listInfo = new TopicListInfo();
+            for (File dir : cacheDirs) {
+                File infoFile = new File(dir, dir.getName() + ".json");
+                String rawData = FileUtils.readFileToString(infoFile);
+                listInfo.addThreadPage(JSON.parseObject(rawData, ThreadPageInfo.class));
             }
+            emitter.onNext(listInfo);
+            emitter.onComplete();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<TopicListInfo>() {
+                    @Override
+                    public void onNext(TopicListInfo topicListInfo) {
+                        callBack.onSuccess(topicListInfo);
+                    }
 
-        });
+                    @Override
+                    public void onError(Throwable throwable) {
+                        callBack.onError("读取缓存失败！");
+                    }
+                });
     }
 
     @Override

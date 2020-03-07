@@ -10,6 +10,8 @@ import java.io.IOException;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
@@ -117,6 +119,34 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                 e.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void loadCachePage(ArticleListParam param, OnHttpCallBack<ThreadData> callBack) {
+        Observable.create((ObservableOnSubscribe<ThreadData>) emitter -> {
+            String cachePath = ContextUtils.getContext().getFilesDir().getAbsolutePath()
+                    + "/cache/" + param.tid + "/" + param.page + ".json";
+            File cacheFile = new File(cachePath);
+            String rawData = FileUtils.readFileToString(cacheFile);
+            ThreadData threadData = ArticleConvertFactory.getArticleInfo(rawData);
+            if (threadData != null) {
+                emitter.onNext(threadData);
+            } else {
+                emitter.onError(new Exception());
+            }
+            emitter.onComplete();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<ThreadData>() {
+                    @Override
+                    public void onNext(ThreadData threadData) {
+                        callBack.onSuccess(threadData);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        callBack.onError("读取缓存失败！");
+                    }
+                });
     }
 
 }

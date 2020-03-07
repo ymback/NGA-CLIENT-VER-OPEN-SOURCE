@@ -31,6 +31,8 @@ public interface ArticleListContract {
         void quote(ArticleListParam param, ThreadRowInfo row);
 
         void cachePage();
+
+        void loadCachePage();
     }
 
     interface View {
@@ -54,5 +56,7 @@ public interface ArticleListContract {
         void loadPage(ArticleListParam param, OnHttpCallBack<ThreadData> callBack);
 
         void cachePage(ArticleListParam param, String rawData);
+
+        void loadCachePage(ArticleListParam param, OnHttpCallBack<ThreadData> callBack);
     }
 }

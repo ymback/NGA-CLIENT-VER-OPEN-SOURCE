@@ -236,7 +236,6 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 loadPage();
             }
         });
-        loadPage();
         super.onViewCreated(view, savedInstanceState);
     }
 

@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.List;
+
 import sp.phone.param.ArticleListParam;
 import sp.phone.param.ParamKey;
 import sp.phone.ui.fragment.ArticleListFragment;
@@ -19,6 +21,8 @@ public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
     private int mCount = 1;
 
     private ArticleListParam mRequestParam;
+
+    private List<String> mPageIndexList;
 
     public ArticlePagerAdapter(FragmentManager fm, ArticleListParam param) {
         super(fm);
@@ -36,7 +40,11 @@ public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
 
     private ArticleListParam getRequestParam(int position) {
         ArticleListParam param = (ArticleListParam) mRequestParam.clone();
-        param.page = position + 1;
+        if (mPageIndexList != null) {
+            param.page = Integer.parseInt(mPageIndexList.get(position));
+        } else {
+            param.page = position + 1;
+        }
         return param;
     }
 
@@ -52,8 +60,13 @@ public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    public void setPageIndexList(List<String> pageIndexList) {
+        mPageIndexList = pageIndexList;
+        setCount(pageIndexList.size());
+    }
+
     @Override
     public CharSequence getPageTitle(int position) {
-        return String.valueOf(position + 1);
+        return mPageIndexList == null ? String.valueOf(position + 1) : mPageIndexList.get(position);
     }
 }

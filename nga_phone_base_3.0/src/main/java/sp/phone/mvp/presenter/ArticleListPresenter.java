@@ -5,18 +5,18 @@ import android.os.Bundle;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.ToastUtils;
-import sp.phone.http.bean.ThreadData;
-import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.param.ArticleListParam;
-import sp.phone.ui.fragment.ArticleListFragment;
 import sp.phone.http.OnHttpCallBack;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.ArticleListModel;
+import sp.phone.param.ArticleListParam;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.rxjava.RxUtils;
 import sp.phone.task.LikeTask;
+import sp.phone.ui.fragment.ArticleListFragment;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 
@@ -30,7 +30,31 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
 
     private ThreadData mThreadData;
 
-    private ArticleListParam mArticleListParam;
+    private ArticleListParam mRequestParam;
+
+    private OnHttpCallBack<ThreadData> mDataCallBack = new OnHttpCallBack<ThreadData>() {
+        @Override
+        public void onError(String text) {
+            mBaseView.hideLoadingView();
+            mBaseView.setRefreshing(false);
+            mBaseView.showToast(text);
+        }
+
+        @Override
+        public void onSuccess(ThreadData data) {
+            mThreadData = data;
+            mBaseView.setRefreshing(false);
+            mBaseView.setData(data);
+            RxUtils.postDelay(300, new BaseSubscriber<Long>() {
+                @Override
+                public void onNext(Long aLong) {
+                    if (mBaseView != null) {
+                        mBaseView.hideLoadingView();
+                    }
+                }
+            });
+        }
+    };
 
     @Override
     protected ArticleListModel onCreateModel() {
@@ -40,33 +64,11 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
     @Override
     public void loadPage(ArticleListParam param) {
         mBaseView.setRefreshing(true);
-        mBaseModel.loadPage(param, new OnHttpCallBack<ThreadData>() {
-            @Override
-            public void onError(String text) {
-                mBaseView.hideLoadingView();
-                mBaseView.setRefreshing(false);
-                mBaseView.showToast(text);
-            }
-
-            @Override
-            public void onSuccess(ThreadData data) {
-                mThreadData = data;
-                mBaseView.setRefreshing(false);
-                mBaseView.setData(data);
-                RxUtils.postDelay(300, new BaseSubscriber<Long>() {
-                    @Override
-                    public void onNext(Long aLong) {
-                        if (mBaseView != null) {
-                            mBaseView.hideLoadingView();
-                        }
-                    }
-                });
-            }
-        });
+        mBaseModel.loadPage(param, mDataCallBack);
     }
 
     public ArticleListPresenter(ArticleListParam articleListParam) {
-        mArticleListParam = articleListParam;
+        mRequestParam = articleListParam;
     }
 
     public ArticleListPresenter() {
@@ -214,6 +216,20 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
 
     @Override
     public void cachePage() {
-        mBaseModel.cachePage(mArticleListParam, mThreadData.getRawData());
+        mBaseModel.cachePage(mRequestParam, mThreadData.getRawData());
+    }
+
+    @Override
+    public void loadCachePage() {
+
+    }
+
+    @Override
+    public void onViewCreated() {
+        if (mRequestParam != null && mRequestParam.loadCache) {
+            mBaseModel.loadCachePage(mRequestParam, mDataCallBack);
+        } else {
+            loadPage(mRequestParam);
+        }
     }
 }
