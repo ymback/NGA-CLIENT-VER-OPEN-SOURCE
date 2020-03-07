@@ -84,7 +84,9 @@ android {
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "nga_phone_${defaultConfig.versionName}_${getDate()}.apk"
+            if (outputFile != null && outputFileName.endsWith('.apk') && variant.buildType.name == "release") {
+                outputFileName = "nga_phone_${defaultConfig.versionName}_${getDate()}.apk"
+            }
         }
     }
 }
