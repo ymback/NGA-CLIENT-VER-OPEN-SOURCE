@@ -28,6 +28,10 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
 
     private LikeTask mLikeTask;
 
+    private ThreadData mThreadData;
+
+    private ArticleListParam mArticleListParam;
+
     @Override
     protected ArticleListModel onCreateModel() {
         return new ArticleListModel();
@@ -46,6 +50,7 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
 
             @Override
             public void onSuccess(ThreadData data) {
+                mThreadData = data;
                 mBaseView.setRefreshing(false);
                 mBaseView.setData(data);
                 RxUtils.postDelay(300, new BaseSubscriber<Long>() {
@@ -58,6 +63,13 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
                 });
             }
         });
+    }
+
+    public ArticleListPresenter(ArticleListParam articleListParam) {
+        mArticleListParam = articleListParam;
+    }
+
+    public ArticleListPresenter() {
     }
 
     @Override
@@ -198,5 +210,10 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
         intent.putExtra("tid", tidStr);
         intent.putExtra("action", "reply");
         mBaseView.startPostActivity(intent);
+    }
+
+    @Override
+    public void cachePage() {
+        mBaseModel.cachePage(mArticleListParam, mThreadData.getRawData());
     }
 }

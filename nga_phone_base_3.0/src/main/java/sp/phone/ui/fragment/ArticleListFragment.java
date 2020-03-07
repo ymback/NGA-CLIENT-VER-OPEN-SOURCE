@@ -195,12 +195,16 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 && rxEvent.arg + 1 == mRequestParam.page
                 && rxEvent.obj != null) {
             mListView.scrollToPosition((Integer) rxEvent.obj);
+        } else if (rxEvent.what == RxEvent.EVENT_CACHE_TOPIC_CONTENT
+                && rxEvent.arg == mRequestParam.page
+                && (rxEvent.obj == null || rxEvent.obj.equals(mRequestParam))) {
+            mPresenter.cachePage();
         }
     }
 
     @Override
     protected ArticleListPresenter onCreatePresenter() {
-        return new ArticleListPresenter();
+        return new ArticleListPresenter(mRequestParam);
     }
 
 

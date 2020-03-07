@@ -55,6 +55,7 @@ public class ArticleConvertFactory {
             }
             int allRows = (Integer) obj.get("__ROWS");
             data = new ThreadData();
+            data.setRawData(js);
             data.setThreadInfo(buildThreadPageInfo(obj));
             data.setRowList(buildThreadRowList(obj));
             data.set__ROWS(allRows);

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.alibaba.fastjson.JSON;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -245,6 +246,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
                 param.authorId = info.getAuthorId();
                 param.searchPost = mRequestParam.searchPost;
             }
+            param.topicInfo = JSON.toJSONString(info);
 
             Intent intent = new Intent();
             Bundle bundle = new Bundle();

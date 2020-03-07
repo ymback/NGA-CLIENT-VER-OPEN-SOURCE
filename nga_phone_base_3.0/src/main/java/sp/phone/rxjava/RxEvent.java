@@ -22,6 +22,8 @@ public class RxEvent {
 
     public static final int EVENT_SHOW_TOPIC_LIST_BY_URL = 7;
 
+    public static final int EVENT_CACHE_TOPIC_CONTENT = 8;
+
     public int what;
 
     public int arg;

@@ -222,6 +222,10 @@ public class ArticleTabFragment extends BaseRxFragment {
                             }
                         });
                 break;
+            case R.id.menu_download:
+                mRequestParam.page = mViewPager.getCurrentItem() + 1;
+                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_CACHE_TOPIC_CONTENT, mViewPager.getCurrentItem() + 1, mRequestParam));
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -276,6 +280,10 @@ public class ArticleTabFragment extends BaseRxFragment {
         } else {
             menu.findItem(R.id.menu_nightmode).setVisible(true);
             menu.findItem(R.id.menu_daymode).setVisible(false);
+        }
+
+        if (mRequestParam.pid != 0) {
+            menu.findItem(R.id.menu_download).setVisible(false);
         }
         super.onPrepareOptionsMenu(menu);
     }

@@ -9,7 +9,9 @@ import sp.phone.param.ArticleListParam;
 import sp.phone.http.OnHttpCallBack;
 
 /**
- * Created by Justwen on 2017/11/22.
+ *
+ * @author Justwen
+ * @date 2017/11/22
  */
 
 public interface ArticleListContract {
@@ -27,6 +29,8 @@ public interface ArticleListContract {
         void postOpposeTask(int tid, int pid);
 
         void quote(ArticleListParam param, ThreadRowInfo row);
+
+        void cachePage();
     }
 
     interface View {
@@ -48,5 +52,7 @@ public interface ArticleListContract {
     interface Model {
 
         void loadPage(ArticleListParam param, OnHttpCallBack<ThreadData> callBack);
+
+        void cachePage(ArticleListParam param, String rawData);
     }
 }

@@ -17,6 +17,13 @@
         android:icon="@drawable/btn_ic_star_on"
         android:title="@string/bookmark"
         androidnga:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_download"
+        android:icon="@drawable/btn_ic_star_on"
+        android:title="缓存本页"
+        androidnga:showAsAction="never"/>
+
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/btn_ic_share"

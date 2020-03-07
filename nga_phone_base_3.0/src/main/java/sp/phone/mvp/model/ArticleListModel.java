@@ -2,19 +2,27 @@ package sp.phone.mvp.model;
 
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.http.bean.ThreadData;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.param.ArticleListParam;
 import sp.phone.http.OnHttpCallBack;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.convert.ArticleConvertFactory;
 import sp.phone.mvp.model.convert.ErrorConvertFactory;
-import sp.phone.http.retrofit.RetrofitHelper;
-import sp.phone.http.retrofit.RetrofitService;
+import sp.phone.param.ArticleListParam;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.NLog;
 
@@ -90,4 +98,25 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                     }
                 });
     }
+
+    @Override
+    public void cachePage(ArticleListParam param, String rawData) {
+        ThreadUtils.postOnSubThread(() -> {
+            try {
+                String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/" + param.tid;
+                File describeFile = new File(path, param.tid + ".json");
+                FileUtils.write(describeFile, param.topicInfo);
+                if (!describeFile.exists()) {
+                    FileUtils.write(describeFile, param.topicInfo);
+                }
+                File rawDataFile = new File(path, param.page + ".json");
+                FileUtils.write(rawDataFile, rawData);
+                ToastUtils.success("缓存成功！");
+            } catch (IOException e) {
+                ToastUtils.error("缓存失败！");
+                e.printStackTrace();
+            }
+        });
+    }
+
 }
