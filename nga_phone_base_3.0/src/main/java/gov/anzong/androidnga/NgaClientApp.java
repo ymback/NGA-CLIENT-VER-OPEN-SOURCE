@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.upload.UploadDataManager;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PreferenceKey;
