@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author yangyihang
+ */
 public class PreferenceUtils {
 
-    private static SharedPreferences sPreferences;
+    private static volatile SharedPreferences sPreferences;
 
     private static void createIfNull() {
         if (sPreferences == null) {
