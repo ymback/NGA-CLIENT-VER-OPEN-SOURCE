@@ -17,6 +17,13 @@
         android:icon="@drawable/btn_ic_search"
         android:title="我的回复"
         androidnga:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_download"
+        android:icon="@drawable/btn_ic_search"
+        android:title="我的缓存"
+        androidnga:showAsAction="never" />
+
     <item
         android:id="@+id/menu_msg"
         android:icon="@drawable/btn_ic_mail"

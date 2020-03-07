@@ -1,7 +1,12 @@
 package sp.phone.mvp.model;
 
+import com.alibaba.fastjson.JSON;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -9,20 +14,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.param.TopicListParam;
 import sp.phone.http.OnHttpCallBack;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.convert.ErrorConvertFactory;
 import sp.phone.mvp.model.convert.TopicConvertFactory;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
-import sp.phone.http.retrofit.RetrofitHelper;
-import sp.phone.http.retrofit.RetrofitService;
+import sp.phone.param.TopicListParam;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
@@ -52,6 +59,27 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
             mFieldMap.put("__output", "8");
             mFieldMap.put("action", "del");
         }
+    }
+
+    @Override
+    public void loadCache(OnHttpCallBack<TopicListInfo> callBack) {
+        ThreadUtils.postOnSubThread(() -> {
+            try {
+                String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/";
+                File[] cacheDirs = new File(path).listFiles();
+                TopicListInfo listInfo = new TopicListInfo();
+                for (File dir : cacheDirs) {
+                    File infoFile = new File(dir, dir.getName() + ".json");
+                    String rawData = FileUtils.readFileToString(infoFile);
+                    listInfo.addThreadPage(JSON.parseObject(rawData, ThreadPageInfo.class));
+                }
+                callBack.onSuccess(listInfo);
+            } catch (IOException e) {
+                e.printStackTrace();
+                callBack.onError("读取缓存失败！");
+            }
+
+        });
     }
 
     @Override
@@ -116,37 +144,59 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
     @Override
     public void loadTwentyFourList(TopicListParam param, final OnHttpCallBack<TopicListInfo> callBack, int totalPage) {
 
-            List<Observable<String>> obsList = new ArrayList<Observable<String>>();
-            for(int i = 1; i <= totalPage; i ++) {
-                obsList.add(mService.get(getUrl(i, param)));
+        List<Observable<String>> obsList = new ArrayList<Observable<String>>();
+        for (int i = 1; i <= totalPage; i++) {
+            obsList.add(mService.get(getUrl(i, param)));
+        }
+        Observable.concat(obsList).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
+                .map(new Function<String, TopicListInfo>() {
+                    @Override
+                    public TopicListInfo apply(@NonNull String js) throws Exception {
+                        NLog.d(js);
+                        TopicListInfo result = mConvertFactory.getTopicListInfo(js, 0);
+                        if (result != null) {
+                            return result;
+                        } else {
+                            throw new Exception(ErrorConvertFactory.getErrorMessage(js));
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(getLifecycleProvider().<TopicListInfo>bindUntilEvent(FragmentEvent.DETACH))
+                .subscribe(new BaseSubscriber<TopicListInfo>() {
+                    @Override
+                    public void onNext(@NonNull TopicListInfo topicListInfo) {
+                        callBack.onSuccess(topicListInfo);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable throwable) {
+                        callBack.onError(ErrorConvertFactory.getErrorMessage(throwable));
+                    }
+                });
+    }
+
+    @Override
+    public void removeCacheTopic(ThreadPageInfo info, OnHttpCallBack<String> callBack) {
+        ThreadUtils.postOnSubThread(() -> {
+            String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/";
+            File[] cacheDirs = new File(path).listFiles();
+            try {
+                for (File dir : cacheDirs) {
+                    if (dir.getName().equals(String.valueOf(info.getTid()))) {
+                        FileUtils.deleteDirectory(dir);
+                        callBack.onSuccess(null);
+                        return;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            Observable.concat(obsList).subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
-                    .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
-                    .map(new Function<String, TopicListInfo>() {
-                        @Override
-                        public TopicListInfo apply(@NonNull String js) throws Exception {
-                            NLog.d(js);
-                            TopicListInfo result = mConvertFactory.getTopicListInfo(js, 0);
-                            if (result != null) {
-                                return result;
-                            } else {
-                                throw new Exception(ErrorConvertFactory.getErrorMessage(js));
-                            }
-                        }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .compose(getLifecycleProvider().<TopicListInfo>bindUntilEvent(FragmentEvent.DETACH))
-                    .subscribe(new BaseSubscriber<TopicListInfo>() {
-                        @Override
-                        public void onNext(@NonNull TopicListInfo topicListInfo) {
-                            callBack.onSuccess(topicListInfo);
-                        }
-                        @Override
-                        public void onError(@NonNull Throwable throwable) {
-                            callBack.onError(ErrorConvertFactory.getErrorMessage(throwable));
-                        }
-                    });
+            callBack.onError(null);
+
+        });
     }
 
     private String getUrl(int page, TopicListParam requestInfo) {

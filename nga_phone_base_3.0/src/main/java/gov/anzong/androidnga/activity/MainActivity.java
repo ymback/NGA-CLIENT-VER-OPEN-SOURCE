@@ -121,6 +121,9 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_gun:
                 startNotificationActivity();
                 break;
+            case R.id.menu_download:
+                startActivity(new Intent(this,TopicCacheActivity.class));
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }

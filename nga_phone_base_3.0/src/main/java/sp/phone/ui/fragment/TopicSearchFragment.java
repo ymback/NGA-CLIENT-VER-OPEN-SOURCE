@@ -65,14 +65,14 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
         mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
+        super.onCreate(savedInstanceState);
         setTitle();
     }
 
     @Override
     protected TopicListPresenter onCreatePresenter() {
-        return new TopicListPresenter();
+        return new TopicListPresenter(mRequestParam);
     }
 
     protected void setTitle() {
@@ -163,8 +163,6 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
         TextView sayingView = (TextView) mLoadingView.findViewById(R.id.saying);
         sayingView.setText(ActivityUtils.getSaying());
-
-        mPresenter.loadPage(1, mRequestParam);
 
         super.onViewCreated(view, savedInstanceState);
     }

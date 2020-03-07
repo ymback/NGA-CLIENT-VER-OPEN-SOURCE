@@ -227,7 +227,7 @@
     <string name="last_page_prompt">已加载到最后一页</string>
     <string name="last_page_prompt_message_detail">已加载到短消息内容的最后一页</string>
     <string name="last_page_prompt_message">已加载到短消息列表的最后一页</string>
-    <string name="delete_favo_confirm_text">确定从收藏夹中删除这个帖子吗？</string>
+    <string name="delete_favo_confirm_text">确定要删除这个帖子吗？</string>
     <string name="dragon_ball_collect_complete">你收集到了7颗龙珠,成功召唤了一个叫撸的巨龙\n确定要使用这条巨龙吗(一次确定,多次使用)</string>
     <string name="delete_recentreply_confirm_text">确定删除全部喷你的信息吗？</string>
     <string name="confirm">确定</string>

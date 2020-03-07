@@ -22,12 +22,16 @@ public class ThreadUtils {
     }
 
     public static void postOnMainThread(Runnable runnable) {
-        sHandler.post(runnable);
+        if (isMainThread()) {
+            runnable.run();
+        } else {
+            sHandler.post(runnable);
+        }
     }
 
     public static void postOnSubThread(Runnable runnable) {
         if (sThreadPoolExecutor == null) {
-            sThreadPoolExecutor = new ThreadPoolExecutor(0, 1, 60, TimeUnit.SECONDS,
+            sThreadPoolExecutor = new ThreadPoolExecutor(0, 3, 60, TimeUnit.SECONDS,
                     new LinkedBlockingDeque<>(), (ThreadFactory) Thread::new);
         }
         sThreadPoolExecutor.execute(runnable);

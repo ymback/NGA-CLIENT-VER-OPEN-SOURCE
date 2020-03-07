@@ -185,6 +185,8 @@
             android:name=".activity.AboutActivity"
             android:label="@string/title_about" />
 
+        <activity android:name=".activity.TopicCacheActivity" android:label="我的缓存" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"
