@@ -23,9 +23,9 @@ public class HtmlConvertFactory {
 
         StringBuilder builder = new StringBuilder();
 
-        if (htmlData.isShielded()) {
+        if (htmlData.isInBackList()) {
             builder.append("<h5>[屏蔽]</h5>");
-        } else if (htmlData.isHidden()) {
+        } else if (TextUtils.isEmpty(htmlData.getAlertInfo()) && TextUtils.isEmpty(htmlData.getRawData())) {
             builder.append("<h5>[隐藏]</h5>");
         } else {
             if (!TextUtils.isEmpty(htmlData.getSubject())) {
@@ -53,7 +53,7 @@ public class HtmlConvertFactory {
             sDarkCssTemplate = StringUtils.getStringFromAssets("html/style_dark.css");
             sCssTemplate = null;
         } else if (!darkMode && sCssTemplate == null) {
-            sHtmlTemplate = StringUtils.getStringFromAssets("html/style.css");
+            sCssTemplate= StringUtils.getStringFromAssets("html/style.css");
             sDarkCssTemplate = null;
         }
     }

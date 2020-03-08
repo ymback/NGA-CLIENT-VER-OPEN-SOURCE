@@ -1,5 +1,7 @@
 package gov.anzong.androidnga.core.decode;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ForumDecoder {
         sDecoderPool.add(new ForumVideoDecoder());
     }
 
-    public static String decode(String rawData, HtmlData htmlData,List<String> urls) {
+    public static String decode(String rawData, @NonNull HtmlData htmlData, List<String> urls) {
         String content = rawData;
         for (IForumDecoder decoder : sDecoderPool) {
             content = decoder.decode(content, htmlData);
@@ -33,7 +35,7 @@ public class ForumDecoder {
         return content;
     }
 
-    public static String decode(String rawData, HtmlData htmlData) {
+    public static String decode(String rawData, @NonNull HtmlData htmlData) {
         return decode(rawData, htmlData, null);
     }
 

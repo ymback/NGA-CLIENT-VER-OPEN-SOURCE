@@ -34,13 +34,15 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.core.data.HtmlData;
+import gov.anzong.androidnga.core.decode.ForumDecoder;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.http.bean.MessageArticlePageInfo;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.ui.fragment.dialog.ReportDialogFragment;
-import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.proxy.ProxyBridge;
 import sp.phone.theme.ThemeManager;
 import sp.phone.view.webview.WebViewClientEx;
@@ -439,7 +441,7 @@ public class FunctionUtils {
                                              boolean showImage, int imageQuality, final String fgColorStr,
                                              final String bgcolorStr, Context context) {
         initStaticStrings(context);
-        String ngaHtml = new ForumDecoder(true).decode(row.getSignature(), null);
+        String ngaHtml = ForumDecoder.decode(row.getSignature(), HtmlData.create(row.getSignature(), Utils.getNGAHost()));
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();
         }

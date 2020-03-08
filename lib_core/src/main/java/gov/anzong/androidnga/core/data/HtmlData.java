@@ -4,9 +4,7 @@ import java.util.List;
 
 public class HtmlData implements Cloneable {
 
-    private boolean mShielded;
-
-    private boolean mHidden;
+    private boolean mInBackList;
 
     private boolean mDarkMode;
 
@@ -38,20 +36,12 @@ public class HtmlData implements Cloneable {
         mRawData = rawData;
     }
 
-    public boolean isShielded() {
-        return mShielded;
+    public boolean isInBackList() {
+        return mInBackList;
     }
 
-    public void setShielded(boolean shielded) {
-        mShielded = shielded;
-    }
-
-    public boolean isHidden() {
-        return mHidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        mHidden = hidden;
+    public void setInBackList(boolean inBackList) {
+        mInBackList = inBackList;
     }
 
     public boolean isDarkMode() {
@@ -155,10 +145,10 @@ public class HtmlData implements Cloneable {
         mNGAHost = NGAHost;
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        HtmlData obj = (HtmlData) super.clone();
-        obj.mAlertInfo = obj.mRawData = obj.mSignature = obj.mSubject = obj.mAlertInfo = obj.mVote = null;
-        return obj;
+    public static HtmlData create(String rawData, String host) {
+        HtmlData htmlData = new HtmlData(rawData);
+        htmlData.setNGAHost(host);
+        return htmlData;
     }
+
 }

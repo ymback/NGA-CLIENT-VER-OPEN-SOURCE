@@ -122,4 +122,5 @@ dependencies {
     implementation'com.github.daniel-stoneuk:material-about-library:2.3.0'
     implementation project(':lib_common')
     implementation project(':lib_upload')
+    implementation project(':lib_core')
 }

@@ -26,7 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.core.data.HtmlData;
+import gov.anzong.androidnga.core.decode.ForumDecoder;
 import sp.phone.http.bean.AdminForumsData;
 import sp.phone.http.bean.ProfileData;
 import sp.phone.http.bean.ReputationData;
@@ -35,12 +38,12 @@ import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.param.ParamKey;
 import sp.phone.http.OnHttpCallBack;
-import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
+import sp.phone.util.HttpUtil;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.webview.WebViewEx;
@@ -488,7 +491,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
     public String signatureToHtmlText(final ProfileData ret, final String fgColorStr, final String bgcolorStr) {
-        String ngaHtml = new ForumDecoder(true).decode(ret.getSign(), null);
+        String ngaHtml = ForumDecoder.decode(ret.getSign(), HtmlData.create(ret.getSign(), Utils.getNGAHost()));
 
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
                 + "<body bgcolor= '#"
