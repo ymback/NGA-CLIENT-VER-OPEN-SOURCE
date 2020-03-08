@@ -10,7 +10,7 @@ import com.zhouyou.view.seekbar.SignSeekBar;
 
 import java.lang.reflect.Field;
 
-import gov.anzong.androidnga.base.R;
+import gov.anzong.androidnga.common.R;
 
 public class SeekBarEx extends SignSeekBar {
 
