@@ -296,4 +296,9 @@ public interface VersionUpgradeTips {
             + "● 新增缓存主题内容功能\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
             + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_3000 = "更新内容\n"
+            + "● 新增缓存主题内容功能\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,\n";
 }
