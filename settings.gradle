@@ -1,2 +1,4 @@
 include ':lib_upload', ':lib_util'
 include ':nga_phone_base_3.0'
+include ':lib_core'
+include ':lib_http'
