@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.upload;
+package com.justwen.androidnga.upload;
 
 import android.content.Context;
 
