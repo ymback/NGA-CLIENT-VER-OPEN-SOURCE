@@ -60,13 +60,15 @@ public class ArticleCacheActivity extends BaseActivity {
         mCachePageList.clear();
         String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/" + tid;
         File[] cacheFiles = new File(path).listFiles();
-        for (File cacheFile : cacheFiles) {
-            if (!cacheFile.getName().contains(tid)) {
-                String page = cacheFile.getName();
-                mCachePageList.add(page.replace(".json", ""));
+        if (cacheFiles != null) {
+            for (File cacheFile : cacheFiles) {
+                if (!cacheFile.getName().contains(tid)) {
+                    String page = cacheFile.getName();
+                    mCachePageList.add(page.replace(".json", ""));
+                }
             }
+            Collections.sort(mCachePageList);
         }
-        Collections.sort(mCachePageList);
 
     }
 
