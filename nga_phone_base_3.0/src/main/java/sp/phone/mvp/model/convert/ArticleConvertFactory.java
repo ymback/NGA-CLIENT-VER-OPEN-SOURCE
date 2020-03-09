@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.core.HtmlConvertFactory;
 import gov.anzong.androidnga.core.data.AttachmentData;
@@ -151,6 +152,7 @@ public class ArticleConvertFactory {
         htmlData.setSubject(row.getSubject());
         htmlData.setShowImage(PhoneConfiguration.getInstance().isDownImgNoWifi()
                 || DeviceUtils.isWifiConnected(ApplicationContextHolder.getContext()));
+        htmlData.setNGAHost(Utils.getNGAHost());
         if (row.getAttachs() != null) {
             List<AttachmentData> attachments = new ArrayList<>();
             for (Map.Entry<String, Attachment> entry : row.getAttachs().entrySet()) {
