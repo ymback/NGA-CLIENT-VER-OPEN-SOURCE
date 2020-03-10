@@ -126,6 +126,8 @@ public class WebViewClientEx extends WebViewClient {
                 if (mImgUrlList == null) {
                     mImgUrlList = new ArrayList<>();
                     mImgUrlList.add(url);
+                } else if (mImgUrlList.isEmpty()) {
+                    mImgUrlList.add(url);
                 }
                 String[] urls = new String[mImgUrlList.size()];
                 mImgUrlList.toArray(urls);
