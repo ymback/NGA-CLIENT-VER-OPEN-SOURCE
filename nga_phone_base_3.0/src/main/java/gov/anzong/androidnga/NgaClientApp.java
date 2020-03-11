@@ -3,11 +3,14 @@ package gov.anzong.androidnga;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Process;
+import android.webkit.WebView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.justwen.androidnga.upload.UploadDataManager;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
-import com.justwen.androidnga.upload.UploadDataManager;
+import gov.anzong.androidnga.common.util.ReflectUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PreferenceKey;
@@ -38,6 +41,17 @@ public class NgaClientApp extends Application {
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
 
         UploadDataManager.init(this);
+        fixWebViewMultiProcessException();
+    }
+
+    private void fixWebViewMultiProcessException() {
+        Object obj = ReflectUtils.invokeMethodAndGetResult(Process.class, "myPpid");
+        if (obj != null) {
+            int ppid = (int) obj;
+            if (ppid == 1) {
+                WebView.setDataDirectorySuffix("_init");
+            }
+        }
     }
 
     private void initRouter() {
