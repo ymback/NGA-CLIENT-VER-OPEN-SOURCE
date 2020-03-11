@@ -7,7 +7,7 @@ import android.os.Process;
 import android.webkit.WebView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.justwen.androidnga.upload.UploadDataManager;
+import com.justwen.androidnga.cloud.CloudServerManager;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.common.util.ReflectUtils;
@@ -40,7 +40,7 @@ public class NgaClientApp extends Application {
         super.onCreate();
         registerActivityLifecycleCallbacks(new ActivityCallback(this));
 
-        UploadDataManager.init(this);
+        CloudServerManager.init(this);
         fixWebViewMultiProcessException();
     }
 

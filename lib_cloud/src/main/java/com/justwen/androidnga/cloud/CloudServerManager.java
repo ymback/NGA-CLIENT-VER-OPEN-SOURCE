@@ -1,13 +1,17 @@
-package com.justwen.androidnga.upload;
+package com.justwen.androidnga.cloud;
 
 import android.content.Context;
 
 import com.tencent.bugly.crashreport.CrashReport;
 
-public class UploadDataManager {
+/**
+ * @author yangyihang
+ */
+public class CloudServerManager {
 
     public static void init(Context context) {
-        CrashReport.initCrashReport(context, "a5e8d07750", BuildConfig.DEBUG);
+        //bugly 初始化
+        CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), BuildConfig.DEBUG);
     }
 
     public static void putCrashData(Context context, String key, String value) {

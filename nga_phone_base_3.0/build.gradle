@@ -121,6 +121,6 @@ dependencies {
     implementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
     implementation'com.github.daniel-stoneuk:material-about-library:2.3.0'
     implementation project(':lib_common')
-    implementation project(':lib_upload')
+    implementation project(':lib_cloud')
     implementation project(':lib_core')
 }

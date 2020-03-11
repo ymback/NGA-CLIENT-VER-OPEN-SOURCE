@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.justwen.androidnga.upload.UploadDataManager;
+import com.justwen.androidnga.cloud.CloudServerManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -171,7 +171,7 @@ public class ImageZoomActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_share:
                 if (mDownloadResults.length == 0) {
-                    UploadDataManager.putCrashData(this, "mCurrentUrl", mCurrentUrl);
+                    CloudServerManager.putCrashData(this, "mCurrentUrl", mCurrentUrl);
                 }
                 if (mDownloadResults[mPageIndex] != null) {
                     share(mDownloadResults[mPageIndex].file);
