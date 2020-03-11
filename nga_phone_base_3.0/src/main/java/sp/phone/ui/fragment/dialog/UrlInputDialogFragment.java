@@ -82,7 +82,7 @@ public class UrlInputDialogFragment extends BaseDialogFragment {
 
         ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         if (clipboardManager != null && clipboardManager.hasPrimaryClip()) {
-            String clipData = clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();
+            CharSequence clipData = clipboardManager.getPrimaryClip().getItemAt(0).getText();
             if (!TextUtils.isEmpty(clipData)) {
                 mUrlAddEditText.setText(clipData);
                 mUrlAddEditText.selectAll();
