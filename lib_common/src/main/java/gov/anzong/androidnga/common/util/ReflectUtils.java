@@ -10,7 +10,7 @@ public class ReflectUtils {
             Method method = clz.getDeclaredMethod(methodName, parameterTypes);
             method.setAccessible(true);
             method.invoke(obj, params);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -20,7 +20,7 @@ public class ReflectUtils {
             Method method = clz.getDeclaredMethod(methodName, parameterTypes);
             method.setAccessible(true);
             return method.invoke(obj, params);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
