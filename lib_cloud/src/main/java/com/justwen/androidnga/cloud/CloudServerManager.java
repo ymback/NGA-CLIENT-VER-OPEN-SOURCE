@@ -11,7 +11,9 @@ public class CloudServerManager {
 
     public static void init(Context context) {
         //bugly 初始化
-        CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), BuildConfig.DEBUG);
+        if (!BuildConfig.DEBUG) {
+            CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), false);
+        }
     }
 
     public static void putCrashData(Context context, String key, String value) {
