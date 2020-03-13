@@ -280,12 +280,18 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
     private String createFameHtml(ProfileData ret, String color) {
+        String frame = ret.getFrame();
+        try {
+            frame = String.valueOf(Double.parseDouble(ret.getFrame()) / 10.0d);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
         StringBuilder builder = new StringBuilder("<ul style=\"padding: 0px; margin: 0px;\">");
         builder.append("<li style=\"display: block;float: left;width: 33%;\">")
                 .append("<label style=\"float: left;color: ").append(color).append(";\">威望</label>")
                 .append("<span style=\"float: left; color: #808080;\">:</span>")
                 .append("<span style=\"float: left; color: #808080;\">")
-                .append(Double.toString(Double.parseDouble(ret.getFrame()) / 10.0d))
+                .append(frame)
                 .append("</span></li>");
         List<ReputationData> reputationEntryList = ret.getReputationEntryList();
         if (reputationEntryList != null) {
