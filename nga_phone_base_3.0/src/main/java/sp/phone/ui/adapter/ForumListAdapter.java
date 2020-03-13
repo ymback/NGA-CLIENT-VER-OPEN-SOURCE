@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.util.GlideApp;
 import sp.phone.common.ApiConstants;
 import sp.phone.common.PhoneConfiguration;
@@ -35,7 +36,7 @@ public class ForumListAdapter extends RecyclerView.Adapter<ForumListAdapter.View
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mList = list;
-        mColor = mContext.getColor(ThemeManager.getInstance().getForegroundColor());
+        mColor = ContextUtils.getColor(ThemeManager.getInstance().getForegroundColor());
     }
 
     @Override

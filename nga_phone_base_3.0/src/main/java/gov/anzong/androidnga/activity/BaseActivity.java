@@ -57,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         try {
             if (ThemeManager.getInstance().isNightMode()) {
-                getWindow().setNavigationBarColor(getColor(R.color.background_color));
+                getWindow().setNavigationBarColor(ContextUtils.getColor(R.color.background_color));
             }
         } catch (Exception e) {
             NLog.e("set navigation bar color exception occur: " + e);
