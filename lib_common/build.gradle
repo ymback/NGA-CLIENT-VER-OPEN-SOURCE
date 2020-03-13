@@ -49,5 +49,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
+    api "com.android.support:appcompat-v7:$project.androidSupportVersion"
+
     api files('libs/commons-io-2.4.jar')
 }
