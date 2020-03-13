@@ -69,6 +69,17 @@ public class AboutActivity extends MaterialAboutActivity {
                 .icon(R.drawable.ic_license)
                 .build());
 
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("检测更新")
+                .setOnClickAction(() -> {
+                    Intent intent = new Intent(AboutActivity.this, WebViewerActivity.class);
+                    intent.putExtra("path", "https://github.com/Justwen/NGA-CLIENT-VER-OPEN-SOURCE/releases");
+                    startActivity(intent);
+
+                })
+                .icon(R.drawable.ic_update_24dp)
+                .build());
+
         return builder.build();
     }
 
