@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.statistics;
+package com.justwen.androidnga.cloud;
 
 import org.junit.Test;
 
