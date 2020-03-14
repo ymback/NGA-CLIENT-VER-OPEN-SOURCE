@@ -21,6 +21,7 @@ import java.net.URL;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.ImageUtils;
@@ -83,8 +84,7 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         if (values[0] == -101) {
-            Toast.makeText(context, R.string.image_to_big2, Toast.LENGTH_SHORT)
-                    .show();
+            ToastUtils.info(R.string.image_to_big2);
         } else {
             if (values[0] < 0 || values[0] > 100) {
                 values[0] = 99;
@@ -96,12 +96,11 @@ public class AvatarFileUploadTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         if (StringUtils.isEmpty(result)) {
-            Toast.makeText(context, errorStr, Toast.LENGTH_SHORT)
-                    .show();
+            ToastUtils.error(errorStr);
         } else {
             NonameUploadResponse response = JSON.parseObject(result, NonameUploadResponse.class);
             if (response.error) {
-                Toast.makeText(context, response.errorinfo, Toast.LENGTH_SHORT).show();
+                ToastUtils.error(response.errorinfo);
             } else {
                 notifier.finishUpload(response.data, uri);
             }

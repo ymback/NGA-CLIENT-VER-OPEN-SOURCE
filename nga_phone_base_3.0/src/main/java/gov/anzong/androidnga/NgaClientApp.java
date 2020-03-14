@@ -65,8 +65,8 @@ public class NgaClientApp extends Application {
     private void initCoreModule() {
         UserManagerImpl.getInstance().initialize(this);
         FilterKeywordsManagerImpl.getInstance().initialize(this);
-        // 注册crashHandler
-        CrashHandler.getInstance().init(this);
+//        // 注册crashHandler
+//        CrashHandler.getInstance().init(this);
 
     }
 

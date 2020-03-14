@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
@@ -44,13 +45,13 @@ public class ActivityUtils {
 
     public static void showToast(Context context, int resId) {
         if (context != null) {
-            Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(resId);
         }
     }
 
     public static void showToast(Context context, String res) {
         if (context != null) {
-            Toast.makeText(context, res, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(res);
         }
     }
 

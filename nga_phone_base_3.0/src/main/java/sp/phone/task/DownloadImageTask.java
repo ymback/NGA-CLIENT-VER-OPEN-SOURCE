@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.HttpUtil;
@@ -42,7 +43,7 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
             description = result;
         else
             scanFile(context, new String[]{fullPath}, null, null);
-        Toast.makeText(context, description, Toast.LENGTH_SHORT).show();
+        ToastUtils.showToast(description);
         super.onPostExecute(result);
     }
 

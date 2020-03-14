@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.mahang.utils.LogUtils;
 
+import gov.anzong.androidnga.util.ToastUtils;
+
 /**
  * Created by Justwen on 2018/2/16.
  */
@@ -21,7 +23,7 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment impleme
 
     public void showToast(String toast) {
         if (getContext() != null) {
-            Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(toast);
         }
     }
 

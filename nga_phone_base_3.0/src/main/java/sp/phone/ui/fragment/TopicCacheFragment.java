@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleCacheActivity;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.param.ArticleListParam;
@@ -22,7 +23,7 @@ public class TopicCacheFragment extends TopicSearchFragment implements View.OnLo
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toast.makeText(getActivity(), "长按可删除缓存的帖子", Toast.LENGTH_SHORT).show();
+        ToastUtils.success("长按可删除缓存的帖子");
         mAdapter.setOnLongClickListener(this);
     }
 
