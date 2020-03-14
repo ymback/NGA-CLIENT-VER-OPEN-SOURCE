@@ -22,11 +22,23 @@ public class ThreadUtils {
     }
 
     public static void postOnMainThread(Runnable runnable) {
+        postOnMainThreadDelay(runnable, 0);
+    }
+
+    public static void postOnMainThreadDelay(Runnable runnable, long delay) {
+        sHandler.postDelayed(runnable, delay);
+    }
+
+    public static void runOnMainThread(Runnable runnable) {
         if (isMainThread()) {
             runnable.run();
         } else {
             sHandler.post(runnable);
         }
+    }
+
+    public static void removeRunnable(Runnable runnable) {
+        sHandler.removeCallbacks(runnable);
     }
 
     public static void postOnSubThread(Runnable runnable) {

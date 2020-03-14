@@ -40,6 +40,9 @@ public class MainActivity extends BaseActivity {
         setToolbarEnabled(true);
         setSwipeBackEnable(false);
         super.onCreate(savedInstanceState);
+        if (fixMultiMainActivityIssue()) {
+            return;
+        }
         ThemeUtils.init(this);
         checkPermission();
         checkNewVersion();
@@ -49,9 +52,12 @@ public class MainActivity extends BaseActivity {
         fixMultiMainActivityIssue();
     }
 
-    private void fixMultiMainActivityIssue() {
+    private boolean fixMultiMainActivityIssue() {
         if (!isTaskRoot()) {
             finish();
+            return true;
+        } else {
+            return false;
         }
     }
 

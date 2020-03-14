@@ -45,7 +45,7 @@ public class ToastUtils {
 
     public static void success(String text) {
         if (!ThreadUtils.isMainThread()) {
-            ThreadUtils.postOnMainThread(() -> ToastUtils.success(text));
+            ThreadUtils.runOnMainThread(() -> ToastUtils.success(text));
         } else {
             Toasty.custom(ContextUtils.getContext(), text, ContextUtils.getDrawable(es.dmoral.toasty.R.drawable.ic_check_white_24dp),
                     ThemeUtils.getAccentColor(), Color.WHITE, Toast.LENGTH_SHORT, true, true)
@@ -59,7 +59,7 @@ public class ToastUtils {
 
     public static void info(String text) {
         if (!ThreadUtils.isMainThread()) {
-            ThreadUtils.postOnMainThread(() -> ToastUtils.info(text));
+            ThreadUtils.runOnMainThread(() -> ToastUtils.info(text));
         } else {
             Toasty.custom(ContextUtils.getContext(), text, null, ThemeUtils.getAccentColor(), Color.WHITE, Toast.LENGTH_SHORT, false, false)
                     .show();

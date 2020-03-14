@@ -169,7 +169,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
             @Override
             public void onSuccess(String data) {
                 if (isAttached()) {
-                    ThreadUtils.postOnMainThread(() -> {
+                    ThreadUtils.runOnMainThread(() -> {
                         ToastUtils.showToast("删除成功！");
                         mBaseView.removeTopic(info);
                     });
