@@ -12,7 +12,6 @@ import android.widget.Toast;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import gov.anzong.androidnga.base.util.ToastUtils;
-import sp.phone.debug.LeakCanaryWatcher;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.util.ActivityUtils;
 
@@ -122,7 +121,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LeakCanaryWatcher.watch(this);
     }
 
 }

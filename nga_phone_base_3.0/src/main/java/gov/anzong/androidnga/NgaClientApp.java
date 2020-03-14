@@ -16,8 +16,6 @@ import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
-import sp.phone.debug.BlockCanaryWatcher;
-import sp.phone.debug.LeakCanaryWatcher;
 import sp.phone.util.NLog;
 
 public class NgaClientApp extends Application {
@@ -31,8 +29,6 @@ public class NgaClientApp extends Application {
         NLog.w(TAG, "app nga android start");
         ApplicationContextHolder.setContext(this);
         ContextUtils.setApplication(this);
-        LeakCanaryWatcher.initialize(this);
-        BlockCanaryWatcher.startWatching(this);
         VersionUpgradeHelper.upgrade();
         checkNewVersion();
         initCoreModule();
