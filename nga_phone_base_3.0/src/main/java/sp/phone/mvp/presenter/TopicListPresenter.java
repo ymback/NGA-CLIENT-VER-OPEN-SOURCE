@@ -103,11 +103,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
                 if (threadPageList.size() > twentyFourTopicCount) {
                     threadPageList.subList(twentyFourTopicCount, threadPageList.size());
                 }
-                Collections.sort(twentyFourList.getThreadPageList(), new Comparator<ThreadPageInfo>() {
-                    public int compare(ThreadPageInfo o1, ThreadPageInfo o2) {
-                        return o1.getReplies() < o2.getReplies() ? 1 : -1;
-                    }
-                });
+                Collections.sort(twentyFourList.getThreadPageList(), (o1, o2) -> Integer.compare(o2.getReplies(), o1.getReplies()));
                 // We list 20 topics each time
                 int endPos = twentyFourCurPos + 20 > twentyFourList.getThreadPageList().size() ?
                         twentyFourList.getThreadPageList().size() : (twentyFourCurPos + 20);
