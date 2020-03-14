@@ -46,6 +46,13 @@ public class MainActivity extends BaseActivity {
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
         setTitle(R.string.start_title);
+        fixMultiMainActivityIssue();
+    }
+
+    private void fixMultiMainActivityIssue() {
+        if (!isTaskRoot()) {
+            finish();
+        }
     }
 
     @Override

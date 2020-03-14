@@ -38,7 +38,6 @@ public class NgaClientApp extends Application {
         initCoreModule();
         initRouter();
         super.onCreate();
-        registerActivityLifecycleCallbacks(new ActivityCallback(this));
 
         CloudServerManager.init(this);
         fixWebViewMultiProcessException();
@@ -49,7 +48,7 @@ public class NgaClientApp extends Application {
         if (obj != null) {
             int ppid = (int) obj;
             if (ppid == 1) {
-                WebView.setDataDirectorySuffix("_init");
+                WebView.setDataDirectorySuffix("_multi");
             }
         }
     }
