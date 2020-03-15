@@ -1,8 +1,9 @@
 package gov.anzong.androidnga.base.util;
 
 import android.graphics.Color;
-import androidx.annotation.StringRes;
 import android.widget.Toast;
+
+import androidx.annotation.StringRes;
 
 import es.dmoral.toasty.Toasty;
 
@@ -24,6 +25,10 @@ public class ToastUtils {
     @Deprecated
     public static void showToast(String text) {
         showShortToast(text);
+    }
+
+    public static void show(String text) {
+        ThreadUtils.runOnMainThread(() -> Toast.makeText(ContextUtils.getContext(), text, Toast.LENGTH_SHORT).show());
     }
 
     @Deprecated

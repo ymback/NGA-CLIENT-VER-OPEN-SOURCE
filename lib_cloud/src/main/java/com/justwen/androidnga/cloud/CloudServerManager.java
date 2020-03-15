@@ -21,7 +21,7 @@ public class CloudServerManager {
             CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), false);
         }
 
-        sCloudDataBase = new LeanDataBase();
+        sCloudDataBase = new LeanDataBase(createVersionBean());
         sCloudDataBase.init(context);
     }
 
@@ -30,9 +30,18 @@ public class CloudServerManager {
     }
 
     public static void uploadNewVersionInfo() {
+        sCloudDataBase.uploadVersionInfo();
+    }
+
+    private static VersionBean createVersionBean() {
         VersionBean versionBean = new VersionBean();
         versionBean.versionName = BuildConfig.VERSION_NAME;
         versionBean.androidVersion = String.valueOf(Build.VERSION.SDK_INT);
-        sCloudDataBase.uploadVersionInfo(versionBean);
+        versionBean.versionCode = BuildConfig.VERSION_CODE;
+        return versionBean;
+    }
+
+    public static void checkUpgrade() {
+        sCloudDataBase.checkUpgrade();
     }
 }

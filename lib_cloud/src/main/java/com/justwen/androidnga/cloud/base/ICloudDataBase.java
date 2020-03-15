@@ -6,5 +6,7 @@ public interface ICloudDataBase {
 
     void init(Context context);
 
-    void uploadVersionInfo(VersionBean versionBean);
+    void uploadVersionInfo();
+
+    void checkUpgrade();
 }

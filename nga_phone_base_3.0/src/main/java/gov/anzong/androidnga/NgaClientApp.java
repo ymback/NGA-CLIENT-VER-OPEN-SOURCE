@@ -13,7 +13,7 @@ import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.common.util.ReflectUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.FilterKeywordsManagerImpl;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
 import sp.phone.util.NLog;

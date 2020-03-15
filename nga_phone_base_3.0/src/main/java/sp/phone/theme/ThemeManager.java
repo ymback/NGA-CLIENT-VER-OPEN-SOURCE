@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.util.TypedValue;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.ApplicationContextHolder;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {

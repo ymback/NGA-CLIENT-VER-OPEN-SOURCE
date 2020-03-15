@@ -7,4 +7,6 @@ public class VersionBean implements JavaBean {
     public String versionName;
 
     public String androidVersion;
+
+    public int versionCode;
 }

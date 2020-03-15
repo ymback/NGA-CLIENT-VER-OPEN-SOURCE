@@ -13,12 +13,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 
+import com.justwen.androidnga.cloud.CloudServerManager;
+
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.common.SwipeBackHelper;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.PreferenceUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.NLog;
 
@@ -189,6 +193,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        checkUpgrade();
+        super.onResume();
+    }
+
+    private void checkUpgrade() {
+        if (PreferenceUtils.getData(PreferenceKey.KEY_CHECK_UPGRADE_STATE, true)) {
+            long time = PreferenceUtils.getData(PreferenceKey.KEY_CHECK_UPGRADE_TIME, 0L);
+            if (System.currentTimeMillis() - time > 1000 * 60 * 60 * 24) {
+                CloudServerManager.checkUpgrade();
+                PreferenceUtils.putData(PreferenceKey.KEY_AVATAR_SIZE, System.currentTimeMillis());
+            }
         }
     }
 }

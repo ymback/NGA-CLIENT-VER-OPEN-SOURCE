@@ -24,7 +24,7 @@ import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.ui.adapter.RecentNotificationAdapter;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.param.ParamKey;
 import sp.phone.task.ForumNotificationTask;
 import sp.phone.view.EmptyLayout;
