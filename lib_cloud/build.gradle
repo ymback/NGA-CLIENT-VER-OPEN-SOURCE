@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode project.appVersionCode
+        versionName project.appVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -29,5 +29,16 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
+    implementation project(":lib_common")
+
     implementation 'com.tencent.bugly:crashreport:3.1.9'
+
+    implementation ('cn.leancloud:storage-android:6.4.2'){
+        exclude group: 'com.alibaba', module: 'fastjson'
+        exclude group: 'org.ligboy.retrofit2', module: 'converter-fastjson'
+    }
+    implementation "com.alibaba:fastjson:$project.fastJson"
+    implementation "io.reactivex.rxjava2:rxandroid:$project.rxAndroid"
+    implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
+
 }

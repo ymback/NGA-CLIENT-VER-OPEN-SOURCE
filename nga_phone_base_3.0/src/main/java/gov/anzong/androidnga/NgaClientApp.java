@@ -30,13 +30,13 @@ public class NgaClientApp extends Application {
         ApplicationContextHolder.setContext(this);
         ContextUtils.setApplication(this);
         VersionUpgradeHelper.upgrade();
-        checkNewVersion();
         initCoreModule();
         initRouter();
         super.onCreate();
 
         CloudServerManager.init(this);
         fixWebViewMultiProcessException();
+        checkNewVersion();
     }
 
     private void fixWebViewMultiProcessException() {
@@ -72,6 +72,7 @@ public class NgaClientApp extends Application {
         if (sp.getInt(PreferenceKey.VERSION, 0) < versionCode) {
             sp.edit().putInt(PreferenceKey.VERSION, versionCode).apply();
             mNewVersion = true;
+            CloudServerManager.uploadNewVersionInfo();
         }
     }
 
