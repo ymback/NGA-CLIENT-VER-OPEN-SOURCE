@@ -1,6 +1,6 @@
 package sp.phone.task;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;

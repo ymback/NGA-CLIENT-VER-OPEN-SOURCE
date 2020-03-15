@@ -1,6 +1,6 @@
 package gov.anzong.androidnga.core.decode;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;

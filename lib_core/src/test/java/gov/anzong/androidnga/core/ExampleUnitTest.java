@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.statistics;
+package gov.anzong.androidnga.core;
 
 import org.junit.Test;
 

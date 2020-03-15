@@ -1,7 +1,7 @@
 package gov.anzong.androidnga.base.util;
 
 import android.app.Activity;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.util.TypedValue;
 
 public class ThemeUtils {

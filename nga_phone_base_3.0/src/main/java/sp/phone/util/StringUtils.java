@@ -2,7 +2,7 @@ package sp.phone.util;
 
 import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;

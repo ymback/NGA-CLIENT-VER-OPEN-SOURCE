@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -14,7 +14,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import sp.phone.task.ReportTask;
 import sp.phone.task.JsonThreadLoadTask;
-import sp.phone.task.ReportTask;
 
 public class ReportDialogFragment extends DialogFragment {
 

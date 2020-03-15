@@ -2,8 +2,8 @@ package gov.anzong.androidnga.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.ActionBar;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 

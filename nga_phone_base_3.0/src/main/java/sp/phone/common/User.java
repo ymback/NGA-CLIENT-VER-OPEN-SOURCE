@@ -1,6 +1,6 @@
 package sp.phone.common;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Justwen on 2017/12/26.

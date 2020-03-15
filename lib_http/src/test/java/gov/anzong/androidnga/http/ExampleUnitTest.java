@@ -1,4 +1,4 @@
-package gov.anzong.androidnga.statistics;
+package gov.anzong.androidnga.http;
 
 import org.junit.Test;
 

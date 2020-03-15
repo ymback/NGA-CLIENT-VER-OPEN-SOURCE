@@ -13,7 +13,7 @@ import sp.phone.common.UserManagerImpl;
  * Created by Justwen on 2018/1/15.
  */
 
-public class ActionBarUserListSpinner extends android.support.v7.widget.AppCompatSpinner {
+public class ActionBarUserListSpinner extends androidx.appcompat.widget.AppCompatSpinner {
 
     private UserManager mUserManager;
 

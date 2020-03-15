@@ -11,6 +11,7 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.request.RequestOptions;
 
 @GlideModule
 public class CustomGlideModule extends AppGlideModule {
@@ -19,7 +20,9 @@ public class CustomGlideModule extends AppGlideModule {
     public void applyOptions(Context context, GlideBuilder builder) {
         int MEM_CACHE_SIZE = 1024 * 1024 * ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass() / 3;
         builder.setMemoryCache(new LruResourceCache(MEM_CACHE_SIZE));
-        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions = requestOptions.format(DecodeFormat.PREFER_ARGB_8888);
+        builder.setDefaultRequestOptions(requestOptions);
         builder.setDiskCache(new ExternalCacheDiskCacheFactory(context));
     }
 

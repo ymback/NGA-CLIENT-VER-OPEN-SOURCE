@@ -2,7 +2,7 @@ package gov.anzong.androidnga.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 

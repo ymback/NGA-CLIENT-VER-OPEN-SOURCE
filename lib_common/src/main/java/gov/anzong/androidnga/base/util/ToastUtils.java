@@ -1,7 +1,7 @@
 package gov.anzong.androidnga.base.util;
 
 import android.graphics.Color;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.widget.Toast;
 
 import es.dmoral.toasty.Toasty;

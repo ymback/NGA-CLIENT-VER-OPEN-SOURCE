@@ -1,9 +1,9 @@
 package gov.anzong.androidnga.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.SearchView;
+import androidx.fragment.app.FragmentTabHost;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -87,7 +87,7 @@ public class SearchActivity extends BaseActivity {
             }
         });
         SearchView searchView = (SearchView) item.getActionView();
-        mEditText = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        mEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
         mEditText.setCursorVisible(true);
         mEditText.setOnEditorActionListener((v, actionId, event) -> {
             query(v.getText());
