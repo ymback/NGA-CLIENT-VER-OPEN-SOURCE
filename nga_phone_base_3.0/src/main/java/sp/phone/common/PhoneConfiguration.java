@@ -190,10 +190,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         PreferenceUtils.putData(PreferenceKey.KEY_TOPIC_CONTENT_SIZE, size);
     }
 
-    public boolean useOldWebCore() {
-        return PreferenceUtils.getData(PreferenceKey.KEY_USE_OLD_WEB_CORE, false);
-    }
-
     public boolean useSolidColorBackground() {
         return ContextUtils.getSharedPreferences(PreferenceKey.PERFERENCE).getBoolean(PreferenceKey.KEY_USE_SOLID_COLOR_BG, true);
     }
