@@ -216,7 +216,9 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
 
     @Override
     public void cachePage() {
-        mBaseModel.cachePage(mRequestParam, mThreadData.getRawData());
+        if (mThreadData != null) {
+            mBaseModel.cachePage(mRequestParam, mThreadData.getRawData());
+        }
     }
 
     @Override
