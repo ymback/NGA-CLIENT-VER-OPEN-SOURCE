@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.common.util.EmoticonUtils;
 import sp.phone.http.bean.StringFindResult;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.theme.ThemeManager;
