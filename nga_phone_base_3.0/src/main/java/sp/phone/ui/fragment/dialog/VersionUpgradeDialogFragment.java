@@ -33,7 +33,7 @@ public class VersionUpgradeDialogFragment extends BaseDialogFragment {
             Class clz = VersionUpgradeTips.class;
             Field field = clz.getDeclaredField("TIPS_" + BuildConfig.VERSION_CODE);
             return (String) field.get(null);
-        } catch (NoSuchFieldException | IllegalAccessException | NoClassDefFoundError e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
