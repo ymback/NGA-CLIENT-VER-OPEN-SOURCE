@@ -190,6 +190,10 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         ThreadUtils.postOnSubThread(() -> {
             String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/";
             File[] cacheDirs = new File(path).listFiles();
+            if (cacheDirs == null) {
+                callBack.onError(null);
+                return;
+            }
             try {
                 for (File dir : cacheDirs) {
                     if (dir.getName().equals(String.valueOf(info.getTid()))) {
