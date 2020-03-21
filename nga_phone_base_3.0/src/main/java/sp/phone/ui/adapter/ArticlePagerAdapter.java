@@ -61,9 +61,8 @@ public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void setPageIndexList(List<String> pageIndexList) {
-        mPageIndexList.clear();
-        mPageIndexList.addAll(pageIndexList);
-        setCount(mPageIndexList.size());
+        mPageIndexList = pageIndexList;
+        setCount(pageIndexList.size());
     }
 
     @Override
