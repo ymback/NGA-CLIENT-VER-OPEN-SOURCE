@@ -52,7 +52,7 @@ public class AboutActivity extends MaterialAboutActivity {
                         intent.setData(Uri.parse(url));
                         startActivity(intent);
                     } catch (ActivityNotFoundException e) {
-                        FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://www.coolapk.com/apk/gov.anzong.androidnga");
+                        //FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://www.coolapk.com/apk/gov.anzong.androidnga");
                     }
                 })
                 .build());
@@ -101,7 +101,7 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Github")
                 .subText("bug & 建议")
-                .setOnClickAction(() -> FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://github.com/ymback/NGA-CLIENT-VER-OPEN-SOURCE/issues"))
+                .setOnClickAction(() -> FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://github.com/Justwen/NGA-CLIENT-VER-OPEN-SOURCE/issues"))
                 .icon(R.drawable.ic_github)
                 .build());
 
@@ -116,6 +116,12 @@ public class AboutActivity extends MaterialAboutActivity {
                 .text("客户端吐槽QQ群,欢迎加入捡肥皂")
                 .subText("714556852")
                 .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "714556852"))
+                .icon(R.drawable.ic_qq)
+                .build());
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("客户端问题反馈群，请勿开车！")
+                .subText("1077054628")
+                .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "1077054628"))
                 .icon(R.drawable.ic_qq)
                 .build());
 
