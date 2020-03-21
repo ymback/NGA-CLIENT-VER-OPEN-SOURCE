@@ -1,6 +1,7 @@
 package sp.phone.mvp.model;
 
 import com.alibaba.fastjson.JSON;
+import com.justwen.androidnga.cloud.CloudServerManager;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import org.apache.commons.io.FileUtils;
@@ -67,13 +68,23 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         Observable.create((ObservableOnSubscribe<TopicListInfo>) emitter -> {
             String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/";
             File[] cacheDirs = new File(path).listFiles();
-            TopicListInfo listInfo = new TopicListInfo();
-            for (File dir : cacheDirs) {
-                File infoFile = new File(dir, dir.getName() + ".json");
-                String rawData = FileUtils.readFileToString(infoFile);
-                listInfo.addThreadPage(JSON.parseObject(rawData, ThreadPageInfo.class));
+
+            if (cacheDirs == null) {
+                emitter.onError(new Exception());
+            } else {
+                TopicListInfo listInfo = new TopicListInfo();
+                for (File dir : cacheDirs) {
+                    File infoFile = new File(dir, dir.getName() + ".json");
+                    String rawData = FileUtils.readFileToString(infoFile);
+                    ThreadPageInfo pageInfo = JSON.parseObject(rawData, ThreadPageInfo.class);
+                    if (pageInfo == null) {
+                        CloudServerManager.putCrashData(ContextUtils.getContext(),"rawData", rawData);
+                    } else {
+                        listInfo.addThreadPage(JSON.parseObject(rawData, ThreadPageInfo.class));
+                    }
+                }
+                emitter.onNext(listInfo);
             }
-            emitter.onNext(listInfo);
             emitter.onComplete();
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<TopicListInfo>() {

@@ -1,5 +1,7 @@
 package sp.phone.mvp.model;
 
+import android.text.TextUtils;
+
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import org.apache.commons.io.FileUtils;
@@ -103,14 +105,16 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
 
     @Override
     public void cachePage(ArticleListParam param, String rawData) {
+
+        if (TextUtils.isEmpty(param.topicInfo)) {
+            ToastUtils.error("缓存失败！");
+            return;
+        }
         ThreadUtils.postOnSubThread(() -> {
             try {
                 String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/" + param.tid;
                 File describeFile = new File(path, param.tid + ".json");
                 FileUtils.write(describeFile, param.topicInfo);
-                if (!describeFile.exists()) {
-                    FileUtils.write(describeFile, param.topicInfo);
-                }
                 File rawDataFile = new File(path, param.page + ".json");
                 FileUtils.write(rawDataFile, rawData);
                 ToastUtils.success("缓存成功！");
