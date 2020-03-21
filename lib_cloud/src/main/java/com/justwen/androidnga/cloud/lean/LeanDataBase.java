@@ -30,7 +30,7 @@ public class LeanDataBase implements ICloudDataBase {
 
     @Override
     public void init(Context context) {
-        AVOSCloud.initializeSecurely(context, context.getString(R.string.lean_cloud_app_id), null);
+        AVOSCloud.initialize(context, context.getString(R.string.lean_cloud_app_id), context.getString(R.string.lean_cloud_app_key));
         if (BuildConfig.DEBUG) {
             AVOSCloud.setLogLevel(AVLogger.Level.DEBUG);
         }
