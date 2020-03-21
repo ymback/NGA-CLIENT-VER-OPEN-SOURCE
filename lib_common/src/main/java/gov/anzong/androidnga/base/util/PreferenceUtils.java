@@ -89,11 +89,15 @@ public class PreferenceUtils {
 
     public static <T> List<T> getData(String key, Class<T> clz) {
         createIfNull();
-        String value = sPreferences.getString(key, null);
-        if (value == null) {
+        try {
+            String value = sPreferences.getString(key, null);
+            if (value == null) {
+                return new ArrayList<>();
+            } else {
+                return JSON.parseArray(value, clz);
+            }
+        } catch (NullPointerException e) {
             return new ArrayList<>();
-        } else {
-            return JSON.parseArray(value, clz);
         }
     }
 
