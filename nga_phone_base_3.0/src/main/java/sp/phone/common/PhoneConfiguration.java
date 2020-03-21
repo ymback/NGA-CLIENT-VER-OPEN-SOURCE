@@ -160,7 +160,12 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     }
 
     public int getAvatarSize() {
-        return PreferenceUtils.getData(PreferenceKey.KEY_AVATAR_SIZE, Constants.AVATAR_SIZE_DEFAULT);
+        try {
+            return PreferenceUtils.getData(PreferenceKey.KEY_AVATAR_SIZE, Constants.AVATAR_SIZE_DEFAULT);
+        } catch (Exception e) {
+            setAvatarSize(Constants.AVATAR_SIZE_DEFAULT);
+            return Constants.AVATAR_SIZE_DEFAULT;
+        }
     }
 
     public void setAvatarSize(int value) {

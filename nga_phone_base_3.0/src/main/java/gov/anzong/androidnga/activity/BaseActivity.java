@@ -207,7 +207,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             long time = PreferenceUtils.getData(PreferenceKey.KEY_CHECK_UPGRADE_TIME, 0L);
             if (System.currentTimeMillis() - time > 1000 * 60 * 60 * 24) {
                 CloudServerManager.checkUpgrade();
-                PreferenceUtils.putData(PreferenceKey.KEY_AVATAR_SIZE, System.currentTimeMillis());
+                PreferenceUtils.putData(PreferenceKey.KEY_CHECK_UPGRADE_TIME, System.currentTimeMillis());
             }
         }
     }
