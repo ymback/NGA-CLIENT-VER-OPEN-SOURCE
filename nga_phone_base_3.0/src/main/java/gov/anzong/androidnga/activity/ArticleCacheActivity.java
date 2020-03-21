@@ -12,6 +12,7 @@ import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.base.widget.TabLayoutEx;
 import sp.phone.param.ArticleListParam;
 import sp.phone.param.ParamKey;
@@ -39,6 +40,11 @@ public class ArticleCacheActivity extends BaseActivity {
     }
 
     private void initViews() {
+        if (mCachePageList.isEmpty()) {
+            ToastUtils.error("加载失败!");
+            return;
+        }
+
         if (mConfig.isShowBottomTab()) {
             setContentView(R.layout.fragment_article_tab_bottom);
         } else {
