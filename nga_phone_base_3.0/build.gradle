@@ -28,7 +28,6 @@ android {
     }
 
     packagingOptions {
-        exclude 'lib/x86_64/*.so'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/MANIFEST.MF'
