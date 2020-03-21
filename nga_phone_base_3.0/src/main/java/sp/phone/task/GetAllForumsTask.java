@@ -30,7 +30,13 @@ public class GetAllForumsTask extends AsyncTask<String, Integer, ForumsListModel
     @Override
     protected ForumsListModel doInBackground(String... params) {
         String json = HttpUtil.getHtml(mUrl, PhoneConfiguration.getInstance().getCookie());
-        return JSON.parseObject(json, ForumsListModel.class);
+        ForumsListModel listModel = null;
+        try {
+            listModel = JSON.parseObject(json, ForumsListModel.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listModel;
     }
 
     @Override

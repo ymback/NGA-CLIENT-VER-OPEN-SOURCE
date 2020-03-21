@@ -190,7 +190,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         try {
             return super.dispatchTouchEvent(ev);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
