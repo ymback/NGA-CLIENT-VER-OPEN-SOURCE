@@ -8,9 +8,14 @@ import com.justwen.androidnga.cloud.R;
 import com.justwen.androidnga.cloud.base.ICloudDataBase;
 import com.justwen.androidnga.cloud.base.VersionBean;
 
+import java.util.List;
+
 import cn.leancloud.AVLogger;
 import cn.leancloud.AVOSCloud;
 import cn.leancloud.AVObject;
+import cn.leancloud.AVQuery;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class LeanDataBase implements ICloudDataBase {
 
@@ -29,11 +34,39 @@ public class LeanDataBase implements ICloudDataBase {
     }
 
     private void uploadAndroidVersionInfo() {
-        AVObject obj = new AVObject("androidVersion");
-        obj.put("versionName", mVersionBean.versionName);
-        obj.put("androidVersion", Build.VERSION.SDK_INT);
-        obj.increment("count");
-        obj.saveInBackground().subscribe(new EmptyObserver<>());
+        AVQuery<AVObject> query = new AVQuery<>("androidVersion");
+        query.whereEqualTo("versionName", mVersionBean.versionName);
+        query.whereEqualTo("androidVersion", Build.VERSION.SDK_INT);
+        query.findInBackground().subscribe(new Observer<List<AVObject>>() {
+            @Override
+            public void onSubscribe(Disposable disposable) {
+            }
+
+            @Override
+            public void onNext(List<AVObject> objects) {
+                if (objects != null && !objects.isEmpty()) {
+                    AVObject obj = objects.get(0);
+                    obj.increment("count");
+                    obj.saveInBackground().subscribe(new EmptyObserver<>());
+                } else {
+                    AVObject obj = new AVObject("androidVersion");
+                    obj.put("versionName", mVersionBean.versionName);
+                    obj.put("androidVersion", Build.VERSION.SDK_INT);
+                    obj.put("count", 1);
+                    obj.saveInBackground().subscribe(new EmptyObserver<>());
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
 
