@@ -2,7 +2,7 @@ package sp.phone.mvp.model.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public class Board implements Parcelable {
 

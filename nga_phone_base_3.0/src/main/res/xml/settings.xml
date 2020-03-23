@@ -118,12 +118,6 @@
             android:key="showSignature"
             android:title="@string/showSignature" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="use_old_web_core"
-            android:summary="@string/setting_web_core_summary"
-            android:title="@string/setting_web_core_title" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="发帖设置">

@@ -1,7 +1,7 @@
 package sp.phone.util;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.core.data.HtmlData;
+import gov.anzong.androidnga.core.decode.ForumDecoder;
 import sp.phone.http.bean.Attachment;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
-import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.theme.ThemeManager;
 
 /**
@@ -67,7 +69,7 @@ public class HtmlUtils {
         }
 
         List<String> imageUrls = new ArrayList<>();
-        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls);
+        String ngaHtml = ForumDecoder.decode(row.getContent(), HtmlData.create(row.getContent(), Utils.getNGAHost()), imageUrls);
         if (row.get_isInBlackList()) {
             ngaHtml = "<HTML> <HEAD><META http-equiv=Content-Type content= \"text/html; charset=utf-8 \">"
                     + "<body "
@@ -206,7 +208,7 @@ public class HtmlUtils {
             int end = content.indexOf("[/b]");
             String time = '(' + comment.getPostdate() + ')';
             content = content.substring(end + 4);
-            content = new ForumDecoder(true).decode(content, null);
+            content =  ForumDecoder.decode(content, HtmlData.create(content, Utils.getNGAHost()));
             ret.append(String.format("<tr><td width='10%%'> <img src='%s' align='absmiddle' style='max-width:32;' />  <span style='font-weight:bold'>%s %s</span>%s</td></tr>",
                     avatarUrl, author, time, content));
 

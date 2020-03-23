@@ -1,5 +1,7 @@
 package sp.phone.mvp.model.entity;
 
+import androidx.annotation.NonNull;
+
 public class ThreadPageInfo {
 
     private int mTid;
@@ -250,5 +252,11 @@ public class ThreadPageInfo {
         return obj instanceof ThreadPageInfo
                 && mTid == ((ThreadPageInfo) obj).getTid()
                 && mPid == ((ThreadPageInfo) obj).getPid();
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "tid = " + mTid + "  pid = " + mPid;
     }
 }

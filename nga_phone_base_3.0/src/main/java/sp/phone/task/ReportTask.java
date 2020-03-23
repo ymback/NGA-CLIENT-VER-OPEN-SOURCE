@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.param.HttpPostClient;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.util.StringUtils;
@@ -72,7 +73,7 @@ public class ReportTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         if (!StringUtils.isEmpty(result)) {
-            Toast.makeText(context, R.string.report_success, Toast.LENGTH_SHORT).show();
+            ToastUtils.success(R.string.report_success);
         }
     }
 

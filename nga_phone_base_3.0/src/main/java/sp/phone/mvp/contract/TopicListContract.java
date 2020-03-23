@@ -15,7 +15,11 @@ public interface TopicListContract {
 
         void removeTopic(ThreadPageInfo info, int position);
 
+        void removeCacheTopic(ThreadPageInfo info);
+
         void loadPage(int page, TopicListParam requestInfo);
+
+        void loadCachePage();
 
         void loadNextPage(int page, TopicListParam requestInfo);
 
@@ -50,11 +54,15 @@ public interface TopicListContract {
 
     interface Model {
 
+        void loadCache(OnHttpCallBack<TopicListInfo> callBack);
+
         void removeTopic(ThreadPageInfo info, OnHttpCallBack<String> callBack);
 
         void loadTopicList(int page, TopicListParam param, OnHttpCallBack<TopicListInfo> callBack);
 
         void loadTwentyFourList(TopicListParam param, OnHttpCallBack<TopicListInfo> callBack, int pageCount);
+
+        void removeCacheTopic(ThreadPageInfo info, OnHttpCallBack<String> callBack);
     }
 
 }

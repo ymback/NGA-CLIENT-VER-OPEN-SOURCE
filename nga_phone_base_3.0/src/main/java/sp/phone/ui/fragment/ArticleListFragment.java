@@ -2,9 +2,9 @@ package sp.phone.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -195,12 +195,16 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 && rxEvent.arg + 1 == mRequestParam.page
                 && rxEvent.obj != null) {
             mListView.scrollToPosition((Integer) rxEvent.obj);
+        } else if (rxEvent.what == RxEvent.EVENT_CACHE_TOPIC_CONTENT
+                && rxEvent.arg == mRequestParam.page
+                && (rxEvent.obj == null || rxEvent.obj.equals(mRequestParam))) {
+            mPresenter.cachePage();
         }
     }
 
     @Override
     protected ArticleListPresenter onCreatePresenter() {
-        return new ArticleListPresenter();
+        return new ArticleListPresenter(mRequestParam);
     }
 
 
@@ -232,7 +236,6 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 loadPage();
             }
         });
-        loadPage();
         super.onViewCreated(view, savedInstanceState);
     }
 

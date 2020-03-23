@@ -1,7 +1,7 @@
 package sp.phone.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 

@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.core.data.HtmlData;
+import gov.anzong.androidnga.core.decode.ForumDecoder;
 import sp.phone.http.bean.AdminForumsData;
 import sp.phone.http.bean.ProfileData;
 import sp.phone.http.bean.ReputationData;
@@ -35,7 +38,6 @@ import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.param.ParamKey;
 import sp.phone.http.OnHttpCallBack;
-import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
@@ -277,12 +279,18 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
     private String createFameHtml(ProfileData ret, String color) {
+        String frame = ret.getFrame();
+        try {
+            frame = String.valueOf(Double.parseDouble(ret.getFrame()) / 10.0d);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
         StringBuilder builder = new StringBuilder("<ul style=\"padding: 0px; margin: 0px;\">");
         builder.append("<li style=\"display: block;float: left;width: 33%;\">")
                 .append("<label style=\"float: left;color: ").append(color).append(";\">威望</label>")
                 .append("<span style=\"float: left; color: #808080;\">:</span>")
                 .append("<span style=\"float: left; color: #808080;\">")
-                .append(Double.toString(Double.parseDouble(ret.getFrame()) / 10.0d))
+                .append(frame)
                 .append("</span></li>");
         List<ReputationData> reputationEntryList = ret.getReputationEntryList();
         if (reputationEntryList != null) {
@@ -488,7 +496,7 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     }
 
     public String signatureToHtmlText(final ProfileData ret, final String fgColorStr, final String bgcolorStr) {
-        String ngaHtml = new ForumDecoder(true).decode(ret.getSign(), null);
+        String ngaHtml = ForumDecoder.decode(ret.getSign(), HtmlData.create(ret.getSign(), Utils.getNGAHost()));
 
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
                 + "<body bgcolor= '#"

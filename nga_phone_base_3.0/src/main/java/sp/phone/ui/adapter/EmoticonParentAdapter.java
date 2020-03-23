@@ -1,13 +1,13 @@
 package sp.phone.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import sp.phone.util.EmoticonUtils;
+import gov.anzong.androidnga.common.util.EmoticonUtils;
 
 /**
  * Created by Justwen on 2018/6/8.

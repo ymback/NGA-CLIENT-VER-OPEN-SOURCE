@@ -137,12 +137,12 @@
                 android:text="@string/fontsize"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/sp_size"
                 android:layout_width="0dp"
                 android:layout_weight="2"/>
 
-            <android.support.v4.widget.Space
+            <androidx.legacy.widget.Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
@@ -164,12 +164,12 @@
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:textColor="@android:color/holo_blue_bright"/>
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/sp_color"
                 android:layout_width="0dp"
                 android:layout_weight="2"/>
 
-            <android.support.v4.widget.Space
+            <androidx.legacy.widget.Space
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 

@@ -7,15 +7,25 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
+import gov.anzong.androidnga.core.HtmlConvertFactory;
+import gov.anzong.androidnga.core.data.AttachmentData;
+import gov.anzong.androidnga.core.data.CommentData;
+import gov.anzong.androidnga.core.data.HtmlData;
+import sp.phone.common.ApplicationContextHolder;
+import sp.phone.common.PhoneConfiguration;
+import sp.phone.http.bean.Attachment;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.ForumConstants;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.mvp.model.convert.builder.HtmlBuilder;
-import sp.phone.mvp.model.convert.decoder.ForumDecodeRecord;
-import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
+import sp.phone.theme.ThemeManager;
+import sp.phone.util.FunctionUtils;
+import sp.phone.util.HttpUtil;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
@@ -55,6 +65,7 @@ public class ArticleConvertFactory {
             }
             int allRows = (Integer) obj.get("__ROWS");
             data = new ThreadData();
+            data.setRawData(js);
             data.setThreadInfo(buildThreadPageInfo(obj));
             data.setRowList(buildThreadRowList(obj));
             data.set__ROWS(allRows);
@@ -124,11 +135,49 @@ public class ArticleConvertFactory {
             row.setContent(StringUtils.unescape(row.getContent()));
         }
         List<String> imageUrls = new ArrayList<>();
-        ForumDecodeRecord decodeResult = new ForumDecodeRecord();
-        String ngaHtml = new ForumDecoder(true).decode(row.getContent(), imageUrls, decodeResult);
-        ngaHtml = HtmlBuilder.build(row, ngaHtml, imageUrls, decodeResult);
+        String ngaHtml = HtmlConvertFactory.convert(buildHtmlData(row),imageUrls);
         row.getImageUrls().addAll(imageUrls);
         row.setFormattedHtmlData(ngaHtml);
+    }
+
+    private static HtmlData buildHtmlData(ThreadRowInfo row) {
+        HtmlData htmlData = new HtmlData(row.getContent());
+        htmlData.setAlertInfo(row.getAlterinfo());
+        htmlData.setDarkMode(ThemeManager.getInstance().isNightMode());
+        htmlData.setInBackList(row.get_isInBlackList());
+        htmlData.setTextSize(PhoneConfiguration.getInstance().getTopicContentSize());
+        htmlData.setEmotionSize(PhoneConfiguration.getInstance().getEmoticonSize());
+        htmlData.setSignature(PhoneConfiguration.getInstance().isShowSignature() ? row.getSignature() : null);
+        htmlData.setVote(row.getVote());
+        htmlData.setSubject(row.getSubject());
+        htmlData.setShowImage(PhoneConfiguration.getInstance().isDownImgNoWifi()
+                || DeviceUtils.isWifiConnected(ApplicationContextHolder.getContext()));
+        htmlData.setNGAHost(Utils.getNGAHost());
+        if (row.getAttachs() != null) {
+            List<AttachmentData> attachments = new ArrayList<>();
+            for (Map.Entry<String, Attachment> entry : row.getAttachs().entrySet()) {
+                AttachmentData data = new AttachmentData();
+                data.setAttachUrl(entry.getValue().getAttachurl());
+                data.setThumb(entry.getValue().getThumb());
+                data.setAttachmentHost(HttpUtil.NGA_ATTACHMENT_HOST);
+                attachments.add(data);
+            }
+            htmlData.setAttachmentList(attachments);
+        }
+
+        if (row.getComments() != null) {
+            List<CommentData> comments = new ArrayList<>();
+            for (ThreadRowInfo value : row.getComments()) {
+                CommentData comment = new CommentData();
+                comment.setAuthor(value.getAuthor());
+                comment.setContent(value.getContent());
+                comment.setPostTime(value.getPostdate());
+                comment.setAvatarUrl(FunctionUtils.parseAvatarUrl(value.getJs_escap_avatar()));
+                comments.add(comment);
+            }
+            htmlData.setCommentList(comments);
+        }
+        return htmlData;
     }
 
     private static void buildRowVote(ThreadRowInfo row, JSONObject rowObj) {

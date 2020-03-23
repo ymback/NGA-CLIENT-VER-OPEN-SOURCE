@@ -2,7 +2,7 @@ package sp.phone.util;
 
 import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.common.util.EmoticonUtils;
 import sp.phone.http.bean.StringFindResult;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.theme.ThemeManager;

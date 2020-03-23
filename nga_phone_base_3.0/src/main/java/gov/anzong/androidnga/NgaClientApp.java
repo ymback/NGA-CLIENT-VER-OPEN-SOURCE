@@ -3,20 +3,19 @@ package gov.anzong.androidnga;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Process;
+import android.webkit.WebView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.awp.webkit.AwpEnvironment;
+import com.justwen.androidnga.cloud.CloudServerManager;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.common.util.ReflectUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.FilterKeywordsManagerImpl;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
-import sp.phone.debug.BlockCanaryWatcher;
-import sp.phone.debug.LeakCanaryWatcher;
-import sp.phone.task.DeviceStatisticsTask;
 import sp.phone.util.NLog;
 
 public class NgaClientApp extends Application {
@@ -30,17 +29,24 @@ public class NgaClientApp extends Application {
         NLog.w(TAG, "app nga android start");
         ApplicationContextHolder.setContext(this);
         ContextUtils.setApplication(this);
-        LeakCanaryWatcher.initialize(this);
-        BlockCanaryWatcher.startWatching(this);
         VersionUpgradeHelper.upgrade();
-        checkNewVersion();
         initCoreModule();
         initRouter();
         super.onCreate();
-        if (!PhoneConfiguration.getInstance().useOldWebCore()) {
-          //  AwpEnvironment.init(this, true);
+
+        CloudServerManager.init(this);
+        fixWebViewMultiProcessException();
+        checkNewVersion();
+    }
+
+    private void fixWebViewMultiProcessException() {
+        Object obj = ReflectUtils.invokeMethodAndGetResult(Process.class, "myPpid");
+        if (obj != null) {
+            int ppid = (int) obj;
+            if (ppid == 1) {
+                WebView.setDataDirectorySuffix("_multi");
+            }
         }
-        registerActivityLifecycleCallbacks(new ActivityCallback(this));
     }
 
     private void initRouter() {
@@ -54,8 +60,8 @@ public class NgaClientApp extends Application {
     private void initCoreModule() {
         UserManagerImpl.getInstance().initialize(this);
         FilterKeywordsManagerImpl.getInstance().initialize(this);
-        // 注册crashHandler
-        CrashHandler.getInstance().init(this);
+//        // 注册crashHandler
+//        CrashHandler.getInstance().init(this);
 
     }
 
@@ -66,9 +72,7 @@ public class NgaClientApp extends Application {
         if (sp.getInt(PreferenceKey.VERSION, 0) < versionCode) {
             sp.edit().putInt(PreferenceKey.VERSION, versionCode).apply();
             mNewVersion = true;
-        }
-        if (mNewVersion) {
-            DeviceStatisticsTask.execute();
+            CloudServerManager.uploadNewVersionInfo();
         }
     }
 

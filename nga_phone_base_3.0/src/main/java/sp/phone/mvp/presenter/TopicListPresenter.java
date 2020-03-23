@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import gov.anzong.androidnga.base.util.ThreadUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.mvp.model.BoardModel;
 import sp.phone.param.TopicListParam;
 import sp.phone.ui.fragment.TopicSearchFragment;
@@ -14,7 +16,9 @@ import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 
 /**
- * Created by Justwen on 2017/6/3.
+ *
+ * @author Justwen
+ * @date 2017/6/3
  */
 
 public class TopicListPresenter extends BasePresenter<TopicSearchFragment, TopicListModel> implements TopicListContract.Presenter {
@@ -28,6 +32,8 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
     protected int twentyFourCurPos = 0;
     protected TopicListInfo twentyFourList = new TopicListInfo();
     protected TopicListInfo twentyFourCurList = new TopicListInfo();
+
+    private TopicListParam mRequestParam;
 
     private OnHttpCallBack<TopicListInfo> mCallBack = new OnHttpCallBack<TopicListInfo>() {
         @Override
@@ -97,11 +103,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
                 if (threadPageList.size() > twentyFourTopicCount) {
                     threadPageList.subList(twentyFourTopicCount, threadPageList.size());
                 }
-                Collections.sort(twentyFourList.getThreadPageList(), new Comparator<ThreadPageInfo>() {
-                    public int compare(ThreadPageInfo o1, ThreadPageInfo o2) {
-                        return o1.getReplies() < o2.getReplies() ? 1 : -1;
-                    }
-                });
+                Collections.sort(twentyFourList.getThreadPageList(), (o1, o2) -> Integer.compare(o2.getReplies(), o1.getReplies()));
                 // We list 20 topics each time
                 int endPos = twentyFourCurPos + 20 > twentyFourList.getThreadPageList().size() ?
                         twentyFourList.getThreadPageList().size() : (twentyFourCurPos + 20);
@@ -112,6 +114,13 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
             }
         }
     };
+
+    public TopicListPresenter() {
+    }
+
+    public TopicListPresenter(TopicListParam requestParam) {
+        mRequestParam = requestParam;
+    }
 
     private void setData(TopicListInfo result) {
         mBaseView.setRefreshing(false);
@@ -144,6 +153,30 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
     }
 
     @Override
+    public void removeCacheTopic(ThreadPageInfo info) {
+        mBaseModel.removeCacheTopic(info, new OnHttpCallBack<String>() {
+            @Override
+            public void onError(String text) {
+                if (isAttached()) {
+                    ToastUtils.showToast("删除失败！");
+                }
+            }
+
+            @Override
+            public void onSuccess(String data) {
+                if (isAttached()) {
+                    ThreadUtils.runOnMainThread(() -> {
+                        ToastUtils.showToast("删除成功！");
+                        mBaseView.removeTopic(info);
+                    });
+
+                }
+            }
+        });
+
+    }
+
+    @Override
     public void loadPage(int page, TopicListParam requestInfo) {
         mBaseView.setRefreshing(true);
         if (requestInfo.twentyfour == 1) {
@@ -156,6 +189,11 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
         } else {
             mBaseModel.loadTopicList(page, requestInfo, mCallBack);
         }
+    }
+
+    @Override
+    public void loadCachePage() {
+        mBaseModel.loadCache(mCallBack);
     }
 
     @Override
@@ -187,4 +225,12 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
         BoardModel.getInstance().removeBookmark(fid, stid);
     }
 
+    @Override
+    public void onViewCreated() {
+        if (mRequestParam != null && mRequestParam.loadCache) {
+            loadCachePage();
+        } else {
+            loadPage(1, mRequestParam);
+        }
+    }
 }

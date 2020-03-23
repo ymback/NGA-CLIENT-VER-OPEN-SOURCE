@@ -1,7 +1,7 @@
 package gov.anzong.androidnga.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import gov.anzong.androidnga.R;
 import sp.phone.ui.fragment.MessageDetailFragment;

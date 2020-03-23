@@ -2,13 +2,12 @@ package sp.phone.ui.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.ui.adapter.beta.BaseAppendableAdapterEx;
 import sp.phone.http.bean.MessageArticlePageInfo;
 import sp.phone.http.bean.MessageDetailInfo;
@@ -65,7 +65,7 @@ public class MessageContentAdapter extends BaseAppendableAdapterEx<MessageDetail
         if (position + 1 == getItemCount()
                 && !hasNextPage()
                 && !mPrompted) {
-            Toast.makeText(mContext, R.string.last_page_prompt_message_detail, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(R.string.last_page_prompt_message_detail);
             mPrompted = true;
         }
     }

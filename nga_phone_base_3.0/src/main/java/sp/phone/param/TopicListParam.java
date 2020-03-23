@@ -33,6 +33,8 @@ public class TopicListParam implements Cloneable, Parcelable {
 
     public int stid;
 
+    public boolean loadCache;
+
     public TopicListParam() {
     }
 
@@ -49,6 +51,7 @@ public class TopicListParam implements Cloneable, Parcelable {
         twentyfour = in.readInt();
         title = in.readString();
         stid = in.readInt();
+        loadCache = in.readInt() == 1;
     }
 
     @Override
@@ -65,6 +68,7 @@ public class TopicListParam implements Cloneable, Parcelable {
         dest.writeInt(twentyfour);
         dest.writeString(title);
         dest.writeInt(stid);
+        dest.writeInt(loadCache ? 1 : 0);
     }
 
     @Override

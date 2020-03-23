@@ -1,11 +1,12 @@
 package sp.phone.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,12 +45,24 @@ public class ReplyListAdapter extends BaseAppendableAdapter<ThreadPageInfo, Repl
 
     }
 
+
     @Override
     public void setData(List<ThreadPageInfo> dataList) {
         if (dataList == null) {
             super.setData(dataList);
         } else {
+            checkData(dataList);
             super.appendData(dataList);
+        }
+    }
+
+    private void checkData(List<ThreadPageInfo> dataList) {
+        Iterator<ThreadPageInfo> iterator = dataList.iterator();
+        while(iterator.hasNext()) {
+            ThreadPageInfo pageInfo = iterator.next();
+            if (pageInfo.getReplyInfo() == null) {
+                iterator.remove();
+            }
         }
     }
 

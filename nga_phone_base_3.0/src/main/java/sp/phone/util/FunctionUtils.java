@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentUris;
@@ -17,9 +18,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,13 +35,16 @@ import android.widget.Toast;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.core.data.HtmlData;
+import gov.anzong.androidnga.core.decode.ForumDecoder;
 import gov.anzong.androidnga.util.NetUtil;
 import sp.phone.http.bean.MessageArticlePageInfo;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.ui.fragment.dialog.ReportDialogFragment;
-import sp.phone.mvp.model.convert.decoder.ForumDecoder;
 import sp.phone.proxy.ProxyBridge;
 import sp.phone.theme.ThemeManager;
 import sp.phone.view.webview.WebViewClientEx;
@@ -439,7 +443,7 @@ public class FunctionUtils {
                                              boolean showImage, int imageQuality, final String fgColorStr,
                                              final String bgcolorStr, Context context) {
         initStaticStrings(context);
-        String ngaHtml = new ForumDecoder(true).decode(row.getSignature(), null);
+        String ngaHtml = ForumDecoder.decode(row.getSignature(), HtmlData.create(row.getSignature(), Utils.getNGAHost()));
         if (StringUtils.isEmpty(ngaHtml)) {
             ngaHtml = row.getAlterinfo();
         }
@@ -906,10 +910,14 @@ public class FunctionUtils {
     }
 
     public static void share(Context context, String title, String content) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, content);
-        context.startActivity(Intent.createChooser(intent, title));
+        try {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+            context.startActivity(Intent.createChooser(intent, title));
+        } catch (ActivityNotFoundException e) {
+            ToastUtils.error("分享失败！");
+        }
     }
 }

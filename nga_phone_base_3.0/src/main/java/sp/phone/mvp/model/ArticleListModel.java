@@ -1,20 +1,32 @@
 package sp.phone.mvp.model;
 
+import android.text.TextUtils;
+
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.http.bean.ThreadData;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.param.ArticleListParam;
 import sp.phone.http.OnHttpCallBack;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.model.convert.ArticleConvertFactory;
 import sp.phone.mvp.model.convert.ErrorConvertFactory;
-import sp.phone.http.retrofit.RetrofitHelper;
-import sp.phone.http.retrofit.RetrofitService;
+import sp.phone.param.ArticleListParam;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.NLog;
 
@@ -90,4 +102,55 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                     }
                 });
     }
+
+    @Override
+    public void cachePage(ArticleListParam param, String rawData) {
+
+        if (TextUtils.isEmpty(param.topicInfo)) {
+            ToastUtils.error("缓存失败！");
+            return;
+        }
+        ThreadUtils.postOnSubThread(() -> {
+            try {
+                String path = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/" + param.tid;
+                File describeFile = new File(path, param.tid + ".json");
+                FileUtils.write(describeFile, param.topicInfo);
+                File rawDataFile = new File(path, param.page + ".json");
+                FileUtils.write(rawDataFile, rawData);
+                ToastUtils.success("缓存成功！");
+            } catch (IOException e) {
+                ToastUtils.error("缓存失败！");
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void loadCachePage(ArticleListParam param, OnHttpCallBack<ThreadData> callBack) {
+        Observable.create((ObservableOnSubscribe<ThreadData>) emitter -> {
+            String cachePath = ContextUtils.getContext().getFilesDir().getAbsolutePath()
+                    + "/cache/" + param.tid + "/" + param.page + ".json";
+            File cacheFile = new File(cachePath);
+            String rawData = FileUtils.readFileToString(cacheFile);
+            ThreadData threadData = ArticleConvertFactory.getArticleInfo(rawData);
+            if (threadData != null) {
+                emitter.onNext(threadData);
+            } else {
+                emitter.onError(new Exception());
+            }
+            emitter.onComplete();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<ThreadData>() {
+                    @Override
+                    public void onNext(ThreadData threadData) {
+                        callBack.onSuccess(threadData);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        callBack.onError("读取缓存失败！");
+                    }
+                });
+    }
+
 }

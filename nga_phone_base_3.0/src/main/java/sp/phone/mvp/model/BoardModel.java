@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import gov.anzong.androidnga.base.util.PreferenceUtils;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.http.bean.BoardBean;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.model.entity.Board;

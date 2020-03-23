@@ -4,10 +4,10 @@ import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.alibaba.fastjson.JSON;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,14 +65,14 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
         mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
+        super.onCreate(savedInstanceState);
         setTitle();
     }
 
     @Override
     protected TopicListPresenter onCreatePresenter() {
-        return new TopicListPresenter();
+        return new TopicListPresenter(mRequestParam);
     }
 
     protected void setTitle() {
@@ -163,8 +164,6 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
         TextView sayingView = (TextView) mLoadingView.findViewById(R.id.saying);
         sayingView.setText(ActivityUtils.getSaying());
 
-        mPresenter.loadPage(1, mRequestParam);
-
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -245,6 +244,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
                 param.authorId = info.getAuthorId();
                 param.searchPost = mRequestParam.searchPost;
             }
+            param.topicInfo = JSON.toJSONString(info);
 
             Intent intent = new Intent();
             Bundle bundle = new Bundle();

@@ -3,9 +3,9 @@ package sp.phone.ui.fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +20,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import sp.phone.ui.adapter.SearchHistoryAdapter;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.param.ParamKey;
 import sp.phone.task.SearchBoardTask;
 import sp.phone.util.ActivityUtils;
@@ -75,7 +75,7 @@ public class SearchHistoryBoardFragment extends BaseRxFragment {
 
     public void query(String query) {
 
-        if (TextUtils.isEmpty(query)) {
+        if (TextUtils.isEmpty(query) || mKeyList == null) {
             return;
         } else if (!mKeyList.contains(query)) {
             addHistory(query);

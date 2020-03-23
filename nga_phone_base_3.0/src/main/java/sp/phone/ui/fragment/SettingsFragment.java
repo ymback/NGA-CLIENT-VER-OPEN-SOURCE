@@ -8,7 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.WindowManager;
 
 import java.util.concurrent.TimeUnit;
@@ -17,7 +17,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.theme.ThemeManager;
 

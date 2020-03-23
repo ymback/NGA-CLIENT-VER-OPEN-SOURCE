@@ -5,16 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.FileProvider;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
+import androidx.core.content.FileProvider;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.justwen.androidnga.cloud.CloudServerManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -51,6 +52,8 @@ public class ImageZoomActivity extends BaseActivity {
     private SaveImageTask mSaveImageTask;
 
     private SaveImageTask.DownloadResult[] mDownloadResults;
+
+    private String mCurrentUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +92,12 @@ public class ImageZoomActivity extends BaseActivity {
     private void receiveIntent() {
         Intent intent = getIntent();
         mGalleryUrls = intent.getStringArrayExtra(KEY_GALLERY_URLS);
-        String curUrl = intent.getStringExtra(KEY_GALLERY_CUR_URL);
-        if (mGalleryUrls == null) {
+        mCurrentUrl = intent.getStringExtra(KEY_GALLERY_CUR_URL);
+        if (mGalleryUrls == null ) {
             mGalleryUrls = new String[1];
-            mGalleryUrls[0] = curUrl;
+            mGalleryUrls[0] = mCurrentUrl;
         }
-        mPageIndex = Arrays.asList(mGalleryUrls).indexOf(curUrl);
+        mPageIndex = Arrays.asList(mGalleryUrls).indexOf(mCurrentUrl);
         if (mPageIndex < 0) {
             mPageIndex = 0;
         }
@@ -167,6 +170,9 @@ public class ImageZoomActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_share:
+                if (mDownloadResults.length == 0) {
+                    CloudServerManager.putCrashData(this, "mCurrentUrl", mCurrentUrl);
+                }
                 if (mDownloadResults[mPageIndex] != null) {
                     share(mDownloadResults[mPageIndex].file);
                 } else {

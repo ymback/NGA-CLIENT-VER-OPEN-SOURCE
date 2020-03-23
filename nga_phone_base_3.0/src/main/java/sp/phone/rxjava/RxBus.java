@@ -1,6 +1,6 @@
 package sp.phone.rxjava;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import io.reactivex.Flowable;
 import io.reactivex.processors.FlowableProcessor;

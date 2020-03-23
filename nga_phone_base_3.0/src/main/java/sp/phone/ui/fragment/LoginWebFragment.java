@@ -2,7 +2,7 @@ package sp.phone.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,7 @@ import sp.phone.util.StringUtils;
 
 public class LoginWebFragment extends BaseFragment {
 
-    private static final String URL_LOGIN = "https://bbs.nga.cn/nuke.php?__lib=login&__act=account&login";
+    private static final String URL_LOGIN = "https://ngabbs.com/nuke.php?__lib=login&__act=account&login";
 
     private static final int MAX_PROGRESS = 100;
 

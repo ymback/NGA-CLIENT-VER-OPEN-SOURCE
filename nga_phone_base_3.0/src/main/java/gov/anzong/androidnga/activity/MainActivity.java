@@ -5,8 +5,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,6 +25,7 @@ import sp.phone.ui.fragment.NavigationDrawerFragment;
 import sp.phone.ui.fragment.dialog.UrlInputDialogFragment;
 import sp.phone.ui.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.theme.ThemeManager;
+import sp.phone.util.ARouterUtils;
 import sp.phone.util.ActivityUtils;
 import gov.anzong.androidnga.base.util.PermissionUtils;
 
@@ -45,6 +46,13 @@ public class MainActivity extends BaseActivity {
         initView();
         mIsNightMode = ThemeManager.getInstance().isNightMode();
         setTitle(R.string.start_title);
+        fixMultiMainActivityIssue();
+    }
+
+    private void fixMultiMainActivityIssue() {
+        if (!isTaskRoot()) {
+            finish();
+        }
     }
 
     @Override
@@ -121,6 +129,9 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_gun:
                 startNotificationActivity();
                 break;
+            case R.id.menu_download:
+                startActivity(new Intent(this,TopicCacheActivity.class));
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -134,7 +145,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startMessageActivity() {
-        ARouter.getInstance()
+        ARouterUtils
                 .build(ARouterConstants.ACTIVITY_MESSAGE_LIST)
                 .navigation(this);
     }
@@ -160,7 +171,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startNotificationActivity() {
-        ARouter.getInstance()
+        ARouterUtils
                 .build(ARouterConstants.ACTIVITY_NOTIFICATION)
                 .navigation(this);
     }
@@ -169,7 +180,7 @@ public class MainActivity extends BaseActivity {
     private void startPostActivity(boolean isReply) {
         User user = UserManagerImpl.getInstance().getActiveUser();
         String userName = user != null ? user.getNickName() : "";
-        Postcard postcard = ARouter.getInstance()
+        Postcard postcard = ARouterUtils
                 .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                 .withString(ParamKey.KEY_AUTHOR, userName);
         if (isReply) {
@@ -179,7 +190,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startFavoriteTopicActivity() {
-        ARouter.getInstance()
+        ARouterUtils
                 .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                 .withInt(ParamKey.KEY_FAVOR, 1)
                 .navigation(this);

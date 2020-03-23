@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 
 import gov.anzong.androidnga.base.util.ThemeUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
 import sp.phone.ui.fragment.SettingsFragment;
 
 public class SettingsActivity extends BaseActivity {
@@ -26,7 +27,7 @@ public class SettingsActivity extends BaseActivity {
         }
         if (mRecreated) {
             View contentView = findViewById(android.R.id.content);
-            contentView.post(() -> startAnimation(contentView));
+            ThreadUtils.postOnMainThread(() -> startAnimation(contentView));
             mRecreated = false;
             ThemeUtils.init(this);
             setResult(Activity.RESULT_OK);

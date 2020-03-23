@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
@@ -52,7 +52,7 @@ public class AboutActivity extends MaterialAboutActivity {
                         intent.setData(Uri.parse(url));
                         startActivity(intent);
                     } catch (ActivityNotFoundException e) {
-                        FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://www.coolapk.com/apk/gov.anzong.androidnga");
+                        //FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://www.coolapk.com/apk/gov.anzong.androidnga");
                     }
                 })
                 .build());
@@ -67,6 +67,17 @@ public class AboutActivity extends MaterialAboutActivity {
 
                 })
                 .icon(R.drawable.ic_license)
+                .build());
+
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("检测更新")
+                .setOnClickAction(() -> {
+                    Intent intent = new Intent(AboutActivity.this, WebViewerActivity.class);
+                    intent.putExtra("path", "https://github.com/Justwen/NGA-CLIENT-VER-OPEN-SOURCE/releases");
+                    startActivity(intent);
+
+                })
+                .icon(R.drawable.ic_update_24dp)
                 .build());
 
         return builder.build();
@@ -90,7 +101,7 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Github")
                 .subText("bug & 建议")
-                .setOnClickAction(() -> FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://github.com/ymback/NGA-CLIENT-VER-OPEN-SOURCE/issues"))
+                .setOnClickAction(() -> FunctionUtils.openUrlByDefaultBrowser(AboutActivity.this, "https://github.com/Justwen/NGA-CLIENT-VER-OPEN-SOURCE/issues"))
                 .icon(R.drawable.ic_github)
                 .build());
 
@@ -105,6 +116,12 @@ public class AboutActivity extends MaterialAboutActivity {
                 .text("客户端吐槽QQ群,欢迎加入捡肥皂")
                 .subText("714556852")
                 .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "714556852"))
+                .icon(R.drawable.ic_qq)
+                .build());
+        builder.addItem(new MaterialAboutActionItem.Builder()
+                .text("客户端问题反馈群，请勿开车！")
+                .subText("1077054628")
+                .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "1077054628"))
                 .icon(R.drawable.ic_qq)
                 .build());
 

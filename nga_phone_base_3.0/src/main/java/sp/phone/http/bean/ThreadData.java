@@ -12,6 +12,11 @@ public class ThreadData {
     private int __ROWS;
     private int rowNum;
 
+    /**
+     * 从服务端获取的原始数据
+     */
+    private String mRawData;
+
     public List<ThreadRowInfo> getRowList() {
         return rowList;
     }
@@ -52,5 +57,11 @@ public class ThreadData {
         this.rowNum = rowNum;
     }
 
+    public String getRawData() {
+        return mRawData;
+    }
 
+    public void setRawData(String rawData) {
+        mRawData = rawData;
+    }
 }

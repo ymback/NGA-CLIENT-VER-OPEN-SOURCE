@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import sp.phone.common.PreferenceKey;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 

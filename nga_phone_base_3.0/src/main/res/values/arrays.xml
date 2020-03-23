@@ -58,6 +58,7 @@
         <item>http://bbs.nga.cn</item>
         <item>http://nga.178.com"</item>
         <item>http://nga.donews.com</item>
+        <item>https://ngabbs.com</item>
     </string-array>
 
     <string-array name="nga_domain_no_http">
@@ -65,6 +66,7 @@
         <item>bbs.nga.cn</item>
         <item>nga.178.com"</item>
         <item>nga.donews.com</item>
+        <item>ngabbs.com</item>
     </string-array>
 
     <string-array name="nga_domain_value">
@@ -72,6 +74,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 
 </resources>

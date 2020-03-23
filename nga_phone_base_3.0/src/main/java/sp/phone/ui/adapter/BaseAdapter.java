@@ -1,11 +1,15 @@
 package sp.phone.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.justwen.androidnga.cloud.CloudServerManager;
+
 import java.util.List;
+
+import sp.phone.mvp.model.entity.ThreadPageInfo;
 
 /**
  * Created by Justwen on 2018/3/23.
@@ -44,7 +48,18 @@ public abstract class BaseAdapter<E, T extends RecyclerView.ViewHolder> extends 
 
     public void removeItem(E e) {
         int index = mDataList.indexOf(e);
+        if (index == -1) {
+            uploadCrashInfo(e);
+        }
         removeItem(index);
+    }
+
+    private void uploadCrashInfo(E e) {
+        if (e instanceof ThreadPageInfo) {
+            CloudServerManager.putCrashData(mContext, "ThreadPageInfo", e.toString());
+            CloudServerManager.putCrashData(mContext, "ThreadPageInfo_exist", mDataList.get(((ThreadPageInfo) e).getPage()).toString());
+        }
+
     }
 
     public void clear() {

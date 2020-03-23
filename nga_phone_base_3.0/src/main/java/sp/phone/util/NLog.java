@@ -74,7 +74,7 @@ public class NLog {
 
 
     // 可以打印行数
-    public static void d(String msg) {
+    public static void d(Object msg) {
         if (sDebugMode) {
             StackTraceElement[] elements = Thread.currentThread().getStackTrace();
             if (elements.length < 3) {
@@ -87,6 +87,33 @@ public class NLog {
                     int lineNumber = elements[3].getLineNumber();
                     Log.d(TAG, className + "." + methodName + "():"
                             + lineNumber + " " + msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void print(Throwable throwable) {
+        if (sDebugMode) {
+            String msg = Log.getStackTraceString(throwable);
+            Log.w(TAG, msg);
+        }
+    }
+
+    public static void d() {
+        if (sDebugMode) {
+            StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+            if (elements.length < 3) {
+                Log.e(TAG, "Stack to shallow");
+            } else {
+                try {
+                    String fullClassName = elements[3].getClassName();
+                    String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+                    String methodName = elements[3].getMethodName();
+                    int lineNumber = elements[3].getLineNumber();
+                    Log.d(TAG, className + "." + methodName + "():"
+                            + lineNumber);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

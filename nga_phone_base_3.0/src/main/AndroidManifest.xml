@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove"/>
+
     <application
         android:name=".NgaClientApp"
         android:anyDensity="false"
@@ -111,6 +113,16 @@
                     android:path="/thread.php"
                     android:scheme="https" />
 
+                <data
+                    android:host="ngabbs.com"
+                    android:path="/thread.php"
+                    android:scheme="https" />
+
+                <data
+                    android:host="ngabbs.com"
+                    android:path="/thread.php"
+                    android:scheme="https" />
+
             </intent-filter>
         </activity>
 
@@ -151,6 +163,16 @@
                     android:path="/read.php"
                     android:scheme="https" />
 
+                <data
+                    android:host="ngabbs.com"
+                    android:path="/read.php"
+                    android:scheme="https" />
+
+                <data
+                    android:host="ngabbs.com"
+                    android:path="/read.php"
+                    android:scheme="https" />
+
             </intent-filter>
         </activity>
         <activity android:name=".gallery.ImageZoomActivity" />
@@ -165,8 +187,11 @@
             android:name=".activity.AboutActivity"
             android:label="@string/title_about" />
 
+        <activity android:name=".activity.TopicCacheActivity" android:label="我的缓存" />
+        <activity android:name=".activity.ArticleCacheActivity" />
+
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}"
             android:exported="false"
             android:grantUriPermissions="true">

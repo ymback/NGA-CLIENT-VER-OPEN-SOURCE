@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -82,7 +82,7 @@ public class UrlInputDialogFragment extends BaseDialogFragment {
 
         ClipboardManager clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         if (clipboardManager != null && clipboardManager.hasPrimaryClip()) {
-            String clipData = clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();
+            CharSequence clipData = clipboardManager.getPrimaryClip().getItemAt(0).getText();
             if (!TextUtils.isEmpty(clipData)) {
                 mUrlAddEditText.setText(clipData);
                 mUrlAddEditText.selectAll();

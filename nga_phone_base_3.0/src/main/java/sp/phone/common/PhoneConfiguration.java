@@ -14,6 +14,7 @@ import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
 
 public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
     public Class<?> topicActivityClass = TopicListActivity.class;
@@ -159,7 +160,12 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     }
 
     public int getAvatarSize() {
-        return PreferenceUtils.getData(PreferenceKey.KEY_AVATAR_SIZE, Constants.AVATAR_SIZE_DEFAULT);
+        try {
+            return PreferenceUtils.getData(PreferenceKey.KEY_AVATAR_SIZE, Constants.AVATAR_SIZE_DEFAULT);
+        } catch (Exception e) {
+            setAvatarSize(Constants.AVATAR_SIZE_DEFAULT);
+            return Constants.AVATAR_SIZE_DEFAULT;
+        }
     }
 
     public void setAvatarSize(int value) {
@@ -188,10 +194,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     public void setTopicContentSize(int size) {
         PreferenceUtils.putData(PreferenceKey.KEY_TOPIC_CONTENT_SIZE, size);
-    }
-
-    public boolean useOldWebCore() {
-        return PreferenceUtils.getData(PreferenceKey.KEY_USE_OLD_WEB_CORE, false);
     }
 
     public boolean useSolidColorBackground() {

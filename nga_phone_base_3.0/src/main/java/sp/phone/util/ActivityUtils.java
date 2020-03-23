@@ -5,16 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
@@ -44,13 +44,13 @@ public class ActivityUtils {
 
     public static void showToast(Context context, int resId) {
         if (context != null) {
-            Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(resId);
         }
     }
 
     public static void showToast(Context context, String res) {
         if (context != null) {
-            Toast.makeText(context, res, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(res);
         }
     }
 

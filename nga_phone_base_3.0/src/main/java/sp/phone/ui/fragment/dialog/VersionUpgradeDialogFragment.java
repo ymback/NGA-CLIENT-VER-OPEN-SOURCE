@@ -3,7 +3,7 @@ package sp.phone.ui.fragment.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.lang.reflect.Field;
 
@@ -33,7 +33,7 @@ public class VersionUpgradeDialogFragment extends BaseDialogFragment {
             Class clz = VersionUpgradeTips.class;
             Field field = clz.getDeclaredField("TIPS_" + BuildConfig.VERSION_CODE);
             return (String) field.get(null);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;

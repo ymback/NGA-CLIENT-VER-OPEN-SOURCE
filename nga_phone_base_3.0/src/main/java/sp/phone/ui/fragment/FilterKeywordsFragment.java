@@ -1,10 +1,10 @@
 package sp.phone.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,14 +35,14 @@ public class FilterKeywordsFragment extends BaseFragment implements View.OnClick
         super.onCreate(savedInstanceState);
     }
 
-    @android.support.annotation.Nullable
+    @androidx.annotation.Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @android.support.annotation.Nullable ViewGroup container, @android.support.annotation.Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @androidx.annotation.Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_filter_keywords, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @android.support.annotation.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @androidx.annotation.Nullable Bundle savedInstanceState) {
         mListAdapter = new FilterKeywordsAdapter(getContext(), mFilterKeywordsManager.getKeywords());
         mListAdapter.setOnClickListener(this);
 

@@ -32,6 +32,10 @@
       {
         "fid": 193,
         "name": "账号安全"
+      },
+      {
+        "fid": 624,
+        "name": "经典旧世"
       }
     ]
   },
@@ -390,6 +394,10 @@
         "fid": -152678,
         "name": "英雄联盟",
         "info": "League Of Legends"
+      },
+      {
+        "name": "Dota2",
+        "fid": 321
       },
       {
         "name": "Nintendo游戏综合讨论",

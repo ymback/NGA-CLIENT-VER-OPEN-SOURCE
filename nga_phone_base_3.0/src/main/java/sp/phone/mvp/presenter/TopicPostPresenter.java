@@ -19,6 +19,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.common.util.EmoticonUtils;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.param.PostParam;
 import sp.phone.ui.fragment.TopicPostFragment;
@@ -27,7 +28,6 @@ import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.ActivityUtils;
-import sp.phone.util.EmoticonUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
 

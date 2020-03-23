@@ -280,4 +280,25 @@ public interface VersionUpgradeTips {
             + "● 解决复制光标难以拖动的问题\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen][@Elrond]\n"
             + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_2120 = "更新内容\n"
+            + "● 在其他游戏分类中增加Dota2板块\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_2121 = "更新内容\n"
+            + "● 新增经典旧世板块\n"
+            + "● 支持NGA新域名ngabbs.com\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_2122 = "更新内容\n"
+            + "● 新增缓存主题内容功能\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,欢迎加入捡肥皂\n";
+
+    String TIPS_3000 = "更新内容\n"
+            + "● 新增缓存主题内容功能\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,\n";
 }

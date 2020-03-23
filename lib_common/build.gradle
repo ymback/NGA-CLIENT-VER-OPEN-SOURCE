@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion project.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    implementation "com.google.android.material:material:1.0.0"
+
+    api 'com.github.tbruyelle:rxpermissions:0.10.2'
+    api 'io.reactivex.rxjava2:rxjava:2.1.5'
+    implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
+    implementation 'net.steamcrafted:load-toast:1.0.12'
+    implementation 'com.github.GrenderG:Toasty:1.4.1'
+    api('com.zhouyou:signseekbar:1.0.6') {
+        exclude group: 'com.android.support'
+    }
+    api('com.nshmura:recyclertablayout:1.5.0') {
+        exclude group: 'com.android.support'
+    }
+
+    api "androidx.appcompat:appcompat:$androidxAppcompat"
+    api "com.alibaba:fastjson:$project.fastJson"
+    api "io.reactivex.rxjava2:rxandroid:$project.rxAndroid"
+
+    api files('libs/commons-io-2.4.jar')
+}

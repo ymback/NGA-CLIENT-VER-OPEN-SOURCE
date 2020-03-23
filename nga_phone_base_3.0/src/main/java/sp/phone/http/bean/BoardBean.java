@@ -2,6 +2,8 @@ package sp.phone.http.bean;
 
 import java.util.List;
 
+import gov.anzong.androidnga.common.base.JavaBean;
+
 /**
  * Created by Justwen on 2019/6/16.
  */

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 
 /**
@@ -23,7 +24,7 @@ public class TopicFavoriteFragment extends TopicSearchFragment implements View.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toast.makeText(getActivity(), "长按可删除收藏的帖子", Toast.LENGTH_SHORT).show();
+        ToastUtils.info("长按可删除收藏的帖子");
         mAdapter.setOnLongClickListener(this);
     }
 
