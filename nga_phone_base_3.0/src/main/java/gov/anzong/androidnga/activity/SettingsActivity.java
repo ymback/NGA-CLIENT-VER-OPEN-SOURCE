@@ -26,8 +26,6 @@ public class SettingsActivity extends BaseActivity {
             mRecreated = savedInstanceState.getBoolean(KEY_RECREATE);
         }
         if (mRecreated) {
-            View contentView = findViewById(android.R.id.content);
-            ThreadUtils.postOnMainThread(() -> startAnimation(contentView));
             mRecreated = false;
             ThemeUtils.init(this);
             setResult(Activity.RESULT_OK);
