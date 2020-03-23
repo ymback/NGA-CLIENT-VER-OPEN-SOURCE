@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 import gov.anzong.androidnga.common.util.StringUtils;
-import gov.anzong.androidnga.core.build.HtmlBuilder;
+import gov.anzong.androidnga.core.corebuild.HtmlBuilder;
 import gov.anzong.androidnga.core.data.HtmlData;
 import gov.anzong.androidnga.core.decode.ForumDecoder;
 
