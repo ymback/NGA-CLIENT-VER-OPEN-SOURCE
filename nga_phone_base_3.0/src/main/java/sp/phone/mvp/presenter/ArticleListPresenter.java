@@ -35,24 +35,28 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
     private OnHttpCallBack<ThreadData> mDataCallBack = new OnHttpCallBack<ThreadData>() {
         @Override
         public void onError(String text) {
-            mBaseView.hideLoadingView();
-            mBaseView.setRefreshing(false);
-            mBaseView.showToast(text);
+            if (mBaseView != null) {
+                mBaseView.hideLoadingView();
+                mBaseView.setRefreshing(false);
+                mBaseView.showToast(text);
+            }
         }
 
         @Override
         public void onSuccess(ThreadData data) {
-            mThreadData = data;
-            mBaseView.setRefreshing(false);
-            mBaseView.setData(data);
-            RxUtils.postDelay(300, new BaseSubscriber<Long>() {
-                @Override
-                public void onNext(Long aLong) {
-                    if (mBaseView != null) {
-                        mBaseView.hideLoadingView();
+            if (mBaseView != null) {
+                mThreadData = data;
+                mBaseView.setRefreshing(false);
+                mBaseView.setData(data);
+                RxUtils.postDelay(300, new BaseSubscriber<Long>() {
+                    @Override
+                    public void onNext(Long aLong) {
+                        if (mBaseView != null) {
+                            mBaseView.hideLoadingView();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     };
 
