@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:1.1.0"
 
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
     api 'io.reactivex.rxjava2:rxjava:2.1.5'
