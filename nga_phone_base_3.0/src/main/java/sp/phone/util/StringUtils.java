@@ -22,7 +22,7 @@ import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.common.util.EmoticonUtils;
 import sp.phone.http.bean.StringFindResult;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.theme.ThemeManager;
 
 @SuppressLint("SimpleDateFormat")
@@ -36,7 +36,7 @@ public class StringUtils {
     private static final String ignoreCaseTag = "(?i)";
     private static final String endDiv = "</div>";
 
-    private static final String[] SAYING = ApplicationContextHolder.getResources().getStringArray(R.array.saying);
+    private static final String[] SAYING = ContextUtils.getResources().getStringArray(R.array.saying);
 
     /**
      * 验证是否是邮箱

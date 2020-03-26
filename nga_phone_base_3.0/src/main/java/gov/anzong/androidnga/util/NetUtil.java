@@ -4,8 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 
 /**
  * Created by elrond on 2016/12/22.
@@ -17,7 +17,7 @@ public class NetUtil {
 
     public static NetUtil getInstance() {
         if (mInstance == null) {
-            mInstance = new NetUtil(ApplicationContextHolder.getContext());
+            mInstance = new NetUtil(ContextUtils.getContext());
         }
         return mInstance;
     }

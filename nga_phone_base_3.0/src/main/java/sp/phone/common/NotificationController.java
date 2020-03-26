@@ -19,6 +19,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.MessageListActivity;
 import gov.anzong.androidnga.activity.RecentNotificationActivity;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.model.entity.NotificationInfo;
@@ -68,7 +69,7 @@ public class NotificationController {
     private NotificationController() {
         mNotificationTask = new ForumNotificationTask(null);
         mConfiguration = PhoneConfiguration.getInstance();
-        createNotificationChannel(ApplicationContextHolder.getContext());
+        createNotificationChannel(ContextUtils.getContext());
     }
 
     public void checkNotificationDelay() {
@@ -97,7 +98,7 @@ public class NotificationController {
         }
 
         if (!recentReplyList.isEmpty()) {
-            PreferenceManager.getDefaultSharedPreferences(ApplicationContextHolder.getContext())
+            PreferenceManager.getDefaultSharedPreferences(ContextUtils.getContext())
                     .edit().putInt(PreferenceKey.KEY_REPLY_COUNT, recentReplyList.size()).apply();
             showReplyNotification(recentReplyList);
         }
@@ -106,7 +107,7 @@ public class NotificationController {
     private void showReplyNotification(ArrayList<RecentReplyInfo> infoList) {
 
         int id = Integer.parseInt(infoList.get(0).getPidStr());
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
 
         Intent intent = new Intent(context, RecentNotificationActivity.class);
 
@@ -127,7 +128,7 @@ public class NotificationController {
     }
 
     private void showMessageNotification() {
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
 
         Intent intent = new Intent(context, MessageListActivity.class);
 

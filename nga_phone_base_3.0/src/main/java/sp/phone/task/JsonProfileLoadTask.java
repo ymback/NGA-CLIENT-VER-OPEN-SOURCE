@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 import sp.phone.http.bean.AdminForumsData;
 import sp.phone.http.bean.ProfileData;
 import sp.phone.http.bean.ReputationData;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.http.OnHttpCallBack;
 import sp.phone.http.retrofit.RetrofitHelper;
@@ -81,7 +81,7 @@ public class JsonProfileLoadTask {
 
     private ProfileData parseJsonPage(String js) {
         if (StringUtils.isEmpty(js)) {
-            mErrorMsg = ApplicationContextHolder.getString(R.string.network_error);
+            mErrorMsg = ContextUtils.getString(R.string.network_error);
             throw new IllegalStateException();
         }
         js = js.replaceAll("window.script_muti_get_var_store=", "");

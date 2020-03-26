@@ -32,7 +32,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import sp.phone.http.bean.TopicPostBean;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.param.ParamKey;
 import sp.phone.param.PostParam;
 import sp.phone.http.OnHttpCallBack;
@@ -139,7 +139,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     @Override
     public void post(PostParam postParam, TopicPostTask.CallBack callBack) {
-        new TopicPostTask(ApplicationContextHolder.getContext(), callBack).execute(postParam.toString());
+        new TopicPostTask(ContextUtils.getContext(), callBack).execute(postParam.toString());
     }
 
     @Override
@@ -155,7 +155,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .map(new Function<Uri, MultipartBody>() {
                     @Override
                     public MultipartBody apply(Uri uri) throws Exception {
-                        Context context = ApplicationContextHolder.getContext();
+                        Context context = ContextUtils.getContext();
                         ContentResolver cr = context.getContentResolver();
 
                         ParcelFileDescriptor pfd = cr.openFileDescriptor(uri, "r");

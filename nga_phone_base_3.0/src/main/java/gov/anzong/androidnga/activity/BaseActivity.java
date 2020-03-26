@@ -20,7 +20,7 @@ import gov.anzong.androidnga.base.common.SwipeBackHelper;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.NLog;
@@ -69,7 +69,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initBaseModule() {
         ContextUtils.setContext(this);
-        ApplicationContextHolder.setContext(this);
     }
 
     protected void setSwipeBackEnable(boolean enable) {

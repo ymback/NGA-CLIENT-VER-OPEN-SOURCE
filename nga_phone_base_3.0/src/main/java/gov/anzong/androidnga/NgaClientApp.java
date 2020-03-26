@@ -11,7 +11,7 @@ import com.justwen.androidnga.cloud.CloudServerManager;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.common.util.ReflectUtils;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
@@ -27,7 +27,6 @@ public class NgaClientApp extends Application {
     @Override
     public void onCreate() {
         NLog.w(TAG, "app nga android start");
-        ApplicationContextHolder.setContext(this);
         ContextUtils.setApplication(this);
         VersionUpgradeHelper.upgrade();
         initCoreModule();

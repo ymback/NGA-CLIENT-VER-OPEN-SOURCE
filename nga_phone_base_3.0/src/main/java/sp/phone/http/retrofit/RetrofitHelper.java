@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.http.retrofit.converter.JsonStringConvertFactory;
@@ -28,7 +28,7 @@ public class RetrofitHelper {
     private static final String URL_NGA_BASE_CC = "https://bbs.ngacn.cc/";
 
     private RetrofitHelper() {
-        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences sp = ContextUtils.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         String baseUrl = ForumUtils.getAvailableDomain();
         mRetrofit = createRetrofit(baseUrl);
 

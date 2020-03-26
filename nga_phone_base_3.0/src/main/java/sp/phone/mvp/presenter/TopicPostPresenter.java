@@ -20,7 +20,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.util.EmoticonUtils;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.param.PostParam;
 import sp.phone.ui.fragment.TopicPostFragment;
 import sp.phone.http.OnHttpCallBack;
@@ -230,7 +230,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(selectedImagePath2, options);
-            DisplayMetrics dm = ApplicationContextHolder.getResources().getDisplayMetrics();
+            DisplayMetrics dm = ContextUtils.getResources().getDisplayMetrics();
 
             int screenWidth = (int) (dm.widthPixels * 0.75);
             int screenHeight = (int) (dm.heightPixels * 0.75);

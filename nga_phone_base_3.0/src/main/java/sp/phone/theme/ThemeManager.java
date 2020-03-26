@@ -15,7 +15,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 

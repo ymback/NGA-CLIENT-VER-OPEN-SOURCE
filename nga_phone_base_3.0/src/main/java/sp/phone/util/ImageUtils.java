@@ -33,10 +33,8 @@ import java.util.zip.ZipFile;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.util.GlideApp;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.common.PhoneConfiguration;
-
-import static sp.phone.common.ApplicationContextHolder.getResources;
 
 public class ImageUtils {
     static final String LOG_TAG = ImageUtils.class.getSimpleName();
@@ -48,7 +46,7 @@ public class ImageUtils {
 
     // Convert to pixels
     public static int DtoP(int dValue) {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        DisplayMetrics metrics = ContextUtils.getResources().getDisplayMetrics();
         float ret = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dValue, metrics);
         return (int) ret;
     }
@@ -316,7 +314,7 @@ public class ImageUtils {
 
     @SuppressWarnings("ResourceType")
     public static Bitmap loadDefaultAvatar() {
-        Resources res = getResources();
+        Resources res = ContextUtils.getResources();
         InputStream is = res.openRawResource(R.drawable.default_avatar);
         InputStream is2 = res.openRawResource(R.drawable.default_avatar);
         return loadAvatarFromStream(is, is2);
@@ -456,7 +454,7 @@ public class ImageUtils {
     }
 
     public static void loadRoundCornerAvatar(ImageView imageView, String url, boolean onlyRetrieveFromCache) {
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
         if (sDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
@@ -465,7 +463,7 @@ public class ImageUtils {
             imageView.setImageDrawable(sDefaultAvatar);
             return;
         }
-        GlideApp.with(ApplicationContextHolder.getContext())
+        GlideApp.with(ContextUtils.getContext())
                 .load(url)
                 .placeholder(sDefaultAvatar)
                 .circleCrop()
@@ -484,12 +482,12 @@ public class ImageUtils {
     }
 
     public static void loadAvatar(ImageView imageView, String url) {
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
         if (sDefaultAvatar == null) {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
         }
-        GlideApp.with(ApplicationContextHolder.getContext())
+        GlideApp.with(ContextUtils.getContext())
                 .load(url)
                 .placeholder(sDefaultAvatar)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
