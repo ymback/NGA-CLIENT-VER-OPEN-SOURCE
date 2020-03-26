@@ -8,6 +8,10 @@ import com.justwen.androidnga.cloud.base.VersionBean;
 import com.justwen.androidnga.cloud.lean.LeanDataBase;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.PreferenceUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
+
 /**
  * @author yangyihang
  */
@@ -20,9 +24,6 @@ public class CloudServerManager {
         if (!BuildConfig.DEBUG) {
             CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), false);
         }
-
-        sCloudDataBase = new LeanDataBase(createVersionBean());
-        sCloudDataBase.init(context);
     }
 
     public static void putCrashData(Context context, String key, String value) {
@@ -30,18 +31,26 @@ public class CloudServerManager {
     }
 
     public static void uploadNewVersionInfo() {
+        if (sCloudDataBase == null) {
+            sCloudDataBase = new LeanDataBase(createVersionBean());
+            sCloudDataBase.init(ContextUtils.getApplication());
+        }
         sCloudDataBase.uploadVersionInfo();
     }
 
     private static VersionBean createVersionBean() {
         VersionBean versionBean = new VersionBean();
-        versionBean.versionName = BuildConfig.VERSION_NAME;
+        int majorCode = PreferenceUtils.getData(PreferenceKey.VERSION_MAJOR_CODE, 0);
+        int mirrorCode = PreferenceUtils.getData(PreferenceKey.VERSION_MIRROR_CODE, 0);
+        versionBean.versionName = majorCode + "." + mirrorCode + ".0";
         versionBean.androidVersion = String.valueOf(Build.VERSION.SDK_INT);
         versionBean.versionCode = BuildConfig.VERSION_CODE;
         return versionBean;
     }
 
     public static void checkUpgrade() {
-        sCloudDataBase.checkUpgrade();
+//        if (sCloudDataBase != null) {
+//            sCloudDataBase.checkUpgrade();
+//        }
     }
 }

@@ -1,19 +1,21 @@
 package gov.anzong.androidnga;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Process;
 import android.webkit.WebView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.justwen.androidnga.cloud.CloudServerManager;
 
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import gov.anzong.androidnga.base.util.ContextUtils;
-import gov.anzong.androidnga.common.util.ReflectUtils;
-import gov.anzong.androidnga.base.util.ContextUtils;;
-import sp.phone.common.FilterKeywordsManagerImpl;
+import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
+import gov.anzong.androidnga.common.util.ReflectUtils;
+import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
 import sp.phone.util.NLog;
@@ -65,12 +67,24 @@ public class NgaClientApp extends Application {
     }
 
     private void checkNewVersion() {
+        try {
+            Matcher matcher = Pattern.compile("([0-9]+)\\.([0-9]+)\\.([0-9]+)").matcher(BuildConfig.VERSION_NAME);
+            if (matcher.find()) {
+                int majorCode = Integer.parseInt(Objects.requireNonNull(matcher.group(1)));
+                int mirrorCode = Integer.parseInt(Objects.requireNonNull(matcher.group(2)));
 
-        SharedPreferences sp = getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
-        int versionCode = BuildConfig.VERSION_CODE;
-        if (sp.getInt(PreferenceKey.VERSION, 0) < versionCode) {
-            sp.edit().putInt(PreferenceKey.VERSION, versionCode).apply();
-            mNewVersion = true;
+                if (majorCode > PreferenceUtils.getData(PreferenceKey.VERSION_MAJOR_CODE, 0)
+                        || mirrorCode > PreferenceUtils.getData(PreferenceKey.VERSION_MIRROR_CODE, 0)) {
+                    PreferenceUtils.putData(PreferenceKey.VERSION_MAJOR_CODE, majorCode);
+                    PreferenceUtils.putData(PreferenceKey.VERSION_MIRROR_CODE, mirrorCode);
+                    mNewVersion = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (mNewVersion) {
             CloudServerManager.uploadNewVersionInfo();
         }
     }
