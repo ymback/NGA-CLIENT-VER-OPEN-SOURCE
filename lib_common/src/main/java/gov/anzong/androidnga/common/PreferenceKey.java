@@ -79,4 +79,6 @@ public interface PreferenceKey {
     public static final String KEY_CHECK_UPGRADE_STATE = "key_check_upgrade_state";
 
     public static final String KEY_CHECK_UPGRADE_TIME = "key_check_upgrade_time";
+
+    public static final String KEY_NIGHT_MODE_FOLLOW_SYSTEM = "key_night_mode_follow_system";
 }

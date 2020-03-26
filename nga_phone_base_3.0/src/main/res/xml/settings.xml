@@ -24,6 +24,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="key_night_mode_follow_system"
+            android:title="夜间模式跟随系统"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="left_hand"
             android:title="@string/setting_title_left_hand" />
 

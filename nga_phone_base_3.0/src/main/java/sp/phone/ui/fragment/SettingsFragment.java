@@ -1,6 +1,5 @@
 package sp.phone.ui.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -8,17 +7,17 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
-import androidx.annotation.Nullable;
+import android.preference.SwitchPreference;
 import android.view.WindowManager;
 
-import java.util.concurrent.TimeUnit;
+import androidx.annotation.Nullable;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import gov.anzong.androidnga.activity.SettingsActivity;
+import gov.anzong.androidnga.base.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
-import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.theme.ThemeManager;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
@@ -47,8 +46,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void configPreference() {
-        if (ThemeManager.getInstance().isNightMode()) {
-            findPreference(PreferenceKey.MATERIAL_THEME).setEnabled(false);
+        SwitchPreference followSystemPref = (SwitchPreference) findPreference(PreferenceKey.KEY_NIGHT_MODE_FOLLOW_SYSTEM);
+        findPreference(PreferenceKey.NIGHT_MODE).setEnabled(!followSystemPref.isChecked());
+        findPreference(PreferenceKey.MATERIAL_THEME).setEnabled(!ThemeManager.getInstance().isNightMode());
+        if (!DeviceUtils.isGreaterEqual_9_0()) {
+            followSystemPref.getParent().removePreference(followSystemPref);
         }
     }
 
@@ -68,19 +70,16 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         String key = preference.getKey();
         switch (key) {
             case PreferenceKey.NIGHT_MODE:
-            case PreferenceKey.MATERIAL_THEME:
-                Observable.timer(0, TimeUnit.MILLISECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<Long>() {
-                            @Override
-                            public void onNext(Long aLong) {
-                                getActivity().recreate();
-                            }
-                        });
-                getActivity().setResult(Activity.RESULT_OK);
+            case PreferenceKey.KEY_NIGHT_MODE_FOLLOW_SYSTEM:
+                SettingsActivity.sRecreated = true;
                 break;
-            case PreferenceKey.SHOW_ICON_MODE:
-                getActivity().setResult(Activity.RESULT_OK);
+            case PreferenceKey.MATERIAL_THEME:
+                SettingsActivity.sRecreated = true;
+                ThreadUtils.postOnMainThreadDelay(() -> {
+                    if (getActivity() != null) {
+                        getActivity().recreate();
+                    }
+                }, 200);
                 break;
             default:
                 break;

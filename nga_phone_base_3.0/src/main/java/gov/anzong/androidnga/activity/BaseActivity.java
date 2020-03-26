@@ -2,16 +2,16 @@ package gov.anzong.androidnga.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.justwen.androidnga.cloud.CloudServerManager;
 
@@ -19,10 +19,9 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.common.SwipeBackHelper;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
-import gov.anzong.androidnga.base.util.ThreadUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
-import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.NLog;
 
@@ -144,11 +143,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void updateThemeUi() {
         ThemeManager tm = ThemeManager.getInstance();
         setTheme(tm.getTheme(mToolbarEnabled));
-        if (tm.isNightMode()) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     protected void updateWindowFlag() {
