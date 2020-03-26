@@ -12,8 +12,6 @@ import sp.phone.ui.fragment.SettingsFragment;
 
 public class SettingsActivity extends BaseActivity {
 
-    private static final String KEY_RECREATE = "recreate";
-
     public static boolean sRecreated;
 
     @Override
@@ -22,6 +20,7 @@ public class SettingsActivity extends BaseActivity {
         setupFragment();
         setupActionBar();
         if (sRecreated) {
+            getWindow().setWindowAnimations(android.R.style.Animation_Toast);
             sRecreated = false;
             ThemeUtils.init(this);
             setResult(Activity.RESULT_OK);

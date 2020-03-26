@@ -74,8 +74,6 @@ public interface PreferenceKey {
 
     public static final String KEY_USE_SOLID_COLOR_BG = "use_solid_color_bg";
 
-    public static final String KEY_BETA_FIX_NIGHT_THEME = "key_beta_fix_night_theme";
-
     public static final String KEY_CHECK_UPGRADE_STATE = "key_check_upgrade_state";
 
     public static final String KEY_CHECK_UPGRADE_TIME = "key_check_upgrade_time";

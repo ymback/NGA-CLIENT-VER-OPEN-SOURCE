@@ -40,7 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        initBaseModule();
+        ContextUtils.setContext(this);
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
@@ -54,10 +54,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             mSwipeBackHelper.onCreate(this);
         }
 
-        if (getResources().getBoolean(R.bool.night_mode) != ThemeManager.getInstance().isNightMode()) {
-            new WebView(this);
-        }
-
         try {
             if (ThemeManager.getInstance().isNightMode()) {
                 getWindow().setNavigationBarColor(ContextUtils.getColor(R.color.background_color));
@@ -65,10 +61,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         } catch (Exception e) {
             NLog.e("set navigation bar color exception occur: " + e);
         }
-    }
-
-    private void initBaseModule() {
-        ContextUtils.setContext(this);
     }
 
     protected void setSwipeBackEnable(boolean enable) {
@@ -192,6 +184,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         checkUpgrade();
+        ContextUtils.setContext(this);
         super.onResume();
     }
 

@@ -15,7 +15,6 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
-import gov.anzong.androidnga.base.util.ContextUtils;;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -88,6 +87,10 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         },200);
     }
 
+    public boolean isNightModeFollowSystem() {
+        return mNightModeFollowSystem;
+    }
+
     public void initializeWebTheme(Context context) {
         if (mWebViewTheme == null) {
             mWebViewTheme = new WebViewTheme(context);
@@ -107,11 +110,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     public boolean isNightMode() {
-        if (mNightModeFollowSystem) {
-            return ContextUtils.getResources().getBoolean(R.bool.night_mode);
-        } else {
-            return mNightMode;
-        }
+        return ContextUtils.getResources().getBoolean(R.bool.night_mode);
     }
 
     public void setNightMode(boolean isNightMode){

@@ -1,11 +1,10 @@
 package gov.anzong.androidnga.common.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ReflectUtils {
 
-    public static void invokeMehotd(Class<?> clz, Object obj, String methodName, Class<?>[] parameterTypes, Object[] params) {
+    public static void invokeMethod(Class<?> clz, Object obj, String methodName, Class<?>[] parameterTypes, Object[] params) {
         try {
             Method method = clz.getDeclaredMethod(methodName, parameterTypes);
             method.setAccessible(true);
@@ -13,6 +12,10 @@ public class ReflectUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void invokeMethod(Class<?> clz, String methodName) {
+        invokeMethod(clz, null, methodName, null, null);
     }
 
     public static Object invokeMethodAndGetResult(Class<?> clz, Object obj, String methodName, Class<?>[] parameterTypes, Object[] params) {

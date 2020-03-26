@@ -53,13 +53,7 @@ public class TopicListFragment extends TopicSearchFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        int layoutId;
-
-        if (mConfig.isBetaFixNightTheme()) {
-            layoutId = R.layout.fragment_topic_list_board_night;
-        } else {
-            layoutId = R.layout.fragment_topic_list_board;
-        }
+        int layoutId = R.layout.fragment_topic_list_board;;
         return inflater.inflate(layoutId, container, false);
     }
 
