@@ -102,7 +102,9 @@ public class SearchActivity extends BaseActivity {
             query = "";
         }
         SearchHistoryBoardFragment fragment = (SearchHistoryBoardFragment) getSupportFragmentManager().findFragmentByTag(mCurrentMode);
-        fragment.query(query.toString().trim().replaceAll("\\n", ""));
+        if (fragment != null) {
+            fragment.query(query.toString().trim().replaceAll("\\n", ""));
+        }
     }
 
 }

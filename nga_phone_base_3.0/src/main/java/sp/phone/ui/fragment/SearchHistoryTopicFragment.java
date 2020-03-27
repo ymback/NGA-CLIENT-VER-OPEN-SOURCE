@@ -51,7 +51,7 @@ public class SearchHistoryTopicFragment extends SearchHistoryBoardFragment {
 
     @Override
     public void query(String query) {
-        if (TextUtils.isEmpty(query)) {
+        if (TextUtils.isEmpty(query) || mKeyList == null) {
             return;
         } else if (!mKeyList.contains(query)) {
             addHistory(query);
