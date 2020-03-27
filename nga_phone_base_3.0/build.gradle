@@ -92,8 +92,9 @@ android {
 dependencies {
     implementation fileTree(include: '*.jar', dir: 'libs')
     implementation(name: 'floatingactionmenu', ext: 'aar')
+
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:$androidxMaterial"
     implementation "androidx.cardview:cardview:1.0.0"
     // implementation 'com.android.support:preference-v7:' + project.androidSupportVersion
 
