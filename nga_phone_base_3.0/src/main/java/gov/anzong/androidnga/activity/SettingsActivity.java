@@ -43,4 +43,9 @@ public class SettingsActivity extends BaseActivity {
         ViewAnimationUtils.createCircularReveal(contentView, cx, cy, 0f, finalRadius).start();
     }
 
+    @Override
+    protected void onDestroy() {
+        sRecreated = false;
+        super.onDestroy();
+    }
 }
