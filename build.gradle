@@ -31,8 +31,8 @@ project.ext {
     minSdkVersion = 21
     targetSdkVersion = 28
     compileSdkVersion = 29
-    appVersionName = '3.1.0'
-    appVersionCode = 3010
+    appVersionName = '3.2.0'
+    appVersionCode = 3020
     fastJson = '1.1.71.android'
     rxAndroid = '2.1.1'
 
