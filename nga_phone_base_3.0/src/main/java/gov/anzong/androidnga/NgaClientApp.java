@@ -35,9 +35,9 @@ public class NgaClientApp extends Application {
         initRouter();
         super.onCreate();
 
-        CloudServerManager.init(this);
         fixWebViewMultiProcessException();
         checkNewVersion();
+        CloudServerManager.init(this, mNewVersion);
     }
 
     private void fixWebViewMultiProcessException() {
@@ -82,10 +82,6 @@ public class NgaClientApp extends Application {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        if (mNewVersion) {
-            CloudServerManager.uploadNewVersionInfo();
         }
     }
 

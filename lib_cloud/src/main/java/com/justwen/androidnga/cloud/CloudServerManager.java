@@ -19,23 +19,25 @@ public class CloudServerManager {
 
     private static ICloudDataBase sCloudDataBase;
 
-    public static void init(Context context) {
+    public static void init(Context context, boolean newVersion) {
         //bugly 初始化
         if (!BuildConfig.DEBUG) {
             CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), false);
+        }
+
+        if (newVersion) {
+            try {
+                sCloudDataBase = new LeanDataBase(createVersionBean());
+                sCloudDataBase.init(ContextUtils.getApplication());
+                sCloudDataBase.uploadVersionInfo();
+            } catch (Exception e) {
+                sCloudDataBase = null;
+            }
         }
     }
 
     public static void putCrashData(Context context, String key, String value) {
         CrashReport.putUserData(context, key, value);
-    }
-
-    public static void uploadNewVersionInfo() {
-        if (sCloudDataBase == null) {
-            sCloudDataBase = new LeanDataBase(createVersionBean());
-            sCloudDataBase.init(ContextUtils.getApplication());
-        }
-        sCloudDataBase.uploadVersionInfo();
     }
 
     private static VersionBean createVersionBean() {
