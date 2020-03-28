@@ -16,10 +16,16 @@
             android:key="pref_user"
             android:title="@string/setting_title_user" />
 
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="nightmode"
             android:title="@string/nightmode" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="key_night_mode_follow_system"
+            android:title="夜间模式跟随系统"/>
 
         <SwitchPreference
             android:defaultValue="false"

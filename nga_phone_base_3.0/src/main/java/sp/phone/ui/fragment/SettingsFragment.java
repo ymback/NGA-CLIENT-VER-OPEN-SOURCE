@@ -46,12 +46,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void configPreference() {
-        SwitchPreference followSystemPref = (SwitchPreference) findPreference(PreferenceKey.KEY_NIGHT_MODE_FOLLOW_SYSTEM);
         findPreference(PreferenceKey.NIGHT_MODE).setEnabled(!ThemeManager.getInstance().isNightModeFollowSystem());
         findPreference(PreferenceKey.MATERIAL_THEME).setEnabled(!ThemeManager.getInstance().isNightMode());
-        if (!DeviceUtils.isGreaterEqual_9_0()) {
-            followSystemPref.getParent().removePreference(followSystemPref);
-        }
     }
 
     @Override
