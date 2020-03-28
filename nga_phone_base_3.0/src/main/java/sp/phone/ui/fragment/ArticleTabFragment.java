@@ -166,7 +166,7 @@ public class ArticleTabFragment extends BaseRxFragment {
             intent.setClass(getContext(),
                     PhoneConfiguration.getInstance().loginActivityClass);
         }
-        startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
+        getActivity().startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
     }
 
     @OnClick(R.id.fab_refresh)
@@ -307,7 +307,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ActivityUtils.REQUEST_CODE_TOPIC_POST && resultCode == Activity.RESULT_OK) {
             if (mViewPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
-                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem()));
+                getActivityViewModel().setRefreshPage(mPagerAdapter.getCount());
             }
         } else if (requestCode == ActivityUtils.REQUEST_CODE_JUMP_PAGE) {
             if (data.hasExtra("page")) {

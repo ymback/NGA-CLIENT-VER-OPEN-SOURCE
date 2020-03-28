@@ -1,6 +1,7 @@
 package sp.phone.mvp.presenter;
 
 import android.Manifest;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -216,7 +217,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
                 mBaseView.showToast(result);
             }
             if (isSuccess) {
-                mBaseView.setResult(-1);
+                mBaseView.setResult(Activity.RESULT_OK);
                 mBaseView.finish();
             }
         }

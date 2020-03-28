@@ -26,8 +26,8 @@ public class ArticleShareViewModel extends ViewModel {
         return mRefreshPage;
     }
 
-    public void setRefreshPage(int refreshState) {
-        mRefreshPage.setValue(refreshState);
+    public void setRefreshPage(int refreshPage) {
+        mRefreshPage.setValue(refreshPage);
     }
 
     public MutableLiveData<Integer> getCachePage() {

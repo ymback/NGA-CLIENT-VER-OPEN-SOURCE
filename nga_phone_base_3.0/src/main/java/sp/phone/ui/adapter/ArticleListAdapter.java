@@ -1,5 +1,6 @@
 package sp.phone.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -253,7 +254,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                                 view.getContext(),
                                 PhoneConfiguration.getInstance().loginActivityClass);
                     }
-                    view.getContext().startActivity(intent);
+                    ((Activity)view.getContext()).startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
                     return null;
                 }
             }).execute();
