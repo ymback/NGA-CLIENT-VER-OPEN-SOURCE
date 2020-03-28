@@ -259,6 +259,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         }
     }
 
+    @Override
     protected TopicPostModel onCreateModel() {
         return new TopicPostModel();
     }

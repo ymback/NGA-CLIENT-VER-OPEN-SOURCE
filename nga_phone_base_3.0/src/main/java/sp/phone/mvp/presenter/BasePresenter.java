@@ -1,30 +1,62 @@
 package sp.phone.mvp.presenter;
 
-import sp.phone.mvp.contract.BaseContract;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+
+import sp.phone.mvp.model.BaseModel;
+import sp.phone.ui.fragment.BaseMvpFragment;
 
 /**
- * Created by Justwen on 2017/11/25.
+ * @author Justwen
+ * @date 2017/11/25
  */
 
-public abstract class BasePresenter<T extends BaseContract.View, E extends BaseContract.Model> implements BaseContract.Presenter<T> {
+public abstract class BasePresenter<T extends BaseMvpFragment, E extends BaseModel>
+        implements LifecycleObserver {
 
     protected T mBaseView;
 
     protected E mBaseModel;
 
+    @Deprecated
     public BasePresenter() {
         mBaseModel = onCreateModel();
     }
 
-    @Override
-    public void detach() {
-        mBaseView = null;
-        if (mBaseModel != null) {
-            mBaseModel.detach();
-        }
+    public BasePresenter(T baseView) {
+        mBaseModel = onCreateModel();
+        attachView(baseView);
     }
 
-    @Override
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public final void performCreate() {
+        onCreate();
+    }
+
+    protected void onCreate() {
+
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public final void performDestroy() {
+        detachView();
+        onDestroy();
+    }
+
+    protected void onDestroy() {
+
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public final void performResume() {
+        onResume();
+    }
+
+    protected void onResume() {
+
+    }
+
     public void attachView(T view) {
         mBaseView = view;
         if (mBaseModel != null) {
@@ -32,16 +64,20 @@ public abstract class BasePresenter<T extends BaseContract.View, E extends BaseC
         }
     }
 
+    private void detachView() {
+        mBaseView = null;
+        if (mBaseModel != null) {
+            mBaseModel.detach();
+        }
+    }
+
+    protected boolean isAttached() {
+        return mBaseView != null;
+    }
+
     public void onViewCreated() {
     }
 
-    public void onResume() {
-    }
-
-    @Override
-    public boolean isAttached() {
-        return mBaseView != null;
-    }
 
     protected abstract E onCreateModel();
 }
