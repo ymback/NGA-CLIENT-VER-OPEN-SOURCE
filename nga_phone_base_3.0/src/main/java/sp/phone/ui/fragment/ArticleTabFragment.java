@@ -6,12 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -32,20 +33,20 @@ import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.widget.TabLayoutEx;
+import sp.phone.mvp.viewmodel.ArticleShareViewModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import sp.phone.rxjava.BaseSubscriber;
-import sp.phone.theme.ThemeManager;
-import sp.phone.ui.adapter.ArticlePagerAdapter;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.param.ArticleListParam;
 import sp.phone.param.ParamKey;
-import sp.phone.ui.fragment.dialog.GotoDialogFragment;
+import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
 import sp.phone.task.BookmarkTask;
+import sp.phone.theme.ThemeManager;
+import sp.phone.ui.adapter.ArticlePagerAdapter;
+import sp.phone.ui.fragment.dialog.GotoDialogFragment;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.StringUtils;
@@ -84,26 +85,17 @@ public class ArticleTabFragment extends BaseRxFragment {
         if (args != null) {
             mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
         }
-    }
 
-    @Override
-    protected void accept(@NonNull RxEvent rxEvent) {
-        switch (rxEvent.what) {
-            case RxEvent.EVENT_ARTICLE_TAB_UPDATE:
-                mReplyCount = rxEvent.arg;
-                int count = mReplyCount / 20;
-                if (mReplyCount % 20 != 0) {
-                    count++;
-                }
-                if (count > mPagerAdapter.getCount()) {
-                    mPagerAdapter.setCount(count);
-                    mTabLayout.setTabOnScreenLimit(count <= 5 ? count : 0);
-                    mTabLayout.notifyDataSetChanged();
-                }
-                break;
-            default:
-                break;
-        }
+        ArticleShareViewModel viewModel = getActivityViewModel();
+        viewModel.getReplyCount().observe(this, replyCount -> {
+            mReplyCount = replyCount;
+            int count = (int) Math.ceil(mReplyCount / 20.0f);
+            if (count != mPagerAdapter.getCount()) {
+                mPagerAdapter.setCount(count);
+                mTabLayout.setTabOnScreenLimit(count <= 5 ? count : 0);
+                mTabLayout.notifyDataSetChanged();
+            }
+        });
     }
 
     @Nullable
@@ -179,8 +171,8 @@ public class ArticleTabFragment extends BaseRxFragment {
 
     @OnClick(R.id.fab_refresh)
     public void refresh() {
+        getActivityViewModel().setRefreshPage(mViewPager.getCurrentItem() + 1);
         mRequestParam.page = mViewPager.getCurrentItem() + 1;
-        RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_UPDATE, mViewPager.getCurrentItem() + 1, mRequestParam));
         mFam.collapse();
     }
 
@@ -223,12 +215,16 @@ public class ArticleTabFragment extends BaseRxFragment {
                 break;
             case R.id.menu_download:
                 mRequestParam.page = mViewPager.getCurrentItem() + 1;
-                RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_CACHE_TOPIC_CONTENT, mViewPager.getCurrentItem() + 1, mRequestParam));
+                getActivityViewModel().setCachePage(mRequestParam.page);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private ArticleShareViewModel getActivityViewModel() {
+        return getActivityViewModelProvider().get(ArticleShareViewModel.class);
     }
 
     private void copyUrl() {

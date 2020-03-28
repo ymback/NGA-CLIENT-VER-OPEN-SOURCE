@@ -96,7 +96,9 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "com.google.android.material:material:$androidxMaterial"
     implementation "androidx.cardview:cardview:1.0.0"
-    // implementation 'com.android.support:preference-v7:' + project.androidSupportVersion
+
+    // lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
 
     //butterKnife
     implementation 'com.jakewharton:butterknife:10.2.1'
