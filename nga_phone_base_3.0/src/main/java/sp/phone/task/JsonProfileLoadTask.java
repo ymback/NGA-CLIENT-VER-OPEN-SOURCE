@@ -6,19 +6,21 @@ import com.alibaba.fastjson.JSONObject;
 import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
+import sp.phone.http.OnHttpCallBack;
 import sp.phone.http.bean.AdminForumsData;
 import sp.phone.http.bean.ProfileData;
 import sp.phone.http.bean.ReputationData;
-import gov.anzong.androidnga.base.util.ContextUtils;;
-import gov.anzong.androidnga.common.PreferenceKey;
-import sp.phone.http.OnHttpCallBack;
 import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
@@ -43,8 +45,10 @@ public class JsonProfileLoadTask {
     }
 
     public void execute(String url) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Referer",Utils.getNGAHost() + "nuke.php?func=ucp&lite=jsx&" + url);
         url = Utils.getNGAHost() + "nuke.php?__lib=ucp&__act=get&lite=js&noprefix&" + url;
-        mService.get(url)
+        mService.get(url, headers)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(this::parseJsonPage)
