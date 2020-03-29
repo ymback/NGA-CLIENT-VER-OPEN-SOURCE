@@ -87,7 +87,7 @@ public class NgaClientApp extends Application {
         }
 
         int versionCode = PreferenceUtils.getData(PreferenceKey.VERSION_CODE, 0);
-        if (BuildConfig.VERSION_CODE >= versionCode) {
+        if (BuildConfig.VERSION_CODE > versionCode) {
             PreferenceUtils.putData(PreferenceKey.VERSION_CODE, BuildConfig.VERSION_CODE);
             mNewVersion = true;
         }
