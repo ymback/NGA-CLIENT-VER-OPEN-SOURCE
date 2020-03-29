@@ -39,6 +39,8 @@ public class NotificationController {
 
     private static final int DELAY_TIME = 30 * 1000;
 
+    private long mLastQueryTime;
+
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -73,8 +75,9 @@ public class NotificationController {
     }
 
     public void checkNotificationDelay() {
-        if (mConfiguration.isNotificationEnabled() && !mHandler.hasMessages(0)) {
-            mHandler.sendEmptyMessageDelayed(0, DELAY_TIME);
+        if (mConfiguration.isNotificationEnabled() && (System.currentTimeMillis() - mLastQueryTime) > DELAY_TIME) {
+            mLastQueryTime = System.currentTimeMillis();
+            mHandler.sendEmptyMessage(0);
         }
 
     }

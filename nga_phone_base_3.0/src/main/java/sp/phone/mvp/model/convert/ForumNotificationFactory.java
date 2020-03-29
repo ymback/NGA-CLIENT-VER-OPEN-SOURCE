@@ -41,19 +41,19 @@ public class ForumNotificationFactory {
 
     private static RecentReplyInfo buildRecentReplyInfo(JSONObject obj) {
 
-        String userName = obj.get(2).toString();
-        String title = obj.get(5).toString();
-        String tidStr = obj.get(6).toString();
+        String userName = obj.get("2").toString();
+        String title = obj.get("5").toString();
+        String tidStr = obj.get("6").toString();
         String pidStr;
-        if (obj.containsKey(7)) {
-            pidStr = obj.get(7).toString();
+        if (obj.containsKey("7")) {
+            pidStr = obj.get("7").toString();
         } else {
-            pidStr = obj.get(8).toString();
+            pidStr = obj.get("8").toString();
         }
-        String timeStamp = obj.get(9).toString();
+        String timeStamp = obj.get("9").toString();
 
-        String uid = obj.get(1).toString();
-        int type = Integer.parseInt(obj.get(0).toString());
+        String uid = obj.get("1").toString();
+        int type = Integer.parseInt(obj.get("0").toString());
         RecentReplyInfo info = new RecentReplyInfo(type, userName, title, pidStr, tidStr);
         info.setTimeStamp(timeStamp);
         info.setUserId(uid);
@@ -100,8 +100,8 @@ public class ForumNotificationFactory {
     }
 
     private static NotificationInfo buildMessageInfo(JSONObject obj) {
-        String userName = obj.get(2).toString();
-        int type = Integer.parseInt(obj.get(0).toString());
+        String userName = obj.get("2").toString();
+        int type = Integer.parseInt(obj.get("0").toString());
         return new NotificationInfo(type, userName);
     }
 }

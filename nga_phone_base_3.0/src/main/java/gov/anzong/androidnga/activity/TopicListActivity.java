@@ -171,8 +171,6 @@ public class TopicListActivity extends BaseActivity {
             recreate();
             return;
         }
-        NotificationController.getInstance().checkNotificationDelay();
-
     }
 
 

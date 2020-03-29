@@ -26,7 +26,7 @@ public class ForumNotificationTask {
 
     private LifecycleProvider<FragmentEvent> mLifecycleProvider;
 
-    private String mNotificationUrl =  Utils.getNGAHost() + "nuke.php?__lib=noti&lite=js&__act=get_all";
+    private String mNotificationUrl =  Utils.getNGAHost() + "nuke.php?__lib=noti&__output=8&__act=get_all";
 
     public ForumNotificationTask(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         mLifecycleProvider = lifecycleProvider;

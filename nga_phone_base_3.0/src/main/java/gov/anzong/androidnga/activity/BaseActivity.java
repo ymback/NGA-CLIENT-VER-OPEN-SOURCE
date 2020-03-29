@@ -21,6 +21,7 @@ import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import gov.anzong.androidnga.base.util.ContextUtils;;
+import sp.phone.common.NotificationController;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.NLog;
@@ -185,6 +186,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         checkUpgrade();
         ContextUtils.setContext(this);
+        NotificationController.getInstance().checkNotificationDelay();
         super.onResume();
     }
 
