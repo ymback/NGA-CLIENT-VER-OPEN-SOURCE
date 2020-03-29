@@ -26,6 +26,8 @@ public class NgaClientApp extends Application {
 
     private boolean mNewVersion;
 
+    private boolean mMirroVersionUpgrade;
+
     @Override
     public void onCreate() {
         NLog.w(TAG, "app nga android start");
@@ -37,7 +39,7 @@ public class NgaClientApp extends Application {
 
         fixWebViewMultiProcessException();
         checkNewVersion();
-        CloudServerManager.init(this, mNewVersion);
+        CloudServerManager.init(this, mMirroVersionUpgrade);
     }
 
     private void fixWebViewMultiProcessException() {
@@ -77,11 +79,17 @@ public class NgaClientApp extends Application {
                         || mirrorCode > PreferenceUtils.getData(PreferenceKey.VERSION_MIRROR_CODE, 0)) {
                     PreferenceUtils.putData(PreferenceKey.VERSION_MAJOR_CODE, majorCode);
                     PreferenceUtils.putData(PreferenceKey.VERSION_MIRROR_CODE, mirrorCode);
-                    mNewVersion = true;
+                    mMirroVersionUpgrade = true;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        int versionCode = PreferenceUtils.getData(PreferenceKey.VERSION_CODE, 0);
+        if (BuildConfig.VERSION_CODE >= versionCode) {
+            PreferenceUtils.putData(PreferenceKey.VERSION_CODE, versionCode);
+            mNewVersion = true;
         }
     }
 
