@@ -1,7 +1,7 @@
     <style>
             body {font-size:%dpx;word-break:break-all;color:#999999}
             table.default { border:1px solid #aaa;width:99.9%%;font-size:%dpx }
-            div.quote { background-color:#000000;padding:10px;border:1px solid #888}
+            div.quote { background-color:#1F2021;padding:10px;border:1px solid #888}
             div.title {font-weight:bold;}
             h5 { font-size:22px;color:#D00000}
 			img.circle { width:32px;height:32px;border-radius:32px;vertical-align:middle}
