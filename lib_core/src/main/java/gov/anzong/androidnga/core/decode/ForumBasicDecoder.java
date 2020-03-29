@@ -48,11 +48,11 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = content.replaceAll(
                 ignoreCaseTag
                         + "\\[b\\]Reply to \\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\] (.+?)\\[/b\\]",
-                "[quote]Reply to [b]<a href='" + htmlData.getNGAHost() + "read.php?searchpost=1&pid=$1' style='font-weight: bold;'>[Reply]</a> $4[/b][/quote]");
+                "[quote]Reply to [b]<a href='" + htmlData.getNGAHost() + "read.php?searchpost=1&pid=$1' style='font-weight: bold;color:#3181f4'>[Reply]</a> $4[/b][/quote]");
 
         content = content.replaceAll(
                 ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
-                "<a href='" + htmlData.getNGAHost() + "read.php?searchpost=1&pid=$1' style='font-weight: bold;'>[Reply]</a>");
+                "<a href='" + htmlData.getNGAHost() + "read.php?searchpost=1&pid=$1' style='font-weight: bold;color:#3181f4'>[Reply]</a>");
 
         // 某些帖子会导致这个方法卡住, 暂时不清楚原因, 和这个方法的作用.... by elrond
         /*content = content.replaceAll(
@@ -75,7 +75,7 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = content.replaceAll(ignoreCaseTag + "\\[tid=\\d+\\]Topic\\[/pid\\]",
                 "Topic");
         content = content.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\]Topic\\[/tid\\]",
-                "<a href='" + htmlData.getNGAHost() + "read.php?tid=$1' style='font-weight: bold;'>[Topic]</a>");
+                "<a href='" + htmlData.getNGAHost() + "read.php?tid=$1' style='font-weight: bold;color:#3181f4'>[Topic]</a>");
         // reply
         // s =
         // s.replaceAll("\\[b\\]Reply to \\[pid=\\d+\\]Reply\\[/pid\\] (Post by .+ \\(\\d{4,4}-\\d\\d-\\d\\d \\d\\d:\\d\\d\\))\\[/b\\]"
@@ -98,13 +98,13 @@ public class ForumBasicDecoder implements IForumDecoder {
         // [url][/url]
         content = content.replaceAll(
                 ignoreCaseTag + "\\[url\\]/([^\\[|\\]]+)\\[/url\\]",
-                "<a href=\"" + htmlData.getNGAHost() + "$1\">" + htmlData.getNGAHost() + "$1</a>");
+                "<a href=\"" + htmlData.getNGAHost() + "$1\" style='color:#3181f4'>" + htmlData.getNGAHost() + "$1</a>");
         content = content.replaceAll(
                 ignoreCaseTag + "\\[url\\]([^\\[|\\]]+)\\[/url\\]",
-                "<a href=\"$1\">$1</a>");
+                "<a href=\"$1\" style='color:#3181f4'>$1</a>");
         content = content.replaceAll(ignoreCaseTag
                         + "\\[url=/([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]",
-                "<a href=\"" + htmlData.getNGAHost() + "$1\">$2</a>");
+                "<a href=\"" + htmlData.getNGAHost() + "$1\" style='color:#3181f4'>$2</a>");
         content = content.replaceAll(ignoreCaseTag
                         + "\\[url=([^\\[|\\]]+)\\]\\s*(.+?)\\s*\\[/url\\]",
                 "<a href=\"$1\">$2</a>");
@@ -112,25 +112,25 @@ public class ForumBasicDecoder implements IForumDecoder {
                 + "\\[uid=?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
         content = content.replaceAll(
                 ignoreCaseTag + "Post by\\s{0,}([^\\[\\s]{1,})\\s{0,}\\(",
-                "Post by <a href='" + htmlData.getNGAHost() + "nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[$1]</a> (");
+                "Post by <a href='" + htmlData.getNGAHost() + "nuke.php?func=ucp&username=$1' style='font-weight: bold;color:#3181f4'>[$1]</a> (");
         content = content.replaceAll(
                 ignoreCaseTag + "\\[@(.{2,20}?)\\]",
-                "<a href='" + htmlData.getNGAHost() + "nuke.php?func=ucp&username=$1' style='font-weight: bold;'>[@$1]</a>");
+                "<a href='" + htmlData.getNGAHost() + "nuke.php?func=ucp&username=$1' style='font-weight: bold;color:#3181f4'>[@$1]</a>");
         content = content.replaceAll(ignoreCaseTag
                 + "\\[uid=-?(\\d{0,50})\\](.+?)\\[\\/uid\\]", "$2");
         content = content.replaceAll(ignoreCaseTag
                         + "\\[hip\\](.+?)\\[\\/hip\\]",
                 "$1");
         content = content.replaceAll(ignoreCaseTag + "\\[tid=?(\\d{0,50})\\](.+?)\\[/tid\\]",
-                "<a href='" + htmlData.getNGAHost() + "read.php?tid=$1' style='font-weight: bold;'>[$2]</a>");
+                "<a href='" + htmlData.getNGAHost() + "read.php?tid=$1' style='font-weight: bold;color:#3181f4'>[$2]</a>");
         content = content.replaceAll(
                 ignoreCaseTag
                         + "\\[pid=(.+?)\\]\\[/pid\\]",
-                "<a href='" + htmlData.getNGAHost() + "read.php?pid=$1' style='font-weight: bold;'>[Reply]</a>");
+                "<a href='" + htmlData.getNGAHost() + "read.php?pid=$1' style='font-weight: bold;color:#3181f4'>[Reply]</a>");
         content = content.replaceAll(
                 ignoreCaseTag
                         + "\\[pid=(.+?)\\](.+?)\\[/pid\\]",
-                "<a href='" + htmlData.getNGAHost() + "read.php?pid=$1' style='font-weight: bold;'>[$2]</a>");
+                "<a href='" + htmlData.getNGAHost() + "read.php?pid=$1' style='font-weight: bold;color:#3181f4'>[$2]</a>");
         // flash
         content = content.replaceAll(
                 ignoreCaseTag + "\\[flash\\](http[^\\[|\\]]+)\\[/flash\\]",

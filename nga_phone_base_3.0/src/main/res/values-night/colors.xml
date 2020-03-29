@@ -22,4 +22,7 @@
     <color name="material_title_color">#FFFFFFFF</color>
     <color name="material_sub_title_color">#B4FFFFFF</color>
 
+    <color name="title_blue">#ff3181f4</color>
+    <color name="title_red">#ffc63e37</color>
+
 </resources>
