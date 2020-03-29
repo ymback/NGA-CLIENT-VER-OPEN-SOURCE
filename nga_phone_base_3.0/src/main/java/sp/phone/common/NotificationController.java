@@ -75,7 +75,9 @@ public class NotificationController {
     }
 
     public void checkNotificationDelay() {
-        if (mConfiguration.isNotificationEnabled() && (System.currentTimeMillis() - mLastQueryTime) > DELAY_TIME) {
+        if (mConfiguration.isNotificationEnabled()
+                && UserManagerImpl.getInstance().hasValidUser()
+                && (System.currentTimeMillis() - mLastQueryTime) > DELAY_TIME) {
             mLastQueryTime = System.currentTimeMillis();
             mHandler.sendEmptyMessage(0);
         }
