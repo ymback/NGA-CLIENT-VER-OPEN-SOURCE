@@ -28,7 +28,7 @@ task clean(type: Delete) {
 }
 
 project.ext {
-    minSdkVersion = 21
+    minSdkVersion = 23
     targetSdkVersion = 28
     compileSdkVersion = 29
     appVersionName = '3.2.2'
