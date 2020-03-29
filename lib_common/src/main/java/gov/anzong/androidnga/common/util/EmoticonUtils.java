@@ -15,8 +15,6 @@ public class EmoticonUtils {
             {"dt", "外域三人组"},
             {"xiongmao", "熊猫"},
             {"yangcongtou", "洋葱头"},
-            {"niweihezhemediao", "你为什么这么叼"},
-
 
     };
 
@@ -466,97 +464,6 @@ public class EmoticonUtils {
                     "http://pic1.178.com/36/364011/month_1009/972f0ef9bff622cbcfb89657d8eebf80.gif",
                     "http://pic1.178.com/36/364011/month_1009/d1838578aa71bb964d097163a87552c2.gif",
                     "http://pic1.178.com/36/364011/month_1009/ca52a9f4617bbc39fdb84de519e17b37.gif"},
-            // acniang    yixia
-
-            //niweihezhemediao
-            {
-                    "http://pic3.178.com/1577/15776622/month_1309/3f7a3b2e0dad638cb996667b5a49a8c0.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/e1d724f617c6dfe93cc6b41500275a98.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/4cbc75ae0bb690e556ff192b7ee14bde.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/189e043ec73cfad61ac9e5130aad6efb.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/bba2d0b981e0fcc57a59f4e0ea174be9.jpg",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/5b0829afc9faf606a9ad52c83711b2e6.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/797c505adfc1c5f75380561e77f55afe.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/00234eebd2a71513ba0cb67f65c903d6.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/ef3ad37e4d7fecbb6abd5a049b6203a2.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/a51f24103ed74ac6f8df7cdae2af246b.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/cf349d65edd5f6ef99d9dfacb6b2bea5.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/b098975b12e27647acbe981837dd998d.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/f0f715f04c7fca84ede1ab51e9630eaf.jpg",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/0b541dd2eb459e6e7232529ac14b0cc3.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/de2b5d4c19fe54ef17ef3b1ff4882716.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/a68b361cf52367f1aa3316efc7a138e7.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/65c6f5cea73cde2b3cd0cfb38574439d.GIF",
-                    "http://pic3.178.com/1577/15776622/month_1309/f9baec3eb07b721b9d2a55dbade47991.jpg",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/14622e5a23d20838e054c3a4eb11f4bd.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/0a0a6d97d0ad9cbacdc0a6da05a00c6c.jpg",
-
-                    "http://pic3.178.com/2017/20174851/month_1401/128d70b043b5e52f9a6a51a86aa1f019.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/def5d5eb422a14412c49767a3c0dfee1.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/278ae428f219e47afca1423f121370ab.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/2972ae4659987a53de6ebb87e10ceecb.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/3a09f6a373f13f8fdde0720ac5eb94e2.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/6912d33ddae84f7365068d0e7db42930.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/ea04a7f22bf846cfa099dabdce600d93.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/445ac099d4c152ef34167ad9a9c01182.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/138a19f1b33e2550676582b1e5245fdc.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/399baa07cf298bf58e3c67bc1eff1810.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/cfecaf2ca685a77115273097f3e94d08.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/17b108fe45e5a2c26ef2446156db6848.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/f74e48614818fe29f9be09f3f1126c34.GIF",
-                    "http://pic3.178.com/2017/20174851/month_1401/b6fc13e73e2ec69f1eea0f5083229ed3.jpg",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/912c2b293694e522493525d1107b9c18.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/4845946247a3fca8c76184380ef499f5.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/3e33c0b198040aabe23ffbfbe23e7650.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/d03c2fd06e4619c61cfb492bb6141dec.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/2ab90bbf52da1f649301335b3af7672c.jpg",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/99c54c870e135ee55e9e207beec1940a.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/eb54310df5438a956bcdda8bf1e64813.gif",
-                    "http://pic3.178.com/1577/15776622/month_1309/9ce0b99aa3e2cc9135c9832aa5dc32d2.gif",
-                    "http://pic3.178.com/1577/15776622/month_1309/b8ed10ef68a15f4c05ca5a3921a8dd60.gif",
-                    "http://pic3.178.com/1577/15776622/month_1309/0e421e1f3bf1300daf98498aace4508b.gif",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/75b3c1a165355aff1fce24ecb45b9454.gif",
-                    "http://pic3.178.com/1577/15776622/month_1309/b505a1951129b234d6d4b5b24461962d.gif",
-                    "http://pic3.178.com/1577/15776622/month_1309/6b93e7c57194c61e48cbc7a85c4c3777.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/9949a2c283d112017e42488892bf55e8.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/1318ebafa633af13575a5d1fa3ec9591.jpg",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/30ef2fbf8304082c4a1ce3634e17e37c.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/6bf9459c36b156fda5aae79c41823f95.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/c930c7a297566edac89940c03f422ceb.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/06b94dc994fc007fb4c4ccbda3c952ca.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/235c61b5e694990e41f6941f01f9a70b.jpg",
-
-                    "http://pic3.178.com/1577/15776622/month_1309/58d94eb1e0fb6d33267565eb5a8d648a.gif",
-                    "http://pic3.178.com/1577/15776622/month_1309/da343891b6f467f59c952f67666b0ae4.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/ebac61e158e107c662beb13b7bac7c05.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/6bc3a815590973ef9ca0d305843c8463.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/3758cc4c255194c974f6f80c150cac6e.jpg",
-                    "http://pic3.178.com/1577/15776622/month_1309/ad3c0842631fb31d39aee5c79418ddb3.jpeg",
-                    "http://pic3.178.com/1577/15776622/month_1309/7773ff437bc6c2434dbd40582751130b.jpeg",
-
-                    "http://pic3.178.com/2017/20174851/month_1401/15d5b91f77b683af6e4acdbf9dde6817.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/c30785ff5cf16c59fe341ecbd9f8f341.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/529ccf04c589870cf577e896230a2e6e.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/9e6425c7aee8b2a863e7a57a2f4f0d82.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/eccedaf40c49f1b3fb80ef1dc610ae14.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/319682aa96ade00a78c341d7f58628eb.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/c90908d4577b74e46902b17875e34317.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/660835efe7b821a4f7d4e78498f767c1.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/c2d5eecdd71df60c3643bf273b821c44.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/6be700e4b0b32cbc9e122c91698c2489.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/2a090590143f248a487544ff0155c388.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/5b3cd6af36de3e787b86f7e60187a587.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/047b781be4c8f7c25f11b683c48101b3.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/6c3523529136ecc744ad3f26105f290c.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/eb479bdb5e8e003fa915539fd7568c96.jpg",
-            },
 
 
     };
