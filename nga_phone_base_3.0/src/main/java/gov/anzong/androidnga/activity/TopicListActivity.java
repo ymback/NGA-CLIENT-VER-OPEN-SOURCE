@@ -2,21 +2,20 @@ package gov.anzong.androidnga.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import sp.phone.common.NotificationController;
 import sp.phone.mvp.model.BoardModel;
 import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
-import sp.phone.theme.ThemeManager;
 import sp.phone.ui.fragment.TopicFavoriteFragment;
 import sp.phone.ui.fragment.TopicListFragment;
 import sp.phone.ui.fragment.TopicSearchFragment;
@@ -30,8 +29,6 @@ import sp.phone.util.StringUtils;
 public class TopicListActivity extends BaseActivity {
 
     private static String TAG = TopicListActivity.class.getSimpleName();
-
-    private boolean mIsNightMode;
 
     private TopicListParam mRequestParam;
 
@@ -86,7 +83,6 @@ public class TopicListActivity extends BaseActivity {
         } else {
             finish();
         }
-        mIsNightMode = ThemeManager.getInstance().isNightMode();
     }
 
     private void setupFragment() {
@@ -163,15 +159,5 @@ public class TopicListActivity extends BaseActivity {
         intent.putExtras(bundle);
         ActivityUtils.startTwentyFourActivity(this, intent);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mIsNightMode != ThemeManager.getInstance().isNightMode()) {
-            recreate();
-            return;
-        }
-    }
-
 
 }
