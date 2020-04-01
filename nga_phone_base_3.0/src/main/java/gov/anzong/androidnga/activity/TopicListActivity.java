@@ -64,6 +64,7 @@ public class TopicListActivity extends BaseActivity {
                 requestParam.recommend = bundle.getInt(ParamKey.KEY_RECOMMEND, 0);
                 requestParam.twentyfour = bundle.getInt(ParamKey.KEY_TWENTYFOUR, 0);
                 requestParam.stid = bundle.getInt(ParamKey.KEY_STID, 0);
+                requestParam.boardHead = bundle.getString(ParamKey.BOARD_HEAD, null);
             }
         }
 

@@ -51,4 +51,6 @@ public interface ParamKey {
 
     String KEY_PARAM = "requestParam";
 
+    String BOARD_HEAD = "board_head";
+
 }

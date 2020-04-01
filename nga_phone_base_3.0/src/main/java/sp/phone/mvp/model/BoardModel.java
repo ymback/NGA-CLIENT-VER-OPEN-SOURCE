@@ -39,11 +39,14 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
 
             BoardCategory category = new BoardCategory(categoryBean.name);
             for (BoardBean.ContentBean contentBean : categoryBean.content) {
+                Board board;
                 if (TextUtils.isEmpty(contentBean.nameS)) {
-                    category.addBoard(new Board(contentBean.fid, contentBean.stid, contentBean.name));
+                    board = new Board(contentBean.fid, contentBean.stid, contentBean.name);
                 } else {
-                    category.addBoard(new Board(contentBean.fid, contentBean.stid, contentBean.nameS));
+                    board = new Board(contentBean.fid, contentBean.stid, contentBean.nameS);
                 }
+                board.setBoardHead(contentBean.head);
+                category.addBoard(board);
             }
             categories.add(category);
         }

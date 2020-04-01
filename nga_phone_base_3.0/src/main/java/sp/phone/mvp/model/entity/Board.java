@@ -14,6 +14,8 @@ public class Board implements Parcelable {
 
     private BoardKey mBoardKey;
 
+    private String mBoardHead;
+
     public static class BoardKey implements Parcelable {
 
         int fid;
@@ -79,6 +81,7 @@ public class Board implements Parcelable {
         mName = in.readString();
         mStd = in.readInt();
         mBoardKey = in.readParcelable(BoardKey.class.getClassLoader());
+        mBoardHead = in.readString();
     }
 
     public Board(int fid, String name) {
@@ -131,6 +134,14 @@ public class Board implements Parcelable {
         return mBoardKey;
     }
 
+    public String getBoardHead() {
+        return mBoardHead;
+    }
+
+    public void setBoardHead(String boardHead) {
+        mBoardHead = boardHead;
+    }
+
     @Deprecated
     public void fixBoardKey() {
         if (mBoardKey == null) {
@@ -176,5 +187,6 @@ public class Board implements Parcelable {
         dest.writeString(mName);
         dest.writeInt(mStd);
         dest.writeParcelable(mBoardKey, flags);
+        dest.writeString(mBoardHead);
     }
 }

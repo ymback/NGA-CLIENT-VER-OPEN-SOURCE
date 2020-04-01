@@ -28,6 +28,8 @@ public interface TopicListContract {
         void addBookmarkBoard(int fid, int stid, String boardName);
 
         void removeBookmarkBoard(int fid, int stid);
+
+        void startArticleActivity(String tid, String title);
     }
 
     interface View {

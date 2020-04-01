@@ -189,7 +189,12 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
 
     @Override
     public void showTopicList(Board board) {
-        showTopicList(board.getFid(), board.getStid(), board.getName());
+        ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                .withInt(ParamKey.KEY_FID, board.getFid())
+                .withInt(ParamKey.KEY_STID, board.getFid())
+                .withString(ParamKey.KEY_TITLE, board.getName())
+                .withString(ParamKey.BOARD_HEAD, board.getBoardHead())
+                .navigation(mBaseView.getContext());
     }
 
     @Override

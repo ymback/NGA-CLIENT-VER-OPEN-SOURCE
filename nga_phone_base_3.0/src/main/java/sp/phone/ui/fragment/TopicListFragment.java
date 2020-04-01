@@ -3,10 +3,6 @@ package sp.phone.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.appbar.AppBarLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,8 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.material.appbar.AppBarLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,7 +54,8 @@ public class TopicListFragment extends TopicSearchFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        int layoutId = R.layout.fragment_topic_list_board;;
+        int layoutId = R.layout.fragment_topic_list_board;
+        ;
         return inflater.inflate(layoutId, container, false);
     }
 
@@ -133,6 +135,8 @@ public class TopicListFragment extends TopicSearchFragment {
             menu.findItem(R.id.menu_remove_bookmark).setVisible(false);
         }
 
+        menu.findItem(R.id.menu_board_head).setVisible(mRequestParam.boardHead != null);
+
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -160,6 +164,9 @@ public class TopicListFragment extends TopicSearchFragment {
                 break;
             case R.id.menu_sub_board:
                 showSubBoardList();
+                break;
+            case R.id.menu_board_head:
+                mPresenter.startArticleActivity(mRequestParam.boardHead, mRequestParam.title + " - 版头");
                 break;
             default:
                 return super.onOptionsItemSelected(item);

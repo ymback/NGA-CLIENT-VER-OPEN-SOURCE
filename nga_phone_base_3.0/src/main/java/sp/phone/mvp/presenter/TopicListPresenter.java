@@ -4,9 +4,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.mvp.model.BoardModel;
+import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
 import sp.phone.ui.fragment.TopicSearchFragment;
 import sp.phone.http.OnHttpCallBack;
@@ -14,6 +17,7 @@ import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.TopicListModel;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
+import sp.phone.util.ARouterUtils;
 
 /**
  *
@@ -223,6 +227,14 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
     @Override
     public void removeBookmarkBoard(int fid, int stid) {
         BoardModel.getInstance().removeBookmark(fid, stid);
+    }
+
+    @Override
+    public void startArticleActivity(String tid, String title) {
+        ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_CONTENT)
+                .withInt(ParamKey.KEY_TID, Integer.parseInt(tid))
+                .withString(ParamKey.KEY_TITLE, title)
+                .navigation(ContextUtils.getContext());
     }
 
     @Override
