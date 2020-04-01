@@ -1,58 +1,54 @@
 package com.justwen.androidnga.cloud;
 
 import android.content.Context;
-import android.os.Build;
 
-import com.justwen.androidnga.cloud.base.ICloudDataBase;
-import com.justwen.androidnga.cloud.base.VersionBean;
-import com.justwen.androidnga.cloud.lean.LeanDataBase;
+import com.justwen.androidnga.cloud.bugly.BuglyWrapper;
+import com.justwen.androidnga.cloud.umeng.UMengWrapper;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import gov.anzong.androidnga.base.util.ContextUtils;
-import gov.anzong.androidnga.base.util.PreferenceUtils;
-import gov.anzong.androidnga.common.PreferenceKey;
+import java.util.Map;
 
 /**
  * @author yangyihang
  */
 public class CloudServerManager {
 
-    private static ICloudDataBase sCloudDataBase;
+    private static ICloudSever sCloudServer;
 
-    public static void init(Context context, boolean newVersion) {
-        //bugly 初始化
-        if (!BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), false);
+    public static void init(Context context) {
+        try {
+            BuglyWrapper.init(context);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        if (newVersion) {
-            try {
-                sCloudDataBase = new LeanDataBase(createVersionBean());
-                sCloudDataBase.init(ContextUtils.getApplication());
-                sCloudDataBase.uploadVersionInfo();
-            } catch (Exception e) {
-                sCloudDataBase = null;
-            }
+        try {
+            sCloudServer = new UMengWrapper();
+            sCloudServer.init(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+            sCloudServer = null;
         }
+
     }
 
     public static void putCrashData(Context context, String key, String value) {
         CrashReport.putUserData(context, key, value);
     }
 
-    private static VersionBean createVersionBean() {
-        VersionBean versionBean = new VersionBean();
-        int majorCode = PreferenceUtils.getData(PreferenceKey.VERSION_MAJOR_CODE, 0);
-        int mirrorCode = PreferenceUtils.getData(PreferenceKey.VERSION_MIRROR_CODE, 0);
-        versionBean.versionName = majorCode + "." + mirrorCode + ".0";
-        versionBean.androidVersion = String.valueOf(Build.VERSION.SDK_INT);
-        versionBean.versionCode = BuildConfig.VERSION_CODE;
-        return versionBean;
+    public static void pingBack(Context context, String event) {
+        if (sCloudServer != null) {
+            sCloudServer.pingBack(context, event);
+        }
+    }
+
+    public static void pingBack(Context context, String event, Map<String, String> map) {
+        if (sCloudServer != null) {
+            sCloudServer.pingBack(context, event, map);
+        }
     }
 
     public static void checkUpgrade() {
-//        if (sCloudDataBase != null) {
-//            sCloudDataBase.checkUpgrade();
-//        }
+
     }
 }
