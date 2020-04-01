@@ -135,7 +135,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 .map(new Function<String, TopicListInfo>() {
                     @Override
                     public TopicListInfo apply(@NonNull String js) throws Exception {
-                        NLog.d(js);
+                        //NLog.d(js);
                         TopicListInfo result = mConvertFactory.getTopicListInfo(js, page);
                         if (result != null) {
                             return result;

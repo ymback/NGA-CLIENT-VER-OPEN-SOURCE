@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import java.lang.reflect.Field;
 
 import gov.anzong.androidnga.BuildConfig;
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.R;
 import sp.phone.common.VersionUpgradeTips;
 
@@ -26,6 +27,12 @@ public class VersionUpgradeDialogFragment extends BaseDialogFragment {
                 .setTitle(R.string.prompt)
                 .setMessage(tip);
         return builder.create();
+    }
+
+    @Override
+    public void onDestroy() {
+        NgaClientApp.setNewVersion(false);
+        super.onDestroy();
     }
 
     private String getUpgradeTip() {

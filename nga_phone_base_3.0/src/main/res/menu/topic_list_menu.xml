@@ -30,6 +30,11 @@
         androidnga:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_board_head"
+        android:title="版头"
+        androidnga:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_history"
         android:icon="@drawable/btn_ic_search"
         android:title="@string/menu_history"

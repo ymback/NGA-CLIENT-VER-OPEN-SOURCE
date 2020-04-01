@@ -20,7 +20,7 @@ public class NgaClientApp extends Application {
 
     private static final String TAG = NgaClientApp.class.getSimpleName();
 
-    private boolean mNewVersion;
+    private static boolean sNewVersion;
 
     @Override
     public void onCreate() {
@@ -66,16 +66,16 @@ public class NgaClientApp extends Application {
         int versionCode = PreferenceUtils.getData(PreferenceKey.VERSION_CODE, 0);
         if (BuildConfig.VERSION_CODE > versionCode) {
             PreferenceUtils.putData(PreferenceKey.VERSION_CODE, BuildConfig.VERSION_CODE);
-            mNewVersion = true;
+            sNewVersion = true;
         }
     }
 
-    public boolean isNewVersion() {
-        return mNewVersion;
+    public static boolean isNewVersion() {
+        return sNewVersion;
     }
 
-    public void setNewVersion(boolean newVersion) {
-        mNewVersion = newVersion;
+    public static void setNewVersion(boolean newVersion) {
+        sNewVersion = newVersion;
     }
 
 }

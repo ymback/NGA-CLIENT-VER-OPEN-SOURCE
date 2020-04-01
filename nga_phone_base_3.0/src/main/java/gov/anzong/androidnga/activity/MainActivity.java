@@ -67,8 +67,7 @@ public class MainActivity extends BaseActivity {
     private void checkNewVersion() {
         Application app = getApplication();
         if (app instanceof NgaClientApp) {
-            if (((NgaClientApp) app).isNewVersion()) {
-                ((NgaClientApp) app).setNewVersion(false);
+            if (NgaClientApp.isNewVersion()) {
                 new VersionUpgradeDialogFragment().show(getSupportFragmentManager(), null);
             }
         }

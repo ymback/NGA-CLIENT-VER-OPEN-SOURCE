@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.http.bean.BoardBean;
@@ -35,17 +36,31 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
         String categoryJson = StringUtils.getStringFromAssets("json/category_old.json");
         List<BoardBean> beans = JSON.parseArray(categoryJson, BoardBean.class);
         List<BoardCategory> categories = new ArrayList<>();
+        boolean fixBookmarkBoard = false;
         for (BoardBean categoryBean : beans) {
 
             BoardCategory category = new BoardCategory(categoryBean.name);
             for (BoardBean.ContentBean contentBean : categoryBean.content) {
+                Board board;
                 if (TextUtils.isEmpty(contentBean.nameS)) {
-                    category.addBoard(new Board(contentBean.fid, contentBean.stid, contentBean.name));
+                    board = new Board(contentBean.fid, contentBean.stid, contentBean.name);
                 } else {
-                    category.addBoard(new Board(contentBean.fid, contentBean.stid, contentBean.nameS));
+                    board = new Board(contentBean.fid, contentBean.stid, contentBean.nameS);
                 }
+                board.setBoardHead(contentBean.head);
+                if (NgaClientApp.isNewVersion()) {
+                    if (contentBean.head != null && mBookmarkCategory.contains(board)) {
+                        fixBookmarkBoard = true;
+                        mBookmarkCategory.getBoard(board.getBoardKey()).setBoardHead(contentBean.head);
+                    }
+                }
+                category.addBoard(board);
             }
             categories.add(category);
+        }
+
+        if (fixBookmarkBoard) {
+            saveBookmark();
         }
         return categories;
     }
@@ -59,6 +74,14 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
         category.addBoards(bookmarkBoards);
         category.setBookmarkCategory(true);
         return category;
+    }
+
+    @Override
+    public void addBookmark(Board board) {
+        if (!mBookmarkCategory.contains(board)) {
+            mBookmarkCategory.addBoard(board);
+            saveBookmark();
+        }
     }
 
     @Override

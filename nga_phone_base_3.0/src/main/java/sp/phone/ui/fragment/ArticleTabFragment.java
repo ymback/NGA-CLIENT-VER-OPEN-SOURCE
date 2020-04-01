@@ -264,7 +264,7 @@ public class ArticleTabFragment extends BaseRxFragment {
             menu.findItem(R.id.menu_daymode).setVisible(false);
         }
 
-        if (mRequestParam.pid != 0) {
+        if (mRequestParam.pid != 0 || mRequestParam.topicInfo == null) {
             menu.findItem(R.id.menu_download).setVisible(false);
         }
         super.onPrepareOptionsMenu(menu);

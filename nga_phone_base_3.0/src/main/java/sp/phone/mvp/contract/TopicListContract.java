@@ -1,5 +1,6 @@
 package sp.phone.mvp.contract;
 
+import sp.phone.mvp.model.entity.Board;
 import sp.phone.param.TopicListParam;
 import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
@@ -27,7 +28,11 @@ public interface TopicListContract {
 
         void addBookmarkBoard(int fid, int stid, String boardName);
 
+        void addBookmarkBoard(Board board);
+
         void removeBookmarkBoard(int fid, int stid);
+
+        void startArticleActivity(String tid, String title);
     }
 
     interface View {

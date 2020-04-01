@@ -67,6 +67,8 @@ public interface BoardContract {
 
     interface Model {
 
+        void addBookmark(Board board);
+
         void addBookmark(int fid, int stid, String boardName);
 
         void addBookmark(Board.BoardKey boardKey, String boardName);
