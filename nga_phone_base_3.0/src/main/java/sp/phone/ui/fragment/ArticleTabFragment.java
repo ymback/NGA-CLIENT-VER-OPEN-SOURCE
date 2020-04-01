@@ -306,9 +306,7 @@ public class ArticleTabFragment extends BaseRxFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ActivityUtils.REQUEST_CODE_TOPIC_POST && resultCode == Activity.RESULT_OK) {
-            if (mViewPager.getCurrentItem() == mPagerAdapter.getCount() - 1) {
-                getActivityViewModel().setRefreshPage(mPagerAdapter.getCount());
-            }
+            getActivityViewModel().setRefreshPage(mViewPager.getCurrentItem() + 1);
         } else if (requestCode == ActivityUtils.REQUEST_CODE_JUMP_PAGE) {
             if (data.hasExtra("page")) {
                 mViewPager.setCurrentItem(data.getIntExtra("page", 0));
