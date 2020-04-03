@@ -1,7 +1,6 @@
 package com.justwen.androidnga.cloud.umeng;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.justwen.androidnga.cloud.BuildConfig;
 import com.justwen.androidnga.cloud.ICloudSever;
@@ -12,8 +11,6 @@ import java.util.Map;
 
 public class UMengWrapper implements ICloudSever {
 
-    private boolean mInited;
-
     @Override
     public void init(Context context) {
         int appResId = context.getResources().getIdentifier("umeng_app_key", "string", context.getPackageName());
@@ -21,14 +18,13 @@ public class UMengWrapper implements ICloudSever {
             UMConfigure.setLogEnabled(BuildConfig.DEBUG);
             UMConfigure.init(context, context.getString(appResId), "GooglePlay", UMConfigure.DEVICE_TYPE_PHONE, null);
             MobclickAgent.setCatchUncaughtExceptions(false);
-            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.MANUAL);
-            mInited = true;
+            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
         }
     }
 
     @Override
     public void pingBack(Context context, String event) {
-        if (!mInited) {
+        if (!UMConfigure.getInitStatus()) {
             return;
         }
         MobclickAgent.onEvent(context, event);
@@ -36,7 +32,7 @@ public class UMengWrapper implements ICloudSever {
 
     @Override
     public void pingBack(Context context, String event, Map<String, String> map) {
-        if (!mInited) {
+        if (!UMConfigure.getInitStatus()) {
             return;
         }
         MobclickAgent.onEvent(context, event, map);
