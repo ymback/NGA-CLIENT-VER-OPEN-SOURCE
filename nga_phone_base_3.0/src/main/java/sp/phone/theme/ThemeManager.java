@@ -68,14 +68,14 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
         mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "1"));
         mNightModeFollowSystem = sp.getBoolean(PreferenceKey.KEY_NIGHT_MODE_FOLLOW_SYSTEM, false);
-        applyDayNight();
+        applyDayNightDelay(0);
     }
 
     public static ThemeManager getInstance() {
         return ThemeManagerHolder.sInstance;
     }
 
-    private void applyDayNight() {
+    private void applyDayNightDelay(long delay) {
         ThreadUtils.postOnMainThreadDelay(() -> {
             if (mNightModeFollowSystem) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -84,7 +84,11 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
-        },200);
+        },delay);
+    }
+
+    private void applyDayNight() {
+        applyDayNightDelay(200);
     }
 
     public boolean isNightModeFollowSystem() {

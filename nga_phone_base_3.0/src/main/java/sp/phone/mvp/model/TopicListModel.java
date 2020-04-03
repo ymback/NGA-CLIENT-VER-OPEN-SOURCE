@@ -161,7 +161,9 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void loadTwentyFourList(TopicListParam param, final OnHttpCallBack<TopicListInfo> callBack, int totalPage) {
-
+        if (getLifecycleProvider() == null) {
+            return;
+        }
         List<Observable<String>> obsList = new ArrayList<Observable<String>>();
         for (int i = 1; i <= totalPage; i++) {
             obsList.add(mService.get(getUrl(i, param)));
