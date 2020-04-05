@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="24dp"
-        android:layout_toEndOf="@id/avatar"
         android:text="@string/sample_nick_name"
         android:textSize="18dp"/>
 
