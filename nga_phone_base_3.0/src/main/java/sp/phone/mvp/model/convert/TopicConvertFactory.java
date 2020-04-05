@@ -9,11 +9,14 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import sp.phone.common.FilterKeyword;
 import sp.phone.common.FilterKeywordsManager;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.PhoneConfiguration;
+import sp.phone.common.User;
+import sp.phone.common.UserManagerImpl;
 import sp.phone.http.bean.TopicListBean;
 import sp.phone.mvp.model.entity.SubBoard;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
@@ -55,22 +58,8 @@ public class TopicConvertFactory {
 
     private void filter(TopicListInfo data) {
 
-        FilterKeywordsManager filterKeywordsManager = FilterKeywordsManagerImpl.getInstance();
-        List<FilterKeyword> list = filterKeywordsManager.getKeywords();
-
-        for (FilterKeyword keyword : list) {
-            if (keyword.isEnabled()) {
-                Iterator<ThreadPageInfo> iterator = data.getThreadPageList().iterator();
-                while (iterator.hasNext()) {
-                    ThreadPageInfo item = iterator.next();
-                    if (item.getSubject().contains(keyword.getKeyword())) {
-                        iterator.remove();
-                    }
-                }
-            }
-        }
-        // 低版本android 没有stream方法
-        // TODO: 如果第一页全部都是被屏蔽的，可能会认为加载失败
+//        // 低版本android 没有stream方法
+//        // TODO: 如果第一页全部都是被屏蔽的，可能会认为加载失败
 //        data.setThreadPageList(
 //                data.getThreadPageList().stream().filter((ThreadPageInfo threadPageInfo) -> {
 //                    return FilterKeywordsManagerImpl
@@ -87,8 +76,34 @@ public class TopicConvertFactory {
 //                                }
 //                            });
 //                }).collect(Collectors.toList())
-        //       );
+//               );
 
+        Iterator<ThreadPageInfo> iterator = data.getThreadPageList().iterator();
+
+        List<User> blackList = UserManagerImpl.getInstance().getBlackList();
+        List<FilterKeyword> filterKeywords = FilterKeywordsManagerImpl.getInstance().getKeywords();
+
+        while (iterator.hasNext()) {
+            ThreadPageInfo pageInfo = iterator.next();
+            boolean removed = false;
+            for (FilterKeyword keyword : filterKeywords) {
+                if (keyword.isEnabled() && pageInfo.getSubject().contains(keyword.getKeyword())) {
+                    iterator.remove();
+                    removed = true;
+                    break;
+                }
+            }
+            if (removed) {
+                continue;
+            }
+            for (User user : blackList) {
+                if (Objects.equals(pageInfo.getAuthor(), user.getNickName())) {
+                    iterator.remove();
+                    break;
+                }
+            }
+
+        }
     }
 
     private void sort(TopicListInfo listInfo) {
