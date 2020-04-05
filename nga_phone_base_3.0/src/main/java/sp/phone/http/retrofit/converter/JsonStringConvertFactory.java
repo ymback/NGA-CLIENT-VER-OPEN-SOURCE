@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import gov.anzong.androidnga.debug.Debugger;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -36,7 +37,9 @@ public class JsonStringConvertFactory extends Converter.Factory {
         @Override
         public String convert(ResponseBody responseBody) {
             try (InputStream is = responseBody.byteStream()) {
-                return IOUtils.toString(is, "GBK");
+                String body = IOUtils.toString(is, "GBK");
+                Debugger.collectBody(body);
+                return body;
             } catch (IOException e) {
                 return "";
             }

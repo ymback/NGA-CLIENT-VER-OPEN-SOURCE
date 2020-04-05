@@ -2,9 +2,12 @@ package sp.phone.http.retrofit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.io.IOException;
 
+import gov.anzong.androidnga.base.util.ThreadUtils;
+import gov.anzong.androidnga.debug.Debugger;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -45,17 +48,18 @@ public class RetrofitHelper {
 
     private Retrofit createRetrofit(String baseUrl) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                Request request = original.newBuilder()
-                        .header("Cookie", UserManagerImpl.getInstance().getCookie())
-                        .method(original.method(), original.body())
-                        .build();
-
-                return chain.proceed(request);
-            }
+        builder.addInterceptor(chain -> {
+            Request original = chain.request();
+            Request request = original.newBuilder()
+                    .header("Cookie", UserManagerImpl.getInstance().getCookie())
+                    .method(original.method(), original.body())
+                    .build();
+            return chain.proceed(request);
+        });
+        builder.addInterceptor(chain -> {
+            Request request = chain.request();
+            Debugger.collectRequest(request);
+            return chain.proceed(request);
         });
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
