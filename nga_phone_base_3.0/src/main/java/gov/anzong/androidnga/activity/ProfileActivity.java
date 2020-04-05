@@ -160,7 +160,11 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         } else if (intent.hasExtra("username")) {
             String userName = intent.getStringExtra("username");
             mCurrentUser = userName.endsWith(um.getUserName());
-            mParams = "username=" + StringUtils.encodeUrl(userName, "gbk");
+            if (userName.startsWith("UID")) {
+                mParams = "uid=" + userName.substring(3);
+            } else {
+                mParams = "username=" + StringUtils.encodeUrl(userName, "gbk");
+            }
         }
 
         setContentView(R.layout.activity_user_profile);

@@ -97,18 +97,16 @@ public class JsonProfileLoadTask {
                 .replaceAll("/\\*\\$js\\$\\*/", "");
         JSONObject obj = JSON.parseObject(js);
         if (obj.containsKey("data")) {
-            obj = obj.getJSONObject("data");
+            JSONObject dataObj = obj.getJSONObject("data");
             try {
                 ProfileData ret = new ProfileData();
-                obj = obj.getJSONObject("0");
-                buildBasicInfo(ret, obj);
-                buildReputation(ret, obj.getJSONObject("reputation"));
-                buildAdminForums(ret, obj.getJSONObject("adminForums"));
+                dataObj = dataObj.getJSONObject("0");
+                buildBasicInfo(ret, dataObj);
+                buildReputation(ret, dataObj.getJSONObject("reputation"));
+                buildAdminForums(ret, dataObj.getJSONObject("adminForums"));
                 return ret;
             } catch (Exception e) {
                 NLog.e(TAG, "can not parse :\n" + js);
-                mErrorMsg = "二哥玩坏了或者你需要重新登录";
-                throw e;
             }
         }
         obj = obj.getJSONObject("error");
