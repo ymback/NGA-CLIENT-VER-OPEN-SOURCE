@@ -55,6 +55,9 @@ public class ForumListActivity extends BaseActivity {
                 Pattern p = Pattern.compile(filter, Pattern.CASE_INSENSITIVE);
                 List<ForumsListModel.Forum> filtered = new ArrayList<ForumsListModel.Forum>();
                 for (ForumsListModel.Forum forum: mDataList) {
+                    if (forum.getName() == null) {
+                        continue;
+                    }
                     Matcher matcher = p.matcher(forum.getName());
                     if(matcher.find()) {
                         filtered.add(forum);
