@@ -66,7 +66,6 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
                 mTotalCount += subCategory.getBoardList().size();
                 mTotalCount++;
             }
-            mTotalCount--;
         } else {
             mTotalCount = mCategory.getBoardList().size();
         }
@@ -101,9 +100,14 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
 
             Drawable draw = getDrawable(board);
             if (draw == null) {
-                long resId = board.getFid();
+                String url;
+                if (board.getStid() != 0) {
+                    url = String.format(ApiConstants.URL_BOARD_ICON_STID, board.getStid());
+                } else {
+                    url = String.format(ApiConstants.URL_BOARD_ICON, board.getFid());
+                }
                 GlideApp.with(mActivity)
-                        .load(String.format(ApiConstants.URL_BOARD_ICON, resId))
+                        .load(url)
                         .placeholder(R.drawable.default_board_icon)
                         .dontAnimate()
                         .into(holder.icon);
@@ -135,6 +139,9 @@ public class BoardCategoryAdapter extends RecyclerView.Adapter<BoardCategoryAdap
     }
 
     private int getResId(Board board) {
+        if (board.getStid() != 0) {
+            return 0;
+        }
         int fid = board.getFid();
         String resName = fid > 0 ? "p" + fid : "p_" + Math.abs(fid);
         return mActivity.getResources().getIdentifier(resName, "drawable", mActivity.getPackageName());

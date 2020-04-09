@@ -251,7 +251,9 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 e.printStackTrace();
             }
         } else {
-            if (0 != requestInfo.fid) {
+            if (requestInfo.stid != 0) {
+                jsonUri.append("stid=").append(requestInfo.stid).append("&");
+            } else if (0 != requestInfo.fid) {
                 jsonUri.append("fid=").append(requestInfo.fid).append("&");
             }
             if (!StringUtils.isEmpty(requestInfo.key)) {
@@ -261,9 +263,6 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 jsonUri.append("fidgroup=").append(requestInfo.fidGroup).append("&");
             }
 
-            if (requestInfo.stid != 0) {
-                jsonUri.append("stid=").append(requestInfo.stid).append("&");
-            }
         }
         jsonUri.append("page=").append(page).append("&lite=js&noprefix");
         if (requestInfo.recommend == 1) {
