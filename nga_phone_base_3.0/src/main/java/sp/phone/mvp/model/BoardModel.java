@@ -11,7 +11,7 @@ import java.util.List;
 import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
-import sp.phone.http.bean.BoardBean;
+import sp.phone.http.bean.CategoryBean;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.model.entity.Board;
 import sp.phone.mvp.model.entity.BoardCategory;
@@ -33,32 +33,39 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
     }
 
     private List<BoardCategory> loadPreloadBoards() {
-        String categoryJson = StringUtils.getStringFromAssets("json/category_old.json");
-        List<BoardBean> beans = JSON.parseArray(categoryJson, BoardBean.class);
+        String categoryJson = StringUtils.getStringFromAssets("json/category.json");
+        List<CategoryBean> beans = JSON.parseArray(categoryJson, CategoryBean.class);
         List<BoardCategory> categories = new ArrayList<>();
-        boolean fixBookmarkBoard = false;
-        for (BoardBean categoryBean : beans) {
 
-            BoardCategory category = new BoardCategory(categoryBean.name);
-            for (BoardBean.ContentBean contentBean : categoryBean.content) {
-                Board board;
-                if (TextUtils.isEmpty(contentBean.nameS)) {
-                    board = new Board(contentBean.fid, contentBean.stid, contentBean.name);
-                } else {
-                    board = new Board(contentBean.fid, contentBean.stid, contentBean.nameS);
-                }
-                board.setBoardHead(contentBean.head);
-                if (NgaClientApp.isNewVersion()) {
-                    if (contentBean.head != null && mBookmarkCategory.contains(board)) {
-                        fixBookmarkBoard = true;
-                        mBookmarkCategory.getBoard(board.getBoardKey()).setBoardHead(contentBean.head);
+        boolean fixBookmarkBoard = false;
+
+        for (CategoryBean categoryBean : beans) {
+            BoardCategory category = new BoardCategory(categoryBean.getName());
+            for (CategoryBean.SubBean subBean : categoryBean.getSub()) {
+                BoardCategory subCategory = new BoardCategory(subBean.getName());
+                for (CategoryBean.SubBean.ContentBean contentBean : subBean.getContent()) {
+                    String boardName;
+                    if (TextUtils.isEmpty(contentBean.getNameS())) {
+                        boardName = contentBean.getName();
+                    } else {
+                        boardName = contentBean.getNameS();
                     }
+                    Board board = new Board(contentBean.getFid(), contentBean.getStid(), boardName);
+                    board.setBoardHead(contentBean.getHead());
+                    subCategory.addBoard(board);
+
+                    if (NgaClientApp.isNewVersion()) {
+                        if (contentBean.getHead() != null && mBookmarkCategory.contains(board)) {
+                            fixBookmarkBoard = true;
+                            mBookmarkCategory.getBoard(board.getBoardKey()).setBoardHead(contentBean.getHead());
+                        }
+                    }
+
                 }
-                category.addBoard(board);
+                category.addSubCategory(subCategory);
             }
             categories.add(category);
         }
-
         if (fixBookmarkBoard) {
             saveBookmark();
         }

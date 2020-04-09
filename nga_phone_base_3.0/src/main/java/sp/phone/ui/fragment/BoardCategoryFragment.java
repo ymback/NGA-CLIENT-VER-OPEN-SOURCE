@@ -1,15 +1,16 @@
 package sp.phone.ui.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.DeviceUtils;
@@ -59,15 +60,18 @@ public class BoardCategoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mListView = view.findViewById(R.id.list);
-        if (DeviceUtils.isLandscape(getContext())) {
-            mListView.setLayoutManager(new GridLayoutManager(getContext(), COLUMN_NUMBER_LAND));
-        } else {
-            mListView.setLayoutManager(new GridLayoutManager(getContext(), COLUMN_NUMBER));
-        }
-
-        super.onViewCreated(view, savedInstanceState);
 
         mAdapter = new BoardCategoryAdapter(getActivity(), mBoardCategory);
+        mListView.setAdapter(mAdapter);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), COLUMN_NUMBER);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return mAdapter.getItemViewType(position) == BoardCategoryAdapter.TITLE_ITEM ? COLUMN_NUMBER : 1;
+            }
+        });
+        mListView.setLayoutManager(layoutManager);
 
         if (mBoardCategory.isBookmarkCategory()) {
             ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, 0) {
@@ -81,7 +85,7 @@ public class BoardCategoryFragment extends Fragment {
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     Board board = mBoardCategory.getBoard(viewHolder.getAdapterPosition());
-                    BoardModel.getInstance().removeBookmark(board.getFid(),board.getStid());
+                    BoardModel.getInstance().removeBookmark(board.getFid(), board.getStid());
                     mListView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
 
                 }
