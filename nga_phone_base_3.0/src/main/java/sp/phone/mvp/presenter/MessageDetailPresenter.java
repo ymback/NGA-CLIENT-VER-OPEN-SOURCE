@@ -1,5 +1,7 @@
 package sp.phone.mvp.presenter;
 
+import android.text.TextUtils;
+
 import gov.anzong.androidnga.R;
 import sp.phone.http.bean.MessageDetailInfo;
 import sp.phone.ui.fragment.MessageDetailFragment;
@@ -22,7 +24,7 @@ public class MessageDetailPresenter extends BasePresenter<MessageDetailFragment,
             }
             mBaseView.setRefreshing(false);
             mBaseView.hideLoadingView();
-            if (text.isEmpty()) {
+            if (TextUtils.isEmpty(text)) {
                 mBaseView.showToast(R.string.error_network);
             } else {
                 mBaseView.showToast(text);
