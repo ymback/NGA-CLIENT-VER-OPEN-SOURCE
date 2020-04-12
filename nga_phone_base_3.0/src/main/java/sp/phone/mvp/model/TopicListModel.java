@@ -102,6 +102,9 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void removeTopic(ThreadPageInfo info, final OnHttpCallBack<String> callBack) {
+        if (getLifecycleProvider() == null) {
+            return;
+        }
         initFieldMap();
         mFieldMap.put("page", String.valueOf(info.getPage()));
         mFieldMap.put("tidarray", String.valueOf(info.getTid()));

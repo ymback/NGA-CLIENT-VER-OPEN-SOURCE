@@ -48,10 +48,9 @@ public abstract class BaseAdapter<E, T extends RecyclerView.ViewHolder> extends 
 
     public void removeItem(E e) {
         int index = mDataList.indexOf(e);
-        if (index == -1) {
-            uploadCrashInfo(e);
+        if (index != -1) {
+            removeItem(index);
         }
-        removeItem(index);
     }
 
     private void uploadCrashInfo(E e) {
