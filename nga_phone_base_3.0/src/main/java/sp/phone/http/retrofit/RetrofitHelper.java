@@ -2,20 +2,14 @@ package sp.phone.http.retrofit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
-import java.io.IOException;
-
-import gov.anzong.androidnga.base.util.ThreadUtils;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
 import gov.anzong.androidnga.debug.Debugger;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import gov.anzong.androidnga.base.util.ContextUtils;;
-import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.http.retrofit.converter.JsonStringConvertFactory;
 import sp.phone.util.ForumUtils;
@@ -30,23 +24,46 @@ public class RetrofitHelper {
 
     private static final String URL_NGA_BASE_CC = "https://bbs.ngacn.cc/";
 
+    private String mBaseUrl;
+
     private RetrofitHelper() {
         SharedPreferences sp = ContextUtils.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
-        String baseUrl = ForumUtils.getAvailableDomain();
-        mRetrofit = createRetrofit(baseUrl);
+        mBaseUrl = ForumUtils.getAvailableDomain();
+        mRetrofit = createRetrofit();
 
-        sp.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
-                if (key.equals(PreferenceKey.KEY_NGA_DOMAIN)) {
-                    String baseUrl = ForumUtils.getAvailableDomain();
-                    mRetrofit = createRetrofit(baseUrl);
-                }
+        sp.registerOnSharedPreferenceChangeListener((sp1, key) -> {
+            if (key.equals(PreferenceKey.KEY_NGA_DOMAIN)) {
+                mBaseUrl = ForumUtils.getAvailableDomain();
+                mRetrofit = createRetrofit();
             }
         });
     }
 
-    private Retrofit createRetrofit(String baseUrl) {
+    public Retrofit createRetrofit() {
+        return createRetrofit(mBaseUrl, null);
+    }
+
+    public Retrofit createRetrofit(String baseUrl) {
+        return createRetrofit(baseUrl, null);
+    }
+
+    public Retrofit createRetrofit(OkHttpClient.Builder builder) {
+        return createRetrofit(mBaseUrl, builder);
+    }
+
+    public Retrofit createRetrofit(String baseUrl, OkHttpClient.Builder builder) {
+        if (builder == null) {
+            builder = createOkHttpClientBuilder();
+        }
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(JsonStringConvertFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(builder.build())
+                .build();
+    }
+
+    public OkHttpClient.Builder createOkHttpClientBuilder() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(chain -> {
             Request original = chain.request();
@@ -61,12 +78,7 @@ public class RetrofitHelper {
             Debugger.collectRequest(request);
             return chain.proceed(request);
         });
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(JsonStringConvertFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(builder.build())
-                .build();
+        return builder;
     }
 
     public static RetrofitHelper getInstance() {
