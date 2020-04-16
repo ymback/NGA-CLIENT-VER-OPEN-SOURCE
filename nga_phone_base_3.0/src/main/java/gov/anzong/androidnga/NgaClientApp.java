@@ -37,7 +37,7 @@ public class NgaClientApp extends Application {
     }
 
     private void fixWebViewMultiProcessException() {
-        Object obj = ReflectUtils.invokeMethodAndGetResult(Process.class, "myPpid");
+        Object obj = ReflectUtils.invokeMethod(Process.class, "myPpid");
         if (obj != null) {
             int ppid = (int) obj;
             if (ppid == 1) {

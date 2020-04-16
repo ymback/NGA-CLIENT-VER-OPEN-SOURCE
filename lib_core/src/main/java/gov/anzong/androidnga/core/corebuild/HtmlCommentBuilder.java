@@ -2,7 +2,7 @@ package gov.anzong.androidnga.core.corebuild;
 
 import android.text.TextUtils;
 
-import gov.anzong.androidnga.common.util.StringUtils;
+import gov.anzong.androidnga.common.util.FileUtils;
 import gov.anzong.androidnga.core.data.CommentData;
 import gov.anzong.androidnga.core.data.HtmlData;
 import gov.anzong.androidnga.core.decode.ForumDecoder;
@@ -17,7 +17,7 @@ public class HtmlCommentBuilder implements IHtmlBuild {
 
     private static String getFormattedHtml() {
         if (sFormattedHtml == null) {
-            sFormattedHtml = StringUtils.getStringFromAssets("html/html_comment_template.html");
+            sFormattedHtml = FileUtils.readAssetToString("html/html_comment_template.html");
         }
         return sFormattedHtml;
     }

@@ -8,9 +8,12 @@ import java.nio.charset.StandardCharsets;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 
-public class StringUtils {
+/**
+ * @author yangyihang
+ */
+public class FileUtils {
 
-    public static String getStringFromAssets(String path) {
+    public static String readAssetToString(String path) {
         AssetManager assetManager = ContextUtils.getContext().getAssets();
         try (InputStream is = assetManager.open(path)) {
             int length = is.available();
