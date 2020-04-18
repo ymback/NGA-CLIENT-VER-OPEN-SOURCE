@@ -1,7 +1,7 @@
 package sp.phone.mvp.contract;
 
 import sp.phone.http.bean.MessageListInfo;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/10/9.

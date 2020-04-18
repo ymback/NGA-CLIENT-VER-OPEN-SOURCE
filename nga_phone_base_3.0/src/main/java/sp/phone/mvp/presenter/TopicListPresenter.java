@@ -1,19 +1,18 @@
 package sp.phone.mvp.presenter;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.model.BoardModel;
 import sp.phone.mvp.model.entity.Board;
 import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
 import sp.phone.ui.fragment.TopicSearchFragment;
-import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.TopicListModel;
 import sp.phone.mvp.model.entity.ThreadPageInfo;

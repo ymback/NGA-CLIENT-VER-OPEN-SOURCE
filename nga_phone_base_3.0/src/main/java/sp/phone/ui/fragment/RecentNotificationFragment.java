@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.anzong.androidnga.R;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
 import sp.phone.ui.adapter.RecentNotificationAdapter;
 import sp.phone.common.PhoneConfiguration;

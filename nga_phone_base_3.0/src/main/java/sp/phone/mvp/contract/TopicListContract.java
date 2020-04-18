@@ -2,7 +2,7 @@ package sp.phone.mvp.contract;
 
 import sp.phone.mvp.model.entity.Board;
 import sp.phone.param.TopicListParam;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
 

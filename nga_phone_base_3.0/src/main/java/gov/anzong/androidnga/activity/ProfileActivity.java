@@ -37,7 +37,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.param.ParamKey;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;

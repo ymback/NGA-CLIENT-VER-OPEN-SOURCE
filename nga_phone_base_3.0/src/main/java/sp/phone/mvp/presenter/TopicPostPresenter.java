@@ -24,7 +24,7 @@ import gov.anzong.androidnga.common.util.EmoticonUtils;
 import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.param.PostParam;
 import sp.phone.ui.fragment.TopicPostFragment;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.mvp.model.TopicPostModel;
 import sp.phone.task.TopicPostTask;
@@ -96,12 +96,14 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
     public void setPostParam(PostParam postParam) {
         mPostParam = postParam;
         mBaseModel.getPostInfo(mPostParam, new OnHttpCallBack<PostParam>() {
+            @Override
             public void onError(String text) {
                 if (mBaseView != null) {
                     ActivityUtils.showToast(text);
                 }
             }
 
+            @Override
             public void onSuccess(PostParam data) {
                 mPostParam = data;
             }
@@ -144,6 +146,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
     public void startUploadTask(final Uri uri) {
         mBaseView.showUploadFileProgressBar();
         mBaseModel.uploadFile(uri, mPostParam, new OnHttpCallBack<String>() {
+            @Override
             public void onError(String text) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
@@ -151,6 +154,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
                 }
             }
 
+            @Override
             public void onSuccess(String data) {
                 if (mBaseView != null) {
                     mBaseView.hideUploadFileProgressBar();
