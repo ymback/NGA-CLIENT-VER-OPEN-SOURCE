@@ -1,41 +1,78 @@
 package gov.anzong.androidnga.base.util;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
-import java.lang.ref.WeakReference;
-
 public class ContextUtils {
-
-    private static WeakReference<Context> sContext;
 
     private static Application sApplication;
 
-    public static void setContext(Context context) {
-        sContext = new WeakReference<>(context);
-    }
+    private static Activity sResumedActivity;
 
     public static Context getContext() {
-        if (sContext == null || sContext.get() == null) {
-            return sApplication;
-        } else {
-            return sContext.get();
-        }
+        return sResumedActivity == null ? sApplication : sResumedActivity;
     }
 
     public static void setApplication(Application application) {
         sApplication = application;
+        sApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+                sResumedActivity = activity;
+            }
+
+            @Override
+            public void onActivityStarted(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(@NonNull Activity activity) {
+                sResumedActivity = activity;
+
+            }
+
+            @Override
+            public void onActivityPaused(@NonNull Activity activity) {
+                if (activity == sResumedActivity) {
+                    sResumedActivity = null;
+                }
+
+            }
+
+            @Override
+            public void onActivityStopped(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(@NonNull Activity activity) {
+                if (activity == sResumedActivity) {
+                    sResumedActivity = null;
+                }
+
+            }
+        });
     }
 
     public static Application getApplication() {

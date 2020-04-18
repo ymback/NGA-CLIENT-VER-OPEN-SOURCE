@@ -41,7 +41,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ContextUtils.setContext(this);
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
@@ -185,7 +184,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         checkUpgrade();
-        ContextUtils.setContext(this);
         NotificationController.getInstance().checkNotificationDelay();
         super.onResume();
     }
