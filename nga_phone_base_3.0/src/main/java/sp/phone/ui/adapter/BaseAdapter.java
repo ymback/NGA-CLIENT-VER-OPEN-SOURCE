@@ -1,15 +1,12 @@
 package sp.phone.ui.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.justwen.androidnga.cloud.CloudServerManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
-import sp.phone.mvp.model.entity.ThreadPageInfo;
 
 /**
  * Created by Justwen on 2018/3/23.
@@ -51,14 +48,6 @@ public abstract class BaseAdapter<E, T extends RecyclerView.ViewHolder> extends 
         if (index != -1) {
             removeItem(index);
         }
-    }
-
-    private void uploadCrashInfo(E e) {
-        if (e instanceof ThreadPageInfo) {
-            CloudServerManager.putCrashData(mContext, "ThreadPageInfo", e.toString());
-            CloudServerManager.putCrashData(mContext, "ThreadPageInfo_exist", mDataList.get(((ThreadPageInfo) e).getPage()).toString());
-        }
-
     }
 
     public void clear() {
