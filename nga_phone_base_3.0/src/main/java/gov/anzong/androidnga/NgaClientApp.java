@@ -42,7 +42,7 @@ public class NgaClientApp extends Application {
         if (obj != null) {
             int ppid = (int) obj;
             if (ppid == 1) {
-                WebView.setDataDirectorySuffix("_multi");
+                Process.killProcess(Process.myPid());
             }
         }
     }
