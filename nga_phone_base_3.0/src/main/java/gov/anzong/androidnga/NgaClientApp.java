@@ -34,6 +34,7 @@ public class NgaClientApp extends Application {
         fixWebViewMultiProcessException();
         checkNewVersion();
         CloudServerManager.init(this);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandlerProxy(Thread.getDefaultUncaughtExceptionHandler()));
     }
 
     private void fixWebViewMultiProcessException() {
