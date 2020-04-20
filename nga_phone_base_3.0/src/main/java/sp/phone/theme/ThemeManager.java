@@ -84,7 +84,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
-        },delay);
+        }, delay);
     }
 
     private void applyDayNight() {
@@ -114,12 +114,12 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     public boolean isNightMode() {
-        return ContextUtils.getResources().getBoolean(R.bool.night_mode);
+        return mNightModeFollowSystem ? ContextUtils.getResources().getBoolean(R.bool.night_mode) : mNightMode;
     }
 
-    public void setNightMode(boolean isNightMode){
+    public void setNightMode(boolean isNightMode) {
         SharedPreferences sp = ContextUtils.getSharedPreferences(PreferenceKey.PERFERENCE);
-        sp.edit().putBoolean(PreferenceKey.NIGHT_MODE,isNightMode).apply();
+        sp.edit().putBoolean(PreferenceKey.NIGHT_MODE, isNightMode).apply();
     }
 
     @ColorInt
