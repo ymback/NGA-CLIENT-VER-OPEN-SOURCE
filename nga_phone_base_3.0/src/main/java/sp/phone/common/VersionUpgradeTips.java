@@ -330,4 +330,10 @@ public interface VersionUpgradeTips {
             + "● 上传图片超时时间临时修改为1分钟\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
             + "客户端吐槽QQ群:714556852,\n";
+
+    String TIPS_3033 = "更新内容\n"
+            + "● 支持在合集中发帖\n"
+            + "● 临时解决无法访问水区\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,\n";
 }
