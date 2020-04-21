@@ -26,13 +26,13 @@ public class NgaClientApp extends Application {
     public void onCreate() {
         NLog.w(TAG, "app nga android start");
         ContextUtils.setApplication(this);
+        checkNewVersion();
         VersionUpgradeHelper.upgrade();
         initCoreModule();
         initRouter();
         super.onCreate();
 
         fixWebViewMultiProcessException();
-        checkNewVersion();
         CloudServerManager.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandlerProxy(Thread.getDefaultUncaughtExceptionHandler()));
     }
@@ -66,6 +66,7 @@ public class NgaClientApp extends Application {
     private void checkNewVersion() {
         int versionCode = PreferenceUtils.getData(PreferenceKey.VERSION_CODE, 0);
         if (BuildConfig.VERSION_CODE > versionCode) {
+            PreferenceUtils.putData(PreferenceKey.PREVIOUS_VERSION_CODE, versionCode);
             PreferenceUtils.putData(PreferenceKey.VERSION_CODE, BuildConfig.VERSION_CODE);
             sNewVersion = true;
         }

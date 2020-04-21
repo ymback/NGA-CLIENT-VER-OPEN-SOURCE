@@ -139,6 +139,19 @@ public class CategoryBean implements JavaBean {
             public void setHead(String head) {
                 this.head = head;
             }
+
+            @Override
+            public String toString() {
+                return "ContentBean{" +
+                        "fid=" + fid +
+                        ", name='" + name + '\'' +
+                        ", info='" + info + '\'' +
+                        ", nameS='" + nameS + '\'' +
+                        ", infoS='" + infoS + '\'' +
+                        ", stid=" + stid +
+                        ", head='" + head + '\'' +
+                        '}';
+            }
         }
     }
 }

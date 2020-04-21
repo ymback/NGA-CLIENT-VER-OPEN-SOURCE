@@ -85,6 +85,10 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
             builder.append("&tid=").append(postParam.getPostTid());
         }
 
+        if (postParam.getStid() != null) {
+            builder.append("&stid=").append(postParam.getStid());
+        }
+
         mRetrofitService.post(builder.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

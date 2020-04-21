@@ -30,6 +30,8 @@ public class PostParam implements Parcelable {
 
     private String mPostTid;
 
+    private String mStid;
+
     public static final Creator<PostParam> CREATOR = new Creator<PostParam>() {
 
         @Override
@@ -52,6 +54,7 @@ public class PostParam implements Parcelable {
         mPostContent = in.readString();
         mAnonymous = in.readByte() != (byte) 0;
         mAuthCode = in.readString();
+        mStid = in.readString();
     }
 
     @Override
@@ -64,8 +67,10 @@ public class PostParam implements Parcelable {
         dest.writeString(mPostContent);
         dest.writeByte((byte) (mAnonymous ? 1 : 0));
         dest.writeString(mAuthCode);
+        dest.writeString(mStid);
     }
 
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -132,6 +137,7 @@ public class PostParam implements Parcelable {
         return mPostTid;
     }
 
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("step=2");
         builder.append("&post_content=").append(StringUtils.encodeUrl(mPostContent, "GBK"));
@@ -156,7 +162,19 @@ public class PostParam implements Parcelable {
         if (mAttachments != null) {
             builder.append("&attachments=").append(mAttachments).append("&attachments_check=").append(mAttachmentsCheck);
         }
+
+        if (mStid != null) {
+            builder.append("&stid=").append(mStid);
+        }
         return builder.toString();
+    }
+
+    public String getStid() {
+        return mStid;
+    }
+
+    public void setStid(String stid) {
+        mStid = stid;
     }
 
     public void appendAttachment(String attachment, String attachmentCheck) {

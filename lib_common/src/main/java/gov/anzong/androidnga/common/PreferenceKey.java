@@ -85,4 +85,7 @@ public interface PreferenceKey {
     public static final String VERSION_MIRROR_CODE = "version_mirror_code";
 
     public static final String VERSION_CODE = "version_code";
+
+    public static final String PREVIOUS_VERSION_CODE = "previous_version_code";
+
 }

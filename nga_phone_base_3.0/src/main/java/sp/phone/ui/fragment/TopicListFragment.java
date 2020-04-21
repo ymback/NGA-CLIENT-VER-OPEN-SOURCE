@@ -56,7 +56,6 @@ public class TopicListFragment extends TopicSearchFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int layoutId = R.layout.fragment_topic_list_board;
-        ;
         return inflater.inflate(layoutId, container, false);
     }
 
@@ -111,6 +110,7 @@ public class TopicListFragment extends TopicSearchFragment {
         ARouter.getInstance()
                 .build(ARouterConstants.ACTIVITY_POST)
                 .withInt(ParamKey.KEY_FID, mRequestParam.fid)
+                .withString(ParamKey.KEY_STID, mRequestParam.stid != 0 ? String.valueOf(mRequestParam.stid) : null)
                 .withString(ParamKey.KEY_ACTION, "new")
                 .navigation();
     }

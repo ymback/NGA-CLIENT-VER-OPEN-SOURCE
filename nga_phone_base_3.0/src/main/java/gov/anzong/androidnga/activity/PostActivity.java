@@ -69,6 +69,7 @@ public class PostActivity extends BaseActivity {
         String pid = intent.getStringExtra(ParamKey.KEY_PID);
         String action = intent.getStringExtra(ParamKey.KEY_ACTION);
         String prefix = intent.getStringExtra("prefix");
+        String stid = intent.getStringExtra(ParamKey.KEY_STID);
         if (prefix != null && prefix.startsWith("[quote][pid=") && prefix.endsWith("[/quote]\n")) {
             SpannableString spanString = new SpannableString(prefix);
             spanString.setSpan(new BackgroundColorSpan(-1513240), 0, prefix.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -81,6 +82,7 @@ public class PostActivity extends BaseActivity {
         act.setPostPid(pid);
         act.setPostContent(prefix);
         act.setPostSubject(title);
+        act.setStid(stid);
         return act;
     }
 

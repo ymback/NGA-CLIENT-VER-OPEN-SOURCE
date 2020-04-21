@@ -37,8 +37,6 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
         List<CategoryBean> beans = JSON.parseArray(categoryJson, CategoryBean.class);
         List<BoardCategory> categories = new ArrayList<>();
 
-        boolean fixBookmarkBoard = false;
-
         for (CategoryBean categoryBean : beans) {
             BoardCategory category = new BoardCategory(categoryBean.getName());
             for (CategoryBean.SubBean subBean : categoryBean.getSub()) {
@@ -50,27 +48,51 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
                     } else {
                         boardName = contentBean.getNameS();
                     }
+
                     Board board = new Board(contentBean.getFid(), contentBean.getStid(), boardName);
                     board.setBoardHead(contentBean.getHead());
                     subCategory.addBoard(board);
-
-                    if (NgaClientApp.isNewVersion()) {
-                        if (contentBean.getHead() != null && mBookmarkCategory.contains(board)) {
-                            fixBookmarkBoard = true;
-                            mBookmarkCategory.getBoard(board.getBoardKey()).setBoardHead(contentBean.getHead());
-                        }
-                    }
 
                 }
                 category.addSubCategory(subCategory);
             }
             categories.add(category);
         }
-        if (fixBookmarkBoard) {
-            saveBookmark();
-        }
+        upgradeBookmarkBoard(categories);
         return categories;
     }
+
+    private void upgradeBookmarkBoard(List<BoardCategory> preloadCategory) {
+        if (!NgaClientApp.isNewVersion()) {
+            return;
+        }
+        int previousVersionCode = PreferenceUtils.getData(PreferenceKey.PREVIOUS_VERSION_CODE, Integer.MAX_VALUE);
+
+        if (previousVersionCode < 3033) {
+            List<Board> allPreloadBoards = new ArrayList<>();
+            for (BoardCategory category : preloadCategory) {
+                if (category.getSubCategoryList() != null && !category.getSubCategoryList().isEmpty()) {
+                    for (BoardCategory subCategory : category.getSubCategoryList()) {
+                        allPreloadBoards.addAll(subCategory.getBoardList());
+                    }
+                } else {
+                    allPreloadBoards.addAll(category.getBoardList());
+                }
+            }
+            for (Board board : allPreloadBoards) {
+                for (Board bookmark : mBookmarkCategory.getBoardList()) {
+                    if (bookmark.getFid() != 0 && bookmark.getFid() == board.getFid()) {
+                        bookmark.setBoardHead(board.getBoardHead());
+                    }
+                    if (bookmark.getStid() != 0 && bookmark.getStid() == board.getStid()) {
+                        bookmark.setFid(board.getFid());
+                    }
+                }
+            }
+            saveBookmark();
+        }
+    }
+
 
     private BoardCategory loadBookmarkBoards() {
         BoardCategory category = new BoardCategory("我的收藏");
