@@ -18,14 +18,14 @@ public class CloudServerManager {
     public static void init(Context context) {
         try {
             BuglyWrapper.init(context);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
         try {
             sCloudServer = new UMengWrapper();
             sCloudServer.init(context);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             sCloudServer = null;
         }
