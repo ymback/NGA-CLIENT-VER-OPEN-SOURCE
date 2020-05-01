@@ -1,10 +1,12 @@
 package sp.phone.mvp.presenter;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.http.OnHttpCallBack;
@@ -103,7 +105,18 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
             if (pageQueriedCounter == twentyFourPageCount) {
                 twentyFourCurPos = 0;
                 List<ThreadPageInfo> threadPageList = twentyFourList.getThreadPageList();
-                threadPageList.removeIf(item -> (data.curTime - item.getPostDate() > 24 * 60 * 60));
+                if (DeviceUtils.isGreaterEqual_7_0()) {
+                    threadPageList.removeIf(item -> (data.curTime - item.getPostDate() > 24 * 60 * 60));
+                } else {
+                    final Iterator<ThreadPageInfo> each = threadPageList.iterator();
+                    while (each.hasNext()) {
+                        ThreadPageInfo item = each.next();
+                        if (data.curTime - item.getPostDate() > 24 * 60 * 60) {
+                            each.remove();
+                        }
+                    }
+                }
+
                 if (threadPageList.size() > twentyFourTopicCount) {
                     threadPageList.subList(twentyFourTopicCount, threadPageList.size());
                 }

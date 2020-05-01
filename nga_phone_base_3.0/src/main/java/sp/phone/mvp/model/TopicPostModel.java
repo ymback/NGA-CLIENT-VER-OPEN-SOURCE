@@ -201,6 +201,9 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
     }
 
     private void uploadFileInner(MultipartBody multipartBody, Uri uri, PostParam postParam, OnHttpCallBack<String> callBack, boolean compress) {
+        if (getLifecycleProvider() == null) {
+            return;
+        }
         mRetrofitService.uploadFile(BASE_URL_ATTACHMENT_SERVER, multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

@@ -78,14 +78,16 @@ public class ForumListActivity extends BaseActivity {
     }
 
     public void notifyResult(ForumsListModel model) {
-        for (ForumsListModel.Result result : model.getResult()) {
-            for (ForumsListModel.Group group : result.getGroups()) {
-                for (ForumsListModel.Forum forum : group.getForums()) {
-                    if (!mDataList.contains(forum))
-                        mDataList.add(forum);
+        if (model.getResult() != null) {
+            for (ForumsListModel.Result result : model.getResult()) {
+                for (ForumsListModel.Group group : result.getGroups()) {
+                    for (ForumsListModel.Forum forum : group.getForums()) {
+                        if (!mDataList.contains(forum))
+                            mDataList.add(forum);
+                    }
                 }
             }
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter.notifyDataSetChanged();
     }
 }

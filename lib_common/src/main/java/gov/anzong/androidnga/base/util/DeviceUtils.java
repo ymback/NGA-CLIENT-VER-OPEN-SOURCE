@@ -3,7 +3,7 @@ package gov.anzong.androidnga.base.util;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
@@ -37,10 +37,13 @@ public class DeviceUtils {
 
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
-        return networkInfo != null
-                && networkInfo.isConnected()
-                && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        if (conMan != null) {
+            NetworkCapabilities capabilities = conMan.getNetworkCapabilities(conMan.getActiveNetwork());
+            if (capabilities != null) {
+                return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+            }
+        }
+        return false;
     }
 
     public static boolean isLandscape(Context context) {
