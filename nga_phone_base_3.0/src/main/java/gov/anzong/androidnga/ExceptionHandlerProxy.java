@@ -1,5 +1,6 @@
 package gov.anzong.androidnga;
 
+import android.os.DeadSystemException;
 import android.os.Process;
 
 import androidx.annotation.NonNull;
@@ -29,10 +30,10 @@ public class ExceptionHandlerProxy implements UncaughtExceptionHandler {
                 || ex instanceof IllegalStateException && thread.getName().equals("GoogleApiHandler")) {
             return;
         }
-        if (mOrigExceptionHandler != null) {
-            mOrigExceptionHandler.uncaughtException(thread, ex);
-        } else {
+        if (mOrigExceptionHandler == null || ex instanceof DeadSystemException) {
             Process.killProcess(Process.myPid());
+        } else {
+            mOrigExceptionHandler.uncaughtException(thread, ex);
         }
     }
 }
