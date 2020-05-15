@@ -22,6 +22,7 @@ import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.util.EmoticonUtils;
 import gov.anzong.androidnga.base.util.ContextUtils;;
+import gov.anzong.androidnga.rxjava.BaseSubscriber;
 import sp.phone.param.PostParam;
 import sp.phone.ui.fragment.TopicPostFragment;
 import gov.anzong.androidnga.http.OnHttpCallBack;
@@ -93,6 +94,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         }
     }//
 
+    @Override
     public void setPostParam(PostParam postParam) {
         mPostParam = postParam;
         mBaseModel.getPostInfo(mPostParam, new OnHttpCallBack<PostParam>() {
@@ -121,6 +123,7 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         super.onViewCreated();
     }
 
+    @Override
     public void post(String title, String body, boolean isAnony) {
         if (mLoading) {
             mBaseView.showToast(R.string.avoidWindfury);
@@ -135,14 +138,21 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         }
     }
 
+    @Override
     public void showFilePicker() {
-        PermissionUtils.request(mBaseView, aBoolean -> {
-            if (aBoolean) {
-                mBaseView.showFilePicker();
+        PermissionUtils.request(mBaseView, new BaseSubscriber<Boolean>(){
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean != null && aBoolean) {
+                    mBaseView.showFilePicker();
+                }
+
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
+    @Override
     public void startUploadTask(final Uri uri) {
         mBaseView.showUploadFileProgressBar();
         mBaseModel.uploadFile(uri, mPostParam, new OnHttpCallBack<String>() {
@@ -165,30 +175,37 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         });
     }
 
+    @Override
     public void insertAtFormat() {
         mBaseView.insertBodyText("[@]", 2);
     }
 
+    @Override
     public void insertQuoteFormat() {
         mBaseView.insertBodyText("[quote][/quote]", "[quote]".length());
     }
 
+    @Override
     public void insertUrlFormat() {
         mBaseView.insertBodyText("[url][/url]", "[url]".length());
     }
 
+    @Override
     public void insertBoldFormat() {
         mBaseView.insertBodyText("[b][/b]", "[b]".length());
     }
 
+    @Override
     public void insertItalicFormat() {
         mBaseView.insertBodyText("[i][/i]", "[i]".length());
     }
 
+    @Override
     public void insertUnderLineFormat() {
         mBaseView.insertBodyText("[u][/u]", "[u]".length());
     }
 
+    @Override
     public void insertDeleteLineFormat() {
         mBaseView.insertBodyText("[del][/del]", "[del]".length());
     }
@@ -198,22 +215,27 @@ public class TopicPostPresenter extends BasePresenter<TopicPostFragment, TopicPo
         mBaseView.insertBodyText("[collapse][/collapse]", "[collapse]".length());
     }
 
+    @Override
     public void insertFontColorFormat(String fontColor) {
         mBaseView.insertBodyText(fontColor, fontColor.length() - "[/color]".length());
     }
 
+    @Override
     public void insertFontSizeFormat(String fontSize) {
         mBaseView.insertBodyText(fontSize, "[size=100%]".length());
     }
 
+    @Override
     public void insertTopicCategory(String category) {
         mBaseView.insertTitleText(category);
     }
 
+    @Override
     public void loadTopicCategory(OnHttpCallBack<List<String>> callBack) {
         mBaseModel.loadTopicCategory(mPostParam, callBack);
     }
 
+    @Override
     public void onArticlePostFinished(boolean isSuccess, String result) {
         ActivityUtils.getInstance().dismiss();
         if (mBaseView != null) {

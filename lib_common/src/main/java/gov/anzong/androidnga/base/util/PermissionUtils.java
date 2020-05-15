@@ -3,14 +3,17 @@ package gov.anzong.androidnga.base.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import gov.anzong.androidnga.rxjava.DefaultSubsriber;
+import io.reactivex.Observer;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -37,9 +40,8 @@ public class PermissionUtils {
         new RxPermissions(activity).requestEach(permissions).subscribe(consumer);
     }
 
-    public static void request(AppCompatActivity activity, @Nullable Consumer<Boolean> consumer, String permission) {
-        consumer = createIfNull(consumer);
-        new RxPermissions(activity).request(permission).subscribe(consumer);
+    public static void request(AppCompatActivity activity, @Nullable Observer<Boolean> consumer, String permission) {
+        new RxPermissions(activity).request(permission).subscribe(consumer == null ? new DefaultSubsriber<>() : consumer);
     }
 
     public static void requestCombined(Fragment fragment, @Nullable Consumer<? super Permission> consumer, String... permissions) {
@@ -52,9 +54,8 @@ public class PermissionUtils {
         new RxPermissions(fragment).requestEach(permissions).subscribe(consumer);
     }
 
-    public static void request(Fragment fragment, @Nullable Consumer<Boolean> consumer, String permission) {
-        consumer = createIfNull(consumer);
-        new RxPermissions(fragment).request(permission).subscribe(consumer);
+    public static void request(Fragment fragment, @Nullable Observer<Boolean> consumer, String permission) {
+        new RxPermissions(fragment).request(permission).subscribe(consumer == null ? new DefaultSubsriber<>() : consumer);
     }
 
     private static <T> Consumer<T> createIfNull(Consumer<T> consumer) {
