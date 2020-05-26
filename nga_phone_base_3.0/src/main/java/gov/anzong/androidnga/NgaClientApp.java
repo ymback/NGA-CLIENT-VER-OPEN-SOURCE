@@ -38,12 +38,9 @@ public class NgaClientApp extends Application {
     }
 
     private void fixWebViewMultiProcessException() {
-        Object obj = ReflectUtils.invokeMethod(Process.class, "myPpid");
-        if (obj != null) {
-            int ppid = (int) obj;
-            if (ppid == 1) {
-                Process.killProcess(Process.myPid());
-            }
+        int index = PreferenceUtils.getData(PreferenceKey.KEY_WEBVIEW_DATA_INDEX, 0);
+        if (index > 0) {
+            WebView.setDataDirectorySuffix(String.valueOf(index));
         }
     }
 
@@ -69,6 +66,7 @@ public class NgaClientApp extends Application {
             PreferenceUtils.putData(PreferenceKey.PREVIOUS_VERSION_CODE, versionCode);
             PreferenceUtils.putData(PreferenceKey.VERSION_CODE, BuildConfig.VERSION_CODE);
             sNewVersion = true;
+            PreferenceUtils.putData(PreferenceKey.KEY_WEBVIEW_DATA_INDEX, 0);
         }
     }
 

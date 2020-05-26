@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.TimeoutException;
 
+import gov.anzong.androidnga.base.util.PreferenceUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
+
 
 /**
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类
@@ -30,6 +33,15 @@ public class ExceptionHandlerProxy implements UncaughtExceptionHandler {
                 || ex instanceof IllegalStateException && thread.getName().equals("GoogleApiHandler")) {
             return;
         }
+
+        if (ex instanceof RuntimeException
+                && ex.getMessage() != null
+                && ex.getMessage().contains("Using WebView from more than one process at once with the same data directory is not supported")) {
+            int index = PreferenceUtils.getData(PreferenceKey.KEY_WEBVIEW_DATA_INDEX, 0);
+            index++;
+            PreferenceUtils.edit().putInt(PreferenceKey.KEY_WEBVIEW_DATA_INDEX, index).commit();
+        }
+
         if (mOrigExceptionHandler == null || ex instanceof DeadSystemException) {
             Process.killProcess(Process.myPid());
         } else {

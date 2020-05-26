@@ -88,4 +88,6 @@ public interface PreferenceKey {
 
     public static final String PREVIOUS_VERSION_CODE = "previous_version_code";
 
+    public static final String KEY_WEBVIEW_DATA_INDEX = "webview_data_index";
+
 }
