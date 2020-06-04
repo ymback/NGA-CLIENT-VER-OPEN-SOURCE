@@ -336,4 +336,11 @@ public interface VersionUpgradeTips {
             + "● 临时解决无法访问水区\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
             + "客户端吐槽QQ群:714556852,\n";
+
+    String TIPS_3034 = "更新内容\n"
+            + "● 修复部分板块打不开的问题\n"
+            + "● 修复一些崩溃\n"
+            + "● 修复子版块状态错误的问题\n"
+            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n"
+            + "客户端吐槽QQ群:714556852,\n";
 }
