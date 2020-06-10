@@ -35,6 +35,12 @@ public abstract class BasePresenter<T extends BaseMvpFragment, E extends BaseMod
     }
 
     protected void onCreate() {
+        if (mBaseModel == null) {
+            mBaseModel = onCreateModel();
+        }
+        if (mBaseModel != null && mBaseView != null) {
+            mBaseModel.setLifecycleProvider(mBaseView.getLifecycleProvider());
+        }
 
     }
 
@@ -64,7 +70,7 @@ public abstract class BasePresenter<T extends BaseMvpFragment, E extends BaseMod
         }
     }
 
-    private void detachView() {
+    public void detachView() {
         mBaseView = null;
         if (mBaseModel != null) {
             mBaseModel.detach();
