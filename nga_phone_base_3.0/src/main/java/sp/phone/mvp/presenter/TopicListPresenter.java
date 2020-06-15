@@ -146,7 +146,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
 
     @Override
     protected TopicListModel onCreateModel() {
-        return TopicListModel.getInstance();
+        return new TopicListModel();
     }
 
     @Override

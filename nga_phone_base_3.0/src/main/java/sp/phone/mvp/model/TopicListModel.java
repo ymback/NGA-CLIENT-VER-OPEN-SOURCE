@@ -48,7 +48,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     private TopicConvertFactory mConvertFactory;
 
-    private TopicListModel() {
+    public TopicListModel() {
         mService = (RetrofitService) RetrofitHelper.getInstance().getService(RetrofitService.class);
         mConvertFactory = new TopicConvertFactory();
     }
@@ -272,13 +272,5 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
             jsonUri.append("&recommend=1&order_by=postdatedesc&user=1");
         }
         return jsonUri.toString();
-    }
-
-    private static class SingletonHolder {
-        private static TopicListModel sInstance = new TopicListModel();
-    }
-
-    public static TopicListModel getInstance() {
-        return SingletonHolder.sInstance;
     }
 }
