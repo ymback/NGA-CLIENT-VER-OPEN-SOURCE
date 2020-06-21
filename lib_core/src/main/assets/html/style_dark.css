@@ -1,50 +1,11 @@
 body {
-    font-size: 24px;
-    word-break: break-all;
-    color: #CFCFCF
-}
-
-table.default {
-    border: 1px solid #aaa;
-    width: 99.9%;
-    font-size: 21px
+    color: #CFCFCF;
 }
 
 div.quote {
     background-color: #1F2021;
-    padding: 10px;
-    border: 1px solid #888
-}
-
-div.title {
-    font-weight: bold;
-}
-
-div.collapse {
-    border: 1px solid #888;
-    padding: 5px;
-    margin: 5px 0 0 0
-}
-
-h5 {
-    font-size: 24px;
-    color: #D00000
-}
-
-img.circle {
-    width: 32px;
-    height: 32px;
-    border-radius: 32px;
-    vertical-align: middle
-}
-
-img.emoticon {
-}
-
-img {
-    max-width: 100%
 }
 
 img.invertFilter {
-    filter: invert(100%)
+    filter: invert(100%);
 }
