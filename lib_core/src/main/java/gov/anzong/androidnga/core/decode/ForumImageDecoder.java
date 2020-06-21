@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gov.anzong.androidnga.base.util.StringUtils;
 import gov.anzong.androidnga.common.util.EmoticonUtils;
 import gov.anzong.androidnga.core.data.HtmlData;
 
@@ -41,10 +42,10 @@ public class ForumImageDecoder implements IForumDecoder {
     @Override
     public String decode(String content, HtmlData htmlData) {
         String replace = String.format(REPLACE_IMG_NO_HTTP, NGA_ATTACHMENT_HOST, "$1");
-        content = content.replaceAll(REGEX_IMG_NO_HTTP, replace);
-        content = content.replaceAll(REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP);
-        content = content.replaceAll("(http\\S+).gif.(thumb_s|medium|thumb|thumb_ss).jpg", "$1.gif");
-        content = content.replaceAll("<a href='(http\\S+).(png|jpg).(thumb_s|medium|thumb|thumb_ss).jpg'", "<a href='$1.$2'");
+        content = StringUtils.replaceAll(content, REGEX_IMG_NO_HTTP, replace);
+        content = StringUtils.replaceAll(content, REGEX_IMG_WITH_HTTP, REPLACE_IMG_WITH_HTTP);
+        content = StringUtils.replaceAll(content, "(http\\S+).gif.(thumb_s|medium|thumb|thumb_ss).jpg", "$1.gif");
+        content = StringUtils.replaceAll(content, "<a href='(http\\S+).(png|jpg).(thumb_s|medium|thumb|thumb_ss).jpg'", "<a href='$1.$2'");
 
         Pattern p = Pattern.compile(REGEX_IMG);
         Matcher m = p.matcher(content);

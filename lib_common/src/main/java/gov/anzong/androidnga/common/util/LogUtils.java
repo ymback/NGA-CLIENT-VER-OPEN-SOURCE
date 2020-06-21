@@ -2,6 +2,9 @@ package gov.anzong.androidnga.common.util;
 
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import gov.anzong.androidnga.common.BuildConfig;
 
 /**
@@ -14,6 +17,8 @@ public class LogUtils {
     private static boolean sDebugMode = BuildConfig.DEBUG;
 
     public static final String TAG = "NGAClient";
+
+    private static ThreadLocal<Map<String, Long>> sComputeCostMap = new ThreadLocal<>();
 
     public static void setDebug(boolean debug) {
         sDebugMode = debug;
@@ -55,7 +60,7 @@ public class LogUtils {
         return Log.e(tag, msg);
     }
 
-    public static void  e(String msg) {
+    public static void e(String msg) {
         if (msg != null) {
             Log.e(TAG, msg);
         }
@@ -120,6 +125,26 @@ public class LogUtils {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static void computeCost(String tag) {
+        if (!BuildConfig.DEBUG) {
+            return;
+        }
+        Map<String, Long> computeMap = sComputeCostMap.get();
+        if (computeMap == null) {
+            computeMap = new HashMap<>();
+            sComputeCostMap.set(computeMap);
+        }
+        if (computeMap.containsKey(tag)) {
+            long prevTime = computeMap.get(tag);
+            computeMap.remove(tag);
+            Log.d(TAG, tag + " cost " + (System.currentTimeMillis() - prevTime) + "ms" + " " + Thread.currentThread().getName());
+            sComputeCostMap.remove();
+        } else {
+            long current = System.currentTimeMillis();
+            computeMap.put(tag, current);
         }
     }
 
