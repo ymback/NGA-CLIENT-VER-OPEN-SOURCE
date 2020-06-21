@@ -194,6 +194,14 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         PreferenceUtils.putData(PreferenceKey.KEY_TOPIC_CONTENT_SIZE, size);
     }
 
+    public int getWebViewTextZoom() {
+        return PreferenceUtils.getData(PreferenceKey.KEY_WEBVIEW_TEXT_ZOOM, Constants.WEBVIEW_DEFAULT_TEXT_ZOOM);
+    }
+
+    public void setWebViewTextZoom(int textRoom) {
+        PreferenceUtils.putData(PreferenceKey.KEY_WEBVIEW_TEXT_ZOOM, textRoom);
+    }
+
     public boolean useSolidColorBackground() {
         return ContextUtils.getSharedPreferences(PreferenceKey.PERFERENCE).getBoolean(PreferenceKey.KEY_USE_SOLID_COLOR_BG, true);
     }

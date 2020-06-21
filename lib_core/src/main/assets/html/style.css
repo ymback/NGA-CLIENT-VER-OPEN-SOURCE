@@ -1,10 +1,10 @@
     <style type="text/css">
-            body {font-size:%dpx;word-break:break-all;color:#000000}
-            table.default { border:1px solid #aaa;width:99.9%%;font-size:%dpx }
+            body {font-size:24px;word-break:break-all;color:#000000}
+            table.default { border:1px solid #aaa;width:99.9%%;font-size:21px }
             div.quote { background-color:#E8E8E8;padding:10px;border:1px solid #888}
             div.title {font-weight:bold;}
             div.collapse {border:1px solid #888;padding:5px;margin:5px 0px 0px 0px}
-            h5 { font-size:22px;color:#D00000}
+            h5 { font-size:24px;color:#D00000}
 			img.circle { width:32px;height:32px;border-radius:32px;vertical-align:middle}
 			img.emoticon { width:%dpx }
 			img { max-width:100%% }

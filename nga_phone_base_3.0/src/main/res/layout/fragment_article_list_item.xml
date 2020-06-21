@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp" />
 
-        <sp.phone.view.webview.WebViewEx
+        <sp.phone.view.webview.LocalWebView
             android:id="@+id/wv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

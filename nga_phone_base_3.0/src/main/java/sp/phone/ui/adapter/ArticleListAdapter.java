@@ -39,7 +39,7 @@ import sp.phone.util.FunctionUtils;
 import sp.phone.util.HtmlUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.StringUtils;
-import sp.phone.view.webview.WebViewEx;
+import sp.phone.view.webview.LocalWebView;
 
 /**
  * 帖子详情列表Adapter
@@ -302,7 +302,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         TextView nickNameTV;
 
         @BindView(R.id.wv_content)
-        WebViewEx contentTV;
+        LocalWebView contentTV;
 
         @BindView(R.id.tv_floor)
         TextView floorTv;
@@ -372,7 +372,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         if (viewType == VIEW_TYPE_WEB_VIEW) {
             viewHolder.contentTextView.setVisibility(View.GONE);
             viewHolder.contentTV.setVisibility(View.VISIBLE);
-            viewHolder.contentTV.setLocalMode();
         } else {
             viewHolder.contentTextView.setVisibility(View.VISIBLE);
             viewHolder.contentTV.setVisibility(View.GONE);

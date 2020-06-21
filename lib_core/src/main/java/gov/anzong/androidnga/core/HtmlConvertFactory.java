@@ -41,7 +41,7 @@ public class HtmlConvertFactory {
 
         String html = builder.toString();
         String cssStr = htmlData.isDarkMode() ? sDarkCssTemplate : sCssTemplate;
-        String style = String.format(cssStr, htmlData.getTextSize(), htmlData.getTableTextSize(), htmlData.getEmotionSize());
+        String style = String.format(cssStr, htmlData.getEmotionSize());
         return String.format(sHtmlTemplate, style, html);
     }
 

@@ -92,4 +92,6 @@ public interface PreferenceKey {
 
     public static final String KEY_CLEAR_CACHE = "key_clear_cache";
 
+    public static final String KEY_WEBVIEW_TEXT_ZOOM = "key_webview_zoom_size";
+
 }

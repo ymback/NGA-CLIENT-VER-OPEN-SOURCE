@@ -125,7 +125,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:minHeight="?attr/listPreferredItemHeight"
             android:orientation="vertical"
             android:paddingTop="16dp"
@@ -151,6 +151,12 @@
                 app:ssb_thumb_radius_on_dragging="10dp"
                 app:ssb_track_color="@color/text_color_disabled"
                 app:ssb_track_size="3dp" />
+
+            <sp.phone.view.webview.LocalWebView
+                android:id="@+id/webview"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
