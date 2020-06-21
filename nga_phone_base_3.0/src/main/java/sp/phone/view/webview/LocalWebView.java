@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 
 import gov.anzong.androidnga.common.view.WebViewEx;
@@ -17,6 +18,8 @@ import sp.phone.common.PhoneConfiguration;
 public class LocalWebView extends WebViewEx implements DownloadListener {
 
     private WebViewClientEx mWebViewClientEx;
+
+    private String mEmotionSize;
 
     public LocalWebView(Context context) {
         this(context, null);
@@ -34,6 +37,7 @@ public class LocalWebView extends WebViewEx implements DownloadListener {
         } catch (Exception e) {
             // 某些机型的WebView不支持以上方法的调用
         }
+        mEmotionSize = PhoneConfiguration.getInstance().getEmoticonSize() + "px";
     }
 
     private void downloadByBrowser(String url) {
@@ -49,6 +53,7 @@ public class LocalWebView extends WebViewEx implements DownloadListener {
 
         WebSettings settings = getSettings();
         settings.setJavaScriptEnabled(true);
+        addJavascriptInterface(this, "action");
         settings.setTextZoom(PhoneConfiguration.getInstance().getWebViewTextZoom());
 
         setFocusableInTouchMode(false);
@@ -64,5 +69,10 @@ public class LocalWebView extends WebViewEx implements DownloadListener {
     @Override
     public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
         downloadByBrowser(url);
+    }
+
+    @JavascriptInterface
+    public String getEmotionSize() {
+        return mEmotionSize;
     }
 }
