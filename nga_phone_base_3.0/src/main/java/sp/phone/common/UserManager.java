@@ -73,4 +73,6 @@ public interface UserManager {
 
     String getAvatarUrl(String uid);
 
+    void clearAvatarUrl();
+
 }

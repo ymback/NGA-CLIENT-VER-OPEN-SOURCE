@@ -90,4 +90,6 @@ public interface PreferenceKey {
 
     public static final String KEY_WEBVIEW_DATA_INDEX = "webview_data_index";
 
+    public static final String KEY_CLEAR_CACHE = "key_clear_cache";
+
 }
