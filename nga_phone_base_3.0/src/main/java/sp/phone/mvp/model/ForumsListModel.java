@@ -100,6 +100,8 @@ public class ForumsListModel {
         public int id;
         public String name;
 
+        public int stid;
+
         public int getId() {
             return id;
         }
@@ -114,6 +116,14 @@ public class ForumsListModel {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public int getStid() {
+            return stid;
+        }
+
+        public void setStid(int stid) {
+            this.stid = stid;
         }
 
         @Override

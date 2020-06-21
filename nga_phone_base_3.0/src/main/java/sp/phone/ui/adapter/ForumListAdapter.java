@@ -85,6 +85,7 @@ public class ForumListAdapter extends RecyclerView.Adapter<ForumListAdapter.View
             intent.putExtra("tab", "1");
             intent.putExtra("fid", forum.getId());
             intent.putExtra("board_name", forum.getName());
+            intent.putExtra("stid", forum.getStid());
             mContext.startActivity(intent);
         }
     };
