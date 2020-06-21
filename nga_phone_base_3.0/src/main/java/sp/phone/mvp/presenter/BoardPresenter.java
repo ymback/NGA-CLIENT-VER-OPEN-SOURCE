@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import gov.anzong.androidnga.util.ToastUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
@@ -183,7 +183,8 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
             ToastUtils.showToast("该版面已存在");
         } else {
             mBaseModel.addBookmark(fid, stid, name);
-            ToastUtils.showToast("添加成功");
+            mBaseView.notifyDataSetChanged();
+            ToastUtils.success("添加成功");
         }
     }
 
