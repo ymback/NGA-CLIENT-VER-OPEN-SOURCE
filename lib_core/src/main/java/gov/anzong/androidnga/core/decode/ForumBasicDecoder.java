@@ -227,6 +227,10 @@ public class ForumBasicDecoder implements IForumDecoder {
         // [h][/h]
         content = content.replaceAll(IGNORE_CASE_TAG + "\\[h](.+?)\\[/h]", "<b>$1</b>");
 
+        //[collapse][/collapse]
+        content = content.replaceAll("\\[collapse=(.*?)](.*?)\\[/collapse]", "<div><button onclick='toggleCollapse(this,\"$1\")'>点击显示内容 : $1</button><div name='collapse' class='collapse' style='display:none'>$2</div></div>");
+        content = content.replaceAll("\\[collapse](.*?)\\[/collapse]", "<div><button onclick='toggleCollapse(this)'>点击显示内容</button><div name='collapse' class='collapse'style='display:none' >$1</div></div>");
+
         return content;
     }
 }

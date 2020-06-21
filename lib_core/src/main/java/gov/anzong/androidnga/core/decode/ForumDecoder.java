@@ -17,7 +17,6 @@ public class ForumDecoder {
     static {
         sDecoderPool.add(new ForumBasicDecoder());
         sDecoderPool.add(new ForumAlbumDecoder());
-        sDecoderPool.add(new ForumCollapseDecoder());
         sDecoderPool.add(new ForumAudioDecoder());
         sDecoderPool.add(new ForumEmoticonDecoder());
         sDecoderPool.add(new ForumImageDecoder());
