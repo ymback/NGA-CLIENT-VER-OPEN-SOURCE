@@ -395,9 +395,11 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 321 && resultCode == Activity.RESULT_OK) {
             String signData = data.getStringExtra("sign");
-            mProfileData.setSign(signData);
-            mSignWebView.requestLayout();
-            handleSignWebView(mSignWebView, mProfileData);
+            if (mProfileData != null) {
+                mProfileData.setSign(signData);
+                mSignWebView.requestLayout();
+                handleSignWebView(mSignWebView, mProfileData);
+            }
         } else if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
             String avatarData = data.getStringExtra("avatar");
             mProfileData.setAvatarUrl(avatarData);
