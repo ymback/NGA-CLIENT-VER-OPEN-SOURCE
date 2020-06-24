@@ -11,7 +11,7 @@ import sp.phone.util.ForumUtils;
 
 public abstract class BaseModel  {
 
-    private LifecycleProvider<FragmentEvent> mProvider;
+    private volatile LifecycleProvider<FragmentEvent> mProvider;
 
     private String mDomain;
 
