@@ -12,11 +12,15 @@ public class StringUtils {
     private static Map<String, Pattern> sPatternMap = new HashMap<>();
 
     public static String replaceAll(String content, String regex, String replacement) {
+        return getPattern(regex).matcher(content).replaceAll(replacement);
+    }
+
+    public static Pattern getPattern(String regex) {
         Pattern pattern = sPatternMap.get(regex);
         if (pattern == null) {
             pattern = Pattern.compile(regex);
             sPatternMap.put(regex, pattern);
         }
-        return pattern.matcher(content).replaceAll(replacement);
+        return pattern;
     }
 }

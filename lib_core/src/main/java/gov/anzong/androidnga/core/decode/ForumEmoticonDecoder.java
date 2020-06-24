@@ -1,7 +1,13 @@
 package gov.anzong.androidnga.core.decode;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import gov.anzong.androidnga.base.util.StringUtils;
+import gov.anzong.androidnga.common.util.LogUtils;
 
 /**
  * Created by Justwen on 2018/8/25.
@@ -124,7 +130,6 @@ public class ForumEmoticonDecoder implements IForumDecoder {
             "鄙视", "闲", "黑脸",//0-32
     };
 
-
     private static final String[] IMG_ADD_DT = {
             "dt01.png", "dt02.png", "dt03.png", "dt04.png", "dt05.png",
             "dt06.png", "dt07.png", "dt08.png", "dt09.png",
@@ -139,30 +144,47 @@ public class ForumEmoticonDecoder implements IForumDecoder {
 
     private static final String HTML_EMOTICON_ACNIANG = "<img class='emoticon invertFilter' src='file:///android_asset/%s/%s'>";
 
-    private String decode(String content, String regex, String[] ubbCodes, String category, String[] fileNames) {
-        Pattern pattern = Pattern.compile(IGNORE_CASE_TAG + regex);
-        Matcher matcher = pattern.matcher(content);
-        String html = category.contains("acniang") ? HTML_EMOTICON_ACNIANG : HTML_EMOTICON;
-        while (matcher.find()) {
-            String emoticon = matcher.group(1);
-            for (int i = 0; i < ubbCodes.length; i++) {
-                if (ubbCodes[i].equals(emoticon)) {
-                    content = content.replace(matcher.group(0), String.format(html, category, fileNames[i]));
-                    break;
-                }
-            }
+    private static Table<String, String, String> sEmotionTable = HashBasedTable.create();
+
+    static {
+        for (int i = 0; i < UBB_CODE_ACNIANG.length; i++) {
+            sEmotionTable.put("ac", UBB_CODE_ACNIANG[i], IMG_ADD_ACNIANG[i]);
         }
-        return content;
+
+        for (int i = 0; i < UBB_CODE_ACNIANG_NEW.length; i++) {
+            sEmotionTable.put("a2", UBB_CODE_ACNIANG_NEW[i], IMG_ADD_ACNIANG_NEW[i]);
+        }
+
+        for (int i = 0; i < UBB_CODE_PST.length; i++) {
+            sEmotionTable.put("pst", UBB_CODE_PST[i], IMG_ADD_PST[i]);
+        }
+        for (int i = 0; i < UBB_CODE_DT.length; i++) {
+            sEmotionTable.put("dt", UBB_CODE_DT[i], IMG_ADD_DT[i]);
+        }
+
+        for (int i = 0; i < UBB_CODE_PENGUIN.length; i++) {
+            sEmotionTable.put("pg", UBB_CODE_PENGUIN[i], IMG_ADD_PENGUIN[i]);
+        }
     }
 
     // 解析从官方客户端和网页版发布的表情
     @Override
     public String decode(String content) {
-        content = decode(content, "\\[s:ac:(.*?)]", UBB_CODE_ACNIANG, "acniang", IMG_ADD_ACNIANG);
-        content = decode(content, "\\[s:a2:(.*?)]", UBB_CODE_ACNIANG_NEW, "newacniang", IMG_ADD_ACNIANG_NEW);
-        content = decode(content, "\\[s:pg:(.*?)]", UBB_CODE_PENGUIN, "pg", IMG_ADD_PENGUIN);
-        content = decode(content, "\\[s:pst:(.*?)]", UBB_CODE_PST, "pst", IMG_ADD_PST);
-        content = decode(content, "\\[s:dt:(.*?)]", UBB_CODE_DT, "dt", IMG_ADD_DT);
+        LogUtils.computeCost(getClass().getSimpleName());
+        Pattern pattern = StringUtils.getPattern("\\[s:(.*?):(.*?)]");
+        Matcher matcher = pattern.matcher(content);
+        while (matcher.find()) {
+            String matched = matcher.group(0);
+            String category = matcher.group(1);
+            String emoticon = matcher.group(2);
+            if (matched == null || category == null || emoticon == null) {
+                continue;
+            }
+            String image = sEmotionTable.get(category, emoticon);
+            String html = category.contains("ac") || category.contains("a2") ? HTML_EMOTICON_ACNIANG : HTML_EMOTICON;
+            content = content.replace(matched, String.format(html, category, image));
+        }
+        LogUtils.computeCost(getClass().getSimpleName());
         return content;
     }
 }

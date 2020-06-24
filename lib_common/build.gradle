@@ -53,4 +53,5 @@ dependencies {
     api "io.reactivex.rxjava2:rxandroid:$project.rxAndroid"
 
     api files('libs/commons-io-2.4.jar')
+    api("com.google.guava:guava:29.0-android")
 }
