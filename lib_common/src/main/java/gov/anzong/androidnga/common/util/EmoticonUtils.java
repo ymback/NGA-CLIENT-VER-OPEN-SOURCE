@@ -8,8 +8,8 @@ import org.apache.commons.io.FilenameUtils;
 public class EmoticonUtils {
 
     public static final String[][] EMOTICON_LABEL = {
-            {"acniang", "AC娘"},
-            {"newacniang", "新版AC娘"},
+            {"ac", "AC娘"},
+            {"a2", "新版AC娘"},
             {"pg", "企鹅"},
             {"pst", "潘斯特"},
             {"dt", "外域三人组"},
