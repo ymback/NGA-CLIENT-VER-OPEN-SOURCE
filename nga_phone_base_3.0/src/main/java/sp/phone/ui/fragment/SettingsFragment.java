@@ -22,6 +22,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
 import gov.anzong.androidnga.activity.SettingsActivity;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
@@ -73,13 +74,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private void clearCache() {
         ThreadUtils.postOnSubThread(() -> {
             // 清除glide缓存
-            Glide.get(getContext()).clearDiskCache();
+            Glide.get(ContextUtils.getContext()).clearDiskCache();
             // 清除avatar数据
             UserManagerImpl.getInstance().clearAvatarUrl();
             // 清除之前的使用过的awp缓存数据
             try {
-                FileUtils.deleteDirectory(getContext().getDir("awp", Context.MODE_PRIVATE));
-                FileUtils.deleteDirectory(getContext().getDir("sogou_webview", Context.MODE_PRIVATE));
+                FileUtils.deleteDirectory(ContextUtils.getContext().getDir("awp", Context.MODE_PRIVATE));
+                FileUtils.deleteDirectory(ContextUtils.getContext().getDir("sogou_webview", Context.MODE_PRIVATE));
             } catch (IOException e) {
                 e.printStackTrace();
             }

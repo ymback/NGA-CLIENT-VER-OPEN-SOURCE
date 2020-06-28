@@ -61,6 +61,10 @@
             android:key="adjust_size"
             android:title="@string/setting_title_size" />
 
+        <PreferenceScreen
+            android:key="key_clear_cache"
+            android:title="清除缓存"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="主题列表设置">
