@@ -6,11 +6,11 @@ import gov.anzong.androidnga.core.data.HtmlData;
 
 public interface IHtmlBuild {
 
-    default String build(HtmlData htmlData) {
+    default CharSequence build(HtmlData htmlData) {
         return "";
     }
 
-    default String build(HtmlData htmlData, List<String> images) {
+    default CharSequence build(HtmlData htmlData, List<String> images) {
         return build(htmlData);
     }
 }

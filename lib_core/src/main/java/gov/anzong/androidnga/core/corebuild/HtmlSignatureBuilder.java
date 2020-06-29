@@ -15,7 +15,7 @@ public class HtmlSignatureBuilder implements IHtmlBuild {
     private static final String HTML_VOTE = "<br/></br>签名<hr/><br/>%s";
 
     @Override
-    public String build(HtmlData htmlData) {
+    public CharSequence build(HtmlData htmlData) {
         if (TextUtils.isEmpty(htmlData.getSignature())) {
             return "";
         } else {

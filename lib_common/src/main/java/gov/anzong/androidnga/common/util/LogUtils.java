@@ -141,7 +141,6 @@ public class LogUtils {
             long prevTime = computeMap.get(tag);
             computeMap.remove(tag);
             Log.d(TAG, tag + " cost " + (System.currentTimeMillis() - prevTime) + "ms" + " " + Thread.currentThread().getName());
-            sComputeCostMap.remove();
         } else {
             long current = System.currentTimeMillis();
             computeMap.put(tag, current);

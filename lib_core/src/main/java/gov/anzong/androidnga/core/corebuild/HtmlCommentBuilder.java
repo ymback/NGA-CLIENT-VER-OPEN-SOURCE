@@ -23,7 +23,7 @@ public class HtmlCommentBuilder implements IHtmlBuild {
     }
 
     @Override
-    public String build(HtmlData htmlData) {
+    public CharSequence build(HtmlData htmlData) {
 
         if (htmlData.getCommentList() == null || htmlData.getCommentList().isEmpty()) {
             return "";

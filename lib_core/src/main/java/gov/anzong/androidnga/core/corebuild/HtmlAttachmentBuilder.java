@@ -56,7 +56,7 @@ public class HtmlAttachmentBuilder implements IHtmlBuild {
     }
 
     @Override
-    public String build(HtmlData htmlData, List<String> images) {
+    public CharSequence build(HtmlData htmlData, List<String> images) {
         if (htmlData.getAttachmentList() == null || htmlData.getAttachmentList().isEmpty()) {
             return "";
         }
@@ -91,7 +91,7 @@ public class HtmlAttachmentBuilder implements IHtmlBuild {
         if (attachmentCount == 0) {
             return "";
         } else {
-            return ret.toString();
+            return ret;
         }
     }
 }
