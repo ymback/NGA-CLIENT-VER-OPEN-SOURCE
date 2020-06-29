@@ -2,6 +2,7 @@ package sp.phone.view.webview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -150,4 +151,9 @@ public class WebViewClientEx extends WebViewClient {
         return true;
     }
 
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        view.getSettings().setBlockNetworkImage(false);
+        super.onPageFinished(view, url);
+    }
 }

@@ -55,6 +55,7 @@ public class LocalWebView extends WebViewEx implements DownloadListener {
         settings.setJavaScriptEnabled(true);
         addJavascriptInterface(this, "action");
         settings.setTextZoom(PhoneConfiguration.getInstance().getWebViewTextZoom());
+        settings.setBlockNetworkImage(true);
 
         setFocusableInTouchMode(false);
         setFocusable(false);
