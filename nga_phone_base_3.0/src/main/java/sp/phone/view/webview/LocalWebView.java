@@ -9,6 +9,9 @@ import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 
+import androidx.annotation.Nullable;
+
+import gov.anzong.androidnga.common.util.LogUtils;
 import gov.anzong.androidnga.common.view.WebViewEx;
 import sp.phone.common.PhoneConfiguration;
 
@@ -20,6 +23,8 @@ public class LocalWebView extends WebViewEx implements DownloadListener {
     private WebViewClientEx mWebViewClientEx;
 
     private String mEmotionSize;
+
+    private String mContentData;
 
     public LocalWebView(Context context) {
         this(context, null);
@@ -70,6 +75,16 @@ public class LocalWebView extends WebViewEx implements DownloadListener {
     @Override
     public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
         downloadByBrowser(url);
+    }
+
+    @Override
+    public void loadDataWithBaseURL(@Nullable String baseUrl, String data, @Nullable String mimeType, @Nullable String encoding, @Nullable String historyUrl) {
+        if (data.equals(mContentData)) {
+            LogUtils.d("Data is not changed, ignore this update");
+            return;
+        }
+        mContentData = data;
+        super.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl);
     }
 
     @JavascriptInterface

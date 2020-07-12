@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -16,6 +13,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
@@ -26,14 +27,14 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.DeviceUtils;
-import sp.phone.http.bean.ThreadData;
-import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.ui.fragment.dialog.AvatarDialogFragment;
-import sp.phone.ui.fragment.dialog.BaseDialogFragment;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.rxjava.RxUtils;
 import sp.phone.theme.ThemeManager;
+import sp.phone.ui.fragment.dialog.AvatarDialogFragment;
+import sp.phone.ui.fragment.dialog.BaseDialogFragment;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.HtmlUtils;
@@ -65,6 +66,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     private LayoutInflater mLayoutInflater;
 
     private ThemeManager mThemeManager = ThemeManager.getInstance();
+
+    private LocalWebView[] mLocalWebViews = new LocalWebView[20];
 
     private View.OnClickListener mOnClientClickListener = new View.OnClickListener() {
         @Override
@@ -254,7 +257,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                                 view.getContext(),
                                 PhoneConfiguration.getInstance().loginActivityClass);
                     }
-                    ((Activity)view.getContext()).startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
+                    ((Activity) view.getContext()).startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
                     return null;
                 }
             }).execute();
@@ -301,8 +304,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         @BindView(R.id.tv_nickName)
         TextView nickNameTV;
 
-        @BindView(R.id.wv_content)
         LocalWebView contentTV;
+
+        @BindView(R.id.wv_container)
+        FrameLayout contentContainer;
 
         @BindView(R.id.tv_floor)
         TextView floorTv;
@@ -371,10 +376,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         lp.width = lp.height = PhoneConfiguration.getInstance().getAvatarSize();
         if (viewType == VIEW_TYPE_WEB_VIEW) {
             viewHolder.contentTextView.setVisibility(View.GONE);
-            viewHolder.contentTV.setVisibility(View.VISIBLE);
+            // viewHolder.contentTV.setVisibility(View.VISIBLE);
         } else {
             viewHolder.contentTextView.setVisibility(View.VISIBLE);
-            viewHolder.contentTV.setVisibility(View.GONE);
+            //  viewHolder.contentTV.setVisibility(View.GONE);
         }
         RxUtils.clicks(viewHolder.nickNameTV, mOnProfileClickListener);
         RxUtils.clicks(viewHolder.replyBtn, mOnReplyClickListener);
@@ -406,7 +411,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         onBindAvatarView(holder.avatarIv, row);
         onBindDeviceType(holder.clientIv, row);
-        onBindContentView(holder, row);
+        onBindContentView(holder, row, position);
 
         int fgColor = mThemeManager.getAccentColor(mContext);
         FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
@@ -419,9 +424,36 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     }
 
-    private void onBindContentView(ArticleViewHolder holder, ThreadRowInfo row) {
+    private LocalWebView createLocalWebView() {
+        LocalWebView localWebView = new LocalWebView(mContext);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMarginStart(mContext.getResources().getDimensionPixelSize(R.dimen.material_standard_half));
+        lp.setMarginEnd(mContext.getResources().getDimensionPixelSize(R.dimen.material_standard_half));
+        localWebView.setLayoutParams(lp);
+        return localWebView;
+    }
+
+    private void onBindContentView(ArticleViewHolder holder, ThreadRowInfo row, int position) {
         String html = row.getFormattedHtmlData();
         if (html != null) {
+            if (mLocalWebViews != null) {
+                LocalWebView localWebView = mLocalWebViews[position];
+                if (localWebView == null) {
+                    localWebView = createLocalWebView();
+                    mLocalWebViews[position] = localWebView;
+                }
+                if (localWebView != holder.contentTV) {
+                    holder.contentContainer.removeView(holder.contentTV);
+                    if (localWebView.getParent() != null) {
+                        ((ViewGroup) localWebView.getParent()).removeView(localWebView);
+                    }
+                    holder.contentTV = localWebView;
+                    holder.contentContainer.addView(localWebView);
+                }
+            } else if (holder.contentTV == null) {
+                holder.contentTV = createLocalWebView();
+                holder.contentContainer.addView(holder.contentTV);
+            }
             holder.contentTV.getWebViewClientEx().setImgUrls(row.getImageUrls());
             holder.contentTV.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
         } else {
