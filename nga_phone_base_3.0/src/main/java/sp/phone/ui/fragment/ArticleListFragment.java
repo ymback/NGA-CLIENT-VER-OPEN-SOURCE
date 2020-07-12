@@ -34,6 +34,7 @@ import sp.phone.mvp.presenter.ArticleListPresenter;
 import sp.phone.param.ArticleListParam;
 import sp.phone.param.ParamKey;
 import sp.phone.rxjava.RxEvent;
+import sp.phone.task.BookmarkTask;
 import sp.phone.ui.adapter.ArticleListAdapter;
 import sp.phone.ui.fragment.dialog.BaseDialogFragment;
 import sp.phone.ui.fragment.dialog.PostCommentDialogFragment;
@@ -131,6 +132,9 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                     break;
                 case R.id.menu_oppose:
                     mPresenter.postOpposeTask(tid, row.getPid());
+                    break;
+                case R.id.menu_favorite:
+                    BookmarkTask.execute(tidStr, pidStr);
                     break;
                 default:
                     break;
