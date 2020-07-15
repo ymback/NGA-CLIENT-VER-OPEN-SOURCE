@@ -1,5 +1,7 @@
 package gov.anzong.androidnga.base.util;
 
+import com.google.common.base.Strings;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -23,4 +25,9 @@ public class StringUtils {
         }
         return pattern;
     }
+
+    public static boolean isEmpty(String content) {
+        return Strings.isNullOrEmpty(content);
+    }
+
 }
