@@ -271,7 +271,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
             if (row.getISANONYMOUS()) {
                 ActivityUtils.showToast("这白痴匿名了,神马都看不到");
-            } else {
+            } else if (row.getAuthor() != null){
                 ARouter.getInstance()
                         .build(ARouterConstants.ACTIVITY_PROFILE)
                         .withString("mode", "username")
