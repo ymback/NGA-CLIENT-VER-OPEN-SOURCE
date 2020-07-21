@@ -107,7 +107,11 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         }
         initFieldMap();
         mFieldMap.put("page", String.valueOf(info.getPage()));
-        mFieldMap.put("tidarray", String.valueOf(info.getTid()));
+        String tidArray = String.valueOf(info.getTid());
+        if (info.getPid() != 0) {
+            tidArray = tidArray +  "_" + info.getPid();
+        }
+        mFieldMap.put("tidarray", tidArray);
         mService.post(mFieldMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
