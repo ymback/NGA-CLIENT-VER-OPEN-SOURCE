@@ -39,7 +39,7 @@ public class BoardSubListFragment extends BaseRxFragment implements View.OnClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        setTitle(String.format("%s - 子版快", bundle.getString(ParamKey.KEY_TITLE)));
+        setTitle(String.format("%s - 子板块", bundle.getString(ParamKey.KEY_TITLE)));
         mBoardList = bundle.getParcelableArrayList("subBoard");
         mSubscribeTask = new SubscribeSubBoardTask(getLifecycleProvider());
         super.onCreate(savedInstanceState);
