@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 def static getDate() {
     def date = new Date()
@@ -124,4 +126,12 @@ dependencies {
     implementation project(':lib_cloud')
     implementation project(':lib_core')
     implementation project(":lib_http")
+
+    // kotlin
+    implementation "androidx.core:core-ktx:1.3.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+repositories {
+    mavenCentral()
 }
