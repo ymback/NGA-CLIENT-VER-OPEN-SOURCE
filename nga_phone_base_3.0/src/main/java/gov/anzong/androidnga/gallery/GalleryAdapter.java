@@ -12,6 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
@@ -47,6 +48,10 @@ public class GalleryAdapter extends PagerAdapter {
         Glide.with(mContext).load(url).listener(mRequestListener).into(new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                if (resource instanceof GifDrawable) {
+                    ((GifDrawable) resource).startFromFirstFrame();
+                    ((GifDrawable) resource).setLoopCount(GifDrawable.LOOP_FOREVER);
+                }
                 photoView.setImageDrawable(resource);
             }
 
