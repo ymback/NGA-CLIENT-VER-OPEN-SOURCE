@@ -141,7 +141,17 @@ public class BoardCategory implements Parcelable {
     }
 
     public Board getBoard(Board.BoardKey boardKey) {
-        return mBoardMap.get(boardKey);
+        if (mSubCategoryList == null) {
+            return mBoardMap.get(boardKey);
+        } else {
+            for (BoardCategory category : mSubCategoryList) {
+                Board board = category.getBoard(boardKey);
+                if (board != null) {
+                    return board;
+                }
+            }
+        }
+        return null;
     }
 
     public boolean contains(Board board) {

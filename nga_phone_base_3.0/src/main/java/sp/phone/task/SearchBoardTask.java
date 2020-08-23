@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import sp.phone.mvp.model.BoardModel;
 import sp.phone.mvp.model.entity.Board;
 import sp.phone.http.OnSimpleHttpCallBack;
 import sp.phone.http.retrofit.RetrofitHelper;
@@ -28,7 +29,11 @@ public class SearchBoardTask {
                         JSONObject obj = JSON.parseObject(s).getJSONObject("data").getJSONObject("0");
                         int fid = obj.getInteger("fid");
                         String title = obj.getString("name");
-                        return new Board(fid, title);
+                        Board board = BoardModel.getInstance().findBoard(String.valueOf(fid));
+                        if (board == null) {
+                            board = new Board(fid, title);
+                        }
+                        return board;
 
                     } catch (Exception e) {
 

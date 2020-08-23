@@ -94,4 +94,6 @@ public interface PreferenceKey {
 
     public static final String KEY_WEBVIEW_TEXT_ZOOM = "key_webview_zoom_size";
 
+    public static final String KEY_PRELOAD_BOARD_VERSION = "key_preload_board_version";
+
 }

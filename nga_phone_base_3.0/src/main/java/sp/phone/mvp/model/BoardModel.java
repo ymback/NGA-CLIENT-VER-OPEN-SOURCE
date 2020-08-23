@@ -8,19 +8,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import gov.anzong.androidnga.NgaClientApp;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.http.bean.CategoryBean;
 import sp.phone.mvp.contract.BoardContract;
 import sp.phone.mvp.model.entity.Board;
 import sp.phone.mvp.model.entity.BoardCategory;
+import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
 
 /**
  * Created by Justwen on 2019/6/23.
  */
 public class BoardModel extends BaseModel implements BoardContract.Model {
+
+    private static final int PRELOAD_BOARD_VERSION = 1;
 
     private List<BoardCategory> mBoardCategoryList = new ArrayList<>();
 
@@ -30,6 +32,17 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
         mBookmarkCategory = loadBookmarkBoards();
         mBoardCategoryList.add(mBookmarkCategory);
         mBoardCategoryList.addAll(loadPreloadBoards());
+    }
+
+    public Board findBoard(String fid) {
+        Board.BoardKey boardKey = new Board.BoardKey(Integer.parseInt(fid), 0);
+        for (BoardCategory boardCategory : mBoardCategoryList) {
+            Board board = boardCategory.getBoard(boardKey);
+            if (board != null) {
+                return board;
+            }
+        }
+        return null;
     }
 
     private List<BoardCategory> loadPreloadBoards() {
@@ -63,33 +76,22 @@ public class BoardModel extends BaseModel implements BoardContract.Model {
     }
 
     private void upgradeBookmarkBoard(List<BoardCategory> preloadCategory) {
-        if (!NgaClientApp.isNewVersion()) {
-            return;
-        }
-        int previousVersionCode = PreferenceUtils.getData(PreferenceKey.PREVIOUS_VERSION_CODE, Integer.MAX_VALUE);
+        int boardVersion = PreferenceUtils.getData(PreferenceKey.KEY_PRELOAD_BOARD_VERSION, 0);
+        if (boardVersion < PRELOAD_BOARD_VERSION) {
+            List<Board> bookmarkBoards = mBookmarkCategory.getBoardList();
+            for (int i = 0; i < bookmarkBoards.size(); i++) {
+                Board board = bookmarkBoards.get(i);
+                for (BoardCategory category : preloadCategory) {
+                    Board fixBoard = category.getBoard(board.getBoardKey());
+                    if (fixBoard != null) {
+                        bookmarkBoards.set(i, fixBoard);
+                        break;
+                    }
+                }
 
-        if (previousVersionCode < 3033) {
-            List<Board> allPreloadBoards = new ArrayList<>();
-            for (BoardCategory category : preloadCategory) {
-                if (category.getSubCategoryList() != null && !category.getSubCategoryList().isEmpty()) {
-                    for (BoardCategory subCategory : category.getSubCategoryList()) {
-                        allPreloadBoards.addAll(subCategory.getBoardList());
-                    }
-                } else {
-                    allPreloadBoards.addAll(category.getBoardList());
-                }
-            }
-            for (Board board : allPreloadBoards) {
-                for (Board bookmark : mBookmarkCategory.getBoardList()) {
-                    if (bookmark.getFid() != 0 && bookmark.getFid() == board.getFid()) {
-                        bookmark.setBoardHead(board.getBoardHead());
-                    }
-                    if (bookmark.getStid() != 0 && bookmark.getStid() == board.getStid()) {
-                        bookmark.setFid(board.getFid());
-                    }
-                }
             }
             saveBookmark();
+            PreferenceUtils.putData(PreferenceKey.KEY_PRELOAD_BOARD_VERSION, PRELOAD_BOARD_VERSION);
         }
     }
 
