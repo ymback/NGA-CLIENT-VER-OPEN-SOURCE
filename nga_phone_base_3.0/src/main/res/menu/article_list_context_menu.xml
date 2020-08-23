@@ -9,10 +9,6 @@
         android:title="@string/edit"/>
 
     <item
-        android:id="@+id/menu_favorite"
-        android:title="收藏"/>
-
-    <item
         android:id="@+id/menu_support"
         android:title="@string/menu_support"/>
 
@@ -31,6 +27,10 @@
     <item
         android:id="@+id/menu_vote"
         android:title="@string/vote_dialog"/>
+
+    <item
+        android:id="@+id/menu_favorite"
+        android:title="收藏"/>
 
     <item
         android:id="@+id/menu_show_this_person_only"
