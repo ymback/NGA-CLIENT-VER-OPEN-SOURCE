@@ -63,7 +63,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     public TopicPostModel() {
         OkHttpClient.Builder builder = RetrofitHelper.getInstance().createOkHttpClientBuilder();
-        builder.connectTimeout(1, TimeUnit.MINUTES);
+        builder.connectTimeout(5, TimeUnit.MINUTES);
         mRetrofitService = RetrofitHelper.getInstance().createRetrofit(builder).create(RetrofitService.class);
     }
 
