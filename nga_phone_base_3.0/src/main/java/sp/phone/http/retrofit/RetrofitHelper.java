@@ -3,11 +3,16 @@ package sp.phone.http.retrofit;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.net.URLDecoder;
+
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.StringUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import gov.anzong.androidnga.debug.Debugger;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import sp.phone.common.UserManagerImpl;
@@ -72,6 +77,17 @@ public class RetrofitHelper {
                     .header("User-Agent", "Nga_Official/80023")
                     .method(original.method(), original.body())
                     .build();
+            return chain.proceed(request);
+        });
+        builder.addInterceptor(chain -> {
+            Request request = chain.request();
+            if (request.method().equalsIgnoreCase("post")) {
+                String body = StringUtils.requestBody2String(request.body());
+                body = URLDecoder.decode(body, "utf-8");
+                if (body.contains("charset=gbk")) {
+                    request = request.newBuilder().post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=GBK"), body)).build();
+                }
+            }
             return chain.proceed(request);
         });
         builder.addInterceptor(chain -> {

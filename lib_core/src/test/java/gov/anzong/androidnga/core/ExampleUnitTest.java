@@ -2,6 +2,9 @@ package gov.anzong.androidnga.core;
 
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import gov.anzong.androidnga.core.data.HtmlData;
 import gov.anzong.androidnga.core.decode.ForumBasicDecoder;
 
@@ -29,5 +32,15 @@ public class ExampleUnitTest {
 
     private HtmlData createHtmlData() {
         return new HtmlData("");
+    }
+
+    @Test
+    public void testSignPost() {
+        String sign = "测试";
+        try {
+            System.out.println(URLEncoder.encode(sign,"gbk"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }

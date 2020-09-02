@@ -2,15 +2,17 @@ package sp.phone.task;
 
 import org.reactivestreams.Subscription;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.param.SignPostParam;
-import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.http.retrofit.RetrofitService;
+import sp.phone.param.SignPostParam;
 import sp.phone.rxjava.BaseSubscriber;
 
 /**
@@ -30,15 +32,21 @@ public class SignPostTask {
         mParamMap.put("__act", "set");
         mParamMap.put("raw", "3");
         mParamMap.put("lite", "js");
+        mParamMap.put("charset", "gbk");
     }
 
     public void execute(SignPostParam postParam, OnHttpCallBack<String> callBack) {
         if (isRunning()) {
             return;
         }
-
+        String sign = postParam.getSign();
+        try {
+            sign = URLEncoder.encode(sign, "gbk");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         mParamMap.put("uid", postParam.getUid());
-        mParamMap.put("sign", postParam.getSign());
+        mParamMap.put("sign", sign);
         mService.post(mParamMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
