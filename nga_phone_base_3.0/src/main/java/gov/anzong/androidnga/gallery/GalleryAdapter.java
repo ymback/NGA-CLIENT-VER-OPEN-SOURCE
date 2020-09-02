@@ -49,8 +49,10 @@ public class GalleryAdapter extends PagerAdapter {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 if (resource instanceof GifDrawable) {
-                    ((GifDrawable) resource).startFromFirstFrame();
-                    ((GifDrawable) resource).setLoopCount(GifDrawable.LOOP_FOREVER);
+                    if (!((GifDrawable) resource).isRunning()) {
+                        ((GifDrawable) resource).startFromFirstFrame();
+                        ((GifDrawable) resource).setLoopCount(GifDrawable.LOOP_FOREVER);
+                    }
                 }
                 photoView.setImageDrawable(resource);
             }

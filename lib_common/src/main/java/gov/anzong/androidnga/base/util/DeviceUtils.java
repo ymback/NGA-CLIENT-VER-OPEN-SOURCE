@@ -36,12 +36,16 @@ public class DeviceUtils {
     }
 
     public static boolean isWifiConnected(Context context) {
-        ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (conMan != null) {
-            NetworkCapabilities capabilities = conMan.getNetworkCapabilities(conMan.getActiveNetwork());
-            if (capabilities != null) {
-                return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+        try {
+            ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (conMan != null) {
+                NetworkCapabilities capabilities = conMan.getNetworkCapabilities(conMan.getActiveNetwork());
+                if (capabilities != null) {
+                    return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+                }
             }
+        } catch (SecurityException e) {
+            e.printStackTrace();
         }
         return false;
     }
