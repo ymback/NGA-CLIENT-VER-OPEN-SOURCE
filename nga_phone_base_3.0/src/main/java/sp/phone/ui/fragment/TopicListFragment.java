@@ -63,10 +63,6 @@ public class TopicListFragment extends TopicSearchFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         updateFloatingMenu();
-
-        if (mRequestParam.fid == 0) {
-            view.findViewById(R.id.fab_post).setEnabled(false);
-        }
     }
 
     private void updateFloatingMenu() {
