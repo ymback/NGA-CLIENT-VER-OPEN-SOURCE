@@ -18,6 +18,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.http.retrofit.converter.JsonStringConvertFactory;
 import sp.phone.util.ForumUtils;
+import sp.phone.util.NLog;
 
 /**
  * Created by Justwen on 2017/10/10.
@@ -81,12 +82,16 @@ public class RetrofitHelper {
         });
         builder.addInterceptor(chain -> {
             Request request = chain.request();
-            if (request.method().equalsIgnoreCase("post")) {
-                String body = StringUtils.requestBody2String(request.body());
-                body = URLDecoder.decode(body, "utf-8");
-                if (body.contains("charset=gbk")) {
-                    request = request.newBuilder().post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=GBK"), body)).build();
+            try {
+                if (request.method().equalsIgnoreCase("post")) {
+                    String body = StringUtils.requestBody2String(request.body());
+                    body = URLDecoder.decode(body, "utf-8");
+                    if (body.contains("charset=gbk")) {
+                        request = request.newBuilder().post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=GBK"), body)).build();
+                    }
                 }
+            } catch (Exception e) {
+                NLog.e(e.getMessage());
             }
             return chain.proceed(request);
         });

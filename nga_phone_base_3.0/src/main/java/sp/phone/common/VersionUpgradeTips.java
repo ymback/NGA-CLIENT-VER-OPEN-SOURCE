@@ -374,7 +374,7 @@ public interface VersionUpgradeTips {
 //            + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
 
     String TIPS_3041 = "更新内容\n"
-            + "● 修复在部分子版块中无法发帖的问题"
+            + "● 修复在部分子版块中无法发帖的问题\n"
             + "● 图片上传的超时时间延长至5分钟\n"
             + "● 解决修改包含中文的签名时出现乱码的问题\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
