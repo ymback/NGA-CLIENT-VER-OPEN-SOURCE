@@ -1,80 +1,80 @@
 package sp.phone.task;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.widget.Toast;
+import com.alibaba.fastjson.JSON;
 
-import org.apache.commons.io.IOUtils;
+import java.util.Map;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
+import gov.anzong.androidnga.http.OnHttpCallBack;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import sp.phone.http.retrofit.RetrofitHelper;
+import sp.phone.http.retrofit.RetrofitService;
+import sp.phone.rxjava.BaseSubscriber;
 
-import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.base.util.ToastUtils;
-import sp.phone.param.HttpPostClient;
-import sp.phone.common.PhoneConfiguration;
-import sp.phone.util.StringUtils;
+public class ReportTask {
 
-public class ReportTask extends AsyncTask<String, Integer, String> {
-    final private Context context;
+    public static class ResultBean {
 
-    public ReportTask(Context context) {
-        super();
-        this.context = context;
-    }
+        /**
+         * error : {"0":"你在217秒后方可举报"}
+         * data : {"0":"操作成功"}
+         * time : 1601530856
+         */
 
-    @Override
-    protected String doInBackground(String... arg0) {
-        if (arg0.length == 0)
-            return null;
-        final String uri = arg0[0];
-        if (StringUtils.isEmpty(uri))
-            return null;
+        private Map<String, String> error;
+        private Map<String, String> data;
+        private int time;
 
-
-        HttpPostClient c = new HttpPostClient(uri);
-        String cookie = PhoneConfiguration.getInstance().getCookie();
-        c.setCookie(cookie);
-        final String body = this.buildBody();
-
-
-        try {
-            InputStream input = null;
-            HttpURLConnection conn = c.post_body(body);
-            if (conn == null)
-                return null;
-
-            input = conn.getInputStream();
-            if (input != null) {
-                String html = IOUtils.toString(input, "gbk");
-                if (html.contains(context.getString(R.string.report_success)))
-                    return "ok";
-
-            }
-
-            if (conn.getResponseCode() == 200) {
-                return "ok";
-            }
-
-
-        } catch (IOException e) {
-
+        public Map<String, String> getError() {
+            return error;
         }
-        return null;
 
-    }
-
-    private String buildBody() {
-        return "Content-Type: application/x-www-form-urlencoded\r\n"
-                + "Content-Length: 0";
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        if (!StringUtils.isEmpty(result)) {
-            ToastUtils.success(R.string.report_success);
+        public Map<String, String> getData() {
+            return data;
         }
+
+        public void setData(Map<String, String> data) {
+            this.data = data;
+        }
+
+        public void setError(Map<String, String> error) {
+            this.error = error;
+        }
+
+        public int getTime() {
+            return time;
+        }
+
+        public void setTime(int time) {
+            this.time = time;
+        }
+    }
+
+    private RetrofitService mService;
+
+    public void pos(Map<String, String> queryMap, Map<String, String> fieldMap, OnHttpCallBack<String> callBack) {
+        if (mService == null) {
+            mService = RetrofitHelper.getInstance().getService();
+        }
+        mService.post(queryMap, fieldMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        ResultBean resultBean = JSON.parseObject(s, ResultBean.class);
+                        if (resultBean.error != null) {
+                            callBack.onError(resultBean.error.get("0"));
+                        } else if (resultBean.data != null) {
+                            callBack.onSuccess(resultBean.data.get("0"));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        callBack.onError(throwable.getMessage());
+                    }
+                });
     }
 
 

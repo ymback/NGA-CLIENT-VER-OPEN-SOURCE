@@ -40,6 +40,10 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("nuke.php")
+    Observable<String> post(@QueryMap Map<String, String> queryMap, @FieldMap Map<String, String> fieldMap);
+
+    @FormUrlEncoded
+    @POST("nuke.php")
     Observable<String> login(@FieldMap Map<String, String> map);
 
     @GET

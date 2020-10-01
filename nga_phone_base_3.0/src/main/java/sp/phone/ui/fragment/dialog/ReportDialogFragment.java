@@ -1,60 +1,72 @@
 package sp.phone.ui.fragment.dialog;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+
 import androidx.fragment.app.DialogFragment;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import gov.anzong.androidnga.R;
-import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.task.ReportTask;
-import sp.phone.task.JsonThreadLoadTask;
 
+/**
+ * @author Justwen
+ */
 public class ReportDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        final TextView tv = new TextView(this.getActivity());
-        alert.setTitle(R.string.report_confirm);
-        tv.setText(R.string.reportdialog_description);
-        tv.setGravity(Gravity.CENTER);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        alert.setView(tv);
-        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_report, null, false);
+        builder.setView(contentView);
+        TextInputEditText editText = contentView.findViewById(android.R.id.edit);
+        builder.setPositiveButton(android.R.string.ok, (arg0, arg1) -> report(editText.getText())
+        ).setNegativeButton(android.R.string.cancel, null);
 
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        int tid = getArguments().getInt("tid", 0);
-                        int pid = getArguments().getInt("pid", 0);
-                        String url = Utils.getNGAHost() + "nuke.php?func=logpost&tid="
-                                + tid + "&pid=" + pid
-                                + "&log";
-                        ReportTask task = new ReportTask(getActivity());
-                        RunParallen(task, url);
-                    }
+        return builder.create();
+    }
 
-                    @TargetApi(11)
-                    private void RunParallen(ReportTask task, String url) {
-                        task.executeOnExecutor(JsonThreadLoadTask.THREAD_POOL_EXECUTOR, url);
+    private void report(CharSequence value) {
+        Bundle arguments = getArguments();
+        if (arguments == null) {
+            return;
+        }
+        int tid = arguments.getInt("tid", 0);
+        int pid = arguments.getInt("pid", 0);
+        Map<String, String> query = new HashMap<>();
+        Map<String, String> field = new HashMap<>();
 
-                    }
+        query.put("__lib", "log_post");
+        query.put("__act", "report");
+        query.put("__output", "8");
 
-                }
-        );
+        field.put("__output", "8");
+        field.put("__lib", "log_post");
+        field.put("__act", "report");
+        field.put("pid", String.valueOf(pid));
+        field.put("tid", String.valueOf(tid));
+        field.put("info", String.valueOf(value));
+        ReportTask task = new ReportTask();
+        task.pos(query, field, new OnHttpCallBack<String>() {
+            @Override
+            public void onError(String text) {
+                ToastUtils.error(text);
+            }
 
-        alert.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //dialog.dismiss();
+            @Override
+            public void onSuccess(String data) {
+                ToastUtils.success(data);
             }
         });
-
-        return alert.create();
     }
 
 }
