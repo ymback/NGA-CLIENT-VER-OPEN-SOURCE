@@ -14,6 +14,8 @@ public class Board implements Parcelable {
 
     private BoardKey mBoardKey;
 
+    private String mBoardHead;
+
     public static class BoardKey implements Parcelable {
 
         int fid;
@@ -79,6 +81,7 @@ public class Board implements Parcelable {
         mName = in.readString();
         mStd = in.readInt();
         mBoardKey = in.readParcelable(BoardKey.class.getClassLoader());
+        mBoardHead = in.readString();
     }
 
     public Board(int fid, String name) {
@@ -131,6 +134,14 @@ public class Board implements Parcelable {
         return mBoardKey;
     }
 
+    public String getBoardHead() {
+        return mBoardHead;
+    }
+
+    public void setBoardHead(String boardHead) {
+        mBoardHead = boardHead;
+    }
+
     @Deprecated
     public void fixBoardKey() {
         if (mBoardKey == null) {
@@ -140,8 +151,7 @@ public class Board implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Board
-                && (mFid != 0 && mFid == ((Board) obj).mFid || getStid() != 0 && getStid() == ((Board) obj).getStid());
+        return obj instanceof Board && mBoardKey.equals(((Board) obj).getBoardKey());
     }
 
     public String toUrlString() {
@@ -176,5 +186,17 @@ public class Board implements Parcelable {
         dest.writeString(mName);
         dest.writeInt(mStd);
         dest.writeParcelable(mBoardKey, flags);
+        dest.writeString(mBoardHead);
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "mFid=" + mFid +
+                ", mName='" + mName + '\'' +
+                ", mStd=" + mStd +
+                ", mBoardKey=" + mBoardKey +
+                ", mBoardHead='" + mBoardHead + '\'' +
+                '}';
     }
 }

@@ -14,7 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import dalvik.system.DexClassLoader;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 
 /**
  * Created by Justwen on 2018/8/22.
@@ -22,7 +22,7 @@ import sp.phone.common.ApplicationContextHolder;
 public class PluginUtils {
 
     public static ClassLoader createClassLoader(String name) {
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
         File extractFile = context.getFileStreamPath(name);
         String dexPath = extractFile.getPath();
         String libPath = PluginUtils.unzipLibraryFile(dexPath, extractFile.getParent());
@@ -32,7 +32,7 @@ public class PluginUtils {
 
 
     public static void extractPlugin() {
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
         try {
             String[] fileNames = context.getAssets().list("plugin");
             for (String file : fileNames) {

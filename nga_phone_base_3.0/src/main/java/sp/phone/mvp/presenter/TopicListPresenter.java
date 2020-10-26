@@ -1,19 +1,25 @@
 package sp.phone.mvp.presenter;
 
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
+import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.model.BoardModel;
+import sp.phone.mvp.model.entity.Board;
+import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
 import sp.phone.ui.fragment.TopicSearchFragment;
-import sp.phone.http.OnHttpCallBack;
 import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.TopicListModel;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
+import sp.phone.util.ARouterUtils;
 
 /**
  *
@@ -99,7 +105,18 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
             if (pageQueriedCounter == twentyFourPageCount) {
                 twentyFourCurPos = 0;
                 List<ThreadPageInfo> threadPageList = twentyFourList.getThreadPageList();
-                threadPageList.removeIf(item -> (data.curTime - item.getPostDate() > 24 * 60 * 60));
+                if (DeviceUtils.isGreaterEqual_7_0()) {
+                    threadPageList.removeIf(item -> (data.curTime - item.getPostDate() > 24 * 60 * 60));
+                } else {
+                    final Iterator<ThreadPageInfo> each = threadPageList.iterator();
+                    while (each.hasNext()) {
+                        ThreadPageInfo item = each.next();
+                        if (data.curTime - item.getPostDate() > 24 * 60 * 60) {
+                            each.remove();
+                        }
+                    }
+                }
+
                 if (threadPageList.size() > twentyFourTopicCount) {
                     threadPageList.subList(twentyFourTopicCount, threadPageList.size());
                 }
@@ -129,7 +146,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
 
     @Override
     protected TopicListModel onCreateModel() {
-        return TopicListModel.getInstance();
+        return new TopicListModel();
     }
 
     @Override
@@ -221,8 +238,21 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
     }
 
     @Override
+    public void addBookmarkBoard(Board board) {
+        BoardModel.getInstance().addBookmark(board);
+    }
+
+    @Override
     public void removeBookmarkBoard(int fid, int stid) {
         BoardModel.getInstance().removeBookmark(fid, stid);
+    }
+
+    @Override
+    public void startArticleActivity(String tid, String title) {
+        ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_CONTENT)
+                .withInt(ParamKey.KEY_TID, Integer.parseInt(tid))
+                .withString(ParamKey.KEY_TITLE, title)
+                .navigation(ContextUtils.getContext());
     }
 
     @Override

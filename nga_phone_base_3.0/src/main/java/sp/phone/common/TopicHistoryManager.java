@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 
@@ -33,7 +34,7 @@ public class TopicHistoryManager {
     }
 
     private TopicHistoryManager() {
-        mContext = ApplicationContextHolder.getContext();
+        mContext = ContextUtils.getContext();
         String topicStr = PreferenceManager.getDefaultSharedPreferences(mContext).getString(PreferenceKey.KEY_TOPIC_HISTORY, null);
         if (topicStr != null) {
             mTopicList = JSON.parseArray(topicStr, ThreadPageInfo.class);

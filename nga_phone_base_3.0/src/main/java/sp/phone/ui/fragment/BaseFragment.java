@@ -1,13 +1,15 @@
 package sp.phone.ui.fragment;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
@@ -30,6 +32,8 @@ public abstract class BaseFragment extends Fragment {
     private int mTitleId;
 
     private CharSequence mTitleStr;
+
+    private ViewModelProvider mActivityViewModelProvider;
 
     @Deprecated
     public void showToast(int res) {
@@ -121,6 +125,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    protected ViewModelProvider getActivityViewModelProvider() {
+        if (mActivityViewModelProvider == null) {
+            mActivityViewModelProvider = new ViewModelProvider(mActivity);
+        }
+        return mActivityViewModelProvider;
     }
 
 }

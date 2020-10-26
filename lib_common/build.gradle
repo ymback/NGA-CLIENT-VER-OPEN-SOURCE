@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion project.compileSdkVersion
@@ -32,9 +33,10 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:$androidxMaterial"
+    api "androidx.appcompat:appcompat:$androidxAppcompat"
 
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
     api 'io.reactivex.rxjava2:rxjava:2.1.5'
@@ -48,9 +50,16 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
-    api "androidx.appcompat:appcompat:$androidxAppcompat"
     api "com.alibaba:fastjson:$project.fastJson"
     api "io.reactivex.rxjava2:rxandroid:$project.rxAndroid"
 
     api files('libs/commons-io-2.4.jar')
+    api("com.google.guava:guava:29.0-android")
+
+    // kotlin
+    implementation "androidx.core:core-ktx:1.3.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
 }

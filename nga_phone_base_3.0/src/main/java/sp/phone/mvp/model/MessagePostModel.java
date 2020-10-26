@@ -1,6 +1,6 @@
 package sp.phone.mvp.model;
 
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.param.MessagePostParam;
 import sp.phone.mvp.contract.MessagePostContract;
 import sp.phone.task.MessagePostTask;
@@ -13,6 +13,6 @@ public class MessagePostModel extends BaseModel implements MessagePostContract.M
 
     @Override
     public void postMessage(MessagePostParam action, MessagePostTask.CallBack callBack) {
-        new MessagePostTask(ApplicationContextHolder.getContext(), callBack).execute(action.toString());
+        new MessagePostTask(ContextUtils.getContext(), callBack).execute(action.toString());
     }
 }

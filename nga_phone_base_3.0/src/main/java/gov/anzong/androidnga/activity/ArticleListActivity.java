@@ -1,6 +1,9 @@
 package gov.anzong.androidnga.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -80,5 +83,9 @@ public class ArticleListActivity extends BaseActivity implements PreferenceKey {
         }
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        getSupportFragmentManager().findFragmentById(android.R.id.content).onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

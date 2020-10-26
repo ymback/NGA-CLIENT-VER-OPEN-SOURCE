@@ -1,6 +1,5 @@
 package sp.phone.common;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -12,7 +11,6 @@ import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.base.util.ContextUtils;
-import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 
@@ -114,7 +112,7 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     }
 
     private void initialize() {
-        SharedPreferences sp = ApplicationContextHolder.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences sp = ContextUtils.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         sp.registerOnSharedPreferenceChangeListener(this);
         mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
         mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
@@ -196,6 +194,14 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         PreferenceUtils.putData(PreferenceKey.KEY_TOPIC_CONTENT_SIZE, size);
     }
 
+    public int getWebViewTextZoom() {
+        return PreferenceUtils.getData(PreferenceKey.KEY_WEBVIEW_TEXT_ZOOM, Constants.WEBVIEW_DEFAULT_TEXT_ZOOM);
+    }
+
+    public void setWebViewTextZoom(int textRoom) {
+        PreferenceUtils.putData(PreferenceKey.KEY_WEBVIEW_TEXT_ZOOM, textRoom);
+    }
+
     public boolean useSolidColorBackground() {
         return ContextUtils.getSharedPreferences(PreferenceKey.PERFERENCE).getBoolean(PreferenceKey.KEY_USE_SOLID_COLOR_BG, true);
     }
@@ -231,12 +237,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     public String getCookie() {
         return UserManagerImpl.getInstance().getCookie();
-    }
-
-    public boolean isBetaFixNightTheme() {
-        UiModeManager uiModeManager = (UiModeManager) ContextUtils.getContext().getSystemService(Context.UI_MODE_SERVICE);
-        return (PreferenceUtils.getData(PreferenceKey.KEY_BETA_FIX_NIGHT_THEME, false) || uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES)
-                && DeviceUtils.isGreaterEqual_9_0();
     }
 
 }

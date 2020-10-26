@@ -19,7 +19,7 @@ import sp.phone.http.bean.MessageListInfo;
 import sp.phone.http.bean.MessageThreadPageInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
@@ -114,7 +114,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         }
         holder.lastReply.setText(lastPoster);
         holder.num.setText(String.valueOf(entry.getPosts()));
-        holder.title.setTextColor(ApplicationContextHolder.getColor(theme.getForegroundColor()));
+        holder.title.setTextColor(ContextUtils.getColor(theme.getForegroundColor()));
         float size = PhoneConfiguration.getInstance().getTopicTitleSize();
 
         String title = entry.getSubject();

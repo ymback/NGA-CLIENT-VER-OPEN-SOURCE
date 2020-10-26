@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView
+    <gov.anzong.androidnga.common.view.WebViewEx
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

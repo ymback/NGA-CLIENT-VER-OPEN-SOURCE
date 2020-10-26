@@ -13,7 +13,7 @@ import java.util.List;
 import gov.anzong.androidnga.R;
 import sp.phone.http.bean.MessageArticlePageInfo;
 import sp.phone.http.bean.MessageDetailInfo;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.theme.ThemeManager;
 
@@ -199,7 +199,7 @@ public class MessageUtil {
                                            final String bgcolorStr) {
         String ngaHtml = StringUtils.decodeForumTag(row.getContent(), showImage, imageQuality, null);
         if (StringUtils.isEmpty(ngaHtml)) {
-            ngaHtml = "<font color='red'>[" + ApplicationContextHolder.getString(R.string.hide) + "]</font>";
+            ngaHtml = "<font color='red'>[" + ContextUtils.getString(R.string.hide) + "]</font>";
         }
         ngaHtml = "<HTML> <HEAD><META   http-equiv=Content-Type   content= \"text/html;   charset=utf-8 \">"
                 + buildHeader(row, fgColorStr)

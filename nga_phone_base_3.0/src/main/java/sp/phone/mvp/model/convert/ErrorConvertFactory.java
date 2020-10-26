@@ -6,7 +6,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.net.UnknownHostException;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 
 /**
  * Created by Justwen on 2017/11/23.
@@ -15,11 +16,11 @@ public class ErrorConvertFactory {
 
     public static String getErrorMessage(String js) {
         if (js.isEmpty()) {
-            return ApplicationContextHolder.getString(R.string.network_error);
+            return ContextUtils.getString(R.string.network_error);
         } else if (js.contains("未登录")) {
             return "请重新登录";
         } else if (js.contains("无此页")) {
-            return ApplicationContextHolder.getString(R.string.last_page_prompt);
+            return ContextUtils.getString(R.string.last_page_prompt);
         } else {
             try {
                 JSONObject obj = (JSONObject) JSON.parse(js);
@@ -35,7 +36,7 @@ public class ErrorConvertFactory {
     public static String getErrorMessage(Throwable throwable) {
         String error;
         if (throwable instanceof UnknownHostException) {
-            error = ApplicationContextHolder.getString(R.string.network_error);
+            error = ContextUtils.getString(R.string.network_error);
         } else {
             error = throwable.getMessage();
         }

@@ -16,7 +16,6 @@
             android:key="pref_user"
             android:title="@string/setting_title_user" />
 
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="nightmode"
@@ -61,6 +60,10 @@
             android:fragment="sp.phone.ui.fragment.SettingsSizeFragment"
             android:key="adjust_size"
             android:title="@string/setting_title_size" />
+
+        <PreferenceScreen
+            android:key="key_clear_cache"
+            android:title="清除缓存"/>
 
     </PreferenceCategory>
 
@@ -132,15 +135,6 @@
             android:defaultValue="true"
             android:key="refresh_after_post_setting_mode"
             android:title="@string/refresh_after_post_setting_mode" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="beta设置">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="key_beta_fix_night_theme"
-            android:title="解决android P上夜间模式文字颜色错误的问题" />
 
     </PreferenceCategory>
 

@@ -15,7 +15,7 @@ import gov.anzong.androidnga.core.HtmlConvertFactory;
 import gov.anzong.androidnga.core.data.AttachmentData;
 import gov.anzong.androidnga.core.data.CommentData;
 import gov.anzong.androidnga.core.data.HtmlData;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.http.bean.Attachment;
 import sp.phone.http.bean.ThreadData;
@@ -151,7 +151,7 @@ public class ArticleConvertFactory {
         htmlData.setVote(row.getVote());
         htmlData.setSubject(row.getSubject());
         htmlData.setShowImage(PhoneConfiguration.getInstance().isDownImgNoWifi()
-                || DeviceUtils.isWifiConnected(ApplicationContextHolder.getContext()));
+                || DeviceUtils.isWifiConnected(ContextUtils.getContext()));
         htmlData.setNGAHost(Utils.getNGAHost());
         if (row.getAttachs() != null) {
             List<AttachmentData> attachments = new ArrayList<>();

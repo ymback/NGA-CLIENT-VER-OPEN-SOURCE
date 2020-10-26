@@ -16,7 +16,7 @@ import gov.anzong.androidnga.R;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.http.OnSimpleHttpCallBack;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.util.ActivityUtils;
@@ -32,7 +32,7 @@ public class SaveImageTask {
     private Subscription mSubscription;
 
     public SaveImageTask() {
-        mContext = ApplicationContextHolder.getContext();
+        mContext = ContextUtils.getContext();
     }
 
     public static class DownloadResult {
@@ -78,7 +78,7 @@ public class SaveImageTask {
                     @Override
                     public void onNext(DownloadResult result) {
                         Uri uri = Uri.fromFile(result.file);
-                        ApplicationContextHolder.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+                        ContextUtils.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
                         mDownloadCount++;
                         if (mDownloadCount == urls.length) {
                             if (urls.length > 1) {

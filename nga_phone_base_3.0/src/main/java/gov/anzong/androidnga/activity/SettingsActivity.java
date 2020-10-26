@@ -8,38 +8,25 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 
 import gov.anzong.androidnga.base.util.ThemeUtils;
-import gov.anzong.androidnga.base.util.ThreadUtils;
 import sp.phone.ui.fragment.SettingsFragment;
 
 public class SettingsActivity extends BaseActivity {
 
-    private static final String KEY_RECREATE = "recreate";
-
-    private boolean mRecreated;
+    public static boolean sRecreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupFragment();
         setupActionBar();
-        if (savedInstanceState != null) {
-            mRecreated = savedInstanceState.getBoolean(KEY_RECREATE);
-        }
-        if (mRecreated) {
-            View contentView = findViewById(android.R.id.content);
-            ThreadUtils.postOnMainThread(() -> startAnimation(contentView));
-            mRecreated = false;
+        if (sRecreated) {
+            getWindow().setWindowAnimations(android.R.style.Animation_Toast);
+            sRecreated = false;
             ThemeUtils.init(this);
             setResult(Activity.RESULT_OK);
+            findViewById(android.R.id.content).post(() -> startAnimation(findViewById(android.R.id.content)));
         }
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_RECREATE, mRecreated);
-    }
-
     private void setupFragment() {
         FragmentManager fm = getFragmentManager();
         Fragment settingsFragment = fm.findFragmentByTag(SettingsFragment.class.getSimpleName());
@@ -57,8 +44,8 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @Override
-    public void recreate() {
-        mRecreated = true;
-        super.recreate();
+    protected void onDestroy() {
+        sRecreated = false;
+        super.onDestroy();
     }
 }

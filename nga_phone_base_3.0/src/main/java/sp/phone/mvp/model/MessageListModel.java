@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.http.bean.MessageListInfo;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.contract.MessageListContract;
 import sp.phone.mvp.model.convert.MessageConvertFactory;
 import sp.phone.http.retrofit.RetrofitHelper;

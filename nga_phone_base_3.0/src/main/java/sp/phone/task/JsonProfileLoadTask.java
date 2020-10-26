@@ -6,19 +6,21 @@ import com.alibaba.fastjson.JSONObject;
 import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.http.bean.AdminForumsData;
 import sp.phone.http.bean.ProfileData;
 import sp.phone.http.bean.ReputationData;
-import sp.phone.common.ApplicationContextHolder;
-import gov.anzong.androidnga.common.PreferenceKey;
-import sp.phone.http.OnHttpCallBack;
 import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.rxjava.BaseSubscriber;
@@ -43,8 +45,10 @@ public class JsonProfileLoadTask {
     }
 
     public void execute(String url) {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Referer",Utils.getNGAHost() + "nuke.php?func=ucp&lite=jsx&" + url);
         url = Utils.getNGAHost() + "nuke.php?__lib=ucp&__act=get&lite=js&noprefix&" + url;
-        mService.get(url)
+        mService.get(url, headers)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map(this::parseJsonPage)
@@ -81,7 +85,7 @@ public class JsonProfileLoadTask {
 
     private ProfileData parseJsonPage(String js) {
         if (StringUtils.isEmpty(js)) {
-            mErrorMsg = ApplicationContextHolder.getString(R.string.network_error);
+            mErrorMsg = ContextUtils.getString(R.string.network_error);
             throw new IllegalStateException();
         }
         js = js.replaceAll("window.script_muti_get_var_store=", "");
@@ -93,18 +97,16 @@ public class JsonProfileLoadTask {
                 .replaceAll("/\\*\\$js\\$\\*/", "");
         JSONObject obj = JSON.parseObject(js);
         if (obj.containsKey("data")) {
-            obj = obj.getJSONObject("data");
+            JSONObject dataObj = obj.getJSONObject("data");
             try {
                 ProfileData ret = new ProfileData();
-                obj = obj.getJSONObject("0");
-                buildBasicInfo(ret, obj);
-                buildReputation(ret, obj.getJSONObject("reputation"));
-                buildAdminForums(ret, obj.getJSONObject("adminForums"));
+                dataObj = dataObj.getJSONObject("0");
+                buildBasicInfo(ret, dataObj);
+                buildReputation(ret, dataObj.getJSONObject("reputation"));
+                buildAdminForums(ret, dataObj.getJSONObject("adminForums"));
                 return ret;
             } catch (Exception e) {
                 NLog.e(TAG, "can not parse :\n" + js);
-                mErrorMsg = "二哥玩坏了或者你需要重新登录";
-                throw e;
             }
         }
         obj = obj.getJSONObject("error");

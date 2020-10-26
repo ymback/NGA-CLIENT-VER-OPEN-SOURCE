@@ -23,6 +23,10 @@
         androidnga:showAsAction="never"/>
 
     <item
+        android:id="@+id/menu_favorite"
+        android:title="收藏"/>
+
+    <item
         android:id="@+id/menu_vote"
         android:title="@string/vote_dialog"
         androidnga:showAsAction="never"/>

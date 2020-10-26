@@ -11,7 +11,7 @@ import gov.anzong.androidnga.Utils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.mvp.model.convert.ForumNotificationFactory;
 import sp.phone.mvp.model.entity.NotificationInfo;
 import sp.phone.mvp.model.entity.RecentReplyInfo;
@@ -26,7 +26,7 @@ public class ForumNotificationTask {
 
     private LifecycleProvider<FragmentEvent> mLifecycleProvider;
 
-    private String mNotificationUrl =  Utils.getNGAHost() + "nuke.php?__lib=noti&lite=js&__act=get_all";
+    private String mNotificationUrl =  Utils.getNGAHost() + "nuke.php?__lib=noti&__output=8&__act=get_all";
 
     public ForumNotificationTask(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         mLifecycleProvider = lifecycleProvider;

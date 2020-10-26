@@ -3,16 +3,18 @@ package sp.phone.theme;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import androidx.annotation.ColorInt;
-import androidx.annotation.StyleRes;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import android.util.TypedValue;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
+
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
-import sp.phone.common.ApplicationContextHolder;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -38,12 +40,18 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
 
     private TypedValue mTypedValue = new TypedValue();
 
+    private boolean mNightModeFollowSystem;
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
         if (key.equals(PreferenceKey.NIGHT_MODE)) {
             mNightMode = sp.getBoolean(key, false);
+            applyDayNight();
         } else if (key.equals(PreferenceKey.MATERIAL_THEME)) {
             mThemeIndex = Integer.parseInt(sp.getString(key, "0"));
+        } else if (key.equals(PreferenceKey.KEY_NIGHT_MODE_FOLLOW_SYSTEM)) {
+            mNightModeFollowSystem = sp.getBoolean(key, false);
+            applyDayNight();
         }
         mWebViewTheme = null;
     }
@@ -54,17 +62,38 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private ThemeManager() {
-        mContext = ApplicationContextHolder.getContext();
+        mContext = ContextUtils.getContext();
         SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         sp.registerOnSharedPreferenceChangeListener(this);
         mNightMode = sp.getBoolean(PreferenceKey.NIGHT_MODE, false);
         mThemeIndex = Integer.parseInt(sp.getString(PreferenceKey.MATERIAL_THEME, "1"));
+        mNightModeFollowSystem = sp.getBoolean(PreferenceKey.KEY_NIGHT_MODE_FOLLOW_SYSTEM, false);
+        applyDayNightDelay(0);
     }
 
     public static ThemeManager getInstance() {
         return ThemeManagerHolder.sInstance;
     }
 
+    private void applyDayNightDelay(long delay) {
+        ThreadUtils.postOnMainThreadDelay(() -> {
+            if (mNightModeFollowSystem) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            } else if (mNightMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }, delay);
+    }
+
+    private void applyDayNight() {
+        applyDayNightDelay(200);
+    }
+
+    public boolean isNightModeFollowSystem() {
+        return mNightModeFollowSystem;
+    }
 
     public void initializeWebTheme(Context context) {
         if (mWebViewTheme == null) {
@@ -85,15 +114,12 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     public boolean isNightMode() {
-        return mNightMode;
+        return mNightModeFollowSystem ? ContextUtils.getResources().getBoolean(R.bool.night_mode) : mNightMode;
     }
 
-    public void setNightMode(boolean isNightMode){
-        mContext = ApplicationContextHolder.getContext();
-        SharedPreferences sp = mContext.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
-        sp.registerOnSharedPreferenceChangeListener(this);
-        mNightMode = isNightMode;
-        sp.edit().putBoolean(PreferenceKey.NIGHT_MODE,isNightMode).apply();
+    public void setNightMode(boolean isNightMode) {
+        SharedPreferences sp = ContextUtils.getSharedPreferences(PreferenceKey.PERFERENCE);
+        sp.edit().putBoolean(PreferenceKey.NIGHT_MODE, isNightMode).apply();
     }
 
     @ColorInt

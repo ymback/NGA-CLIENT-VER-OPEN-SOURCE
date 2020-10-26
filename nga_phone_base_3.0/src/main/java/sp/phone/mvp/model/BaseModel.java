@@ -3,16 +3,15 @@ package sp.phone.mvp.model;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
-import sp.phone.mvp.contract.BaseContract;
 import sp.phone.util.ForumUtils;
 
 /**
  * Created by Justwen on 2017/11/25.
  */
 
-public abstract class BaseModel implements BaseContract.Model {
+public abstract class BaseModel  {
 
-    private LifecycleProvider<FragmentEvent> mProvider;
+    private volatile LifecycleProvider<FragmentEvent> mProvider;
 
     private String mDomain;
 
@@ -20,12 +19,10 @@ public abstract class BaseModel implements BaseContract.Model {
         mDomain = ForumUtils.getAvailableDomain();
     }
 
-    @Override
     public void detach() {
         mProvider = null;
     }
 
-    @Override
     public void setLifecycleProvider(LifecycleProvider<FragmentEvent> provider) {
         mProvider = provider;
     }

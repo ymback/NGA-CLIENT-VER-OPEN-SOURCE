@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.common.ApplicationContextHolder;
 import sp.phone.http.OnSimpleHttpCallBack;
 import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.http.retrofit.RetrofitService;
@@ -55,7 +55,7 @@ public class LikeTask {
                             JSONObject obj = JSON.parseObject(s).getJSONObject("data");
                             callBack.onResult(obj.getString("0"));
                         } catch (Exception e) {
-                            callBack.onResult(ApplicationContextHolder.getString(R.string.network_error));
+                            callBack.onResult(ContextUtils.getString(R.string.network_error));
                         }
                     }
                 });

@@ -57,7 +57,7 @@ public class TopicListBean {
         private CUBean __CU;
         private String __GLOBAL;
         private FBean __F;
-        private int __ROWS;
+        private String __ROWS;
         private Map<String, TBean> __T;
         private int __T__ROWS;
         private int __T__ROWS_PAGE;
@@ -87,11 +87,11 @@ public class TopicListBean {
             this.__F = __F;
         }
 
-        public int get__ROWS() {
+        public String get__ROWS() {
             return __ROWS;
         }
 
-        public void set__ROWS(int __ROWS) {
+        public void set__ROWS(String __ROWS) {
             this.__ROWS = __ROWS;
         }
 

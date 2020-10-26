@@ -345,4 +345,9 @@ public class UserManagerImpl implements UserManager {
     public String getAvatarUrl(String uid) {
         return TextUtils.isEmpty(uid) || uid.equals("0") ? "" : mAvatarPreferences.getString(uid, "");
     }
+
+    @Override
+    public void clearAvatarUrl() {
+        mAvatarPreferences.edit().clear().apply();
+    }
 }

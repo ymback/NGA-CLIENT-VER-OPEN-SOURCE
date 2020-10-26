@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="text_color">#FFFFFFFF</color>
+    <color name="text_color">#FFCFCFCF</color>
     <color name="text_color_disabled">#FF6F6F6F</color>
 
     <color name="web_text_color">#FF999999</color>
     <color name="web_quote_background_color">#FF000000</color>
 
-    <color name="window_background">@color/night_bg_color</color>
+    <color name="window_background">#FF202020</color>
     <color name="background_color">@color/night_bg_color</color>
     <color name="background_color2">@color/night_bg_color</color>
     <color name="foreground_color">#FF999999</color>
 
     <color name="colorAccentBrown">#FF128F80</color>
-    <color name="colorPrimaryBrown">#ff212121</color>
-    <color name="colorPrimaryDarkBrown">@android:color/black</color>
+    <color name="colorPrimaryBrown">#FF1F2021</color>
+    <color name="colorPrimaryDarkBrown">#FF1F2021</color>
 
     <color name="material_window_background">#FF080C10</color>
     <color name="material_card_background">#FF424242</color>
     <color name="material_icon_color">#FFEDEDED</color>
     <color name="material_title_color">#FFFFFFFF</color>
     <color name="material_sub_title_color">#B4FFFFFF</color>
+
+    <color name="title_blue">#ff3181f4</color>
+    <color name="title_red">#ffc63e37</color>
 
 </resources>

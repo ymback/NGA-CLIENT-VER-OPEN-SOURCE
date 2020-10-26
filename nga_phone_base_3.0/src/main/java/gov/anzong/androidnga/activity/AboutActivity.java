@@ -15,6 +15,7 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.debug.Debugger;
 import sp.phone.ui.fragment.dialog.VersionUpgradeDialogFragment;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.FunctionUtils;
@@ -89,6 +90,7 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("代码")
                 .subText("[@竹井詩織里]/[@cfan8]/[@jjimmys]\n[@Moandor]/[@Elrond]/[@Justwen]")
+                .setOnLongClickAction(Debugger::toggleDebugMode)
                 .icon(R.drawable.ic_code)
                 .build());
 
@@ -114,7 +116,7 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.title("赞美片总!感谢[@force0119]");
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("客户端吐槽QQ群,欢迎加入捡肥皂")
-                .subText("714556852")
+                .subText("1065310118")
                 .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "714556852"))
                 .icon(R.drawable.ic_qq)
                 .build());

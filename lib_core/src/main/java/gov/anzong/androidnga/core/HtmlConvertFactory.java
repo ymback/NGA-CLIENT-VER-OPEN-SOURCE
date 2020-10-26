@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import gov.anzong.androidnga.common.util.StringUtils;
-import gov.anzong.androidnga.core.build.HtmlBuilder;
+import gov.anzong.androidnga.common.util.FileUtils;
+import gov.anzong.androidnga.core.corebuild.HtmlBuilder;
 import gov.anzong.androidnga.core.data.HtmlData;
 import gov.anzong.androidnga.core.decode.ForumDecoder;
 
@@ -13,13 +13,11 @@ public class HtmlConvertFactory {
 
     private volatile static String sHtmlTemplate;
 
-    private volatile static String sCssTemplate;
-
-    private volatile static String sDarkCssTemplate;
+    static {
+        sHtmlTemplate = FileUtils.readAssetToString("html/html_template.html");
+    }
 
     public static String convert(HtmlData htmlData, List<String> images) {
-
-        init(htmlData.isDarkMode());
 
         StringBuilder builder = new StringBuilder();
 
@@ -36,26 +34,13 @@ public class HtmlConvertFactory {
                 ngaHtml = htmlData.getAlertInfo();
             }
             builder.append(ngaHtml);
-            HtmlBuilder.build(builder,htmlData, images);
+            HtmlBuilder.build(builder, htmlData, images);
         }
 
         String html = builder.toString();
-        String cssStr = htmlData.isDarkMode() ? sDarkCssTemplate : sCssTemplate;
-        String style = String.format(cssStr, htmlData.getTextSize(), htmlData.getTableTextSize(), htmlData.getEmotionSize());
+        String style = htmlData.isDarkMode() ? "style_dark.css" : "style_light.css";
         return String.format(sHtmlTemplate, style, html);
     }
 
-    private static void init(boolean darkMode) {
-        if (sHtmlTemplate == null) {
-            sHtmlTemplate = StringUtils.getStringFromAssets("html/html_template.html");
-        }
-        if (darkMode && sDarkCssTemplate == null) {
-            sDarkCssTemplate = StringUtils.getStringFromAssets("html/style_dark.css");
-            sCssTemplate = null;
-        } else if (!darkMode && sCssTemplate == null) {
-            sCssTemplate= StringUtils.getStringFromAssets("html/style.css");
-            sDarkCssTemplate = null;
-        }
-    }
 
 }

@@ -1,23 +1,28 @@
 package sp.phone.ui.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.zhouyou.view.seekbar.SignSeekBar;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.widget.SeekBarEx;
+import gov.anzong.androidnga.common.util.FileUtils;
 import sp.phone.common.Constants;
 import sp.phone.common.PhoneConfiguration;
 
 public class SettingsSizeFragment extends BaseFragment implements  SignSeekBar.OnProgressChangedListener {
 
     private PhoneConfiguration mConfiguration = PhoneConfiguration.getInstance();
+
+    private WebView mWebView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,15 +58,19 @@ public class SettingsSizeFragment extends BaseFragment implements  SignSeekBar.O
 
     private void initWebFontSizeView(View rootView) {
         SeekBarEx seekBar = rootView.findViewById(R.id.seek_web_size);
-        int max = Constants.TOPIC_CONTENT_SIZE_MAX;
-        int min = Constants.TOPIC_CONTENT_SIZE_MIN;
+        int max = 100;
+        int min = 1;
+        int size = mConfiguration.getWebViewTextZoom();
         seekBar.getConfigBuilder()
                 .max(max)
                 .min(min)
-                .progress(mConfiguration.getTopicContentSize())
+                .progress(size)
                 .sectionCount(max - min)
                 .build();
         seekBar.setOnProgressChangedListener(this);
+
+        mWebView = rootView.findViewById(R.id.webview);
+        mWebView.loadUrl("file:///android_asset/html/adjust_size.html");
     }
 
     private void initAvatarSizeView(View rootView) {
@@ -90,7 +99,13 @@ public class SettingsSizeFragment extends BaseFragment implements  SignSeekBar.O
 
     @Override
     public void onProgressChanged(SignSeekBar signSeekBar, int progress, float progressFloat, boolean fromUser) {
-
+        switch (signSeekBar.getId()) {
+            case R.id.seek_web_size:
+                mWebView.getSettings().setTextZoom(progress);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -106,7 +121,7 @@ public class SettingsSizeFragment extends BaseFragment implements  SignSeekBar.O
                 mConfiguration.setEmoticonSize(progress);
                 break;
             case R.id.seek_web_size:
-                mConfiguration.setTopicContentSize(progress);
+                mConfiguration.setWebViewTextZoom(progress);
                 break;
             default:
                 break;

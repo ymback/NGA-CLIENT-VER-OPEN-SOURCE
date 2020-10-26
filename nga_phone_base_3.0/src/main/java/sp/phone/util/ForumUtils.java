@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import gov.anzong.androidnga.R;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import gov.anzong.androidnga.common.PreferenceKey;
 
 /**
@@ -13,14 +13,14 @@ import gov.anzong.androidnga.common.PreferenceKey;
 public class ForumUtils {
 
     public static String getAvailableDomain() {
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
         SharedPreferences sp = context.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         int index = Integer.parseInt(sp.getString(PreferenceKey.KEY_NGA_DOMAIN, "1"));
         return context.getResources().getStringArray(R.array.nga_domain)[index];
     }
 
     public static String getAvailableDomainNoHttp() {
-        Context context = ApplicationContextHolder.getContext();
+        Context context = ContextUtils.getContext();
         SharedPreferences sp = context.getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         int index = Integer.parseInt(sp.getString(PreferenceKey.KEY_NGA_DOMAIN, "1"));
         return context.getResources().getStringArray(R.array.nga_domain_no_http)[index];
@@ -32,7 +32,8 @@ public class ForumUtils {
      */
     public static boolean isBoardSubscribed(int statusCode) {
         // 3,810 返回false
-        return statusCode == 7 || statusCode == 558 || statusCode == 542 || statusCode == 2606;
+        return statusCode == 7 || statusCode == 558 || statusCode == 542 || statusCode == 2606 || statusCode == 2590
+                || statusCode == 4654;
     }
 
 }

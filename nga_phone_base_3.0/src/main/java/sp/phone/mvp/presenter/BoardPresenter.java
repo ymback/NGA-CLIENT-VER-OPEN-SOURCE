@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
-import gov.anzong.androidnga.util.ToastUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManager;
@@ -183,13 +183,19 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
             ToastUtils.showToast("该版面已存在");
         } else {
             mBaseModel.addBookmark(fid, stid, name);
-            ToastUtils.showToast("添加成功");
+            mBaseView.notifyDataSetChanged();
+            ToastUtils.success("添加成功");
         }
     }
 
     @Override
     public void showTopicList(Board board) {
-        showTopicList(board.getFid(), board.getStid(), board.getName());
+        ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                .withInt(ParamKey.KEY_FID, board.getFid())
+                .withInt(ParamKey.KEY_STID, board.getStid())
+                .withString(ParamKey.KEY_TITLE, board.getName())
+                .withString(ParamKey.BOARD_HEAD, board.getBoardHead())
+                .navigation(mBaseView.getContext());
     }
 
     @Override

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.param.ArticleListParam;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 
 /**
  *

@@ -110,14 +110,7 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        int layoutId;
-
-        UiModeManager uiModeManager = (UiModeManager) getContext().getSystemService(Context.UI_MODE_SERVICE);
-        if (DeviceUtils.isGreaterEqual_9_0() && uiModeManager.getNightMode() == UiModeManager.MODE_NIGHT_YES) {
-            layoutId = R.layout.fragment_topic_list_night;
-        } else {
-            layoutId = R.layout.fragment_topic_list;
-        }
+        int layoutId = R.layout.fragment_topic_list;
         return inflater.inflate(layoutId, container, false);
     }
 

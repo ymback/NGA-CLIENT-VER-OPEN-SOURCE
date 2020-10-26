@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import androidx.annotation.StringRes;
 import android.widget.Toast;
 
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 
 /**
  * Created by Justwen on 2018/8/11.
@@ -42,7 +42,7 @@ public class ToastUtils {
     @SuppressLint("ShowToast")
     private static void initToast() {
         if (sToast == null) {
-            sToast = Toast.makeText(ApplicationContextHolder.getContext(), "", Toast.LENGTH_SHORT);
+            sToast = Toast.makeText(ContextUtils.getContext(), "", Toast.LENGTH_SHORT);
         }
     }
 

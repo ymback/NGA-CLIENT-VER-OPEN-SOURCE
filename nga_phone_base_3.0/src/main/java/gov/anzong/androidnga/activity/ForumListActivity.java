@@ -55,6 +55,9 @@ public class ForumListActivity extends BaseActivity {
                 Pattern p = Pattern.compile(filter, Pattern.CASE_INSENSITIVE);
                 List<ForumsListModel.Forum> filtered = new ArrayList<ForumsListModel.Forum>();
                 for (ForumsListModel.Forum forum: mDataList) {
+                    if (forum.getName() == null) {
+                        continue;
+                    }
                     Matcher matcher = p.matcher(forum.getName());
                     if(matcher.find()) {
                         filtered.add(forum);
@@ -75,14 +78,16 @@ public class ForumListActivity extends BaseActivity {
     }
 
     public void notifyResult(ForumsListModel model) {
-        for (ForumsListModel.Result result : model.getResult()) {
-            for (ForumsListModel.Group group : result.getGroups()) {
-                for (ForumsListModel.Forum forum : group.getForums()) {
-                    if (!mDataList.contains(forum))
-                        mDataList.add(forum);
+        if (model.getResult() != null) {
+            for (ForumsListModel.Result result : model.getResult()) {
+                for (ForumsListModel.Group group : result.getGroups()) {
+                    for (ForumsListModel.Forum forum : group.getForums()) {
+                        if (!mDataList.contains(forum))
+                            mDataList.add(forum);
+                    }
                 }
             }
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter.notifyDataSetChanged();
     }
 }

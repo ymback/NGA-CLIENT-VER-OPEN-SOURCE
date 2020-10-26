@@ -55,8 +55,10 @@ public class NLog {
         return Log.e(tag, msg);
     }
 
-    public static int e(String msg) {
-        return Log.e(TAG, msg);
+    public static void  e(String msg) {
+        if (msg != null) {
+            Log.e(TAG, msg);
+        }
     }
 
 

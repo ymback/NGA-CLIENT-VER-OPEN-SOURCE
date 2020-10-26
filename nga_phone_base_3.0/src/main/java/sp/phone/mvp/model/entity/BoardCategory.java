@@ -18,10 +18,27 @@ public class BoardCategory implements Parcelable {
 
     private boolean mIsBookmarkCategory;
 
+    private List<BoardCategory> mSubCategoryList;
+
     public BoardCategory(String name) {
         mBoardList = new ArrayList<>();
         mBoardMap = new HashMap<>();
         mCategoryName = name;
+    }
+
+    public void addSubCategory(BoardCategory category) {
+        if (mSubCategoryList == null) {
+            mSubCategoryList = new ArrayList<>();
+        }
+        mSubCategoryList.add(category);
+    }
+
+    public List<BoardCategory> getSubCategoryList() {
+        return mSubCategoryList;
+    }
+
+    public BoardCategory getSubCategory(int index) {
+        return mSubCategoryList.get(index);
     }
 
     protected BoardCategory(Parcel in) {
@@ -32,12 +49,13 @@ public class BoardCategory implements Parcelable {
         if (mBoardList == null) {
             mBoardList = new ArrayList<>();
         }
-
         mBoardMap = new HashMap<>();
 
         for (Board board : mBoardList) {
             mBoardMap.put(board.getBoardKey(), board);
         }
+        mSubCategoryList = in.createTypedArrayList(BoardCategory.CREATOR);
+
     }
 
     @Override
@@ -45,6 +63,7 @@ public class BoardCategory implements Parcelable {
         dest.writeTypedList(mBoardList);
         dest.writeString(mCategoryName);
         dest.writeByte((byte) (mIsBookmarkCategory ? 1 : 0));
+        dest.writeTypedList(mSubCategoryList);
     }
 
     @Override
@@ -70,11 +89,6 @@ public class BoardCategory implements Parcelable {
 
     public List<Board> getBoardList() {
         return mBoardList;
-    }
-
-    @Deprecated
-    public Board get(int index) {
-        return getBoard(index);
     }
 
     public int size() {
@@ -127,7 +141,17 @@ public class BoardCategory implements Parcelable {
     }
 
     public Board getBoard(Board.BoardKey boardKey) {
-        return mBoardMap.get(boardKey);
+        if (mSubCategoryList == null) {
+            return mBoardMap.get(boardKey);
+        } else {
+            for (BoardCategory category : mSubCategoryList) {
+                Board board = category.getBoard(boardKey);
+                if (board != null) {
+                    return board;
+                }
+            }
+        }
+        return null;
     }
 
     public boolean contains(Board board) {

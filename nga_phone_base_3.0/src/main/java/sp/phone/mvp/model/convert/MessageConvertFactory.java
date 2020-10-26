@@ -10,7 +10,7 @@ import gov.anzong.androidnga.R;
 import sp.phone.http.bean.MessageDetailInfo;
 import sp.phone.http.bean.MessageListInfo;
 import sp.phone.http.bean.MessageThreadPageInfo;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.util.MessageUtil;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
@@ -110,7 +110,7 @@ public class MessageConvertFactory {
     public MessageDetailInfo getMessageDetailInfo(String js, int page) {
 
         if (js == null) {
-            mErrorMsg = ApplicationContextHolder.getString(R.string.network_error);
+            mErrorMsg = ContextUtils.getString(R.string.network_error);
             return null;
         }
         js = js.replaceAll("window.script_muti_get_var_store=", "");
@@ -143,7 +143,7 @@ public class MessageConvertFactory {
             }
             return null;
         }
-        MessageDetailInfo ret = new MessageUtil(ApplicationContextHolder.getContext()).parseJsonThreadPage(js, page);
+        MessageDetailInfo ret = new MessageUtil(ContextUtils.getContext()).parseJsonThreadPage(js, page);
         return ret;
     }
 

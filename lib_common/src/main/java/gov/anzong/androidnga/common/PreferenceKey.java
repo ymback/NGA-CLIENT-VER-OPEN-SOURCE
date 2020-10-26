@@ -74,9 +74,26 @@ public interface PreferenceKey {
 
     public static final String KEY_USE_SOLID_COLOR_BG = "use_solid_color_bg";
 
-    public static final String KEY_BETA_FIX_NIGHT_THEME = "key_beta_fix_night_theme";
-
     public static final String KEY_CHECK_UPGRADE_STATE = "key_check_upgrade_state";
 
     public static final String KEY_CHECK_UPGRADE_TIME = "key_check_upgrade_time";
+
+    public static final String KEY_NIGHT_MODE_FOLLOW_SYSTEM = "key_night_mode_follow_system";
+
+    public static final String VERSION_MAJOR_CODE = "version_major_code";
+
+    public static final String VERSION_MIRROR_CODE = "version_mirror_code";
+
+    public static final String VERSION_CODE = "version_code";
+
+    public static final String PREVIOUS_VERSION_CODE = "previous_version_code";
+
+    public static final String KEY_WEBVIEW_DATA_INDEX = "webview_data_index";
+
+    public static final String KEY_CLEAR_CACHE = "key_clear_cache";
+
+    public static final String KEY_WEBVIEW_TEXT_ZOOM = "key_webview_zoom_size";
+
+    public static final String KEY_PRELOAD_BOARD_VERSION = "key_preload_board_version";
+
 }

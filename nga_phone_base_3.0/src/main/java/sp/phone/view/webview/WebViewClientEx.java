@@ -2,6 +2,7 @@ package sp.phone.view.webview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,7 +19,7 @@ import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.gallery.ImageZoomActivity;
-import sp.phone.common.ApplicationContextHolder;
+import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.util.StringUtils;
 
 public class WebViewClientEx extends WebViewClient {
@@ -45,7 +46,7 @@ public class WebViewClientEx extends WebViewClient {
     private static String[] sThreadPrefix;
 
     static {
-        String[] domains = ApplicationContextHolder.getContext().getResources().getStringArray(R.array.nga_domain_no_http);
+        String[] domains = ContextUtils.getContext().getResources().getStringArray(R.array.nga_domain_no_http);
         sThreadPrefix = new String[domains.length];
         sReadPrefix = new String[domains.length];
         for (int i = 0; i < domains.length; i++) {
@@ -150,4 +151,9 @@ public class WebViewClientEx extends WebViewClient {
         return true;
     }
 
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        view.getSettings().setBlockNetworkImage(false);
+        super.onPageFinished(view, url);
+    }
 }

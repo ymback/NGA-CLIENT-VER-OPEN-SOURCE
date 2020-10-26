@@ -14,11 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.List;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.widget.DividerItemDecorationEx;
+import gov.anzong.androidnga.common.ui.dialog.ConfirmDialog;
 import sp.phone.ui.adapter.TopicListAdapter;
 import sp.phone.common.TopicHistoryManager;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
@@ -101,8 +104,10 @@ public class TopicHistoryFragment extends BaseFragment implements View.OnClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_delete_all) {
-            mTopicHistoryManager.removeAllTopicHistory();
-            mTopicListAdapter.clear();
+            ConfirmDialog.Companion.showConfirmDialog(getActivity(), "确认删除所有浏览历史吗", () -> {
+                mTopicHistoryManager.removeAllTopicHistory();
+                mTopicListAdapter.clear();
+            });
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -116,6 +121,7 @@ public class TopicHistoryFragment extends BaseFragment implements View.OnClickLi
         param.tid = info.getTid();
         param.page = info.getPage();
         param.title = info.getSubject();
+        param.topicInfo = JSON.toJSONString(info);
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putParcelable(ParamKey.KEY_PARAM, param);

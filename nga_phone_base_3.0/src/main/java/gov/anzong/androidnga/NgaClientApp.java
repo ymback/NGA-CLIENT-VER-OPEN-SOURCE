@@ -1,8 +1,6 @@
 package gov.anzong.androidnga;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Process;
 import android.webkit.WebView;
 
@@ -10,10 +8,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.justwen.androidnga.cloud.CloudServerManager;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
-import gov.anzong.androidnga.common.util.ReflectUtils;
-import sp.phone.common.ApplicationContextHolder;
-import sp.phone.common.FilterKeywordsManagerImpl;
+import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
+import gov.anzong.androidnga.common.util.ReflectUtils;
+import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
 import sp.phone.util.NLog;
@@ -22,30 +20,27 @@ public class NgaClientApp extends Application {
 
     private static final String TAG = NgaClientApp.class.getSimpleName();
 
-    private boolean mNewVersion;
+    private static boolean sNewVersion;
 
     @Override
     public void onCreate() {
         NLog.w(TAG, "app nga android start");
-        ApplicationContextHolder.setContext(this);
         ContextUtils.setApplication(this);
+        checkNewVersion();
         VersionUpgradeHelper.upgrade();
         initCoreModule();
         initRouter();
         super.onCreate();
 
-        CloudServerManager.init(this);
         fixWebViewMultiProcessException();
-        checkNewVersion();
+        CloudServerManager.init(this);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandlerProxy(Thread.getDefaultUncaughtExceptionHandler()));
     }
 
     private void fixWebViewMultiProcessException() {
-        Object obj = ReflectUtils.invokeMethodAndGetResult(Process.class, "myPpid");
-        if (obj != null) {
-            int ppid = (int) obj;
-            if (ppid == 1) {
-                WebView.setDataDirectorySuffix("_multi");
-            }
+        int index = PreferenceUtils.getData(PreferenceKey.KEY_WEBVIEW_DATA_INDEX, 0);
+        if (index > 0) {
+            WebView.setDataDirectorySuffix(String.valueOf(index));
         }
     }
 
@@ -66,22 +61,21 @@ public class NgaClientApp extends Application {
     }
 
     private void checkNewVersion() {
-
-        SharedPreferences sp = getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
-        int versionCode = BuildConfig.VERSION_CODE;
-        if (sp.getInt(PreferenceKey.VERSION, 0) < versionCode) {
-            sp.edit().putInt(PreferenceKey.VERSION, versionCode).apply();
-            mNewVersion = true;
-            CloudServerManager.uploadNewVersionInfo();
+        int versionCode = PreferenceUtils.getData(PreferenceKey.VERSION_CODE, 0);
+        if (BuildConfig.VERSION_CODE > versionCode) {
+            PreferenceUtils.putData(PreferenceKey.PREVIOUS_VERSION_CODE, versionCode);
+            PreferenceUtils.putData(PreferenceKey.VERSION_CODE, BuildConfig.VERSION_CODE);
+            sNewVersion = true;
+            PreferenceUtils.putData(PreferenceKey.KEY_WEBVIEW_DATA_INDEX, 0);
         }
     }
 
-    public boolean isNewVersion() {
-        return mNewVersion;
+    public static boolean isNewVersion() {
+        return sNewVersion;
     }
 
-    public void setNewVersion(boolean newVersion) {
-        mNewVersion = newVersion;
+    public static void setNewVersion(boolean newVersion) {
+        sNewVersion = newVersion;
     }
 
 }

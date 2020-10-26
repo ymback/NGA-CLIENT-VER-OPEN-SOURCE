@@ -14,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.LauncherSubActivity;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
-import sp.phone.common.ApplicationContextHolder;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.ui.fragment.TopicHistoryFragment;
@@ -55,11 +55,11 @@ public class ActivityUtils {
     }
 
     public static void showToast(String res) {
-        showToast(ApplicationContextHolder.getContext(), res);
+        showToast(ContextUtils.getContext(), res);
     }
 
     public static void showToast(int resId) {
-        showToast(ApplicationContextHolder.getContext(), resId);
+        showToast(ContextUtils.getContext(), resId);
     }
 
 

@@ -37,7 +37,7 @@ import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.param.ParamKey;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
@@ -160,7 +160,11 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         } else if (intent.hasExtra("username")) {
             String userName = intent.getStringExtra("username");
             mCurrentUser = userName.endsWith(um.getUserName());
-            mParams = "username=" + StringUtils.encodeUrl(userName, "gbk");
+            if (userName.startsWith("UID")) {
+                mParams = "uid=" + userName.substring(3);
+            } else {
+                mParams = "username=" + StringUtils.encodeUrl(userName, "gbk");
+            }
         }
 
         setContentView(R.layout.activity_user_profile);
@@ -391,9 +395,11 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 321 && resultCode == Activity.RESULT_OK) {
             String signData = data.getStringExtra("sign");
-            mProfileData.setSign(signData);
-            mSignWebView.requestLayout();
-            handleSignWebView(mSignWebView, mProfileData);
+            if (mProfileData != null) {
+                mProfileData.setSign(signData);
+                mSignWebView.requestLayout();
+                handleSignWebView(mSignWebView, mProfileData);
+            }
         } else if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
             String avatarData = data.getStringExtra("avatar");
             mProfileData.setAvatarUrl(avatarData);

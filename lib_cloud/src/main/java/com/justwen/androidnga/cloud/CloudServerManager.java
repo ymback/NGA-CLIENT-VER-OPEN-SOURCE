@@ -1,47 +1,54 @@
 package com.justwen.androidnga.cloud;
 
 import android.content.Context;
-import android.os.Build;
 
-import com.justwen.androidnga.cloud.base.ICloudDataBase;
-import com.justwen.androidnga.cloud.base.VersionBean;
-import com.justwen.androidnga.cloud.lean.LeanDataBase;
+import com.justwen.androidnga.cloud.bugly.BuglyWrapper;
+import com.justwen.androidnga.cloud.umeng.UMengWrapper;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import java.util.Map;
 
 /**
  * @author yangyihang
  */
 public class CloudServerManager {
 
-    private static ICloudDataBase sCloudDataBase;
+    private static ICloudSever sCloudServer;
 
     public static void init(Context context) {
-        //bugly 初始化
-        if (!BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(context, context.getString(R.string.bugly_app_id), false);
+        try {
+            BuglyWrapper.init(context);
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
 
-        sCloudDataBase = new LeanDataBase(createVersionBean());
-        sCloudDataBase.init(context);
+        try {
+            sCloudServer = new UMengWrapper();
+            sCloudServer.init(context);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            sCloudServer = null;
+        }
+
     }
 
     public static void putCrashData(Context context, String key, String value) {
         CrashReport.putUserData(context, key, value);
     }
 
-    public static void uploadNewVersionInfo() {
-        sCloudDataBase.uploadVersionInfo();
+    public static void pingBack(Context context, String event) {
+        if (sCloudServer != null) {
+            sCloudServer.pingBack(context, event);
+        }
     }
 
-    private static VersionBean createVersionBean() {
-        VersionBean versionBean = new VersionBean();
-        versionBean.versionName = BuildConfig.VERSION_NAME;
-        versionBean.androidVersion = String.valueOf(Build.VERSION.SDK_INT);
-        versionBean.versionCode = BuildConfig.VERSION_CODE;
-        return versionBean;
+    public static void pingBack(Context context, String event, Map<String, String> map) {
+        if (sCloudServer != null) {
+            sCloudServer.pingBack(context, event, map);
+        }
     }
 
     public static void checkUpgrade() {
-        sCloudDataBase.checkUpgrade();
+
     }
 }

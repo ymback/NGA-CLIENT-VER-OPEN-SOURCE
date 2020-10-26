@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
@@ -39,6 +40,10 @@ public interface RetrofitService {
 
     @FormUrlEncoded
     @POST("nuke.php")
+    Observable<String> post(@QueryMap Map<String, String> queryMap, @FieldMap Map<String, String> fieldMap);
+
+    @FormUrlEncoded
+    @POST("nuke.php")
     Observable<String> login(@FieldMap Map<String, String> map);
 
     @GET
@@ -62,5 +67,8 @@ public interface RetrofitService {
 
     @POST
     Observable<ResponseBody> uploadFile(@Url String url, @Body MultipartBody body);
+
+    @GET
+    Observable<String> get(@Url String url, @HeaderMap Map<String,String> map);
 
 }

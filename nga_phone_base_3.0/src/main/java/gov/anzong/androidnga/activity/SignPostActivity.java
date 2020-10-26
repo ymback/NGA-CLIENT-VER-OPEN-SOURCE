@@ -16,7 +16,7 @@ import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.util.ToastUtils;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.param.SignPostParam;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.task.SignPostTask;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;

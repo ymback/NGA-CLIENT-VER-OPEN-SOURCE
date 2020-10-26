@@ -54,7 +54,7 @@ public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void setCount(int count) {
-        if (mCount < count) {
+        if (mCount != count) {
             mCount = count;
             notifyDataSetChanged();
         }

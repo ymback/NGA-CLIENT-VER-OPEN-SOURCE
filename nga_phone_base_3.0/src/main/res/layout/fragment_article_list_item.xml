@@ -84,19 +84,13 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/wv_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.legacy.widget.Space
+        <Space
             android:layout_width="wrap_content"
             android:layout_height="48dp" />
-
-        <sp.phone.view.webview.WebViewEx
-            android:id="@+id/wv_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp" />
 
         <TextView
             android:id="@+id/tv_content"

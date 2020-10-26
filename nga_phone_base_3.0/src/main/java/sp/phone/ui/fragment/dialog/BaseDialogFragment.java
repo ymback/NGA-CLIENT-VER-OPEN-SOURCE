@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import android.view.View;
 import android.widget.Button;
 
-import com.mahang.utils.LogUtils;
-
 import gov.anzong.androidnga.util.ToastUtils;
+import sp.phone.util.NLog;
 
 /**
  * Created by Justwen on 2018/2/16.
@@ -68,7 +67,7 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment impleme
         try {
             super.onStart();
         } catch (IllegalStateException e) {
-            LogUtils.d(e.getMessage());
+            NLog.d(e.getMessage());
         }
     }
 }

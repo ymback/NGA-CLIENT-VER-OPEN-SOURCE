@@ -23,7 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.http.retrofit.RetrofitService;
 import sp.phone.mvp.contract.TopicListContract;
@@ -48,7 +48,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     private TopicConvertFactory mConvertFactory;
 
-    private TopicListModel() {
+    public TopicListModel() {
         mService = (RetrofitService) RetrofitHelper.getInstance().getService(RetrofitService.class);
         mConvertFactory = new TopicConvertFactory();
     }
@@ -102,9 +102,16 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void removeTopic(ThreadPageInfo info, final OnHttpCallBack<String> callBack) {
+        if (getLifecycleProvider() == null) {
+            return;
+        }
         initFieldMap();
         mFieldMap.put("page", String.valueOf(info.getPage()));
-        mFieldMap.put("tidarray", String.valueOf(info.getTid()));
+        String tidArray = String.valueOf(info.getTid());
+        if (info.getPid() != 0) {
+            tidArray = tidArray +  "_" + info.getPid();
+        }
+        mFieldMap.put("tidarray", tidArray);
         mService.post(mFieldMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -135,7 +142,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 .map(new Function<String, TopicListInfo>() {
                     @Override
                     public TopicListInfo apply(@NonNull String js) throws Exception {
-                        NLog.d(js);
+                        //NLog.d(js);
                         TopicListInfo result = mConvertFactory.getTopicListInfo(js, page);
                         if (result != null) {
                             return result;
@@ -161,7 +168,9 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void loadTwentyFourList(TopicListParam param, final OnHttpCallBack<TopicListInfo> callBack, int totalPage) {
-
+        if (getLifecycleProvider() == null) {
+            return;
+        }
         List<Observable<String>> obsList = new ArrayList<Observable<String>>();
         for (int i = 1; i <= totalPage; i++) {
             obsList.add(mService.get(getUrl(i, param)));
@@ -249,7 +258,9 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 e.printStackTrace();
             }
         } else {
-            if (0 != requestInfo.fid) {
+            if (requestInfo.stid != 0) {
+                jsonUri.append("stid=").append(requestInfo.stid).append("&");
+            } else if (0 != requestInfo.fid) {
                 jsonUri.append("fid=").append(requestInfo.fid).append("&");
             }
             if (!StringUtils.isEmpty(requestInfo.key)) {
@@ -259,22 +270,11 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 jsonUri.append("fidgroup=").append(requestInfo.fidGroup).append("&");
             }
 
-            if (requestInfo.stid != 0) {
-                jsonUri.append("stid=").append(requestInfo.stid).append("&");
-            }
         }
         jsonUri.append("page=").append(page).append("&lite=js&noprefix");
         if (requestInfo.recommend == 1) {
             jsonUri.append("&recommend=1&order_by=postdatedesc&user=1");
         }
         return jsonUri.toString();
-    }
-
-    private static class SingletonHolder {
-        private static TopicListModel sInstance = new TopicListModel();
-    }
-
-    public static TopicListModel getInstance() {
-        return SingletonHolder.sInstance;
     }
 }

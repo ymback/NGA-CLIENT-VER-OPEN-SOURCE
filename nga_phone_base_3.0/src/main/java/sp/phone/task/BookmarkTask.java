@@ -29,4 +29,21 @@ public class BookmarkTask {
                 });
     }
 
+    public static void execute(String tid, String pid) {
+        RetrofitService service = RetrofitHelper.getInstance().getService();
+        String postUrl = url + tid + "&pid=" + pid;
+        service.post(postUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onNext(String result) {
+                        String msg = StringUtils.getStringBetween(result, 0, "{\"0\":\"", "\"},\"time\"").result;
+                        if (!StringUtils.isEmpty(msg)) {
+                            ToastUtils.showShortToast(msg.trim());
+                        }
+                    }
+                });
+    }
+
 }

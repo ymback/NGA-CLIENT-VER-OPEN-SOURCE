@@ -20,8 +20,7 @@
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/nickName"
-        android:layout_toRightOf="@id/avatarImage" />
+        android:layout_below="@id/nickName" />
     
     <!-- 由于wrap_content不支持margin bottom，用一个place_holder把整个撑大，避免快速回复按钮和文字重叠 -->
 
@@ -46,6 +45,5 @@
         android:layout_width="fill_parent"
         android:layout_height="6dp"
         android:layout_below="@id/content"
-        android:layout_toRightOf="@id/avatarImage"
         android:orientation="horizontal" />
 </RelativeLayout>

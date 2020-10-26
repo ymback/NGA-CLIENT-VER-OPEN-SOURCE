@@ -18,9 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.util.ToastUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,21 +31,23 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.http.bean.TopicPostBean;
-import sp.phone.common.ApplicationContextHolder;
-import sp.phone.param.ParamKey;
-import sp.phone.param.PostParam;
-import sp.phone.http.OnHttpCallBack;
-import sp.phone.mvp.contract.TopicPostContract;
 import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.http.retrofit.RetrofitService;
+import sp.phone.mvp.contract.TopicPostContract;
+import sp.phone.param.ParamKey;
+import sp.phone.param.PostParam;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
+
+;
 
 /**
  * Created by Justwen on 2017/6/10.
@@ -58,7 +62,9 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
     private RetrofitService mRetrofitService;
 
     public TopicPostModel() {
-        mRetrofitService = RetrofitHelper.getInstance().getService();
+        OkHttpClient.Builder builder = RetrofitHelper.getInstance().createOkHttpClientBuilder();
+        builder.connectTimeout(5, TimeUnit.MINUTES);
+        mRetrofitService = RetrofitHelper.getInstance().createRetrofit(builder).create(RetrofitService.class);
     }
 
     @Override
@@ -77,6 +83,10 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
         if (postParam.getPostTid() != null) {
             builder.append("&tid=").append(postParam.getPostTid());
+        }
+
+        if (postParam.getStid() != null) {
+            builder.append("&stid=").append(postParam.getStid());
         }
 
         mRetrofitService.post(builder.toString())
@@ -139,7 +149,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     @Override
     public void post(PostParam postParam, TopicPostTask.CallBack callBack) {
-        new TopicPostTask(ApplicationContextHolder.getContext(), callBack).execute(postParam.toString());
+        new TopicPostTask(ContextUtils.getContext(), callBack).execute(postParam.toString());
     }
 
     @Override
@@ -155,7 +165,7 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
                 .map(new Function<Uri, MultipartBody>() {
                     @Override
                     public MultipartBody apply(Uri uri) throws Exception {
-                        Context context = ApplicationContextHolder.getContext();
+                        Context context = ContextUtils.getContext();
                         ContentResolver cr = context.getContentResolver();
 
                         ParcelFileDescriptor pfd = cr.openFileDescriptor(uri, "r");
@@ -191,8 +201,10 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
     }
 
     private void uploadFileInner(MultipartBody multipartBody, Uri uri, PostParam postParam, OnHttpCallBack<String> callBack, boolean compress) {
-        RetrofitService service = RetrofitHelper.getInstance().getService();
-        service.uploadFile(BASE_URL_ATTACHMENT_SERVER, multipartBody)
+        if (getLifecycleProvider() == null) {
+            return;
+        }
+        mRetrofitService.uploadFile(BASE_URL_ATTACHMENT_SERVER, multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .compose(getLifecycleProvider().<ResponseBody>bindUntilEvent(FragmentEvent.DETACH))

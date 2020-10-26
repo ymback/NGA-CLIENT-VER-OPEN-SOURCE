@@ -28,5 +28,6 @@ public class ARouterConstants {
             ACTIVITY_PROFILE,
             ACTIVITY_NOTIFICATION,
             ACTIVITY_SEARCH,
+            ACTIVITY_TOPIC_LIST,
     };
 }

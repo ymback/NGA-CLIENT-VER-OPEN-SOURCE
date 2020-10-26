@@ -41,7 +41,7 @@ public class ForumListAdapter extends RecyclerView.Adapter<ForumListAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.list_board_icon, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.list_board_item, parent, false);
         view.setOnClickListener(mListener);
         return new ViewHolder(view);
     }
@@ -85,6 +85,7 @@ public class ForumListAdapter extends RecyclerView.Adapter<ForumListAdapter.View
             intent.putExtra("tab", "1");
             intent.putExtra("fid", forum.getId());
             intent.putExtra("board_name", forum.getName());
+            intent.putExtra("stid", forum.getStid());
             mContext.startActivity(intent);
         }
     };

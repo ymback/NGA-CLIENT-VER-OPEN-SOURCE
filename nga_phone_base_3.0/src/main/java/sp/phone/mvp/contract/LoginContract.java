@@ -1,7 +1,7 @@
 package sp.phone.mvp.contract;
 
 import sp.phone.param.LoginParam;
-import sp.phone.http.OnHttpCallBack;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 
 /**
  * Created by Justwen on 2017/6/16.

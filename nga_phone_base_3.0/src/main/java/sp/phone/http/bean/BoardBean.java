@@ -34,5 +34,6 @@ public class BoardBean implements JavaBean {
         public String nameS;
         public String infoS;
         public int stid;
+        public String head;
     }
 }

@@ -94,6 +94,7 @@ public class SearchHistoryBoardFragment extends BaseRxFragment {
                 ARouter.getInstance()
                         .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                         .withInt(ParamKey.KEY_FID, data.getFid())
+                        .withString(ParamKey.BOARD_HEAD, data.getBoardHead())
                         .withString(ParamKey.KEY_TITLE, data.getName())
                         .navigation(getContext());
             }

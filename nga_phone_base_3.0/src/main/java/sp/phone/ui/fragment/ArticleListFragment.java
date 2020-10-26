@@ -2,9 +2,6 @@ package sp.phone.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import butterknife.BindView;
@@ -20,21 +22,22 @@ import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.BaseActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import sp.phone.mvp.viewmodel.ArticleShareViewModel;
 import io.reactivex.annotations.NonNull;
-import sp.phone.ui.adapter.ArticleListAdapter;
-import sp.phone.http.bean.ThreadData;
-import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
-import sp.phone.param.ArticleListParam;
-import sp.phone.param.ParamKey;
-import sp.phone.ui.fragment.dialog.BaseDialogFragment;
-import sp.phone.ui.fragment.dialog.PostCommentDialogFragment;
+import sp.phone.http.bean.ThreadData;
+import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.mvp.contract.ArticleListContract;
 import sp.phone.mvp.presenter.ArticleListPresenter;
-import sp.phone.rxjava.RxBus;
+import sp.phone.param.ArticleListParam;
+import sp.phone.param.ParamKey;
 import sp.phone.rxjava.RxEvent;
+import sp.phone.task.BookmarkTask;
+import sp.phone.ui.adapter.ArticleListAdapter;
+import sp.phone.ui.fragment.dialog.BaseDialogFragment;
+import sp.phone.ui.fragment.dialog.PostCommentDialogFragment;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.NLog;
@@ -130,6 +133,9 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 case R.id.menu_oppose:
                     mPresenter.postOpposeTask(tid, row.getPid());
                     break;
+                case R.id.menu_favorite:
+                    BookmarkTask.execute(tidStr, pidStr);
+                    break;
                 default:
                     break;
             }
@@ -182,23 +188,32 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
         NLog.d(TAG, "onCreate");
         mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
         registerRxBus();
+
+        initData();
         super.onCreate(savedInstanceState);
+    }
+
+    private void initData() {
+        ArticleShareViewModel viewModel = getActivityViewModelProvider().get(ArticleShareViewModel.class);
+        viewModel.getRefreshPage().observe(this, page -> {
+            if (page == mRequestParam.page) {
+                loadPage();
+            }
+        });
+
+        viewModel.getCachePage().observe(this, page -> {
+            if (page == mRequestParam.page) {
+                mPresenter.cachePage();
+            }
+        });
     }
 
     @Override
     protected void accept(@NonNull RxEvent rxEvent) {
-        if (rxEvent.what == RxEvent.EVENT_ARTICLE_UPDATE
-                && rxEvent.arg == mRequestParam.page
-                && (rxEvent.obj == null || rxEvent.obj.equals(mRequestParam))) {
-            loadPage();
-        } else if (rxEvent.what == RxEvent.EVENT_ARTICLE_GO_FLOOR
+        if (rxEvent.what == RxEvent.EVENT_ARTICLE_GO_FLOOR
                 && rxEvent.arg + 1 == mRequestParam.page
                 && rxEvent.obj != null) {
             mListView.scrollToPosition((Integer) rxEvent.obj);
-        } else if (rxEvent.what == RxEvent.EVENT_CACHE_TOPIC_CONTENT
-                && rxEvent.arg == mRequestParam.page
-                && (rxEvent.obj == null || rxEvent.obj.equals(mRequestParam))) {
-            mPresenter.cachePage();
         }
     }
 
@@ -245,8 +260,11 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
     @Override
     public void setData(ThreadData data) {
-        if (data != null) {
-            RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_ARTICLE_TAB_UPDATE, data.get__ROWS()));
+        if (getActivity() != null && data != null) {
+            getActivityViewModelProvider().get(ArticleShareViewModel.class).setReplyCount(data.get__ROWS());
+        }
+        if (data != null && getActivity() != null && mRequestParam.title == null) {
+            getActivity().setTitle(data.getThreadInfo().getSubject());
         }
         mArticleAdapter.setData(data);
         mArticleAdapter.notifyDataSetChanged();
