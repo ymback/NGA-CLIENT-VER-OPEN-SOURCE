@@ -1,8 +1,9 @@
-package sp.phone.mvp.model;
+package gov.anzong.androidnga.mvvm.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -10,17 +11,15 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import sp.phone.http.bean.MessageListInfo;
-import gov.anzong.androidnga.http.OnHttpCallBack;
-import sp.phone.mvp.contract.MessageListContract;
-import sp.phone.mvp.model.convert.MessageConvertFactory;
 import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.http.retrofit.RetrofitService;
+import sp.phone.mvp.model.convert.MessageConvertFactory;
 
 /**
  * Created by Justwen on 2017/10/10.
  */
 
-public class MessageListModel extends BaseModel implements MessageListContract.IMessageModel {
+public class MessageListModel {
 
     private RetrofitService mService;
 
@@ -37,7 +36,6 @@ public class MessageListModel extends BaseModel implements MessageListContract.I
         mParamMap.put("lite","js");
     }
 
-    @Override
     public void loadPage(int page, final OnHttpCallBack<MessageListInfo> callBack) {
         mParamMap.put("page",String.valueOf(page));
         mService.get(mParamMap)
@@ -76,6 +74,5 @@ public class MessageListModel extends BaseModel implements MessageListContract.I
 
                     }
                 });
-
     }
 }

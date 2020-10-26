@@ -127,7 +127,7 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
     }
 
-    protected ViewModelProvider getActivityViewModelProvider() {
+    public ViewModelProvider getActivityViewModelProvider() {
         if (mActivityViewModelProvider == null) {
             mActivityViewModelProvider = new ViewModelProvider(mActivity);
         }
