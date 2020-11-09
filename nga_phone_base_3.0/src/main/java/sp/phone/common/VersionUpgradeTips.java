@@ -383,4 +383,8 @@ public interface VersionUpgradeTips {
             + "● 更新QQ群\n"
             + "● 举报支持填写理由\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
+
+        String TIPS_3043 = "更新内容\n"
+                + "● 修复无法上传图片的问题\n"
+                + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
 }
