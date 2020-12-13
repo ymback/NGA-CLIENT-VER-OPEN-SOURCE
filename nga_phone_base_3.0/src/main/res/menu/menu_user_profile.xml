@@ -9,6 +9,10 @@
         androidnga:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/menu_ban_this_one"
+        android:title="@string/ban_thisone"/>
+
+    <item
         android:id="@+id/menu_search_post"
         android:icon="@drawable/btn_ic_search"
         android:title="@string/menu_search_post"

@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +13,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.List;
 
@@ -28,20 +29,21 @@ import butterknife.OnClick;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.core.data.HtmlData;
 import gov.anzong.androidnga.core.decode.ForumDecoder;
-import sp.phone.http.bean.AdminForumsData;
-import sp.phone.http.bean.ProfileData;
-import sp.phone.http.bean.ReputationData;
+import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.http.bean.AdminForumsData;
+import sp.phone.http.bean.ProfileData;
+import sp.phone.http.bean.ReputationData;
 import sp.phone.param.ParamKey;
-import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.task.JsonProfileLoadTask;
 import sp.phone.theme.ThemeManager;
 import sp.phone.util.ActivityUtils;
-import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.util.FunctionUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.StringUtils;
@@ -329,6 +331,18 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         menu.findItem(R.id.menu_search_reply).setVisible(mProfileData != null);
         menu.findItem(R.id.menu_send_message).setVisible(mProfileData != null && !mCurrentUser);
         menu.findItem(R.id.menu_modify_avatar).setVisible(mProfileData != null && mCurrentUser);
+
+        MenuItem item = menu.findItem(R.id.menu_ban_this_one);
+        if (item != null) {
+
+            if (mProfileData == null) {
+                item.setVisible(false);
+            } else {
+                item.setVisible(true);
+                boolean ban = UserManagerImpl.getInstance().checkBlackList(mProfileData.getUid());
+                item.setTitle(ban ? R.string.cancel_ban_thisone : R.string.ban_thisone);
+            }
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -353,11 +367,25 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
             case R.id.menu_open_by_browser:
                 FunctionUtils.openUrlByDefaultBrowser(this, getUrl());
                 break;
+            case R.id.menu_ban_this_one:
+                banThisSB();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
         return true;
+    }
+
+    public void banThisSB() {
+        UserManager um = UserManagerImpl.getInstance();
+        if (um.checkBlackList(mProfileData.getUid())) {
+            um.removeFromBlackList(mProfileData.getUid());
+            ToastUtils.success(R.string.remove_from_blacklist_success);
+        } else {
+            um.addToBlackList(mProfileData.getUserName(), mProfileData.getUid());
+            ToastUtils.success(R.string.add_to_blacklist_success);
+        }
     }
 
     private void startModifyAvatar() {
