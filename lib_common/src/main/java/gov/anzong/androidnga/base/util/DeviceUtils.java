@@ -44,7 +44,7 @@ public class DeviceUtils {
                     return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
                 }
             }
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
