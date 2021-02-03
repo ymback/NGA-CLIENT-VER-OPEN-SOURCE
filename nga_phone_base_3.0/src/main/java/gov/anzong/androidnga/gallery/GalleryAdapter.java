@@ -14,6 +14,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -45,7 +46,8 @@ public class GalleryAdapter extends PagerAdapter {
         PhotoView photoView = new PhotoView(container.getContext());
         photoView.setMaximumScale(10.0f);
         String url = mGalleryUrls[position];
-        Glide.with(mContext).load(url).listener(mRequestListener).into(new CustomTarget<Drawable>() {
+        Glide.with(mContext).load(url).listener(mRequestListener).apply(RequestOptions.fitCenterTransform())
+                .into(new CustomTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 if (resource instanceof GifDrawable) {
