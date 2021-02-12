@@ -1,5 +1,6 @@
 package sp.phone.mvp.viewmodel;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,6 +14,8 @@ public class ArticleShareViewModel extends ViewModel {
     private MutableLiveData<Integer> mRefreshPage = new MutableLiveData<>();
 
     private MutableLiveData<Integer> mCachePage = new MutableLiveData<>();
+
+    private MutableLiveData<String> mTopicOwner = new MutableLiveData<>();
 
     public MutableLiveData<Integer> getReplyCount() {
         return mReplyCount;
@@ -36,5 +39,13 @@ public class ArticleShareViewModel extends ViewModel {
 
     public void setCachePage(int cachePage) {
         mCachePage.setValue(cachePage);
+    }
+
+    public LiveData<String> getTopicOwner() {
+        return mTopicOwner;
+    }
+
+    public void setTopicOwner(String owner) {
+        mTopicOwner.setValue(owner);
     }
 }

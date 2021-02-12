@@ -69,6 +69,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private LocalWebView[] mLocalWebViews = new LocalWebView[20];
 
+    private String mTopicOwner;
+
     private View.OnClickListener mOnClientClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -354,6 +356,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
+    public void setTopicOwner(String topicOwner) {
+        mTopicOwner = topicOwner;
+    }
+
     public void setData(ThreadData data) {
         mData = data;
     }
@@ -414,7 +420,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         onBindContentView(holder, row, position);
 
         int fgColor = mThemeManager.getAccentColor(mContext);
-        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mContext);
+        FunctionUtils.handleNickName(row, fgColor, holder.nickNameTV, mTopicOwner, mContext);
 
         holder.floorTv.setText(MessageFormat.format("[{0} 楼]", String.valueOf(row.getLou())));
         holder.postTimeTv.setText(row.getPostdate());

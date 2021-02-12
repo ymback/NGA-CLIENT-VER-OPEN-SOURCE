@@ -379,7 +379,7 @@ public class FunctionUtils {
 
 
     public static void handleNickName(ThreadRowInfo row, int fgColor,
-                                      TextView nickNameTV, Context context) {
+                                      TextView nickNameTV, String topicOwner, Context context) {
         initStaticStrings(context);
         String nickName = row.getAuthor();
         // int now = 0;
@@ -400,6 +400,11 @@ public class FunctionUtils {
             fgColor = nickNameTV.getResources().getColor(R.color.title_red);
             nickName += "(匿名)";
         }
+
+        if (row.getAuthor().equals(topicOwner)) {
+            nickName += "(楼主)";
+        }
+
         nickNameTV.setText(nickName);
         TextPaint tp = nickNameTV.getPaint();
         tp.setFakeBoldText(true);// bold for Chinese character

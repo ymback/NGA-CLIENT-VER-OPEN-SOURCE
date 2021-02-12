@@ -260,12 +260,21 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
     @Override
     public void setData(ThreadData data) {
+        ArticleShareViewModel viewModel = getActivityViewModelProvider().get(ArticleShareViewModel.class);
         if (getActivity() != null && data != null) {
-            getActivityViewModelProvider().get(ArticleShareViewModel.class).setReplyCount(data.get__ROWS());
+            viewModel.setReplyCount(data.get__ROWS());
         }
         if (data != null && getActivity() != null && mRequestParam.title == null) {
             getActivity().setTitle(data.getThreadInfo().getSubject());
         }
+
+        if (data != null && !data.getRowList().isEmpty()) {
+            ThreadRowInfo rowInfo = data.getRowList().get(0);
+            if (rowInfo != null && rowInfo.getLou() == 0) {
+                viewModel.setTopicOwner(rowInfo.getAuthor());
+            }
+        }
+        mArticleAdapter.setTopicOwner(viewModel.getTopicOwner().getValue());
         mArticleAdapter.setData(data);
         mArticleAdapter.notifyDataSetChanged();
 
