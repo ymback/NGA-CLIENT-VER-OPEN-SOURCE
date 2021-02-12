@@ -1,5 +1,7 @@
 package sp.phone.mvp.contract;
 
+import android.net.Uri;
+
 import sp.phone.mvp.model.entity.Board;
 import sp.phone.param.TopicListParam;
 import gov.anzong.androidnga.http.OnHttpCallBack;
@@ -33,6 +35,12 @@ public interface TopicListContract {
         void removeBookmarkBoard(int fid, int stid);
 
         void startArticleActivity(String tid, String title);
+
+        void importCacheTopic(Uri uri);
+
+        void exportCacheTopic();
+
+        void showFileChooser();
     }
 
     interface View {

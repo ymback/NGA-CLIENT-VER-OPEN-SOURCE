@@ -1,28 +1,47 @@
 package sp.phone.mvp.presenter;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+
+import java.io.File;
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
+import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
+import gov.anzong.androidnga.base.util.PermissionUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.common.util.FileUtils;
+import gov.anzong.androidnga.common.util.LogUtils;
 import gov.anzong.androidnga.http.OnHttpCallBack;
-import sp.phone.mvp.model.BoardModel;
-import sp.phone.mvp.model.entity.Board;
-import sp.phone.param.ParamKey;
-import sp.phone.param.TopicListParam;
-import sp.phone.ui.fragment.TopicSearchFragment;
 import sp.phone.mvp.contract.TopicListContract;
+import sp.phone.mvp.model.BoardModel;
 import sp.phone.mvp.model.TopicListModel;
+import sp.phone.mvp.model.entity.Board;
 import sp.phone.mvp.model.entity.ThreadPageInfo;
 import sp.phone.mvp.model.entity.TopicListInfo;
+import sp.phone.param.ParamKey;
+import sp.phone.param.TopicListParam;
+import sp.phone.rxjava.BaseSubscriber;
+import sp.phone.ui.fragment.TopicCacheFragment;
+import sp.phone.ui.fragment.TopicSearchFragment;
 import sp.phone.util.ARouterUtils;
 
 /**
- *
  * @author Justwen
  * @date 2017/6/3
  */
@@ -262,5 +281,83 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
         } else {
             loadPage(1, mRequestParam);
         }
+    }
+
+    @Override
+    public void exportCacheTopic() {
+        PermissionUtils.requestAsync(mBaseView, new BaseSubscriber<Boolean>() {
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean) {
+                    String srcDir = ContextUtils.getContext().getFilesDir().getAbsolutePath() + "/cache/";
+
+                    DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+                    String dateStr = dateFormat.format(new Date(System.currentTimeMillis()));
+                    String destDir = Environment.getExternalStorageDirectory() + File.separator
+                            + BuildConfig.APPLICATION_ID + File.separator + "cache/cache_" + dateStr + ".zip";
+
+                    if (FileUtils.zipFiles(srcDir, destDir)) {
+                        ToastUtils.success("导出成功至" + destDir);
+                    } else {
+                        ToastUtils.error("导出失败");
+                    }
+                } else {
+                    ToastUtils.warn("无存储权限，无法导出！");
+                }
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void showFileChooser() {
+        PermissionUtils.request(mBaseView, new BaseSubscriber<Boolean>() {
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean) {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("*/*");
+                        mBaseView.startActivityForResult(intent, TopicCacheFragment.REQUEST_IMPORT_CACHE);
+                    } catch (ActivityNotFoundException e) {
+                        ToastUtils.warn("系统不支持导入");
+                    }
+                } else {
+                    ToastUtils.warn("无存储权限，无法导入！");
+                }
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+    }
+
+    @Override
+    public void importCacheTopic(Uri uri) {
+        Context context = ContextUtils.getContext();
+        if (!checkCacheZipFile(context, uri)) {
+            ToastUtils.error("选择非法文件");
+            return;
+        }
+        ContentResolver cr = context.getContentResolver();
+        String destDir = context.getFilesDir().getAbsolutePath();
+        File tempZipFile = new File(destDir , "temp.zip");
+        try {
+            InputStream is = cr.openInputStream(uri);
+            if (is == null) {
+                return;
+            }
+            org.apache.commons.io.FileUtils.copyInputStreamToFile(is, tempZipFile);
+            FileUtils.unzip(tempZipFile.getAbsolutePath(), destDir);
+            loadCachePage();
+            ToastUtils.success("导入成功！！");
+        } catch (Exception e) {
+            LogUtils.print(e);
+        }
+        tempZipFile.delete();
+    }
+
+    private boolean checkCacheZipFile(Context context, Uri uri) {
+        ContentResolver cr = context.getContentResolver();
+        String contentType = cr.getType(uri);
+        return contentType != null && contentType.contains("zip");
     }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_cache_import"
+        android:title="导入缓存"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_cache_export"
+        android:title="导出缓存"
+        app:showAsAction="never" />
+
+</menu>

@@ -1,10 +1,12 @@
 package sp.phone.ui.fragment;
 
+import android.app.Activity;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +48,8 @@ import sp.phone.view.RecyclerViewEx;
 public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
 
     private static final String TAG = TopicSearchFragment.class.getSimpleName();
+
+    public static final int REQUEST_IMPORT_CACHE = 0;
 
     protected TopicListParam mRequestParam;
 
@@ -248,5 +252,6 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
             TopicHistoryManager.getInstance().addTopicHistory(info);
         }
     }
+
 
 }
