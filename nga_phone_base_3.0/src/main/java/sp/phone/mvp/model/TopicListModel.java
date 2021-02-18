@@ -75,6 +75,9 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 TopicListInfo listInfo = new TopicListInfo();
                 for (File dir : cacheDirs) {
                     File infoFile = new File(dir, dir.getName() + ".json");
+                    if (!infoFile.exists()) {
+                        continue;
+                    }
                     String rawData = FileUtils.readFileToString(infoFile);
                     ThreadPageInfo pageInfo = JSON.parseObject(rawData, ThreadPageInfo.class);
                     if (pageInfo == null) {
