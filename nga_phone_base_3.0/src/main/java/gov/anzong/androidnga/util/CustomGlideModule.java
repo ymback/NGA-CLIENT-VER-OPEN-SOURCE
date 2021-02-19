@@ -9,6 +9,7 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory;
+import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,7 +30,7 @@ public class CustomGlideModule extends AppGlideModule {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.format(DecodeFormat.PREFER_ARGB_8888);
         builder.setDefaultRequestOptions(requestOptions);
-        builder.setDiskCache(new ExternalPreferredCacheDiskCacheFactory(context));
+        builder.setDiskCache(new InternalCacheDiskCacheFactory(context));
     }
 
 }

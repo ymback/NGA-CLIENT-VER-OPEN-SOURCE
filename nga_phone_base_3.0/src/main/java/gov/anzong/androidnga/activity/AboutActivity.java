@@ -117,7 +117,7 @@ public class AboutActivity extends MaterialAboutActivity {
         builder.addItem(new MaterialAboutActionItem.Builder()
                 .text("客户端吐槽QQ群,欢迎加入捡肥皂")
                 .subText("1065310118")
-                .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "714556852"))
+                .setOnClickAction(() -> FunctionUtils.copyToClipboard(AboutActivity.this, "1065310118"))
                 .icon(R.drawable.ic_qq)
                 .build());
         builder.addItem(new MaterialAboutActionItem.Builder()

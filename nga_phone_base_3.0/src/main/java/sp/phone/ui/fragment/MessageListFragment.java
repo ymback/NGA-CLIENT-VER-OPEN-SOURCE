@@ -2,50 +2,57 @@ package sp.phone.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import gov.anzong.androidnga.R;
-import sp.phone.http.bean.MessageListInfo;
-import sp.phone.mvp.contract.MessageListContract;
-import sp.phone.mvp.presenter.MessageListPresenter;
+import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.mvvm.viewmodel.MessageListViewModel;
 import sp.phone.ui.adapter.MessageListAdapter;
 import sp.phone.util.ActivityUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class MessageListFragment extends BaseMvpFragment<MessageListPresenter> implements SwipeRefreshLayout.OnRefreshListener, MessageListContract.IMessageView {
+public class MessageListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @BindView(R.id.loading_view)
-    ViewGroup mLoadView;
+    private ViewGroup mLoadView;
 
     private View.OnClickListener mClickListener;
 
     private MessageListAdapter mAdapter;
 
+    private MessageListViewModel mMessageViewModel;
+
     private RecyclerViewEx.OnNextPageLoadListener mNextPageLoadListener = new RecyclerViewEx.OnNextPageLoadListener() {
         @Override
         public void loadNextPage() {
             if (!isRefreshing()) {
-                mPresenter.loadPage(mAdapter.getNextPage());
+                setRefreshing(true);
+                mMessageViewModel.getMessageList(mAdapter.getNextPage());
             }
         }
     };
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        mMessageViewModel = getActivityViewModelProvider().get(MessageListViewModel.class);
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message_list, container, false);
-        ButterKnife.bind(this, view);
+        mLoadView = view.findViewById(R.id.loading_view);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
 
         mAdapter = new MessageListAdapter(getContext());
         mAdapter.setOnClickListener(mClickListener);
@@ -66,7 +73,23 @@ public class MessageListFragment extends BaseMvpFragment<MessageListPresenter> i
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mPresenter.loadPage(1);
+        mMessageViewModel.observeMessageList(this, messageListInfo -> {
+            setRefreshing(false);
+            hideLoadingView();
+            if (messageListInfo != null) {
+                mAdapter.setData(messageListInfo);
+            }
+        });
+        mMessageViewModel.observeErrorInfo(this, s -> {
+            setRefreshing(false);
+            hideLoadingView();
+            if (TextUtils.isEmpty(s)) {
+                ToastUtils.error(R.string.error_network);
+            } else {
+                ToastUtils.error(s);
+            }
+        });
+        mMessageViewModel.getMessageList(1);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -79,32 +102,19 @@ public class MessageListFragment extends BaseMvpFragment<MessageListPresenter> i
     }
 
     @Override
-    protected MessageListPresenter onCreatePresenter() {
-        return new MessageListPresenter();
-    }
-
-    @Override
     public void onRefresh() {
-        mPresenter.loadPage(1);
+        mMessageViewModel.getMessageList(1);
     }
 
-    @Override
     public void hideLoadingView() {
         mLoadView.setVisibility(View.GONE);
         mSwipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
-    @Override
     public boolean isRefreshing() {
         return mSwipeRefreshLayout.isRefreshing();
     }
 
-    @Override
-    public void setData(MessageListInfo listInfo) {
-        mAdapter.setData(listInfo);
-    }
-
-    @Override
     public void setRefreshing(boolean refreshing) {
         if (mSwipeRefreshLayout.isShown()) {
             mSwipeRefreshLayout.setRefreshing(refreshing);

@@ -383,4 +383,19 @@ public interface VersionUpgradeTips {
             + "● 更新QQ群\n"
             + "● 举报支持填写理由\n"
             + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
+
+        String TIPS_3043 = "更新内容\n"
+                + "● 修复无法上传图片的问题\n"
+                + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
+
+        String TIPS_3044 = "更新内容\n"
+                + "● 用户信息界面增加屏蔽菜单选项\n"
+                + "● 解决在关于界面复制了错误的QQ群号码\n"
+                + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
+
+        String TIPS_3050 = "更新内容\n"
+                + "● 支持导出和导入缓存\n"
+                + "● 增加晴风村板块\n"
+                + "● 增加楼主标识\n"
+                + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
 }
