@@ -268,7 +268,7 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
             getActivity().setTitle(data.getThreadInfo().getSubject());
         }
 
-        if (data != null && !data.getRowList().isEmpty()) {
+        if (data != null && data.getRowList() != null && !data.getRowList().isEmpty()) {
             ThreadRowInfo rowInfo = data.getRowList().get(0);
             if (rowInfo != null && rowInfo.getLou() == 0) {
                 viewModel.setTopicOwner(rowInfo.getAuthor());
