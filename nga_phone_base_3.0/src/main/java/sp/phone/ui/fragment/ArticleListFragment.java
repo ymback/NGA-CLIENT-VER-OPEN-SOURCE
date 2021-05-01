@@ -274,7 +274,9 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
                 viewModel.setTopicOwner(rowInfo.getAuthor());
             }
         }
-        mArticleAdapter.setTopicOwner(viewModel.getTopicOwner().getValue());
+        if (mRequestParam.authorId == 0 && mRequestParam.searchPost == 0) {
+            mArticleAdapter.setTopicOwner(viewModel.getTopicOwner().getValue());
+        }
         mArticleAdapter.setData(data);
         mArticleAdapter.notifyDataSetChanged();
 
