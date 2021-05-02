@@ -8,6 +8,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
+
 import java.io.File;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -23,12 +30,10 @@ import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.util.PermissionUtils;
-import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.util.FileUtils;
 import gov.anzong.androidnga.common.util.LogUtils;
 import gov.anzong.androidnga.http.OnHttpCallBack;
-import sp.phone.mvp.contract.TopicListContract;
 import sp.phone.mvp.model.BoardModel;
 import sp.phone.mvp.model.TopicListModel;
 import sp.phone.mvp.model.entity.Board;
@@ -38,7 +43,6 @@ import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.ui.fragment.TopicCacheFragment;
-import sp.phone.ui.fragment.TopicSearchFragment;
 import sp.phone.util.ARouterUtils;
 
 /**
@@ -46,7 +50,7 @@ import sp.phone.util.ARouterUtils;
  * @date 2017/6/3
  */
 
-public class TopicListPresenter extends BasePresenter<TopicSearchFragment, TopicListModel> implements TopicListContract.Presenter {
+public class TopicListPresenter extends ViewModel implements LifecycleObserver {
 
     // Following variables are for the 24 hour hot topic feature
     // How many pages we query for twenty four hour hot topic
@@ -60,44 +64,43 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
 
     private TopicListParam mRequestParam;
 
+    private MutableLiveData<TopicListInfo> mFirstTopicList = new MutableLiveData<>();
+
+    private MutableLiveData<TopicListInfo> mNextTopicList = new MutableLiveData<>();
+
+    private MutableLiveData<String> mErrorMsg = new MutableLiveData<>();
+
+    private MutableLiveData<Boolean> mRefreshingState = new MutableLiveData<>();
+
+    private MutableLiveData<ThreadPageInfo> mRemovedTopic = new MutableLiveData<>();
+
+    private TopicListModel mBaseModel;
+
     private OnHttpCallBack<TopicListInfo> mCallBack = new OnHttpCallBack<TopicListInfo>() {
         @Override
         public void onError(String text) {
-            if (isAttached()) {
-                mBaseView.setRefreshing(false);
-                mBaseView.showToast(text);
-                mBaseView.hideLoadingView();
-            }
+            mErrorMsg.setValue(text);
+            mRefreshingState.setValue(false);
         }
 
         @Override
         public void onSuccess(TopicListInfo data) {
-            if (!isAttached()) {
-                return;
-            }
-            mBaseView.clearData();
-            mBaseView.scrollTo(0);
-            setData(data);
-            mBaseView.hideLoadingView();
+            mRefreshingState.setValue(false);
+            mFirstTopicList.setValue(data);
         }
     };
 
     private OnHttpCallBack<TopicListInfo> mNextPageCallBack = new OnHttpCallBack<TopicListInfo>() {
         @Override
         public void onError(String text) {
-            if (isAttached()) {
-                mBaseView.setRefreshing(false);
-                mBaseView.setNextPageEnabled(false);
-                mBaseView.showToast(text);
-            }
+            mErrorMsg.setValue(text);
+            mRefreshingState.setValue(false);
         }
 
         @Override
         public void onSuccess(TopicListInfo data) {
-            if (!isAttached()) {
-                return;
-            }
-            setData(data);
+            mRefreshingState.setValue(false);
+            mNextTopicList.setValue(data);
         }
     };
 
@@ -105,18 +108,12 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
     private OnHttpCallBack<TopicListInfo> mTwentyFourCallBack = new OnHttpCallBack<TopicListInfo>() {
         @Override
         public void onError(String text) {
-            if (isAttached()) {
-                mBaseView.setRefreshing(false);
-                mBaseView.setNextPageEnabled(false);
-                mBaseView.showToast(text);
-            }
+            mErrorMsg.setValue(text);
+            mRefreshingState.setValue(false);
         }
 
         @Override
         public void onSuccess(TopicListInfo data) {
-            if (!isAttached()) {
-                return;
-            }
             /* Concatenate the pages */
             twentyFourList.getThreadPageList().addAll(data.getThreadPageList());
             pageQueriedCounter++;
@@ -141,132 +138,126 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
                 }
                 Collections.sort(twentyFourList.getThreadPageList(), (o1, o2) -> Integer.compare(o2.getReplies(), o1.getReplies()));
                 // We list 20 topics each time
-                int endPos = twentyFourCurPos + 20 > twentyFourList.getThreadPageList().size() ?
-                        twentyFourList.getThreadPageList().size() : (twentyFourCurPos + 20);
+                int endPos = Math.min(twentyFourCurPos + 20, twentyFourList.getThreadPageList().size());
                 twentyFourCurList.setThreadPageList(twentyFourList.getThreadPageList().subList(0, endPos));
                 twentyFourCurPos = endPos;
-                setData(twentyFourCurList);
-                mBaseView.hideLoadingView();
+
+                mRefreshingState.setValue(false);
+                mNextTopicList.setValue(twentyFourCurList);
             }
         }
     };
 
     public TopicListPresenter() {
+        mBaseModel = new TopicListModel();
+        mBaseModel = onCreateModel();
     }
 
-    public TopicListPresenter(TopicListParam requestParam) {
+    public void setRequestParam(TopicListParam requestParam) {
         mRequestParam = requestParam;
     }
 
-    private void setData(TopicListInfo result) {
-        mBaseView.setRefreshing(false);
-        mBaseView.setData(result);
+    public MutableLiveData<TopicListInfo> getFirstTopicList() {
+        return mFirstTopicList;
     }
 
-    @Override
+    public MutableLiveData<TopicListInfo> getNextTopicList() {
+        return mNextTopicList;
+    }
+
+    public MutableLiveData<Boolean> isRefreshing() {
+        return mRefreshingState;
+    }
+
+    public MutableLiveData<String> getErrorMsg() {
+        return mErrorMsg;
+    }
+
+    public MutableLiveData<ThreadPageInfo> getRemovedTopic() {
+        return mRemovedTopic;
+    }
+
     protected TopicListModel onCreateModel() {
         return new TopicListModel();
     }
 
-    @Override
     public void removeTopic(ThreadPageInfo info, final int position) {
         mBaseModel.removeTopic(info, new OnHttpCallBack<String>() {
             @Override
             public void onError(String text) {
-                if (isAttached()) {
-                    mBaseView.showToast(text);
-                }
+                mErrorMsg.setValue(text);
             }
 
             @Override
             public void onSuccess(String data) {
-                if (isAttached()) {
-                    mBaseView.showToast(data);
-                    mBaseView.removeTopic(info);
-                }
+                ToastUtils.show(data);
+                mRemovedTopic.setValue(info);
             }
         });
     }
 
-    @Override
     public void removeCacheTopic(ThreadPageInfo info) {
         mBaseModel.removeCacheTopic(info, new OnHttpCallBack<String>() {
             @Override
             public void onError(String text) {
-                if (isAttached()) {
-                    ToastUtils.showToast("删除失败！");
-                }
+                mErrorMsg.setValue("删除失败！");
             }
 
             @Override
             public void onSuccess(String data) {
-                if (isAttached()) {
-                    ThreadUtils.runOnMainThread(() -> {
-                        ToastUtils.showToast("删除成功！");
-                        mBaseView.removeTopic(info);
-                    });
-
-                }
+                ToastUtils.showToast("删除成功！");
+                mRemovedTopic.postValue(info);
             }
         });
 
     }
 
-    @Override
     public void loadPage(int page, TopicListParam requestInfo) {
-        mBaseView.setRefreshing(true);
+        mRefreshingState.setValue(true);
         if (requestInfo.twentyfour == 1) {
             // preload pages
             twentyFourList.getThreadPageList().clear();
             pageQueriedCounter = 0;
-            mBaseView.clearData();
-            mBaseView.scrollTo(0);
+            mFirstTopicList.setValue(null);
             mBaseModel.loadTwentyFourList(requestInfo, mTwentyFourCallBack, twentyFourPageCount);
         } else {
             mBaseModel.loadTopicList(page, requestInfo, mCallBack);
         }
     }
 
-    @Override
     public void loadCachePage() {
         mBaseModel.loadCache(mCallBack);
     }
 
-    @Override
     public void loadNextPage(int page, TopicListParam requestInfo) {
-        mBaseView.setRefreshing(true);
+        mRefreshingState.setValue(true);
         if (requestInfo.twentyfour == 1) {
-            int endPos = twentyFourCurPos + 20 > twentyFourList.getThreadPageList().size() ?
-                    twentyFourList.getThreadPageList().size() : (twentyFourCurPos + 20);
+            int endPos = Math.min(twentyFourCurPos + 20, twentyFourList.getThreadPageList().size());
             twentyFourCurList.setThreadPageList(twentyFourList.getThreadPageList().subList(0, endPos));
             twentyFourCurPos = endPos;
-            setData(twentyFourCurList);
+            mRefreshingState.setValue(false);
+            mNextTopicList.setValue(twentyFourCurList);
         } else {
             mBaseModel.loadTopicList(page, requestInfo, mNextPageCallBack);
         }
     }
 
-    @Override
     public boolean isBookmarkBoard(int fid, int stid) {
         return BoardModel.getInstance().isBookmark(fid, stid);
     }
 
-    @Override
     public void addBookmarkBoard(int fid, int stid, String boardName) {
         BoardModel.getInstance().addBookmark(fid, stid, boardName);
     }
 
-    @Override
     public void addBookmarkBoard(Board board) {
         BoardModel.getInstance().addBookmark(board);
     }
 
-    @Override
     public void removeBookmarkBoard(int fid, int stid) {
         BoardModel.getInstance().removeBookmark(fid, stid);
     }
 
-    @Override
     public void startArticleActivity(String tid, String title) {
         ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_CONTENT)
                 .withInt(ParamKey.KEY_TID, Integer.parseInt(tid))
@@ -274,7 +265,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
                 .navigation(ContextUtils.getContext());
     }
 
-    @Override
+    @OnLifecycleEvent(value = Lifecycle.Event.ON_CREATE)
     public void onViewCreated() {
         if (mRequestParam != null && mRequestParam.loadCache) {
             loadCachePage();
@@ -283,9 +274,8 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
         }
     }
 
-    @Override
-    public void exportCacheTopic() {
-        PermissionUtils.requestAsync(mBaseView, new BaseSubscriber<Boolean>() {
+    public void exportCacheTopic(Fragment fragment) {
+        PermissionUtils.requestAsync(fragment, new BaseSubscriber<Boolean>() {
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
@@ -308,9 +298,8 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
-    @Override
-    public void showFileChooser() {
-        PermissionUtils.request(mBaseView, new BaseSubscriber<Boolean>() {
+    public void showFileChooser(Fragment fragment) {
+        PermissionUtils.request(fragment, new BaseSubscriber<Boolean>() {
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
@@ -318,7 +307,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
                         intent.setType("*/*");
-                        mBaseView.startActivityForResult(intent, TopicCacheFragment.REQUEST_IMPORT_CACHE);
+                        fragment.startActivityForResult(intent, TopicCacheFragment.REQUEST_IMPORT_CACHE);
                     } catch (ActivityNotFoundException e) {
                         ToastUtils.warn("系统不支持导入");
                     }
@@ -330,7 +319,6 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
 
     }
 
-    @Override
     public void importCacheTopic(Uri uri) {
         Context context = ContextUtils.getContext();
         if (!checkCacheZipFile(context, uri)) {
@@ -340,8 +328,7 @@ public class TopicListPresenter extends BasePresenter<TopicSearchFragment, Topic
         ContentResolver cr = context.getContentResolver();
         String destDir = context.getFilesDir().getAbsolutePath();
         File tempZipFile = new File(destDir , "temp.zip");
-        try {
-            InputStream is = cr.openInputStream(uri);
+        try(InputStream is = cr.openInputStream(uri)) {
             if (is == null) {
                 return;
             }

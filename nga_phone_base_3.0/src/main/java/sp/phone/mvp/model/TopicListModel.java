@@ -105,9 +105,6 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void removeTopic(ThreadPageInfo info, final OnHttpCallBack<String> callBack) {
-        if (getLifecycleProvider() == null) {
-            return;
-        }
         initFieldMap();
         mFieldMap.put("page", String.valueOf(info.getPage()));
         String tidArray = String.valueOf(info.getTid());
@@ -118,7 +115,6 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         mService.post(mFieldMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onNext(@NonNull String s) {
@@ -133,15 +129,10 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void loadTopicList(final int page, TopicListParam param, final OnHttpCallBack<TopicListInfo> callBack) {
-        if (getLifecycleProvider() == null) {
-            NLog.e("getLifecycleProvider() == null!!!!!");
-            return;
-        }
         String url = getUrl(page, param);
         mService.get(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
                 .map(new Function<String, TopicListInfo>() {
                     @Override
                     public TopicListInfo apply(@NonNull String js) throws Exception {
@@ -155,7 +146,6 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getLifecycleProvider().<TopicListInfo>bindUntilEvent(FragmentEvent.DETACH))
                 .subscribe(new BaseSubscriber<TopicListInfo>() {
                     @Override
                     public void onNext(@NonNull TopicListInfo topicListInfo) {
@@ -171,16 +161,12 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
 
     @Override
     public void loadTwentyFourList(TopicListParam param, final OnHttpCallBack<TopicListInfo> callBack, int totalPage) {
-        if (getLifecycleProvider() == null) {
-            return;
-        }
         List<Observable<String>> obsList = new ArrayList<Observable<String>>();
         for (int i = 1; i <= totalPage; i++) {
             obsList.add(mService.get(getUrl(i, param)));
         }
         Observable.concat(obsList).subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
                 .map(new Function<String, TopicListInfo>() {
                     @Override
                     public TopicListInfo apply(@NonNull String js) throws Exception {
@@ -194,7 +180,6 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getLifecycleProvider().<TopicListInfo>bindUntilEvent(FragmentEvent.DETACH))
                 .subscribe(new BaseSubscriber<TopicListInfo>() {
                     @Override
                     public void onNext(@NonNull TopicListInfo topicListInfo) {

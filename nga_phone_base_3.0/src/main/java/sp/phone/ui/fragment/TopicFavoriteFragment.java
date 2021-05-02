@@ -26,6 +26,7 @@ public class TopicFavoriteFragment extends TopicSearchFragment implements View.O
         super.onViewCreated(view, savedInstanceState);
         ToastUtils.info("长按可删除收藏的帖子");
         mAdapter.setOnLongClickListener(this);
+        mPresenter.getRemovedTopic().observe(this, this::removeTopic);
     }
 
     @Override

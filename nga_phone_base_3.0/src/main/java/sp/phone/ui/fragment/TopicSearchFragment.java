@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,7 +47,7 @@ import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
+public class TopicSearchFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = TopicSearchFragment.class.getSimpleName();
 
@@ -66,17 +68,23 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     @BindView(R.id.loading_view)
     public View mLoadingView;
 
+    protected TopicListPresenter mPresenter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
         super.onCreate(savedInstanceState);
         setTitle();
+        mPresenter = onCreatePresenter();
+        getLifecycle().addObserver(mPresenter);
     }
 
-    @Override
     protected TopicListPresenter onCreatePresenter() {
-        return new TopicListPresenter(mRequestParam);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+        TopicListPresenter topicListPresenter = viewModelProvider.get(TopicListPresenter.class);
+        topicListPresenter.setRequestParam(mRequestParam);
+        return topicListPresenter;
     }
 
     protected void setTitle() {
@@ -162,53 +170,71 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
         sayingView.setText(ActivityUtils.getSaying());
 
         super.onViewCreated(view, savedInstanceState);
+
+        mPresenter.getFirstTopicList().observe(this, topicListInfo -> {
+            scrollTo(0);
+            clearData();
+            if (topicListInfo != null) {
+                setData(topicListInfo);
+            }
+        });
+
+        mPresenter.getNextTopicList().observe(this, this::setData);
+
+        mPresenter.getErrorMsg().observe(this, res -> {
+            showToast(res);
+            setNextPageEnabled(false);
+        });
+
+        mPresenter.isRefreshing().observe(this, aBoolean -> {
+            setRefreshing(aBoolean);
+            if (!aBoolean) {
+                hideLoadingView();
+            }
+        });
+        mPresenter.loadPage(1,mRequestParam);
     }
 
-    @Override
+
+
     public void scrollTo(int position) {
         mListView.scrollToPosition(position);
     }
 
-    @Override
     public void setNextPageEnabled(boolean enabled) {
         mAdapter.setNextPageEnabled(enabled);
     }
 
-    @Override
     public void removeTopic(int position) {
 
     }
 
-    @Override
     public void removeTopic(ThreadPageInfo pageInfo) {
 
     }
 
-    @Override
     public void hideLoadingView() {
-        mLoadingView.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        if (mLoadingView.getVisibility() == View.VISIBLE) {
+            mLoadingView.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
     }
 
-    @Override
     public void setRefreshing(boolean refreshing) {
         if (mSwipeRefreshLayout.getVisibility() == View.VISIBLE) {
             mSwipeRefreshLayout.setRefreshing(refreshing);
         }
     }
 
-    @Override
     public boolean isRefreshing() {
         return mSwipeRefreshLayout.isShown() ? mSwipeRefreshLayout.isRefreshing() : mLoadingView.isShown();
     }
 
-    @Override
     public void setData(TopicListInfo result) {
         mTopicListInfo = result;
         mAdapter.setData(result.getThreadPageList());
     }
 
-    @Override
     public void clearData() {
         mAdapter.setData(null);
     }

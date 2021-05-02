@@ -3,6 +3,7 @@ package sp.phone.mvp.presenter;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
 
 import sp.phone.mvp.model.BaseModel;
 import sp.phone.ui.fragment.BaseMvpFragment;
@@ -12,7 +13,7 @@ import sp.phone.ui.fragment.BaseMvpFragment;
  * @date 2017/11/25
  */
 
-public abstract class BasePresenter<T extends BaseMvpFragment, E extends BaseModel>
+public abstract class BasePresenter<T extends BaseMvpFragment, E extends BaseModel> extends ViewModel
         implements LifecycleObserver {
 
     protected T mBaseView;
