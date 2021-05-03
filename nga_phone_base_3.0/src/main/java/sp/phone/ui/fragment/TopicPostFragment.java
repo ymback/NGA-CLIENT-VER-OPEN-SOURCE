@@ -123,7 +123,11 @@ public class TopicPostFragment extends BaseMvpFragment<TopicPostPresenter> imple
 
     @Override
     public void insertTitleText(CharSequence text) {
-        mTitleEditText.getText().insert(0, text);
+        try {
+            mTitleEditText.getText().insert(0, text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

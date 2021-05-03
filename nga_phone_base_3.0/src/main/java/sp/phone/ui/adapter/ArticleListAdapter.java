@@ -26,11 +26,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
+import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.rxjava.RxUtils;
 import sp.phone.theme.ThemeManager;
 import sp.phone.ui.fragment.dialog.AvatarDialogFragment;
@@ -179,90 +185,95 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     };
 
     private View.OnClickListener mOnReplyClickListener = new View.OnClickListener() {
+
+        private Intent getReplyIntent(ThreadRowInfo row) {
+            Intent intent = new Intent();
+            StringBuilder postPrefix = new StringBuilder();
+            String mention = null;
+
+            final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
+            final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
+            String content = row.getContent();
+            final String name = row.getAuthor();
+            final String uid = String.valueOf(row.getAuthorid());
+            int page = (row.getLou() + 20) / 20;// 以楼数计算page
+            content = content.replaceAll(quote_regex, "");
+            content = content.replaceAll(replay_regex, "");
+            final String postTime = row.getPostdate();
+            final String tidStr = String.valueOf(row.getTid());
+            content = FunctionUtils.checkContent(content);
+            content = StringUtils.unEscapeHtml(content);
+            if (row.getPid() != 0 || row.getLou() == 0) {
+                mention = name;
+                postPrefix.append("[quote][pid=");
+                postPrefix.append(row.getPid());
+                postPrefix.append(',');
+                postPrefix.append(tidStr);
+                postPrefix.append(",");
+                if (page > 0)
+                    postPrefix.append(page);
+                postPrefix.append("]");// Topic
+                postPrefix.append("Reply");
+                if (row.getISANONYMOUS()) {// 是匿名的人
+                    postPrefix.append("[/pid] [b]Post by [uid=");
+                    postPrefix.append("-1");
+                    postPrefix.append("]");
+                    postPrefix.append(name);
+                    postPrefix.append("[/uid][color=gray](");
+                    postPrefix.append(row.getLou());
+                    postPrefix.append("楼)[/color] (");
+                } else {
+                    postPrefix.append("[/pid] [b]Post by [uid=");
+                    postPrefix.append(uid);
+                    postPrefix.append("]");
+                    postPrefix.append(name);
+                    postPrefix.append("[/uid] (");
+                }
+                postPrefix.append(postTime);
+                postPrefix.append("):[/b]\n");
+                postPrefix.append(content);
+                postPrefix.append("[/quote]\n");
+            }
+            if (!StringUtils.isEmpty(mention))
+                intent.putExtra("mention", mention);
+            intent.putExtra("prefix",
+                    StringUtils.removeBrTag(postPrefix.toString()));
+            intent.putExtra("tid", tidStr);
+            intent.putExtra("action", "reply");
+
+            if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
+                intent.setClass(
+                        ContextUtils.getContext(),
+                        PhoneConfiguration.getInstance().postActivityClass);
+            } else {
+                intent.setClass(
+                        ContextUtils.getContext(),
+                        PhoneConfiguration.getInstance().loginActivityClass);
+            }
+            return intent;
+        }
+
         @Override
         public void onClick(View view) {
 
             ThreadRowInfo row = (ThreadRowInfo) view.getTag();
 
-            (new AsyncTask<Void, Void, Void>() {
+            Observable.create((ObservableOnSubscribe<Intent>) emitter -> {
+                emitter.onNext(getReplyIntent(row));
+                emitter.onComplete();
 
+            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new BaseSubscriber<Intent>() {
                 @Override
-                protected void onPostExecute(Void result) {
-                    view.setEnabled(true);
-                }
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    Intent intent = new Intent();
-                    StringBuilder postPrefix = new StringBuilder();
-                    String mention = null;
-
-                    final String quote_regex = "\\[quote\\]([\\s\\S])*\\[/quote\\]";
-                    final String replay_regex = "\\[b\\]Reply to \\[pid=\\d+,\\d+,\\d+\\]Reply\\[/pid\\] Post by .+?\\[/b\\]";
-                    String content = row.getContent();
-                    final String name = row.getAuthor();
-                    final String uid = String.valueOf(row.getAuthorid());
-                    int page = (row.getLou() + 20) / 20;// 以楼数计算page
-                    content = content.replaceAll(quote_regex, "");
-                    content = content.replaceAll(replay_regex, "");
-                    final String postTime = row.getPostdate();
-                    final String tidStr = String.valueOf(row.getTid());
-                    content = FunctionUtils.checkContent(content);
-                    content = StringUtils.unEscapeHtml(content);
-                    if (row.getPid() != 0) {
-                        mention = name;
-                        postPrefix.append("[quote][pid=");
-                        postPrefix.append(row.getPid());
-                        postPrefix.append(',');
-                        if (tidStr != null) {
-                            postPrefix.append(tidStr);
-                            postPrefix.append(",");
-                        }
-                        if (page > 0)
-                            postPrefix.append(page);
-                        postPrefix.append("]");// Topic
-                        postPrefix.append("Reply");
-                        if (row.getISANONYMOUS()) {// 是匿名的人
-                            postPrefix.append("[/pid] [b]Post by [uid=");
-                            postPrefix.append("-1");
-                            postPrefix.append("]");
-                            postPrefix.append(name);
-                            postPrefix.append("[/uid][color=gray](");
-                            postPrefix.append(row.getLou());
-                            postPrefix.append("楼)[/color] (");
-                        } else {
-                            postPrefix.append("[/pid] [b]Post by [uid=");
-                            postPrefix.append(uid);
-                            postPrefix.append("]");
-                            postPrefix.append(name);
-                            postPrefix.append("[/uid] (");
-                        }
-                        postPrefix.append(postTime);
-                        postPrefix.append("):[/b]\n");
-                        postPrefix.append(content);
-                        postPrefix.append("[/quote]\n");
+                public void onNext(@io.reactivex.annotations.NonNull Intent intent) {
+                    try {
+                        view.setEnabled(true);
+                        ((Activity) view.getContext()).startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    if (!StringUtils.isEmpty(mention))
-                        intent.putExtra("mention", mention);
-                    intent.putExtra("prefix",
-                            StringUtils.removeBrTag(postPrefix.toString()));
-                    if (tidStr != null)
-                        intent.putExtra("tid", tidStr);
-                    intent.putExtra("action", "reply");
-
-                    if (UserManagerImpl.getInstance().getActiveUser() != null) {// 登入了才能发
-                        intent.setClass(
-                                view.getContext(),
-                                PhoneConfiguration.getInstance().postActivityClass);
-                    } else {
-                        intent.setClass(
-                                view.getContext(),
-                                PhoneConfiguration.getInstance().loginActivityClass);
-                    }
-                    ((Activity) view.getContext()).startActivityForResult(intent, ActivityUtils.REQUEST_CODE_TOPIC_POST);
-                    return null;
+                    super.onNext(intent);
                 }
-            }).execute();
+            });
         }
     };
 

@@ -1,6 +1,8 @@
 package gov.anzong.androidnga.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -204,6 +206,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                 CloudServerManager.checkUpgrade();
                 PreferenceUtils.putData(PreferenceKey.KEY_CHECK_UPGRADE_TIME, System.currentTimeMillis());
             }
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        try {
+            super.startActivityForResult(intent, requestCode, options);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

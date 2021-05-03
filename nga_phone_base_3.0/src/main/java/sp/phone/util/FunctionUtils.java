@@ -33,6 +33,8 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import gov.anzong.androidnga.BuildConfig;
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
@@ -401,7 +403,7 @@ public class FunctionUtils {
             nickName += "(匿名)";
         }
 
-        if (row.getAuthor().equals(topicOwner)) {
+        if (Objects.equals(row.getAuthor(), topicOwner)) {
             nickName += "(楼主)";
         }
 

@@ -75,6 +75,9 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
+            if (mPresenter == null) {
+                return false;
+            }
 
             ThreadRowInfo row = mThreadRowInfo;
 

@@ -67,7 +67,9 @@ public class ToolbarContainer extends LinearLayout
             if (mKeyboardActive) {
                 imm.hideSoftInputFromWindow(getWindowToken(), 0);
             } else if (mActivePanel == null || !mActivePanel.isShown()) {
-                imm.showSoftInput(mFocusView, 0);
+                if (mFocusView != null) {
+                    imm.showSoftInput(mFocusView, 0);
+                }
             } else {
                 toggleInputMethod(mActivePanel);
             }

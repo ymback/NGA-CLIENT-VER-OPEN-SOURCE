@@ -77,6 +77,10 @@ public class ArticleListActivity extends BaseActivity implements PreferenceKey {
         setToolbarEnabled(true);
         mRequestParam = getArticleListParam();
         super.onCreate(savedInstanceState);
+        if (mRequestParam == null) {
+            finish();
+            return;
+        }
         setupFragment();
         if (mRequestParam.title != null) {
             setTitle(mRequestParam.title);
