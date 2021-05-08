@@ -192,7 +192,6 @@ public class TopicSearchFragment extends BaseFragment implements View.OnClickLis
                 hideLoadingView();
             }
         });
-        mPresenter.loadPage(1,mRequestParam);
     }
 
 
