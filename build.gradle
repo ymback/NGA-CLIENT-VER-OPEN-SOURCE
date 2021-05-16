@@ -4,7 +4,7 @@ buildscript {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://oss.sonatype.org/content/repositories/snapshots' }
         maven { url "https://jitpack.io" }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         mavenCentral()
         google()
         jcenter()
@@ -21,7 +21,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         flatDir {
             dirs 'libs'
         }
