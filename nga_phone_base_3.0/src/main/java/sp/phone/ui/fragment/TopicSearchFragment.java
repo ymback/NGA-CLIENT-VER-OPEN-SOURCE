@@ -241,12 +241,16 @@ public class TopicSearchFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View view) {
         ThreadPageInfo info = (ThreadPageInfo) view.getTag();
+        handleClickEvent(view.getContext(), info, mRequestParam);
+    }
+
+    public static void handleClickEvent(Context context, ThreadPageInfo info, TopicListParam requestParam) {
 
         if (info.isMirrorBoard()) {
             ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                     .withInt(ParamKey.KEY_FID, info.getFid())
                     .withString(ParamKey.KEY_TITLE, info.getSubject())
-                    .navigation(view.getContext());
+                    .navigation(context);
         } else if ((info.getType() & ApiConstants.MASK_TYPE_ASSEMBLE) == ApiConstants.MASK_TYPE_ASSEMBLE) {
             TopicListParam param = new TopicListParam();
             param.title = info.getSubject();
@@ -261,10 +265,10 @@ public class TopicSearchFragment extends BaseFragment implements View.OnClickLis
             param.tid = info.getTid();
             param.page = info.getPage();
             param.title = StringUtils.unEscapeHtml(info.getSubject());
-            if (mRequestParam.searchPost != 0) {
+            if (requestParam.searchPost != 0) {
                 param.pid = info.getPid();
                 param.authorId = info.getAuthorId();
-                param.searchPost = mRequestParam.searchPost;
+                param.searchPost = requestParam.searchPost;
             }
             param.topicInfo = JSON.toJSONString(info);
 
@@ -272,8 +276,8 @@ public class TopicSearchFragment extends BaseFragment implements View.OnClickLis
             Bundle bundle = new Bundle();
             bundle.putParcelable(ParamKey.KEY_PARAM, param);
             intent.putExtras(bundle);
-            intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
-            startActivity(intent);
+            intent.setClass(context, PhoneConfiguration.getInstance().articleActivityClass);
+            context. startActivity(intent);
             TopicHistoryManager.getInstance().addTopicHistory(info);
         }
     }
