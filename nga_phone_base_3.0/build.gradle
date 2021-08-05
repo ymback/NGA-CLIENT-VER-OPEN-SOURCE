@@ -50,6 +50,10 @@ android {
                 arguments = [moduleName: project.getName()]
             }
         }
+
+        ndk {
+            abiFilters 'armeabi-v7a','arm64-v8a'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
