@@ -200,7 +200,7 @@ public class TopicListPresenter extends ViewModel implements LifecycleObserver {
         mBaseModel.removeCacheTopic(info, new OnHttpCallBack<String>() {
             @Override
             public void onError(String text) {
-                mErrorMsg.setValue("删除失败！");
+                mErrorMsg.postValue("删除失败！");
             }
 
             @Override
@@ -218,7 +218,6 @@ public class TopicListPresenter extends ViewModel implements LifecycleObserver {
             // preload pages
             twentyFourList.getThreadPageList().clear();
             pageQueriedCounter = 0;
-            mFirstTopicList.setValue(null);
             mBaseModel.loadTwentyFourList(requestInfo, mTwentyFourCallBack, twentyFourPageCount);
         } else {
             mBaseModel.loadTopicList(page, requestInfo, mCallBack);

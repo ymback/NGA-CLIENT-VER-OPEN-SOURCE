@@ -50,15 +50,20 @@ open class TopicListBaseFragment : BaseFragment(R.layout.fragment_topic_list_bas
             ToastUtils.error(it)
         })
         mPresenter.firstTopicList.observe(this, Observer {
-            setData(it.threadPageList, false)
+            if (it == null) {
+                setData(null, false)
+            } else{
+                mListView.scrollToPosition(0)
+                setData(it.threadPageList, false)
+            }
         })
 
         mPresenter.nextTopicList.observe(this, Observer {
-            setData(it.threadPageList, true)
+            it?.let { setData(it.threadPageList, true) }
         })
     }
 
-    private fun setData(data: MutableList<ThreadPageInfo>, append: Boolean) {
+    private fun setData(data: MutableList<ThreadPageInfo>?, append: Boolean) {
         if (!append) {
             mAdapter.clear()
         }
