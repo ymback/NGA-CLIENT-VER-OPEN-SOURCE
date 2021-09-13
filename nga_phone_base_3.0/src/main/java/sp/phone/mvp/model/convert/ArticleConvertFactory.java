@@ -20,7 +20,7 @@ import gov.anzong.androidnga.core.data.HtmlData;
 import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.http.bean.Attachment;
-import sp.phone.http.bean.DickData;
+import sp.phone.http.bean.DiceData;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.ForumConstants;
@@ -139,7 +139,7 @@ public class ArticleConvertFactory {
         }
         List<String> imageUrls = new ArrayList<>();
         String ngaHtml = HtmlConvertFactory.convert(buildHtmlData(row), imageUrls);
-        DickData arg = new DickData();
+        DiceData arg = new DiceData();
         arg.setSeed(2110032.0);
         arg.setAuthorId(row.getAuthorid());
         arg.settId(row.getTid());
@@ -148,7 +148,7 @@ public class ArticleConvertFactory {
         arg.setTxt(ngaHtml);
         String argsId = arg.getId() != null ? arg.getId() : randDigi("bbcode", 10000);
         arg.setArgsId(argsId);
-        ngaHtml = getRealDick(arg);
+        ngaHtml = getRealDice(arg);
         row.getImageUrls().addAll(imageUrls);
         row.setFormattedHtmlData(ngaHtml);
     }
@@ -314,7 +314,7 @@ public class ArticleConvertFactory {
         return p + Math.floor(Math.random() * l);
     }
 
-    public static double rnd(DickData arg) {
+    public static double rnd(DiceData arg) {
         double seed = arg.getSeed();
         if (arg.getArgsId() != null) {
             if (arg.getRndSeed() == 0.0) {
@@ -331,7 +331,7 @@ public class ArticleConvertFactory {
     }
 
     // 计算掷骰子结果
-    public static String getRealDick(DickData arg) {
+    public static String getRealDice(DiceData arg) {
         String reg = "\\[dice].+?\\[/dice\\]";
         int sum = 0;
         String txt = arg.getTxt();
@@ -339,7 +339,7 @@ public class ArticleConvertFactory {
         Matcher m = r.matcher(txt);
         if (!m.find()) return txt;
         do {
-            StringBuilder dickStr = new StringBuilder();
+            StringBuilder diceStr = new StringBuilder();
             String $0 = m.group(0);
             assert $0 != null;
             String $1 = $0.replace("[dice]", "").replace("[/dice]", "");
@@ -361,7 +361,7 @@ public class ArticleConvertFactory {
                         covers = Integer.parseInt(sstrs[1]);
                         if (num > 10 || covers > 100000) {
                             sum = -1;
-                            dickStr.append("+OUT OF LIMIT");
+                            diceStr.append("+OUT OF LIMIT");
                         }
                         for (int j = 0; j < num; j++) {
                             String argsId = "postcomment__510458140";
@@ -378,9 +378,9 @@ public class ArticleConvertFactory {
                     }
                 }
             }
-            dickStr.append("<p><b>ROLL:").append(rr).append("</b>=").append(rx.substring(1)).append("=<b>").append(sum).append("</b></p>");
+            diceStr.append("<p><b>ROLL:").append(rr).append("</b>=").append(rx.substring(1)).append("=<b>").append(sum).append("</b></p>");
             sum = 0;
-            txt = txt.replaceFirst(reg, dickStr.toString());
+            txt = txt.replaceFirst(reg, diceStr.toString());
             m = r.matcher(txt);
         } while (m.find());
         return txt;

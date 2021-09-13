@@ -1,6 +1,6 @@
 package sp.phone.http.bean;
 
-public class DickData {
+public class DiceData {
     public String getTxt() {
         return txt;
     }
