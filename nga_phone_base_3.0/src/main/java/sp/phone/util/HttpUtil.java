@@ -23,7 +23,7 @@ public class HttpUtil {
     public static final String NGA_ATTACHMENT_HOST = "img.nga.178.com"; //img.ngacn.cc";
     public static final String Servlet_phone = "/servlet/PhoneServlet";
     public static final String Servlet_timer = "/servlet/TimerServlet";
-    private static final String servers[] = {"http://nga.178.com", "http://bbs.ngacn.cc"};
+    private static final String[] servers = {"https://nga.178.com", "https://bbs.ngacn.cc"};
     private static final String TAG = HttpUtil.class.getSimpleName();
     private static final String[] host_arr = {};
     public static String PATH_AVATAR_OLD = PATH_OLD + "/nga_cache";
@@ -32,7 +32,7 @@ public class HttpUtil {
     public static String PATH_AVATAR = PATH + "/nga_cache";
     public static String PATH_NOMEDIA = PATH + "/.nomedia";
 
-    public static String Server = "http://bbs.nga.cn";
+    public static String Server = "https://bbs.nga.cn";
     public static String NonameServer = "http://ngac.sinaapp.com/nganoname";
     public static String HOST = "";
     public static String HOST_PORT = "";

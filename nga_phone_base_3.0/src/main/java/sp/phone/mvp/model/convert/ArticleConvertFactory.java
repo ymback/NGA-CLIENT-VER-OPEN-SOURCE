@@ -8,6 +8,8 @@ import com.alibaba.fastjson.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import gov.anzong.androidnga.Utils;
 import gov.anzong.androidnga.base.util.DeviceUtils;
@@ -18,6 +20,7 @@ import gov.anzong.androidnga.core.data.HtmlData;
 import gov.anzong.androidnga.base.util.ContextUtils;;
 import sp.phone.common.PhoneConfiguration;
 import sp.phone.http.bean.Attachment;
+import sp.phone.http.bean.DiceData;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.common.ForumConstants;
@@ -57,7 +60,7 @@ public class ArticleConvertFactory {
                     .replaceAll("\"subject\":(0\\d+),", "\"subject\":\"$1\",")
                     .replaceAll("\"author\":(0\\d+),", "\"author\":\"$1\",")
                     .replaceAll("\"alterinfo\":\"\\[(\\w|\\s)+\\]\\s+\",", ""); //部分页面打不开的问题
-
+//            NLog.e(js);
             JSONObject obj = (JSONObject) JSON.parseObject(js).get("data");
             NLog.d(TAG, "js = :\n" + js);
             if (obj == null) {
@@ -135,7 +138,17 @@ public class ArticleConvertFactory {
             row.setContent(StringUtils.unescape(row.getContent()));
         }
         List<String> imageUrls = new ArrayList<>();
-        String ngaHtml = HtmlConvertFactory.convert(buildHtmlData(row),imageUrls);
+        String ngaHtml = HtmlConvertFactory.convert(buildHtmlData(row), imageUrls);
+        DiceData arg = new DiceData();
+        arg.setSeed(2110032.0);
+        arg.setAuthorId(row.getAuthorid());
+        arg.settId(row.getTid());
+        arg.setpId(row.getPid());
+        arg.setId("postcontent0");
+        arg.setTxt(ngaHtml);
+        String argsId = arg.getId() != null ? arg.getId() : randDigi("bbcode", 10000);
+        arg.setArgsId(argsId);
+        ngaHtml = getRealDice(arg);
         row.getImageUrls().addAll(imageUrls);
         row.setFormattedHtmlData(ngaHtml);
     }
@@ -297,4 +310,81 @@ public class ArticleConvertFactory {
         }
     }
 
+    public static String randDigi(String p, int l) {
+        return p + Math.floor(Math.random() * l);
+    }
+
+    public static double rnd(DiceData arg) {
+        double seed = arg.getSeed();
+        if (arg.getArgsId() != null) {
+            if (arg.getRndSeed() == 0.0) {
+                arg.setRndSeed(arg.getAuthorId() + arg.gettId() + arg.getpId() +
+                        (arg.gettId() > 10246184 || arg.getpId() > 200188932 ? arg.getSeedOffset() : 0));
+                if (arg.getRndSeed() == 0.0) arg.setRndSeed(Math.floor(Math.random() * 10000));
+            }
+            arg.setRndSeed((arg.getRndSeed() * 9301 + 49297) % 233280);
+            return arg.getRndSeed() / 233280.0;
+        }
+        seed = (seed * 9301 + 49297) % 233280;
+        arg.setSeed(seed);
+        return seed / 233280.0;
+    }
+
+    // 计算掷骰子结果
+    public static String getRealDice(DiceData arg) {
+        String reg = "\\[dice].+?\\[/dice\\]";
+        int sum = 0;
+        String txt = arg.getTxt();
+        Pattern r = Pattern.compile(reg);
+        Matcher m = r.matcher(txt);
+        if (!m.find()) return txt;
+        do {
+            StringBuilder diceStr = new StringBuilder();
+            String $0 = m.group(0);
+            assert $0 != null;
+            String $1 = $0.replace("[dice]", "").replace("[/dice]", "");
+            String rr = $1;
+            $1 = "+" + $1;
+            String[] strs = $1.split("\\+");
+            StringBuilder rx = new StringBuilder();
+            for (String str : strs) {
+                if (str.length() > 0) {
+                    String[] sstrs = str.split("d");
+                    int num = 0;
+                    int covers = 0;
+                    if (sstrs.length > 1) {
+                        if (sstrs[0].length() > 0) {
+                            num = Integer.parseInt(sstrs[0]);
+                        } else {
+                            num = 1;
+                        }
+                        covers = Integer.parseInt(sstrs[1]);
+                        if (num > 10 || covers > 100000) {
+                            sum = -1;
+                            diceStr.append("+OUT OF LIMIT");
+                        }
+                        for (int j = 0; j < num; j++) {
+                            String argsId = "postcomment__510458140";
+                            arg.setArgsId(argsId);
+                            double a = rnd(arg);
+                            double rand = Math.floor(a * covers) + 1;
+                            rx.append("+d").append(covers).append("(").append(Math.round(rand)).append(")");
+                            if (sum != -1) sum += rand;
+                        }
+                    } else {
+                        covers = Integer.parseInt(sstrs[0]);
+                        sum += covers;
+                        rx.append("+").append(covers);
+                    }
+                }
+            }
+            diceStr.append("<p><b>ROLL:").append(rr).append("</b>=").append(rx.substring(1)).append("=<b>").append(sum).append("</b></p>");
+            sum = 0;
+            txt = txt.replaceFirst(reg, diceStr.toString());
+            m = r.matcher(txt);
+        } while (m.find());
+        return txt;
+    }
+
 }
+
