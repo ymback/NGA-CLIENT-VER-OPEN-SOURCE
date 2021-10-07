@@ -33,6 +33,7 @@ public class LocalWebView extends WebViewEx implements DownloadListener {
     public LocalWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize();
+        setVerticalScrollBarEnabled(false);
     }
 
     private void initialize() {
