@@ -5,8 +5,10 @@ buildscript {
         mavenCentral()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://oss.sonatype.org/content/repositories/snapshots' }
+
         maven { url "https://www.jitpack.io" }
         maven { url 'https://repo1.maven.org/maven2/' }
+
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     dependencies {
@@ -36,8 +38,8 @@ project.ext {
     minSdkVersion = 23
     targetSdkVersion = 29
     compileSdkVersion = 29
-    appVersionName = '3.5.0'
-    appVersionCode = 3050
+    appVersionName = '3.6.4'
+    appVersionCode = 3064
 
     fastJson = '1.1.71.android'
     rxAndroid = '2.1.1'

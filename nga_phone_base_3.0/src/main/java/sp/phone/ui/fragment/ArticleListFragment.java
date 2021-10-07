@@ -75,6 +75,9 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
+            if (mPresenter == null) {
+                return false;
+            }
 
             ThreadRowInfo row = mThreadRowInfo;
 
@@ -268,13 +271,15 @@ public class ArticleListFragment extends BaseMvpFragment<ArticleListPresenter> i
             getActivity().setTitle(data.getThreadInfo().getSubject());
         }
 
-        if (data != null && !data.getRowList().isEmpty()) {
+        if (data != null && data.getRowList() != null && !data.getRowList().isEmpty()) {
             ThreadRowInfo rowInfo = data.getRowList().get(0);
             if (rowInfo != null && rowInfo.getLou() == 0) {
                 viewModel.setTopicOwner(rowInfo.getAuthor());
             }
         }
-        mArticleAdapter.setTopicOwner(viewModel.getTopicOwner().getValue());
+        if (mRequestParam.authorId == 0 && mRequestParam.searchPost == 0) {
+            mArticleAdapter.setTopicOwner(viewModel.getTopicOwner().getValue());
+        }
         mArticleAdapter.setData(data);
         mArticleAdapter.notifyDataSetChanged();
 

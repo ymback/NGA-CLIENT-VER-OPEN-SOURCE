@@ -13,12 +13,13 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.ui.fragment.TopicListBaseFragment;
+import gov.anzong.androidnga.ui.fragment.TopicListSimpleFragment;
 import sp.phone.mvp.model.BoardModel;
 import sp.phone.param.ParamKey;
 import sp.phone.param.TopicListParam;
 import sp.phone.ui.fragment.TopicFavoriteFragment;
 import sp.phone.ui.fragment.TopicListFragment;
-import sp.phone.ui.fragment.TopicSearchFragment;
 import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 
@@ -95,7 +96,7 @@ public class TopicListActivity extends BaseActivity {
             } else if (isBoardTopicList()) {
                 fragment = new TopicListFragment();
             } else {
-                fragment = new TopicSearchFragment();
+                fragment = new TopicListSimpleFragment();
             }
             Bundle bundle = new Bundle();
             bundle.putParcelable(ParamKey.KEY_PARAM, mRequestParam);

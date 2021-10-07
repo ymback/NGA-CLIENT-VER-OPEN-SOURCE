@@ -81,6 +81,9 @@ public class ForumListActivity extends BaseActivity {
         if (model.getResult() != null) {
             for (ForumsListModel.Result result : model.getResult()) {
                 for (ForumsListModel.Group group : result.getGroups()) {
+                    if (group.getForums() == null) {
+                        continue;
+                    }
                     for (ForumsListModel.Forum forum : group.getForums()) {
                         if (!mDataList.contains(forum))
                             mDataList.add(forum);

@@ -28,6 +28,10 @@ public class PostActivity extends BaseActivity {
         setContentView(R.layout.activity_post);
         setupToolbar();
         PostParam act = getPostParam();
+        if (act.getPostAction() == null) {
+            finish();
+            return;
+        }
         setTitle(getTitleResId(act.getPostAction()));
         Bundle bundle = new Bundle();
         bundle.putString(ParamKey.KEY_ACTION, act.getPostAction());

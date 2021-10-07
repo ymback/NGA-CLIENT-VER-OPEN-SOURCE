@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,7 +47,7 @@ import sp.phone.util.ActivityUtils;
 import sp.phone.util.StringUtils;
 import sp.phone.view.RecyclerViewEx;
 
-public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> implements TopicListContract.View, View.OnClickListener {
+public class TopicSearchFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = TopicSearchFragment.class.getSimpleName();
 
@@ -66,17 +68,23 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     @BindView(R.id.loading_view)
     public View mLoadingView;
 
+    protected TopicListPresenter mPresenter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         mRequestParam = getArguments().getParcelable(ParamKey.KEY_PARAM);
         super.onCreate(savedInstanceState);
         setTitle();
+        mPresenter = onCreatePresenter();
+        getLifecycle().addObserver(mPresenter);
     }
 
-    @Override
     protected TopicListPresenter onCreatePresenter() {
-        return new TopicListPresenter(mRequestParam);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+        TopicListPresenter topicListPresenter = viewModelProvider.get(TopicListPresenter.class);
+        topicListPresenter.setRequestParam(mRequestParam);
+        return topicListPresenter;
     }
 
     protected void setTitle() {
@@ -162,53 +170,70 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
         sayingView.setText(ActivityUtils.getSaying());
 
         super.onViewCreated(view, savedInstanceState);
+
+        mPresenter.getFirstTopicList().observe(this, topicListInfo -> {
+            scrollTo(0);
+            clearData();
+            if (topicListInfo != null) {
+                setData(topicListInfo);
+            }
+        });
+
+        mPresenter.getNextTopicList().observe(this, this::setData);
+
+        mPresenter.getErrorMsg().observe(this, res -> {
+            showToast(res);
+            setNextPageEnabled(false);
+        });
+
+        mPresenter.isRefreshing().observe(this, aBoolean -> {
+            setRefreshing(aBoolean);
+            if (!aBoolean) {
+                hideLoadingView();
+            }
+        });
     }
 
-    @Override
+
+
     public void scrollTo(int position) {
         mListView.scrollToPosition(position);
     }
 
-    @Override
     public void setNextPageEnabled(boolean enabled) {
         mAdapter.setNextPageEnabled(enabled);
     }
 
-    @Override
     public void removeTopic(int position) {
 
     }
 
-    @Override
     public void removeTopic(ThreadPageInfo pageInfo) {
 
     }
 
-    @Override
     public void hideLoadingView() {
-        mLoadingView.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        if (mLoadingView.getVisibility() == View.VISIBLE) {
+            mLoadingView.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
     }
 
-    @Override
     public void setRefreshing(boolean refreshing) {
         if (mSwipeRefreshLayout.getVisibility() == View.VISIBLE) {
             mSwipeRefreshLayout.setRefreshing(refreshing);
         }
     }
 
-    @Override
     public boolean isRefreshing() {
         return mSwipeRefreshLayout.isShown() ? mSwipeRefreshLayout.isRefreshing() : mLoadingView.isShown();
     }
 
-    @Override
     public void setData(TopicListInfo result) {
         mTopicListInfo = result;
         mAdapter.setData(result.getThreadPageList());
     }
 
-    @Override
     public void clearData() {
         mAdapter.setData(null);
     }
@@ -216,12 +241,16 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
     @Override
     public void onClick(View view) {
         ThreadPageInfo info = (ThreadPageInfo) view.getTag();
+        handleClickEvent(view.getContext(), info, mRequestParam);
+    }
+
+    public static void handleClickEvent(Context context, ThreadPageInfo info, TopicListParam requestParam) {
 
         if (info.isMirrorBoard()) {
             ARouterUtils.build(ARouterConstants.ACTIVITY_TOPIC_LIST)
                     .withInt(ParamKey.KEY_FID, info.getFid())
                     .withString(ParamKey.KEY_TITLE, info.getSubject())
-                    .navigation(view.getContext());
+                    .navigation(context);
         } else if ((info.getType() & ApiConstants.MASK_TYPE_ASSEMBLE) == ApiConstants.MASK_TYPE_ASSEMBLE) {
             TopicListParam param = new TopicListParam();
             param.title = info.getSubject();
@@ -236,10 +265,10 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
             param.tid = info.getTid();
             param.page = info.getPage();
             param.title = StringUtils.unEscapeHtml(info.getSubject());
-            if (mRequestParam.searchPost != 0) {
+            if (requestParam.searchPost != 0) {
                 param.pid = info.getPid();
                 param.authorId = info.getAuthorId();
-                param.searchPost = mRequestParam.searchPost;
+                param.searchPost = requestParam.searchPost;
             }
             param.topicInfo = JSON.toJSONString(info);
 
@@ -247,8 +276,8 @@ public class TopicSearchFragment extends BaseMvpFragment<TopicListPresenter> imp
             Bundle bundle = new Bundle();
             bundle.putParcelable(ParamKey.KEY_PARAM, param);
             intent.putExtras(bundle);
-            intent.setClass(getContext(), PhoneConfiguration.getInstance().articleActivityClass);
-            startActivity(intent);
+            intent.setClass(context, PhoneConfiguration.getInstance().articleActivityClass);
+            context. startActivity(intent);
             TopicHistoryManager.getInstance().addTopicHistory(info);
         }
     }

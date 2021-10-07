@@ -65,9 +65,11 @@ public class SearchHistoryBoardFragment extends BaseRxFragment {
                 query((String) tag);
             } else {
                 int position = Integer.parseInt(tag.toString());
-                mKeyList.remove(position);
-                mAdapter.notifyDataSetChanged();
-                saveHistory();
+                if (position < mKeyList.size()) {
+                    mKeyList.remove(position);
+                    mAdapter.notifyDataSetChanged();
+                    saveHistory();
+                }
             }
         });
         super.onViewCreated(view, savedInstanceState);
