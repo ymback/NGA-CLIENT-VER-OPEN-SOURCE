@@ -43,8 +43,8 @@ public abstract class BaseAppendableAdapter<E, T extends RecyclerView.ViewHolder
         if (mDataList == null) {
             mDataList = new ArrayList<>();
         }
-
-        for (E e : dataList) {
+        List<E> newDataList = new ArrayList<>(dataList);
+        for (E e : newDataList) {
             if (!mDataList.contains(e)) {
                 mDataList.add(e);
             }
