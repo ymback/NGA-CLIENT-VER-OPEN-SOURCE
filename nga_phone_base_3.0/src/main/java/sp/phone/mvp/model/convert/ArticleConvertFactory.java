@@ -372,7 +372,7 @@ public class ArticleConvertFactory {
                             if (sum != -1) sum += rand;
                         }
                     } else {
-                        covers = Integer.parseInt(sstrs[0]);
+                        covers = Integer.parseInt(sstrs[0].trim());
                         sum += covers;
                         rx.append("+").append(covers);
                     }
