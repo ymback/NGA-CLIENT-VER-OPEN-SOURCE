@@ -48,10 +48,12 @@ public class ReportDialogFragment extends DialogFragment {
         query.put("__lib", "log_post");
         query.put("__act", "report");
         query.put("__output", "8");
+        query.put("charset", "gbk");
 
         field.put("__output", "8");
         field.put("__lib", "log_post");
         field.put("__act", "report");
+        field.put("charset", "gbk");
         field.put("pid", String.valueOf(pid));
         field.put("tid", String.valueOf(tid));
         field.put("info", String.valueOf(value));
