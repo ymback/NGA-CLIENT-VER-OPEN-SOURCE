@@ -372,7 +372,7 @@ public class ArticleConvertFactory {
                             if (sum != -1) sum += rand;
                         }
                     } else {
-                        covers = Integer.parseInt(sstrs[0].trim(),0);
+                        covers = parseInt(sstrs[0].trim(),0);
                         sum += covers;
                         rx.append("+").append(covers);
                     }
@@ -387,7 +387,7 @@ public class ArticleConvertFactory {
     }
 
 
-    private static int parseInt(String str,int defaultWhenFailed){
+    private static int parseInt(String str, int defaultWhenFailed) {
         try {
             return Integer.parseInt(str);
         }catch (Exception e){
