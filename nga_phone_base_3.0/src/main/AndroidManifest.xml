@@ -25,6 +25,7 @@
         android:theme="@android:style/Theme.Holo.Light"
         tools:ignore="AllowBackup"
         tools:replace="android:label">
+        <meta-data android:name="EasyGoClient" android:value="true" />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
