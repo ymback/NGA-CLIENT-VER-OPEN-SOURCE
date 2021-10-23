@@ -354,11 +354,11 @@ public class ArticleConvertFactory {
                     int covers = 0;
                     if (sstrs.length > 1) {
                         if (sstrs[0].length() > 0) {
-                            num = Integer.parseInt(sstrs[0]);
+                            num = parseInt(sstrs[0],1);
                         } else {
                             num = 1;
                         }
-                        covers = Integer.parseInt(sstrs[1]);
+                        covers = parseInt(sstrs[1],0);
                         if (num > 10 || covers > 100000) {
                             sum = -1;
                             diceStr.append("+OUT OF LIMIT");
@@ -372,7 +372,7 @@ public class ArticleConvertFactory {
                             if (sum != -1) sum += rand;
                         }
                     } else {
-                        covers = Integer.parseInt(sstrs[0].trim());
+                        covers = parseInt(sstrs[0].trim(),0);
                         sum += covers;
                         rx.append("+").append(covers);
                     }
@@ -384,6 +384,15 @@ public class ArticleConvertFactory {
             m = r.matcher(txt);
         } while (m.find());
         return txt;
+    }
+
+
+    private static int parseInt(String str, int defaultWhenFailed) {
+        try {
+            return Integer.parseInt(str);
+        }catch (Exception e){
+            return defaultWhenFailed;
+        }
     }
 
 }
