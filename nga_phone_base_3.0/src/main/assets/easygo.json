@@ -1,0 +1,36 @@
+{
+  "easyGoVersion": "1.0",
+  "client": "gov.anzong.androidnga",
+  "logicEntities": [
+    {
+      "head": {
+        "function": "magicwindow",
+        "required": "true"
+      },
+      "body": {
+        "mode": "1",
+        "activityPairs": [
+          {
+            "from": "gov.anzong.androidnga.activity.TopicListActivity",
+            "to": "*"
+          }, {
+            "from": "gov.anzong.androidnga.activity.RecentNotificationActivity",
+            "to": "*"
+          },{
+            "from": "gov.anzong.androidnga.activity.MainActivity",
+            "to": "gov.anzong.androidnga.activity.TopicListActivity"
+          },{
+            "from": "gov.anzong.androidnga.activity.MainActivity",
+            "to": "gov.anzong.androidnga.activity.LoginActivity"
+          }
+        ],
+        "UX": {
+          "supportRotationUxCompat": "false",
+          "isDraggable": "true",
+          "supportLock": "true",
+          "supportDraggingToFullScreen": "PAD|FOLD"
+        }
+      }
+    }
+  ]
+}
