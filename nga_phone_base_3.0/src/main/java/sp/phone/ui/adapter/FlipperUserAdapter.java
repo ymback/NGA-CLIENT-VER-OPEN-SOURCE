@@ -52,7 +52,7 @@ public class FlipperUserAdapter extends RecyclerView.Adapter<FlipperUserAdapter.
             User user = mUserManager.getUserList().get(i);
             viewHolder.loginId.setText(String.format("当前:%s(%s)", user.getNickName(), user.getUserId()));
             handleUserAvatar(viewHolder.avatarImage, user.getAvatarUrl());
-            viewHolder.itemView.setOnClickListener(v -> mPresenter.startUserProfile(user.getNickName()));
+            viewHolder.itemView.setOnClickListener(v -> mPresenter.startUserProfile(user.getUserId()));
 
             viewHolder.nextImage.setOnClickListener(v -> mPresenter.toggleUser(mUserManager.getUserList()));
         }

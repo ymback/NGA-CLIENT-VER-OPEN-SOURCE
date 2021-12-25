@@ -144,10 +144,10 @@ public class BoardPresenter extends BasePresenter<NavigationDrawerFragment, Boar
     }
 
     @Override
-    public void startUserProfile(String userName) {
+    public void startUserProfile(String uid) {
         ARouterUtils.build(ARouterConstants.ACTIVITY_PROFILE)
-                .withString("mode", "username")
-                .withString("username", userName)
+                .withString("mode", "uid")
+                .withString("uid", uid)
                 .navigation(mBaseView.getContext());
     }
 

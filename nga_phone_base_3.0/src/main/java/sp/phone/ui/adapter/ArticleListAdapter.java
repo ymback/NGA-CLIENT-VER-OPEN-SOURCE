@@ -287,8 +287,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             } else if (row.getAuthor() != null){
                 ARouter.getInstance()
                         .build(ARouterConstants.ACTIVITY_PROFILE)
-                        .withString("mode", "username")
-                        .withString("username", row.getAuthor())
+                        .withString("mode", "uid")
+                        .withString("uid", String.valueOf(row.getAuthorid()))
                         .navigation();
             }
         }

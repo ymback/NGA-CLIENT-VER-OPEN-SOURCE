@@ -179,8 +179,10 @@ public class MainActivity extends BaseActivity {
     private void startPostActivity(boolean isReply) {
         User user = UserManagerImpl.getInstance().getActiveUser();
         String userName = user != null ? user.getNickName() : "";
+        int uid = user != null ? Integer.parseInt(user.getUserId()) : 0;
         Postcard postcard = ARouterUtils
                 .build(ARouterConstants.ACTIVITY_TOPIC_LIST)
+                .withInt(ParamKey.KEY_AUTHOR_ID, uid)
                 .withString(ParamKey.KEY_AUTHOR, userName);
         if (isReply) {
             postcard.withInt(ParamKey.KEY_SEARCH_POST, 1);

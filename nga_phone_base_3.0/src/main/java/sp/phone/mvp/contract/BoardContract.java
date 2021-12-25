@@ -26,7 +26,7 @@ public interface BoardContract {
 
         void clearRecentBoards();
 
-        void startUserProfile(String userName);
+        void startUserProfile(String uid);
 
         void startLogin();
 
