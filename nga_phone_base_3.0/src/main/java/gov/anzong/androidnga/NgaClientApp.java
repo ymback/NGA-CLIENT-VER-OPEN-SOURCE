@@ -44,31 +44,36 @@ public class NgaClientApp extends Application {
     }
 
     private void fixWebViewMultiProcessException() {
-        File dataDir = getDataDir();
-        File[] dirs = dataDir.listFiles();
+        try {
+            File dataDir = getDataDir();
+            File[] dirs = dataDir.listFiles();
 
-        Object ppidObj = ReflectUtils.invokeMethod(Process.class, "myPpid");
+            Object ppidObj = ReflectUtils.invokeMethod(Process.class, "myPpid");
 
-        int ppid = ppidObj != null ? (int) ppidObj : Process.myPid();
+            int ppid = ppidObj != null ? (int) ppidObj : Process.myPid();
 
-        if (dirs != null) {
-            for (File dir : dirs) {
-                if (dir.getName().contains("webview")) {
-                    if (!dir.getName().contains("webview_" + ppid)){
-                        ThreadUtils.postOnSubThread(() -> {
-                            try {
-                                FileUtils.deleteDirectory(dir);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
+            if (dirs != null) {
+                for (File dir : dirs) {
+                    if (dir.getName().contains("webview")) {
+                        if (!dir.getName().contains("webview_" + ppid)){
+                            ThreadUtils.postOnSubThread(() -> {
+                                try {
+                                    FileUtils.deleteDirectory(dir);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
 
+                        }
                     }
                 }
             }
+
+            WebView.setDataDirectorySuffix(String.valueOf(ppid));
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
 
-        WebView.setDataDirectorySuffix(String.valueOf(ppid));
     }
 
     private void initRouter() {

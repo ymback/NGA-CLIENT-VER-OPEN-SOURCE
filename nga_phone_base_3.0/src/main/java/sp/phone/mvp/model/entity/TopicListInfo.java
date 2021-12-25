@@ -14,7 +14,8 @@ public class TopicListInfo {
     }
 
     public void setThreadPageList(List<ThreadPageInfo> threadPageList) {
-        mThreadPageList = threadPageList;
+        mThreadPageList.clear();
+        mThreadPageList.addAll(threadPageList);
     }
 
     public void addThreadPage(ThreadPageInfo threadPage) {
