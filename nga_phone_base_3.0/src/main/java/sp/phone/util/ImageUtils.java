@@ -459,10 +459,6 @@ public class ImageUtils {
             Bitmap defaultAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_avatar);
             sDefaultAvatar = new BitmapDrawable(context.getResources(), ImageUtils.toRoundCorner(defaultAvatar, 2));
         }
-        if (!PermissionUtils.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            imageView.setImageDrawable(sDefaultAvatar);
-            return;
-        }
         GlideApp.with(ContextUtils.getContext())
                 .load(url)
                 .placeholder(sDefaultAvatar)
