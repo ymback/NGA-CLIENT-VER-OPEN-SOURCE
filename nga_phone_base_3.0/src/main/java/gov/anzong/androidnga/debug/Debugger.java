@@ -22,7 +22,7 @@ public class Debugger {
             return;
         }
         try {
-            File debugFile = new File(Environment.getExternalStorageDirectory() + "/gov.anzong.androidnga/debug/body.json");
+            File debugFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/gov.anzong.androidnga/debug/body.json");
             FileUtils.write(debugFile, body + "\n\n", true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,7 +34,7 @@ public class Debugger {
             return;
         }
         try {
-            File debugFile = new File(Environment.getExternalStorageDirectory() + "/gov.anzong.androidnga/debug/request.json");
+            File debugFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/gov.anzong.androidnga/debug/request.json");
             FileUtils.write(debugFile, request + "\n\n", true);
         } catch (IOException e) {
             e.printStackTrace();

@@ -153,24 +153,6 @@ public class ImageUtils {
         return bitmap;
     }
 
-    public static String newImage2(String oldImage, String userId) {
-        if (oldImage.indexOf(".") != -1) {
-            String fileType = oldImage.substring(oldImage.lastIndexOf("."),
-                    oldImage.length());
-            if (fileType.indexOf("?") != -1) {
-                fileType = fileType.split("\\?")[0];
-            }
-            String lf = HttpUtil.PATH_AVATAR + "/" + userId + fileType;
-            return lf;
-        } else {
-            return null;
-        }
-    }
-
-    public static String getAvatarById(String extersion, String userId) {
-        return HttpUtil.PATH_AVATAR + "/" + userId + "." + extersion;
-    }
-
     public static String newImage(String oldImage, String userId) {
         String extension = FilenameUtils.getExtension(oldImage);
         String path = FilenameUtils.getPath(oldImage);
