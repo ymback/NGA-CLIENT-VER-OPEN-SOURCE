@@ -1,5 +1,6 @@
 package sp.phone.view.webview;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -143,9 +144,10 @@ public class WebViewClientEx extends WebViewClient {
         if (!overrideProfileUrlLoading(context, url)) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
-            boolean isSafeIntent = context.getPackageManager().queryIntentActivities(intent, 0).size() > 0;
-            if (isSafeIntent) {
+            try {
                 context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
             }
         }
         return true;
