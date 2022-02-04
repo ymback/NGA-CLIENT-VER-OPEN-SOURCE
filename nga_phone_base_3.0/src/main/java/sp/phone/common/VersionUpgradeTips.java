@@ -398,4 +398,11 @@ public interface VersionUpgradeTips {
                 + "● 增加晴风村板块\n"
                 + "● 增加楼主标识\n"
                 + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
+
+        String TIPS_3071 = "更新内容\n"
+                + "● 修复闪退问题\n"
+                + "● 对繁体id作部分兼容\n"
+                + "● 尝试为举报增加GBK属性\n"
+                + "● 支持华为平行视界\n"
+                + "新版UI有任何bug，建议或意见请私信[@Justwen]\n";
 }
