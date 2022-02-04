@@ -41,6 +41,18 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="load_pic_strategy">
+        <item>始终加载</item>
+        <item>始终关闭</item>
+        <item>只在wifi下加载</item>
+    </string-array>
+
+    <string-array name="load_pic_strategy_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="material_theme">
         <item>棕色</item>
         <item>绿色</item>

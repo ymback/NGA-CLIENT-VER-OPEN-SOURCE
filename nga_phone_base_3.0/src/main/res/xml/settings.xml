@@ -93,17 +93,19 @@
             android:key="pref_black_list"
             android:title="@string/setting_title_black_list" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="down_load_without_wifi"
-            android:summary="@string/setting_image_network_summary"
-            android:title="@string/setting_image_network_title" />
+        <ListSummaryPreference
+            android:key="@string/pref_load_pic_strategy"
+            android:title="@string/setting_image_network_title"
+            android:entries="@array/load_pic_strategy"
+            android:defaultValue="0"
+            android:entryValues="@array/load_pic_strategy_value"/>
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="download_avatar_nowifi"
-            android:summary="@string/setting_avatar_network_summary"
-            android:title="@string/setting_avatar_network_title" />
+        <ListSummaryPreference
+            android:key="@string/pref_load_avatar_strategy"
+            android:title="@string/setting_avatar_network_title"
+            android:entries="@array/load_pic_strategy"
+            android:defaultValue="0"
+            android:entryValues="@array/load_pic_strategy_value"/>
 
         <SwitchPreference
             android:defaultValue="false"

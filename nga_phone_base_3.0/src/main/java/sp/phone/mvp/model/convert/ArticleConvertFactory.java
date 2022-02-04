@@ -163,8 +163,7 @@ public class ArticleConvertFactory {
         htmlData.setSignature(PhoneConfiguration.getInstance().isShowSignature() ? row.getSignature() : null);
         htmlData.setVote(row.getVote());
         htmlData.setSubject(row.getSubject());
-        htmlData.setShowImage(PhoneConfiguration.getInstance().isDownImgNoWifi()
-                || DeviceUtils.isWifiConnected(ContextUtils.getContext()));
+        htmlData.setShowImage(PhoneConfiguration.getInstance().isImageLoadEnabled());
         htmlData.setNGAHost(Utils.getNGAHost());
         if (row.getAttachs() != null) {
             List<AttachmentData> attachments = new ArrayList<>();

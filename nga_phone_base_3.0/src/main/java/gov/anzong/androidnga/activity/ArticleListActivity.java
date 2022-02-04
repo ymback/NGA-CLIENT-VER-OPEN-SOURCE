@@ -21,7 +21,7 @@ import sp.phone.util.StringUtils;
  * 帖子详情页, 是否MD都用这个
  */
 @Route(path = ARouterConstants.ACTIVITY_TOPIC_CONTENT)
-public class ArticleListActivity extends BaseActivity implements PreferenceKey {
+public class ArticleListActivity extends BaseActivity {
 
     private ArticleListParam mRequestParam;
 

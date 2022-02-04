@@ -1,60 +1,61 @@
 package gov.anzong.androidnga.common;
 
-public interface PreferenceKey {
+import gov.anzong.androidnga.base.util.ContextUtils;
 
-    String PREFERENCE_AVATAR = "avatar";
+public class PreferenceKey {
 
-    String PREFERENCE_SETTINGS = "perference";
+    public static final String PREFERENCE_AVATAR = "avatar";
 
-    String PERFERENCE = "perference";
-    String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
-    String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";
+    public static final String PREFERENCE_SETTINGS = "perference";
+
+    public static final String PERFERENCE = "perference";
+
     String DOWNLOAD_IMG_QUALITY_NO_WIFI = "download_img_quality_without_wifi";
-    String ENABLE_NOTIFIACTION = "enableNotification";
-    String NOTIFIACTION_SOUND = "notificationSound";
-    String NIGHT_MODE = "nightmode";
+    public static final String ENABLE_NOTIFIACTION = "enableNotification";
+    public static final String NOTIFIACTION_SOUND = "notificationSound";
+    public static final String NIGHT_MODE = "nightmode";
     String VERSION = "version";
-    String REFRESH_AFTERPOST_SETTING_MODE = "refresh_after_post_setting_mode";
-    String SHOW_SIGNATURE = "showSignature";
+    public static final String REFRESH_AFTERPOST_SETTING_MODE = "refresh_after_post_setting_mode";
+    public static final String SHOW_SIGNATURE = "showSignature";
     String SHOW_STATIC = "showStatic";
-    String SHOW_COLORTXT = "showColortxt";
+    public static final String SHOW_COLORTXT = "showColortxt";
     String SHOW_NEWWEIBA = "showNewweiba";
     String SHOW_LAJIBANKUAI = "showLajibankuai";
     String HANDSIDE = "HandSide";
 
-    String USER_LIST = "userList";
-    String BLACK_LIST = "";
-    String FILTER_KEYWORDS_LIST = "filter_keywords";
+    public static final String USER_LIST = "userList";
+    public static final String BLACK_LIST = "";
+    public static final String FILTER_KEYWORDS_LIST = "filter_keywords";
 
-    String SHOW_ICON_MODE = "showiconmode";
+    public static final String SHOW_ICON_MODE = "showiconmode";
 
-    String ADJUST_SIZE = "adjust_size";
+    public static final String ADJUST_SIZE = "adjust_size";
 
-    String MATERIAL_THEME = "material_theme";
+    public static final String MATERIAL_THEME = "material_theme";
 
-    String BOTTOM_TAB = "bottom_tab";
+    public static final String BOTTOM_TAB = "bottom_tab";
 
-    String LEFT_HAND = "left_hand";
+    public static final String LEFT_HAND = "left_hand";
 
-    String HARDWARE_ACCELERATED = "hardware_accelerated";
+    public static final String HARDWARE_ACCELERATED = "hardware_accelerated";
 
-    String BOOKMARK_BOARD = "bookmark_board";
+    public static final String BOOKMARK_BOARD = "bookmark_board";
 
-    String USER_ACTIVE_INDEX = "user_active_index";
+    public static final String USER_ACTIVE_INDEX = "user_active_index";
 
-    String SORT_BY_POST = "sort_by_post";
+    public static final String SORT_BY_POST = "sort_by_post";
 
-    String PREF_BLACK_LIST = "pref_black_list";
+    public static final String PREF_BLACK_LIST = "pref_black_list";
 
-    String PREF_USER = "pref_user";
+    public static final String PREF_USER = "pref_user";
 
-    String FILTER_SUB_BOARD = "filter_sub_board";
+    public static final String FILTER_SUB_BOARD = "filter_sub_board";
 
-    String KEY_TOPIC_HISTORY = "topic_history";
+    public static final String KEY_TOPIC_HISTORY = "topic_history";
 
-    String KEY_REPLY_COUNT = "reply_count";
+    public static final String KEY_REPLY_COUNT = "reply_count";
 
-    String KEY_SWIPE_BACK = "swipe_back";
+    public static final String KEY_SWIPE_BACK = "swipe_back";
 
     public static final String KEY_NGA_DOMAIN = "nga_domain";
 
@@ -95,5 +96,21 @@ public interface PreferenceKey {
     public static final String KEY_WEBVIEW_TEXT_ZOOM = "key_webview_zoom_size";
 
     public static final String KEY_PRELOAD_BOARD_VERSION = "key_preload_board_version";
+
+    public static final String KEY_LOAD_AVATAR_STRATEGY = "pref_load_avatar_strategy";
+
+    public static final String KEY_LOAD_IMAGE_STRATEGY = "pref_load_pic_strategy";
+
+    public static final String IMAGE_LOAD_ALWAYS = "0";
+
+    public static final String IMAGE_LOAD_NEVER = "1";
+
+    public static final String IMAGE_LOAD_ONLY_WIFI = "2";
+
+    @Deprecated
+    public static final String DOWNLOAD_AVATAR_NO_WIFI = "download_avatar_nowifi";
+
+    @Deprecated
+    public static final String DOWNLOAD_IMG_NO_WIFI = "down_load_without_wifi";
 
 }

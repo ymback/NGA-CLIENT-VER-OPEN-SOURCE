@@ -515,9 +515,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private void onBindAvatarView(ImageView avatarIv, ThreadRowInfo row) {
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());
-        final boolean downImg = DeviceUtils.isWifiConnected(mContext)
-                || PhoneConfiguration.getInstance()
-                .isDownAvatarNoWifi();
+        final boolean downImg = PhoneConfiguration.getInstance().isAvatarLoadEnabled();
 
         ImageUtils.loadRoundCornerAvatar(avatarIv, avatarUrl, !downImg);
     }

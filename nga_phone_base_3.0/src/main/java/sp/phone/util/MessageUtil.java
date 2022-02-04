@@ -46,7 +46,7 @@ public class MessageUtil {
     }
 
     private boolean isShowImage() {
-        return PhoneConfiguration.getInstance().isDownImgNoWifi() || isInWifi();
+        return PhoneConfiguration.getInstance().isImageLoadEnabled();
     }
 
     /**

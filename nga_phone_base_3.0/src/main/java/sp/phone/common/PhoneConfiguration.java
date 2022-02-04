@@ -3,6 +3,7 @@ package sp.phone.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.activity.ArticleListActivity;
 import gov.anzong.androidnga.activity.LoginActivity;
 import gov.anzong.androidnga.activity.MessageDetailActivity;
@@ -11,10 +12,11 @@ import gov.anzong.androidnga.activity.ProfileActivity;
 import gov.anzong.androidnga.activity.SignPostActivity;
 import gov.anzong.androidnga.activity.TopicListActivity;
 import gov.anzong.androidnga.base.util.ContextUtils;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 
-public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSharedPreferenceChangeListener {
+public class PhoneConfiguration extends PreferenceKey implements SharedPreferences.OnSharedPreferenceChangeListener {
     public Class<?> topicActivityClass = TopicListActivity.class;
     public Class<?> articleActivityClass = ArticleListActivity.class;
     public Class<?> postActivityClass = PostActivity.class;
@@ -26,10 +28,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
     private boolean mNotificationEnabled;
 
     private boolean mNotificationSoundEnabled;
-
-    private boolean mDownAvatarNoWifi;
-
-    private boolean mDownImgNoWifi;
 
     private boolean mShowSignature;
 
@@ -49,6 +47,10 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
 
     private boolean mSortByPostOrder;
 
+    private String mAvatarLoadStrategy = PreferenceKey.IMAGE_LOAD_ALWAYS;
+
+    private String mImageLoadStrategy = PreferenceKey.IMAGE_LOAD_ALWAYS;
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
         switch (key) {
@@ -57,12 +59,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
                 break;
             case PreferenceKey.ENABLE_NOTIFIACTION:
                 mNotificationEnabled = sp.getBoolean(key, true);
-                break;
-            case PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI:
-                mDownAvatarNoWifi = sp.getBoolean(key, true);
-                break;
-            case PreferenceKey.DOWNLOAD_IMG_NO_WIFI:
-                mDownImgNoWifi = sp.getBoolean(key, true);
                 break;
             case PreferenceKey.SHOW_SIGNATURE:
                 mShowSignature = sp.getBoolean(key, false);
@@ -91,6 +87,12 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
             case PreferenceKey.SORT_BY_POST:
                 mSortByPostOrder = sp.getBoolean(key, false);
                 break;
+            case PreferenceKey.KEY_LOAD_AVATAR_STRATEGY:
+                mAvatarLoadStrategy = sp.getString(key, mAvatarLoadStrategy);
+                break;
+            case PreferenceKey.KEY_LOAD_IMAGE_STRATEGY:
+                mImageLoadStrategy = sp.getString(key, mImageLoadStrategy);
+                break;
             default:
                 break;
         }
@@ -116,8 +118,6 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         sp.registerOnSharedPreferenceChangeListener(this);
         mNotificationSoundEnabled = sp.getBoolean(PreferenceKey.NOTIFIACTION_SOUND, true);
         mNotificationEnabled = sp.getBoolean(PreferenceKey.ENABLE_NOTIFIACTION, true);
-        mDownAvatarNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_AVATAR_NO_WIFI, true);
-        mDownImgNoWifi = sp.getBoolean(PreferenceKey.DOWNLOAD_IMG_NO_WIFI, true);
         mShowSignature = sp.getBoolean(PreferenceKey.SHOW_SIGNATURE, false);
         mShowColorText = sp.getBoolean(PreferenceKey.SHOW_COLORTXT, false);
         mUpdateAfterPost = sp.getBoolean(PreferenceKey.REFRESH_AFTERPOST_SETTING_MODE, true);
@@ -127,6 +127,9 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         mHardwareAcceleratedEnabled = sp.getBoolean(PreferenceKey.HARDWARE_ACCELERATED, true);
         mFilterSubBoard = sp.getBoolean(PreferenceKey.FILTER_SUB_BOARD, false);
         mSortByPostOrder = sp.getBoolean(PreferenceKey.SORT_BY_POST, false);
+
+        mImageLoadStrategy = sp.getString(PreferenceKey.KEY_LOAD_IMAGE_STRATEGY, mImageLoadStrategy);
+        mAvatarLoadStrategy = sp.getString(PreferenceKey.KEY_LOAD_AVATAR_STRATEGY, mAvatarLoadStrategy);
     }
 
     public boolean needSortByPostOrder() {
@@ -222,12 +225,24 @@ public class PhoneConfiguration implements PreferenceKey, SharedPreferences.OnSh
         return mNotificationSoundEnabled;
     }
 
-    public boolean isDownAvatarNoWifi() {
-        return mDownAvatarNoWifi;
+    public boolean isAvatarLoadEnabled() {
+        if (mAvatarLoadStrategy.equals(PreferenceKey.IMAGE_LOAD_ALWAYS)) {
+            return true;
+        } else if (mAvatarLoadStrategy.equals(PreferenceKey.IMAGE_LOAD_NEVER)) {
+            return false;
+        } else {
+            return DeviceUtils.isWifiConnected(ContextUtils.getContext());
+        }
     }
 
-    public boolean isDownImgNoWifi() {
-        return mDownImgNoWifi;
+    public boolean isImageLoadEnabled() {
+        if (mImageLoadStrategy.equals(PreferenceKey.IMAGE_LOAD_ALWAYS)) {
+            return true;
+        } else if (mImageLoadStrategy.equals(PreferenceKey.IMAGE_LOAD_NEVER)) {
+            return false;
+        } else {
+            return DeviceUtils.isWifiConnected(ContextUtils.getContext());
+        }
     }
 
     @Deprecated
