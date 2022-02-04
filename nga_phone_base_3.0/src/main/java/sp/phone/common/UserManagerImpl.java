@@ -181,13 +181,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public void addUser(String uid, String cid, String name, String replyString, int replyTotalNum) {
+    public void addUser(String uid, String cid, String name) {
         User user = new User();
         user.setCid(cid);
         user.setUserId(uid);
         user.setNickName(name);
-        user.setReplyString(replyString);
-        user.setReplyCount(replyTotalNum);
         addUser(user);
     }
 
@@ -198,28 +196,6 @@ public class UserManagerImpl implements UserManager {
             mActiveIndex = 0;
         }
         commit();
-    }
-
-    @Override
-    public void setReplyString(int count, String replyString) {
-        User user = getActiveUser();
-        if (user != null) {
-            user.setReplyCount(count);
-            user.setReplyString(replyString);
-            commit();
-        }
-    }
-
-    @Override
-    public int getReplyCount() {
-        User user = getActiveUser();
-        return user != null ? user.getReplyCount() : 0;
-    }
-
-    @Override
-    public String getReplyString() {
-        User user = getActiveUser();
-        return user != null ? user.getReplyString() : null;
     }
 
     private void commit() {

@@ -15,10 +15,6 @@ public class User {
 
     private String mCid;
 
-    private String mReplyString;
-
-    private int mReplyCount;
-
     private String mAvatarUrl;
 
     public User() {
@@ -57,22 +53,6 @@ public class User {
 
     public void setCid(String cid) {
         mCid = cid;
-    }
-
-    public String getReplyString() {
-        return mReplyString;
-    }
-
-    public void setReplyString(String replyString) {
-        mReplyString = replyString;
-    }
-
-    public int getReplyCount() {
-        return mReplyCount;
-    }
-
-    public void setReplyCount(int replyCount) {
-        mReplyCount = replyCount;
     }
 
     public String getNickName() {
