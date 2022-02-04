@@ -89,6 +89,7 @@ public class SearchActivity extends BaseActivity {
         SearchView searchView = (SearchView) item.getActionView();
         mEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
         mEditText.setCursorVisible(true);
+        mEditText.setTextCursorDrawable(R.drawable.text_cursor_drawable);
         mEditText.setOnEditorActionListener((v, actionId, event) -> {
             query(v.getText());
             return true;

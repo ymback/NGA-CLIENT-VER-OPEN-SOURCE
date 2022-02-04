@@ -90,6 +90,7 @@ public class NavigationDrawerFragment extends BaseMvpFragment<BoardPresenter> im
         TabLayout tabLayout = view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setSelectedTabIndicatorColor(tabLayout.getTabTextColors().getDefaultColor());
 
         super.onViewCreated(view, savedInstanceState);
         mPresenter.loadBoardInfo();
