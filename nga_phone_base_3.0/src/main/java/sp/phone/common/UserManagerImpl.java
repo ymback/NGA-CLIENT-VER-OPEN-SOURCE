@@ -3,8 +3,9 @@ package sp.phone.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
 
 import com.alibaba.fastjson.JSON;
 
@@ -12,7 +13,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gov.anzong.androidnga.base.util.PreferenceUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
+import gov.anzong.androidnga.db.AppDatabase;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 
@@ -54,7 +58,7 @@ public class UserManagerImpl implements UserManager {
 
         mAvatarPreferences = context.getSharedPreferences(PreferenceKey.PREFERENCE_AVATAR, Context.MODE_PRIVATE);
 
-        mActiveIndex = mPrefs.getInt(PreferenceKey.USER_ACTIVE_INDEX, 0);
+        mActiveIndex = PreferenceUtils.getData(PreferenceKey.USER_ACTIVE_INDEX, 0);
 
         String blackListStr = mPrefs.getString(PreferenceKey.BLACK_LIST, "");
         if (TextUtils.isEmpty(blackListStr)) {
@@ -66,20 +70,30 @@ public class UserManagerImpl implements UserManager {
             }
         }
 
-        String userListStr = mPrefs.getString(PreferenceKey.USER_LIST, "");
-        if (TextUtils.isEmpty(userListStr)) {
-            mUserList = new ArrayList<>();
-        } else {
-            mUserList = JSON.parseArray(userListStr, User.class);
-            if (mUserList == null) {
-                mUserList = new ArrayList<>();
-            }
-        }
-
-        versionUpgrade();
+        mUserList = AppDatabase.getInstance().userDao().loadUser();
+        transformData();
     }
 
-    private void versionUpgrade() {
+    private void transformData() {
+        if (mUserList.isEmpty()) {
+            String oldUserStr = PreferenceUtils.getData(PreferenceKey.USER_LIST, "");
+            if (!TextUtils.isEmpty(oldUserStr)) {
+                List<User> oldList = JSON.parseArray(oldUserStr, User.class);
+                PreferenceUtils.edit().remove(PreferenceKey.USER_LIST).apply();
+                if (oldList != null) {
+                    mUserList.addAll(oldList);
+                    saveUsers();
+                }
+            }
+        }
+    }
+
+    private void saveUsers() {
+        ThreadUtils.postOnSubThread(() -> {
+            synchronized (this) {
+                AppDatabase.getInstance().userDao().updateUsers(mUserList.toArray(new User[0]));
+            }
+        });
     }
 
     @Override
@@ -201,9 +215,9 @@ public class UserManagerImpl implements UserManager {
     private void commit() {
         mPrefs.edit()
                 .putInt(PreferenceKey.USER_ACTIVE_INDEX, mActiveIndex)
-                .putString(PreferenceKey.USER_LIST, JSON.toJSONString(mUserList))
                 .putString(PreferenceKey.BLACK_LIST, JSON.toJSONString(mBlackList))
                 .apply();
+        saveUsers();
     }
 
     @Override

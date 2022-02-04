@@ -17,6 +17,7 @@ import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import gov.anzong.androidnga.common.util.ReflectUtils;
+import gov.anzong.androidnga.db.AppDatabase;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
@@ -34,6 +35,7 @@ public class NgaClientApp extends Application {
         ContextUtils.setApplication(this);
         checkNewVersion();
         VersionUpgradeHelper.upgrade();
+        AppDatabase.init(this);
         initCoreModule();
         initRouter();
         super.onCreate();
