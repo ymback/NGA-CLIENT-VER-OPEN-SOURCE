@@ -131,7 +131,7 @@ dependencies {
     implementation project(':lib_common')
     implementation project(':lib_cloud')
     implementation project(':lib_core')
-    implementation project(":lib_http")
+    implementation project(":lib_network")
 
     // database
     implementation "android.arch.persistence.room:runtime:1.1.1"
