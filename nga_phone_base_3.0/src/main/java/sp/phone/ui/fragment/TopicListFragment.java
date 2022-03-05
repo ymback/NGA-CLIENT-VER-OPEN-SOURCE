@@ -26,6 +26,7 @@ import gov.anzong.androidnga.activity.LauncherSubActivity;
 import gov.anzong.androidnga.arouter.ARouterConstants;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import sp.phone.mvp.model.entity.Board;
+import sp.phone.mvp.model.entity.TopicListInfo;
 import sp.phone.param.ParamKey;
 import sp.phone.util.ActivityUtils;
 
@@ -50,6 +51,15 @@ public class TopicListFragment extends TopicSearchFragment {
     protected void setTitle() {
         if (mRequestParam.title != null) {
             setTitle(mRequestParam.title);
+        }
+    }
+
+    @Override
+    public void setData(TopicListInfo result) {
+        super.setData(result);
+        if (mRequestParam.title == null && result.getName() != null && getActivity() != null) {
+            mRequestParam.title = result.getName();
+            getActivity().setTitle(mRequestParam.title);
         }
     }
 
