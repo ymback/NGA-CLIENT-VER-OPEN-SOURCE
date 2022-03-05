@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +18,7 @@ import java.io.InputStream;
 
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
+import sp.phone.theme.ThemeManager;
 import sp.phone.util.ImageUtils;
 
 /**
@@ -63,7 +67,12 @@ public class EmoticonChildAdapter extends RecyclerView.Adapter<EmoticonChildAdap
         ImageUtils.recycleImageView(holder.mEmoticonItem);
         try (InputStream is = mContext.getAssets().open(getFileName(position))) {
             Bitmap bm = BitmapFactory.decodeStream(is);
-            holder.mEmoticonItem.setImageBitmap(ImageUtils.zoomImageByHeight(bm, 130));
+            Bitmap bitmap = ImageUtils.zoomImageByHeight(bm, 130);
+            BitmapDrawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);
+            if (mCategoryName.contains("ac") && ThemeManager.getInstance().isNightMode()) {
+                drawable.setTint(Color.GRAY);
+            }
+            holder.mEmoticonItem.setImageDrawable(drawable);
             holder.mEmoticonItem.setTag("[img]" + mImageUrls[position] + "[/img]");
         } catch (IOException e) {
             e.printStackTrace();
