@@ -3,6 +3,7 @@ package sp.phone.common;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 /**
@@ -29,12 +30,14 @@ public class User {
     public User() {
     }
 
+    @Ignore
     public User(@NonNull String userId, String nickName, String cid) {
         mUserId = userId;
         mNickName = nickName;
         mCid = cid;
     }
 
+    @Ignore
     public User(@NonNull String userId, String nickName) {
         mUserId = userId;
         mNickName = nickName;

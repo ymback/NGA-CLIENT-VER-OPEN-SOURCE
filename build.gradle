@@ -12,7 +12,7 @@ buildscript {
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.6.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -48,4 +48,6 @@ project.ext {
 
     androidxAppcompat = '1.2.0-alpha03'
     androidxMaterial = '1.2.0'
+
+    room_version = "2.4.1"
 }

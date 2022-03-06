@@ -12,7 +12,7 @@ import sp.phone.common.User;
 /**
  * @author yangyihang
  */
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String MAIN_DB_NAME = "app_database.db";
