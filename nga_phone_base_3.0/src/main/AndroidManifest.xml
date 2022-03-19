@@ -193,6 +193,8 @@
         <activity android:name=".activity.TopicCacheActivity" android:label="我的缓存" />
         <activity android:name=".activity.ArticleCacheActivity" />
 
+        <activity android:name=".activity.WebViewActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}"

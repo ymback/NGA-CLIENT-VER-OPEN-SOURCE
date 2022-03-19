@@ -66,10 +66,10 @@
     </string-array>
 
     <string-array name="nga_domain">
-        <item>http://bbs.ngacn.cc</item>
-        <item>http://bbs.nga.cn</item>
-        <item>http://nga.178.com"</item>
-        <item>http://nga.donews.com</item>
+        <item>https://bbs.ngacn.cc</item>
+        <item>https://bbs.nga.cn</item>
+        <item>https://nga.178.com"</item>
+        <item>https://nga.donews.com</item>
         <item>https://ngabbs.com</item>
     </string-array>
 

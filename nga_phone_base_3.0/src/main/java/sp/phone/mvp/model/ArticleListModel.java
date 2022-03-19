@@ -45,12 +45,12 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
         mService = (RetrofitService) RetrofitHelper.getInstance().getService(RetrofitService.class);
     }
 
-    private String getUrl(ArticleListParam param) {
+    public String getUrl(ArticleListParam param) {
         int page = param.page;
         int tid = param.tid;
         int pid = param.pid;
         int authorId = param.authorId;
-        String url = getAvailableDomain() + "/read.php?" + "&page=" + page + "&lite=js&noprefix&v2";
+        String url = getAvailableDomain() + "/read.php?" + "&page=" + page + "&__output=8&noprefix&v2";
         if (tid != 0) {
             url = url + "&tid=" + tid;
         }
