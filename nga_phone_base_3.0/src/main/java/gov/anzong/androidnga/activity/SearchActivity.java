@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.arouter.ARouterConstants;
+import gov.anzong.androidnga.base.util.DeviceUtils;
 import sp.phone.ui.fragment.SearchHistoryBoardFragment;
 import sp.phone.ui.fragment.SearchHistoryTopicFragment;
 import sp.phone.ui.fragment.SearchHistoryUserFragment;
@@ -89,7 +90,9 @@ public class SearchActivity extends BaseActivity {
         SearchView searchView = (SearchView) item.getActionView();
         mEditText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
         mEditText.setCursorVisible(true);
-        mEditText.setTextCursorDrawable(R.drawable.text_cursor_drawable);
+        if (DeviceUtils.isGreaterEqual_10_0()) {
+            mEditText.setTextCursorDrawable(R.drawable.text_cursor_drawable);
+        }
         mEditText.setOnEditorActionListener((v, actionId, event) -> {
             query(v.getText());
             return true;
