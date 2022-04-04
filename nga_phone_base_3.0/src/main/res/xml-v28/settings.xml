@@ -129,6 +129,12 @@
             android:key="showSignature"
             android:title="@string/showSignature" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:title="@string/title_show_with_webview"
+            android:summary="@string/summary_show_with_webview"
+            android:key="@string/pref_show_with_webview"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="发帖设置">

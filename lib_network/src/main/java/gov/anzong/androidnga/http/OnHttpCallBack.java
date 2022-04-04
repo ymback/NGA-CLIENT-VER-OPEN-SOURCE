@@ -10,4 +10,8 @@ public interface OnHttpCallBack<T> {
     default void onSuccess(T data) {
 
     }
+
+    default void onError(String msg, Throwable t) {
+
+    }
 }

@@ -80,7 +80,12 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                         ThreadData data = ArticleConvertFactory.getArticleInfo(s);
                         NLog.e(TAG, "time = " + (System.currentTimeMillis() - time));
                         if (data == null) {
-                            throw new Exception(ErrorConvertFactory.getErrorMessage(s));
+                            String errorMsg = ErrorConvertFactory.getErrorMessage(s);
+                            if (errorMsg != null) {
+                                throw new Exception(errorMsg);
+                            } else {
+                                throw new ServerException("NGA后台抽风了，请尝试右上角菜单中的使用内置浏览器打开");
+                            }
                         } else {
                             return data;
                         }
@@ -98,7 +103,7 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
-                        callBack.onError(ErrorConvertFactory.getErrorMessage(throwable));
+                        callBack.onError(ErrorConvertFactory.getErrorMessage(throwable), throwable);
                     }
                 });
     }
@@ -151,6 +156,13 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                         callBack.onError("读取缓存失败！");
                     }
                 });
+    }
+
+    public static class ServerException extends Exception {
+
+        public ServerException(String message) {
+            super(message);
+        }
     }
 
 }

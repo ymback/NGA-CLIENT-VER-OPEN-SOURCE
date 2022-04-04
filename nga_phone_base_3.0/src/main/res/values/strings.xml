@@ -342,6 +342,8 @@
     <string name="setting_title_left_hand">左手模式</string>
     <string name="setting_title_hardware_accelerated">硬件加速</string>
     <string name="setting_summary_hardware_accelerated">主题详情页面闪退可尝试关闭此项</string>
+    <string name="summary_show_with_webview">加载出错时默认使用内置浏览器打开</string>
+    <string name="title_show_with_webview">使用内置浏览器打开</string>
     <string name="setting_title_sort_by_post">按发帖顺序排序</string>
     <string name="setting_title_user">用户管理</string>
     <string name="setting_title_black_list">黑名单</string>

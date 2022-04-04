@@ -28,7 +28,7 @@ public class ErrorConvertFactory {
                 obj = (JSONObject) obj.get("__MESSAGE");
                 return obj.getString("1");
             } catch (Exception e) {
-                return "NGA后台抽风了，请尝试右上角菜单中的使用内置浏览器打开";
+                return null;
             }
         }
     }

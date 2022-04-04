@@ -1,13 +1,19 @@
 package sp.phone.mvp.presenter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.Utils;
+import gov.anzong.androidnga.activity.WebViewActivity;
+import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
+import gov.anzong.androidnga.http.OnHttpCallBack;
+import sp.phone.common.PhoneConfiguration;
 import sp.phone.common.UserManager;
 import sp.phone.common.UserManagerImpl;
-import gov.anzong.androidnga.http.OnHttpCallBack;
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.mvp.contract.ArticleListContract;
@@ -43,6 +49,14 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
         }
 
         @Override
+        public void onError(String msg, Throwable t) {
+            onError(msg);
+            if (t instanceof ArticleListModel.ServerException) {
+                showWithWebView();
+            }
+        }
+
+        @Override
         public void onSuccess(ThreadData data) {
             if (mBaseView != null) {
                 mThreadData = data;
@@ -69,6 +83,28 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
     public void loadPage(ArticleListParam param) {
         mBaseView.setRefreshing(true);
         mBaseModel.loadPage(param, mDataCallBack);
+    }
+
+    private void showWithWebView() {
+        if (mBaseView == null || !mBaseView.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE).getBoolean(mBaseView.getString(R.string.pref_show_with_webview), true)) {
+            return;
+        }
+        Intent intent = new Intent(mBaseView.getContext(), WebViewActivity.class);
+        intent.putExtra("url", getCurrentUrl());
+        intent.putExtra("title", mRequestParam.title);
+        mBaseView.getContext().startActivity(intent);
+        mBaseView.finish();
+    }
+
+    private String getCurrentUrl() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(Utils.getNGAHost()).append("read.php?");
+        if (mRequestParam.pid != 0) {
+            builder.append("pid=").append(mRequestParam.pid);
+        } else {
+            builder.append("tid=").append(mRequestParam.tid);
+        }
+        return builder.toString();
     }
 
     public ArticleListPresenter(ArticleListParam articleListParam) {
