@@ -40,7 +40,7 @@ public class NgaClientApp extends Application {
         initRouter();
         super.onCreate();
 
-        fixWebViewMultiProcessException();
+        // fixWebViewMultiProcessException();
         CloudServerManager.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandlerProxy(Thread.getDefaultUncaughtExceptionHandler()));
     }
