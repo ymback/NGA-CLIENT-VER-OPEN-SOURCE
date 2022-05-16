@@ -3,6 +3,9 @@ package sp.phone.mvp.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.ArrayMap;
+
+import java.util.Map;
 
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.Utils;
@@ -38,7 +41,9 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
 
     private ArticleListParam mRequestParam;
 
-    private OnHttpCallBack<ThreadData> mDataCallBack = new OnHttpCallBack<ThreadData>() {
+    private final Map<String, String> mHeaderMap = new ArrayMap<>();
+
+    private class ArticleCallback implements OnHttpCallBack<ThreadData> {
         @Override
         public void onError(String text) {
             if (mBaseView != null) {
@@ -74,15 +79,43 @@ public class ArticleListPresenter extends BasePresenter<ArticleListFragment, Art
         }
     };
 
+    private class RetryCallback extends ArticleCallback {
+
+        @Override
+        public void onError(String msg, Throwable t) {
+            if (!(t instanceof ArticleListModel.ServerException) || !retryWithNewAccount()) {
+                super.onError(msg, t);
+            }
+        }
+    }
+
+    private final OnHttpCallBack<ThreadData> mRetryCallback = new RetryCallback();
+
+    private final OnHttpCallBack<ThreadData> mDataCallBack = new ArticleCallback();
+
     @Override
     protected ArticleListModel onCreateModel() {
         return new ArticleListModel();
     }
 
+    private boolean retryWithNewAccount() {
+        if (mBaseView == null) {
+            return false;
+        }
+        String cookie = UserManagerImpl.getInstance().getNextCookie();
+        if (cookie == null) {
+            return false;
+        }
+        Map<String, String> header = new ArrayMap<>();
+        header.put("Cookie", cookie);
+        mBaseModel.loadPage(mRequestParam, header, mDataCallBack);
+        return true;
+    }
+
     @Override
     public void loadPage(ArticleListParam param) {
         mBaseView.setRefreshing(true);
-        mBaseModel.loadPage(param, mDataCallBack);
+        mBaseModel.loadPage(param, mHeaderMap, mRetryCallback);
     }
 
     private void showWithWebView() {

@@ -36,6 +36,10 @@ public interface UserManager {
 
     String getCookie();
 
+    String getCookie(User user);
+
+    String getNextCookie();
+
     String getUserId();
 
     String getCid();

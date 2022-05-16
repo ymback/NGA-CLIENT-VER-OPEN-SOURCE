@@ -167,17 +167,15 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public int toggleUser(boolean isNext) {
-
-        if (isNext) {
-            mActiveIndex++;
-        } else {
-            mActiveIndex = mActiveIndex + mUserList.size() - 1;
-        }
-
-        mActiveIndex = mActiveIndex % mUserList.size();
+        mActiveIndex = getNextActiveIndex(isNext);
         commit();
         return mActiveIndex;
 
+    }
+
+    private int getNextActiveIndex(boolean isNext) {
+        int index = isNext ? mActiveIndex + 1 : mActiveIndex + mUserList.size() - 1;
+        return index % mUserList.size();
     }
 
     @Override
@@ -222,7 +220,11 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public String getCookie() {
-        User user = getActiveUser();
+        return getCookie(getActiveUser());
+    }
+
+    @Override
+    public String getCookie(User user) {
         if (user != null
                 && !TextUtils.isEmpty(user.getCid())
                 && !TextUtils.isEmpty(user.getUserId())) {
@@ -230,6 +232,12 @@ public class UserManagerImpl implements UserManager {
         } else {
             return "";
         }
+    }
+
+    @Override
+    public String getNextCookie() {
+        int nextIndex = getNextActiveIndex(true);
+        return nextIndex != mActiveIndex ? getCookie(mUserList.get(nextIndex)) : null;
     }
 
     @Override

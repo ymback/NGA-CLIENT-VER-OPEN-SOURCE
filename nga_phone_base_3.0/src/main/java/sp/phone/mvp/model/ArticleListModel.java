@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
@@ -68,8 +69,13 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
 
     @Override
     public void loadPage(ArticleListParam param, final OnHttpCallBack<ThreadData> callBack) {
+        loadPage(param, null, callBack);
+    }
+
+    @Override
+    public void loadPage(ArticleListParam param, Map<String, String> header, OnHttpCallBack<ThreadData> callBack) {
         String url = getUrl(param);
-        mService.get(url)
+        mService.get(url, header)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
