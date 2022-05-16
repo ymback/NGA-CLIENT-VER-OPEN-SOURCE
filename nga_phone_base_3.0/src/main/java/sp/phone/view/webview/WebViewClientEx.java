@@ -28,8 +28,8 @@ public class WebViewClientEx extends WebViewClient {
     private List<String> mImgUrlList;
 
     private static final String[] NGA_USER_PROFILE_START = {
-            "http://bbs.ngacn.cc/nuke.php?func=ucp&username=",
-            "http://bbs.nga.cn/nuke.php?func=ucp&username=",
+            "bbs.ngacn.cc/nuke.php?func=ucp&username=",
+            "bbs.nga.cn/nuke.php?func=ucp&username=",
     };
 
     private static final String NGA_USER_PROFILE_END = "&";
@@ -70,7 +70,7 @@ public class WebViewClientEx extends WebViewClient {
 
     private boolean overrideProfileUrlLoading(Context context, String url) {
         for (String profileStart : NGA_USER_PROFILE_START)
-            if (url.startsWith(profileStart)) {
+            if (url.contains(profileStart)) {
                 String data = StringUtils.getStringBetween(url, 0,
                         profileStart, NGA_USER_PROFILE_END).result;
                 try {
