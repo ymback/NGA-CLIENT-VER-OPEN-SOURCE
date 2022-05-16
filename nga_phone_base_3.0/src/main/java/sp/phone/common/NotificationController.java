@@ -158,6 +158,9 @@ public class NotificationController {
                 .setWhen(System.currentTimeMillis()) //发送时间
                 .setDefaults(mConfiguration.isNotificationSoundEnabled() ? Notification.DEFAULT_ALL : Notification.DEFAULT_LIGHTS) //设置默认的提示音，振动方式，灯光
                 .setAutoCancel(true);//打开程序后图标消失
+        if (DeviceUtils.isGreaterEqual_10_0()) {
+            builder.setSmallIcon(R.mipmap.ic_launcher_foreground);
+        }
         return builder;
     }
 
