@@ -3,7 +3,9 @@ package sp.phone.ui.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import androidx.recyclerview.widget.RecyclerView;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,8 +15,10 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.recyclerview.widget.RecyclerView;
 import sp.phone.rxjava.RxBus;
 import sp.phone.rxjava.RxEvent;
+import sp.phone.theme.ThemeManager;
 import sp.phone.util.ImageUtils;
 
 /**
@@ -30,6 +34,8 @@ public class EmoticonChildAdapter extends RecyclerView.Adapter<EmoticonChildAdap
 
     private int mHeight;
 
+    private boolean isNightMode;
+
     private View.OnClickListener mEmoticonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -40,6 +46,7 @@ public class EmoticonChildAdapter extends RecyclerView.Adapter<EmoticonChildAdap
     public EmoticonChildAdapter(Context context, int height) {
         mContext = context;
         mHeight = height;
+        isNightMode = ThemeManager.getInstance().isNightMode();
     }
 
     public void setData(String categoryName, String[] urls) {
@@ -63,7 +70,17 @@ public class EmoticonChildAdapter extends RecyclerView.Adapter<EmoticonChildAdap
         ImageUtils.recycleImageView(holder.mEmoticonItem);
         try (InputStream is = mContext.getAssets().open(getFileName(position))) {
             Bitmap bm = BitmapFactory.decodeStream(is);
-            holder.mEmoticonItem.setImageBitmap(ImageUtils.zoomImageByHeight(bm, 130));
+            bm = ImageUtils.zoomImageByHeight(bm, 130);
+            // 只有三个组的表情在夜间模式需要背景
+            if (isNightMode) {
+                switch (mCategoryName) {
+                    case "ac":
+                    case "a2":
+                    case "dt":
+                        bm = addWhiteBackground(bm);
+                }
+            }
+            holder.mEmoticonItem.setImageBitmap(bm);
             holder.mEmoticonItem.setTag("[img]" + mImageUrls[position] + "[/img]");
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,6 +94,19 @@ public class EmoticonChildAdapter extends RecyclerView.Adapter<EmoticonChildAdap
     @Override
     public int getItemCount() {
         return mImageUrls == null ? 0 : mImageUrls.length;
+    }
+
+    private Bitmap addWhiteBackground(Bitmap bm) {
+        if (bm == null) {
+            return null;
+        }
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#FFFFFF"));
+        Bitmap result = Bitmap.createBitmap(bm.getWidth(), bm.getHeight(), bm.getConfig());
+        Canvas canvas = new Canvas(result);
+        canvas.drawRect(0, 0, bm.getWidth(), bm.getHeight(), paint);
+        canvas.drawBitmap(bm, 0, 0, paint);
+        return result;
     }
 
     static class EmoticonViewHolder extends RecyclerView.ViewHolder {
