@@ -21,10 +21,12 @@
         android:label="@string/label_activity_main"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
+        android:preserveLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@android:style/Theme.Holo.Light"
         tools:ignore="AllowBackup"
         tools:replace="android:label">
+        <meta-data android:name="EasyGoClient" android:value="true" />
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|locale|screenLayout|smallestScreenSize"
@@ -190,6 +192,8 @@
 
         <activity android:name=".activity.TopicCacheActivity" android:label="我的缓存" />
         <activity android:name=".activity.ArticleCacheActivity" />
+
+        <activity android:name=".activity.WebViewActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

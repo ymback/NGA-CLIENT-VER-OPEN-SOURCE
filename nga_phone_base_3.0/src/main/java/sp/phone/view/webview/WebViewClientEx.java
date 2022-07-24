@@ -1,5 +1,6 @@
 package sp.phone.view.webview;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,8 +28,8 @@ public class WebViewClientEx extends WebViewClient {
     private List<String> mImgUrlList;
 
     private static final String[] NGA_USER_PROFILE_START = {
-            "http://bbs.ngacn.cc/nuke.php?func=ucp&username=",
-            "http://bbs.nga.cn/nuke.php?func=ucp&username=",
+            "bbs.ngacn.cc/nuke.php?func=ucp&username=",
+            "bbs.nga.cn/nuke.php?func=ucp&username=",
     };
 
     private static final String NGA_USER_PROFILE_END = "&";
@@ -69,7 +70,7 @@ public class WebViewClientEx extends WebViewClient {
 
     private boolean overrideProfileUrlLoading(Context context, String url) {
         for (String profileStart : NGA_USER_PROFILE_START)
-            if (url.startsWith(profileStart)) {
+            if (url.contains(profileStart)) {
                 String data = StringUtils.getStringBetween(url, 0,
                         profileStart, NGA_USER_PROFILE_END).result;
                 try {
@@ -143,9 +144,10 @@ public class WebViewClientEx extends WebViewClient {
         if (!overrideProfileUrlLoading(context, url)) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(url));
-            boolean isSafeIntent = context.getPackageManager().queryIntentActivities(intent, 0).size() > 0;
-            if (isSafeIntent) {
+            try {
                 context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
             }
         }
         return true;

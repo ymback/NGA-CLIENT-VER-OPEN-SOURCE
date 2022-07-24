@@ -26,7 +26,7 @@ public interface UserManager {
 
     void addUser(User user);
 
-    void addUser(String uid, String cid, String name, String replyString, int replyTotalNum);
+    void addUser(String uid, String cid, String name);
 
     void removeUser(int index);
 
@@ -36,6 +36,10 @@ public interface UserManager {
 
     String getCookie();
 
+    String getCookie(User user);
+
+    String getNextCookie();
+
     String getUserId();
 
     String getCid();
@@ -43,15 +47,6 @@ public interface UserManager {
     String getUserName();
 
     void setAvatarUrl(int userId, String url);
-
-    // 被喷
-
-    int getReplyCount();
-
-    String getReplyString();
-
-    void setReplyString(int count, String replyString);
-
 
     // 黑名单
 

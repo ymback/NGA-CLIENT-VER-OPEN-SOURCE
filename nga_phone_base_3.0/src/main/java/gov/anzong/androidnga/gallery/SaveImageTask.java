@@ -3,6 +3,7 @@ package gov.anzong.androidnga.gallery;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
@@ -27,7 +28,7 @@ public class SaveImageTask {
 
     private int mDownloadCount;
 
-    private static final String PATH_IMAGES = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/nga_open_source/";
+    private static final String PATH_IMAGES = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/nga_open_source/";
 
     private Subscription mSubscription;
 

@@ -185,8 +185,7 @@ public class FunctionUtils {
         contentTV.setFocusableInTouchMode(false);
         contentTV.setFocusable(false);
         contentTV.setLongClickable(false);
-        boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-                || NetUtil.getInstance().isInWifi();
+        boolean showImage = PhoneConfiguration.getInstance().isImageLoadEnabled();
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -245,8 +244,7 @@ public class FunctionUtils {
             }
         });
         ((Activity) context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        boolean showImage = PhoneConfiguration.getInstance().isDownImgNoWifi()
-                || NetUtil.getInstance().isInWifi();
+        boolean showImage = PhoneConfiguration.getInstance().isImageLoadEnabled();
         WebSettings setting = contentTV.getSettings();
         setting.setDefaultFontSize(PhoneConfiguration.getInstance()
                 .getWebSize());
@@ -434,7 +432,7 @@ public class FunctionUtils {
     }
 
     public static boolean isShowImage() {
-        return PhoneConfiguration.getInstance().isDownImgNoWifi() || NetUtil.getInstance().isInWifi();
+        return PhoneConfiguration.getInstance().isImageLoadEnabled();
     }
 
     public static int showImageQuality() {

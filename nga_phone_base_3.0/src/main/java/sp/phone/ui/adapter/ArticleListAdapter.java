@@ -287,8 +287,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             } else if (row.getAuthor() != null){
                 ARouter.getInstance()
                         .build(ARouterConstants.ACTIVITY_PROFILE)
-                        .withString("mode", "username")
-                        .withString("username", row.getAuthor())
+                        .withString("mode", "uid")
+                        .withString("uid", String.valueOf(row.getAuthorid()))
                         .navigation();
             }
         }
@@ -515,9 +515,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private void onBindAvatarView(ImageView avatarIv, ThreadRowInfo row) {
         final String avatarUrl = FunctionUtils.parseAvatarUrl(row.getJs_escap_avatar());
-        final boolean downImg = DeviceUtils.isWifiConnected(mContext)
-                || PhoneConfiguration.getInstance()
-                .isDownAvatarNoWifi();
+        final boolean downImg = PhoneConfiguration.getInstance().isAvatarLoadEnabled();
 
         ImageUtils.loadRoundCornerAvatar(avatarIv, avatarUrl, !downImg);
     }

@@ -30,4 +30,8 @@ open class BaseFragment : Fragment {
     protected fun getActivityViewModelProvider(): ViewModelProvider {
         return mActivityViewModelProvider;
     }
+
+    open fun onBackPressed() : Boolean {
+        return false
+    }
 }

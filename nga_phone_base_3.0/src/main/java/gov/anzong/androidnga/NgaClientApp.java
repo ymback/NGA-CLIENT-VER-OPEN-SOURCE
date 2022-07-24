@@ -7,10 +7,17 @@ import android.webkit.WebView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.justwen.androidnga.cloud.CloudServerManager;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
+import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import gov.anzong.androidnga.common.util.ReflectUtils;
+import gov.anzong.androidnga.db.AppDatabase;
 import sp.phone.common.FilterKeywordsManagerImpl;
 import sp.phone.common.UserManagerImpl;
 import sp.phone.common.VersionUpgradeHelper;
@@ -28,20 +35,47 @@ public class NgaClientApp extends Application {
         ContextUtils.setApplication(this);
         checkNewVersion();
         VersionUpgradeHelper.upgrade();
+        AppDatabase.init(this);
         initCoreModule();
         initRouter();
         super.onCreate();
 
-        fixWebViewMultiProcessException();
+        // fixWebViewMultiProcessException();
         CloudServerManager.init(this);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandlerProxy(Thread.getDefaultUncaughtExceptionHandler()));
     }
 
     private void fixWebViewMultiProcessException() {
-        int index = PreferenceUtils.getData(PreferenceKey.KEY_WEBVIEW_DATA_INDEX, 0);
-        if (index > 0) {
-            WebView.setDataDirectorySuffix(String.valueOf(index));
+        try {
+            File dataDir = getDataDir();
+            File[] dirs = dataDir.listFiles();
+
+            Object ppidObj = ReflectUtils.invokeMethod(Process.class, "myPpid");
+
+            int ppid = ppidObj != null ? (int) ppidObj : Process.myPid();
+
+            if (dirs != null) {
+                for (File dir : dirs) {
+                    if (dir.getName().contains("webview")) {
+                        if (!dir.getName().contains("webview_" + ppid)){
+                            ThreadUtils.postOnSubThread(() -> {
+                                try {
+                                    FileUtils.deleteDirectory(dir);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+
+                        }
+                    }
+                }
+            }
+
+            WebView.setDataDirectorySuffix(String.valueOf(ppid));
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
+
     }
 
     private void initRouter() {

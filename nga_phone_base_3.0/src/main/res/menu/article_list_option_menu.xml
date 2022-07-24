@@ -44,4 +44,10 @@
         android:visible="false"
         androidnga:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_open_by_browser"
+        android:icon="@drawable/btn_ic_browser"
+        android:title="@string/menu_title_open_with_preload_browser"
+        androidnga:showAsAction="ifRoom" />
+
 </menu>

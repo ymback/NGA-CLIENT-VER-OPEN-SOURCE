@@ -9,7 +9,7 @@ public class BuglyWrapper {
 
     public static void init(Context context) {
         if (!BuildConfig.DEBUG) {
-            int id = context.getResources().getIdentifier("bugly_app_id", "string", context.getOpPackageName());
+            int id = context.getResources().getIdentifier("bugly_app_id", "string", context.getPackageName());
             if (id > 0) {
                 CrashReport.initCrashReport(context, context.getString(id), false);
             }

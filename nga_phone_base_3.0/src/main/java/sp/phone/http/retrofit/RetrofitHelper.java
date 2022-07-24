@@ -73,8 +73,13 @@ public class RetrofitHelper {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(chain -> {
             Request original = chain.request();
+
+            String cookie = original.header("Cookie");
+            if (cookie == null) {
+                cookie = UserManagerImpl.getInstance().getCookie();
+            }
             Request request = original.newBuilder()
-                    .header("Cookie", UserManagerImpl.getInstance().getCookie())
+                    .header("Cookie", cookie)
                     .header("User-Agent", "Nga_Official/80023")
                     .method(original.method(), original.body())
                     .build();

@@ -3,6 +3,8 @@ package sp.phone.mvp.contract;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.util.Map;
+
 import sp.phone.http.bean.ThreadData;
 import sp.phone.http.bean.ThreadRowInfo;
 import sp.phone.param.ArticleListParam;
@@ -54,6 +56,8 @@ public interface ArticleListContract {
     interface Model {
 
         void loadPage(ArticleListParam param, OnHttpCallBack<ThreadData> callBack);
+
+        void loadPage(ArticleListParam param, Map<String, String> header, OnHttpCallBack<ThreadData> callBack);
 
         void cachePage(ArticleListParam param, String rawData);
 

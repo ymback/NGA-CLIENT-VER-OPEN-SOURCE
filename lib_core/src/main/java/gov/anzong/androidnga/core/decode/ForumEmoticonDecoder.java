@@ -170,7 +170,6 @@ public class ForumEmoticonDecoder implements IForumDecoder {
     // 解析从官方客户端和网页版发布的表情
     @Override
     public String decode(String content) {
-        LogUtils.computeCost(getClass().getSimpleName());
         Pattern pattern = StringUtils.getPattern("\\[s:(.*?):(.*?)]");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
@@ -184,7 +183,6 @@ public class ForumEmoticonDecoder implements IForumDecoder {
             String html = category.contains("ac") || category.contains("a2") ? HTML_EMOTICON_ACNIANG : HTML_EMOTICON;
             content = content.replace(matched, String.format(html, category, image));
         }
-        LogUtils.computeCost(getClass().getSimpleName());
         return content;
     }
 }

@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
@@ -45,12 +46,12 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
         mService = (RetrofitService) RetrofitHelper.getInstance().getService(RetrofitService.class);
     }
 
-    private String getUrl(ArticleListParam param) {
+    public String getUrl(ArticleListParam param) {
         int page = param.page;
         int tid = param.tid;
         int pid = param.pid;
         int authorId = param.authorId;
-        String url = getAvailableDomain() + "/read.php?" + "&page=" + page + "&lite=js&noprefix&v2";
+        String url = getAvailableDomain() + "/read.php?" + "&page=" + page + "&__output=8&noprefix&v2";
         if (tid != 0) {
             url = url + "&tid=" + tid;
         }
@@ -68,8 +69,13 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
 
     @Override
     public void loadPage(ArticleListParam param, final OnHttpCallBack<ThreadData> callBack) {
+        loadPage(param, null, callBack);
+    }
+
+    @Override
+    public void loadPage(ArticleListParam param, Map<String, String> header, OnHttpCallBack<ThreadData> callBack) {
         String url = getUrl(param);
-        mService.get(url)
+        mService.get(url, header)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .compose(getLifecycleProvider().<String>bindUntilEvent(FragmentEvent.DETACH))
@@ -80,7 +86,12 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                         ThreadData data = ArticleConvertFactory.getArticleInfo(s);
                         NLog.e(TAG, "time = " + (System.currentTimeMillis() - time));
                         if (data == null) {
-                            throw new Exception(ErrorConvertFactory.getErrorMessage(s));
+                            String errorMsg = ErrorConvertFactory.getErrorMessage(s);
+                            if (errorMsg != null) {
+                                throw new Exception(errorMsg);
+                            } else {
+                                throw new ServerException("NGA后台抽风了，请尝试右上角菜单中的使用内置浏览器打开");
+                            }
                         } else {
                             return data;
                         }
@@ -98,7 +109,7 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
 
                     @Override
                     public void onError(@NonNull Throwable throwable) {
-                        callBack.onError(ErrorConvertFactory.getErrorMessage(throwable));
+                        callBack.onError(ErrorConvertFactory.getErrorMessage(throwable), throwable);
                     }
                 });
     }
@@ -151,6 +162,13 @@ public class ArticleListModel extends BaseModel implements ArticleListContract.M
                         callBack.onError("读取缓存失败！");
                     }
                 });
+    }
+
+    public static class ServerException extends Exception {
+
+        public ServerException(String message) {
+            super(message);
+        }
     }
 
 }

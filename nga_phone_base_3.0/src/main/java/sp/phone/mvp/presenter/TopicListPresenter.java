@@ -282,7 +282,7 @@ public class TopicListPresenter extends ViewModel implements LifecycleObserver {
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
                     String dateStr = dateFormat.format(new Date(System.currentTimeMillis()));
-                    String destDir = Environment.getExternalStorageDirectory() + File.separator
+                    String destDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator
                             + BuildConfig.APPLICATION_ID + File.separator + "cache/cache_" + dateStr + ".zip";
 
                     if (FileUtils.zipFiles(srcDir, destDir)) {

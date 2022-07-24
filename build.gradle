@@ -12,7 +12,7 @@ buildscript {
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.6.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -36,10 +36,10 @@ task clean(type: Delete) {
 
 project.ext {
     minSdkVersion = 23
-    targetSdkVersion = 29
-    compileSdkVersion = 29
-    appVersionName = '3.6.4'
-    appVersionCode = 3064
+    targetSdkVersion = 30
+    compileSdkVersion = 30
+    appVersionName = '3.7.6'
+    appVersionCode = 3076
 
     fastJson = '1.1.71.android'
     rxAndroid = '2.1.1'
@@ -48,4 +48,6 @@ project.ext {
 
     androidxAppcompat = '1.2.0-alpha03'
     androidxMaterial = '1.2.0'
+
+    room_version = "2.4.1"
 }

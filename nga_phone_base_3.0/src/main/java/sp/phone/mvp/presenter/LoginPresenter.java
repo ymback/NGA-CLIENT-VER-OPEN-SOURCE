@@ -111,7 +111,7 @@ public class LoginPresenter extends BasePresenter<LoginFragment, LoginModel> imp
     }
 
     private void saveCookie(String uid, String cid, String userName) {
-        UserManagerImpl.getInstance().addUser(uid, cid, userName, "", 0);
+        UserManagerImpl.getInstance().addUser(uid, cid, userName);
         if (mBaseView != null) {
             mBaseView.showToast(R.string.login_successfully);
             mBaseView.setResult(true);

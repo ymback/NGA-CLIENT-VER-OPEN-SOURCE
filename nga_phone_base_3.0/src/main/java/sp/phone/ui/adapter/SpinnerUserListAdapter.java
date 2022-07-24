@@ -13,7 +13,7 @@ import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.User;
 import sp.phone.common.UserManagerImpl;
 
-public class SpinnerUserListAdapter extends BaseAdapter implements PreferenceKey {
+public class SpinnerUserListAdapter extends BaseAdapter {
 
     protected List<User> mUserList;
 

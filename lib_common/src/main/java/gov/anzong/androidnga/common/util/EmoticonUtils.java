@@ -118,44 +118,14 @@ public class EmoticonUtils {
                     "http://img6.nga.178.com/attachments/mon_201303/04/-1324875_5133950d008f9.png",
                     "http://img6.nga.178.com/attachments/mon_201303/23/-1324875_514daeb78abaa.png",
                     "http://img6.nga.178.com/attachments/mon_201303/25/-1324875_51505df66692d.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/e7cbe91b6f1eb33c9573b65e660a11ed.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/c43e364354c25aa7bfb1514595cb3f6f.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/a430e1b233f764a3948e2ed9f9ec3e85.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/7bd47cb4a94402ec93fdf5399f5b059d.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/9637b6c30dc39eb1fc61edd449b3f0e8.png",
 
-                    "http://pic3.178.com/2017/20174851/month_1401/8264ca9a59ef24968205041587d6b65f.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/7dd4662ce1f13b6f9c1ab5725cc91345.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/cfb1ef9f87e7cc8a212f0d0e13d40494.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/2dc6d5a7b2183db9daa8f9c5a9d141d2.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/b17f169d3d66be601e510ea401d647c1.png",
-
-                    "http://pic3.178.com/2017/20174851/month_1401/ff7fa235da8c0ae968f11c7578a862e1.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/e832ad79a6832b19b54c3ce35581488f.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/c2c0012ae34286c93738562295a1506b.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/a9cd13d8e4aa596be8e026dd9e8cb9c8.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/53131ca521a198acda15eebf250d5625.png",
-
-                    "http://pic3.178.com/2017/20174851/month_1401/3eaff7476307e5375411e69b4250bf6a.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/963a0caf275e1d43686743a49e64f0ad.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/959c3a5d0b333936de03f2648378cc70.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/90dcea390a89ef22354600f6cfd8b3dc.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/2a7e23a7686b25546bac561b58420fb4.png",
-
-                    "http://pic3.178.com/2017/20174851/month_1401/82ae3e911ffabb108fe20a2bc03ccd9c.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/71c47a31eebb14be4291c15e41fbae78.png",
                     "http://pic3.178.com/2017/20174851/month_1401/d6fc87f52b1d26d6768bcc0d8a7ec608.png",
                     "http://pic3.178.com/2017/20174851/month_1401/729647a27267ac7853056f99f35ecac7.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/c498386a7a5242c710ead18c2bb3cc59.jpg",
 
                     "http://pic3.178.com/2017/20174851/month_1401/a6a581a8e4a61812ae123a837f4b0d88.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/a920ca541f5246a24bdaa85ee360477e.gif",
                     "http://pic3.178.com/2017/20174851/month_1401/c1ceadd1553e140c2bc0348720cbb2df.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/9ed86272ed53b89726874565be464927.jpg",
 
                     "http://pic3.178.com/2017/20174851/month_1401/2aa114ca0804d12f2178e0dc69d4bc8a.png",
-                    "http://pic3.178.com/2017/20174851/month_1401/167e42963246c38b3e570995b10ce9b5.jpg",
-                    "http://pic3.178.com/2017/20174851/month_1401/b9719388cc6390ccaf62f432b7f8e3f6.gif",
             },
             //论坛新版AC娘
             {

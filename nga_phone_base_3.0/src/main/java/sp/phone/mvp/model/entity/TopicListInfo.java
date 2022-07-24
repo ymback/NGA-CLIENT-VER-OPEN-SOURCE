@@ -5,6 +5,8 @@ import java.util.List;
 
 public class TopicListInfo {
 
+    private String mName;
+
     private ArrayList<SubBoard> mSubBoardList = new ArrayList<>();
 
     private List<ThreadPageInfo> mThreadPageList = new ArrayList<>();
@@ -14,7 +16,16 @@ public class TopicListInfo {
     }
 
     public void setThreadPageList(List<ThreadPageInfo> threadPageList) {
-        mThreadPageList = threadPageList;
+        mThreadPageList.clear();
+        mThreadPageList.addAll(threadPageList);
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 
     public void addThreadPage(ThreadPageInfo threadPage) {
