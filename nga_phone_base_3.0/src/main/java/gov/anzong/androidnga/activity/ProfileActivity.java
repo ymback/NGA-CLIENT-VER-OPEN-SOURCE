@@ -207,6 +207,10 @@ public class ProfileActivity extends BaseActivity implements OnHttpCallBack<Prof
         mUserEmailTv.setText(profileInfo.getEmailAddress());
         mUserTelTv.setText(profileInfo.getPhoneNumber());
         mUserGroupTv.setText(profileInfo.getMemberGroup());
+        TextView ipLocView = findViewById(R.id.tv_user_iploc);
+        if (ipLocView != null && profileInfo.ipLoc != null) {
+            ipLocView.setText(profileInfo.ipLoc);
+        }
         if (mCurrentUser) {
             mModifySignBtn.setVisibility(View.VISIBLE);
         } else {

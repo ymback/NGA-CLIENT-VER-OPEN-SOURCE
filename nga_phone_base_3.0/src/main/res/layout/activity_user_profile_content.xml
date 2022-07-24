@@ -254,6 +254,29 @@
                     android:text="N/A"
                     android:textColor="#808080"
                     android:textIsSelectable="false"/>
+
+                <TextView
+                    android:id="@+id/tv_user_iploc"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tv_user_iploc_title"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="N/A"
+                    android:textColor="#808080"
+                    android:textIsSelectable="false"/>
+
+                <TextView
+                    android:id="@+id/tv_user_iploc_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_user_iploc"
+                    android:layout_below="@+id/tv_user_state_title"
+                    android:text="属地： "
+                    android:textColor="#121c46"
+                    android:textIsSelectable="false"/>
+
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
