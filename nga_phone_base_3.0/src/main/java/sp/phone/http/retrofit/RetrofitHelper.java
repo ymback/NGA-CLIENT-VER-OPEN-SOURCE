@@ -34,7 +34,7 @@ public class RetrofitHelper {
 
     private String mBaseUrl;
 
-    private String mUserAgent;
+    private String mUserAgent = "";
 
     private RetrofitHelper() {
         SharedPreferences sp = ContextUtils.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
@@ -53,6 +53,10 @@ public class RetrofitHelper {
             mUserAgent = webViewEx.getSettings().getUserAgentString();
         });
 
+    }
+
+    public String getUserAgent() {
+        return mUserAgent;
     }
 
     public Retrofit createRetrofit() {
