@@ -91,6 +91,9 @@ public class RetrofitHelper {
                 if (request.method().equalsIgnoreCase("post")) {
                     String body = StringUtils.requestBody2String(request.body());
                     body = URLDecoder.decode(body, "utf-8");
+                    if (request.url().encodedPath().contains("nuke.php")) {
+                        body = body.replace("charset=utf-8", "charset=gbk");
+                    }
                     if (body.contains("charset=gbk")) {
                         request = request.newBuilder().post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=GBK"), body)).build();
                     }
