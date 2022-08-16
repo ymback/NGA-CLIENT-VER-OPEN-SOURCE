@@ -1,8 +1,11 @@
 package gov.anzong.androidnga.base.widget;
 
 import android.content.Context;
+
 import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.nshmura.recyclertablayout.RecyclerTabLayout;
 
@@ -45,6 +48,18 @@ public class TabLayoutEx extends RecyclerTabLayout {
 
         public TabAdapter(ViewPager viewPager) {
             super(viewPager);
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            ViewHolder holder = super.onCreateViewHolder(parent, viewType);
+            holder.itemView.setOnClickListener(v -> {
+                int pos = holder.getAdapterPosition();
+                if (pos != NO_POSITION) {
+                    getViewPager().setCurrentItem(pos, false);
+                }
+            });
+            return holder;
         }
 
         @Override

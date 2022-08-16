@@ -25,7 +25,7 @@ public class ArticlePagerAdapter extends FragmentStatePagerAdapter {
     private List<String> mPageIndexList;
 
     public ArticlePagerAdapter(FragmentManager fm, ArticleListParam param) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mRequestParam = param;
     }
 
