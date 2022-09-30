@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.ValueCallback;
@@ -18,6 +21,7 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.ui.fragment.BaseFragment;
 
 /**
@@ -36,6 +40,7 @@ public class WebViewFragment extends BaseFragment {
         if (bundle != null) {
             mUrl = bundle.getString("url", "");
         }
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -45,6 +50,32 @@ public class WebViewFragment extends BaseFragment {
         return mWebView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_webview, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_open_by_browser) {
+            startExternalBrowser(getContext(), mWebView.getUrl());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean startExternalBrowser(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        try {
+            context.startActivity(intent);
+            return true;
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private WebView createWebView(Context context) {
         WebView webView = new WebView(context);
         webView.setWebViewClient(new WebViewClient(){
@@ -52,20 +83,18 @@ public class WebViewFragment extends BaseFragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 if (!request.getUrl().toString().contains("nga") || request.getUrl().toString().contains("178")) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(request.getUrl());
-                    try {
-                        context.startActivity(intent);
-                        return true;
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    startExternalBrowser(getContext(), request.getUrl().toString());
                 } else {
                     webView.loadUrl(request.getUrl().toString());
                 }
                 return true;
             }
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                setTitle(view.getTitle());
+                super.onPageFinished(view, url);
+            }
         });
 
         webView.setWebChromeClient(new WebChromeClient(){
