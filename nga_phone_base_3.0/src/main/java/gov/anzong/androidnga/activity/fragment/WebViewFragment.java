@@ -1,6 +1,8 @@
 package gov.anzong.androidnga.activity.fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +15,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -50,7 +51,18 @@ public class WebViewFragment extends BaseFragment {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                webView.loadUrl(request.getUrl().toString());
+                if (!request.getUrl().toString().contains("nga") || request.getUrl().toString().contains("178")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(request.getUrl());
+                    try {
+                        context.startActivity(intent);
+                        return true;
+                    } catch (ActivityNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    webView.loadUrl(request.getUrl().toString());
+                }
                 return true;
             }
 
