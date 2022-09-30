@@ -6,4 +6,7 @@
 
     <string name="tip_3078">更新内容\n
         ● 临时解决提示请求次数过多，被服务端临时屏蔽的问题\n新版UI有任何bug，建议或意见请私信[@Justwen]</string>
+
+    <string name="tip_3079">更新内容\n
+        ● 主题详情的外链默认使用外部浏览器打开\n新版UI有任何bug，建议或意见请私信[@Justwen]</string>
 </resources>
