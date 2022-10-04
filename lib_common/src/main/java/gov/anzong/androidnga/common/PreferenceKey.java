@@ -1,5 +1,7 @@
 package gov.anzong.androidnga.common;
 
+import android.preference.PreferenceManager;
+
 import gov.anzong.androidnga.base.util.ContextUtils;
 
 public class PreferenceKey {
@@ -8,7 +10,8 @@ public class PreferenceKey {
 
     public static final String PREFERENCE_SETTINGS = "perference";
 
-    public static final String PERFERENCE = "perference";
+    @Deprecated
+    public static final String PERFERENCE = PreferenceManager.getDefaultSharedPreferencesName(ContextUtils.getContext());
 
     String DOWNLOAD_IMG_QUALITY_NO_WIFI = "download_img_quality_without_wifi";
     public static final String ENABLE_NOTIFIACTION = "enableNotification";
