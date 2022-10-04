@@ -2,6 +2,7 @@ package sp.phone.http.retrofit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import java.net.URLDecoder;
 
@@ -48,11 +49,21 @@ public class RetrofitHelper {
             }
         });
 
-        ThreadUtils.postOnMainThread(() -> {
-            WebViewEx webViewEx = new WebViewEx(ContextUtils.getContext());
-            mUserAgent = webViewEx.getSettings().getUserAgentString();
-        });
+        mUserAgent = sp.getString(PreferenceKey.USER_AGENT, "");
 
+        if (TextUtils.isEmpty(mUserAgent)) {
+            ThreadUtils.postOnMainThread(() -> {
+                mUserAgent = WebViewEx.getDefaultUserAgent();
+                sp.edit().putString(PreferenceKey.USER_AGENT, mUserAgent).apply();
+                //mUserAgent = "NGA_WP_JW/(;WINDOWS)";
+            });
+        }
+
+
+    }
+
+    public void setUserAgent(String userAgent) {
+        mUserAgent = userAgent;
     }
 
     public String getUserAgent() {

@@ -3,11 +3,13 @@ package sp.phone.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.text.TextUtils;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -27,8 +29,10 @@ import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.theme.ThemeManager;
 import sp.phone.ui.fragment.dialog.AlertDialogFragment;
+import sp.phone.view.webview.WebViewEx;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -63,6 +67,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             showClearCacheDialog();
             return true;
         });
+
+        EditTextPreference preference = (EditTextPreference) findPreference(PreferenceKey.USER_AGENT);
+        preference.setOnPreferenceChangeListener((preference1, newValue) -> {
+            String ua = newValue.toString();
+            if (TextUtils.isEmpty(newValue.toString())) {
+                ua = WebViewEx.getDefaultUserAgent();
+            }
+            RetrofitHelper.getInstance().setUserAgent(ua);
+            preference1.getSharedPreferences().edit().putString(preference1.getKey(), ua).apply();
+            return false;
+        });
+
     }
 
     private void showClearCacheDialog() {

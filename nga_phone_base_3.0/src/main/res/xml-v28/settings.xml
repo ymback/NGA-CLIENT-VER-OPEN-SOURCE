@@ -11,6 +11,11 @@
             android:key="nga_domain"
             android:title="@string/setting_nga_domain" />
 
+        <EditTextPreference
+            android:dialogTitle="USER AGENT"
+            android:title="USER AGENT"
+            android:key="preference_key_ua"/>
+
         <PreferenceScreen
             android:fragment="sp.phone.ui.fragment.SettingsUserFragment"
             android:key="pref_user"
