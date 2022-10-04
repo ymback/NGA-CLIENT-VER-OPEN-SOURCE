@@ -35,7 +35,7 @@ task clean(type: Delete) {
 }
 
 project.ext {
-    minSdkVersion = 23
+    minSdkVersion = 24
     targetSdkVersion = 30
     compileSdkVersion = 30
     appVersionName = '3.8.0'
