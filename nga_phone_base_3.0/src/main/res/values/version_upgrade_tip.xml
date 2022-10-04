@@ -9,4 +9,8 @@
 
     <string name="tip_3079">更新内容\n
         ● 主题详情的外链默认使用外部浏览器打开\n新版UI有任何bug，建议或意见请私信[@Justwen]</string>
+
+
+    <string name="tip_3080">更新内容\n
+        ● 增加自定义UA功能\n新版UI有任何bug，建议或意见请私信[@Justwen]</string>
 </resources>
