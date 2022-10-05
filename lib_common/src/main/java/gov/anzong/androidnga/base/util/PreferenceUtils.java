@@ -2,9 +2,9 @@ package gov.anzong.androidnga.base.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
+
+import androidx.preference.PreferenceManager;
 
 import com.alibaba.fastjson.JSON;
 
@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import gov.anzong.androidnga.common.PreferenceKey;
 
 /**
  * @author Justwen
@@ -107,7 +105,7 @@ public class PreferenceUtils {
         return sPreferences.getStringSet(key, defValue);
     }
 
-    public static void putData(String key, List list) {
+    public static void putData(String key, List<?> list) {
         sPreferences.edit().putString(key, JSON.toJSONString(list)).apply();
     }
 
