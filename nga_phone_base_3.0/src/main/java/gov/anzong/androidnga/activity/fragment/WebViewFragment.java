@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import gov.anzong.androidnga.R;
+import gov.anzong.androidnga.base.util.PreferenceUtils;
+import gov.anzong.androidnga.common.PreferenceKey;
 import gov.anzong.androidnga.ui.fragment.BaseFragment;
 
 /**
@@ -112,6 +115,10 @@ public class WebViewFragment extends BaseFragment {
         webSettings.setTextZoom(100);
         webSettings.setSupportZoom(true);
         webSettings.setUseWideViewPort(true);
+        String ua = PreferenceUtils.getData(PreferenceKey.USER_AGENT, "");
+        if (!TextUtils.isEmpty(ua)) {
+            webSettings.setUserAgentString(ua);
+        }
         return webView;
     }
 
