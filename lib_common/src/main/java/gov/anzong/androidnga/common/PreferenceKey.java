@@ -27,6 +27,8 @@ public class PreferenceKey {
     public static final String BLACK_LIST = "";
     public static final String FILTER_KEYWORDS_LIST = "filter_keywords";
 
+    public static final String USER_AGENT_LIST = "user_agents";
+
     public static final String SHOW_ICON_MODE = "showiconmode";
 
     public static final String ADJUST_SIZE = "adjust_size";
