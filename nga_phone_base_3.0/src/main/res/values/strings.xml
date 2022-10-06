@@ -349,6 +349,7 @@
     <string name="setting_title_black_list">黑名单</string>
     <string name="setting_title_filter_sub_board">过滤版主固定的渣帖子</string>
     <string name="setting_nga_domain">NGA域名</string>
+    <string name="setting_nga_ua">用户代理</string>
     <string name="setting_avatar_network_title">载入头像</string>
     <string name="setting_avatar_network_summary">移动数据网络下载入头像</string>
     <string name="setting_image_network_title">载入帖子图片</string>

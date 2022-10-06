@@ -12,6 +12,11 @@
             android:title="@string/setting_nga_domain" />
 
         <PreferenceScreen
+            android:fragment="sp.phone.ui.fragment.UserAgentFragment"
+            android:key="nga_ua"
+            android:title="@string/setting_nga_ua"/>
+
+        <PreferenceScreen
             android:fragment="sp.phone.ui.fragment.SettingsUserFragment"
             android:key="pref_user"
             android:title="@string/setting_title_user" />

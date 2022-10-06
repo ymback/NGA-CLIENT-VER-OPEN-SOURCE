@@ -2,8 +2,10 @@ package sp.phone.http.retrofit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.net.URLDecoder;
+import java.util.Objects;
 
 import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.StringUtils;
@@ -32,9 +34,12 @@ public class RetrofitHelper {
 
     private String mBaseUrl;
 
+    private String mUserAgent;
+
     private RetrofitHelper() {
         SharedPreferences sp = ContextUtils.getContext().getSharedPreferences(PreferenceKey.PERFERENCE, Context.MODE_PRIVATE);
         mBaseUrl = ForumUtils.getAvailableDomain();
+        mUserAgent = ForumUtils.getCurrentUserAgent();
         mRetrofit = createRetrofit();
 
         sp.registerOnSharedPreferenceChangeListener((sp1, key) -> {
@@ -42,24 +47,34 @@ public class RetrofitHelper {
                 mBaseUrl = ForumUtils.getAvailableDomain();
                 mRetrofit = createRetrofit();
             }
+            if (key.equals(PreferenceKey.USER_AGENT_LIST)) {
+                mUserAgent = ForumUtils.getCurrentUserAgent();
+                mRetrofit = createRetrofit();
+            }
         });
     }
 
+    public void updateRetrofit(){
+        mBaseUrl = ForumUtils.getAvailableDomain();
+        mUserAgent = ForumUtils.getCurrentUserAgent();
+        mRetrofit = createRetrofit();
+    }
+
     public Retrofit createRetrofit() {
-        return createRetrofit(mBaseUrl, null);
+        return createRetrofit(mBaseUrl,mUserAgent, null);
     }
 
     public Retrofit createRetrofit(String baseUrl) {
-        return createRetrofit(baseUrl, null);
+        return createRetrofit(baseUrl, mUserAgent,null);
     }
 
     public Retrofit createRetrofit(OkHttpClient.Builder builder) {
-        return createRetrofit(mBaseUrl, builder);
+        return createRetrofit(mBaseUrl, mUserAgent,builder);
     }
 
-    public Retrofit createRetrofit(String baseUrl, OkHttpClient.Builder builder) {
+    public Retrofit createRetrofit(String baseUrl,String userAgent, OkHttpClient.Builder builder) {
         if (builder == null) {
-            builder = createOkHttpClientBuilder();
+            builder = createOkHttpClientBuilder(userAgent);
         }
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -69,7 +84,7 @@ public class RetrofitHelper {
                 .build();
     }
 
-    public OkHttpClient.Builder createOkHttpClientBuilder() {
+    public OkHttpClient.Builder createOkHttpClientBuilder(String userAgent) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(chain -> {
             Request original = chain.request();
@@ -80,7 +95,7 @@ public class RetrofitHelper {
             }
             Request request = original.newBuilder()
                     .header("Cookie", cookie)
-                    .header("User-Agent", "Nga_Official/80023")
+                    .header("User-Agent", Objects.equals(userAgent, "自动") ?"Nga_Official/80023":userAgent)
                     .method(original.method(), original.body())
                     .build();
             return chain.proceed(request);

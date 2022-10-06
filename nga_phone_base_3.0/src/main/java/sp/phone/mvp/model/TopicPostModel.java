@@ -43,6 +43,7 @@ import sp.phone.param.ParamKey;
 import sp.phone.param.PostParam;
 import sp.phone.rxjava.BaseSubscriber;
 import sp.phone.task.TopicPostTask;
+import sp.phone.util.ForumUtils;
 import sp.phone.util.ImageUtils;
 import sp.phone.util.NLog;
 import sp.phone.util.StringUtils;
@@ -57,12 +58,14 @@ public class TopicPostModel extends BaseModel implements TopicPostContract.Model
 
     private String mHostUrl = Utils.getNGAHost() + "post.php?";
 
+    private String mUserAgent = ForumUtils.getCurrentUserAgent();
+
     private static final String BASE_URL_ATTACHMENT_SERVER = "https://img8.nga.cn/attach.php?";
 
     private RetrofitService mRetrofitService;
 
     public TopicPostModel() {
-        OkHttpClient.Builder builder = RetrofitHelper.getInstance().createOkHttpClientBuilder();
+        OkHttpClient.Builder builder = RetrofitHelper.getInstance().createOkHttpClientBuilder(mUserAgent);
         builder.connectTimeout(5, TimeUnit.MINUTES);
         mRetrofitService = RetrofitHelper.getInstance().createRetrofit(builder).create(RetrofitService.class);
     }

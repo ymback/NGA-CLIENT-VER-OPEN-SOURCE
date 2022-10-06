@@ -8,6 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -27,8 +28,10 @@ import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.theme.ThemeManager;
 import sp.phone.ui.fragment.dialog.AlertDialogFragment;
+import sp.phone.util.ForumUtils;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -58,7 +61,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private void configPreference() {
         findPreference(PreferenceKey.NIGHT_MODE).setEnabled(!ThemeManager.getInstance().isNightModeFollowSystem());
         findPreference(PreferenceKey.MATERIAL_THEME).setEnabled(!ThemeManager.getInstance().isNightMode());
-
+        findPreference("nga_ua").setSummary(ForumUtils.getCurrentUserAgent());
         findPreference(PreferenceKey.KEY_CLEAR_CACHE).setOnPreferenceClickListener(preference -> {
             showClearCacheDialog();
             return true;
@@ -91,6 +94,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public void onResume() {
         getActivity().setTitle(R.string.menu_setting);
+        findPreference("nga_ua").setSummary(ForumUtils.getCurrentUserAgent());
+        RetrofitHelper.getInstance().updateRetrofit();
         super.onResume();
     }
 
@@ -144,6 +149,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             case PreferenceKey.PREF_USER:
             case PreferenceKey.PREF_BLACK_LIST:
             case "pref_keyword":
+            case "nga_ua":
                 Intent intent = new Intent(getActivity(), LauncherSubActivity.class);
                 intent.putExtra("fragment", preference.getFragment());
                 startActivity(intent);
