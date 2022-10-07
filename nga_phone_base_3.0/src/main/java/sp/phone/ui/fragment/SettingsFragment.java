@@ -74,7 +74,7 @@ public class SettingsFragment extends BasePreferenceFragment implements Preferen
                     ua = WebViewEx.getDefaultUserAgent();
                 }
                 RetrofitHelper.getInstance().setUserAgent(ua);
-                preference1.getSharedPreferences().edit().putString(preference1.getKey(), ua).apply();
+                preference.setText(ua);
                 return false;
             });
         }
