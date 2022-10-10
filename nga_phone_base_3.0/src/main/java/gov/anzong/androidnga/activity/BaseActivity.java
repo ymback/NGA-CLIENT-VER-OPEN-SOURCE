@@ -1,7 +1,6 @@
 package gov.anzong.androidnga.activity;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -45,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mConfig = PhoneConfiguration.getInstance();
         updateWindowFlag();
         updateThemeUi();
-        setSwipeBackEnable(getSharedPreferences(PreferenceKey.PREFERENCE_SETTINGS, Context.MODE_PRIVATE).getBoolean(PreferenceKey.KEY_SWIPE_BACK, false));
+        setSwipeBackEnable(PreferenceUtils.getData(PreferenceKey.KEY_SWIPE_BACK, false));
         onCreateBeforeSuper(savedInstanceState);
         super.onCreate(savedInstanceState);
         onCreateAfterSuper(savedInstanceState);
