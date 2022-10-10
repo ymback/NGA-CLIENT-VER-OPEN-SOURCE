@@ -22,6 +22,8 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.common.base.Strings;
+
 import gov.anzong.androidnga.R;
 import gov.anzong.androidnga.base.util.PreferenceUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
@@ -85,10 +87,11 @@ public class WebViewFragment extends BaseFragment {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                if (!request.getUrl().toString().contains("nga") || request.getUrl().toString().contains("178")) {
-                    startExternalBrowser(getContext(), request.getUrl().toString());
-                } else {
+                String host = Strings.nullToEmpty(request.getUrl().getHost());
+                if(host.contains("nga") || host.contains("178")){
                     webView.loadUrl(request.getUrl().toString());
+                } else {
+                    startExternalBrowser(getContext(), request.getUrl().toString());
                 }
                 return true;
             }
