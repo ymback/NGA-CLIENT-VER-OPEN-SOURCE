@@ -30,6 +30,7 @@ public class WebViewClientEx extends WebViewClient {
     private static final String[] NGA_USER_PROFILE_START = {
             "bbs.ngacn.cc/nuke.php?func=ucp&username=",
             "bbs.nga.cn/nuke.php?func=ucp&username=",
+            "nga.178.com/nuke.php?func=ucp&username=",
     };
 
     private static final String NGA_USER_PROFILE_END = "&";
