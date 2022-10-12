@@ -50,7 +50,7 @@ public class ForumBasicDecoder implements IForumDecoder {
         content = StringUtils.replaceAll(content,
                 ignoreCaseTag
                         + "\\[b\\]Reply to \\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\] (.+?)\\[/b\\]",
-                "[quote]Reply to [b]<a href='" + htmlData.getNGAHost() + "read.php?searchpost=1&pid=$1' style='font-weight: bold;color:#3181f4'>[Reply]</a> $4[/b][/quote]");
+                "[quote]Reply to [b]<a href='" + htmlData.getNGAHost() + "read.php?searchpost=1&pid=$1&tid=$2' style='font-weight: bold;color:#3181f4'>[Reply]</a> $4[/b][/quote]");
 
         content = StringUtils.replaceAll(content,
                 ignoreCaseTag + "\\[pid=(.+?),(.+?),(.+?)\\]Reply\\[/pid\\]",
