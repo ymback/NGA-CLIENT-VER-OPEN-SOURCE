@@ -27,10 +27,6 @@ public class WebViewClientEx extends WebViewClient {
 
     private List<String> mImgUrlList;
 
-    private static final String[] NGA_USER_PROFILE_START = {
-            "bbs.ngacn.cc/nuke.php?func=ucp&username=",
-            "bbs.nga.cn/nuke.php?func=ucp&username=",
-    };
 
     private static final String NGA_USER_PROFILE_END = "&";
 
@@ -42,17 +38,23 @@ public class WebViewClientEx extends WebViewClient {
 
     private static final String NGA_THREAD = "/thread.php?";
 
+    private static final String NGA_USER_PROFILE = "/nuke.php?func=ucp&username=";
+
     private static String[] sReadPrefix;
 
     private static String[] sThreadPrefix;
+
+    private static String[] NGA_USER_PROFILE_START;
 
     static {
         String[] domains = ContextUtils.getContext().getResources().getStringArray(R.array.nga_domain_no_http);
         sThreadPrefix = new String[domains.length];
         sReadPrefix = new String[domains.length];
+        NGA_USER_PROFILE_START = new String[domains.length];
         for (int i = 0; i < domains.length; i++) {
             sThreadPrefix[i] = domains[i] + NGA_THREAD;
             sReadPrefix[i] = domains[i] + NGA_READ;
+            NGA_USER_PROFILE_START[i] = domains[i] + NGA_USER_PROFILE;
         }
     }
 

@@ -3,9 +3,8 @@ package sp.phone.param;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Locale;
 
-import gov.anzong.androidnga.BuildConfig;
+import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.util.NLog;
 
 public class HttpPostClient {
@@ -38,18 +37,6 @@ public class HttpPostClient {
 
     public HttpURLConnection post_body(String body) {
         HttpURLConnection conn;
-        String machine = "";
-        String MODEL = android.os.Build.MODEL.toUpperCase(Locale.US);
-        String MANUFACTURER = android.os.Build.MANUFACTURER.toUpperCase(Locale.US);
-        if (MODEL.indexOf(MANUFACTURER) >= 0) {
-            machine = android.os.Build.MODEL;
-        } else {
-            machine = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
-        }
-        if (machine.length() < 19) {
-            machine = "[" + machine + "]";
-        }
-        final String USER_AGENT = new StringBuilder().append("Nga_Official/").append(BuildConfig.VERSION_CODE).append("(").append(machine).append(";Android").append(android.os.Build.VERSION.RELEASE).append(")").toString();
 
         try {
 
@@ -60,7 +47,7 @@ public class HttpPostClient {
                 conn.setRequestProperty("Cookie", cookie);
             conn.setInstanceFollowRedirects(false);
 
-            conn.setRequestProperty("User-Agent", USER_AGENT);
+            conn.setRequestProperty("User-Agent", RetrofitHelper.getInstance().getUserAgent());
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Content-Length", String.valueOf(body.length()));
             conn.setRequestProperty("Accept-Charset", "GBK");

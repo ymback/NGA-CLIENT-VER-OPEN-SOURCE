@@ -9,7 +9,11 @@ import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import gov.anzong.androidnga.base.util.ContextUtils;
+
 public class WebViewEx extends WebView implements DownloadListener {
+
+    private static String sDefaultUserAgent;
 
     private WebViewClientEx mWebViewClientEx;
 
@@ -20,6 +24,13 @@ public class WebViewEx extends WebView implements DownloadListener {
     public WebViewEx(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize();
+    }
+
+    public synchronized static String getDefaultUserAgent() {
+        if (sDefaultUserAgent == null) {
+            sDefaultUserAgent =  new WebViewEx(ContextUtils.getContext()).getSettings().getUserAgentString();
+        }
+        return sDefaultUserAgent;
     }
 
     private void initialize() {

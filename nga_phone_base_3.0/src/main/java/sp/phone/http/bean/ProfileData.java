@@ -36,6 +36,8 @@ public class ProfileData {
 
     private String mUserName;
 
+    public String ipLoc;
+
     public String getFrame() {
         return mFrame;
     }

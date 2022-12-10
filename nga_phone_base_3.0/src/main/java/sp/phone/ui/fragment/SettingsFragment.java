@@ -3,14 +3,14 @@ package sp.phone.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceGroup;
-import android.preference.PreferenceScreen;
+import android.text.TextUtils;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceGroup;
 
 import com.bumptech.glide.Glide;
 
@@ -26,16 +26,17 @@ import gov.anzong.androidnga.base.util.ContextUtils;
 import gov.anzong.androidnga.base.util.ThreadUtils;
 import gov.anzong.androidnga.base.util.ToastUtils;
 import gov.anzong.androidnga.common.PreferenceKey;
+import gov.anzong.androidnga.ui.fragment.BasePreferenceFragment;
 import sp.phone.common.UserManagerImpl;
+import sp.phone.http.retrofit.RetrofitHelper;
 import sp.phone.theme.ThemeManager;
 import sp.phone.ui.fragment.dialog.AlertDialogFragment;
+import sp.phone.view.webview.WebViewEx;
 
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends BasePreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getPreferenceManager().setSharedPreferencesName(PreferenceKey.PERFERENCE);
+    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         addPreferencesFromResource(R.xml.settings);
         mapping(getPreferenceScreen());
         configPreference();
@@ -44,6 +45,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private void mapping(PreferenceGroup group) {
         for (int i = 0; i < group.getPreferenceCount(); i++) {
             Preference preference = group.getPreference(i);
+            preference.setIconSpaceReserved(false);
             if (preference instanceof PreferenceGroup) {
                 mapping((PreferenceGroup) preference);
             } else {
@@ -63,6 +65,20 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             showClearCacheDialog();
             return true;
         });
+
+        EditTextPreference preference = findPreference(PreferenceKey.USER_AGENT);
+        if (preference != null) {
+            preference.setOnPreferenceChangeListener((preference1, newValue) -> {
+                String ua = newValue.toString();
+                if (TextUtils.isEmpty(newValue.toString())) {
+                    ua = WebViewEx.getDefaultUserAgent();
+                }
+                RetrofitHelper.getInstance().setUserAgent(ua);
+                preference.setText(ua);
+                return false;
+            });
+        }
+
     }
 
     private void showClearCacheDialog() {
@@ -136,9 +152,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         getActivity().getWindow().addFlags(flag);
     }
 
-
     @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+    public boolean onPreferenceTreeClick(Preference preference) {
         switch (preference.getKey()) {
             case PreferenceKey.ADJUST_SIZE:
             case PreferenceKey.PREF_USER:
@@ -149,7 +164,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 startActivity(intent);
                 break;
             default:
-                return super.onPreferenceTreeClick(preferenceScreen, preference);
+                return super.onPreferenceTreeClick(preference);
 
         }
         return true;

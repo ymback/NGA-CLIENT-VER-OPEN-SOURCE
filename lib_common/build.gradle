@@ -62,4 +62,7 @@ dependencies {
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+
+    //noinspection KtxExtensionAvailable
+    implementation "androidx.preference:preference:$preference_version"
 }
